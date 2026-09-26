@@ -1,817 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Member Login | Maa Basuli Uda Jatra Committee</title>
+<title>Login | Maa Basuli Uda Jatra Committee</title>
 
-  <meta name="description"
-        content="Member Login and Registration - Maa Basuli Uda Jatra Committee, Thakurmunda">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+body{
+  min-height:100vh;
+  background:#f5f6f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
 
-    body {
-      min-height: 100vh;
-      background:
-        linear-gradient(rgba(0,0,0,.58), rgba(0,0,0,.68)),
-        url("https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=1600&q=80")
-        center/cover fixed;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+.box{
+  width:100%;
+  max-width:450px;
+  background:white;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 8px 30px rgba(0,0,0,.10);
+}
 
-    .auth-wrapper {
-      width: 100%;
-      max-width: 470px;
-    }
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
 
-    .brand {
-      text-align: center;
-      color: white;
-      margin-bottom: 18px;
-    }
+.logo h1{
+  color:#7b1e1e;
+  font-size:23px;
+}
 
-    .brand h1 {
-      font-size: 25px;
-      margin-bottom: 6px;
-    }
+.logo p{
+  color:#777;
+  font-size:13px;
+  margin-top:6px;
+}
 
-    .brand p {
-      font-size: 14px;
-      opacity: .9;
-    }
+.tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-bottom:20px;
+}
 
-    .card {
-      background: rgba(255,255,255,.97);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.35);
-    }
+.tab{
+  padding:11px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#f5f5f5;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .tabs {
-      display: flex;
-      background: #f1f3f5;
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 24px;
-    }
+.tab.active{
+  background:#7b1e1e;
+  color:white;
+  border-color:#7b1e1e;
+}
 
-    .tab {
-      width: 50%;
-      border: none;
-      padding: 12px;
-      border-radius: 9px;
-      background: transparent;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 15px;
-    }
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
 
-    .tab.active {
-      background: #7b1e1e;
-      color: white;
-    }
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #d5d5d5;
+  border-radius:9px;
+  font-size:14px;
+  margin-bottom:15px;
+}
 
-    .form {
-      display: none;
-    }
+input:focus{
+  outline:none;
+  border-color:#7b1e1e;
+}
 
-    .form.active {
-      display: block;
-    }
+.btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:9px;
+  background:#7b1e1e;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .form h2 {
-      color: #222;
-      margin-bottom: 7px;
-      font-size: 22px;
-    }
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
 
-    .subtitle {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
+.link{
+  text-align:center;
+  margin-top:15px;
+}
 
-    .field {
-      margin-bottom: 15px;
-    }
+.link button{
+  border:none;
+  background:none;
+  color:#7b1e1e;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .field label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: 700;
-      color: #333;
-    }
+.message{
+  display:none;
+  padding:12px;
+  border-radius:9px;
+  margin-bottom:15px;
+  font-size:13px;
+  line-height:1.5;
+  font-weight:bold;
+}
 
-    .field input {
-      width: 100%;
-      padding: 13px 14px;
-      border: 1px solid #d5d5d5;
-      border-radius: 10px;
-      outline: none;
-      font-size: 15px;
-      background: white;
-    }
+.success{
+  display:block;
+  background:#e8f7ed;
+  color:#176b35;
+}
 
-    .field input:focus {
-      border-color: #7b1e1e;
-      box-shadow: 0 0 0 3px rgba(123,30,30,.08);
-    }
+.error{
+  display:block;
+  background:#fdeaea;
+  color:#a51d1d;
+}
 
-    .btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 10px;
-      background: #7b1e1e;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 5px;
-    }
+.signup-only{
+  display:none;
+}
 
-    .btn:hover {
-      background: #5f1515;
-    }
-
-    .btn:disabled {
-      opacity: .65;
-      cursor: not-allowed;
-    }
-
-    .forgot {
-      display: block;
-      text-align: right;
-      margin: 10px 0 15px;
-      color: #7b1e1e;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .message {
-      display: none;
-      padding: 12px;
-      border-radius: 9px;
-      margin-bottom: 15px;
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .message.success {
-      display: block;
-      background: #e8f7ed;
-      color: #176b35;
-      border: 1px solid #b9e6c7;
-    }
-
-    .message.error {
-      display: block;
-      background: #fdecec;
-      color: #a51f1f;
-      border: 1px solid #f2bcbc;
-    }
-
-    .back-home {
-      display: block;
-      text-align: center;
-      margin-top: 18px;
-      color: #7b1e1e;
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .security-note {
-      text-align: center;
-      color: #777;
-      font-size: 12px;
-      margin-top: 18px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 480px) {
-      .card {
-        padding: 22px 18px;
-      }
-
-      .brand h1 {
-        font-size: 21px;
-      }
-    }
-  </style>
+.home{
+  display:block;
+  text-align:center;
+  margin-top:20px;
+  color:#7b1e1e;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:bold;
+}
+</style>
 </head>
 
 <body>
 
-<div class="auth-wrapper">
+<div class="box">
 
-  <div class="brand">
+  <div class="logo">
     <h1>ମା' ବାସୁଳୀ ଉଡା ଯାତ୍ରା କମିଟି</h1>
     <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
   </div>
 
-  <div class="card">
 
-    <div class="tabs">
-      <button class="tab active" id="loginTab" onclick="showLogin()">
-        Member Login
-      </button>
+  <div class="tabs">
 
-      <button class="tab" id="signupTab" onclick="showSignup()">
-        New Member
-      </button>
-    </div>
+    <button
+      type="button"
+      id="memberTab"
+      class="tab active">
+      Member Login
+    </button>
 
-    <div id="message" class="message"></div>
+    <button
+      type="button"
+      id="adminTab"
+      class="tab">
+      Super Admin
+    </button>
 
-    <!-- LOGIN -->
-
-    <form id="loginForm" class="form active">
-
-      <h2>Member Login</h2>
-
-      <p class="subtitle">
-        Nijara member account re login karantu.
-      </p>
-
-      <div class="field">
-        <label>Email Address</label>
-        <input
-          type="email"
-          id="loginEmail"
-          placeholder="Enter your email"
-          autocomplete="email"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input
-          type="password"
-          id="loginPassword"
-          placeholder="Enter your password"
-          autocomplete="current-password"
-          required
-        >
-      </div>
-
-      <span class="forgot" onclick="forgotPassword()">
-        Forgot Password?
-      </span>
-
-      <button type="submit" class="btn" id="loginButton">
-        Login
-      </button>
-
-    </form>
+  </div>
 
 
-    <!-- SIGNUP -->
-
-    <form id="signupForm" class="form">
-
-      <h2>New Member Registration</h2>
-
-      <p class="subtitle">
-        Prathame account create karantu. Pare profile setup kari
-        Super Admin approval pain submit kariparibe.
-      </p>
-
-      <div class="field">
-        <label>Full Name</label>
-        <input
-          type="text"
-          id="signupName"
-          placeholder="Enter your full name"
-          autocomplete="name"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label>Email Address</label>
-        <input
-          type="email"
-          id="signupEmail"
-          placeholder="Enter your email"
-          autocomplete="email"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label>Password</label>
-        <input
-          type="password"
-          id="signupPassword"
-          placeholder="Minimum 6 characters"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        >
-      </div>
-
-      <div class="field">
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          id="signupConfirmPassword"
-          placeholder="Confirm your password"
-          autocomplete="new-password"
-          minlength="6"
-          required
-        >
-      </div>
-
-      <button type="submit" class="btn" id="signupButton">
-        Create Member Account
-      </button>
-
-    </form>
+  <div
+    id="message"
+    class="message">
+  </div>
 
 
-    <a
-      class="back-home"
-      href="index.html"
+  <form id="loginForm">
+
+    <label>Email</label>
+
+    <input
+      id="email"
+      type="email"
+      placeholder="Enter email"
+      required
     >
-      ← Back to Website
-    </a>
 
-    <div class="security-note">
-      🔒 Secure login powered by Supabase<br>
-      Maa Basuli Uda Jatra Committee
+
+    <label>Password</label>
+
+    <input
+      id="password"
+      type="password"
+      placeholder="Enter password"
+      required
+    >
+
+
+    <button
+      id="loginButton"
+      class="btn"
+      type="submit">
+      Member Login
+    </button>
+
+  </form>
+
+
+  <div
+    id="signupArea"
+    class="signup-only">
+
+    <div class="link">
+      New Member?
+      <button
+        type="button"
+        id="signupButton">
+        Create Account
+      </button>
     </div>
 
   </div>
+
+
+  <div class="link">
+
+    <button
+      type="button"
+      id="forgotButton">
+      Forgot Password?
+    </button>
+
+  </div>
+
+
+  <a
+    href="index.html"
+    class="home">
+    ← Back to Website
+  </a>
 
 </div>
 
 
 <script>
 
-  /*
-    ==========================================================
-    SUPABASE CONFIGURATION
-    ==========================================================
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
-    IMPORTANT:
-    Replace ONLY these two values with your own
-    Supabase Project URL and Publishable/Anon Key.
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
 
-    NEVER put Supabase Secret / Service Role key here.
-  */
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-  const SUPABASE_URL =
-    "https://ynymqntcawobcfccoekb.supabase.co";
-
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-
-  const { createClient } = supabase;
-
-  const supabaseClient = createClient(
+const supabaseClient =
+  window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_ANON_KEY
+    SUPABASE_PUBLISHABLE_KEY
   );
 
 
-  /* ---------------------------------------------------------
-     COMMON MESSAGE
-  --------------------------------------------------------- */
+/* =====================================================
+   VARIABLES
+   ===================================================== */
 
-  function showMessage(text, type = "success") {
-
-    const box = document.getElementById("message");
-
-    box.className = "message " + type;
-    box.textContent = text;
-    box.style.display = "block";
-
-  }
+let loginMode = "member";
 
 
-  function clearMessage() {
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
 
-    const box = document.getElementById("message");
+const memberTab =
+  document.getElementById("memberTab");
 
-    box.className = "message";
-    box.textContent = "";
-    box.style.display = "none";
+const adminTab =
+  document.getElementById("adminTab");
 
-  }
+const loginButton =
+  document.getElementById("loginButton");
+
+const signupArea =
+  document.getElementById("signupArea");
+
+const messageBox =
+  document.getElementById("message");
+
+const loginForm =
+  document.getElementById("loginForm");
 
 
-  /* ---------------------------------------------------------
-     TABS
-  --------------------------------------------------------- */
+/* =====================================================
+   MESSAGE
+   ===================================================== */
 
-  function showLogin() {
+function showMessage(text,type){
+
+  messageBox.className =
+    "message " + type;
+
+  messageBox.textContent =
+    text;
+
+  messageBox.style.display =
+    "block";
+}
+
+
+function clearMessage(){
+
+  messageBox.className =
+    "message";
+
+  messageBox.textContent =
+    "";
+
+  messageBox.style.display =
+    "none";
+}
+
+
+/* =====================================================
+   MEMBER MODE
+   ===================================================== */
+
+memberTab.addEventListener(
+  "click",
+  function(){
+
+    loginMode = "member";
+
+    memberTab.classList.add("active");
+    adminTab.classList.remove("active");
+
+    loginButton.textContent =
+      "Member Login";
+
+    signupArea.style.display =
+      "block";
 
     clearMessage();
-
-    document.getElementById("loginForm").classList.add("active");
-    document.getElementById("signupForm").classList.remove("active");
-
-    document.getElementById("loginTab").classList.add("active");
-    document.getElementById("signupTab").classList.remove("active");
-
   }
+);
 
 
-  function showSignup() {
+/* =====================================================
+   SUPER ADMIN MODE
+   ===================================================== */
+
+adminTab.addEventListener(
+  "click",
+  function(){
+
+    loginMode = "admin";
+
+    adminTab.classList.add("active");
+    memberTab.classList.remove("active");
+
+    loginButton.textContent =
+      "Super Admin Login";
+
+    signupArea.style.display =
+      "none";
 
     clearMessage();
+  }
+);
 
-    document.getElementById("signupForm").classList.add("active");
-    document.getElementById("loginForm").classList.remove("active");
 
-    document.getElementById("signupTab").classList.add("active");
-    document.getElementById("loginTab").classList.remove("active");
+/* =====================================================
+   GET USER ROLE
+   ===================================================== */
 
+async function getUserRole(userId){
+
+  const result =
+    await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq(
+        "user_id",
+        userId
+      )
+      .maybeSingle();
+
+
+  if(result.error){
+
+    throw result.error;
   }
 
 
-  /* ---------------------------------------------------------
-     CHECK EXISTING SESSION
-  --------------------------------------------------------- */
+  return result.data?.role ||
+    "member";
+}
 
-  async function checkExistingSession() {
 
-    try {
+/* =====================================================
+   LOGIN
+   ===================================================== */
 
-      const {
-        data: { session }
-      } = await supabaseClient.auth.getSession();
+loginForm.addEventListener(
+  "submit",
+  async function(event){
 
-      if (session) {
-
-        window.location.href = "profile.html";
-
-      }
-
-    } catch (error) {
-
-      console.error(error);
-
-    }
-
-  }
-
-
-  /* ---------------------------------------------------------
-     MEMBER SIGNUP
-  --------------------------------------------------------- */
-
-  document
-    .getElementById("signupForm")
-    .addEventListener("submit", async function(event) {
-
-      event.preventDefault();
-
-      clearMessage();
-
-      const name =
-        document.getElementById("signupName").value.trim();
-
-      const email =
-        document.getElementById("signupEmail").value.trim();
-
-      const password =
-        document.getElementById("signupPassword").value;
-
-      const confirmPassword =
-        document.getElementById("signupConfirmPassword").value;
-
-      const button =
-        document.getElementById("signupButton");
-
-
-      if (!name) {
-
-        showMessage(
-          "Please enter your full name.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if (password.length < 6) {
-
-        showMessage(
-          "Password minimum 6 characters heba darkar.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if (password !== confirmPassword) {
-
-        showMessage(
-          "Password and Confirm Password match heuni.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      button.disabled = true;
-      button.textContent = "Creating Account...";
-
-
-      try {
-
-        const {
-          data,
-          error
-        } = await supabaseClient.auth.signUp({
-
-          email: email,
-
-          password: password,
-
-          options: {
-
-            data: {
-              full_name: name
-            }
-
-          }
-
-        });
-
-
-        if (error) {
-
-          throw error;
-
-        }
-
-
-        /*
-          If Supabase immediately creates a session,
-          go to profile setup.
-        */
-
-        if (data.session) {
-
-          showMessage(
-            "Account create heigala. Profile setup ku jauchhi...",
-            "success"
-          );
-
-          setTimeout(function() {
-
-            window.location.href = "profile.html";
-
-          }, 1000);
-
-        }
-
-        /*
-          If email confirmation is enabled,
-          user needs to confirm email first.
-        */
-
-        else {
-
-          showMessage(
-            "Account create heigala. Apananka email check kari verification complete karantu. Pare Member Login karantu.",
-            "success"
-          );
-
-          document.getElementById("signupForm").reset();
-
-        }
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-          error.message || "Signup failed. Please try again.",
-          "error"
-        );
-
-      }
-
-
-      button.disabled = false;
-      button.textContent = "Create Member Account";
-
-    });
-
-
-  /* ---------------------------------------------------------
-     MEMBER LOGIN
-  --------------------------------------------------------- */
-
-  document
-    .getElementById("loginForm")
-    .addEventListener("submit", async function(event) {
-
-      event.preventDefault();
-
-      clearMessage();
-
-      const email =
-        document.getElementById("loginEmail").value.trim();
-
-      const password =
-        document.getElementById("loginPassword").value;
-
-      const button =
-        document.getElementById("loginButton");
-
-
-      button.disabled = true;
-      button.textContent = "Logging in...";
-
-
-      try {
-
-        const {
-          data,
-          error
-        } = await supabaseClient.auth.signInWithPassword({
-
-          email: email,
-
-          password: password
-
-        });
-
-
-        if (error) {
-
-          throw error;
-
-        }
-
-
-        if (!data.session) {
-
-          throw new Error(
-            "Login session create heiparilani. Please try again."
-          );
-
-        }
-
-
-        showMessage(
-          "Login successful. Please wait...",
-          "success"
-        );
-
-
-        setTimeout(function() {
-
-          window.location.href = "profile.html";
-
-        }, 700);
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        showMessage(
-          error.message || "Login failed. Email/password check karantu.",
-          "error"
-        );
-
-      }
-
-
-      button.disabled = false;
-      button.textContent = "Login";
-
-    });
-
-
-  /* ---------------------------------------------------------
-     FORGOT PASSWORD
-  --------------------------------------------------------- */
-
-  async function forgotPassword() {
+    event.preventDefault();
 
     clearMessage();
 
     const email =
-      document.getElementById("loginEmail").value.trim();
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
 
 
-    if (!email) {
+    loginButton.disabled =
+      true;
 
-      showMessage(
-        "Prathame login email address enter karantu.",
-        "error"
+    loginButton.textContent =
+      "Logging in...";
+
+
+    try{
+
+      const result =
+        await supabaseClient
+          .auth
+          .signInWithPassword({
+            email:email,
+            password:password
+          });
+
+
+      if(result.error){
+
+        throw result.error;
+      }
+
+
+      const user =
+        result.data.user;
+
+
+      if(!user){
+
+        throw new Error(
+          "Login session create heiparilani."
+        );
+      }
+
+
+      const role =
+        await getUserRole(
+          user.id
+        );
+
+
+      /*
+        SUPER ADMIN
+      */
+
+      if(role === "super_admin"){
+
+        window.location.replace(
+          "super-admin.html"
+        );
+
+        return;
+      }
+
+
+      /*
+        ADMIN
+      */
+
+      if(role === "admin"){
+
+        window.location.replace(
+          "admin.html"
+        );
+
+        return;
+      }
+
+
+      /*
+        MEMBER
+      */
+
+      window.location.replace(
+        "profile.html"
       );
 
-      document.getElementById("loginEmail").focus();
 
-      return;
+    }catch(error){
 
-    }
-
-
-    try {
-
-      const {
+      console.error(
+        "LOGIN ERROR:",
         error
-      } = await supabaseClient.auth.resetPasswordForEmail(
-
-        email,
-
-        {
-          redirectTo:
-            window.location.origin +
-            "/maa-basuli-uda-jatra-committee/auth.html"
-        }
-
       );
 
 
-      if (error) {
+      let text =
+        error.message ||
+        "Login failed.";
 
-        throw error;
 
+      if(
+        text.toLowerCase()
+          .includes("invalid login")
+      ){
+
+        text =
+          "Email ba password wrong achhi.";
       }
 
 
       showMessage(
-        "Password reset link apanka email ku patha jaichi. Email check karantu.",
+        "❌ " + text,
+        "error"
+      );
+
+
+    }finally{
+
+      loginButton.disabled =
+        false;
+
+      loginButton.textContent =
+        loginMode === "admin"
+          ? "Super Admin Login"
+          : "Member Login";
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SIGNUP
+   ===================================================== */
+
+document.getElementById(
+  "signupButton"
+).addEventListener(
+  "click",
+  function(){
+
+    window.location.href =
+      "signup.html";
+
+  }
+);
+
+
+/* =====================================================
+   FORGOT PASSWORD
+   ===================================================== */
+
+document.getElementById(
+  "forgotButton"
+).addEventListener(
+  "click",
+  async function(){
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim();
+
+
+    if(!email){
+
+      showMessage(
+        "Prathame email address enter karantu.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    try{
+
+      const result =
+        await supabaseClient
+          .auth
+          .resetPasswordForEmail(
+            email,
+            {
+              redirectTo:
+                window.location.origin +
+                window.location.pathname
+                  .replace(
+                    "auth.html",
+                    "reset-password.html"
+                  )
+            }
+          );
+
+
+      if(result.error){
+
+        throw result.error;
+      }
+
+
+      showMessage(
+        "✅ Password reset link email ku patha jaichi.",
         "success"
       );
 
 
-    } catch (error) {
-
-      console.error(error);
+    }catch(error){
 
       showMessage(
-        error.message ||
-        "Password reset request failed.",
+        "❌ " +
+        (
+          error.message ||
+          "Password reset failed."
+        ),
         "error"
       );
-
     }
 
   }
+);
 
 
-  /* ---------------------------------------------------------
-     AUTH STATE CHANGE
-  --------------------------------------------------------- */
+/* =====================================================
+   EXISTING SESSION CHECK
+   ===================================================== */
 
-  supabaseClient.auth.onAuthStateChange(
-    function(event, session) {
+async function checkExistingSession(){
 
-      if (
-        event === "SIGNED_IN" &&
-        session
-      ) {
+  try{
 
-        /*
-          Do not redirect immediately here because
-          signup/login handlers already control redirect.
-        */
+    const result =
+      await supabaseClient
+        .auth
+        .getSession();
 
-        console.log("User signed in.");
 
-      }
+    if(result.error){
 
+      return;
     }
-  );
 
 
-  /* ---------------------------------------------------------
-     START
-  --------------------------------------------------------- */
+    const session =
+      result.data.session;
 
-  checkExistingSession();
+
+    if(!session){
+
+      return;
+    }
+
+
+    const role =
+      await getUserRole(
+        session.user.id
+      );
+
+
+    if(role === "super_admin"){
+
+      window.location.replace(
+        "super-admin.html"
+      );
+
+      return;
+    }
+
+
+    if(role === "admin"){
+
+      window.location.replace(
+        "admin.html"
+      );
+
+      return;
+    }
+
+
+    window.location.replace(
+      "profile.html"
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "SESSION CHECK ERROR:",
+      error
+    );
+  }
+}
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+checkExistingSession();
 
 </script>
 
