@@ -11,174 +11,143 @@
 <style>
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  background:#f4f6f8;
-  color:#1f2937;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f9;
+  color:#172033;
 }
 
 header{
-  background:#7c2d12;
+  background:linear-gradient(135deg,#6d28d9,#4f46e5);
   color:white;
-  padding:18px 20px;
+  padding:22px 20px;
+}
+
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
 
 header h1{
-  font-size:22px;
-  margin-bottom:5px;
+  margin:0;
+  font-size:25px;
 }
 
 header p{
-  font-size:13px;
+  margin:6px 0 0;
   opacity:.9;
 }
 
 .container{
-  max-width:1400px;
-  margin:auto;
-  padding:20px;
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 15px;
 }
 
-.topbar{
+.top-actions{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
   gap:10px;
   flex-wrap:wrap;
   margin-bottom:20px;
 }
 
-.topbar h2{
-  font-size:22px;
-}
-
-button{
+button,
+.btn{
   border:0;
   border-radius:8px;
-  padding:10px 15px;
+  padding:11px 16px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:700;
+  text-decoration:none;
+  display:inline-block;
 }
 
-.logout{
+.btn-primary{
+  background:#4f46e5;
+  color:white;
+}
+
+.btn-secondary{
+  background:#64748b;
+  color:white;
+}
+
+.btn-success{
+  background:#16a34a;
+  color:white;
+}
+
+.btn-danger{
   background:#dc2626;
   color:white;
 }
 
-.back{
-  background:#475569;
+.btn-warning{
+  background:#d97706;
   color:white;
 }
 
 .card{
   background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  border-radius:14px;
+  padding:22px;
+  margin-bottom:22px;
+  box-shadow:0 3px 14px rgba(0,0,0,.07);
 }
 
-.card h3{
-  margin-bottom:15px;
+.card h2{
+  margin-top:0;
 }
 
-.form-grid{
+.grid{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:12px;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
 }
 
 .field{
   display:flex;
   flex-direction:column;
-  gap:6px;
+  gap:7px;
 }
 
-.field label{
-  font-size:13px;
-  font-weight:bold;
-  color:#475569;
+.field.full{
+  grid-column:1/-1;
+}
+
+label{
+  font-weight:700;
+  font-size:14px;
 }
 
 input,
 select,
 textarea{
   width:100%;
+  padding:11px 12px;
   border:1px solid #d1d5db;
   border-radius:8px;
-  padding:11px;
-  font-size:14px;
+  font-size:15px;
   background:white;
 }
 
 textarea{
-  min-height:80px;
+  min-height:90px;
   resize:vertical;
 }
 
-.primary{
-  background:#7c2d12;
-  color:white;
-}
-
-.success{
-  background:#15803d;
-  color:white;
-}
-
-.danger{
-  background:#dc2626;
-  color:white;
-}
-
-.warning{
-  background:#d97706;
-  color:white;
-}
-
-.secondary{
-  background:#475569;
-  color:white;
-}
-
-.purple{
-  background:#7e22ce;
-  color:white;
-}
-
 .form-actions{
-  margin-top:15px;
+  margin-top:18px;
   display:flex;
-  gap:8px;
+  gap:10px;
   flex-wrap:wrap;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.stat{
-  background:white;
-  border-radius:12px;
-  padding:18px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.stat small{
-  color:#64748b;
-}
-
-.stat strong{
-  display:block;
-  font-size:25px;
-  margin-top:8px;
 }
 
 .table-wrap{
@@ -188,69 +157,77 @@ textarea{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:1100px;
+  min-width:850px;
 }
 
 th,
 td{
-  padding:11px;
   border-bottom:1px solid #e5e7eb;
+  padding:12px 10px;
   text-align:left;
-  font-size:13px;
+  vertical-align:middle;
 }
 
 th{
   background:#f8fafc;
+  font-size:14px;
 }
 
-.badge{
+.status{
   display:inline-block;
-  padding:5px 9px;
+  padding:5px 10px;
   border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
+  font-size:12px;
+  font-weight:700;
 }
 
-.badge-paid{
+.status-active,
+.status-paid{
   background:#dcfce7;
   color:#166534;
 }
 
-.badge-unpaid{
+.status-inactive,
+.status-unpaid{
   background:#fee2e2;
   color:#991b1b;
 }
 
-.actions{
+.action-row{
   display:flex;
   gap:6px;
   flex-wrap:wrap;
 }
 
-.actions button{
-  padding:7px 9px;
-  font-size:11px;
+.small-btn{
+  padding:7px 10px;
+  font-size:12px;
 }
 
 .message{
-  margin-top:12px;
-  padding:10px;
-  border-radius:8px;
   display:none;
+  padding:12px 15px;
+  border-radius:8px;
+  margin-bottom:18px;
+  font-weight:600;
 }
 
-.message.show{
+.message.success{
   display:block;
-}
-
-.message.success-msg{
   background:#dcfce7;
   color:#166534;
 }
 
-.message.error-msg{
+.message.error{
+  display:block;
   background:#fee2e2;
   color:#991b1b;
+}
+
+.loading{
+  text-align:center;
+  padding:25px;
+  color:#64748b;
 }
 
 .empty{
@@ -259,88 +236,97 @@ th{
   color:#64748b;
 }
 
-.loading{
-  text-align:center;
-  padding:25px;
+.badge{
+  padding:5px 9px;
+  border-radius:15px;
+  font-size:12px;
+  font-weight:bold;
 }
 
-.year-box{
+.badge-active{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-inactive{
+  background:#e5e7eb;
+  color:#475569;
+}
+
+.section-title{
   display:flex;
-  align-items:end;
+  justify-content:space-between;
+  align-items:center;
   gap:10px;
   flex-wrap:wrap;
 }
 
-.year-box .field{
-  min-width:180px;
+.summary{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
 }
 
-.note{
-  background:#fff7ed;
-  border-left:4px solid #ea580c;
-  padding:12px;
-  margin-bottom:15px;
-  border-radius:6px;
-  font-size:13px;
+.summary-box{
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.summary-box .number{
+  font-size:25px;
+  font-weight:800;
+  margin-top:5px;
 }
 
 .modal{
+  display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+  background:rgba(0,0,0,.55);
   z-index:1000;
-}
-
-.modal-box{
-  background:white;
-  width:100%;
-  max-width:700px;
-  max-height:90vh;
-  overflow:auto;
-  border-radius:14px;
   padding:20px;
+  overflow:auto;
 }
 
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
+.modal-content{
+  max-width:650px;
+  margin:40px auto;
+  background:white;
+  border-radius:14px;
+  padding:22px;
 }
 
 .close{
-  background:#e5e7eb;
+  float:right;
+  font-size:25px;
+  cursor:pointer;
 }
 
-@media(max-width:1000px){
-  .form-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .stats{
-    grid-template-columns:repeat(3,1fr);
-  }
-}
-
-@media(max-width:600px){
-  .container{
-    padding:12px;
-  }
-
-  .card{
-    padding:14px;
-  }
-
-  .form-grid{
+@media(max-width:850px){
+  .grid{
     grid-template-columns:1fr;
   }
 
-  .stats{
-    grid-template-columns:1fr 1fr;
+  .summary{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .header-inner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+}
+
+@media(max-width:500px){
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  header h1{
+    font-size:21px;
   }
 }
 </style>
@@ -349,183 +335,189 @@ th{
 <body>
 
 <header>
-  <h1>Maa Basuli Uda Jatra Committee</h1>
-  <p>Member Fee Management</p>
+  <div class="header-inner">
+    <div>
+      <h1>💳 Member Fee Management</h1>
+      <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+    </div>
+
+    <button class="btn btn-secondary" onclick="goBack()">
+      ← Super Admin
+    </button>
+  </div>
 </header>
 
 <div class="container">
 
-  <div class="topbar">
+  <div id="message" class="message"></div>
 
-    <div>
-      <h2>Member Fee Management</h2>
-      <p id="adminEmail">Checking account...</p>
+  <div class="top-actions">
+    <button class="btn btn-primary" onclick="loadAll()">
+      🔄 Refresh
+    </button>
+  </div>
+
+  <!-- SUMMARY -->
+
+  <div class="summary">
+
+    <div class="summary-box">
+      <div>Fee Settings</div>
+      <div class="number" id="settingCount">0</div>
     </div>
 
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-      <button class="back" onclick="goBack()">
-        ← Super Admin
-      </button>
+    <div class="summary-box">
+      <div>Total Payment Records</div>
+      <div class="number" id="paymentCount">0</div>
+    </div>
 
-      <button class="logout" onclick="logout()">
-        Logout
-      </button>
+    <div class="summary-box">
+      <div>Paid Records</div>
+      <div class="number" id="paidCount">0</div>
+    </div>
+
+    <div class="summary-box">
+      <div>Unpaid Records</div>
+      <div class="number" id="unpaidCount">0</div>
     </div>
 
   </div>
 
 
-  <!-- YEAR SELECT -->
+  <!-- =====================================================
+       FEE SETTINGS
+       ===================================================== -->
 
   <div class="card">
 
-    <h3>Fee Year</h3>
+    <div class="section-title">
+      <h2>⚙️ Fee Settings</h2>
+      <span id="settingMode">Add New Fee</span>
+    </div>
 
-    <div class="year-box">
+    <form id="feeForm">
+
+      <input type="hidden" id="feeId">
+
+      <div class="grid">
+
+        <div class="field">
+          <label>Financial Year *</label>
+
+          <input
+            type="number"
+            id="financialYear"
+            placeholder="2026"
+            min="2000"
+            max="2100"
+            required
+          >
+        </div>
+
+        <div class="field">
+          <label>Fee Amount (₹) *</label>
+
+          <input
+            type="number"
+            id="feeAmount"
+            placeholder="500"
+            min="0"
+            step="0.01"
+            required
+          >
+        </div>
+
+        <div class="field full">
+
+          <label>Description</label>
+
+          <textarea
+            id="feeDescription"
+            placeholder="Example: Annual Member Fee for Financial Year 2026-27"
+          ></textarea>
+
+        </div>
+
+        <div class="field">
+
+          <label>Status</label>
+
+          <select id="feeActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          type="submit"
+          class="btn btn-success"
+        >
+          💾 Save Fee
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="resetFeeForm()"
+        >
+          Clear
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <!-- FEE SETTINGS TABLE -->
+
+  <div class="card">
+
+    <h2>📋 Year-wise Fee List</h2>
+
+    <div id="feeTableArea" class="loading">
+      Loading...
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       MEMBER PAYMENT
+       ===================================================== -->
+
+  <div class="card">
+
+    <div class="section-title">
+
+      <h2>💰 Member Payment Management</h2>
+
+      <button
+        class="btn btn-primary"
+        onclick="openPaymentForm()"
+      >
+        ➕ Add Payment
+      </button>
+
+    </div>
+
+    <br>
+
+    <div class="grid">
 
       <div class="field">
 
         <label>Financial Year</label>
 
-        <select id="yearSelect" onchange="loadYearData()"></select>
-
-      </div>
-
-      <button
-        class="secondary"
-        onclick="loadYearData()">
-        Refresh
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- STATS -->
-
-  <div class="stats">
-
-    <div class="stat">
-      <small>Total Records</small>
-      <strong id="totalRecords">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Paid Members</small>
-      <strong id="paidMembers">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Unpaid Members</small>
-      <strong id="unpaidMembers">0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Total Fee</small>
-      <strong id="totalFee">₹0</strong>
-    </div>
-
-    <div class="stat">
-      <small>Total Collected</small>
-      <strong id="totalCollected">₹0</strong>
-    </div>
-
-  </div>
-
-
-  <!-- YEAR FEE SETTING -->
-
-  <div class="card">
-
-    <h3>Year-wise Member Fee Setting</h3>
-
-    <div class="note">
-      Ehi year pain committee member fee amount set karantu.
-      Ehi amount pare member payment record re use heba.
-    </div>
-
-    <div class="form-grid">
-
-      <div class="field">
-        <label>Financial Year</label>
-        <input
-          type="number"
-          id="settingYear"
-          min="2000"
-          max="2100">
-      </div>
-
-      <div class="field">
-        <label>Fee Amount (₹)</label>
-        <input
-          type="number"
-          id="settingAmount"
-          min="0"
-          step="0.01"
-          placeholder="Example: 500">
-      </div>
-
-      <div class="field" style="grid-column:span 2;">
-        <label>Description</label>
-        <input
-          type="text"
-          id="settingDescription"
-          placeholder="Example: Annual Member Fee 2026-27">
-      </div>
-
-    </div>
-
-    <div class="form-actions">
-
-      <button
-        class="primary"
-        onclick="saveFeeSetting()">
-        Save Fee Setting
-      </button>
-
-      <button
-        class="secondary"
-        onclick="loadFeeSetting()">
-        Load Current Setting
-      </button>
-
-    </div>
-
-    <div id="settingMessage" class="message"></div>
-
-  </div>
-
-
-  <!-- PAYMENT ENTRY -->
-
-  <div class="card">
-
-    <h3>Member Fee Payment</h3>
-
-    <div class="form-grid">
-
-      <div class="field" style="grid-column:span 2;">
-
-        <label>Select Member</label>
-
-        <select id="memberSelect">
-          <option value="">
-            Loading Members...
-          </option>
+        <select id="filterYear">
+          <option value="">All Years</option>
         </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>Fee Amount (₹)</label>
-
-        <input
-          type="number"
-          id="paymentFeeAmount"
-          min="0"
-          step="0.01">
 
       </div>
 
@@ -533,181 +525,22 @@ th{
 
         <label>Payment Status</label>
 
-        <select id="paymentStatus">
+        <select id="filterStatus">
 
-          <option value="Unpaid">
-            Unpaid
-          </option>
-
-          <option value="Paid">
-            Paid
-          </option>
+          <option value="">All</option>
+          <option value="Paid">Paid</option>
+          <option value="Unpaid">Unpaid</option>
 
         </select>
 
       </div>
 
-      <div class="field">
-
-        <label>Paid Amount (₹)</label>
-
-        <input
-          type="number"
-          id="paidAmount"
-          min="0"
-          step="0.01"
-          value="0">
-
-      </div>
-
-      <div class="field">
-
-        <label>Payment Date</label>
-
-        <input
-          type="date"
-          id="paymentDate">
-
-      </div>
-
-      <div class="field">
-
-        <label>Payment Mode</label>
-
-        <select id="paymentMode">
-
-          <option value="">
-            Select
-          </option>
-
-          <option value="Cash">
-            Cash
-          </option>
-
-          <option value="UPI">
-            UPI
-          </option>
-
-          <option value="Bank Transfer">
-            Bank Transfer
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>Receipt / Reference No.</label>
-
-        <input
-          type="text"
-          id="receiptNo"
-          placeholder="Optional">
-
-      </div>
-
-      <div class="field" style="grid-column:span 2;">
-
-        <label>Remarks</label>
-
-        <textarea
-          id="remarks"
-          placeholder="Optional remarks"></textarea>
-
-      </div>
-
     </div>
 
-    <div class="form-actions">
+    <br>
 
-      <button
-        class="success"
-        id="savePaymentBtn"
-        onclick="savePayment()">
-        Save Payment
-      </button>
-
-      <button
-        class="secondary"
-        onclick="clearPaymentForm()">
-        Clear
-      </button>
-
-    </div>
-
-    <div id="paymentMessage" class="message"></div>
-
-  </div>
-
-
-  <!-- PAYMENT LIST -->
-
-  <div class="card">
-
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:15px;
-    ">
-
-      <h3 style="margin:0;">
-        Member Fee Records
-      </h3>
-
-      <input
-        type="search"
-        id="searchPayment"
-        placeholder="Search member / ID / mobile..."
-        oninput="renderPayments()"
-        style="max-width:350px;">
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Member ID</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Year</th>
-            <th>Fee</th>
-            <th>Paid</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Mode</th>
-            <th>Receipt</th>
-            <th>Action</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="paymentsBody">
-
-          <tr>
-            <td colspan="11" class="loading">
-              Loading Fee Records...
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
+    <div id="paymentTableArea" class="loading">
+      Loading...
     </div>
 
   </div>
@@ -715,151 +548,214 @@ th{
 </div>
 
 
-<!-- EDIT MODAL -->
+<!-- =====================================================
+     PAYMENT MODAL
+     ===================================================== -->
 
-<div class="modal" id="editModal">
+<div id="paymentModal" class="modal">
 
-  <div class="modal-box">
+  <div class="modal-content">
 
-    <div class="modal-head">
+    <span class="close" onclick="closePaymentForm()">×</span>
 
-      <h3>Edit Fee Payment</h3>
+    <h2 id="paymentModalTitle">
+      Add Member Payment
+    </h2>
 
-      <button
-        class="close"
-        onclick="closeEditModal()">
-        Close
-      </button>
+    <form id="paymentForm">
 
-    </div>
+      <input type="hidden" id="paymentId">
 
-    <input
-      type="hidden"
-      id="editId">
+      <div class="grid">
 
-    <div class="form-grid">
+        <div class="field full">
 
-      <div class="field">
+          <label>Member *</label>
 
-        <label>Fee Amount</label>
+          <select id="paymentMember" required>
 
-        <input
-          type="number"
-          id="editFeeAmount"
-          min="0"
-          step="0.01">
+            <option value="">
+              Select Member
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Financial Year *</label>
+
+          <select id="paymentYear" required>
+
+            <option value="">
+              Select Year
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Fee Amount *</label>
+
+          <input
+            type="number"
+            id="paymentFeeAmount"
+            min="0"
+            step="0.01"
+            required
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Payment Status *</label>
+
+          <select id="paymentStatus" required>
+
+            <option value="Unpaid">
+              Unpaid
+            </option>
+
+            <option value="Paid">
+              Paid
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Paid Amount</label>
+
+          <input
+            type="number"
+            id="paidAmount"
+            min="0"
+            step="0.01"
+            value="0"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Payment Date</label>
+
+          <input
+            type="date"
+            id="paymentDate"
+          >
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Payment Mode</label>
+
+          <select id="paymentMode">
+
+            <option value="">
+              Select Mode
+            </option>
+
+            <option value="Cash">
+              Cash
+            </option>
+
+            <option value="UPI">
+              UPI
+            </option>
+
+            <option value="Bank Transfer">
+              Bank Transfer
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Receipt Number</label>
+
+          <input
+            type="text"
+            id="receiptNo"
+            placeholder="Receipt No."
+          >
+
+        </div>
+
+
+        <div class="field full">
+
+          <label>Remarks</label>
+
+          <textarea
+            id="paymentRemarks"
+            placeholder="Payment remarks"
+          ></textarea>
+
+        </div>
+
+
+        <div class="field">
+
+          <label>Published</label>
+
+          <select id="paymentPublished">
+
+            <option value="true">
+              Yes
+            </option>
+
+            <option value="false">
+              No
+            </option>
+
+          </select>
+
+        </div>
 
       </div>
 
-      <div class="field">
 
-        <label>Status</label>
+      <div class="form-actions">
 
-        <select id="editStatus">
+        <button
+          type="submit"
+          class="btn btn-success"
+        >
+          💾 Save Payment
+        </button>
 
-          <option value="Unpaid">
-            Unpaid
-          </option>
-
-          <option value="Paid">
-            Paid
-          </option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>Paid Amount</label>
-
-        <input
-          type="number"
-          id="editPaidAmount"
-          min="0"
-          step="0.01">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closePaymentForm()"
+        >
+          Cancel
+        </button>
 
       </div>
 
-      <div class="field">
-
-        <label>Payment Date</label>
-
-        <input
-          type="date"
-          id="editPaymentDate">
-
-      </div>
-
-      <div class="field">
-
-        <label>Payment Mode</label>
-
-        <select id="editPaymentMode">
-
-          <option value="">
-            Select
-          </option>
-
-          <option value="Cash">
-            Cash
-          </option>
-
-          <option value="UPI">
-            UPI
-          </option>
-
-          <option value="Bank Transfer">
-            Bank Transfer
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
-        </select>
-
-      </div>
-
-      <div class="field">
-
-        <label>Receipt No.</label>
-
-        <input
-          type="text"
-          id="editReceiptNo">
-
-      </div>
-
-      <div
-        class="field"
-        style="grid-column:span 2;">
-
-        <label>Remarks</label>
-
-        <textarea id="editRemarks"></textarea>
-
-      </div>
-
-    </div>
-
-    <div class="form-actions">
-
-      <button
-        class="success"
-        onclick="updatePayment()">
-        Update Payment
-      </button>
-
-      <button
-        class="secondary"
-        onclick="closeEditModal()">
-        Cancel
-      </button>
-
-    </div>
-
-    <div id="editMessage" class="message"></div>
+    </form>
 
   </div>
 
@@ -881,143 +777,591 @@ const supabaseClient =
   );
 
 
-let members = [];
+let currentUser = null;
+let feeSettings = [];
 let payments = [];
+let members = [];
 
 
-/* =========================
-   START
-========================= */
+/* =====================================================
+   MESSAGE
+   ===================================================== */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
+function showMessage(text,type="success"){
 
-    const {
-      data:{
-        session
-      }
-    } =
-      await supabaseClient.auth.getSession();
+  const box =
+    document.getElementById("message");
 
+  box.textContent = text;
 
-    if(!session){
+  box.className =
+    "message " + type;
 
-      window.location.href =
-        "auth.html";
-
-      return;
-    }
+  setTimeout(()=>{
+    box.className = "message";
+  },5000);
+}
 
 
-    document.getElementById(
-      "adminEmail"
-    ).textContent =
-      session.user.email || "";
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
 
+function escapeHtml(value){
 
-    const {
-      data:{
-        user
-      }
-    } =
-      await supabaseClient.auth.getUser();
-
-
-    const {
-      data:roleData,
-      error:roleError
-    } =
-      await supabaseClient.rpc(
-        "get_my_role"
-      );
-
-
-    if(
-      roleError ||
-      roleData !== "super_admin"
-    ){
-
-      alert(
-        "Access denied. Super Admin only."
-      );
-
-      window.location.href =
-        "index.html";
-
-      return;
-    }
-
-
-    setupYears();
-
-    await loadMembers();
-
-    await loadFeeSetting();
-
-    await loadPayments();
-
-  }
-);
-
-
-/* =========================
-   YEARS
-========================= */
-
-function setupYears(){
-
-  const currentYear =
-    new Date().getFullYear();
-
-  const yearSelect =
-    document.getElementById(
-      "yearSelect"
-    );
-
-  const settingYear =
-    document.getElementById(
-      "settingYear"
-    );
-
-
-  for(
-    let y = currentYear + 1;
-    y >= currentYear - 5;
-    y--
-  ){
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      y;
-
-    option.textContent =
-      y + "-" + String(y + 1).slice(-2);
-
-    yearSelect.appendChild(
-      option
-    );
-
+  if(value === null || value === undefined){
+    return "";
   }
 
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-  yearSelect.value =
-    currentYear;
 
+/* =====================================================
+   BACK
+   ===================================================== */
 
-  settingYear.value =
-    currentYear;
+function goBack(){
+
+  window.location.href =
+    "super-admin.html";
 
 }
 
 
-/* =========================
+/* =====================================================
+   AUTH + SUPER ADMIN CHECK
+   ===================================================== */
+
+async function checkAccess(){
+
+  const {
+    data:{
+      session
+    },
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+  if(error){
+
+    alert(error.message);
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+  }
+
+  if(!session){
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+  }
+
+  currentUser =
+    session.user;
+
+  const {
+    data:role,
+    error:roleError
+  } =
+    await supabaseClient.rpc(
+      "get_my_role"
+    );
+
+  if(roleError){
+
+    alert(
+      "Unable to verify account role."
+    );
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+  }
+
+  if(role !== "super_admin"){
+
+    alert(
+      "Access denied. Super Admin only."
+    );
+
+    window.location.href =
+      "admin.html";
+
+    return false;
+  }
+
+  return true;
+}
+
+
+/* =====================================================
+   LOAD ALL
+   ===================================================== */
+
+async function loadAll(){
+
+  await loadFeeSettings();
+
+  await loadMembers();
+
+  await loadPayments();
+
+  updateSummary();
+
+}
+
+
+/* =====================================================
+   FEE SETTINGS
+   ===================================================== */
+
+async function loadFeeSettings(){
+
+  const area =
+    document.getElementById(
+      "feeTableArea"
+    );
+
+  area.innerHTML =
+    '<div class="loading">Loading...</div>';
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("member_fee_settings")
+      .select("*")
+      .order(
+        "financial_year",
+        {
+          ascending:false
+        }
+      );
+
+  if(error){
+
+    area.innerHTML =
+      `<div class="message error">
+        ${escapeHtml(error.message)}
+      </div>`;
+
+    return;
+  }
+
+  feeSettings =
+    data || [];
+
+  renderFeeSettings();
+
+  fillYearFilters();
+
+}
+
+
+/* =====================================================
+   RENDER FEE SETTINGS
+   ===================================================== */
+
+function renderFeeSettings(){
+
+  const area =
+    document.getElementById(
+      "feeTableArea"
+    );
+
+  if(!feeSettings.length){
+
+    area.innerHTML =
+      '<div class="empty">No fee settings found.</div>';
+
+    return;
+  }
+
+
+  let html = `
+    <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Financial Year</th>
+          <th>Fee Amount</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Created</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+  `;
+
+
+  feeSettings.forEach(row=>{
+
+    html += `
+
+      <tr>
+
+        <td>
+          <strong>
+            ${escapeHtml(row.financial_year)}
+          </strong>
+        </td>
+
+        <td>
+          ₹${Number(row.fee_amount || 0).toFixed(2)}
+        </td>
+
+        <td>
+          ${escapeHtml(row.description || "-")}
+        </td>
+
+        <td>
+
+          ${
+            row.is_active
+
+            ? `<span class="badge badge-active">
+                 Active
+               </span>`
+
+            : `<span class="badge badge-inactive">
+                 Inactive
+               </span>`
+          }
+
+        </td>
+
+        <td>
+          ${
+            row.created_at
+            ? new Date(row.created_at)
+                .toLocaleDateString("en-IN")
+            : "-"
+          }
+        </td>
+
+        <td>
+
+          <div class="action-row">
+
+            <button
+              class="btn btn-primary small-btn"
+              onclick="editFee('${row.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-danger small-btn"
+              onclick="deleteFee('${row.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  html += `
+      </tbody>
+    </table>
+
+    </div>
+  `;
+
+
+  area.innerHTML =
+    html;
+
+}
+
+
+/* =====================================================
+   SAVE FEE
+   ===================================================== */
+
+document
+  .getElementById("feeForm")
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+      const id =
+        document.getElementById(
+          "feeId"
+        ).value;
+
+      const financialYear =
+        Number(
+          document.getElementById(
+            "financialYear"
+          ).value
+        );
+
+      const feeAmount =
+        Number(
+          document.getElementById(
+            "feeAmount"
+          ).value
+        );
+
+      const description =
+        document.getElementById(
+          "feeDescription"
+        ).value.trim();
+
+      const isActive =
+        document.getElementById(
+          "feeActive"
+        ).value === "true";
+
+
+      if(
+        !financialYear ||
+        feeAmount < 0
+      ){
+
+        showMessage(
+          "Financial Year and Fee Amount are required.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const payload = {
+
+        financial_year:
+          financialYear,
+
+        fee_amount:
+          feeAmount,
+
+        description:
+          description || null,
+
+        is_active:
+          isActive,
+
+        updated_at:
+          new Date().toISOString()
+
+      };
+
+
+      let result;
+
+
+      if(id){
+
+        result =
+          await supabaseClient
+            .from(
+              "member_fee_settings"
+            )
+            .update(payload)
+            .eq("id",id);
+
+      }else{
+
+        payload.created_by =
+          currentUser.id;
+
+        result =
+          await supabaseClient
+            .from(
+              "member_fee_settings"
+            )
+            .insert(payload);
+
+      }
+
+
+      if(result.error){
+
+        showMessage(
+          result.error.message,
+          "error"
+        );
+
+        return;
+      }
+
+
+      showMessage(
+        id
+        ? "Fee setting updated successfully."
+        : "Fee setting added successfully."
+      );
+
+
+      resetFeeForm();
+
+      await loadFeeSettings();
+
+    }
+  );
+
+
+/* =====================================================
+   EDIT FEE
+   ===================================================== */
+
+function editFee(id){
+
+  const row =
+    feeSettings.find(
+      x => x.id === id
+    );
+
+  if(!row){
+    return;
+  }
+
+
+  document.getElementById(
+    "feeId"
+  ).value =
+    row.id;
+
+  document.getElementById(
+    "financialYear"
+  ).value =
+    row.financial_year;
+
+  document.getElementById(
+    "feeAmount"
+  ).value =
+    row.fee_amount;
+
+  document.getElementById(
+    "feeDescription"
+  ).value =
+    row.description || "";
+
+  document.getElementById(
+    "feeActive"
+  ).value =
+    String(row.is_active);
+
+  document.getElementById(
+    "settingMode"
+  ).textContent =
+    "Editing Fee Setting";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   RESET FEE FORM
+   ===================================================== */
+
+function resetFeeForm(){
+
+  document.getElementById(
+    "feeForm"
+  ).reset();
+
+  document.getElementById(
+    "feeId"
+  ).value = "";
+
+  document.getElementById(
+    "feeActive"
+  ).value = "true";
+
+  document.getElementById(
+    "settingMode"
+  ).textContent =
+    "Add New Fee";
+
+}
+
+
+/* =====================================================
+   DELETE FEE
+   ===================================================== */
+
+async function deleteFee(id){
+
+  const ok =
+    confirm(
+      "Are you sure you want to delete this fee setting?"
+    );
+
+  if(!ok){
+    return;
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from(
+        "member_fee_settings"
+      )
+      .delete()
+      .eq("id",id);
+
+
+  if(error){
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Fee setting deleted successfully."
+  );
+
+  await loadFeeSettings();
+
+}
+
+
+/* =====================================================
    LOAD MEMBERS
-========================= */
+   ===================================================== */
 
 async function loadMembers(){
 
@@ -1025,16 +1369,18 @@ async function loadMembers(){
     data,
     error
   } =
-    await supabaseClient.rpc(
-      "get_all_members_for_super_admin"
-    );
+    await supabaseClient
+      .rpc(
+        "get_all_members_for_super_admin"
+      );
 
 
   if(error){
 
-    alert(
+    showMessage(
       "Unable to load members: " +
-      error.message
+      error.message,
+      "error"
     );
 
     return;
@@ -1042,15 +1388,17 @@ async function loadMembers(){
 
 
   members =
-    (data || []).filter(
-      member =>
-        member.approval_status === "approved"
-    );
+    (data || [])
+      .filter(
+        member =>
+          member.member_status === "active" &&
+          member.approval_status === "approved"
+      );
 
 
   const select =
     document.getElementById(
-      "memberSelect"
+      "paymentMember"
     );
 
 
@@ -1058,518 +1406,91 @@ async function loadMembers(){
     '<option value="">Select Member</option>';
 
 
-  members.forEach(
-    member => {
+  members.forEach(member=>{
 
-      const option =
-        document.createElement(
-          "option"
-        );
+    const option =
+      document.createElement("option");
 
+    option.value =
+      member.id;
 
-      option.value =
-        member.id;
+    option.textContent =
+      `${member.member_id || "No ID"} — ${member.full_name}`;
 
+    select.appendChild(option);
 
-      option.textContent =
-        (
-          member.member_id ||
-          "No ID"
-        ) +
-        " — " +
-        (
-          member.full_name ||
-          "Unnamed"
-        ) +
-        " — " +
-        (
-          member.mobile ||
-          "No Mobile"
-        );
-
-
-      select.appendChild(
-        option
-      );
-
-    }
-  );
+  });
 
 }
 
 
-/* =========================
-   LOAD FEE SETTING
-========================= */
+/* =====================================================
+   FILL YEAR FILTERS
+   ===================================================== */
 
-async function loadFeeSetting(){
+function fillYearFilters(){
 
-  const year =
-    Number(
-      document.getElementById(
-        "settingYear"
-      ).value
-    );
-
-
-  if(!year) return;
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("member_fee_settings")
-      .select("*")
-      .eq(
-        "financial_year",
-        year
-      )
-      .maybeSingle();
-
-
-  if(error){
-
-    showMessage(
-      "settingMessage",
-      error.message,
-      false
-    );
-
-    return;
-  }
-
-
-  if(data){
-
+  const filterYear =
     document.getElementById(
-      "settingAmount"
-    ).value =
-      data.fee_amount ?? "";
+      "filterYear"
+    );
 
-
+  const paymentYear =
     document.getElementById(
-      "settingDescription"
-    ).value =
-      data.description || "";
-
-  }else{
-
-    document.getElementById(
-      "settingAmount"
-    ).value = "";
-
-
-    document.getElementById(
-      "settingDescription"
-    ).value = "";
-
-  }
-
-}
-
-
-/* =========================
-   SAVE FEE SETTING
-========================= */
-
-async function saveFeeSetting(){
-
-  const year =
-    Number(
-      document.getElementById(
-        "settingYear"
-      ).value
+      "paymentYear"
     );
 
 
-  const amount =
-    Number(
-      document.getElementById(
-        "settingAmount"
-      ).value
-    );
-
-
-  const description =
-    document.getElementById(
-      "settingDescription"
-    ).value.trim();
-
-
-  if(!year){
-
-    showMessage(
-      "settingMessage",
-      "Financial year is required.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(amount < 0 || isNaN(amount)){
-
-    showMessage(
-      "settingMessage",
-      "Please enter a valid fee amount.",
-      false
-    );
-
-    return;
-  }
-
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("member_fee_settings")
-      .upsert(
-        {
-          financial_year:year,
-          fee_amount:amount,
-          description:
-            description || null,
-          is_active:true,
-          created_by:user.id
-        },
-        {
-          onConflict:
-            "financial_year"
-        }
-      );
-
-
-  if(error){
-
-    showMessage(
-      "settingMessage",
-      error.message,
-      false
-    );
-
-    return;
-  }
-
-
-  showMessage(
-    "settingMessage",
-    "Fee setting saved successfully.",
-    true
-  );
-
-
-  document.getElementById(
-    "yearSelect"
-  ).value =
-    year;
-
-
-  await loadYearData();
-
-}
-
-
-/* =========================
-   LOAD YEAR DATA
-========================= */
-
-async function loadYearData(){
-
-  const year =
-    Number(
-      document.getElementById(
-        "yearSelect"
-      ).value
-    );
-
-
-  document.getElementById(
-    "settingYear"
-  ).value =
-    year;
-
-
-  await loadFeeSetting();
-
-  await loadPayments();
-
-}
-
-
-/* =========================
-   MEMBER SELECT
-========================= */
-
-document.getElementById(
-  "memberSelect"
-).addEventListener(
-  "change",
-  async function(){
-
-    const memberId =
-      this.value;
-
-
-    if(!memberId) return;
-
-
-    const year =
-      Number(
-        document.getElementById(
-          "yearSelect"
-        ).value
-      );
-
-
-    const {
-      data
-    } =
-      await supabaseClient
-        .from("member_fee_settings")
-        .select("fee_amount")
-        .eq(
-          "financial_year",
-          year
+  const years =
+    [
+      ...new Set(
+        feeSettings.map(
+          x => x.financial_year
         )
-        .maybeSingle();
-
-
-    if(data){
-
-      document.getElementById(
-        "paymentFeeAmount"
-      ).value =
-        data.fee_amount;
-
-    }
-
-  }
-);
-
-
-/* =========================
-   SAVE PAYMENT
-========================= */
-
-async function savePayment(){
-
-  const memberId =
-    document.getElementById(
-      "memberSelect"
-    ).value;
-
-
-  const year =
-    Number(
-      document.getElementById(
-        "yearSelect"
-      ).value
+      )
+    ]
+    .sort(
+      (a,b)=>b-a
     );
 
 
-  const feeAmount =
-    Number(
-      document.getElementById(
-        "paymentFeeAmount"
-      ).value
-    );
+  filterYear.innerHTML =
+    '<option value="">All Years</option>';
+
+  paymentYear.innerHTML =
+    '<option value="">Select Year</option>';
 
 
-  const status =
-    document.getElementById(
-      "paymentStatus"
-    ).value;
+  years.forEach(year=>{
 
+    filterYear.innerHTML +=
+      `<option value="${year}">
+        ${year}
+      </option>`;
 
-  const paidAmount =
-    Number(
-      document.getElementById(
-        "paidAmount"
-      ).value || 0
-    );
+    paymentYear.innerHTML +=
+      `<option value="${year}">
+        ${year}
+      </option>`;
 
-
-  const paymentDate =
-    document.getElementById(
-      "paymentDate"
-    ).value || null;
-
-
-  const paymentMode =
-    document.getElementById(
-      "paymentMode"
-    ).value || null;
-
-
-  const receiptNo =
-    document.getElementById(
-      "receiptNo"
-    ).value.trim() || null;
-
-
-  const remarks =
-    document.getElementById(
-      "remarks"
-    ).value.trim() || null;
-
-
-  if(!memberId){
-
-    showMessage(
-      "paymentMessage",
-      "Please select a member.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(feeAmount < 0){
-
-    showMessage(
-      "paymentMessage",
-      "Invalid fee amount.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(
-    status === "Paid" &&
-    paidAmount <= 0
-  ){
-
-    showMessage(
-      "paymentMessage",
-      "Paid amount must be greater than 0.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(
-    status === "Paid" &&
-    paidAmount > feeAmount
-  ){
-
-    showMessage(
-      "paymentMessage",
-      "Paid amount cannot be greater than fee amount.",
-      false
-    );
-
-    return;
-  }
-
-
-  const {
-    data:{
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("member_fee_payments")
-      .insert({
-
-        member_user_id:
-          memberId,
-
-        financial_year:
-          year,
-
-        fee_amount:
-          feeAmount,
-
-        payment_status:
-          status,
-
-        paid_amount:
-          status === "Paid"
-            ? paidAmount
-            : 0,
-
-        payment_date:
-          paymentDate,
-
-        payment_mode:
-          status === "Paid"
-            ? paymentMode
-            : null,
-
-        receipt_no:
-          status === "Paid"
-            ? receiptNo
-            : null,
-
-        remarks,
-
-        created_by:
-          user.id
-
-      });
-
-
-  if(error){
-
-    showMessage(
-      "paymentMessage",
-      error.message,
-      false
-    );
-
-    return;
-  }
-
-
-  showMessage(
-    "paymentMessage",
-    "Member fee record saved successfully.",
-    true
-  );
-
-
-  clearPaymentForm();
-
-  await loadPayments();
+  });
 
 }
 
 
-/* =========================
+/* =====================================================
    LOAD PAYMENTS
-========================= */
+   ===================================================== */
 
 async function loadPayments(){
 
-  const year =
-    Number(
-      document.getElementById(
-        "yearSelect"
-      ).value
+  const area =
+    document.getElementById(
+      "paymentTableArea"
     );
+
+  area.innerHTML =
+    '<div class="loading">Loading...</div>';
 
 
   const {
@@ -1577,11 +1498,15 @@ async function loadPayments(){
     error
   } =
     await supabaseClient
-      .from("member_fee_payments")
+      .from(
+        "member_fee_payments"
+      )
       .select("*")
-      .eq(
+      .order(
         "financial_year",
-        year
+        {
+          ascending:false
+        }
       )
       .order(
         "created_at",
@@ -1593,16 +1518,10 @@ async function loadPayments(){
 
   if(error){
 
-    document.getElementById(
-      "paymentsBody"
-    ).innerHTML =
-      `
-      <tr>
-        <td colspan="11" class="empty">
-          ${escapeHtml(error.message)}
-        </td>
-      </tr>
-      `;
+    area.innerHTML =
+      `<div class="message error">
+        ${escapeHtml(error.message)}
+      </div>`;
 
     return;
   }
@@ -1612,535 +1531,666 @@ async function loadPayments(){
     data || [];
 
 
-  updateStats();
-
   renderPayments();
 
 }
 
 
-/* =========================
-   STATS
-========================= */
-
-function updateStats(){
-
-  const total =
-    payments.length;
-
-
-  const paid =
-    payments.filter(
-      p =>
-        p.payment_status === "Paid"
-    ).length;
-
-
-  const unpaid =
-    payments.filter(
-      p =>
-        p.payment_status === "Unpaid"
-    ).length;
-
-
-  const totalFee =
-    payments.reduce(
-      (
-        sum,
-        p
-      ) =>
-        sum +
-        Number(
-          p.fee_amount || 0
-        ),
-      0
-    );
-
-
-  const totalCollected =
-    payments.reduce(
-      (
-        sum,
-        p
-      ) =>
-        sum +
-        Number(
-          p.paid_amount || 0
-        ),
-      0
-    );
-
-
-  document.getElementById(
-    "totalRecords"
-  ).textContent =
-    total;
-
-
-  document.getElementById(
-    "paidMembers"
-  ).textContent =
-    paid;
-
-
-  document.getElementById(
-    "unpaidMembers"
-  ).textContent =
-    unpaid;
-
-
-  document.getElementById(
-    "totalFee"
-  ).textContent =
-    formatMoney(totalFee);
-
-
-  document.getElementById(
-    "totalCollected"
-  ).textContent =
-    formatMoney(totalCollected);
-
-}
-
-
-/* =========================
+/* =====================================================
    RENDER PAYMENTS
-========================= */
+   ===================================================== */
 
 function renderPayments(){
 
-  const tbody =
+  const area =
     document.getElementById(
-      "paymentsBody"
+      "paymentTableArea"
     );
 
 
-  const search =
+  const selectedYear =
     document.getElementById(
-      "searchPayment"
-    ).value
-      .trim()
-      .toLowerCase();
+      "filterYear"
+    ).value;
 
 
-  let list =
-    payments.filter(
-      payment => {
-
-        const member =
-          members.find(
-            m =>
-              m.id ===
-              payment.member_user_id
-          );
+  const selectedStatus =
+    document.getElementById(
+      "filterStatus"
+    ).value;
 
 
-        const searchable = [
+  let rows =
+    payments.filter(row=>{
 
-          member?.member_id,
+      const yearMatch =
+        !selectedYear ||
+        String(row.financial_year) ===
+        String(selectedYear);
 
-          member?.full_name,
+      const statusMatch =
+        !selectedStatus ||
+        row.payment_status ===
+        selectedStatus;
 
-          member?.mobile,
+      return (
+        yearMatch &&
+        statusMatch
+      );
 
-          member?.village,
-
-          payment.receipt_no,
-
-          payment.payment_mode,
-
-          payment.remarks
-
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+    });
 
 
-        return (
-          !search ||
-          searchable.includes(search)
+  if(!rows.length){
+
+    area.innerHTML =
+      '<div class="empty">No payment records found.</div>';
+
+    return;
+  }
+
+
+  let html = `
+
+    <div class="table-wrap">
+
+    <table>
+
+      <thead>
+
+        <tr>
+
+          <th>Member</th>
+          <th>Year</th>
+          <th>Fee</th>
+          <th>Status</th>
+          <th>Paid</th>
+          <th>Payment Date</th>
+          <th>Mode</th>
+          <th>Receipt</th>
+          <th>Action</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+  `;
+
+
+  rows.forEach(row=>{
+
+    const member =
+      members.find(
+        m =>
+          m.id ===
+          row.member_user_id
+      );
+
+
+    const memberName =
+      member
+      ? member.full_name
+      : "Unknown Member";
+
+
+    const memberId =
+      member
+      ? member.member_id || ""
+      : "";
+
+
+    const status =
+      row.payment_status || "Unpaid";
+
+
+    html += `
+
+      <tr>
+
+        <td>
+
+          <strong>
+            ${escapeHtml(memberName)}
+          </strong>
+
+          <br>
+
+          <small>
+            ${escapeHtml(memberId)}
+          </small>
+
+        </td>
+
+        <td>
+          ${escapeHtml(row.financial_year)}
+        </td>
+
+        <td>
+          ₹${Number(row.fee_amount || 0).toFixed(2)}
+        </td>
+
+        <td>
+
+          ${
+            status === "Paid"
+
+            ? `<span class="status status-paid">
+                 Paid
+               </span>`
+
+            : `<span class="status status-unpaid">
+                 Unpaid
+               </span>`
+          }
+
+        </td>
+
+        <td>
+          ₹${Number(row.paid_amount || 0).toFixed(2)}
+        </td>
+
+        <td>
+          ${
+            row.payment_date
+            ? new Date(
+                row.payment_date
+              ).toLocaleDateString("en-IN")
+            : "-"
+          }
+        </td>
+
+        <td>
+          ${escapeHtml(row.payment_mode || "-")}
+        </td>
+
+        <td>
+          ${escapeHtml(row.receipt_no || "-")}
+        </td>
+
+        <td>
+
+          <div class="action-row">
+
+            <button
+              class="btn btn-primary small-btn"
+              onclick="editPayment('${row.id}')"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-danger small-btn"
+              onclick="deletePayment('${row.id}')"
+            >
+              Delete
+            </button>
+
+          </div>
+
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  html += `
+
+      </tbody>
+
+    </table>
+
+    </div>
+
+  `;
+
+
+  area.innerHTML =
+    html;
+
+}
+
+
+/* =====================================================
+   FILTER EVENTS
+   ===================================================== */
+
+document
+  .getElementById("filterYear")
+  .addEventListener(
+    "change",
+    renderPayments
+  );
+
+
+document
+  .getElementById("filterStatus")
+  .addEventListener(
+    "change",
+    renderPayments
+  );
+
+
+/* =====================================================
+   OPEN PAYMENT FORM
+   ===================================================== */
+
+function openPaymentForm(){
+
+  document.getElementById(
+    "paymentModal"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "paymentModalTitle"
+  ).textContent =
+    "Add Member Payment";
+
+
+  document.getElementById(
+    "paymentForm"
+  ).reset();
+
+
+  document.getElementById(
+    "paymentId"
+  ).value = "";
+
+
+  document.getElementById(
+    "paidAmount"
+  ).value = "0";
+
+
+  document.getElementById(
+    "paymentPublished"
+  ).value = "true";
+
+
+  document.getElementById(
+    "paymentStatus"
+  ).value = "Unpaid";
+
+}
+
+
+/* =====================================================
+   CLOSE PAYMENT FORM
+   ===================================================== */
+
+function closePaymentForm(){
+
+  document.getElementById(
+    "paymentModal"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =====================================================
+   AUTO FEE AMOUNT FROM YEAR
+   ===================================================== */
+
+document
+  .getElementById("paymentYear")
+  .addEventListener(
+    "change",
+    function(){
+
+      const year =
+        Number(this.value);
+
+      const setting =
+        feeSettings.find(
+          x =>
+            Number(x.financial_year) ===
+            year
         );
 
-      }
-    );
 
+      if(setting){
 
-  if(list.length === 0){
-
-    tbody.innerHTML =
-      `
-      <tr>
-        <td colspan="11" class="empty">
-          No fee records found.
-        </td>
-      </tr>
-      `;
-
-    return;
-  }
-
-
-  tbody.innerHTML =
-    list.map(
-      payment => {
-
-        const member =
-          members.find(
-            m =>
-              m.id ===
-              payment.member_user_id
-          );
-
-
-        const statusBadge =
-          payment.payment_status === "Paid"
-
-            ? `
-              <span class="badge badge-paid">
-                Paid
-              </span>
-            `
-
-            : `
-              <span class="badge badge-unpaid">
-                Unpaid
-              </span>
-            `;
-
-
-        return `
-          <tr>
-
-            <td>
-              ${escapeHtml(
-                member?.member_id ||
-                "—"
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                member?.full_name ||
-                "—"
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                member?.mobile ||
-                "—"
-              )}
-            </td>
-
-            <td>
-              ${payment.financial_year}
-            </td>
-
-            <td>
-              ${formatMoney(
-                payment.fee_amount
-              )}
-            </td>
-
-            <td>
-              ${formatMoney(
-                payment.paid_amount
-              )}
-            </td>
-
-            <td>
-              ${statusBadge}
-            </td>
-
-            <td>
-              ${formatDate(
-                payment.payment_date
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                payment.payment_mode ||
-                "—"
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                payment.receipt_no ||
-                "—"
-              )}
-            </td>
-
-            <td>
-
-              <div class="actions">
-
-                <button
-                  class="warning"
-                  onclick="openEditModal(
-                    '${payment.id}'
-                  )">
-                  Edit
-                </button>
-
-                <button
-                  class="danger"
-                  onclick="deletePayment(
-                    '${payment.id}'
-                  )">
-                  Delete
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-        `;
+        document.getElementById(
+          "paymentFeeAmount"
+        ).value =
+          setting.fee_amount;
 
       }
-    ).join("");
 
-}
-
-
-/* =========================
-   EDIT
-========================= */
-
-function openEditModal(id){
-
-  const payment =
-    payments.find(
-      p =>
-        p.id === id
-    );
+    }
+  );
 
 
-  if(!payment) return;
+/* =====================================================
+   SAVE PAYMENT
+   ===================================================== */
+
+document
+  .getElementById("paymentForm")
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
 
 
-  document.getElementById(
-    "editId"
-  ).value =
-    payment.id;
+      const id =
+        document.getElementById(
+          "paymentId"
+        ).value;
 
 
-  document.getElementById(
-    "editFeeAmount"
-  ).value =
-    payment.fee_amount;
+      const memberUserId =
+        document.getElementById(
+          "paymentMember"
+        ).value;
 
 
-  document.getElementById(
-    "editStatus"
-  ).value =
-    payment.payment_status;
+      const financialYear =
+        Number(
+          document.getElementById(
+            "paymentYear"
+          ).value
+        );
 
 
-  document.getElementById(
-    "editPaidAmount"
-  ).value =
-    payment.paid_amount;
+      const feeAmount =
+        Number(
+          document.getElementById(
+            "paymentFeeAmount"
+          ).value
+        );
 
 
-  document.getElementById(
-    "editPaymentDate"
-  ).value =
-    payment.payment_date ||
-    "";
+      const paymentStatus =
+        document.getElementById(
+          "paymentStatus"
+        ).value;
 
 
-  document.getElementById(
-    "editPaymentMode"
-  ).value =
-    payment.payment_mode ||
-    "";
+      const paidAmount =
+        Number(
+          document.getElementById(
+            "paidAmount"
+          ).value || 0
+        );
 
 
-  document.getElementById(
-    "editReceiptNo"
-  ).value =
-    payment.receipt_no ||
-    "";
+      const paymentDate =
+        document.getElementById(
+          "paymentDate"
+        ).value || null;
 
 
-  document.getElementById(
-    "editRemarks"
-  ).value =
-    payment.remarks ||
-    "";
+      const paymentMode =
+        document.getElementById(
+          "paymentMode"
+        ).value || null;
 
 
-  document.getElementById(
-    "editModal"
-  ).style.display =
-    "flex";
-
-}
+      const receiptNo =
+        document.getElementById(
+          "receiptNo"
+        ).value.trim() || null;
 
 
-/* =========================
-   UPDATE PAYMENT
-========================= */
-
-async function updatePayment(){
-
-  const id =
-    document.getElementById(
-      "editId"
-    ).value;
+      const remarks =
+        document.getElementById(
+          "paymentRemarks"
+        ).value.trim() || null;
 
 
-  const feeAmount =
-    Number(
-      document.getElementById(
-        "editFeeAmount"
-      ).value
-    );
+      const isPublished =
+        document.getElementById(
+          "paymentPublished"
+        ).value === "true";
 
 
-  const status =
-    document.getElementById(
-      "editStatus"
-    ).value;
+      if(
+        !memberUserId ||
+        !financialYear ||
+        feeAmount < 0
+      ){
+
+        showMessage(
+          "Member, Financial Year and Fee Amount are required.",
+          "error"
+        );
+
+        return;
+      }
 
 
-  const paidAmount =
-    Number(
-      document.getElementById(
-        "editPaidAmount"
-      ).value || 0
-    );
+      if(
+        paymentStatus === "Paid" &&
+        paidAmount <= 0
+      ){
+
+        showMessage(
+          "Paid Amount must be greater than 0 for Paid status.",
+          "error"
+        );
+
+        return;
+      }
 
 
-  const paymentDate =
-    document.getElementById(
-      "editPaymentDate"
-    ).value || null;
+      const payload = {
 
+        member_user_id:
+          memberUserId,
 
-  const paymentMode =
-    document.getElementById(
-      "editPaymentMode"
-    ).value || null;
-
-
-  const receiptNo =
-    document.getElementById(
-      "editReceiptNo"
-    ).value.trim() || null;
-
-
-  const remarks =
-    document.getElementById(
-      "editRemarks"
-    ).value.trim() || null;
-
-
-  if(
-    status === "Paid" &&
-    paidAmount <= 0
-  ){
-
-    showMessage(
-      "editMessage",
-      "Paid amount must be greater than 0.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(
-    status === "Paid" &&
-    paidAmount > feeAmount
-  ){
-
-    showMessage(
-      "editMessage",
-      "Paid amount cannot be greater than fee amount.",
-      false
-    );
-
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("member_fee_payments")
-      .update({
+        financial_year:
+          financialYear,
 
         fee_amount:
           feeAmount,
 
         payment_status:
-          status,
+          paymentStatus,
 
         paid_amount:
-          status === "Paid"
-            ? paidAmount
-            : 0,
+          paidAmount,
 
         payment_date:
           paymentDate,
 
         payment_mode:
-          status === "Paid"
-            ? paymentMode
-            : null,
+          paymentMode,
 
         receipt_no:
-          status === "Paid"
-            ? receiptNo
-            : null,
+          receiptNo,
 
-        remarks
+        remarks:
+          remarks,
 
-      })
-      .eq(
-        "id",
+        is_published:
+          isPublished,
+
+        updated_at:
+          new Date().toISOString()
+
+      };
+
+
+      let result;
+
+
+      if(id){
+
+        result =
+          await supabaseClient
+            .from(
+              "member_fee_payments"
+            )
+            .update(payload)
+            .eq(
+              "id",
+              id
+            );
+
+      }else{
+
+        payload.created_by =
+          currentUser.id;
+
+        result =
+          await supabaseClient
+            .from(
+              "member_fee_payments"
+            )
+            .insert(payload);
+
+      }
+
+
+      if(result.error){
+
+        showMessage(
+          result.error.message,
+          "error"
+        );
+
+        return;
+      }
+
+
+      showMessage(
         id
+        ? "Payment updated successfully."
+        : "Payment record created successfully."
       );
 
 
-  if(error){
+      closePaymentForm();
 
-    showMessage(
-      "editMessage",
-      error.message,
-      false
+      await loadPayments();
+
+      updateSummary();
+
+    }
+  );
+
+
+/* =====================================================
+   EDIT PAYMENT
+   ===================================================== */
+
+function editPayment(id){
+
+  const row =
+    payments.find(
+      x => x.id === id
     );
 
+
+  if(!row){
     return;
   }
 
 
-  closeEditModal();
+  document.getElementById(
+    "paymentId"
+  ).value =
+    row.id;
 
-  await loadPayments();
+
+  document.getElementById(
+    "paymentMember"
+  ).value =
+    row.member_user_id;
+
+
+  document.getElementById(
+    "paymentYear"
+  ).value =
+    row.financial_year;
+
+
+  document.getElementById(
+    "paymentFeeAmount"
+  ).value =
+    row.fee_amount;
+
+
+  document.getElementById(
+    "paymentStatus"
+  ).value =
+    row.payment_status || "Unpaid";
+
+
+  document.getElementById(
+    "paidAmount"
+  ).value =
+    row.paid_amount || 0;
+
+
+  document.getElementById(
+    "paymentDate"
+  ).value =
+    row.payment_date || "";
+
+
+  document.getElementById(
+    "paymentMode"
+  ).value =
+    row.payment_mode || "";
+
+
+  document.getElementById(
+    "receiptNo"
+  ).value =
+    row.receipt_no || "";
+
+
+  document.getElementById(
+    "paymentRemarks"
+  ).value =
+    row.remarks || "";
+
+
+  document.getElementById(
+    "paymentPublished"
+  ).value =
+    String(
+      row.is_published
+    );
+
+
+  document.getElementById(
+    "paymentModalTitle"
+  ).textContent =
+    "Edit Member Payment";
+
+
+  document.getElementById(
+    "paymentModal"
+  ).style.display =
+    "block";
 
 }
 
 
-/* =========================
-   DELETE
-========================= */
+/* =====================================================
+   DELETE PAYMENT
+   ===================================================== */
 
 async function deletePayment(id){
 
-  if(
-    !confirm(
-      "Ehi fee record delete karibe?"
-    )
-  ){
+  const ok =
+    confirm(
+      "Are you sure you want to delete this payment record?"
+    );
 
+
+  if(!ok){
     return;
   }
 
@@ -2149,7 +2199,9 @@ async function deletePayment(id){
     error
   } =
     await supabaseClient
-      .from("member_fee_payments")
+      .from(
+        "member_fee_payments"
+      )
       .delete()
       .eq(
         "id",
@@ -2159,253 +2211,114 @@ async function deletePayment(id){
 
   if(error){
 
-    alert(
-      error.message
+    showMessage(
+      error.message,
+      "error"
     );
 
     return;
   }
 
 
-  alert(
-    "Fee record deleted successfully."
+  showMessage(
+    "Payment record deleted successfully."
   );
 
 
   await loadPayments();
 
-}
-
-
-/* =========================
-   CLEAR FORM
-========================= */
-
-function clearPaymentForm(){
-
-  document.getElementById(
-    "memberSelect"
-  ).value = "";
-
-
-  document.getElementById(
-    "paymentFeeAmount"
-  ).value = "";
-
-
-  document.getElementById(
-    "paymentStatus"
-  ).value =
-    "Unpaid";
-
-
-  document.getElementById(
-    "paidAmount"
-  ).value =
-    "0";
-
-
-  document.getElementById(
-    "paymentDate"
-  ).value = "";
-
-
-  document.getElementById(
-    "paymentMode"
-  ).value = "";
-
-
-  document.getElementById(
-    "receiptNo"
-  ).value = "";
-
-
-  document.getElementById(
-    "remarks"
-  ).value = "";
+  updateSummary();
 
 }
 
 
-/* =========================
-   CLOSE MODAL
-========================= */
+/* =====================================================
+   SUMMARY
+   ===================================================== */
 
-function closeEditModal(){
+function updateSummary(){
 
   document.getElementById(
-    "editModal"
-  ).style.display =
-    "none";
+    "settingCount"
+  ).textContent =
+    feeSettings.length;
+
+
+  document.getElementById(
+    "paymentCount"
+  ).textContent =
+    payments.length;
+
+
+  const paid =
+    payments.filter(
+      x =>
+        x.payment_status ===
+        "Paid"
+    ).length;
+
+
+  const unpaid =
+    payments.filter(
+      x =>
+        x.payment_status !==
+        "Paid"
+    ).length;
+
+
+  document.getElementById(
+    "paidCount"
+  ).textContent =
+    paid;
+
+
+  document.getElementById(
+    "unpaidCount"
+  ).textContent =
+    unpaid;
 
 }
 
 
-/* =========================
-   MESSAGE
-========================= */
+/* =====================================================
+   CLOSE MODAL WHEN CLICK OUTSIDE
+   ===================================================== */
 
-function showMessage(
-  id,
-  message,
-  success
-){
-
-  const box =
-    document.getElementById(
-      id
-    );
-
-
-  box.textContent =
-    message;
-
-
-  box.className =
-    success
-
-      ? "message show success-msg"
-
-      : "message show error-msg";
-
-
-  setTimeout(
-    () => {
-
-      box.className =
-        "message";
-
-    },
-    4000
-  );
-
-}
-
-
-/* =========================
-   MONEY
-========================= */
-
-function formatMoney(value){
-
-  return "₹" +
-    Number(
-      value || 0
-    ).toLocaleString(
-      "en-IN",
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-function formatDate(value){
-
-  if(!value) return "—";
-
-
-  const date =
-    new Date(value);
-
-
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
-
-}
-
-
-/* =========================
-   ESCAPE
-========================= */
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
-
-}
-
-
-/* =========================
-   BACK
-========================= */
-
-function goBack(){
-
-  window.location.href =
-    "super-admin.html";
-
-}
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "index.html";
-
-}
-
-
-/* =========================
-   MODAL OUTSIDE CLICK
-========================= */
-
-document.getElementById(
-  "editModal"
-).addEventListener(
+window.addEventListener(
   "click",
-  function(event){
+  function(e){
 
-    if(
-      event.target === this
-    ){
+    const modal =
+      document.getElementById(
+        "paymentModal"
+      );
 
-      closeEditModal();
+    if(e.target === modal){
+
+      closePaymentForm();
 
     }
 
   }
 );
+
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+(async function(){
+
+  const allowed =
+    await checkAccess();
+
+  if(!allowed){
+    return;
+  }
+
+  await loadAll();
+
+})();
 
 </script>
 
