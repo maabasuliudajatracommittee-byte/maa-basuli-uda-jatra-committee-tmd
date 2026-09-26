@@ -1,713 +1,1013 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
+  <title>Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f7fb;
-  color:#1f2937;
-}
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
+      color: #333;
+    }
 
-.header{
-  background:linear-gradient(135deg,#7c2d12,#b45309);
-  color:white;
-  padding:20px;
-}
+    header {
+      background: linear-gradient(135deg, #7b1e00, #a63d00);
+      color: white;
+      padding: 22px 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
 
-.header-inner{
-  width:min(1150px,94%);
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
 
-.header h1{
-  font-size:23px;
-}
+    .brand h1 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
 
-.header p{
-  font-size:13px;
-  opacity:.9;
-  margin-top:5px;
-}
+    .brand p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
 
-.logout-btn{
-  border:0;
-  background:white;
-  color:#7c2d12;
-  padding:10px 15px;
-  border-radius:7px;
-  cursor:pointer;
-  font-weight:bold;
-}
+    .logout-btn {
+      background: white;
+      color: #7b1e00;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.container{
-  width:min(1150px,94%);
-  margin:28px auto 50px;
-}
+    .logout-btn:hover {
+      background: #ffe9dd;
+    }
 
-.welcome{
-  background:white;
-  padding:22px;
-  border-radius:13px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-  margin-bottom:20px;
-}
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
 
-.welcome h2{
-  color:#7c2d12;
-  margin-bottom:7px;
-}
+    .welcome {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+      border-left: 5px solid #a63d00;
+    }
 
-.welcome p{
-  color:#6b7280;
-  line-height:1.6;
-}
+    .welcome h2 {
+      color: #7b1e00;
+      margin-bottom: 8px;
+      font-size: 25px;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:25px;
-}
+    .welcome p {
+      color: #666;
+      line-height: 1.6;
+    }
 
-.stat{
-  background:white;
-  padding:20px;
-  border-radius:12px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-}
+    .role-badge {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 13px;
+      border-radius: 20px;
+      background: #fff1e8;
+      color: #8a2d00;
+      font-size: 13px;
+      font-weight: bold;
+    }
 
-.stat strong{
-  display:block;
-  font-size:28px;
-  color:#7c2d12;
-  margin-bottom:5px;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 30px;
+    }
 
-.stat span{
-  color:#6b7280;
-  font-size:13px;
-}
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+    }
 
-.section-title{
-  color:#7c2d12;
-  margin-bottom:14px;
-}
+    .stat-number {
+      font-size: 30px;
+      font-weight: bold;
+      color: #7b1e00;
+      margin-bottom: 5px;
+    }
 
-.menu-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:16px;
-}
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
 
-.menu-card{
-  background:white;
-  padding:22px;
-  border-radius:13px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-  border:1px solid #eee;
-  transition:.2s;
-}
+    .section-title {
+      font-size: 24px;
+      color: #7b1e00;
+      margin-bottom: 18px;
+    }
 
-.menu-card:hover{
-  transform:translateY(-2px);
-  box-shadow:0 6px 20px rgba(0,0,0,.09);
-}
+    .management-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
 
-.menu-card h3{
-  color:#7c2d12;
-  margin-bottom:8px;
-  font-size:18px;
-}
+    .management-card {
+      background: white;
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+      transition: 0.2s;
+    }
 
-.menu-card p{
-  color:#6b7280;
-  font-size:13px;
-  line-height:1.6;
-  margin-bottom:15px;
-}
+    .management-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 22px rgba(0,0,0,0.10);
+    }
 
-.manage-btn{
-  display:inline-block;
-  text-decoration:none;
-  border:0;
-  background:#7c2d12;
-  color:white;
-  padding:9px 13px;
-  border-radius:7px;
-  cursor:pointer;
-  font-size:13px;
-  font-weight:bold;
-}
+    .management-card h3 {
+      color: #7b1e00;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
 
-.manage-btn:hover{
-  background:#5f210f;
-}
+    .management-card p {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 68px;
+      margin-bottom: 18px;
+    }
 
-.disabled-btn{
-  background:#9ca3af;
-  cursor:not-allowed;
-}
+    .manage-btn {
+      display: inline-block;
+      text-decoration: none;
+      border: none;
+      background: #7b1e00;
+      color: white;
+      padding: 11px 17px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
 
-.footer{
-  background:#111827;
-  color:#d1d5db;
-  text-align:center;
-  padding:28px 15px;
-  font-size:13px;
-}
+    .manage-btn:hover {
+      background: #a63d00;
+    }
 
-.footer a{
-  color:#fed7aa;
-  text-decoration:none;
-}
+    .disabled-btn {
+      background: #9da3aa;
+      cursor: not-allowed;
+    }
 
-.loading{
-  text-align:center;
-  padding:40px;
-  color:#6b7280;
-}
+    .disabled-btn:hover {
+      background: #9da3aa;
+    }
 
-.error{
-  background:#fee2e2;
-  color:#991b1b;
-  padding:15px;
-  border-radius:8px;
-  margin-bottom:20px;
-}
+    .super-admin-note {
+      background: #fff8ed;
+      border: 1px solid #f1d2a3;
+      color: #754c16;
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 13px;
+    }
 
-@media(max-width:900px){
+    footer {
+      margin-top: 45px;
+      background: #21120d;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+    }
 
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
+    footer p {
+      margin: 5px 0;
+      font-size: 13px;
+      opacity: 0.85;
+    }
 
-  .menu-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #777;
+      font-size: 16px;
+    }
 
-@media(max-width:600px){
+    .error-box {
+      max-width: 700px;
+      margin: 80px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 14px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.10);
+      text-align: center;
+    }
 
-  .header-inner{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+    .error-box h2 {
+      color: #b00020;
+      margin-bottom: 10px;
+    }
 
-  .stats{
-    grid-template-columns:1fr;
-  }
+    .error-box p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
 
-  .menu-grid{
-    grid-template-columns:1fr;
-  }
-}
-</style>
+    @media (max-width: 900px) {
+      .stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .management-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .management-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container {
+        padding: 0 14px;
+      }
+
+      .brand h1 {
+        font-size: 20px;
+      }
+
+      .welcome h2 {
+        font-size: 21px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="header">
+  <div id="app">
 
-  <div class="header-inner">
-
-    <div>
-      <h1>Admin Dashboard</h1>
-      <p>Maa Basuli Uda Jatra Committee</p>
+    <div class="loading">
+      Checking Admin Access...
     </div>
-
-    <button
-      class="logout-btn"
-      onclick="logout()"
-    >
-      Logout
-    </button>
 
   </div>
 
-</header>
 
+  <script>
 
-<main class="container">
+    /* =========================================================
+       SUPABASE CONFIG
+    ========================================================= */
 
-  <div id="errorBox"></div>
+    const SUPABASE_URL =
+      "https://ynymqntcawobcfccoekb.supabase.co";
 
+    const SUPABASE_KEY =
+      "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-  <section class="welcome">
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
 
-    <h2 id="welcomeTitle">
-      Welcome, Admin
-    </h2>
 
-    <p id="welcomeText">
-      Committee administration panel.
-      Etharu website ra approved management functions manage karantu.
-    </p>
+    /* =========================================================
+       GLOBAL
+    ========================================================= */
 
-  </section>
+    let currentUser = null;
+    let currentRole = null;
 
 
-  <section class="stats">
+    /* =========================================================
+       HTML ESCAPE
+    ========================================================= */
 
-    <div class="stat">
-      <strong id="noticeCount">0</strong>
-      <span>Published Notices</span>
-    </div>
+    function escapeHtml(value) {
 
-    <div class="stat">
-      <strong id="eventCount">0</strong>
-      <span>Published Events</span>
-    </div>
+      if (value === null || value === undefined) {
+        return "";
+      }
 
-    <div class="stat">
-      <strong id="galleryCount">0</strong>
-      <span>Gallery Items</span>
-    </div>
-
-    <div class="stat">
-      <strong id="complaintCount">0</strong>
-      <span>Complaints</span>
-    </div>
-
-  </section>
-
-
-  <h2 class="section-title">
-    Management
-  </h2>
-
-
-  <section class="menu-grid">
-
-    <!-- NOTICES -->
-
-    <div class="menu-card">
-
-      <h3>📢 Notices</h3>
-
-      <p>
-        Official notices create, edit, publish,
-        unpublish and delete karantu.
-      </p>
-
-      <a
-        href="notice-manager.html"
-        class="manage-btn"
-      >
-        Manage Notices
-      </a>
-
-    </div>
-
-
-    <!-- EVENTS -->
-
-    <div class="menu-card">
-
-      <h3>📅 Events & Programmes</h3>
-
-      <p>
-        Jatra, cultural programme, meeting ebam
-        committee events manage karantu.
-      </p>
-
-      <a
-        href="event-manager.html"
-        class="manage-btn"
-      >
-        Manage Events
-      </a>
-
-    </div>
-
-
-    <!-- GALLERY -->
-
-    <div class="menu-card">
-
-      <h3>🖼️ Gallery</h3>
-
-      <p>
-        Jatra, temple, cultural programme ebam
-        committee photos manage karantu.
-      </p>
-
-      <button
-        class="manage-btn disabled-btn"
-        onclick="comingSoon('Gallery')"
-      >
-        Manage Gallery
-      </button>
-
-    </div>
-
-
-    <!-- COMPLAINTS -->
-
-    <div class="menu-card">
-
-      <h3>📝 Complaints</h3>
-
-      <p>
-        Public complaint submissions check ebam
-        manage karantu.
-      </p>
-
-      <button
-        class="manage-btn disabled-btn"
-        onclick="comingSoon('Complaints')"
-      >
-        Manage Complaints
-      </button>
-
-    </div>
-
-
-    <!-- MEMBERS -->
-
-    <div class="menu-card">
-
-      <h3>👥 Members</h3>
-
-      <p>
-        Member approval, designation, active/inactive
-        status Super Admin manage karibe.
-      </p>
-
-      <button
-        class="manage-btn disabled-btn"
-        onclick="comingSoon('Members')"
-      >
-        Super Admin Only
-      </button>
-
-    </div>
-
-
-    <!-- FUND -->
-
-    <div class="menu-card">
-
-      <h3>💰 Fund & Finance</h3>
-
-      <p>
-        Fund collection, expenses, savings ebam
-        donation management.
-      </p>
-
-      <button
-        class="manage-btn disabled-btn"
-        onclick="comingSoon('Fund & Finance')"
-      >
-        Super Admin Only
-      </button>
-
-    </div>
-
-
-  </section>
-
-</main>
-
-
-<footer class="footer">
-
-  <p>
-    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
-  </p>
-
-  <p style="margin-top:8px;">
-    Official Email:
-    <a href="mailto:maabasuliudajatracommittee@gmail.com">
-      maabasuliudajatracommittee@gmail.com
-    </a>
-  </p>
-
-</footer>
-
-
-<script>
-
-/* =====================================
-   SUPABASE
-===================================== */
-
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-
-
-/* =====================================
-   CHECK LOGIN + ROLE
-===================================== */
-
-async function checkAccess(){
-
-  const {
-    data:{
-      session
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
-  } =
-    await supabaseClient.auth.getSession();
 
 
-  if(!session){
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
 
-    window.location.href =
-      "auth.html";
+    async function initializeAdmin() {
 
-    return false;
-  }
+      try {
 
-
-  const {
-    data:roleData,
-    error
-  } =
-    await supabaseClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id",session.user.id)
-      .maybeSingle();
+        const {
+          data: {
+            session
+          },
+          error: sessionError
+        } = await supabaseClient.auth.getSession();
 
 
-  if(error){
+        if (sessionError) {
+          throw sessionError;
+        }
 
-    showError(
-      "Role check failed: " +
-      error.message
+
+        if (!session || !session.user) {
+
+          window.location.href = "auth.html";
+          return;
+        }
+
+
+        currentUser = session.user;
+
+
+        /* ---------------------------------------------
+           GET ROLE
+        --------------------------------------------- */
+
+        const {
+          data: roleData,
+          error: roleError
+        } = await supabaseClient
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", currentUser.id)
+          .maybeSingle();
+
+
+        if (roleError) {
+          throw roleError;
+        }
+
+
+        currentRole = roleData?.role || "member";
+
+
+        /* ---------------------------------------------
+           MEMBER
+        --------------------------------------------- */
+
+        if (currentRole === "member") {
+
+          window.location.href = "profile.html";
+          return;
+        }
+
+
+        /* ---------------------------------------------
+           SUPER ADMIN
+        --------------------------------------------- */
+
+        if (currentRole === "super_admin") {
+
+          window.location.href = "super-admin.html";
+          return;
+        }
+
+
+        /* ---------------------------------------------
+           ADMIN
+        --------------------------------------------- */
+
+        if (currentRole !== "admin") {
+
+          await supabaseClient.auth.signOut();
+
+          showError(
+            "Access Denied",
+            "Apana nka account ku Admin Dashboard access nahin."
+          );
+
+          return;
+        }
+
+
+        /* ---------------------------------------------
+           LOAD DASHBOARD
+        --------------------------------------------- */
+
+        await renderDashboard();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showError(
+          "Dashboard Error",
+          error.message || "Dashboard load heiparilani."
+        );
+      }
+    }
+
+
+    /* =========================================================
+       RENDER DASHBOARD
+    ========================================================= */
+
+    async function renderDashboard() {
+
+      const userEmail =
+        currentUser?.email || "Admin";
+
+
+      document.getElementById("app").innerHTML = `
+
+        <header>
+
+          <div class="header-inner">
+
+            <div class="brand">
+
+              <h1>
+                Maa Basuli Uda Jatra Committee
+              </h1>
+
+              <p>
+                Thakurmunda, Mayurbhanj, Odisha
+              </p>
+
+            </div>
+
+            <button
+              class="logout-btn"
+              onclick="logoutAdmin()"
+            >
+              Logout
+            </button>
+
+          </div>
+
+        </header>
+
+
+        <main class="container">
+
+
+          <!-- WELCOME -->
+
+          <section class="welcome">
+
+            <h2>
+              Welcome, Admin
+            </h2>
+
+            <p>
+              Committee administration panel.
+              Etharu website ra Notices, Events ebam Gallery management kariparibe.
+            </p>
+
+            <div class="role-badge">
+              ADMIN
+            </div>
+
+            <div style="
+              margin-top:10px;
+              font-size:13px;
+              color:#777;
+            ">
+              Login: ${escapeHtml(userEmail)}
+            </div>
+
+          </section>
+
+
+          <!-- STATS -->
+
+          <section class="stats">
+
+            <div class="stat-card">
+
+              <div
+                class="stat-number"
+                id="noticeCount"
+              >
+                0
+              </div>
+
+              <div class="stat-label">
+                Published Notices
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div
+                class="stat-number"
+                id="eventCount"
+              >
+                0
+              </div>
+
+              <div class="stat-label">
+                Published Events
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div
+                class="stat-number"
+                id="galleryCount"
+              >
+                0
+              </div>
+
+              <div class="stat-label">
+                Gallery Albums
+              </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+              <div
+                class="stat-number"
+                id="complaintCount"
+              >
+                0
+              </div>
+
+              <div class="stat-label">
+                Complaints
+              </div>
+
+            </div>
+
+          </section>
+
+
+          <!-- MANAGEMENT -->
+
+          <section>
+
+            <h2 class="section-title">
+              Management
+            </h2>
+
+
+            <div class="management-grid">
+
+
+              <!-- NOTICES -->
+
+              <div class="management-card">
+
+                <h3>
+                  📢 Notices
+                </h3>
+
+                <p>
+                  Official notices create, edit,
+                  publish, unpublish and delete karantu.
+                </p>
+
+                <a
+                  href="notice-manager.html"
+                  class="manage-btn"
+                >
+                  Manage Notices
+                </a>
+
+              </div>
+
+
+              <!-- EVENTS -->
+
+              <div class="management-card">
+
+                <h3>
+                  🗓️ Events & Programmes
+                </h3>
+
+                <p>
+                  Jatra, cultural programme,
+                  meeting ebam committee events manage karantu.
+                </p>
+
+                <a
+                  href="event-manager.html"
+                  class="manage-btn"
+                >
+                  Manage Events
+                </a>
+
+              </div>
+
+
+              <!-- GALLERY -->
+
+              <div class="management-card">
+
+                <h3>
+                  🖼️ Gallery
+                </h3>
+
+                <p>
+                  Jatra, temple, cultural programme
+                  ebam committee photos manage karantu.
+                </p>
+
+                <a
+                  href="gallery-manager.html"
+                  class="manage-btn"
+                >
+                  Manage Gallery
+                </a>
+
+              </div>
+
+
+              <!-- COMPLAINTS -->
+
+              <div class="management-card">
+
+                <h3>
+                  📝 Complaints
+                </h3>
+
+                <p>
+                  Public complaint submissions check
+                  ebam manage karantu.
+                </p>
+
+                <button
+                  class="manage-btn"
+                  onclick="comingSoon('Complaint Management')"
+                >
+                  Manage Complaints
+                </button>
+
+              </div>
+
+
+              <!-- MEMBERS -->
+
+              <div class="management-card">
+
+                <h3>
+                  👥 Members
+                </h3>
+
+                <p>
+                  Member approval, designation,
+                  active/inactive status Super Admin manage karibe.
+                </p>
+
+                <button
+                  class="manage-btn disabled-btn"
+                  onclick="superAdminOnly()"
+                >
+                  Super Admin Only
+                </button>
+
+                <div class="super-admin-note">
+                  Member management pain Super Admin Dashboard use karantu.
+                </div>
+
+              </div>
+
+
+              <!-- FUND -->
+
+              <div class="management-card">
+
+                <h3>
+                  💰 Fund & Finance
+                </h3>
+
+                <p>
+                  Fund collection, expenses, savings
+                  ebam donation management.
+                </p>
+
+                <button
+                  class="manage-btn disabled-btn"
+                  onclick="superAdminOnly()"
+                >
+                  Super Admin Only
+                </button>
+
+                <div class="super-admin-note">
+                  Fund & Finance management pain Super Admin access required.
+                </div>
+
+              </div>
+
+
+            </div>
+
+          </section>
+
+
+        </main>
+
+
+        <footer>
+
+          <p>
+            © ${new Date().getFullYear()}
+            Maa Basuli Uda Jatra Committee, Thakurmunda
+          </p>
+
+          <p>
+            Official Committee Administration System
+          </p>
+
+        </footer>
+
+      `;
+
+
+      /* ---------------------------------------------
+         LOAD STATISTICS
+      --------------------------------------------- */
+
+      await loadDashboardStats();
+
+    }
+
+
+    /* =========================================================
+       LOAD DASHBOARD STATS
+    ========================================================= */
+
+    async function loadDashboardStats() {
+
+      /* ---------------------------------------------
+         NOTICE COUNT
+      --------------------------------------------- */
+
+      try {
+
+        const {
+          count,
+          error
+        } = await supabaseClient
+          .from("notices")
+          .select("*", {
+            count: "exact",
+            head: true
+          })
+          .eq("is_published", true);
+
+
+        if (!error) {
+
+          document.getElementById("noticeCount").textContent =
+            count || 0;
+
+        }
+
+      } catch (error) {
+
+        console.error("Notice count error:", error);
+
+      }
+
+
+      /* ---------------------------------------------
+         EVENT COUNT
+      --------------------------------------------- */
+
+      try {
+
+        const {
+          count,
+          error
+        } = await supabaseClient
+          .from("events")
+          .select("*", {
+            count: "exact",
+            head: true
+          })
+          .eq("is_published", true);
+
+
+        if (!error) {
+
+          document.getElementById("eventCount").textContent =
+            count || 0;
+
+        }
+
+      } catch (error) {
+
+        console.error("Event count error:", error);
+
+      }
+
+
+      /* ---------------------------------------------
+         GALLERY ALBUM COUNT
+      --------------------------------------------- */
+
+      try {
+
+        const {
+          count,
+          error
+        } = await supabaseClient
+          .from("gallery_albums")
+          .select("*", {
+            count: "exact",
+            head: true
+          })
+          .eq("is_published", true);
+
+
+        if (!error) {
+
+          document.getElementById("galleryCount").textContent =
+            count || 0;
+
+        }
+
+      } catch (error) {
+
+        console.error("Gallery count error:", error);
+
+      }
+
+
+      /* ---------------------------------------------
+         COMPLAINT COUNT
+         Currently 0 until complaint table is created.
+      --------------------------------------------- */
+
+      document.getElementById("complaintCount").textContent = "0";
+
+    }
+
+
+    /* =========================================================
+       SUPER ADMIN ONLY
+    ========================================================= */
+
+    function superAdminOnly() {
+
+      alert(
+        "Members ebam Fund & Finance management kebala Super Admin manage kariparibe."
+      );
+
+    }
+
+
+    /* =========================================================
+       COMING SOON
+    ========================================================= */
+
+    function comingSoon(sectionName) {
+
+      alert(
+        sectionName +
+        " system next step re connect heba."
+      );
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+    ========================================================= */
+
+    async function logoutAdmin() {
+
+      try {
+
+        const {
+          error
+        } = await supabaseClient.auth.signOut();
+
+
+        if (error) {
+          throw error;
+        }
+
+
+        window.location.href = "auth.html";
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Logout failed: " +
+          (error.message || "Unknown error")
+        );
+
+      }
+
+    }
+
+
+    /* =========================================================
+       ERROR SCREEN
+    ========================================================= */
+
+    function showError(title, message) {
+
+      document.getElementById("app").innerHTML = `
+
+        <div class="error-box">
+
+          <h2>
+            ${escapeHtml(title)}
+          </h2>
+
+          <p>
+            ${escapeHtml(message)}
+          </p>
+
+          <a
+            href="auth.html"
+            class="manage-btn"
+          >
+            Go to Login
+          </a>
+
+        </div>
+
+      `;
+
+    }
+
+
+    /* =========================================================
+       SESSION LISTENER
+    ========================================================= */
+
+    supabaseClient.auth.onAuthStateChange(
+      (event, session) => {
+
+        if (event === "SIGNED_OUT") {
+
+          window.location.href = "auth.html";
+
+        }
+
+      }
     );
 
-    return false;
-  }
 
+    /* =========================================================
+       START
+    ========================================================= */
 
-  if(!roleData){
+    initializeAdmin();
 
-    window.location.href =
-      "profile.html";
-
-    return false;
-  }
-
-
-  if(roleData.role === "super_admin"){
-
-    window.location.href =
-      "super-admin.html";
-
-    return false;
-  }
-
-
-  if(roleData.role !== "admin"){
-
-    window.location.href =
-      "profile.html";
-
-    return false;
-  }
-
-
-  document.getElementById(
-    "welcomeTitle"
-  ).textContent =
-    "Welcome, Admin";
-
-
-  return true;
-
-}
-
-
-/* =====================================
-   LOAD STATS
-===================================== */
-
-async function loadStats(){
-
-  /* NOTICES */
-
-  const {
-    count:noticeCount,
-    error:noticeError
-  } =
-    await supabaseClient
-      .from("notices")
-      .select(
-        "id",
-        {
-          count:"exact",
-          head:true
-        }
-      )
-      .eq(
-        "is_published",
-        true
-      );
-
-
-  if(!noticeError){
-
-    document.getElementById(
-      "noticeCount"
-    ).textContent =
-      noticeCount || 0;
-
-  }
-
-
-  /* EVENTS */
-
-  const {
-    count:eventCount,
-    error:eventError
-  } =
-    await supabaseClient
-      .from("events")
-      .select(
-        "id",
-        {
-          count:"exact",
-          head:true
-        }
-      )
-      .eq(
-        "is_published",
-        true
-      );
-
-
-  if(!eventError){
-
-    document.getElementById(
-      "eventCount"
-    ).textContent =
-      eventCount || 0;
-
-  }
-
-
-  /* GALLERY */
-
-  document.getElementById(
-    "galleryCount"
-  ).textContent = "0";
-
-
-  /* COMPLAINTS */
-
-  document.getElementById(
-    "complaintCount"
-  ).textContent = "0";
-
-}
-
-
-/* =====================================
-   LOGOUT
-===================================== */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "auth.html";
-
-}
-
-
-/* =====================================
-   COMING SOON
-===================================== */
-
-function comingSoon(name){
-
-  alert(
-    name +
-    " management next step re add heba."
-  );
-
-}
-
-
-/* =====================================
-   ERROR
-===================================== */
-
-function showError(message){
-
-  document.getElementById(
-    "errorBox"
-  ).innerHTML = `
-    <div class="error">
-      ${escapeHtml(message)}
-    </div>
-  `;
-
-}
-
-
-/* =====================================
-   SECURITY
-===================================== */
-
-function escapeHtml(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-/* =====================================
-   START
-===================================== */
-
-(async function(){
-
-  const allowed =
-    await checkAccess();
-
-
-  if(allowed){
-
-    await loadStats();
-
-  }
-
-})();
-
-</script>
+  </script>
 
 </body>
 </html>
