@@ -64,6 +64,11 @@
       font-weight:bold;
     }
 
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.6;
+    }
+
     .logout{
       background:#dc2626;
       color:white;
@@ -103,6 +108,100 @@
 
     .card h3{
       margin-bottom:15px;
+    }
+
+    .card-subtitle{
+      color:#64748b;
+      font-size:13px;
+      margin-bottom:15px;
+    }
+
+    /* CONTROL CENTER */
+
+    .control-section{
+      background:white;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .control-section h3{
+      margin-bottom:6px;
+      font-size:19px;
+    }
+
+    .control-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .control-card{
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:16px;
+      background:#fff;
+      transition:.2s;
+    }
+
+    .control-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 5px 15px rgba(0,0,0,.08);
+    }
+
+    .control-icon{
+      font-size:28px;
+      margin-bottom:9px;
+    }
+
+    .control-card h4{
+      margin-bottom:6px;
+      font-size:15px;
+    }
+
+    .control-card p{
+      color:#64748b;
+      font-size:12px;
+      line-height:1.5;
+      min-height:38px;
+      margin-bottom:12px;
+    }
+
+    .control-card button{
+      width:100%;
+      font-size:12px;
+    }
+
+    .ready{
+      background:#7c2d12;
+      color:white;
+    }
+
+    .setup{
+      background:#64748b;
+      color:white;
+    }
+
+    .green{
+      background:#15803d;
+      color:white;
+    }
+
+    .blue{
+      background:#2563eb;
+      color:white;
+    }
+
+    .purple{
+      background:#7e22ce;
+      color:white;
+    }
+
+    .orange{
+      background:#d97706;
+      color:white;
     }
 
     .admin-form{
@@ -298,8 +397,28 @@
       grid-row:span 6;
     }
 
+    .system-note{
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#9a3412;
+      padding:12px;
+      border-radius:10px;
+      font-size:13px;
+      margin-top:15px;
+    }
+
+    @media(max-width:1000px){
+      .control-grid{
+        grid-template-columns:repeat(3,1fr);
+      }
+    }
+
     @media(max-width:800px){
       .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .control-grid{
         grid-template-columns:repeat(2,1fr);
       }
     }
@@ -309,11 +428,16 @@
         grid-template-columns:1fr 1fr;
       }
 
+      .control-grid{
+        grid-template-columns:1fr;
+      }
+
       .container{
         padding:12px;
       }
 
-      .card{
+      .card,
+      .control-section{
         padding:14px;
       }
 
@@ -347,6 +471,7 @@
   </div>
 
   <!-- STATS -->
+
   <div class="stats">
 
     <div class="stat">
@@ -371,8 +496,242 @@
 
   </div>
 
-  <!-- ADMIN MANAGEMENT -->
-  <div class="card">
+
+  <!-- =========================================
+       SUPER ADMIN FULL CONTROL CENTER
+  ========================================== -->
+
+  <div class="control-section">
+
+    <h3>👑 Super Admin Full Control Center</h3>
+
+    <p class="card-subtitle">
+      Website ra samasta management system ku ehi panel ru control karantu.
+    </p>
+
+
+    <div class="control-grid">
+
+      <!-- MEMBERS -->
+
+      <div class="control-card">
+        <div class="control-icon">👥</div>
+        <h4>Member Management</h4>
+        <p>Member approval, status, designation, profile and Member ID manage karantu.</p>
+        <button class="ready" onclick="scrollToSection('memberManagement')">
+          Open Member Management
+        </button>
+      </div>
+
+
+      <!-- ADMINS -->
+
+      <div class="control-card">
+        <div class="control-icon">👨‍💼</div>
+        <h4>Admin Management</h4>
+        <p>Admin create, view and remove admin role manage karantu.</p>
+        <button class="ready" onclick="scrollToSection('adminManagement')">
+          Open Admin Management
+        </button>
+      </div>
+
+
+      <!-- NOTICE -->
+
+      <div class="control-card">
+        <div class="control-icon">📢</div>
+        <h4>Notice Management</h4>
+        <p>Notice add, edit, publish, unpublish and PDF upload karantu.</p>
+        <button class="green" onclick="openPage('notice-manager.html')">
+          Open Notice Manager
+        </button>
+      </div>
+
+
+      <!-- EVENT -->
+
+      <div class="control-card">
+        <div class="control-icon">🎉</div>
+        <h4>Event Management</h4>
+        <p>Programme, event date, location and event details manage karantu.</p>
+        <button class="blue" onclick="openPage('event-manager.html')">
+          Open Event Manager
+        </button>
+      </div>
+
+
+      <!-- GALLERY -->
+
+      <div class="control-card">
+        <div class="control-icon">🖼️</div>
+        <h4>Gallery Management</h4>
+        <p>Album, cover photo, photos publish and delete manage karantu.</p>
+        <button class="purple" onclick="openPage('gallery-manager.html')">
+          Open Gallery Manager
+        </button>
+      </div>
+
+
+      <!-- COMPLAINT -->
+
+      <div class="control-card">
+        <div class="control-icon">📝</div>
+        <h4>Complaint Management</h4>
+        <p>Complaint dekha, status change and official remark manage karantu.</p>
+        <button class="orange" onclick="openPage('complaint-manager.html')">
+          Open Complaint Manager
+        </button>
+      </div>
+
+
+      <!-- FUND -->
+
+      <div class="control-card">
+        <div class="control-icon">💰</div>
+        <h4>Fund Management</h4>
+        <p>Collection, expense, savings and year-wise fund management.</p>
+        <button class="setup" onclick="setupRequired('Fund Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- FEE -->
+
+      <div class="control-card">
+        <div class="control-icon">💳</div>
+        <h4>Member Fee Management</h4>
+        <p>Year-wise fee, paid/unpaid status and member fee records.</p>
+        <button class="setup" onclick="setupRequired('Member Fee Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- DONATION -->
+
+      <div class="control-card">
+        <div class="control-icon">💸</div>
+        <h4>Donation Management</h4>
+        <p>Donation information, QR and donation records manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Donation Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- JATRA -->
+
+      <div class="control-card">
+        <div class="control-icon">🎪</div>
+        <h4>Jatra Management</h4>
+        <p>Jatra year-wise page, date, programme and details manage karantu.</p>
+        <button class="setup" onclick="setupRequired('Jatra Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- BHAKTA -->
+
+      <div class="control-card">
+        <div class="control-icon">🙏</div>
+        <h4>Bhakta List</h4>
+        <p>Year-wise Bhakta list add, edit and manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Bhakta List Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- WEBSITE -->
+
+      <div class="control-card">
+        <div class="control-icon">🌐</div>
+        <h4>Website Management</h4>
+        <p>Website content, pages and important information manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Website Management CMS')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- HOMEPAGE -->
+
+      <div class="control-card">
+        <div class="control-icon">🏠</div>
+        <h4>Homepage Management</h4>
+        <p>Homepage banner, welcome section and featured content manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Homepage Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- DOCUMENT -->
+
+      <div class="control-card">
+        <div class="control-icon">📄</div>
+        <h4>Documents</h4>
+        <p>Committee documents, official PDFs and downloadable files manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Document Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- CONTACT -->
+
+      <div class="control-card">
+        <div class="control-icon">📞</div>
+        <h4>Contact Information</h4>
+        <p>Official email, phone, address and contact information manage kariba.</p>
+        <button class="setup" onclick="setupRequired('Contact Management')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- AUDIT -->
+
+      <div class="control-card">
+        <div class="control-icon">📋</div>
+        <h4>Audit Log</h4>
+        <p>Admin and Super Admin actions ra secure activity history.</p>
+        <button class="setup" onclick="setupRequired('Audit Log')">
+          Setup Required
+        </button>
+      </div>
+
+
+      <!-- BACKUP -->
+
+      <div class="control-card">
+        <div class="control-icon">💾</div>
+        <h4>Backup & System</h4>
+        <p>Database backup, system settings and security controls.</p>
+        <button class="setup" onclick="setupRequired('Backup & System Settings')">
+          Setup Required
+        </button>
+      </div>
+
+    </div>
+
+
+    <div class="system-note">
+      <strong>Note:</strong>
+      Green/Blue/Purple/Orange buttons already-built manager pages open karibe.
+      Grey “Setup Required” features ra backend/database management ebe build heba baki achhi.
+    </div>
+
+  </div>
+
+
+  <!-- =========================================
+       ADMIN MANAGEMENT
+  ========================================== -->
+
+  <div class="card" id="adminManagement">
 
     <h3>Admin Management</h3>
 
@@ -423,8 +782,12 @@
 
   </div>
 
-  <!-- MEMBER MANAGEMENT -->
-  <div class="card">
+
+  <!-- =========================================
+       MEMBER MANAGEMENT
+  ========================================== -->
+
+  <div class="card" id="memberManagement">
 
     <h3>Member Management</h3>
 
@@ -567,7 +930,10 @@ async function checkSuperAdmin(){
   } = await supabaseClient
     .from("user_roles")
     .select("role")
-    .eq("user_id", (await supabaseClient.auth.getUser()).data.user.id)
+    .eq(
+      "user_id",
+      (await supabaseClient.auth.getUser()).data.user.id
+    )
     .maybeSingle();
 
   if(error){
@@ -590,6 +956,51 @@ async function checkSuperAdmin(){
 
   await loadMembers();
   await loadAdmins();
+
+}
+
+
+/* =========================
+   OPEN EXISTING PAGE
+========================= */
+
+function openPage(page){
+
+  window.location.href = page;
+
+}
+
+
+/* =========================
+   SCROLL TO SECTION
+========================= */
+
+function scrollToSection(id){
+
+  const element =
+    document.getElementById(id);
+
+  if(!element) return;
+
+  element.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+}
+
+
+/* =========================
+   SETUP REQUIRED
+========================= */
+
+function setupRequired(feature){
+
+  alert(
+    feature +
+    " ra database/backend system ebe build heba baki achhi.\n\n" +
+    "Ehi button ebe kevala reserved control rakha jaichi."
+  );
 
 }
 
