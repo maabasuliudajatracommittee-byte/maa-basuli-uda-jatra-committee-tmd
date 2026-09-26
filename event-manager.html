@@ -1,657 +1,527 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Event Manager | Maa Basuli Uda Jatra Committee</title>
+  <title>Event Manager | Maa Basuli Uda Jatra Committee</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
 
-*{
-  box-sizing:border-box;
-}
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f5f7fb;
+      color:#243047;
+    }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f6fa;
-  color:#222;
-}
+    .header{
+      background:linear-gradient(90deg,#8f2f0b,#d65d05);
+      color:white;
+      padding:25px 20px;
+    }
 
-.header{
-  background:linear-gradient(135deg,#8b2f0f,#c45b0b);
-  color:white;
-  padding:22px 20px;
-}
+    .header-inner{
+      max-width:1200px;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+    }
 
-.header-inner{
-  max-width:1240px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
+    .header h1{
+      font-size:28px;
+      margin-bottom:5px;
+    }
 
-.header h1{
-  margin:0;
-  font-size:28px;
-}
+    .header p{
+      font-size:16px;
+      opacity:.95;
+    }
 
-.header p{
-  margin:6px 0 0;
-  opacity:.9;
-}
+    .header-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
 
-.header-buttons{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
+    button,
+    .btn{
+      border:0;
+      border-radius:8px;
+      padding:11px 18px;
+      font-size:15px;
+      font-weight:600;
+      cursor:pointer;
+    }
 
-.btn{
-  border:0;
-  border-radius:8px;
-  padding:11px 17px;
-  cursor:pointer;
-  font-size:14px;
-  font-weight:bold;
-}
+    .btn-light{
+      background:white;
+      color:#8f2f0b;
+    }
 
-.btn-primary{
-  background:#9d390e;
-  color:white;
-}
+    .btn-primary{
+      background:#9d3510;
+      color:white;
+    }
 
-.btn-primary:hover{
-  background:#7e2d0b;
-}
+    .btn-success{
+      background:#198754;
+      color:white;
+    }
 
-.btn-light{
-  background:white;
-  color:#7e2d0b;
-}
+    .btn-danger{
+      background:#dc3545;
+      color:white;
+    }
 
-.btn-danger{
-  background:#dc2626;
-  color:white;
-}
+    .btn-warning{
+      background:#f0ad00;
+      color:white;
+    }
 
-.btn-success{
-  background:#16803c;
-  color:white;
-}
+    .container{
+      max-width:1200px;
+      margin:30px auto;
+      padding:0 20px;
+    }
 
-.btn-secondary{
-  background:#64748b;
-  color:white;
-}
+    .message{
+      padding:15px 18px;
+      border-radius:10px;
+      margin-bottom:20px;
+      display:none;
+    }
 
-.container{
-  max-width:1240px;
-  margin:30px auto;
-  padding:0 20px;
-}
+    .message.error{
+      display:block;
+      background:#ffe1e1;
+      color:#a40000;
+      border:1px solid #ffb5b5;
+    }
 
-.error-box{
-  background:#fee2e2;
-  color:#991b1b;
-  border:1px solid #fecaca;
-  border-radius:10px;
-  padding:15px;
-  margin-bottom:20px;
-  display:none;
-}
+    .message.success{
+      display:block;
+      background:#ddf8e7;
+      color:#116b36;
+      border:1px solid #a9e8c0;
+    }
 
-.success-box{
-  background:#dcfce7;
-  color:#166534;
-  border:1px solid #bbf7d0;
-  border-radius:10px;
-  padding:15px;
-  margin-bottom:20px;
-  display:none;
-}
+    .top-row{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+      gap:15px;
+      flex-wrap:wrap;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-  margin-bottom:25px;
-}
+    .top-row h2{
+      color:#8f2f0b;
+      font-size:26px;
+    }
 
-.stat{
-  background:white;
-  border-radius:14px;
-  padding:22px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:20px;
+      margin-bottom:25px;
+    }
 
-.stat-number{
-  font-size:30px;
-  font-weight:bold;
-  color:#9d390e;
-}
+    .stat{
+      background:white;
+      padding:25px;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+    }
 
-.stat-label{
-  margin-top:5px;
-  color:#64748b;
-}
+    .stat-number{
+      font-size:32px;
+      font-weight:700;
+      color:#9d3510;
+      margin-bottom:5px;
+    }
 
-.toolbar{
-  background:white;
-  padding:18px;
-  border-radius:14px;
-  display:grid;
-  grid-template-columns:1fr 200px 200px;
-  gap:12px;
-  margin-bottom:20px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
+    .stat-label{
+      color:#657089;
+    }
 
-input,
-select,
-textarea{
-  width:100%;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:14px;
-  background:white;
-}
+    .filters{
+      background:white;
+      padding:20px;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+      display:grid;
+      grid-template-columns:2fr 1fr 1fr;
+      gap:12px;
+      margin-bottom:25px;
+    }
 
-textarea{
-  min-height:130px;
-  resize:vertical;
-}
+    input,
+    select,
+    textarea{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid #d8dee9;
+      border-radius:8px;
+      font-size:15px;
+      outline:none;
+    }
 
-.events-box{
-  background:white;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-  overflow-x:auto;
-}
+    input:focus,
+    select:focus,
+    textarea:focus{
+      border-color:#b84c16;
+    }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:900px;
-}
+    .events-area{
+      background:white;
+      border-radius:14px;
+      box-shadow:0 4px 15px rgba(0,0,0,.07);
+      overflow:hidden;
+    }
 
-th,
-td{
-  padding:13px 10px;
-  border-bottom:1px solid #e5e7eb;
-  text-align:left;
-  vertical-align:top;
-}
+    .loading{
+      text-align:center;
+      padding:45px;
+      color:#64748b;
+      font-size:17px;
+    }
 
-th{
-  background:#fff7ed;
-  color:#7e2d0b;
-}
+    .event-list{
+      display:grid;
+      gap:0;
+    }
 
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-}
+    .event-item{
+      padding:22px;
+      border-bottom:1px solid #e8ebf0;
+    }
 
-.badge-published{
-  background:#dcfce7;
-  color:#166534;
-}
+    .event-item:last-child{
+      border-bottom:0;
+    }
 
-.badge-unpublished{
-  background:#fee2e2;
-  color:#991b1b;
-}
+    .event-head{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      align-items:flex-start;
+    }
 
-.action-buttons{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
+    .event-title{
+      font-size:21px;
+      font-weight:700;
+      color:#8f2f0b;
+      margin-bottom:8px;
+    }
 
-.small-btn{
-  padding:7px 10px;
-  border:0;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:12px;
-  font-weight:bold;
-}
+    .event-meta{
+      color:#657089;
+      font-size:14px;
+      line-height:1.7;
+    }
 
-.loading{
-  text-align:center;
-  padding:35px;
-  color:#64748b;
-}
+    .event-description{
+      margin-top:12px;
+      color:#4a5568;
+      line-height:1.6;
+      white-space:pre-wrap;
+    }
 
-.empty{
-  text-align:center;
-  padding:35px;
-  color:#64748b;
-}
+    .event-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:15px;
+    }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:1000;
-}
+    .badge{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:700;
+      margin-left:5px;
+    }
 
-.modal-content{
-  width:100%;
-  max-width:650px;
-  max-height:90vh;
-  overflow-y:auto;
-  background:white;
-  border-radius:15px;
-  padding:25px;
-}
+    .badge-published{
+      background:#dff7e7;
+      color:#137333;
+    }
 
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:20px;
-}
+    .badge-unpublished{
+      background:#ffe4e4;
+      color:#a61b1b;
+    }
 
-.modal-header h2{
-  margin:0;
-  color:#8b2f0f;
-}
+    .modal{
+      display:none;
+      position:fixed;
+      z-index:1000;
+      inset:0;
+      background:rgba(0,0,0,.55);
+      padding:20px;
+      overflow:auto;
+    }
 
-.close{
-  border:0;
-  background:#eee;
-  width:35px;
-  height:35px;
-  border-radius:50%;
-  cursor:pointer;
-  font-size:20px;
-}
+    .modal.show{
+      display:block;
+    }
 
-.form-group{
-  margin-bottom:16px;
-}
+    .modal-box{
+      background:white;
+      max-width:700px;
+      margin:40px auto;
+      border-radius:15px;
+      padding:25px;
+    }
 
-.form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
-  color:#374151;
-}
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:20px;
+    }
 
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
+    .modal-header h3{
+      color:#8f2f0b;
+      font-size:24px;
+    }
 
-.checkbox-row{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+    .close{
+      background:#eee;
+      color:#333;
+      border-radius:50%;
+      width:38px;
+      height:38px;
+      padding:0;
+      font-size:20px;
+    }
 
-.checkbox-row input{
-  width:auto;
-}
+    .form-group{
+      margin-bottom:16px;
+    }
 
-.modal-footer{
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-  margin-top:20px;
-}
+    .form-group label{
+      display:block;
+      margin-bottom:7px;
+      font-weight:600;
+      color:#374151;
+    }
 
-@media(max-width:800px){
+    textarea{
+      min-height:130px;
+      resize:vertical;
+    }
 
-  .header-inner{
-    flex-direction:column;
-    align-items:flex-start;
-  }
+    .form-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      margin-top:20px;
+      flex-wrap:wrap;
+    }
 
-  .stats{
-    grid-template-columns:1fr;
-  }
+    .empty{
+      padding:50px 20px;
+      text-align:center;
+      color:#6b7280;
+    }
 
-  .toolbar{
-    grid-template-columns:1fr;
-  }
+    @media(max-width:800px){
+      .stats{
+        grid-template-columns:1fr;
+      }
 
-  .form-row{
-    grid-template-columns:1fr;
-  }
+      .filters{
+        grid-template-columns:1fr;
+      }
 
-}
+      .event-head{
+        flex-direction:column;
+      }
 
-</style>
+      .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <header class="header">
-
   <div class="header-inner">
-
     <div>
       <h1>Event Manager</h1>
       <p>Maa Basuli Uda Jatra Committee</p>
     </div>
 
-    <div class="header-buttons">
-
-      <button
-        class="btn btn-light"
-        onclick="goDashboard()">
+    <div class="header-actions">
+      <button class="btn btn-light" onclick="goDashboard()">
         ← Back to Dashboard
       </button>
 
-      <button
-        class="btn btn-light"
-        onclick="logout()">
+      <button class="btn btn-light" onclick="logout()">
         Logout
       </button>
-
     </div>
-
   </div>
-
 </header>
-
 
 <main class="container">
 
-  <div
-    id="errorBox"
-    class="error-box">
-  </div>
+  <div id="message" class="message"></div>
 
-  <div
-    id="successBox"
-    class="success-box">
-  </div>
+  <div class="top-row">
+    <h2>Manage Events & Programmes</h2>
 
+    <button class="btn btn-primary" onclick="openAddModal()">
+      + Add New Event
+    </button>
+  </div>
 
   <section class="stats">
-
     <div class="stat">
-      <div
-        id="totalEvents"
-        class="stat-number">
-        0
-      </div>
-
-      <div class="stat-label">
-        Total Events
-      </div>
+      <div class="stat-number" id="totalEvents">0</div>
+      <div class="stat-label">Total Events</div>
     </div>
 
-
     <div class="stat">
-      <div
-        id="publishedEvents"
-        class="stat-number">
-        0
-      </div>
-
-      <div class="stat-label">
-        Published
-      </div>
+      <div class="stat-number" id="publishedEvents">0</div>
+      <div class="stat-label">Published</div>
     </div>
 
-
     <div class="stat">
-      <div
-        id="unpublishedEvents"
-        class="stat-number">
-        0
-      </div>
-
-      <div class="stat-label">
-        Unpublished
-      </div>
+      <div class="stat-number" id="unpublishedEvents">0</div>
+      <div class="stat-label">Unpublished</div>
     </div>
-
   </section>
 
-
-  <section class="toolbar">
+  <section class="filters">
 
     <input
-      id="searchInput"
       type="text"
-      placeholder="Search event...">
+      id="searchInput"
+      placeholder="Search event..."
+      oninput="renderEvents()"
+    >
 
-    <select id="typeFilter">
-
-      <option value="">
-        All Types
-      </option>
-
-      <option value="Jatra">
-        Jatra
-      </option>
-
-      <option value="Programme">
-        Programme
-      </option>
-
-      <option value="Cultural">
-        Cultural
-      </option>
-
-      <option value="Meeting">
-        Meeting
-      </option>
-
-      <option value="Committee">
-        Committee
-      </option>
-
-      <option value="Other">
-        Other
-      </option>
-
+    <select id="typeFilter" onchange="renderEvents()">
+      <option value="">All Types</option>
+      <option value="Jatra">Jatra</option>
+      <option value="Programme">Programme</option>
+      <option value="Cultural">Cultural</option>
+      <option value="Meeting">Meeting</option>
+      <option value="Committee">Committee</option>
+      <option value="Other">Other</option>
     </select>
 
-
-    <select id="statusFilter">
-
-      <option value="">
-        All Status
-      </option>
-
-      <option value="published">
-        Published
-      </option>
-
-      <option value="unpublished">
-        Unpublished
-      </option>
-
+    <select id="statusFilter" onchange="renderEvents()">
+      <option value="">All Status</option>
+      <option value="published">Published</option>
+      <option value="unpublished">Unpublished</option>
     </select>
 
   </section>
 
+  <section class="events-area">
 
-  <section class="events-box">
-
-    <div
-      id="loading"
-      class="loading">
+    <div id="loading" class="loading">
       Loading events...
     </div>
 
-    <div
-      id="empty"
-      class="empty"
-      style="display:none;">
-      No events found.
-    </div>
-
-    <div id="tableWrapper" style="display:none;">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>
-              Event
-            </th>
-
-            <th>
-              Date
-            </th>
-
-            <th>
-              Type
-            </th>
-
-            <th>
-              Location
-            </th>
-
-            <th>
-              Status
-            </th>
-
-            <th>
-              Actions
-            </th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="eventsTableBody">
-        </tbody>
-
-      </table>
-
-    </div>
+    <div id="eventList" class="event-list"></div>
 
   </section>
 
 </main>
 
-
 <!-- ADD / EDIT MODAL -->
 
-<div
-  id="eventModal"
-  class="modal">
+<div id="eventModal" class="modal">
 
-  <div class="modal-content">
+  <div class="modal-box">
 
     <div class="modal-header">
 
-      <h2 id="modalTitle">
+      <h3 id="modalTitle">
         Add New Event
-      </h2>
+      </h3>
 
       <button
         class="close"
-        onclick="closeModal()">
+        onclick="closeModal()"
+      >
         ×
       </button>
 
     </div>
 
-
     <form id="eventForm">
 
       <input
         type="hidden"
-        id="eventId">
-
+        id="eventId"
+      >
 
       <div class="form-group">
 
         <label>
-          Event Title *
+          Event / Programme Title *
         </label>
 
         <input
-          id="eventTitle"
           type="text"
+          id="eventTitle"
           required
-          placeholder="Enter event title">
+          placeholder="Example: Maa Basuli Uda Jatra"
+        >
 
       </div>
 
+      <div class="form-group">
 
-      <div class="form-row">
+        <label>
+          Event Date *
+        </label>
 
-        <div class="form-group">
-
-          <label>
-            Event Date *
-          </label>
-
-          <input
-            id="eventDate"
-            type="date"
-            required>
-
-        </div>
-
-
-        <div class="form-group">
-
-          <label>
-            Event Type *
-          </label>
-
-          <select
-            id="eventType"
-            required>
-
-            <option value="Jatra">
-              Jatra
-            </option>
-
-            <option value="Programme">
-              Programme
-            </option>
-
-            <option value="Cultural">
-              Cultural
-            </option>
-
-            <option value="Meeting">
-              Meeting
-            </option>
-
-            <option value="Committee">
-              Committee
-            </option>
-
-            <option value="Other">
-              Other
-            </option>
-
-          </select>
-
-        </div>
+        <input
+          type="date"
+          id="eventDate"
+          required
+        >
 
       </div>
 
+      <div class="form-group">
+
+        <label>
+          Event Type *
+        </label>
+
+        <select
+          id="eventType"
+          required
+        >
+          <option value="Jatra">Jatra</option>
+          <option value="Programme">Programme</option>
+          <option value="Cultural">Cultural</option>
+          <option value="Meeting">Meeting</option>
+          <option value="Committee">Committee</option>
+          <option value="Other">Other</option>
+        </select>
+
+      </div>
 
       <div class="form-group">
 
@@ -660,12 +530,12 @@ th{
         </label>
 
         <input
-          id="eventLocation"
           type="text"
-          placeholder="Event location">
+          id="eventLocation"
+          placeholder="Thakurmunda, Mayurbhanj, Odisha"
+        >
 
       </div>
-
 
       <div class="form-group">
 
@@ -675,42 +545,45 @@ th{
 
         <textarea
           id="eventDescription"
-          placeholder="Enter event details"></textarea>
+          placeholder="Event details..."
+        ></textarea>
 
       </div>
-
 
       <div class="form-group">
 
-        <label class="checkbox-row">
-
-          <input
-            id="eventPublished"
-            type="checkbox"
-            checked>
-
-          <span>
-            Publish this event on public website
-          </span>
-
+        <label>
+          Status
         </label>
+
+        <select id="eventPublished">
+
+          <option value="true">
+            Published
+          </option>
+
+          <option value="false">
+            Unpublished
+          </option>
+
+        </select>
 
       </div>
 
-
-      <div class="modal-footer">
+      <div class="form-actions">
 
         <button
           type="button"
-          class="btn btn-secondary"
-          onclick="closeModal()">
+          class="btn"
+          onclick="closeModal()"
+        >
           Cancel
         </button>
 
         <button
           type="submit"
           class="btn btn-primary"
-          id="saveButton">
+        >
           Save Event
         </button>
 
@@ -725,191 +598,166 @@ th{
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIG
-   ========================================================= */
+  /* =========================================================
+     SUPABASE CONFIG
+     USE THE SAME WORKING PUBLISHABLE KEY AS auth.html
+     ========================================================= */
 
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
+  const SUPABASE_URL =
+    "https://ynymqntcawobcfccoekb.supabase.co";
 
-/*
- IMPORTANT:
- Use the SAME publishable key that is working in auth.html.
-*/
-
-const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
+  const SUPABASE_KEY =
+    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const { createClient } =
+    supabase;
+
+  const db =
+    createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
 
-/* =========================================================
-   GLOBAL VARIABLES
-   ========================================================= */
-
-let currentUser = null;
-
-let currentRole = null;
-
-let allEvents = [];
-
-let editingEventId = null;
+  let currentUser = null;
+  let currentRole = null;
+  let events = [];
 
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+  /* =========================================================
+     HELPERS
+     ========================================================= */
 
-const errorBox =
-  document.getElementById("errorBox");
+  function showMessage(text, type = "error") {
 
-const successBox =
-  document.getElementById("successBox");
+    const box =
+      document.getElementById("message");
 
-const loading =
-  document.getElementById("loading");
+    box.textContent = text;
 
-const empty =
-  document.getElementById("empty");
+    box.className =
+      "message " + type;
 
-const tableWrapper =
-  document.getElementById("tableWrapper");
-
-const eventsTableBody =
-  document.getElementById("eventsTableBody");
+  }
 
 
-/* =========================================================
-   ERROR / SUCCESS
-   ========================================================= */
+  function clearMessage() {
 
-function showError(message){
+    const box =
+      document.getElementById("message");
 
-  errorBox.textContent =
-    message || "Something went wrong.";
+    box.textContent = "";
 
-  errorBox.style.display =
-    "block";
+    box.className =
+      "message";
 
-  successBox.style.display =
-    "none";
-}
+  }
 
 
-function showSuccess(message){
+  function escapeHtml(value) {
 
-  successBox.textContent =
-    message || "Operation successful.";
+    if (value === null || value === undefined) {
+      return "";
+    }
 
-  successBox.style.display =
-    "block";
-
-  errorBox.style.display =
-    "none";
-
-}
-
-
-function clearMessages(){
-
-  errorBox.style.display =
-    "none";
-
-  successBox.style.display =
-    "none";
-
-}
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
 
 
-/* =========================================================
-   ROLE CHECK
-   ========================================================= */
+  function formatDate(dateString) {
 
-async function checkAccess(){
+    if (!dateString) {
+      return "-";
+    }
 
-  clearMessages();
+    const date =
+      new Date(dateString + "T00:00:00");
 
-  try{
+    return date.toLocaleDateString(
+      "en-IN",
+      {
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      }
+    );
+  }
+
+
+  /* =========================================================
+     AUTH + ROLE CHECK
+     ========================================================= */
+
+  async function checkAccess() {
+
+    clearMessage();
 
     const {
       data: sessionData,
       error: sessionError
-    } =
-      await supabaseClient.auth.getSession();
+    } = await db.auth.getSession();
 
-
-    if(sessionError){
-
-      throw sessionError;
-
+    if (sessionError) {
+      showMessage(
+        "Session error: " +
+        sessionError.message
+      );
+      return false;
     }
 
+    const session =
+      sessionData.session;
 
-    currentUser =
-      sessionData.session?.user || null;
-
-
-    if(!currentUser){
+    if (!session) {
 
       window.location.href =
         "auth.html";
 
       return false;
-
     }
 
+    currentUser =
+      session.user;
 
-    /*
-      IMPORTANT:
-      Do NOT directly query user_roles here.
-
-      We use the secure RPC:
-      get_my_role()
-    */
 
     const {
       data: roleData,
       error: roleError
-    } =
-      await supabaseClient.rpc(
-        "get_my_role"
+    } = await db
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+
+    if (roleError) {
+
+      showMessage(
+        "Role check failed: " +
+        roleError.message
       );
 
-
-    if(roleError){
-
-      throw roleError;
-
+      return false;
     }
 
 
     currentRole =
-      roleData || "member";
+      roleData?.role || "member";
 
 
-    console.log(
-      "Logged in user:",
-      currentUser.email
-    );
-
-    console.log(
-      "Current role:",
-      currentRole
-    );
-
-
-    if(
+    if (
       currentRole !== "admin" &&
       currentRole !== "super_admin"
-    ){
+    ) {
 
-      showError(
-        "Admin access required."
+      showMessage(
+        "Access denied. Only Admin or Super Admin can manage events."
       );
 
       setTimeout(() => {
@@ -917,1084 +765,697 @@ async function checkAccess(){
         window.location.href =
           "profile.html";
 
-      }, 1500);
+      }, 1800);
 
       return false;
-
     }
 
 
     return true;
-
   }
 
-  catch(error){
 
-    console.error(
-      "ROLE CHECK ERROR:",
+  /* =========================================================
+     LOAD EVENTS
+     ========================================================= */
+
+  async function loadEvents() {
+
+    const loading =
+      document.getElementById("loading");
+
+    loading.style.display =
+      "block";
+
+    document.getElementById(
+      "eventList"
+    ).innerHTML = "";
+
+
+    const {
+      data,
       error
-    );
-
-    showError(
-      "Role check failed: " +
-      (
-        error?.message ||
-        "Unknown error"
-      )
-    );
-
-    return false;
-
-  }
-
-}
-
-
-/* =========================================================
-   LOAD EVENTS
-   ========================================================= */
-
-async function loadEvents(){
-
-  loading.style.display =
-    "block";
-
-  empty.style.display =
-    "none";
-
-  tableWrapper.style.display =
-    "none";
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
+    } = await db
       .from("events")
       .select("*")
-      .order(
-        "event_date",
-        {
-          ascending:false
-        }
-      );
+      .order("event_date", {
+        ascending: false
+      });
 
-
-  if(error){
-
-    console.error(
-      "LOAD EVENTS ERROR:",
-      error
-    );
 
     loading.style.display =
       "none";
 
-    showError(
-      "Events load karibare problem hela: " +
-      error.message
-    );
 
-    return;
+    if (error) {
 
+      showMessage(
+        "Events load failed: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    events =
+      data || [];
+
+    updateStats();
+
+    renderEvents();
   }
 
 
-  allEvents =
-    data || [];
+  /* =========================================================
+     STATS
+     ========================================================= */
+
+  function updateStats() {
+
+    const total =
+      events.length;
+
+    const published =
+      events.filter(
+        e => e.is_published === true
+      ).length;
+
+    const unpublished =
+      events.filter(
+        e => e.is_published === false
+      ).length;
 
 
-  loading.style.display =
-    "none";
-
-
-  updateStats();
-
-  renderEvents();
-
-}
-
-
-/* =========================================================
-   UPDATE STATS
-   ========================================================= */
-
-function updateStats(){
-
-  const total =
-    allEvents.length;
-
-
-  const published =
-    allEvents.filter(
-      event =>
-        event.is_published === true
-    ).length;
-
-
-  const unpublished =
-    allEvents.filter(
-      event =>
-        event.is_published !== true
-    ).length;
-
-
-  document.getElementById(
-    "totalEvents"
-  ).textContent =
-    total;
-
-
-  document.getElementById(
-    "publishedEvents"
-  ).textContent =
-    published;
-
-
-  document.getElementById(
-    "unpublishedEvents"
-  ).textContent =
-    unpublished;
-
-}
-
-
-/* =========================================================
-   FILTER EVENTS
-   ========================================================= */
-
-function getFilteredEvents(){
-
-  const search =
     document.getElementById(
-      "searchInput"
-    ).value
-    .trim()
-    .toLowerCase();
+      "totalEvents"
+    ).textContent = total;
 
-
-  const type =
     document.getElementById(
-      "typeFilter"
-    ).value;
+      "publishedEvents"
+    ).textContent = published;
 
-
-  const status =
     document.getElementById(
-      "statusFilter"
-    ).value;
-
-
-  return allEvents.filter(event => {
-
-    const title =
-      String(
-        event.title || ""
-      ).toLowerCase();
-
-
-    const description =
-      String(
-        event.description || ""
-      ).toLowerCase();
-
-
-    const location =
-      String(
-        event.location || ""
-      ).toLowerCase();
-
-
-    const matchesSearch =
-      !search ||
-      title.includes(search) ||
-      description.includes(search) ||
-      location.includes(search);
-
-
-    const matchesType =
-      !type ||
-      event.event_type === type;
-
-
-    const matchesStatus =
-      !status ||
-      (
-        status === "published"
-        && event.is_published === true
-      )
-      ||
-      (
-        status === "unpublished"
-        && event.is_published !== true
-      );
-
-
-    return (
-      matchesSearch &&
-      matchesType &&
-      matchesStatus
-    );
-
-  });
-
-}
-
-
-/* =========================================================
-   RENDER EVENTS
-   ========================================================= */
-
-function renderEvents(){
-
-  const events =
-    getFilteredEvents();
-
-
-  eventsTableBody.innerHTML =
-    "";
-
-
-  if(events.length === 0){
-
-    empty.style.display =
-      "block";
-
-    tableWrapper.style.display =
-      "none";
-
-    return;
-
+      "unpublishedEvents"
+    ).textContent = unpublished;
   }
 
 
-  empty.style.display =
-    "none";
+  /* =========================================================
+     RENDER
+     ========================================================= */
 
-  tableWrapper.style.display =
-    "block";
+  function renderEvents() {
 
-
-  events.forEach(event => {
-
-    const tr =
-      document.createElement("tr");
-
-
-    const title =
-      escapeHtml(
-        event.title || ""
+    const list =
+      document.getElementById(
+        "eventList"
       );
 
 
-    const location =
-      escapeHtml(
-        event.location || "-"
-      );
+    const search =
+      document.getElementById(
+        "searchInput"
+      ).value
+      .trim()
+      .toLowerCase();
 
 
     const type =
-      escapeHtml(
-        event.event_type || "Other"
-      );
-
-
-    const date =
-      event.event_date
-        ? formatDate(
-            event.event_date
-          )
-        : "-";
+      document.getElementById(
+        "typeFilter"
+      ).value;
 
 
     const status =
-      event.is_published
-        ? `
-          <span class="badge badge-published">
-            Published
-          </span>
-        `
-        : `
-          <span class="badge badge-unpublished">
-            Unpublished
-          </span>
-        `;
+      document.getElementById(
+        "statusFilter"
+      ).value;
 
 
-    tr.innerHTML = `
+    const filtered =
+      events.filter(event => {
 
-      <td>
+        const searchText = (
 
-        <strong>
-          ${title}
-        </strong>
+          (event.title || "") +
+          " " +
+          (event.description || "") +
+          " " +
+          (event.location || "") +
+          " " +
+          (event.event_type || "")
 
-        ${
-          event.description
-          ?
-          `
-          <div style="
-            margin-top:5px;
-            color:#64748b;
-            font-size:12px;
-          ">
-            ${escapeHtml(
-              event.description
-                .substring(0,120)
-            )}
-            ${
-              event.description.length > 120
-              ? "..."
-              : ""
-            }
-          </div>
-          `
-          : ""
+        ).toLowerCase();
+
+
+        if (
+          search &&
+          !searchText.includes(search)
+        ) {
+          return false;
         }
 
-      </td>
+
+        if (
+          type &&
+          event.event_type !== type
+        ) {
+          return false;
+        }
 
 
-      <td>
-        ${date}
-      </td>
+        if (
+          status === "published" &&
+          event.is_published !== true
+        ) {
+          return false;
+        }
 
 
-      <td>
-        ${type}
-      </td>
+        if (
+          status === "unpublished" &&
+          event.is_published !== false
+        ) {
+          return false;
+        }
 
 
-      <td>
-        ${location}
-      </td>
+        return true;
+
+      });
 
 
-      <td>
-        ${status}
-      </td>
+    if (filtered.length === 0) {
+
+      list.innerHTML =
+        `<div class="empty">
+          No events found.
+        </div>`;
+
+      return;
+    }
 
 
-      <td>
+    list.innerHTML =
+      filtered.map(event => {
 
-        <div class="action-buttons">
+        const badge =
+          event.is_published
+          ? `<span class="badge badge-published">
+               Published
+             </span>`
+          : `<span class="badge badge-unpublished">
+               Unpublished
+             </span>`;
 
-          <button
-            class="small-btn btn-primary"
-            onclick="editEvent('${event.id}')">
-            Edit
-          </button>
 
+        return `
 
-          <button
-            class="small-btn ${
-              event.is_published
-              ? "btn-secondary"
-              : "btn-success"
-            }"
-            onclick="togglePublish(
-              '${event.id}',
-              ${event.is_published}
-            )">
+          <div class="event-item">
+
+            <div class="event-head">
+
+              <div>
+
+                <div class="event-title">
+                  ${escapeHtml(event.title)}
+                  ${badge}
+                </div>
+
+                <div class="event-meta">
+
+                  📅 ${formatDate(event.event_date)}
+
+                  &nbsp; | &nbsp;
+
+                  📌 ${escapeHtml(event.event_type || "Other")}
+
+                  ${
+                    event.location
+                    ? `&nbsp; | &nbsp; 📍 ${escapeHtml(event.location)}`
+                    : ""
+                  }
+
+                </div>
+
+              </div>
+
+            </div>
+
 
             ${
-              event.is_published
-              ? "Unpublish"
-              : "Publish"
+              event.description
+              ? `
+                <div class="event-description">
+                  ${escapeHtml(event.description)}
+                </div>
+              `
+              : ""
             }
 
-          </button>
+
+            <div class="event-actions">
+
+              <button
+                class="btn btn-primary"
+                onclick="editEvent('${event.id}')"
+              >
+                Edit
+              </button>
 
 
-          <button
-            class="small-btn btn-danger"
-            onclick="deleteEvent('${event.id}')">
-            Delete
-          </button>
-
-        </div>
-
-      </td>
-
-    `;
-
-
-    eventsTableBody.appendChild(tr);
-
-  });
-
-}
+              <button
+                class="btn ${
+                  event.is_published
+                  ? "btn-warning"
+                  : "btn-success"
+                }"
+                onclick="togglePublish('${event.id}')"
+              >
+                ${
+                  event.is_published
+                  ? "Unpublish"
+                  : "Publish"
+                }
+              </button>
 
 
-/* =========================================================
-   OPEN ADD MODAL
-   ========================================================= */
+              <button
+                class="btn btn-danger"
+                onclick="deleteEvent('${event.id}')"
+              >
+                Delete
+              </button>
 
-function openAddModal(){
+            </div>
 
-  editingEventId =
-    null;
+          </div>
+
+        `;
+
+      }).join("");
+  }
 
 
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Add New Event";
+  /* =========================================================
+     ADD EVENT
+     ========================================================= */
 
+  function openAddModal() {
+
+    document.getElementById(
+      "modalTitle"
+    ).textContent =
+      "Add New Event";
+
+
+    document.getElementById(
+      "eventId"
+    ).value = "";
+
+
+    document.getElementById(
+      "eventForm"
+    ).reset();
+
+
+    document.getElementById(
+      "eventPublished"
+    ).value = "true";
+
+
+    document.getElementById(
+      "eventModal"
+    ).classList.add("show");
+  }
+
+
+  /* =========================================================
+     EDIT EVENT
+     ========================================================= */
+
+  function editEvent(id) {
+
+    const event =
+      events.find(
+        e => e.id === id
+      );
+
+
+    if (!event) {
+      return;
+    }
+
+
+    document.getElementById(
+      "modalTitle"
+    ).textContent =
+      "Edit Event";
+
+
+    document.getElementById(
+      "eventId"
+    ).value =
+      event.id;
+
+
+    document.getElementById(
+      "eventTitle"
+    ).value =
+      event.title || "";
+
+
+    document.getElementById(
+      "eventDate"
+    ).value =
+      event.event_date || "";
+
+
+    document.getElementById(
+      "eventType"
+    ).value =
+      event.event_type || "Other";
+
+
+    document.getElementById(
+      "eventLocation"
+    ).value =
+      event.location || "";
+
+
+    document.getElementById(
+      "eventDescription"
+    ).value =
+      event.description || "";
+
+
+    document.getElementById(
+      "eventPublished"
+    ).value =
+      event.is_published
+      ? "true"
+      : "false";
+
+
+    document.getElementById(
+      "eventModal"
+    ).classList.add("show");
+  }
+
+
+  /* =========================================================
+     CLOSE MODAL
+     ========================================================= */
+
+  function closeModal() {
+
+    document.getElementById(
+      "eventModal"
+    ).classList.remove("show");
+  }
+
+
+  /* =========================================================
+     SAVE EVENT
+     ========================================================= */
 
   document.getElementById(
     "eventForm"
-  ).reset();
+  ).addEventListener(
+    "submit",
+    async function(e) {
 
+      e.preventDefault();
 
-  document.getElementById(
-    "eventPublished"
-  ).checked =
-    true;
+      clearMessage();
 
 
-  document.getElementById(
-    "eventType"
-  ).value =
-    "Jatra";
+      const id =
+        document.getElementById(
+          "eventId"
+        ).value;
 
 
-  document.getElementById(
-    "saveButton"
-  ).textContent =
-    "Save Event";
+      const payload = {
 
+        title:
+          document.getElementById(
+            "eventTitle"
+          ).value.trim(),
 
-  document.getElementById(
-    "eventModal"
-  ).style.display =
-    "flex";
+        event_date:
+          document.getElementById(
+            "eventDate"
+          ).value,
 
-}
+        event_type:
+          document.getElementById(
+            "eventType"
+          ).value,
 
+        location:
+          document.getElementById(
+            "eventLocation"
+          ).value.trim() || null,
 
-/* =========================================================
-   EDIT EVENT
-   ========================================================= */
+        description:
+          document.getElementById(
+            "eventDescription"
+          ).value.trim() || null,
 
-function editEvent(id){
+        is_published:
+          document.getElementById(
+            "eventPublished"
+          ).value === "true"
 
-  const event =
-    allEvents.find(
-      item => item.id === id
-    );
+      };
 
 
-  if(!event){
+      if (!payload.title) {
 
-    showError(
-      "Event not found."
-    );
-
-    return;
-
-  }
-
-
-  editingEventId =
-    id;
-
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    "Edit Event";
-
-
-  document.getElementById(
-    "eventId"
-  ).value =
-    event.id;
-
-
-  document.getElementById(
-    "eventTitle"
-  ).value =
-    event.title || "";
-
-
-  document.getElementById(
-    "eventDate"
-  ).value =
-    event.event_date || "";
-
-
-  document.getElementById(
-    "eventType"
-  ).value =
-    event.event_type || "Other";
-
-
-  document.getElementById(
-    "eventLocation"
-  ).value =
-    event.location || "";
-
-
-  document.getElementById(
-    "eventDescription"
-  ).value =
-    event.description || "";
-
-
-  document.getElementById(
-    "eventPublished"
-  ).checked =
-    event.is_published === true;
-
-
-  document.getElementById(
-    "saveButton"
-  ).textContent =
-    "Update Event";
-
-
-  document.getElementById(
-    "eventModal"
-  ).style.display =
-    "flex";
-
-}
-
-
-/* =========================================================
-   CLOSE MODAL
-   ========================================================= */
-
-function closeModal(){
-
-  document.getElementById(
-    "eventModal"
-  ).style.display =
-    "none";
-
-}
-
-
-/* =========================================================
-   SAVE EVENT
-   ========================================================= */
-
-document.getElementById(
-  "eventForm"
-).addEventListener(
-  "submit",
-  async function(e){
-
-    e.preventDefault();
-
-    clearMessages();
-
-
-    const title =
-      document.getElementById(
-        "eventTitle"
-      ).value.trim();
-
-
-    const eventDate =
-      document.getElementById(
-        "eventDate"
-      ).value;
-
-
-    const eventType =
-      document.getElementById(
-        "eventType"
-      ).value;
-
-
-    const location =
-      document.getElementById(
-        "eventLocation"
-      ).value.trim();
-
-
-    const description =
-      document.getElementById(
-        "eventDescription"
-      ).value.trim();
-
-
-    const isPublished =
-      document.getElementById(
-        "eventPublished"
-      ).checked;
-
-
-    if(!title){
-
-      showError(
-        "Event title required."
-      );
-
-      return;
-
-    }
-
-
-    if(!eventDate){
-
-      showError(
-        "Event date required."
-      );
-
-      return;
-
-    }
-
-
-    const saveButton =
-      document.getElementById(
-        "saveButton"
-      );
-
-
-    saveButton.disabled =
-      true;
-
-
-    saveButton.textContent =
-      editingEventId
-      ? "Updating..."
-      : "Saving...";
-
-
-    try{
-
-      if(editingEventId){
-
-        /* UPDATE */
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("events")
-            .update({
-
-              title:
-                title,
-
-              event_date:
-                eventDate,
-
-              event_type:
-                eventType,
-
-              location:
-                location || null,
-
-              description:
-                description || null,
-
-              is_published:
-                isPublished,
-
-              updated_at:
-                new Date().toISOString()
-
-            })
-            .eq(
-              "id",
-              editingEventId
-            );
-
-
-        if(error){
-
-          throw error;
-
-        }
-
-
-        showSuccess(
-          "Event updated successfully."
+        showMessage(
+          "Event title is required."
         );
+
+        return;
+      }
+
+
+      if (!payload.event_date) {
+
+        showMessage(
+          "Event date is required."
+        );
+
+        return;
+      }
+
+
+      let result;
+
+
+      if (id) {
+
+        result =
+          await db
+            .from("events")
+            .update(payload)
+            .eq("id", id);
+
+      } else {
+
+        payload.created_by =
+          currentUser.id;
+
+
+        result =
+          await db
+            .from("events")
+            .insert(payload);
 
       }
-      else{
-
-        /* INSERT */
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("events")
-            .insert({
-
-              title:
-                title,
-
-              event_date:
-                eventDate,
-
-              event_type:
-                eventType,
-
-              location:
-                location || null,
-
-              description:
-                description || null,
-
-              is_published:
-                isPublished,
-
-              created_by:
-                currentUser.id
-
-            });
 
 
-        if(error){
+      if (result.error) {
 
-          throw error;
-
-        }
-
-
-        showSuccess(
-          "Event created successfully."
+        showMessage(
+          "Save failed: " +
+          result.error.message
         );
 
+        return;
       }
 
 
       closeModal();
+
+      showMessage(
+        id
+        ? "Event updated successfully."
+        : "Event created successfully.",
+        "success"
+      );
+
 
       await loadEvents();
 
-
     }
-    catch(error){
+  );
 
-      console.error(
-        "SAVE EVENT ERROR:",
-        error
+
+  /* =========================================================
+     PUBLISH / UNPUBLISH
+     ========================================================= */
+
+  async function togglePublish(id) {
+
+    const event =
+      events.find(
+        e => e.id === id
       );
 
 
-      showError(
-        "Event save failed: " +
-        (
-          error?.message ||
-          "Unknown error"
-        )
-      );
-
-    }
-    finally{
-
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
-        editingEventId
-        ? "Update Event"
-        : "Save Event";
-
+    if (!event) {
+      return;
     }
 
-  }
-);
+
+    const newStatus =
+      !event.is_published;
 
 
-/* =========================================================
-   PUBLISH / UNPUBLISH
-   ========================================================= */
-
-async function togglePublish(
-  id,
-  currentStatus
-){
-
-  clearMessages();
-
-
-  const newStatus =
-    !currentStatus;
-
-
-  const {
-    error
-  } =
-    await supabaseClient
+    const {
+      error
+    } = await db
       .from("events")
       .update({
-
-        is_published:
-          newStatus,
-
-        updated_at:
-          new Date().toISOString()
-
+        is_published: newStatus
       })
-      .eq(
-        "id",
-        id
+      .eq("id", id);
+
+
+    if (error) {
+
+      showMessage(
+        "Status update failed: " +
+        error.message
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      newStatus
+      ? "Event published successfully."
+      : "Event unpublished successfully.",
+      "success"
+    );
+
+
+    await loadEvents();
+  }
+
+
+  /* =========================================================
+     DELETE
+     ========================================================= */
+
+  async function deleteEvent(id) {
+
+    const event =
+      events.find(
+        e => e.id === id
       );
 
 
-  if(error){
+    if (!event) {
+      return;
+    }
 
-    console.error(
-      "PUBLISH ERROR:",
+
+    const confirmed =
+      confirm(
+        "Delete this event?\n\n" +
+        event.title
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    const {
       error
-    );
-
-    showError(
-      "Status update failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  showSuccess(
-    newStatus
-      ? "Event published."
-      : "Event unpublished."
-  );
-
-
-  await loadEvents();
-
-}
-
-
-/* =========================================================
-   DELETE EVENT
-   ========================================================= */
-
-async function deleteEvent(id){
-
-  const event =
-    allEvents.find(
-      item => item.id === id
-    );
-
-
-  if(!event){
-
-    return;
-
-  }
-
-
-  const confirmed =
-    confirm(
-      "Delete this event?\n\n" +
-      event.title
-    );
-
-
-  if(!confirmed){
-
-    return;
-
-  }
-
-
-  clearMessages();
-
-
-  const {
-    error
-  } =
-    await supabaseClient
+    } = await db
       .from("events")
       .delete()
-      .eq(
-        "id",
-        id
+      .eq("id", id);
+
+
+    if (error) {
+
+      showMessage(
+        "Delete failed: " +
+        error.message
       );
 
-
-  if(error){
-
-    console.error(
-      "DELETE EVENT ERROR:",
-      error
-    );
-
-    showError(
-      "Delete failed: " +
-      error.message
-    );
-
-    return;
-
-  }
-
-
-  showSuccess(
-    "Event deleted successfully."
-  );
-
-
-  await loadEvents();
-
-}
-
-
-/* =========================================================
-   DATE FORMAT
-   ========================================================= */
-
-function formatDate(dateString){
-
-  if(!dateString){
-
-    return "-";
-
-  }
-
-
-  const date =
-    new Date(
-      dateString + "T00:00:00"
-    );
-
-
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
-
-}
-
-
-/* =========================================================
-   HTML ESCAPE
-   ========================================================= */
-
-function escapeHtml(value){
-
-  return String(value || "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   DASHBOARD
-   ========================================================= */
-
-function goDashboard(){
-
-  window.location.href =
-    "admin.html";
-
-}
-
-
-/* =========================================================
-   LOGOUT
-   ========================================================= */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "auth.html";
-
-}
-
-
-/* =========================================================
-   SEARCH / FILTER EVENTS
-   ========================================================= */
-
-document.getElementById(
-  "searchInput"
-).addEventListener(
-  "input",
-  renderEvents
-);
-
-
-document.getElementById(
-  "typeFilter"
-).addEventListener(
-  "change",
-  renderEvents
-);
-
-
-document.getElementById(
-  "statusFilter"
-).addEventListener(
-  "change",
-  renderEvents
-);
-
-
-/* =========================================================
-   CLOSE MODAL WHEN CLICK OUTSIDE
-   ========================================================= */
-
-document.getElementById(
-  "eventModal"
-).addEventListener(
-  "click",
-  function(e){
-
-    if(e.target === this){
-
-      closeModal();
-
+      return;
     }
 
-  }
-);
+
+    showMessage(
+      "Event deleted successfully.",
+      "success"
+    );
 
 
-/* =========================================================
-   START
-   ========================================================= */
-
-async function start(){
-
-  const allowed =
-    await checkAccess();
-
-
-  if(!allowed){
-
-    return;
-
+    await loadEvents();
   }
 
 
-  await loadEvents();
+  /* =========================================================
+     NAVIGATION
+     ========================================================= */
 
-}
+  function goDashboard() {
+
+    window.location.href =
+      "admin.html";
+  }
 
 
-/* =========================================================
-   RUN
-   ========================================================= */
+  async function logout() {
 
-start();
+    await db.auth.signOut();
+
+    window.location.href =
+      "auth.html";
+  }
+
+
+  /* =========================================================
+     INITIALIZE
+     ========================================================= */
+
+  async function init() {
+
+    const allowed =
+      await checkAccess();
+
+
+    if (!allowed) {
+      return;
+    }
+
+
+    await loadEvents();
+  }
+
+
+  init();
 
 </script>
 
