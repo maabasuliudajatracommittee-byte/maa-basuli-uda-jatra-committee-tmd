@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Member Signup | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  min-height:100vh;
+  background:#f5f6f8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.box{
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 8px 30px rgba(0,0,0,.10);
+}
+
+.logo{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.logo h1{
+  color:#7b1e1e;
+  font-size:22px;
+  line-height:1.4;
+}
+
+.logo p{
+  color:#777;
+  font-size:13px;
+  margin-top:6px;
+}
+
+h2{
+  color:#333;
+  font-size:20px;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  color:#666;
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:20px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:7px;
+}
+
+input{
+  width:100%;
+  padding:13px;
+  border:1px solid #d5d5d5;
+  border-radius:9px;
+  font-size:14px;
+  margin-bottom:16px;
+}
+
+input:focus{
+  outline:none;
+  border-color:#7b1e1e;
+  box-shadow:0 0 0 2px rgba(123,30,30,.08);
+}
+
+.btn{
+  width:100%;
+  padding:13px;
+  border:none;
+  border-radius:9px;
+  background:#7b1e1e;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#641818;
+}
+
+.btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
+.message{
+  display:none;
+  padding:13px;
+  border-radius:9px;
+  margin-bottom:18px;
+  font-size:13px;
+  line-height:1.6;
+  font-weight:600;
+}
+
+.message.success{
+  display:block;
+  background:#e8f7ed;
+  color:#176b35;
+  border:1px solid #bde5c9;
+}
+
+.message.error{
+  display:block;
+  background:#fdeaea;
+  color:#a51d1d;
+  border:1px solid #f2c2c2;
+}
+
+.info{
+  margin-top:18px;
+  padding:13px;
+  background:#f8f8f8;
+  border-left:4px solid #7b1e1e;
+  border-radius:6px;
+  color:#555;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.links{
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+}
+
+.links a{
+  color:#7b1e1e;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.password-note{
+  margin-top:-8px;
+  margin-bottom:15px;
+  color:#777;
+  font-size:11px;
+}
+
+.hidden{
+  display:none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+  <div class="logo">
+    <h1>ମା' ବାସୁଳୀ ଉଡା ଯାତ୍ରା କମିଟି</h1>
+    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+  </div>
+
+
+  <div id="signupSection">
+
+    <h2>Create Member Account</h2>
+
+    <p class="subtitle">
+      New member account create karantu.
+      Signup pare Super Admin profile verify kari approval debe.
+    </p>
+
+
+    <div id="message" class="message"></div>
+
+
+    <form id="signupForm">
+
+      <label for="fullName">
+        Full Name *
+      </label>
+
+      <input
+        type="text"
+        id="fullName"
+        placeholder="Enter your full name"
+        autocomplete="name"
+        required
+      >
+
+
+      <label for="email">
+        Email *
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter your email address"
+        autocomplete="email"
+        required
+      >
+
+
+      <label for="password">
+        Password *
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Create password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+      >
+
+      <div class="password-note">
+        Password minimum 6 characters heba darkar.
+      </div>
+
+
+      <label for="confirmPassword">
+        Confirm Password *
+      </label>
+
+      <input
+        type="password"
+        id="confirmPassword"
+        placeholder="Re-enter password"
+        autocomplete="new-password"
+        minlength="6"
+        required
+      >
+
+
+      <button
+        type="submit"
+        class="btn"
+        id="signupButton">
+        Create Member Account
+      </button>
+
+    </form>
+
+
+    <div class="info">
+      <strong>Approval Process:</strong><br>
+      1. Account create heba.<br>
+      2. Member profile automatically create heba.<br>
+      3. Status <strong>Pending at Super Admin level</strong> rahiba.<br>
+      4. Super Admin approval pare Member ID generate heba.<br>
+      5. Approval pare profile re Digital Member ID / QR available heba.
+    </div>
+
+  </div>
+
+
+  <div
+    id="successSection"
+    class="hidden">
+
+    <h2>✅ Account Created</h2>
+
+    <p class="subtitle">
+      Apananka member account successfully create heichi.
+    </p>
+
+    <div class="message success">
+      <strong>Pending at Super Admin level.</strong><br><br>
+
+      Super Admin apananka membership approve kariba pare
+      Member ID, Designation, Active Status ebam QR generate/manage heba.
+    </div>
+
+    <a
+      href="auth.html"
+      class="btn"
+      style="display:block;text-align:center;text-decoration:none;">
+      Go to Member Login
+    </a>
+
+  </div>
+
+
+  <div class="links">
+    Already have an account?
+    <a href="auth.html">Login here</a>
+  </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE CONFIG
+   ===================================================== */
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
+
+const signupForm =
+  document.getElementById("signupForm");
+
+const signupButton =
+  document.getElementById("signupButton");
+
+const message =
+  document.getElementById("message");
+
+const signupSection =
+  document.getElementById("signupSection");
+
+const successSection =
+  document.getElementById("successSection");
+
+
+/* =====================================================
+   MESSAGE
+   ===================================================== */
+
+function showMessage(text,type){
+
+  message.className =
+    "message " + type;
+
+  message.textContent =
+    text;
+
+  message.style.display =
+    "block";
+}
+
+
+/* =====================================================
+   SIGNUP
+   ===================================================== */
+
+signupForm.addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
+
+
+    message.style.display =
+      "none";
+
+
+    const fullName =
+      document
+        .getElementById("fullName")
+        .value
+        .trim();
+
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+
+    const confirmPassword =
+      document
+        .getElementById("confirmPassword")
+        .value;
+
+
+    /* Validation */
+
+    if(fullName.length < 2){
+
+      showMessage(
+        "Please valid full name enter karantu.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(password.length < 6){
+
+      showMessage(
+        "Password minimum 6 characters heba darkar.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if(password !== confirmPassword){
+
+      showMessage(
+        "Password ebam Confirm Password same nuhen.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    signupButton.disabled =
+      true;
+
+    signupButton.textContent =
+      "Creating Account...";
+
+
+    try{
+
+      /*
+        IMPORTANT:
+        Trigger automatically member_profiles
+        ebam user_roles create kariba.
+      */
+
+      const result =
+        await supabaseClient
+          .auth
+          .signUp({
+            email:email,
+            password:password,
+            options:{
+              data:{
+                full_name:fullName
+              }
+            }
+          });
+
+
+      if(result.error){
+
+        throw result.error;
+      }
+
+
+      /*
+        Signup successful.
+      */
+
+      signupSection.classList.add(
+        "hidden"
+      );
+
+      successSection.classList.remove(
+        "hidden"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "SIGNUP ERROR:",
+        error
+      );
+
+
+      let errorText =
+        error.message ||
+        "Account create heiparilani.";
+
+
+      const lower =
+        errorText.toLowerCase();
+
+
+      if(
+        lower.includes(
+          "already registered"
+        )
+      ){
+
+        errorText =
+          "Ei email re account already registered achhi. Login karantu.";
+
+      }else if(
+        lower.includes(
+          "email logins are disabled"
+        )
+      ){
+
+        errorText =
+          "Supabase Email Authentication ON karantu.";
+
+      }else if(
+        lower.includes(
+          "password"
+        ) &&
+        lower.includes(
+          "6"
+        )
+      ){
+
+        errorText =
+          "Password minimum 6 characters heba darkar.";
+      }
+
+
+      showMessage(
+        "❌ " + errorText,
+        "error"
+      );
+
+
+    }finally{
+
+      signupButton.disabled =
+        false;
+
+      signupButton.textContent =
+        "Create Member Account";
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
