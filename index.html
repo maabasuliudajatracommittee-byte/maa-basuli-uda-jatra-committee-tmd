@@ -1,573 +1,930 @@
 <!DOCTYPE html>
 <html lang="or">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Maa Basuli Uda Jatra Committee</title>
+<title>ମା' ବାସୁଳୀ ଉଦା ଯାତ୍ରା କମିଟି | Maa Basuli Uda Jatra Committee</title>
 
-  <meta
-    name="description"
-    content="Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha."
-  >
+<meta name="description"
+content="Official Website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #fffaf2;
-      color: #222;
-      line-height: 1.6;
-    }
+html{
+  scroll-behavior:smooth;
+}
 
-    header {
-      background: #7a1f1f;
-      color: white;
-      padding: 15px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+body{
+  font-family:Arial,"Noto Sans Oriya",sans-serif;
+  background:#fffaf2;
+  color:#222;
+}
 
-    .header-inner {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
+/* TOP BAR */
+.topbar{
+  background:#4d0808;
+  color:white;
+  padding:8px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:13px;
+}
 
-    .logo-area h1 {
-      font-size: 21px;
-    }
+.social a{
+  color:white;
+  text-decoration:none;
+  margin-left:15px;
+}
 
-    .logo-area p {
-      font-size: 13px;
-      opacity: 0.9;
-    }
+/* HEADER */
+header{
+  background:linear-gradient(135deg,#8d0d0d,#b51c0b);
+  color:white;
+  padding:18px 5%;
+  border-bottom:4px solid #f4bd32;
+}
 
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-    }
+.header-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 7px 10px;
-      border-radius: 5px;
-      font-size: 14px;
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
 
-    nav a:hover {
-      background: rgba(255,255,255,0.15);
-    }
+.logo{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  border:3px solid #f4bd32;
+}
 
-    .hero {
-      min-height: 430px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 50px 20px;
-      background:
-        linear-gradient(rgba(80,20,10,0.55), rgba(80,20,10,0.55)),
-        url("https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1600&q=80")
-        center/cover;
-      color: white;
-    }
+.brand h1{
+  font-size:25px;
+  color:#ffd75a;
+}
 
-    .hero-content {
-      max-width: 800px;
-    }
+.brand h2{
+  font-size:17px;
+  margin-top:4px;
+}
 
-    .hero h2 {
-      font-size: 40px;
-      margin-bottom: 15px;
-    }
+.brand p{
+  font-size:13px;
+  margin-top:4px;
+}
 
-    .hero p {
-      font-size: 18px;
-      margin-bottom: 25px;
-    }
+/* NAVIGATION */
+nav{
+  background:#680909;
+  padding:12px 5%;
+  position:sticky;
+  top:0;
+  z-index:999;
+  box-shadow:0 3px 10px rgba(0,0,0,.2);
+}
 
-    .buttons {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+.nav-inner{
+  max-width:1250px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:6px;
+}
 
-    .btn {
-      display: inline-block;
-      padding: 11px 20px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      background: #f2a900;
-      color: #222;
-    }
+nav a{
+  color:white;
+  text-decoration:none;
+  padding:9px 13px;
+  border-radius:6px;
+  font-weight:bold;
+  font-size:14px;
+}
 
-    .btn.secondary {
-      background: white;
-      color: #7a1f1f;
-    }
+nav a:hover{
+  background:#a91616;
+}
 
-    section {
-      padding: 50px 20px;
-    }
+/* HERO */
+.hero{
+  min-height:560px;
+  background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.48)),
+    url("https://images.unsplash.com/photo-1604608672516-f1b9f4f6a3a1?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  display:flex;
+  align-items:center;
+  padding:50px 7%;
+  color:white;
+}
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
-    }
+.hero-content{
+  max-width:720px;
+}
 
-    .section-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
+.hero h1{
+  color:#ffd43b;
+  font-size:54px;
+  margin-bottom:12px;
+}
 
-    .section-title h2 {
-      color: #7a1f1f;
-      font-size: 30px;
-      margin-bottom: 8px;
-    }
+.hero h2{
+  font-size:30px;
+  margin-bottom:15px;
+}
 
-    .section-title p {
-      color: #666;
-    }
+.hero p{
+  font-size:19px;
+  line-height:1.7;
+  margin-bottom:25px;
+}
 
-    .notice-box {
-      background: white;
-      border-left: 5px solid #f2a900;
-      padding: 18px;
-      border-radius: 8px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
+.buttons{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
+.btn{
+  display:inline-block;
+  padding:13px 22px;
+  border-radius:7px;
+  text-decoration:none;
+  font-weight:bold;
+  background:#d51b0b;
+  color:white;
+  border:2px solid white;
+}
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-      text-align: center;
-    }
+.btn.gold{
+  background:#f2b900;
+  color:#3d0909;
+  border-color:#f2b900;
+}
 
-    .card h3 {
-      color: #7a1f1f;
-      margin-bottom: 10px;
-    }
+/* COMMON */
+section{
+  padding:65px 5%;
+}
 
-    .card p {
-      color: #666;
-      font-size: 14px;
-    }
+.container{
+  max-width:1200px;
+  margin:auto;
+}
 
-    .login-section {
-      background: #f8ead7;
-    }
+.title{
+  text-align:center;
+  margin-bottom:35px;
+}
 
-    .login-box {
-      max-width: 650px;
-      margin: auto;
-      text-align: center;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-    }
+.title h2{
+  color:#8d0d0d;
+  font-size:32px;
+  margin-bottom:8px;
+}
 
-    footer {
-      background: #3e1717;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
+.title p{
+  color:#666;
+}
 
-    footer p {
-      margin: 5px 0;
-      font-size: 14px;
-    }
+/* FEATURE CARDS */
+.features{
+  margin-top:-40px;
+  position:relative;
+  z-index:5;
+}
 
-    @media (max-width: 850px) {
-      .header-inner {
-        flex-direction: column;
-      }
+.cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
 
-      .cards {
-        grid-template-columns: 1fr;
-      }
+.card{
+  background:white;
+  padding:28px;
+  border-radius:12px;
+  box-shadow:0 5px 20px rgba(0,0,0,.10);
+  border-top:4px solid #c7190d;
+}
 
-      .hero h2 {
-        font-size: 30px;
-      }
-    }
+.card .icon{
+  font-size:38px;
+  margin-bottom:12px;
+}
 
-    @media (max-width: 500px) {
-      nav {
-        gap: 3px;
-      }
+.card h3{
+  color:#8d0d0d;
+  margin-bottom:8px;
+}
 
-      nav a {
-        font-size: 12px;
-        padding: 5px 6px;
-      }
+.card p{
+  color:#666;
+  line-height:1.6;
+}
 
-      .hero {
-        min-height: 380px;
-      }
-    }
-  </style>
+/* NOTICE */
+.notice{
+  background:#fff0d2;
+}
+
+.notice-box{
+  background:white;
+  border-left:7px solid #c7190d;
+  padding:25px;
+  border-radius:10px;
+  box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.notice-label{
+  display:inline-block;
+  background:#d7190b;
+  color:white;
+  padding:5px 10px;
+  border-radius:5px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* INFO GRID */
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.info{
+  color:white;
+  padding:28px 20px;
+  border-radius:12px;
+  text-decoration:none;
+  min-height:150px;
+}
+
+.info h3{
+  font-size:21px;
+  margin-bottom:10px;
+}
+
+.info p{
+  line-height:1.5;
+}
+
+.red{background:#a90e0e;}
+.blue{background:#1769aa;}
+.green{background:#147a43;}
+.orange{background:#d87508;}
+
+/* JATRA */
+.jatra{
+  background:#fff;
+}
+
+.jatra-card{
+  background:linear-gradient(135deg,#fff3d0,#fff);
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
+  border:1px solid #efd18a;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+.jatra-card h3{
+  color:#8d0d0d;
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.date{
+  color:#b40e0e;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+/* LOGIN */
+.login{
+  background:#f8e5ca;
+}
+
+.login-box{
+  max-width:850px;
+  margin:auto;
+  background:white;
+  padding:35px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.login-box h2{
+  color:#8d0d0d;
+  margin-bottom:12px;
+}
+
+/* CONTACT */
+.contact-box{
+  background:#fff;
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.08);
+  text-align:center;
+}
+
+.contact-box p{
+  margin:8px 0;
+}
+
+/* FOOTER */
+footer{
+  background:#3b0808;
+  color:white;
+  padding:40px 5%;
+  text-align:center;
+}
+
+footer h2{
+  color:#ffd43b;
+  margin-bottom:10px;
+}
+
+footer p{
+  margin:7px 0;
+  font-size:14px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  .header-inner{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .brand{
+    flex-direction:column;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .info-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero{
+    min-height:500px;
+    padding:40px 7%;
+  }
+
+  .hero h1{
+    font-size:40px;
+  }
+
+  .hero h2{
+    font-size:24px;
+  }
+}
+
+@media(max-width:550px){
+
+  .topbar{
+    flex-direction:column;
+    gap:5px;
+  }
+
+  .brand h1{
+    font-size:21px;
+  }
+
+  .brand h2{
+    font-size:15px;
+  }
+
+  nav{
+    padding:8px 3%;
+  }
+
+  nav a{
+    font-size:12px;
+    padding:7px 8px;
+  }
+
+  .hero{
+    min-height:470px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero p{
+    font-size:16px;
+  }
+
+  .info-grid{
+    grid-template-columns:1fr;
+  }
+
+  section{
+    padding:45px 5%;
+  }
+
+  .title h2{
+    font-size:27px;
+  }
+}
+</style>
 </head>
 
 <body>
 
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>📍 Thakurmunda, Mayurbhanj, Odisha</div>
+
+  <div class="social">
+    <a href="https://www.youtube.com/@jaymaabasuli" target="_blank">YouTube</a>
+    <a href="https://www.instagram.com/jaymaabasuli" target="_blank">Instagram</a>
+    <a href="https://x.com/JayMaaBasuli" target="_blank">X</a>
+  </div>
+</div>
+
+
+<!-- HEADER -->
 <header>
   <div class="header-inner">
 
-    <div class="logo-area">
-      <h1>🛕 Maa Basuli Uda Jatra</h1>
-      <p>Thakurmunda, Mayurbhanj, Odisha</p>
-    </div>
+    <div class="brand">
 
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#notice">Notice</a>
-      <a href="#events">Events</a>
-      <a href="#members">Members</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#fund">Fund</a>
-      <a href="#complaint">Complaint</a>
-      <a href="#contact">Contact</a>
-    </nav>
+      <div class="logo">🛕</div>
+
+      <div>
+        <h1>ମା' ବାସୁଳୀ ଉଦା ଯାତ୍ରା କମିଟି</h1>
+        <h2>Maa Basuli Uda Jatra Committee</h2>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+      </div>
+
+    </div>
 
   </div>
 </header>
 
 
-<main>
+<!-- NAVIGATION -->
+<nav>
+  <div class="nav-inner">
 
-  <!-- HOME -->
-  <section class="hero" id="home">
-    <div class="hero-content">
+    <a href="#home">🏠 Home</a>
+    <a href="#notice">📢 Notice</a>
+    <a href="#events">📅 Events</a>
+    <a href="#members">👥 Members</a>
+    <a href="#gallery">🖼️ Gallery</a>
+    <a href="#fund">💰 Fund</a>
+    <a href="#complaint">📝 Complaint</a>
+    <a href="#contact">📞 Contact</a>
 
-      <h2>ଜୟ ମା' ବାସୁଳୀ</h2>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+  <div class="hero-content">
+
+    <h1>ଜୟ ମା' ବାସୁଳୀ</h1>
+
+    <h2>Welcome to Maa Basuli Uda Jatra Committee</h2>
+
+    <p>
+      Thakurmunda, Mayurbhanj, Odisha
+      <br>
+      Official website for festival information,
+      committee activities, notices, members and public services.
+    </p>
+
+    <div class="buttons">
+
+      <a href="#events" class="btn gold">
+        📅 View Events
+      </a>
+
+      <a href="#members" class="btn">
+        👥 Our Members
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FEATURES -->
+<section class="features">
+
+  <div class="container">
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🌺</div>
+        <h3>Maa Basuli Uda Jatra</h3>
+        <p>
+          Traditional and cultural festival of
+          Maa Basuli at Thakurmunda.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎭</div>
+        <h3>Cultural Programme</h3>
+        <p>
+          Cultural programmes, traditional
+          performances and community activities.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🛍️</div>
+        <h3>Meena Bazar</h3>
+        <p>
+          Festival market and public activities
+          during the Jatra period.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- NOTICE -->
+<section id="notice" class="notice">
+
+  <div class="container">
+
+    <div class="title">
+      <h2>📢 Latest Notice</h2>
+      <p>Important announcements from the Committee</p>
+    </div>
+
+    <div class="notice-box">
+
+      <span class="notice-label">NEW</span>
+
+      <h3>Welcome to Maa Basuli Uda Jatra Committee</h3>
 
       <p>
-        Welcome to the Official Website of
-        Maa Basuli Uda Jatra Committee,
-        Thakurmunda, Mayurbhanj, Odisha.
+        Official notices, festival information,
+        events, committee updates and important
+        documents will be published here.
       </p>
 
-      <div class="buttons">
-        <a class="btn" href="#events">View Events</a>
-        <a class="btn secondary" href="#members">Our Members</a>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- EVENTS -->
+<section id="events">
+
+  <div class="container">
+
+    <div class="title">
+      <h2>📅 Events & Jatra</h2>
+      <p>Festival programmes and important activities</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="jatra-card">
+
+        <h3>🌺 Maa Basuli Uda Jatra</h3>
+
+        <div class="date">
+          14 April
+        </div>
+
+        <p>
+          Main Uda Jatra celebration of Maa Basuli.
+        </p>
+
+      </div>
+
+
+      <div class="jatra-card">
+
+        <h3>🎭 Cultural Programme</h3>
+
+        <div class="date">
+          Festival Programme
+        </div>
+
+        <p>
+          Cultural events and traditional performances.
+        </p>
+
+      </div>
+
+
+      <div class="jatra-card">
+
+        <h3>🛍️ Meena Bazar</h3>
+
+        <div class="date">
+          Festival Period
+        </div>
+
+        <p>
+          Public market and community activities.
+        </p>
+
       </div>
 
     </div>
-  </section>
+
+  </div>
+
+</section>
 
 
-  <!-- NOTICE -->
-  <section id="notice">
+<!-- QUICK SERVICES -->
+<section id="members">
 
-    <div class="container">
+  <div class="container">
 
-      <div class="section-title">
-        <h2>📢 Latest Notice</h2>
-        <p>Important announcements from the Committee</p>
+    <div class="title">
+      <h2>ଆମ ସଦସ୍ୟ ଓ ସେବା</h2>
+      <p>Members and Committee Services</p>
+    </div>
+
+    <div class="info-grid">
+
+      <a class="info blue" href="#members">
+        <h3>👥 Our Members</h3>
+        <p>
+          Approved committee members will be
+          displayed here.
+        </p>
+      </a>
+
+      <a class="info red" href="#gallery">
+        <h3>🖼️ Gallery</h3>
+        <p>
+          Festival photographs and memories.
+        </p>
+      </a>
+
+      <a class="info green" href="#fund">
+        <h3>💰 Fund & Donation</h3>
+        <p>
+          Fund information and donation details.
+        </p>
+      </a>
+
+      <a class="info orange" href="#complaint">
+        <h3>📝 Complaint Box</h3>
+        <p>
+          Submit complaint or suggestion.
+        </p>
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- GALLERY -->
+<section id="gallery">
+
+  <div class="container">
+
+    <div class="title">
+      <h2>🖼️ Gallery</h2>
+      <p>Photos and memories of Maa Basuli Uda Jatra</p>
+    </div>
+
+    <div class="cards">
+
+      <div class="card">
+        <div class="icon">🛕</div>
+        <h3>Temple</h3>
+        <p>
+          Maa Basuli Temple photographs.
+        </p>
       </div>
 
-      <div class="notice-box">
-        <h3>Welcome to Maa Basuli Uda Jatra Committee</h3>
-
+      <div class="card">
+        <div class="icon">🎉</div>
+        <h3>Uda Jatra</h3>
         <p>
-          Official notices, festival information, events,
-          committee updates and important documents will be
-          published here.
+          Jatra celebrations and public gatherings.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎭</div>
+        <h3>Cultural Events</h3>
+        <p>
+          Cultural programme photographs and videos.
         </p>
       </div>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <!-- EVENTS -->
-  <section id="events">
+<!-- FUND -->
+<section id="fund" class="notice">
 
-    <div class="container">
+  <div class="container">
 
-      <div class="section-title">
-        <h2>📅 Events & Jatra</h2>
-        <p>Important programmes and festival activities</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <h3>🌺 Maa Basuli Uda Jatra</h3>
-          <p>
-            Main traditional festival of Maa Basuli,
-            Thakurmunda.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>🎭 Cultural Programme</h3>
-          <p>
-            Cultural programmes and traditional
-            performances.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>🛍️ Meena Bazar</h3>
-          <p>
-            Festival market and community activities.
-          </p>
-        </div>
-
-      </div>
-
+    <div class="title">
+      <h2>💰 Fund & Donation</h2>
+      <p>Committee fund and donation information</p>
     </div>
 
-  </section>
+    <div class="cards">
 
-
-  <!-- MEMBERS -->
-  <section id="members">
-
-    <div class="container">
-
-      <div class="section-title">
-        <h2>👥 ଆମ ସଦସ୍ୟ</h2>
-        <p>Our Committee Members</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <h3>Committee</h3>
-          <p>
-            Approved committee members will appear here
-            automatically.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Digital Member ID</h3>
-          <p>
-            Members will be able to access their digital
-            identity card and QR code.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Member Verification</h3>
-          <p>
-            Member QR verification will be available
-            after approval.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- GALLERY -->
-  <section id="gallery">
-
-    <div class="container">
-
-      <div class="section-title">
-        <h2>🖼️ Gallery</h2>
-        <p>Festival photos and memories</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <h3>Jatra Gallery</h3>
-          <p>Festival photographs will appear here.</p>
-        </div>
-
-        <div class="card">
-          <h3>Cultural Programme</h3>
-          <p>Cultural programme photos and videos.</p>
-        </div>
-
-        <div class="card">
-          <h3>Committee Activities</h3>
-          <p>Committee activities and public events.</p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- FUND -->
-  <section id="fund">
-
-    <div class="container">
-
-      <div class="section-title">
-        <h2>💰 Fund & Donation</h2>
-        <p>Committee fund information</p>
-      </div>
-
-      <div class="cards">
-
-        <div class="card">
-          <h3>Current Fund</h3>
-          <p>Fund information will be updated by Super Admin.</p>
-        </div>
-
-        <div class="card">
-          <h3>Donation</h3>
-          <p>Donation QR and official bank details will appear here.</p>
-        </div>
-
-        <div class="card">
-          <h3>Member Fee</h3>
-          <p>Members can check and pay their applicable fee.</p>
-        </div>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- COMPLAINT -->
-  <section id="complaint">
-
-    <div class="container">
-
-      <div class="section-title">
-        <h2>📝 Complaint Box</h2>
-        <p>Submit your complaint or suggestion</p>
-      </div>
-
-      <div class="login-box">
+      <div class="card">
+        <div class="icon">💰</div>
+        <h3>Current Fund</h3>
         <p>
-          Complaint submission system will be connected
-          with Supabase.
+          Current balance and yearly fund details
+          will be updated by Super Admin.
         </p>
+      </div>
 
-        <br>
+      <div class="card">
+        <div class="icon">🙏</div>
+        <h3>Donation</h3>
+        <p>
+          Official donation QR and bank details
+          will be displayed here.
+        </p>
+      </div>
 
-        <a class="btn" href="#">
-          Submit Complaint
+      <div class="card">
+        <div class="icon">🧾</div>
+        <h3>Member Fee</h3>
+        <p>
+          Members can check applicable annual fee
+          and payment information.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- COMPLAINT -->
+<section id="complaint">
+
+  <div class="container">
+
+    <div class="title">
+      <h2>📝 Complaint Box</h2>
+      <p>Complaint and suggestion system</p>
+    </div>
+
+    <div class="login-box">
+
+      <h2>Submit Your Complaint</h2>
+
+      <p>
+        The online complaint system will allow
+        users to submit complaints directly to
+        the Committee.
+      </p>
+
+      <br>
+
+      <a href="#" class="btn">
+        📝 Submit Complaint
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LOGIN -->
+<section class="login">
+
+  <div class="container">
+
+    <div class="login-box">
+
+      <h2>🔐 Member & Admin Login</h2>
+
+      <p>
+        Members can access their Digital Member ID.
+        Admin and Super Admin can access the management system.
+      </p>
+
+      <br>
+
+      <div class="buttons" style="justify-content:center;">
+
+        <a href="#" class="btn">
+          👤 Member Login
         </a>
-      </div>
 
-    </div>
-
-  </section>
-
-
-  <!-- LOGIN -->
-  <section class="login-section">
-
-    <div class="container">
-
-      <div class="login-box">
-
-        <h2>🔐 Member / Admin Login</h2>
-
-        <p>
-          Members, Admins and Super Admin will use
-          the secure login system.
-        </p>
-
-        <br>
-
-        <div class="buttons">
-
-          <a class="btn" href="#">
-            Member Login
-          </a>
-
-          <a class="btn secondary" href="#">
-            Admin Login
-          </a>
-
-        </div>
+        <a href="#" class="btn gold">
+          👑 Admin Login
+        </a>
 
       </div>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 
-  <!-- CONTACT -->
-  <section id="contact">
+<!-- CONTACT -->
+<section id="contact">
 
-    <div class="container">
+  <div class="container">
 
-      <div class="section-title">
-        <h2>📞 Contact Us</h2>
-        <p>Maa Basuli Uda Jatra Committee</p>
-      </div>
+    <div class="title">
+      <h2>📞 Contact Us</h2>
+      <p>Maa Basuli Uda Jatra Committee</p>
+    </div>
 
-      <div class="login-box">
+    <div class="contact-box">
 
-        <h3>Thakurmunda, Mayurbhanj, Odisha</h3>
+      <h3>🛕 Thakurmunda, Mayurbhanj, Odisha</h3>
 
-        <p>
-          Official Committee communication and contact
-          information will be displayed here.
-        </p>
+      <p>
+        Official Committee communication and information.
+      </p>
 
-        <p>
-          Email:
-          maabasuliudajatracommittee@gmail.com
-        </p>
-
-      </div>
+      <p>
+        📧 maabasuliudajatracommittee@gmail.com
+      </p>
 
     </div>
 
-  </section>
+  </div>
 
-</main>
+</section>
 
 
+<!-- FOOTER -->
 <footer>
 
+  <h2>ଜୟ ମା' ବାସୁଳୀ 🙏</h2>
+
   <p>
-    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+    Maa Basuli Uda Jatra Committee
   </p>
 
   <p>
-    Mayurbhanj, Odisha, India
+    Thakurmunda, Mayurbhanj, Odisha
   </p>
 
   <p>
-    Official Website
+    © 2026 Maa Basuli Uda Jatra Committee.
+    All Rights Reserved.
   </p>
 
 </footer>
