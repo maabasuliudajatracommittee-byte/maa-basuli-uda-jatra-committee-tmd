@@ -50,7 +50,7 @@ header{
 .logout{
   border:1px solid rgba(255,255,255,.7);
   background:transparent;
-  color:white;
+  color:#fff;
   padding:9px 15px;
   border-radius:8px;
   cursor:pointer;
@@ -76,8 +76,8 @@ header{
 }
 
 .card h2{
-  margin-bottom:8px;
   color:#7b1e1e;
+  margin-bottom:8px;
 }
 
 .subtitle{
@@ -88,7 +88,7 @@ header{
 }
 
 .status{
-  padding:13px 15px;
+  padding:14px 15px;
   border-radius:10px;
   margin-bottom:20px;
   font-weight:600;
@@ -119,10 +119,6 @@ header{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:16px;
-}
-
-.field{
-  margin-bottom:5px;
 }
 
 .field label{
@@ -192,7 +188,7 @@ header{
 
 .photo-actions strong{
   display:block;
-  margin-bottom:4px;
+  margin-bottom:5px;
 }
 
 .photo-actions input{
@@ -210,7 +206,7 @@ header{
 .btn{
   border:none;
   background:#7b1e1e;
-  color:white;
+  color:#fff;
   padding:12px 20px;
   border-radius:9px;
   cursor:pointer;
@@ -229,8 +225,8 @@ header{
 
 .message{
   display:none;
-  padding:13px 15px;
-  border-radius:9px;
+  padding:14px 15px;
+  border-radius:10px;
   margin-bottom:15px;
   font-size:14px;
   line-height:1.5;
@@ -314,12 +310,6 @@ header{
   display:none !important;
 }
 
-.loading-text{
-  text-align:center;
-  padding:30px;
-  color:#666;
-}
-
 .note{
   margin-top:15px;
   padding:12px;
@@ -397,13 +387,9 @@ footer{
   </div>
 </header>
 
-
 <main class="container">
 
   <div id="message" class="message"></div>
-
-
-  <!-- PROFILE -->
 
   <section class="card">
 
@@ -411,16 +397,12 @@ footer{
 
     <p class="subtitle">
       Nijara basic information complete karantu.
-      Super Admin approval pare Member ID, Designation,
-      Active Status ebam QR manage heba.
+      Profile save heba pare Super Admin approval pain pending re rahiba.
     </p>
 
     <div id="statusBox" class="status loading">
       Profile loading...
     </div>
-
-
-    <!-- PHOTO -->
 
     <div class="photo-area">
 
@@ -449,15 +431,11 @@ footer{
 
     </div>
 
-
-    <!-- FORM -->
-
     <form id="profileForm">
 
       <div class="grid">
 
         <div class="field">
-
           <label for="fullName">Full Name *</label>
 
           <input
@@ -466,12 +444,9 @@ footer{
             placeholder="Enter full name"
             required
           >
-
         </div>
 
-
         <div class="field">
-
           <label for="email">Email</label>
 
           <input
@@ -480,12 +455,9 @@ footer{
             class="controlled"
             readonly
           >
-
         </div>
 
-
         <div class="field">
-
           <label for="mobile">Mobile Number</label>
 
           <input
@@ -495,12 +467,9 @@ footer{
             maxlength="15"
             inputmode="numeric"
           >
-
         </div>
 
-
         <div class="field">
-
           <label for="village">Village</label>
 
           <input
@@ -508,49 +477,34 @@ footer{
             id="village"
             placeholder="Enter village"
           >
-
         </div>
 
-
         <div class="field full">
-
           <label for="address">Address</label>
 
           <textarea
             id="address"
             placeholder="Enter complete address"
           ></textarea>
-
         </div>
 
-
         <div class="field">
-
           <label for="bloodGroup">Blood Group</label>
 
           <select id="bloodGroup">
-
             <option value="">Select Blood Group</option>
-
             <option value="A+">A+</option>
             <option value="A-">A-</option>
-
             <option value="B+">B+</option>
             <option value="B-">B-</option>
-
             <option value="AB+">AB+</option>
             <option value="AB-">AB-</option>
-
             <option value="O+">O+</option>
             <option value="O-">O-</option>
-
           </select>
-
         </div>
 
-
         <div class="field">
-
           <label for="memberId">Member ID</label>
 
           <input
@@ -558,14 +512,11 @@ footer{
             id="memberId"
             class="controlled"
             readonly
-            placeholder="Will be generated after approval"
+            placeholder="Generated after approval"
           >
-
         </div>
 
-
         <div class="field">
-
           <label for="designation">Designation</label>
 
           <input
@@ -574,12 +525,9 @@ footer{
             class="controlled"
             readonly
           >
-
         </div>
 
-
         <div class="field">
-
           <label for="memberStatus">Member Status</label>
 
           <input
@@ -588,14 +536,11 @@ footer{
             class="controlled"
             readonly
           >
-
         </div>
 
       </div>
 
-
       <div style="margin-top:20px;">
-
         <button
           type="submit"
           class="btn"
@@ -603,11 +548,9 @@ footer{
         >
           Save Profile
         </button>
-
       </div>
 
     </form>
-
 
     <div class="note">
       <strong>Important:</strong>
@@ -618,8 +561,6 @@ footer{
 
   </section>
 
-
-  <!-- APPROVED MEMBER CARD -->
 
   <section
     class="card member-card hidden"
@@ -639,25 +580,17 @@ footer{
       alt="Member"
     >
 
-    <h3 id="cardName">
-      Member Name
-    </h3>
+    <h3 id="cardName">Member Name</h3>
 
-    <p id="cardDesignation">
-      Member
-    </p>
-
+    <p id="cardDesignation">Member</p>
 
     <div class="qr-box">
-
       <img
         id="qrImage"
         src=""
         alt="Member QR"
       >
-
     </div>
-
 
     <table class="info-table">
 
@@ -702,7 +635,6 @@ footer{
 
 </main>
 
-
 <footer>
   © Maa Basuli Uda Jatra Committee, Thakurmunda
 </footer>
@@ -711,35 +643,25 @@ footer{
 <script>
 
 /* ==========================================================
-   SUPABASE CONFIG
+   SUPABASE
    ========================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
-
-/*
-  IMPORTANT:
-  Eithi SAME Publishable Key use karantu jaha auth.html re achhi.
-
-  NEVER use Supabase Secret / Service Role key in this file.
-*/
-
-const SUPABASE_ANON_KEY =
+const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
 
 const { createClient } = supabase;
 
-
 const supabaseClient = createClient(
   SUPABASE_URL,
-  SUPABASE_ANON_KEY
+  SUPABASE_PUBLISHABLE_KEY
 );
 
 
 /* ==========================================================
-   GLOBAL VARIABLES
+   VARIABLES
    ========================================================== */
 
 let currentUser = null;
@@ -747,7 +669,7 @@ let currentProfile = null;
 
 
 /* ==========================================================
-   DOM SHORTCUT
+   SHORTCUT
    ========================================================== */
 
 function $(id){
@@ -759,12 +681,15 @@ function $(id){
    MESSAGE
    ========================================================== */
 
-function showMessage(text, type = "success"){
+function showMessage(text,type){
 
   const box = $("message");
 
-  box.className = "message " + type;
+  box.className =
+    "message " + (type || "success");
+
   box.textContent = text;
+
   box.style.display = "block";
 
   window.scrollTo({
@@ -779,13 +704,15 @@ function clearMessage(){
   const box = $("message");
 
   box.className = "message";
+
   box.textContent = "";
+
   box.style.display = "none";
 }
 
 
 /* ==========================================================
-   ERROR MESSAGE
+   ERROR HANDLER
    ========================================================== */
 
 function friendlyError(error){
@@ -799,7 +726,6 @@ function friendlyError(error){
     error.error_description ||
     String(error);
 
-
   const lower =
     msg.toLowerCase();
 
@@ -808,9 +734,7 @@ function friendlyError(error){
     lower.includes("duplicate") &&
     lower.includes("mobile")
   ){
-
-    return "Ei mobile number already another member account re use heichi. Any other mobile number use karantu.";
-
+    return "Ei mobile number already another member account re registered achhi.";
   }
 
 
@@ -818,30 +742,31 @@ function friendlyError(error){
     lower.includes("unique") &&
     lower.includes("mobile")
   ){
-
     return "Ei mobile number already registered achhi. Another mobile number use karantu.";
-
   }
 
 
-  if(lower.includes("jwt")){
+  if(
+    lower.includes("row-level security") ||
+    lower.includes("violates row-level security")
+  ){
+    return "Profile save permission issue. Supabase security policy check kariba darkar.";
+  }
 
+
+  if(
+    lower.includes("jwt") ||
+    lower.includes("session")
+  ){
     return "Login session expire heichi. Please login again.";
-
   }
 
 
-  if(lower.includes("row-level security")){
-
-    return "Profile save permission issue. Please contact Super Admin.";
-
-  }
-
-
-  if(lower.includes("not authenticated")){
-
-    return "Login session nahi. Please login again.";
-
+  if(
+    lower.includes("network") ||
+    lower.includes("fetch")
+  ){
+    return "Internet connection ba Supabase connection problem. Please try again.";
   }
 
 
@@ -850,26 +775,35 @@ function friendlyError(error){
 
 
 /* ==========================================================
-   CHECK SESSION
+   LOAD SESSION
    ========================================================== */
 
 async function loadUser(){
 
   try{
 
-    const result =
+    const {
+      data,
+      error
+    } =
       await supabaseClient.auth.getSession();
 
 
+    if(error){
+      throw error;
+    }
+
+
     const session =
-      result.data?.session;
+      data?.session;
 
 
     if(!session){
 
-      window.location.href = "auth.html";
-      return;
+      window.location.href =
+        "auth.html";
 
+      return;
     }
 
 
@@ -886,15 +820,16 @@ async function loadUser(){
 
   }catch(error){
 
-    console.error("Session error:", error);
+    console.error(
+      "Session error:",
+      error
+    );
 
     showMessage(
       friendlyError(error),
       "error"
     );
-
   }
-
 }
 
 
@@ -909,86 +844,61 @@ async function loadProfile(){
     const {
       data,
       error
-    } = await supabaseClient
-      .from("member_profiles")
-      .select(
-        "id,member_id,full_name,email,mobile,profile_photo_url,village,address,blood_group,designation,approval_status,member_status,qr_code_url,created_at,updated_at"
-      )
-      .eq(
-        "id",
-        currentUser.id
-      )
-      .maybeSingle();
+    } =
+      await supabaseClient
+        .from("member_profiles")
+        .select(
+          "id,member_id,full_name,email,mobile,profile_photo_url,village,address,blood_group,designation,approval_status,member_status,qr_code_url"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .maybeSingle();
 
 
     if(error){
-
-      console.error("Load profile error:", error);
-
-      showMessage(
-        friendlyError(error),
-        "error"
-      );
-
-      return;
-
+      throw error;
     }
 
-
-    /*
-      If trigger-created profile is missing,
-      create it automatically.
-    */
 
     if(!data){
 
       const {
         data:newProfile,
         error:createError
-      } = await supabaseClient
-        .from("member_profiles")
-        .insert({
-          id:currentUser.id,
-          full_name:
-            currentUser.user_metadata?.full_name ||
-            "",
-          email:
-            currentUser.email || "",
-          approval_status:"pending",
-          member_status:"inactive",
-          designation:"Member"
-        })
-        .select()
-        .single();
+      } =
+        await supabaseClient
+          .from("member_profiles")
+          .insert({
+            id:currentUser.id,
+            full_name:
+              currentUser.user_metadata?.full_name ||
+              "",
+            email:
+              currentUser.email || "",
+            designation:"Member",
+            approval_status:"pending",
+            member_status:"inactive"
+          })
+          .select()
+          .single();
 
 
       if(createError){
-
-        console.error(
-          "Create profile error:",
-          createError
-        );
-
-        showMessage(
-          "Member profile create heiparilani. " +
-          friendlyError(createError),
-          "error"
-        );
-
-        return;
-
+        throw createError;
       }
 
 
       currentProfile =
         newProfile;
 
+
       fillProfile(
         newProfile
       );
 
       return;
-
     }
 
 
@@ -1004,7 +914,7 @@ async function loadProfile(){
   }catch(error){
 
     console.error(
-      "Profile load exception:",
+      "Load profile error:",
       error
     );
 
@@ -1012,9 +922,7 @@ async function loadProfile(){
       friendlyError(error),
       "error"
     );
-
   }
-
 }
 
 
@@ -1027,37 +935,29 @@ function fillProfile(profile){
   $("fullName").value =
     profile.full_name || "";
 
-
   $("email").value =
     profile.email ||
     currentUser.email ||
     "";
 
-
   $("mobile").value =
     profile.mobile || "";
-
 
   $("village").value =
     profile.village || "";
 
-
   $("address").value =
     profile.address || "";
-
 
   $("bloodGroup").value =
     profile.blood_group || "";
 
-
   $("memberId").value =
     profile.member_id || "";
-
 
   $("designation").value =
     profile.designation ||
     "Member";
-
 
   $("memberStatus").value =
     profile.member_status ||
@@ -1068,7 +968,6 @@ function fillProfile(profile){
 
     $("profilePhoto").src =
       profile.profile_photo_url;
-
   }
 
 
@@ -1080,7 +979,6 @@ function fillProfile(profile){
   renderApprovedCard(
     profile
   );
-
 }
 
 
@@ -1108,8 +1006,7 @@ function updateStatus(profile){
         "status approved";
 
       box.textContent =
-        "✅ Membership approved and active. " +
-        "Your Member ID and digital verification are available below.";
+        "✅ Membership approved and active. Your Member ID and digital verification are available below.";
 
     }else{
 
@@ -1118,11 +1015,9 @@ function updateStatus(profile){
 
       box.textContent =
         "⚠️ Membership approved, but current Member Status is inactive. Please contact Super Admin.";
-
     }
 
     return;
-
   }
 
 
@@ -1138,7 +1033,6 @@ function updateStatus(profile){
       "❌ Membership approval rejected. Please contact the Committee.";
 
     return;
-
   }
 
 
@@ -1146,32 +1040,21 @@ function updateStatus(profile){
     "status pending";
 
   box.textContent =
-    "⏳ Profile submitted. Super Admin approval pending.";
-
+    "⏳ Pending at Super Admin level — Your profile is waiting for approval.";
 }
 
 
 /* ==========================================================
-   PHOTO UPLOAD
+   SAVE PROFILE
    ========================================================== */
 
-$("photoInput")
-.addEventListener(
-  "change",
-  async function(){
+$("profileForm").addEventListener(
+  "submit",
+  async function(event){
+
+    event.preventDefault();
 
     clearMessage();
-
-
-    const file =
-      this.files?.[0];
-
-
-    if(!file){
-
-      return;
-
-    }
 
 
     if(!currentUser){
@@ -1181,104 +1064,126 @@ $("photoInput")
         "error"
       );
 
-      this.value = "";
-
       return;
-
     }
 
 
-    if(
-      file.size >
-      5 * 1024 * 1024
-    ){
-
-      showMessage(
-        "Photo maximum 5MB heba darkar.",
-        "error"
-      );
-
-      this.value = "";
-
-      return;
-
-    }
+    const saveButton =
+      $("saveButton");
 
 
-    const allowedTypes = [
-      "image/jpeg",
-      "image/png",
-      "image/webp"
-    ];
+    saveButton.disabled =
+      true;
 
-
-    if(
-      !allowedTypes.includes(
-        file.type
-      )
-    ){
-
-      showMessage(
-        "Only JPG, PNG or WEBP photo allowed.",
-        "error"
-      );
-
-      this.value = "";
-
-      return;
-
-    }
+    saveButton.textContent =
+      "Saving...";
 
 
     try{
 
+      const fullName =
+        $("fullName").value.trim();
+
+      const mobile =
+        $("mobile").value.trim();
+
+      const village =
+        $("village").value.trim();
+
+      const address =
+        $("address").value.trim();
+
+      const bloodGroup =
+        $("bloodGroup").value;
+
+
+      if(!fullName){
+
+        throw new Error(
+          "Full Name is required."
+        );
+      }
+
+
       /*
-        File name unique rakha jauchi.
+        Member nijara controlled fields
+        update karipariba nahi.
       */
 
-      const fileExt =
-        file.name
-          .split(".")
-          .pop()
-          .toLowerCase();
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("member_profiles")
+          .update({
+            full_name:fullName,
+            mobile:mobile || null,
+            village:village || null,
+            address:address || null,
+            blood_group:bloodGroup || null,
+            updated_at:new Date().toISOString()
+          })
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .select()
+          .single();
 
 
-      const filePath =
-        currentUser.id +
-        "/" +
-        Date.now() +
-        "." +
-        fileExt;
+      if(error){
+        throw error;
+      }
+
+
+      currentProfile =
+        data;
+
+
+      fillProfile(
+        data
+      );
 
 
       showMessage(
-        "Photo upload heuchhi...",
+        "✅ Profile successfully saved. ⏳ Pending at Super Admin level — approval pare Member ID active heba.",
         "success"
       );
 
 
-      const {
-        error:uploadError
-      } =
-        await supabaseClient
-          .storage
-          .from("member-photos")
-          .upload(
-            filePath,
-            file,
-            {
-              cacheControl:"3600",
-              upsert:false,
-              contentType:file.type
-            }
-          );
+    }catch(error){
+
+      console.error(
+        "Save profile error:",
+        error
+      );
 
 
-      if(uploadError){
+      showMessage(
+        "❌ Profile save heiparilani: " +
+        friendlyError(error),
+        "error"
+      );
 
-        throw uploadError;
 
-      }
+    }finally{
+
+      saveButton.disabled =
+        false;
+
+      saveButton.textContent =
+        "Save Profile";
+    }
+
+  }
+);
 
 
-      const {
+/* ==========================================================
+   PHOTO UPLOAD
+   ========================================================== */
+
+$("photoInput").addEventListener(
+  "change",
+  async functi
