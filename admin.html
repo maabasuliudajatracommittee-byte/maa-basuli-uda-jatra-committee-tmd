@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Admin Dashboard - Maa Basuli Uda Jatra Committee</title>
+<title>Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -22,9 +22,14 @@ body{
 }
 
 .header{
-  background:linear-gradient(135deg,#7c2d12,#9a3412);
+  background:linear-gradient(135deg,#7c2d12,#b45309);
   color:white;
-  padding:18px 24px;
+  padding:20px;
+}
+
+.header-inner{
+  width:min(1150px,94%);
+  margin:auto;
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -32,206 +37,184 @@ body{
 }
 
 .header h1{
-  font-size:21px;
+  font-size:23px;
 }
 
 .header p{
   font-size:13px;
   opacity:.9;
-  margin-top:4px;
+  margin-top:5px;
 }
 
-.logout{
+.logout-btn{
+  border:0;
   background:white;
   color:#7c2d12;
-  border:0;
-  padding:10px 16px;
-  border-radius:8px;
-  font-weight:bold;
+  padding:10px 15px;
+  border-radius:7px;
   cursor:pointer;
-}
-
-.logout:hover{
-  background:#f3f4f6;
+  font-weight:bold;
 }
 
 .container{
-  width:min(1200px,94%);
-  margin:25px auto;
+  width:min(1150px,94%);
+  margin:28px auto 50px;
 }
 
 .welcome{
   background:white;
-  border-radius:14px;
-  padding:20px;
-  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  padding:22px;
+  border-radius:13px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
   margin-bottom:20px;
 }
 
 .welcome h2{
   color:#7c2d12;
-  margin-bottom:6px;
+  margin-bottom:7px;
 }
 
 .welcome p{
-  line-height:1.5;
   color:#6b7280;
+  line-height:1.6;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:15px;
-  margin-bottom:22px;
+  margin-bottom:25px;
 }
 
 .stat{
   background:white;
   padding:20px;
-  border-radius:14px;
-  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
-.stat small{
-  color:#6b7280;
-}
-
-.stat h3{
-  margin-top:8px;
+.stat strong{
+  display:block;
   font-size:28px;
-  color:#9a3412;
+  color:#7c2d12;
+  margin-bottom:5px;
 }
 
-.grid{
+.stat span{
+  color:#6b7280;
+  font-size:13px;
+}
+
+.section-title{
+  color:#7c2d12;
+  margin-bottom:14px;
+}
+
+.menu-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:18px;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
 }
 
-.card{
+.menu-card{
   background:white;
-  border-radius:14px;
   padding:22px;
-  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  border-radius:13px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  border:1px solid #eee;
+  transition:.2s;
 }
 
-.card h3{
+.menu-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 20px rgba(0,0,0,.09);
+}
+
+.menu-card h3{
   color:#7c2d12;
   margin-bottom:8px;
+  font-size:18px;
 }
 
-.card p{
+.menu-card p{
   color:#6b7280;
-  line-height:1.5;
-  font-size:14px;
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:15px;
 }
 
-.card button{
-  margin-top:16px;
-  padding:11px 16px;
-  border:0;
-  border-radius:8px;
-  background:#9a3412;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.card button:hover{
-  background:#7c2d12;
-}
-
-.card .notice-button{
-  background:#15803d;
-}
-
-.card .notice-button:hover{
-  background:#166534;
-}
-
-.complaints{
-  margin-top:20px;
-}
-
-.complaint-item{
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  padding:15px;
-  margin-top:10px;
-}
-
-.complaint-item strong{
-  color:#7c2d12;
-}
-
-.status{
+.manage-btn{
   display:inline-block;
-  padding:4px 8px;
-  border-radius:20px;
-  font-size:12px;
-  background:#fef3c7;
-  color:#92400e;
-  margin-left:8px;
+  text-decoration:none;
+  border:0;
+  background:#7c2d12;
+  color:white;
+  padding:9px 13px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:bold;
 }
 
-.message{
-  margin-top:18px;
-  padding:12px;
-  border-radius:8px;
-  display:none;
+.manage-btn:hover{
+  background:#5f210f;
 }
 
-.success{
-  background:#dcfce7;
-  color:#166534;
+.disabled-btn{
+  background:#9ca3af;
+  cursor:not-allowed;
+}
+
+.footer{
+  background:#111827;
+  color:#d1d5db;
+  text-align:center;
+  padding:28px 15px;
+  font-size:13px;
+}
+
+.footer a{
+  color:#fed7aa;
+  text-decoration:none;
+}
+
+.loading{
+  text-align:center;
+  padding:40px;
+  color:#6b7280;
 }
 
 .error{
   background:#fee2e2;
   color:#991b1b;
+  padding:15px;
+  border-radius:8px;
+  margin-bottom:20px;
 }
 
-.info{
-  background:#dbeafe;
-  color:#1e40af;
-}
-
-.loading{
-  text-align:center;
-  padding:20px;
-  color:#6b7280;
-}
-
-.footer{
-  text-align:center;
-  padding:30px 15px;
-  color:#6b7280;
-  font-size:13px;
-}
-
-@media(max-width:800px){
+@media(max-width:900px){
 
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .grid{
-    grid-template-columns:1fr;
+  .menu-grid{
+    grid-template-columns:repeat(2,1fr);
   }
 }
 
-@media(max-width:500px){
+@media(max-width:600px){
 
-  .header{
+  .header-inner{
     flex-direction:column;
     align-items:flex-start;
   }
 
-  .logout{
-    width:100%;
+  .stats{
+    grid-template-columns:1fr;
   }
 
-  .stats{
+  .menu-grid{
     grid-template-columns:1fr;
   }
 }
@@ -242,27 +225,39 @@ body{
 
 <header class="header">
 
-  <div>
-    <h1>Admin Dashboard</h1>
-    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
-  </div>
+  <div class="header-inner">
 
-  <button class="logout" onclick="logoutAdmin()">
-    Logout
-  </button>
+    <div>
+      <h1>Admin Dashboard</h1>
+      <p>Maa Basuli Uda Jatra Committee</p>
+    </div>
+
+    <button
+      class="logout-btn"
+      onclick="logout()"
+    >
+      Logout
+    </button>
+
+  </div>
 
 </header>
 
 
 <main class="container">
 
+  <div id="errorBox"></div>
+
+
   <section class="welcome">
 
-    <h2>Welcome, Admin</h2>
+    <h2 id="welcomeTitle">
+      Welcome, Admin
+    </h2>
 
-    <p>
-      Ehi dashboard ru committee ra approved administrative work
-      manage kariparibe.
+    <p id="welcomeText">
+      Committee administration panel.
+      Etharu website ra approved management functions manage karantu.
     </p>
 
   </section>
@@ -271,130 +266,160 @@ body{
   <section class="stats">
 
     <div class="stat">
-      <small>Notices</small>
-      <h3 id="noticeCount">0</h3>
+      <strong id="noticeCount">0</strong>
+      <span>Published Notices</span>
     </div>
 
     <div class="stat">
-      <small>Events</small>
-      <h3 id="eventCount">0</h3>
+      <strong id="eventCount">0</strong>
+      <span>Published Events</span>
     </div>
 
     <div class="stat">
-      <small>Gallery Albums</small>
-      <h3 id="galleryCount">0</h3>
+      <strong id="galleryCount">0</strong>
+      <span>Gallery Items</span>
     </div>
 
     <div class="stat">
-      <small>Complaints</small>
-      <h3 id="complaintCount">0</h3>
+      <strong id="complaintCount">0</strong>
+      <span>Complaints</span>
     </div>
 
   </section>
 
 
-  <section class="grid">
+  <h2 class="section-title">
+    Management
+  </h2>
 
 
-    <!-- =================================
-         NOTICES
-    ================================== -->
+  <section class="menu-grid">
 
-    <div class="card">
+    <!-- NOTICES -->
+
+    <div class="menu-card">
 
       <h3>📢 Notices</h3>
 
       <p>
-        Committee notices, announcements ebam PDF notice
-        management pain.
+        Official notices create, edit, publish,
+        unpublish and delete karantu.
       </p>
 
-      <button
-        class="notice-button"
-        onclick="openNoticeManager()"
+      <a
+        href="notice-manager.html"
+        class="manage-btn"
       >
         Manage Notices
-      </button>
+      </a>
 
     </div>
 
 
-    <!-- =================================
-         EVENTS
-    ================================== -->
+    <!-- EVENTS -->
 
-    <div class="card">
+    <div class="menu-card">
 
       <h3>📅 Events & Programmes</h3>
 
       <p>
-        Uda Jatra, cultural programme ebam committee events
-        manage kariba.
+        Jatra, cultural programme, meeting ebam
+        committee events manage karantu.
       </p>
 
-      <button onclick="comingSoon('Events')">
+      <a
+        href="event-manager.html"
+        class="manage-btn"
+      >
         Manage Events
-      </button>
+      </a>
 
     </div>
 
 
-    <!-- =================================
-         GALLERY
-    ================================== -->
+    <!-- GALLERY -->
 
-    <div class="card">
+    <div class="menu-card">
 
       <h3>🖼️ Gallery</h3>
 
       <p>
-        Jatra photos, cultural photos, temple photos ebam
-        album management.
+        Jatra, temple, cultural programme ebam
+        committee photos manage karantu.
       </p>
 
-      <button onclick="comingSoon('Gallery')">
+      <button
+        class="manage-btn disabled-btn"
+        onclick="comingSoon('Gallery')"
+      >
         Manage Gallery
       </button>
 
     </div>
 
 
-    <!-- =================================
-         COMPLAINTS
-    ================================== -->
+    <!-- COMPLAINTS -->
 
-    <div class="card">
+    <div class="menu-card">
 
       <h3>📝 Complaints</h3>
 
       <p>
-        Public complaint receive heba pare admin eha review
-        kariparibe.
+        Public complaint submissions check ebam
+        manage karantu.
       </p>
 
-      <button onclick="loadComplaints()">
-        View Complaints
+      <button
+        class="manage-btn disabled-btn"
+        onclick="comingSoon('Complaints')"
+      >
+        Manage Complaints
       </button>
 
     </div>
 
-  </section>
 
+    <!-- MEMBERS -->
 
-  <div id="message" class="message"></div>
+    <div class="menu-card">
 
+      <h3>👥 Members</h3>
 
-  <section class="card complaints">
+      <p>
+        Member approval, designation, active/inactive
+        status Super Admin manage karibe.
+      </p>
 
-    <h3>Recent Complaints</h3>
-
-    <div id="complaintList">
-
-      <div class="loading">
-        Complaints load heuchhi...
-      </div>
+      <button
+        class="manage-btn disabled-btn"
+        onclick="comingSoon('Members')"
+      >
+        Super Admin Only
+      </button>
 
     </div>
+
+
+    <!-- FUND -->
+
+    <div class="menu-card">
+
+      <h3>💰 Fund & Finance</h3>
+
+      <p>
+        Fund collection, expenses, savings ebam
+        donation management.
+      </p>
+
+      <button
+        class="manage-btn disabled-btn"
+        onclick="comingSoon('Fund & Finance')"
+      >
+        Super Admin Only
+      </button>
+
+    </div>
+
 
   </section>
 
@@ -403,7 +428,16 @@ body{
 
 <footer class="footer">
 
-  © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+  <p>
+    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+  </p>
+
+  <p style="margin-top:8px;">
+    Official Email:
+    <a href="mailto:maabasuliudajatracommittee@gmail.com">
+      maabasuliudajatracommittee@gmail.com
+    </a>
+  </p>
 
 </footer>
 
@@ -418,7 +452,7 @@ const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUqT--2_Nov";
 
 const supabaseClient =
   window.supabase.createClient(
@@ -428,40 +462,23 @@ const supabaseClient =
 
 
 /* =====================================
-   MESSAGE
+   CHECK LOGIN + ROLE
 ===================================== */
 
-function showMessage(text,type="info"){
-
-  const box =
-    document.getElementById("message");
-
-  box.textContent = text;
-
-  box.className =
-    "message " + type;
-
-  box.style.display =
-    "block";
-
-}
-
-
-/* =====================================
-   CHECK ADMIN ROLE
-===================================== */
-
-async function checkAdmin(){
+async function checkAccess(){
 
   const {
-    data:{session}
+    data:{
+      session
+    }
   } =
     await supabaseClient.auth.getSession();
 
 
   if(!session){
 
-    window.location.replace("auth.html");
+    window.location.href =
+      "auth.html";
 
     return false;
   }
@@ -469,7 +486,7 @@ async function checkAdmin(){
 
   const {
     data:roleData,
-    error:roleError
+    error
   } =
     await supabaseClient
       .from("user_roles")
@@ -478,86 +495,62 @@ async function checkAdmin(){
       .maybeSingle();
 
 
-  if(roleError){
+  if(error){
 
-    console.error(roleError);
-
-    showMessage(
-      "Role check karibare problem hela.",
-      "error"
+    showError(
+      "Role check failed: " +
+      error.message
     );
 
     return false;
   }
 
 
-  const role =
-    roleData?.role || "member";
+  if(!roleData){
 
-
-  /*
-    Super Admin ku Super Admin Dashboard ku pathaiba.
-  */
-
-  if(role === "super_admin"){
-
-    window.location.replace(
-      "super-admin.html"
-    );
+    window.location.href =
+      "profile.html";
 
     return false;
   }
 
 
-  /*
-    Only Admin can use this page.
-  */
+  if(roleData.role === "super_admin"){
 
-  if(role !== "admin"){
-
-    showMessage(
-      "Access denied. Ehi page kebala Admin pain.",
-      "error"
-    );
-
-
-    setTimeout(()=>{
-
-      window.location.replace(
-        "profile.html"
-      );
-
-    },1500);
-
+    window.location.href =
+      "super-admin.html";
 
     return false;
   }
+
+
+  if(roleData.role !== "admin"){
+
+    window.location.href =
+      "profile.html";
+
+    return false;
+  }
+
+
+  document.getElementById(
+    "welcomeTitle"
+  ).textContent =
+    "Welcome, Admin";
 
 
   return true;
+
 }
 
 
 /* =====================================
-   LOAD DASHBOARD
+   LOAD STATS
 ===================================== */
 
-async function loadDashboard(){
+async function loadStats(){
 
-  const allowed =
-    await checkAdmin();
-
-
-  if(!allowed){
-
-    return;
-  }
-
-
-  /*
-    Notices table already created.
-    Therefore notice count real database ru load heba.
-  */
+  /* NOTICES */
 
   const {
     count:noticeCount,
@@ -565,7 +558,17 @@ async function loadDashboard(){
   } =
     await supabaseClient
       .from("notices")
-      .select("*",{count:"exact",head:true});
+      .select(
+        "id",
+        {
+          count:"exact",
+          head:true
+        }
+      )
+      .eq(
+        "is_published",
+        true
+      );
 
 
   if(!noticeError){
@@ -573,112 +576,54 @@ async function loadDashboard(){
     document.getElementById(
       "noticeCount"
     ).textContent =
-      noticeCount ?? 0;
+      noticeCount || 0;
 
-  }else{
-
-    console.error(noticeError);
-
-    document.getElementById(
-      "noticeCount"
-    ).textContent = "0";
   }
 
 
-  /*
-    Events / Gallery / Complaints database
-    pare connect heba.
-  */
+  /* EVENTS */
 
-  document.getElementById(
-    "eventCount"
-  ).textContent = "0";
+  const {
+    count:eventCount,
+    error:eventError
+  } =
+    await supabaseClient
+      .from("events")
+      .select(
+        "id",
+        {
+          count:"exact",
+          head:true
+        }
+      )
+      .eq(
+        "is_published",
+        true
+      );
 
+
+  if(!eventError){
+
+    document.getElementById(
+      "eventCount"
+    ).textContent =
+      eventCount || 0;
+
+  }
+
+
+  /* GALLERY */
 
   document.getElementById(
     "galleryCount"
   ).textContent = "0";
 
 
+  /* COMPLAINTS */
+
   document.getElementById(
     "complaintCount"
   ).textContent = "0";
-
-
-  document.getElementById(
-    "complaintList"
-  ).innerHTML = `
-
-    <div class="loading">
-
-      Ebe complaint database module setup heini.
-      Next stage re Supabase complaints table connect heba.
-
-    </div>
-
-  `;
-
-}
-
-
-/* =====================================
-   OPEN NOTICE MANAGER
-===================================== */
-
-function openNoticeManager(){
-
-  window.location.href =
-    "notice-manager.html";
-
-}
-
-
-/* =====================================
-   COMPLAINTS
-===================================== */
-
-async function loadComplaints(){
-
-  const allowed =
-    await checkAdmin();
-
-
-  if(!allowed){
-
-    return;
-  }
-
-
-  document.getElementById(
-    "complaintList"
-  ).innerHTML = `
-
-    <div class="loading">
-
-      Complaint management module
-      next database stage re active heba.
-
-    </div>
-
-  `;
-
-}
-
-
-/* =====================================
-   COMING SOON
-===================================== */
-
-function comingSoon(section){
-
-  showMessage(
-
-    section +
-    " management module next CMS/database stage re active heba.",
-
-    "info"
-
-  );
 
 }
 
@@ -687,33 +632,59 @@ function comingSoon(section){
    LOGOUT
 ===================================== */
 
-async function logoutAdmin(){
+async function logout(){
 
-  try{
+  await supabaseClient.auth.signOut();
 
-    const {
-      error
-    } =
-      await supabaseClient.auth.signOut();
+  window.location.href =
+    "auth.html";
+
+}
 
 
-    if(error){
+/* =====================================
+   COMING SOON
+===================================== */
 
-      console.error(error);
+function comingSoon(name){
 
-    }
+  alert(
+    name +
+    " management next step re add heba."
+  );
 
-  }catch(err){
+}
 
-    console.error(err);
 
-  }finally{
+/* =====================================
+   ERROR
+===================================== */
 
-    window.location.replace(
-      "index.html"
-    );
+function showError(message){
 
-  }
+  document.getElementById(
+    "errorBox"
+  ).innerHTML = `
+    <div class="error">
+      ${escapeHtml(message)}
+    </div>
+  `;
+
+}
+
+
+/* =====================================
+   SECURITY
+===================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
@@ -722,7 +693,19 @@ async function logoutAdmin(){
    START
 ===================================== */
 
-loadDashboard();
+(async function(){
+
+  const allowed =
+    await checkAccess();
+
+
+  if(allowed){
+
+    await loadStats();
+
+  }
+
+})();
 
 </script>
 
