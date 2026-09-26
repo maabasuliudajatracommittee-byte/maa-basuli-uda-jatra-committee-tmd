@@ -23,11 +23,11 @@ body{
 
 header{
   background:#7b1e1e;
-  color:white;
-  padding:18px;
+  color:#fff;
+  padding:18px 20px;
 }
 
-.header{
+.header-inner{
   max-width:1050px;
   margin:auto;
   display:flex;
@@ -36,29 +36,29 @@ header{
   gap:15px;
 }
 
-.logo-title{
+.brand h1{
   font-size:20px;
-  font-weight:700;
+  line-height:1.4;
 }
 
-.logo-sub{
+.brand p{
   font-size:12px;
   margin-top:4px;
   opacity:.9;
 }
 
 .logout{
+  border:1px solid rgba(255,255,255,.8);
   background:transparent;
   color:white;
-  border:1px solid white;
-  padding:9px 16px;
+  padding:10px 16px;
   border-radius:8px;
   cursor:pointer;
-  font-weight:bold;
+  font-weight:700;
 }
 
-.logout:hover{
-  background:rgba(255,255,255,.12);
+.logout:disabled{
+  opacity:.6;
 }
 
 .container{
@@ -68,14 +68,14 @@ header{
 }
 
 .card{
-  background:white;
+  background:#fff;
   border-radius:15px;
   padding:25px;
   margin-bottom:20px;
   box-shadow:0 5px 20px rgba(0,0,0,.08);
 }
 
-h2{
+.card h2{
   color:#7b1e1e;
   margin-bottom:8px;
 }
@@ -88,64 +88,43 @@ h2{
 }
 
 .status{
-  padding:14px;
+  padding:14px 16px;
   border-radius:10px;
   margin-bottom:20px;
   font-weight:600;
   line-height:1.5;
 }
 
-.loading{
+.status.loading{
   background:#f0f0f0;
   color:#555;
 }
 
-.pending{
+.status.pending{
   background:#fff5d6;
-  color:#765800;
+  color:#755900;
 }
 
-.approved{
-  background:#e7f7ec;
-  color:#176b35;
-}
-
-.rejected{
-  background:#fdeaea;
-  color:#a51d1d;
-}
-
-.error-status{
-  background:#fdeaea;
-  color:#a51d1d;
-  white-space:pre-wrap;
-}
-
-.success{
+.status.approved{
   background:#e8f7ed;
   color:#176b35;
-  border:1px solid #bde5c9;
 }
 
-.message{
-  display:none;
-  padding:14px;
-  border-radius:10px;
-  margin-bottom:15px;
-  font-weight:600;
-  line-height:1.5;
+.status.rejected{
+  background:#fdeaea;
+  color:#a51d1d;
 }
 
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+  grid-template-columns:repeat(2,1fr);
   gap:16px;
 }
 
 .field label{
   display:block;
   font-size:13px;
-  font-weight:bold;
+  font-weight:700;
   margin-bottom:7px;
 }
 
@@ -158,7 +137,12 @@ h2{
   border-radius:9px;
   font-size:14px;
   outline:none;
-  background:white;
+  background:#fff;
+}
+
+.field textarea{
+  min-height:95px;
+  resize:vertical;
 }
 
 .field input:focus,
@@ -167,133 +151,155 @@ h2{
   border-color:#7b1e1e;
 }
 
-.field textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
 .full{
   grid-column:1/-1;
 }
 
-.readonly{
-  background:#eeeeee !important;
+.controlled{
+  background:#f1f1f1 !important;
   color:#666;
+  cursor:not-allowed;
 }
 
-.photo-box{
+.photo-area{
   display:flex;
   align-items:center;
   gap:20px;
-  background:#fafafa;
+  margin-bottom:22px;
+  padding:15px;
   border:1px solid #eee;
   border-radius:12px;
-  padding:15px;
-  margin-bottom:22px;
+  background:#fafafa;
 }
 
-.profile-photo{
+.photo{
   width:110px;
   height:110px;
   border-radius:50%;
   object-fit:cover;
-  background:#eee;
   border:4px solid #eee;
+  background:#eee;
 }
 
-.photo-info{
+.photo-actions{
   flex:1;
 }
 
-.photo-info strong{
+.photo-actions strong{
   display:block;
-  margin-bottom:7px;
+  margin-bottom:6px;
 }
 
-.photo-info small{
+.photo-actions small{
   display:block;
-  color:#777;
   margin-top:7px;
+  color:#777;
+  font-size:12px;
 }
 
-.button{
+.btn{
+  border:none;
   background:#7b1e1e;
   color:white;
-  border:none;
-  padding:12px 22px;
+  padding:12px 20px;
   border-radius:9px;
-  font-weight:bold;
   cursor:pointer;
+  font-weight:700;
+  font-size:14px;
 }
 
-.button:hover{
-  background:#641818;
-}
-
-.button:disabled{
+.btn:disabled{
   opacity:.6;
   cursor:not-allowed;
 }
 
-.note{
-  margin-top:18px;
-  padding:12px;
-  background:#fafafa;
-  border-left:4px solid #7b1e1e;
-  color:#555;
-  font-size:13px;
-  line-height:1.6;
+.message{
+  display:none;
+  padding:13px 15px;
+  border-radius:9px;
+  margin-bottom:15px;
+  font-size:14px;
+  line-height:1.5;
+  font-weight:600;
 }
 
-.digital{
+.message.success{
+  display:block;
+  background:#e8f7ed;
+  color:#176b35;
+  border:1px solid #bde5c9;
+}
+
+.message.error{
+  display:block;
+  background:#fdecec;
+  color:#a51f1f;
+  border:1px solid #f2c2c2;
+}
+
+.approved-card{
   text-align:center;
 }
 
 .member-id{
   font-size:30px;
-  color:#7b1e1e;
   font-weight:800;
-  margin:12px 0;
+  color:#7b1e1e;
+  margin:10px 0 15px;
 }
 
-.digital-photo{
+.card-photo{
   width:110px;
   height:110px;
   border-radius:50%;
   object-fit:cover;
+  border:4px solid #eee;
 }
 
-.qr{
+.qr-box{
+  margin:20px auto;
   width:190px;
   height:190px;
-  margin:20px auto;
-  border:1px solid #ddd;
-  border-radius:10px;
   display:flex;
   justify-content:center;
   align-items:center;
+  border:1px solid #ddd;
+  border-radius:10px;
+  background:#fff;
 }
 
-.qr img{
+.qr-box img{
   width:170px;
   height:170px;
 }
 
-.info{
+.info-table{
+  width:100%;
   max-width:650px;
-  margin:auto;
+  margin:20px auto 0;
+  border-collapse:collapse;
   text-align:left;
 }
 
-.info-row{
-  display:flex;
+.info-table td{
+  padding:11px 8px;
   border-bottom:1px solid #eee;
-  padding:11px 5px;
+  font-size:14px;
 }
 
-.info-label{
+.info-table td:first-child{
+  font-weight:700;
   width:40%;
-  font-weight:bold;
+}
+
+.note{
+  margin-top:15px;
+  padding:12px;
+  background:#f8f8f8;
+  border-left:4px solid #7b1e1e;
+  font-size:13px;
+  line-height:1.6;
+  color:#555;
 }
 
 .hidden{
@@ -302,7 +308,7 @@ h2{
 
 footer{
   text-align:center;
-  padding:25px;
+  padding:25px 15px;
   color:#777;
   font-size:12px;
 }
@@ -317,21 +323,17 @@ footer{
     grid-column:auto;
   }
 
-  .photo-box{
+  .photo-area{
+    align-items:flex-start;
     flex-direction:column;
-    align-items:flex-start;
-  }
-
-  .header{
-    align-items:flex-start;
   }
 
   .card{
     padding:18px;
   }
 
-  .info-label{
-    width:45%;
+  .brand h1{
+    font-size:17px;
   }
 }
 </style>
@@ -340,16 +342,11 @@ footer{
 <body>
 
 <header>
-  <div class="header">
+  <div class="header-inner">
 
-    <div>
-      <div class="logo-title">
-        ମା' ବାସୁଳୀ ଉଡା ଯାତ୍ରା କମିଟି
-      </div>
-
-      <div class="logo-sub">
-        Maa Basuli Uda Jatra Committee, Thakurmunda
-      </div>
+    <div class="brand">
+      <h1>ମା' ବାସୁଳୀ ଉଡା ଯାତ୍ରା କମିଟି</h1>
+      <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
     </div>
 
     <button
@@ -365,10 +362,7 @@ footer{
 
 <main class="container">
 
-  <div
-    id="message"
-    class="message">
-  </div>
+  <div id="message" class="message"></div>
 
 
   <section class="card">
@@ -377,9 +371,9 @@ footer{
 
     <p class="subtitle">
       Nijara basic information complete karantu.
-      Save pare Super Admin approval pain profile pending re rahiba.
+      Super Admin approval pare Member ID, Designation,
+      Active Status ebam QR manage heba.
     </p>
-
 
     <div
       id="statusBox"
@@ -388,25 +382,22 @@ footer{
     </div>
 
 
-    <!-- PHOTO -->
-
-    <div class="photo-box">
+    <div class="photo-area">
 
       <img
         id="profilePhoto"
-        class="profile-photo"
+        class="photo"
         alt="Profile Photo"
       >
 
-      <div class="photo-info">
+      <div class="photo-actions">
 
         <strong>Profile Photo</strong>
 
         <input
           type="file"
           id="photoInput"
-          accept="image/jpeg,image/png,image/webp"
-        >
+          accept="image/jpeg,image/png,image/webp">
 
         <small>
           JPG / PNG / WEBP only. Maximum 5MB.
@@ -417,94 +408,65 @@ footer{
     </div>
 
 
-    <!-- FORM -->
-
     <form id="profileForm">
 
       <div class="grid">
 
-
         <div class="field">
-
-          <label>
-            Full Name *
-          </label>
+          <label for="fullName">Full Name *</label>
 
           <input
-            id="fullName"
             type="text"
-            placeholder="Enter full name"
-            required
-          >
-
+            id="fullName"
+            required>
         </div>
 
 
         <div class="field">
-
-          <label>
-            Email
-          </label>
+          <label for="email">Email</label>
 
           <input
-            id="email"
             type="email"
-            class="readonly"
-            readonly
-          >
-
+            id="email"
+            class="controlled"
+            readonly>
         </div>
 
 
         <div class="field">
-
-          <label>
-            Mobile Number
-          </label>
+          <label for="mobile">Mobile Number</label>
 
           <input
-            id="mobile"
             type="tel"
-            placeholder="Enter mobile number"
+            id="mobile"
             maxlength="15"
             inputmode="numeric"
-          >
-
+            placeholder="Enter mobile number">
         </div>
 
 
         <div class="field">
-
-          <label>
-            Village
-          </label>
+          <label for="village">Village</label>
 
           <input
-            id="village"
             type="text"
-            placeholder="Enter village"
-          >
-
+            id="village"
+            placeholder="Enter village">
         </div>
 
 
         <div class="field full">
-
-          <label>
-            Address
-          </label>
+          <label for="address">Address</label>
 
           <textarea
             id="address"
-            placeholder="Enter complete address"
-          ></textarea>
-
+            placeholder="Enter complete address"></textarea>
         </div>
 
 
         <div class="field">
 
-          <label>
+          <label for="bloodGroup">
             Blood Group
           </label>
 
@@ -530,49 +492,44 @@ footer{
 
         <div class="field">
 
-          <label>
+          <label for="memberId">
             Member ID
           </label>
 
           <input
+            type="text"
             id="memberId"
-            class="readonly"
+            class="controlled"
             readonly
-            placeholder="After approval"
-          >
-
+            placeholder="After approval">
         </div>
 
 
         <div class="field">
 
-          <label>
+          <label for="designation">
             Designation
           </label>
 
           <input
+            type="text"
             id="designation"
-            class="readonly"
-            readonly
-            value="Member"
-          >
-
+            class="controlled"
+            readonly>
         </div>
 
 
         <div class="field">
 
-          <label>
+          <label for="memberStatus">
             Member Status
           </label>
 
           <input
+            type="text"
             id="memberStatus"
-            class="readonly"
-            readonly
-            value="inactive"
-          >
-
+            class="controlled"
+            readonly>
         </div>
 
       </div>
@@ -582,7 +539,7 @@ footer{
 
         <button
           type="submit"
-          class="button"
+          class="btn"
           id="saveButton">
           Save Profile
         </button>
@@ -594,99 +551,94 @@ footer{
 
     <div class="note">
 
-      <strong>Important:</strong>
+      <strong>Important:</strong><br>
 
-      Member ID, Designation, Approval Status and Member Status
-      Super Admin manage karibe.
+      Member ID, Designation, Approval Status
+      and Member Status member nijara change
+      kariparibe nahi.
+
+      <br><br>
+
+      Profile save pare:
+      <strong>Pending at Super Admin level</strong>
+      dekhaiba.
 
     </div>
 
   </section>
 
 
-  <!-- DIGITAL MEMBER CARD -->
-
   <section
-    id="digitalCard"
-    class="card digital hidden">
+    class="card approved-card hidden"
+    id="approvedCard">
 
-    <h2>
-      Digital Member Information
-    </h2>
+    <h2>Digital Member Information</h2>
 
     <div
-      id="digitalMemberId"
-      class="member-id">
+      class="member-id"
+      id="cardMemberId">
       MB---
     </div>
 
     <img
-      id="digitalPhoto"
-      class="digital-photo"
-      alt="Member Photo"
-    >
+      id="cardPhoto"
+      class="card-photo"
+      alt="Member Photo">
 
-    <h3
-      id="digitalName"
-      style="margin-top:12px;">
+    <h3 id="cardName">
       Member Name
     </h3>
 
-    <p
-      id="digitalDesignation"
-      style="margin-top:5px;color:#666;">
+    <p id="cardDesignation">
       Member
     </p>
 
-
-    <div class="qr">
+    <div class="qr-box">
 
       <img
         id="qrImage"
-        alt="Member QR"
-      >
+        alt="Member QR">
 
     </div>
 
+    <table class="info-table">
 
-    <div class="info">
+      <tr>
+        <td>Member ID</td>
+        <td id="infoMemberId">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Member ID</div>
-        <div id="infoId">-</div>
-      </div>
+      <tr>
+        <td>Name</td>
+        <td id="infoName">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Name</div>
-        <div id="infoName">-</div>
-      </div>
+      <tr>
+        <td>Mobile</td>
+        <td id="infoMobile">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Mobile</div>
-        <div id="infoMobile">-</div>
-      </div>
+      <tr>
+        <td>Village</td>
+        <td id="infoVillage">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Village</div>
-        <div id="infoVillage">-</div>
-      </div>
+      <tr>
+        <td>Blood Group</td>
+        <td id="infoBlood">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Blood Group</div>
-        <div id="infoBlood">-</div>
-      </div>
+      <tr>
+        <td>Designation</td>
+        <td id="infoDesignation">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Designation</div>
-        <div id="infoDesignation">-</div>
-      </div>
+      <tr>
+        <td>Status</td>
+        <td id="infoStatus">-</td>
+      </tr>
 
-      <div class="info-row">
-        <div class="info-label">Status</div>
-        <div id="infoStatus">-</div>
-      </div>
-
-    </div>
+    </table>
 
   </section>
 
@@ -701,7 +653,7 @@ footer{
 <script>
 
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
    ===================================================== */
 
 const SUPABASE_URL =
@@ -710,46 +662,6 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-
-/* =====================================================
-   BASIC ERROR CHECK
-   ===================================================== */
-
-function showFatalError(message){
-
-  const box =
-    document.getElementById("statusBox");
-
-  if(box){
-
-    box.className =
-      "status error-status";
-
-    box.textContent =
-      "❌ " + message;
-  }
-}
-
-
-/* Check Supabase library */
-
-if(
-  typeof window.supabase ===
-  "undefined"
-){
-
-  showFatalError(
-    "Supabase library load heiparilani. Internet connection check karantu."
-  );
-
-  throw new Error(
-    "Supabase JS library not loaded."
-  );
-}
-
-
-/* Create client */
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
@@ -757,39 +669,16 @@ const supabaseClient =
   );
 
 
-/* =====================================================
-   VARIABLES
-   ===================================================== */
-
 let currentUser = null;
 let currentProfile = null;
 
 
 /* =====================================================
-   MESSAGE
+   SHORTCUT
    ===================================================== */
 
-function message(text,type){
-
-  const box =
-    document.getElementById("message");
-
-  box.style.display =
-    "block";
-
-  box.className =
-    "message " +
-    (type === "error"
-      ? "error-status"
-      : "success");
-
-  box.textContent =
-    text;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+function $(id){
+  return document.getElementById(id);
 }
 
 
@@ -798,73 +687,96 @@ function message(text,type){
    ===================================================== */
 
 const defaultPhoto =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Crect width='100%25' height='100%25' fill='%23eeeeee'/%3E%3Ccircle cx='100' cy='78' r='35' fill='%23bbbbbb'/%3E%3Cpath d='M35 185c10-45 120-45 130 0' fill='%23bbbbbb'/%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='100%25' height='100%25' fill='%23eeeeee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23777777' font-size='15'%3EPhoto%3C/text%3E%3C/svg%3E";
 
+$("profilePhoto").src =
+  defaultPhoto;
 
-document.getElementById(
-  "profilePhoto"
-).src = defaultPhoto;
+$("cardPhoto").src =
+  defaultPhoto;
 
 
 /* =====================================================
-   ERROR TEXT
+   MESSAGE
    ===================================================== */
 
-function getError(error){
+function showMessage(text,type){
+
+  const box = $("message");
+
+  box.className =
+    "message " + type;
+
+  box.textContent =
+    text;
+
+  box.style.display =
+    "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function clearMessage(){
+
+  $("message").className =
+    "message";
+
+  $("message").textContent =
+    "";
+
+  $("message").style.display =
+    "none";
+}
+
+
+/* =====================================================
+   FRIENDLY ERROR
+   ===================================================== */
+
+function friendlyError(error){
 
   if(!error){
-    return "Unknown error.";
+    return "Something went wrong.";
   }
 
-  let text =
+  const text =
     error.message ||
+    error.error_description ||
     String(error);
 
-  let lower =
+  const lower =
     text.toLowerCase();
-
 
   if(
     lower.includes("row-level security")
   ){
-
-    return "Supabase RLS permission issue. Database policy check kariba darkar.";
+    return "Profile save permission issue. Please contact Super Admin.";
   }
-
 
   if(
-    lower.includes("duplicate") ||
-    lower.includes("unique")
+    lower.includes("duplicate") &&
+    lower.includes("mobile")
   ){
-
-    if(
-      lower.includes("mobile")
-    ){
-
-      return "Ei mobile number already registered achhi.";
-    }
-
-    return "Ei information already registered achhi.";
+    return "Ei mobile number already another member account re registered achhi.";
   }
 
+  if(
+    lower.includes("unique") &&
+    lower.includes("mobile")
+  ){
+    return "Ei mobile number already registered achhi.";
+  }
 
   if(
     lower.includes("jwt") ||
     lower.includes("session")
   ){
-
     return "Login session expire heichi. Please login again.";
   }
-
-
-  if(
-    lower.includes("network") ||
-    lower.includes("fetch")
-  ){
-
-    return "Internet/Supabase connection problem.";
-  }
-
 
   return text;
 }
@@ -874,54 +786,47 @@ function getError(error){
    LOAD SESSION
    ===================================================== */
 
-async function startPage(){
+async function loadSession(){
 
   try{
 
-    const result =
-      await supabaseClient
-        .auth
-        .getSession();
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.auth.getSession();
 
-
-    if(result.error){
-
-      throw result.error;
+    if(error){
+      throw error;
     }
 
+    if(!data.session){
 
-    const session =
-      result.data.session;
-
-
-    if(!session){
-
-      window.location.href =
-        "auth.html";
+      window.location.replace(
+        "auth.html"
+      );
 
       return;
     }
 
-
     currentUser =
-      session.user;
+      data.session.user;
 
-
-    document.getElementById(
-      "email"
-    ).value =
+    $("email").value =
       currentUser.email || "";
-
 
     await loadProfile();
 
-
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "SESSION ERROR:",
+      error
+    );
 
-    showFatalError(
-      getError(error)
+    showMessage(
+      friendlyError(error),
+      "error"
     );
   }
 }
@@ -933,72 +838,86 @@ async function startPage(){
 
 async function loadProfile(){
 
-  const result =
-    await supabaseClient
-      .from("member_profiles")
-      .select(
-        "id,member_id,full_name,email,mobile,profile_photo_url,village,address,blood_group,designation,approval_status,member_status,qr_code_url"
-      )
-      .eq(
-        "id",
-        currentUser.id
-      )
-      .maybeSingle();
+  try{
 
-
-  if(result.error){
-
-    throw result.error;
-  }
-
-
-  let profile =
-    result.data;
-
-
-  /*
-    Normally trigger already creates
-    member_profiles after signup.
-  */
-
-  if(!profile){
-
-    const create =
+    const {
+      data,
+      error
+    } =
       await supabaseClient
         .from("member_profiles")
-        .insert({
-          id:currentUser.id,
-          full_name:
-            currentUser.user_metadata?.full_name ||
-            "",
-          email:
-            currentUser.email || "",
-          designation:"Member",
-          approval_status:"pending",
-          member_status:"inactive"
-        })
-        .select()
-        .single();
+        .select(
+          "id,member_id,full_name,email,mobile,profile_photo_url,village,address,blood_group,designation,approval_status,member_status,qr_code_url"
+        )
+        .eq(
+          "id",
+          currentUser.id
+        )
+        .maybeSingle();
 
 
-    if(create.error){
-
-      throw create.error;
+    if(error){
+      throw error;
     }
 
 
-    profile =
-      create.data;
+    /*
+      Trigger normally creates this row.
+      If not available, create it.
+    */
+
+    if(!data){
+
+      const {
+        data:newProfile,
+        error:createError
+      } =
+        await supabaseClient
+          .from("member_profiles")
+          .insert({
+            id:currentUser.id,
+            full_name:
+              currentUser.user_metadata?.full_name || "",
+            email:
+              currentUser.email || "",
+            designation:"Member",
+            approval_status:"pending",
+            member_status:"inactive"
+          })
+          .select()
+          .single();
+
+
+      if(createError){
+        throw createError;
+      }
+
+      currentProfile =
+        newProfile;
+
+    }else{
+
+      currentProfile =
+        data;
+    }
+
+
+    fillProfile(
+      currentProfile
+    );
+
+  }catch(error){
+
+    console.error(
+      "PROFILE LOAD ERROR:",
+      error
+    );
+
+    showMessage(
+      friendlyError(error),
+      "error"
+    );
   }
-
-
-  currentProfile =
-    profile;
-
-
-  fillProfile(
-    profile
-  );
 }
 
 
@@ -1008,71 +927,44 @@ async function loadProfile(){
 
 function fillProfile(profile){
 
-  document.getElementById(
-    "fullName"
-  ).value =
+  $("fullName").value =
     profile.full_name || "";
 
-
-  document.getElementById(
-    "email"
-  ).value =
+  $("email").value =
     profile.email ||
     currentUser.email ||
     "";
 
-
-  document.getElementById(
-    "mobile"
-  ).value =
+  $("mobile").value =
     profile.mobile || "";
 
-
-  document.getElementById(
-    "village"
-  ).value =
+  $("village").value =
     profile.village || "";
 
-
-  document.getElementById(
-    "address"
-  ).value =
+  $("address").value =
     profile.address || "";
 
-
-  document.getElementById(
-    "bloodGroup"
-  ).value =
+  $("bloodGroup").value =
     profile.blood_group || "";
 
-
-  document.getElementById(
-    "memberId"
-  ).value =
+  $("memberId").value =
     profile.member_id || "";
 
-
-  document.getElementById(
-    "designation"
-  ).value =
+  $("designation").value =
     profile.designation ||
     "Member";
 
-
-  document.getElementById(
-    "memberStatus"
-  ).value =
+  $("memberStatus").value =
     profile.member_status ||
     "inactive";
 
 
-  if(
-    profile.profile_photo_url
-  ){
+  if(profile.profile_photo_url){
 
-    document.getElementById(
-      "profilePhoto"
-    ).src =
+    $("profilePhoto").src =
+      profile.profile_photo_url;
+
+    $("cardPhoto").src =
       profile.profile_photo_url;
   }
 
@@ -1082,7 +974,7 @@ function fillProfile(profile){
   );
 
 
-  showDigitalCard(
+  renderMemberCard(
     profile
   );
 }
@@ -1095,9 +987,7 @@ function fillProfile(profile){
 function updateStatus(profile){
 
   const box =
-    document.getElementById(
-      "statusBox"
-    );
+    $("statusBox");
 
 
   if(
@@ -1114,7 +1004,7 @@ function updateStatus(profile){
         "status approved";
 
       box.textContent =
-        "✅ Membership approved and active. Your Member ID is active.";
+        "✅ Membership approved and active.";
 
     }else{
 
@@ -1122,7 +1012,7 @@ function updateStatus(profile){
         "status pending";
 
       box.textContent =
-        "⚠️ Membership approved, but Member Status is inactive. Please contact Super Admin.";
+        "⚠️ Membership approved, but currently inactive. Please contact Super Admin.";
     }
 
     return;
@@ -1138,7 +1028,7 @@ function updateStatus(profile){
       "status rejected";
 
     box.textContent =
-      "❌ Membership approval rejected. Please contact Committee.";
+      "❌ Membership approval rejected. Please contact the Committee.";
 
     return;
   }
@@ -1148,7 +1038,95 @@ function updateStatus(profile){
     "status pending";
 
   box.textContent =
-    "⏳ Pending at Super Admin level — Your profile is waiting for approval.";
+    "⏳ Successfully saved. Pending at Super Admin level. Super Admin approval pare Member ID generate heba.";
+}
+
+
+/* =====================================================
+   RENDER MEMBER CARD
+   ===================================================== */
+
+function renderMemberCard(profile){
+
+  if(
+    profile.approval_status !==
+      "approved" ||
+    !profile.member_id
+  ){
+
+    $("approvedCard")
+      .classList.add("hidden");
+
+    return;
+  }
+
+
+  $("approvedCard")
+    .classList.remove("hidden");
+
+
+  $("cardMemberId").textContent =
+    profile.member_id;
+
+
+  $("cardName").textContent =
+    profile.full_name ||
+    "Member";
+
+
+  $("cardDesignation").textContent =
+    profile.designation ||
+    "Member";
+
+
+  $("infoMemberId").textContent =
+    profile.member_id;
+
+
+  $("infoName").textContent =
+    profile.full_name || "-";
+
+
+  $("infoMobile").textContent =
+    profile.mobile || "-";
+
+
+  $("infoVillage").textContent =
+    profile.village || "-";
+
+
+  $("infoBlood").textContent =
+    profile.blood_group || "-";
+
+
+  $("infoDesignation").textContent =
+    profile.designation || "-";
+
+
+  $("infoStatus").textContent =
+    profile.member_status || "-";
+
+
+  if(profile.profile_photo_url){
+
+    $("cardPhoto").src =
+      profile.profile_photo_url;
+  }
+
+
+  const publicUrl =
+    window.location.origin +
+    "/maa-basuli-uda-jatra-committee-tmd/member.html?id=" +
+    encodeURIComponent(
+      profile.member_id
+    );
+
+
+  $("qrImage").src =
+    "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" +
+    encodeURIComponent(
+      publicUrl
+    );
 }
 
 
@@ -1156,18 +1134,18 @@ function updateStatus(profile){
    SAVE PROFILE
    ===================================================== */
 
-document.getElementById(
-  "profileForm"
-).addEventListener(
+$("profileForm").addEventListener(
   "submit",
   async function(event){
 
     event.preventDefault();
 
+    clearMessage();
+
 
     if(!currentUser){
 
-      message(
+      showMessage(
         "Login session nahi. Please login again.",
         "error"
       );
@@ -1176,52 +1154,44 @@ document.getElementById(
     }
 
 
-    const button =
-      document.getElementById(
-        "saveButton"
-      );
-
-
     const fullName =
-      document.getElementById(
-        "fullName"
-      ).value.trim();
-
+      $("fullName")
+        .value
+        .trim();
 
     const mobile =
-      document.getElementById(
-        "mobile"
-      ).value.trim();
-
+      $("mobile")
+        .value
+        .trim();
 
     const village =
-      document.getElementById(
-        "village"
-      ).value.trim();
-
+      $("village")
+        .value
+        .trim();
 
     const address =
-      document.getElementById(
-        "address"
-      ).value.trim();
-
+      $("address")
+        .value
+        .trim();
 
     const bloodGroup =
-      document.getElementById(
-        "bloodGroup"
-      ).value;
+      $("bloodGroup")
+        .value;
 
 
-    if(!fullName){
+    if(fullName.length < 2){
 
-      message(
-        "Please enter Full Name.",
+      showMessage(
+        "Full Name enter karantu.",
         "error"
       );
 
       return;
     }
 
+
+    const button =
+      $("saveButton");
 
     button.disabled =
       true;
@@ -1232,7 +1202,10 @@ document.getElementById(
 
     try{
 
-      const result =
+      const {
+        data,
+        error
+      } =
         await supabaseClient
           .from("member_profiles")
           .update({
@@ -1240,7 +1213,8 @@ document.getElementById(
             mobile:mobile || null,
             village:village || null,
             address:address || null,
-            blood_group:bloodGroup || null
+            blood_group:bloodGroup || null,
+            updated_at:new Date().toISOString()
           })
           .eq(
             "id",
@@ -1250,23 +1224,22 @@ document.getElementById(
           .single();
 
 
-      if(result.error){
-
-        throw result.error;
+      if(error){
+        throw error;
       }
 
 
       currentProfile =
-        result.data;
+        data;
 
 
       fillProfile(
-        result.data
+        data
       );
 
 
-      message(
-        "✅ Profile successfully saved!\n\n⏳ Pending at Super Admin level — approval pare Member ID generate heba.",
+      showMessage(
+        "✅ Successfully Saved. Profile update heichi. Pending at Super Admin level.",
         "success"
       );
 
@@ -1278,9 +1251,9 @@ document.getElementById(
         error
       );
 
-      message(
-        "❌ Profile save heiparilani.\n\n" +
-        getError(error),
+      showMessage(
+        "❌ " +
+        friendlyError(error),
         "error"
       );
 
@@ -1301,4 +1274,267 @@ document.getElementById(
    PHOTO UPLOAD
    ===================================================== */
 
-document.get
+$("photoInput").addEventListener(
+  "change",
+  async function(){
+
+    clearMessage();
+
+    const file =
+      this.files?.[0];
+
+
+    if(!file){
+      return;
+    }
+
+
+    if(!currentUser){
+
+      showMessage(
+        "Login session nahi. Please login again.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+    }
+
+
+    if(
+      file.size >
+      5 * 1024 * 1024
+    ){
+
+      showMessage(
+        "Photo maximum 5MB heba darkar.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+    }
+
+
+    const allowed = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+
+    if(
+      !allowed.includes(file.type)
+    ){
+
+      showMessage(
+        "Only JPG, PNG or WEBP allowed.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+    }
+
+
+    try{
+
+      showMessage(
+        "Photo upload heuchhi...",
+        "success"
+      );
+
+
+      const extension =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const path =
+        currentUser.id +
+        "/" +
+        Date.now() +
+        "." +
+        extension;
+
+
+      const {
+        error:uploadError
+      } =
+        await supabaseClient
+          .storage
+          .from("member-photos")
+          .upload(
+            path,
+            file,
+            {
+              cacheControl:"3600",
+              upsert:false,
+              contentType:file.type
+            }
+          );
+
+
+      if(uploadError){
+        throw uploadError;
+      }
+
+
+      const {
+        data:urlData
+      } =
+        supabaseClient
+          .storage
+          .from("member-photos")
+          .getPublicUrl(path);
+
+
+      const photoUrl =
+        urlData.publicUrl;
+
+
+      const {
+        data,
+        error:updateError
+      } =
+        await supabaseClient
+          .from("member_profiles")
+          .update({
+            profile_photo_url:photoUrl,
+            updated_at:new Date().toISOString()
+          })
+          .eq(
+            "id",
+            currentUser.id
+          )
+          .select()
+          .single();
+
+
+      if(updateError){
+        throw updateError;
+      }
+
+
+      currentProfile =
+        data;
+
+
+      $("profilePhoto").src =
+        photoUrl;
+
+      $("cardPhoto").src =
+        photoUrl;
+
+
+      fillProfile(
+        data
+      );
+
+
+      showMessage(
+        "✅ Photo successfully uploaded and saved.",
+        "success"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "PHOTO ERROR:",
+        error
+      );
+
+      showMessage(
+        "❌ " +
+        friendlyError(error),
+        "error"
+      );
+
+    }finally{
+
+      this.value = "";
+    }
+
+  }
+);
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+$("logoutButton").addEventListener(
+  "click",
+  async function(){
+
+    const button =
+      this;
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Logging out...";
+
+
+    try{
+
+      const {
+        error
+      } =
+        await supabaseClient.auth.signOut();
+
+
+      if(error){
+        throw error;
+      }
+
+
+      /*
+        Force browser back to public website.
+      */
+
+      window.location.replace(
+        "index.html"
+      );
+
+
+    }catch(error){
+
+      console.error(
+        "LOGOUT ERROR:",
+        error
+      );
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "Logout";
+
+
+      showMessage(
+        "Logout failed. Please try again.",
+        "error"
+      );
+    }
+  }
+);
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+loadSession();
+
+</script>
+
+</body>
+</html>
