@@ -24,11 +24,11 @@ body{
 .header{
   background:linear-gradient(135deg,#7c2d12,#b45309);
   color:white;
-  padding:20px;
+  padding:22px 20px;
 }
 
 .header-inner{
-  width:min(1150px,94%);
+  width:min(1250px,94%);
   margin:auto;
   display:flex;
   justify-content:space-between;
@@ -37,106 +37,102 @@ body{
 }
 
 .header h1{
-  font-size:22px;
+  font-size:25px;
+  margin-bottom:5px;
 }
 
 .header p{
-  font-size:13px;
+  font-size:14px;
   opacity:.9;
-  margin-top:5px;
 }
 
 .back-btn{
   background:white;
   color:#7c2d12;
   text-decoration:none;
-  padding:9px 14px;
-  border-radius:7px;
+  padding:11px 17px;
+  border-radius:8px;
   font-weight:bold;
-  font-size:13px;
 }
 
 .container{
-  width:min(1150px,94%);
-  margin:25px auto 50px;
+  width:min(1250px,94%);
+  margin:30px auto 60px;
 }
 
-.top-bar{
+.top-row{
   display:flex;
   justify-content:space-between;
   align-items:center;
   gap:15px;
-  margin-bottom:20px;
+  margin-bottom:25px;
 }
 
-.top-bar h2{
+.top-row h2{
   color:#7c2d12;
+  font-size:28px;
 }
 
 .add-btn{
-  border:0;
-  background:#7c2d12;
+  border:none;
+  background:#9a3412;
   color:white;
-  padding:11px 16px;
+  padding:13px 20px;
   border-radius:8px;
   cursor:pointer;
   font-weight:bold;
+  font-size:14px;
 }
 
 .add-btn:hover{
-  background:#5f210f;
+  background:#7c2d12;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-bottom:20px;
+  gap:16px;
+  margin-bottom:22px;
 }
 
 .stat{
   background:white;
-  padding:18px;
+  padding:22px;
   border-radius:12px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
 }
 
 .stat strong{
   display:block;
-  font-size:25px;
-  color:#7c2d12;
+  color:#9a3412;
+  font-size:30px;
+  margin-bottom:5px;
 }
 
 .stat span{
   color:#6b7280;
-  font-size:13px;
 }
 
 .filters{
   background:white;
-  padding:16px;
+  padding:18px;
   border-radius:12px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
   display:grid;
-  grid-template-columns:1fr 180px 180px;
-  gap:10px;
+  grid-template-columns:1fr 200px 180px;
+  gap:12px;
   margin-bottom:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.05);
 }
 
 input,
 select,
 textarea{
   width:100%;
-  padding:11px;
   border:1px solid #d1d5db;
-  border-radius:7px;
+  border-radius:8px;
+  padding:12px;
   font-size:14px;
   outline:none;
-}
-
-textarea{
-  min-height:110px;
-  resize:vertical;
 }
 
 input:focus,
@@ -145,58 +141,92 @@ textarea:focus{
   border-color:#b45309;
 }
 
-.event-list{
-  display:grid;
-  gap:14px;
+textarea{
+  resize:vertical;
+  min-height:110px;
 }
 
-.event-card{
+.events-box{
   background:white;
-  padding:18px;
   border-radius:12px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+
+.loading,
+.empty{
+  text-align:center;
+  padding:40px;
+  color:#6b7280;
+}
+
+.error-box{
+  background:#fee2e2;
+  color:#991b1b;
+  padding:16px;
+  border-radius:10px;
+  margin-bottom:20px;
+  word-break:break-word;
+}
+
+.event-item{
+  padding:20px;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.event-item:last-child{
+  border-bottom:none;
 }
 
 .event-head{
   display:flex;
   justify-content:space-between;
+  align-items:flex-start;
   gap:15px;
 }
 
-.event-card h3{
+.event-title{
   color:#7c2d12;
+  font-size:19px;
+  font-weight:bold;
   margin-bottom:7px;
 }
 
-.meta{
+.event-meta{
   color:#6b7280;
   font-size:13px;
   line-height:1.7;
 }
 
 .badge{
-  height:max-content;
-  padding:5px 9px;
+  padding:5px 10px;
   border-radius:20px;
   font-size:11px;
   font-weight:bold;
+  white-space:nowrap;
 }
 
-.published{
+.badge-published{
   background:#dcfce7;
   color:#166534;
 }
 
-.unpublished{
+.badge-unpublished{
   background:#fee2e2;
   color:#991b1b;
 }
 
+.type-badge{
+  background:#ffedd5;
+  color:#9a3412;
+  margin-left:5px;
+}
+
 .description{
-  margin-top:12px;
   color:#4b5563;
-  white-space:pre-wrap;
   line-height:1.6;
+  margin-top:10px;
+  white-space:pre-wrap;
 }
 
 .actions{
@@ -207,46 +237,32 @@ textarea:focus{
 }
 
 .action-btn{
-  border:0;
-  padding:8px 11px;
-  border-radius:6px;
+  border:none;
+  padding:8px 12px;
+  border-radius:7px;
   cursor:pointer;
   font-size:12px;
   font-weight:bold;
 }
 
-.edit{
+.edit-btn{
   background:#dbeafe;
-  color:#1e40af;
+  color:#1d4ed8;
 }
 
-.publish{
+.publish-btn{
   background:#dcfce7;
   color:#166534;
 }
 
-.unpublish{
+.unpublish-btn{
   background:#fef3c7;
   color:#92400e;
 }
 
-.delete{
+.delete-btn{
   background:#fee2e2;
   color:#991b1b;
-}
-
-.loading,
-.empty,
-.error{
-  background:white;
-  padding:35px;
-  border-radius:12px;
-  text-align:center;
-}
-
-.error{
-  color:#991b1b;
-  background:#fee2e2;
 }
 
 .modal{
@@ -259,76 +275,125 @@ textarea:focus{
   overflow:auto;
 }
 
-.modal-box{
-  background:white;
-  width:min(650px,100%);
-  margin:30px auto;
-  border-radius:13px;
-  padding:22px;
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
-.modal-box h2{
+.modal-box{
+  width:min(650px,100%);
+  background:white;
+  border-radius:14px;
+  padding:25px;
+  box-shadow:0 15px 50px rgba(0,0,0,.25);
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-header h3{
   color:#7c2d12;
-  margin-bottom:18px;
+  font-size:22px;
+}
+
+.close-btn{
+  border:none;
+  background:#f3f4f6;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:20px;
 }
 
 .form-group{
-  margin-bottom:14px;
+  margin-bottom:15px;
 }
 
 .form-group label{
   display:block;
+  margin-bottom:7px;
   font-size:13px;
   font-weight:bold;
-  margin-bottom:6px;
+  color:#374151;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.check-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-top:5px;
+}
+
+.check-row input{
+  width:auto;
 }
 
 .form-actions{
   display:flex;
   justify-content:flex-end;
   gap:10px;
-  margin-top:18px;
+  margin-top:20px;
 }
 
-.cancel-btn,
+.cancel-btn{
+  border:none;
+  background:#e5e7eb;
+  color:#374151;
+  padding:11px 18px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
 .save-btn{
-  border:0;
-  padding:10px 15px;
-  border-radius:7px;
+  border:none;
+  background:#9a3412;
+  color:white;
+  padding:11px 20px;
+  border-radius:8px;
   cursor:pointer;
   font-weight:bold;
 }
 
-.cancel-btn{
-  background:#e5e7eb;
-}
-
-.save-btn{
-  background:#7c2d12;
-  color:white;
+.save-btn:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .message{
+  padding:12px;
+  border-radius:8px;
   margin-bottom:15px;
-  padding:11px;
-  border-radius:7px;
   display:none;
-  font-size:13px;
 }
 
-.success{
+.message.success{
+  display:block;
   background:#dcfce7;
   color:#166534;
 }
 
-.failure{
+.message.error{
+  display:block;
   background:#fee2e2;
   color:#991b1b;
 }
 
 @media(max-width:800px){
 
-  .header-inner{
+  .header-inner,
+  .top-row{
     flex-direction:column;
     align-items:flex-start;
   }
@@ -341,9 +406,8 @@ textarea:focus{
     grid-template-columns:1fr;
   }
 
-  .top-bar{
-    flex-direction:column;
-    align-items:flex-start;
+  .form-grid{
+    grid-template-columns:1fr;
   }
 
   .event-head{
@@ -375,7 +439,7 @@ textarea:focus{
 
 <main class="container">
 
-  <div class="top-bar">
+  <div class="top-row">
 
     <h2>Manage Events & Programmes</h2>
 
@@ -389,7 +453,7 @@ textarea:focus{
   </div>
 
 
-  <div id="message" class="message"></div>
+  <div id="errorBox"></div>
 
 
   <section class="stats">
@@ -421,27 +485,63 @@ textarea:focus{
     >
 
     <select id="typeFilter">
-      <option value="all">All Types</option>
-      <option value="Jatra">Jatra</option>
-      <option value="Programme">Programme</option>
-      <option value="Cultural">Cultural</option>
-      <option value="Meeting">Meeting</option>
-      <option value="Committee">Committee</option>
-      <option value="Other">Other</option>
+
+      <option value="all">
+        All Types
+      </option>
+
+      <option value="Jatra">
+        Jatra
+      </option>
+
+      <option value="Programme">
+        Programme
+      </option>
+
+      <option value="Cultural">
+        Cultural
+      </option>
+
+      <option value="Meeting">
+        Meeting
+      </option>
+
+      <option value="Committee">
+        Committee
+      </option>
+
+      <option value="Other">
+        Other
+      </option>
+
     </select>
 
+
     <select id="statusFilter">
-      <option value="all">All Status</option>
-      <option value="published">Published</option>
-      <option value="unpublished">Unpublished</option>
+
+      <option value="all">
+        All Status
+      </option>
+
+      <option value="published">
+        Published
+      </option>
+
+      <option value="unpublished">
+        Unpublished
+      </option>
+
     </select>
 
   </section>
 
 
-  <section id="eventList" class="event-list">
+  <section class="events-box">
 
-    <div class="loading">
+    <div
+      id="eventList"
+      class="loading"
+    >
       Loading events...
     </div>
 
@@ -450,17 +550,35 @@ textarea:focus{
 </main>
 
 
-<!-- =====================================
-     EVENT MODAL
-===================================== -->
+<!-- MODAL -->
 
-<div id="eventModal" class="modal">
+<div
+  id="eventModal"
+  class="modal"
+>
 
   <div class="modal-box">
 
-    <h2 id="modalTitle">
-      Add New Event
-    </h2>
+    <div class="modal-header">
+
+      <h3 id="modalTitle">
+        Add New Event
+      </h3>
+
+      <button
+        class="close-btn"
+        onclick="closeModal()"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      id="formMessage"
+      class="message"
+    ></div>
 
 
     <form id="eventForm">
@@ -474,51 +592,74 @@ textarea:focus{
       <div class="form-group">
 
         <label>
-          Event / Programme Title *
+          Event Title *
         </label>
 
         <input
           type="text"
-          id="eventTitle"
+          id="title"
           required
-          placeholder="Example: Maa Basuli Uda Jatra 2027"
+          placeholder="Enter event title"
         >
 
       </div>
 
 
-      <div class="form-group">
+      <div class="form-grid">
 
-        <label>
-          Event Date *
-        </label>
+        <div class="form-group">
 
-        <input
-          type="date"
-          id="eventDate"
-          required
-        >
+          <label>
+            Event Date *
+          </label>
 
-      </div>
+          <input
+            type="date"
+            id="eventDate"
+            required
+          >
+
+        </div>
 
 
-      <div class="form-group">
+        <div class="form-group">
 
-        <label>
-          Event Type *
-        </label>
+          <label>
+            Event Type *
+          </label>
 
-        <select
-          id="eventType"
-          required
-        >
-          <option value="Jatra">Jatra</option>
-          <option value="Programme">Programme</option>
-          <option value="Cultural">Cultural</option>
-          <option value="Meeting">Meeting</option>
-          <option value="Committee">Committee</option>
-          <option value="Other">Other</option>
-        </select>
+          <select
+            id="eventType"
+            required
+          >
+
+            <option value="Jatra">
+              Jatra
+            </option>
+
+            <option value="Programme">
+              Programme
+            </option>
+
+            <option value="Cultural">
+              Cultural
+            </option>
+
+            <option value="Meeting">
+              Meeting
+            </option>
+
+            <option value="Committee">
+              Committee
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
 
       </div>
 
@@ -531,8 +672,8 @@ textarea:focus{
 
         <input
           type="text"
-          id="eventLocation"
-          placeholder="Thakurmunda, Mayurbhanj, Odisha"
+          id="location"
+          placeholder="e.g. Maa Basuli Temple, Thakurmunda"
         >
 
       </div>
@@ -545,30 +686,24 @@ textarea:focus{
         </label>
 
         <textarea
-          id="eventDescription"
-          placeholder="Write complete event/programme details..."
+          id="description"
+          placeholder="Enter event details..."
         ></textarea>
 
       </div>
 
 
-      <div class="form-group">
+      <div class="check-row">
 
-        <label>
-          Publish Status
+        <input
+          type="checkbox"
+          id="isPublished"
+          checked
+        >
+
+        <label for="isPublished">
+          Publish this event on public website
         </label>
-
-        <select id="eventPublished">
-
-          <option value="true">
-            Published
-          </option>
-
-          <option value="false">
-            Unpublished
-          </option>
-
-        </select>
 
       </div>
 
@@ -586,6 +721,7 @@ textarea:focus{
         <button
           type="submit"
           class="save-btn"
+          id="saveBtn"
         >
           Save Event
         </button>
@@ -601,15 +737,17 @@ textarea:focus{
 
 <script>
 
-/* =====================================
+/* =====================================================
    SUPABASE
-===================================== */
+   EXACT SAME WORKING KEY AS AUTH.HTML
+===================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUqT--2_Nov";
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -618,157 +756,244 @@ const supabaseClient =
   );
 
 
+let currentUser = null;
+let currentRole = null;
 let allEvents = [];
 
-let currentUser = null;
 
+/* =====================================================
+   ERROR DISPLAY
+===================================================== */
 
-/* =====================================
-   AUTH + ROLE CHECK
-===================================== */
+function showError(message){
 
-async function checkAccess(){
+  document.getElementById(
+    "errorBox"
+  ).innerHTML = `
 
-  const {
-    data:{
-      session
-    }
-  } =
-    await supabaseClient.auth.getSession();
+    <div class="error-box">
+      ${escapeHtml(message)}
+    </div>
 
-
-  if(!session){
-
-    window.location.href =
-      "auth.html";
-
-    return false;
-  }
-
-
-  currentUser =
-    session.user;
-
-
-  const {
-    data:roleData,
-    error
-  } =
-    await supabaseClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id",currentUser.id)
-      .maybeSingle();
-
-
-  if(error){
-
-    console.error(error);
-
-    alert(
-      "Role check failed."
-    );
-
-    window.location.href =
-      "index.html";
-
-    return false;
-  }
-
-
-  if(
-    !roleData ||
-    !["admin","super_admin"]
-      .includes(roleData.role)
-  ){
-
-    alert(
-      "You are not authorized to manage events."
-    );
-
-    window.location.href =
-      "profile.html";
-
-    return false;
-  }
-
-
-  return true;
+  `;
 
 }
 
 
-/* =====================================
+function clearError(){
+
+  document.getElementById(
+    "errorBox"
+  ).innerHTML = "";
+
+}
+
+
+/* =====================================================
+   CHECK LOGIN + ROLE
+===================================================== */
+
+async function checkAccess(){
+
+  clearError();
+
+  try{
+
+    const {
+      data: sessionData,
+      error: sessionError
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if(sessionError){
+
+      throw sessionError;
+
+    }
+
+
+    currentUser =
+      sessionData.session?.user || null;
+
+
+    if(!currentUser){
+
+      window.location.href =
+        "auth.html";
+
+      return false;
+
+    }
+
+
+    const {
+      data: roleData,
+      error: roleError
+    } =
+      await supabaseClient
+        .from("user_roles")
+        .select("role")
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .maybeSingle();
+
+
+    if(roleError){
+
+      throw roleError;
+
+    }
+
+
+    currentRole =
+      roleData?.role || "member";
+
+
+    if(
+      currentRole !== "admin" &&
+      currentRole !== "super_admin"
+    ){
+
+      alert(
+        "Role check failed. Admin access required."
+      );
+
+      window.location.href =
+        "profile.html";
+
+      return false;
+
+    }
+
+
+    return true;
+
+  }
+
+  catch(error){
+
+    console.error(
+      "ROLE CHECK ERROR:",
+      error
+    );
+
+
+    showError(
+      "Role check failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+
+    return false;
+
+  }
+
+}
+
+
+/* =====================================================
    LOAD EVENTS
-===================================== */
+===================================================== */
 
 async function loadEvents(){
 
   const list =
-    document.getElementById("eventList");
+    document.getElementById(
+      "eventList"
+    );
 
 
-  list.innerHTML = `
-    <div class="loading">
-      Loading events...
-    </div>
-  `;
+  list.innerHTML =
+    '<div class="loading">Loading events...</div>';
 
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("events")
-      .select("*")
-      .order(
-        "event_date",
-        {ascending:false}
-      );
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .from("events")
+        .select(
+          "id,title,event_date,event_type,location,description,is_published,created_by,created_at,updated_at"
+        )
+        .order(
+          "event_date",
+          {
+            ascending:false
+          }
+        );
 
 
-  if(error){
+    if(error){
 
-    console.error(error);
+      throw error;
 
-    list.innerHTML = `
-      <div class="error">
-        ${escapeHtml(error.message)}
-      </div>
-    `;
+    }
 
-    return;
+
+    allEvents =
+      data || [];
+
+
+    updateStats();
+
+    renderEvents();
+
   }
 
+  catch(error){
 
-  allEvents =
-    data || [];
+    console.error(
+      "LOAD EVENTS ERROR:",
+      error
+    );
 
 
-  updateStats();
+    list.innerHTML =
+      '<div class="empty">Events load karibare problem hela.</div>';
 
-  renderEvents();
+
+    showError(
+      "Events load failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }
 
 }
 
 
-/* =====================================
+/* =====================================================
    STATS
-===================================== */
+===================================================== */
 
 function updateStats(){
 
   const total =
     allEvents.length;
 
+
   const published =
     allEvents.filter(
-      event => event.is_published === true
+      event => event.is_published
     ).length;
 
+
   const unpublished =
-    total - published;
+    allEvents.filter(
+      event => !event.is_published
+    ).length;
 
 
   document.getElementById(
@@ -788,57 +1013,70 @@ function updateStats(){
 }
 
 
-/* =====================================
-   RENDER
-===================================== */
+/* =====================================================
+   RENDER EVENTS
+===================================================== */
 
 function renderEvents(){
 
   const list =
-    document.getElementById("eventList");
+    document.getElementById(
+      "eventList"
+    );
+
 
   const search =
-    document.getElementById("searchInput")
-      .value
+    document.getElementById(
+      "searchInput"
+    ).value
       .trim()
       .toLowerCase();
 
+
   const type =
-    document.getElementById("typeFilter")
-      .value;
+    document.getElementById(
+      "typeFilter"
+    ).value;
+
 
   const status =
-    document.getElementById("statusFilter")
-      .value;
+    document.getElementById(
+      "statusFilter"
+    ).value;
 
 
   const filtered =
     allEvents.filter(event => {
 
-      const text =
-        `${event.title || ""}
-         ${event.description || ""}
-         ${event.location || ""}
-         ${event.event_type || ""}`
-        .toLowerCase();
+      const text = (
+
+        (event.title || "") +
+        " " +
+        (event.description || "") +
+        " " +
+        (event.location || "") +
+        " " +
+        (event.event_type || "")
+
+      ).toLowerCase();
 
 
-      const matchesSearch =
+      const searchMatch =
         !search ||
         text.includes(search);
 
 
-      const matchesType =
+      const typeMatch =
         type === "all" ||
         event.event_type === type;
 
 
-      let matchesStatus = true;
+      let statusMatch = true;
 
 
       if(status === "published"){
 
-        matchesStatus =
+        statusMatch =
           event.is_published === true;
 
       }
@@ -846,16 +1084,16 @@ function renderEvents(){
 
       if(status === "unpublished"){
 
-        matchesStatus =
+        statusMatch =
           event.is_published === false;
 
       }
 
 
       return (
-        matchesSearch &&
-        matchesType &&
-        matchesStatus
+        searchMatch &&
+        typeMatch &&
+        statusMatch
       );
 
     });
@@ -864,16 +1102,22 @@ function renderEvents(){
   if(!filtered.length){
 
     list.innerHTML = `
+
       <div class="empty">
+
         No events found.
+
       </div>
+
     `;
 
     return;
+
   }
 
 
   list.innerHTML =
+
     filtered.map(event => {
 
       const date =
@@ -892,43 +1136,32 @@ function renderEvents(){
           : "Date not set";
 
 
-      const published =
-        event.is_published === true;
-
-
       return `
 
-        <article class="event-card">
+        <div class="event-item">
 
           <div class="event-head">
 
             <div>
 
-              <h3>
+              <div class="event-title">
+
                 ${escapeHtml(
                   event.title
                 )}
-              </h3>
 
-              <div class="meta">
+              </div>
+
+              <div class="event-meta">
 
                 📅 ${date}
-
-                <br>
-
-                🏷️ ${
-                  escapeHtml(
-                    event.event_type ||
-                    "Other"
-                  )
-                }
 
                 <br>
 
                 📍 ${
                   escapeHtml(
                     event.location ||
-                    "Not specified"
+                    "Location not set"
                   )
                 }
 
@@ -937,69 +1170,92 @@ function renderEvents(){
             </div>
 
 
-            <span class="badge ${
-              published
-                ? "published"
-                : "unpublished"
-            }">
+            <div>
 
-              ${
-                published
-                  ? "Published"
-                  : "Unpublished"
-              }
+              <span class="badge ${
+                event.is_published
+                  ? "badge-published"
+                  : "badge-unpublished"
+              }">
 
-            </span>
+                ${
+                  event.is_published
+                    ? "Published"
+                    : "Unpublished"
+                }
+
+              </span>
+
+
+              <span class="badge type-badge">
+
+                ${
+                  escapeHtml(
+                    event.event_type ||
+                    "Other"
+                  )
+                }
+
+              </span>
+
+            </div>
 
           </div>
 
 
           ${
             event.description
+
               ? `
+
                 <div class="description">
+
                   ${escapeHtml(
                     event.description
                   )}
+
                 </div>
+
               `
+
               : ""
+
           }
 
 
           <div class="actions">
 
             <button
-              class="action-btn edit"
+              class="action-btn edit-btn"
               onclick="editEvent('${event.id}')"
             >
               ✏️ Edit
             </button>
 
 
-            ${
-              published
-                ? `
-                  <button
-                    class="action-btn unpublish"
-                    onclick="changePublishStatus('${event.id}',false)"
-                  >
-                    Hide
-                  </button>
-                `
-                : `
-                  <button
-                    class="action-btn publish"
-                    onclick="changePublishStatus('${event.id}',true)"
-                  >
-                    Publish
-                  </button>
-                `
-            }
+            <button
+              class="action-btn ${
+                event.is_published
+                  ? "unpublish-btn"
+                  : "publish-btn"
+              }"
+              onclick="togglePublish(
+                '${event.id}',
+                ${event.is_published}
+              )"
+            >
+
+              ${
+                event.is_published
+                  ? "Unpublish"
+                  : "Publish"
+              }
+
+            </button>
 
 
             <button
-              class="action-btn delete"
+              class="action-btn delete-btn"
               onclick="deleteEvent('${event.id}')"
             >
               🗑️ Delete
@@ -1007,7 +1263,7 @@ function renderEvents(){
 
           </div>
 
-        </article>
+        </div>
 
       `;
 
@@ -1016,9 +1272,9 @@ function renderEvents(){
 }
 
 
-/* =====================================
-   ADD EVENT
-===================================== */
+/* =====================================================
+   OPEN ADD
+===================================================== */
 
 function openAddModal(){
 
@@ -1039,20 +1295,43 @@ function openAddModal(){
 
 
   document.getElementById(
-    "eventPublished"
-  ).value = "true";
+    "isPublished"
+  ).checked = true;
+
+
+  document.getElementById(
+    "formMessage"
+  ).className =
+    "message";
 
 
   document.getElementById(
     "eventModal"
-  ).style.display = "block";
+  ).classList.add(
+    "show"
+  );
 
 }
 
 
-/* =====================================
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+function closeModal(){
+
+  document.getElementById(
+    "eventModal"
+  ).classList.remove(
+    "show"
+  );
+
+}
+
+
+/* =====================================================
    EDIT EVENT
-===================================== */
+===================================================== */
 
 function editEvent(id){
 
@@ -1069,6 +1348,7 @@ function editEvent(id){
     );
 
     return;
+
   }
 
 
@@ -1085,7 +1365,7 @@ function editEvent(id){
 
 
   document.getElementById(
-    "eventTitle"
+    "title"
   ).value =
     event.title || "";
 
@@ -1103,58 +1383,65 @@ function editEvent(id){
 
 
   document.getElementById(
-    "eventLocation"
+    "location"
   ).value =
     event.location || "";
 
 
   document.getElementById(
-    "eventDescription"
+    "description"
   ).value =
     event.description || "";
 
 
   document.getElementById(
-    "eventPublished"
-  ).value =
-    event.is_published
-      ? "true"
-      : "false";
+    "isPublished"
+  ).checked =
+    event.is_published === true;
+
+
+  document.getElementById(
+    "formMessage"
+  ).className =
+    "message";
 
 
   document.getElementById(
     "eventModal"
-  ).style.display =
-    "block";
+  ).classList.add(
+    "show"
+  );
 
 }
 
 
-/* =====================================
-   CLOSE MODAL
-===================================== */
-
-function closeModal(){
-
-  document.getElementById(
-    "eventModal"
-  ).style.display =
-    "none";
-
-}
-
-
-/* =====================================
+/* =====================================================
    SAVE EVENT
-===================================== */
+===================================================== */
 
 document
-  .getElementById("eventForm")
+  .getElementById(
+    "eventForm"
+  )
   .addEventListener(
     "submit",
     async function(e){
 
       e.preventDefault();
+
+      clearError();
+
+
+      const saveBtn =
+        document.getElementById(
+          "saveBtn"
+        );
+
+
+      saveBtn.disabled = true;
+
+      saveBtn.textContent =
+        "Saving...";
 
 
       const id =
@@ -1167,7 +1454,7 @@ document
 
         title:
           document.getElementById(
-            "eventTitle"
+            "title"
           ).value.trim(),
 
         event_date:
@@ -1182,257 +1469,292 @@ document
 
         location:
           document.getElementById(
-            "eventLocation"
-          ).value.trim(),
+            "location"
+          ).value.trim() || null,
 
         description:
           document.getElementById(
-            "eventDescription"
-          ).value.trim(),
+            "description"
+          ).value.trim() || null,
 
         is_published:
           document.getElementById(
-            "eventPublished"
-          ).value === "true"
+            "isPublished"
+          ).checked
 
       };
 
 
-      if(!payload.title){
+      try{
+
+        if(!payload.title){
+
+          throw new Error(
+            "Event title is required."
+          );
+
+        }
+
+
+        if(!payload.event_date){
+
+          throw new Error(
+            "Event date is required."
+          );
+
+        }
+
+
+        let result;
+
+
+        /* UPDATE */
+
+        if(id){
+
+          result =
+            await supabaseClient
+              .from("events")
+              .update(payload)
+              .eq(
+                "id",
+                id
+              );
+
+        }
+
+        /* INSERT */
+
+        else{
+
+          payload.created_by =
+            currentUser.id;
+
+
+          result =
+            await supabaseClient
+              .from("events")
+              .insert(
+                payload
+              );
+
+        }
+
+
+        if(result.error){
+
+          throw result.error;
+
+        }
+
+
+        closeModal();
+
+        await loadEvents();
+
 
         alert(
-          "Event title required."
+          id
+            ? "Event updated successfully."
+            : "Event added successfully."
         );
 
-        return;
       }
 
-
-      if(!payload.event_date){
-
-        alert(
-          "Event date required."
-        );
-
-        return;
-      }
-
-
-      let result;
-
-
-      if(id){
-
-        result =
-          await supabaseClient
-            .from("events")
-            .update(payload)
-            .eq("id",id);
-
-      }else{
-
-        payload.created_by =
-          currentUser.id;
-
-
-        result =
-          await supabaseClient
-            .from("events")
-            .insert(payload);
-
-      }
-
-
-      if(result.error){
+      catch(error){
 
         console.error(
-          result.error
+          "SAVE EVENT ERROR:",
+          error
         );
 
-        showMessage(
-          result.error.message,
-          false
-        );
 
-        return;
+        const message =
+          document.getElementById(
+            "formMessage"
+          );
+
+
+        message.className =
+          "message error";
+
+
+        message.textContent =
+          error.message ||
+          "Event save failed.";
+
       }
 
+      finally{
 
-      closeModal();
+        saveBtn.disabled =
+          false;
 
+        saveBtn.textContent =
+          "Save Event";
 
-      showMessage(
-        id
-          ? "Event updated successfully."
-          : "Event added successfully.",
-        true
-      );
-
-
-      await loadEvents();
+      }
 
     }
   );
 
 
-/* =====================================
+/* =====================================================
    PUBLISH / UNPUBLISH
-===================================== */
+===================================================== */
 
-async function changePublishStatus(
+async function togglePublish(
   id,
-  status
+  currentStatus
 ){
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("events")
-      .update({
-        is_published:status
-      })
-      .eq("id",id);
-
-
-  if(error){
-
-    console.error(error);
-
-    showMessage(
-      error.message,
-      false
-    );
-
-    return;
-  }
-
-
-  showMessage(
-    status
-      ? "Event published."
-      : "Event unpublished.",
-    true
-  );
-
-
-  await loadEvents();
-
-}
-
-
-/* =====================================
-   DELETE
-===================================== */
-
-async function deleteEvent(id){
-
-  const event =
-    allEvents.find(
-      item => item.id === id
-    );
-
-
-  if(!event){
-
-    return;
-  }
+  const action =
+    currentStatus
+      ? "unpublish"
+      : "publish";
 
 
   const confirmed =
     confirm(
-      `Delete "${event.title}"?`
+      `Are you sure you want to ${action} this event?`
     );
 
 
   if(!confirmed){
 
     return;
+
   }
 
 
-  const {
-    error
-  } =
-    await supabaseClient
-      .from("events")
-      .delete()
-      .eq("id",id);
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("events")
+        .update({
+          is_published:
+            !currentStatus
+        })
+        .eq(
+          "id",
+          id
+        );
 
 
-  if(error){
+    if(error){
 
-    console.error(error);
+      throw error;
 
-    showMessage(
-      error.message,
-      false
+    }
+
+
+    await loadEvents();
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "PUBLISH ERROR:",
+      error
     );
+
+
+    showError(
+      "Publish status update failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   DELETE EVENT
+===================================================== */
+
+async function deleteEvent(id){
+
+  const confirmed =
+    confirm(
+      "Are you sure you want to permanently delete this event?"
+    );
+
+
+  if(!confirmed){
 
     return;
+
   }
 
 
-  showMessage(
-    "Event deleted successfully.",
-    true
-  );
+  try{
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("events")
+        .delete()
+        .eq(
+          "id",
+          id
+        );
 
 
-  await loadEvents();
+    if(error){
+
+      throw error;
+
+    }
+
+
+    await loadEvents();
+
+
+    alert(
+      "Event deleted successfully."
+    );
+
+  }
+
+  catch(error){
+
+    console.error(
+      "DELETE EVENT ERROR:",
+      error
+    );
+
+
+    showError(
+      "Event delete failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      )
+    );
+
+  }
 
 }
 
 
-/* =====================================
-   MESSAGE
-===================================== */
-
-function showMessage(
-  message,
-  success
-){
-
-  const box =
-    document.getElementById(
-      "message"
-    );
-
-
-  box.textContent =
-    message;
-
-
-  box.className =
-    "message " +
-    (
-      success
-        ? "success"
-        : "failure"
-    );
-
-
-  box.style.display =
-    "block";
-
-
-  setTimeout(
-    () => {
-      box.style.display =
-        "none";
-    },
-    3500
-  );
-
-}
-
-
-/* =====================================
-   FILTER LISTENERS
-===================================== */
+/* =====================================================
+   FILTER EVENTS
+===================================================== */
 
 document
-  .getElementById("searchInput")
+  .getElementById(
+    "searchInput"
+  )
   .addEventListener(
     "input",
     renderEvents
@@ -1440,7 +1762,9 @@ document
 
 
 document
-  .getElementById("typeFilter")
+  .getElementById(
+    "typeFilter"
+  )
   .addEventListener(
     "change",
     renderEvents
@@ -1448,43 +1772,71 @@ document
 
 
 document
-  .getElementById("statusFilter")
+  .getElementById(
+    "statusFilter"
+  )
   .addEventListener(
     "change",
     renderEvents
   );
 
 
-/* =====================================
-   SECURITY
-===================================== */
+/* =====================================================
+   HTML ESCAPE
+===================================================== */
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
-/* =====================================
+/* =====================================================
    START
-===================================== */
+===================================================== */
 
 (async function(){
 
   const allowed =
     await checkAccess();
 
-  if(allowed){
 
-    await loadEvents();
+  if(!allowed){
+
+    return;
 
   }
+
+
+  await loadEvents();
 
 })();
 
