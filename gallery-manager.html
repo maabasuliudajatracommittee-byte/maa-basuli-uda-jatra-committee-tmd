@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery Manager | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#172033;
+}
+header{
+  background:linear-gradient(135deg,#7c2d12,#b45309);
+  color:white;
+  padding:22px 30px;
+}
+.header-inner{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+h1{margin:0;font-size:25px}
+.header-sub{margin-top:5px;opacity:.9}
+.container{
+  max-width:1200px;
+  margin:30px auto;
+  padding:0 18px;
+}
+.top-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:20px;
+}
+button{
+  border:0;
+  border-radius:9px;
+  padding:11px 16px;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn-primary{background:#b45309;color:#fff}
+.btn-secondary{background:#e5e7eb;color:#111827}
+.btn-danger{background:#dc2626;color:white}
+.btn-success{background:#15803d;color:white}
+.btn-dark{background:#111827;color:white}
+
+.card{
+  background:white;
+  border-radius:14px;
+  padding:22px;
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
+  margin-bottom:22px;
+}
+.card h2{margin-top:0}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:16px;
+}
+.field{display:flex;flex-direction:column;gap:7px}
+.field label{font-weight:700}
+input,select,textarea{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:15px;
+}
+textarea{min-height:100px;resize:vertical}
+
+.notice{
+  padding:13px 15px;
+  border-radius:9px;
+  margin-bottom:15px;
+  display:none;
+}
+.notice.success{background:#dcfce7;color:#166534}
+.notice.error{background:#fee2e2;color:#991b1b}
+.notice.info{background:#dbeafe;color:#1e40af}
+
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:18px;
+}
+.album{
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+}
+.cover{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  background:#e5e7eb;
+}
+.no-cover{
+  height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e5e7eb;
+  color:#6b7280;
+}
+.album-body{padding:15px}
+.album-title{font-size:18px;font-weight:800;margin-bottom:6px}
+.album-meta{font-size:13px;color:#6b7280;margin-bottom:10px}
+.album-description{
+  font-size:14px;
+  color:#4b5563;
+  min-height:40px;
+}
+.album-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:14px;
+}
+
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:15px;
+  margin-top:18px;
+}
+.photo-card{
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
+}
+.photo-card img{
+  width:100%;
+  height:150px;
+  object-fit:cover;
+}
+.photo-info{padding:10px}
+.photo-actions{margin-top:8px}
+
+.status{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:700;
+}
+.status.published{background:#dcfce7;color:#166534}
+.status.hidden{background:#fee2e2;color:#991b1b}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000;
+}
+.modal-box{
+  background:white;
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  border-radius:15px;
+  padding:22px;
+}
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin-bottom:18px;
+}
+.close{
+  background:#e5e7eb;
+  font-size:20px;
+  padding:7px 12px;
+}
+
+.loading{
+  text-align:center;
+  padding:35px;
+  color:#6b7280;
+}
+
+@media(max-width:600px){
+  header{padding:18px}
+  h1{font-size:20px}
+  .container{margin:20px auto}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>🖼️ Gallery Manager</h1>
+      <div class="header-sub">Maa Basuli Uda Jatra Committee</div>
+    </div>
+    <button class="btn-secondary" onclick="goBack()">← Dashboard</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="message" class="notice"></div>
+
+  <div class="top-actions">
+    <button class="btn-primary" onclick="openAlbumModal()">
+      + Create New Album
+    </button>
+    <button class="btn-secondary" onclick="loadAlbums()">
+      ↻ Refresh
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Gallery Albums</h2>
+
+    <div class="grid" style="margin-bottom:18px">
+      <div class="field">
+        <label>Search Album</label>
+        <input
+          type="text"
+          id="searchAlbum"
+          placeholder="Search album..."
+          oninput="renderAlbums()"
+        >
+      </div>
+
+      <div class="field">
+        <label>Year</label>
+        <select id="filterYear" onchange="renderAlbums()">
+          <option value="">All Years</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Category</label>
+        <select id="filterCategory" onchange="renderAlbums()">
+          <option value="">All Categories</option>
+          <option>Jatra</option>
+          <option>Cultural</option>
+          <option>Temple</option>
+          <option>Committee</option>
+          <option>Programme</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="albumLoading" class="loading">
+      Loading albums...
+    </div>
+
+    <div id="albumGrid" class="album-grid"></div>
+  </div>
+
+</div>
+
+<!-- ALBUM MODAL -->
+<div class="modal" id="albumModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h2 id="albumModalTitle">Create Gallery Album</h2>
+      <button class="close" onclick="closeAlbumModal()">×</button>
+    </div>
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Album Name *</label>
+        <input
+          type="text"
+          id="albumName"
+          placeholder="Example: Maa Basuli Uda Jatra 2027"
+        >
+      </div>
+
+      <div class="field">
+        <label>Year *</label>
+        <input
+          type="number"
+          id="albumYear"
+          min="2000"
+          max="2100"
+          placeholder="2027"
+        >
+      </div>
+
+      <div class="field">
+        <label>Category *</label>
+        <select id="albumCategory">
+          <option value="Jatra">Jatra</option>
+          <option value="Cultural">Cultural</option>
+          <option value="Temple">Temple</option>
+          <option value="Committee">Committee</option>
+          <option value="Programme">Programme</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Cover Photo</label>
+        <input
+          type="file"
+          id="coverPhoto"
+          accept="image/*"
+        >
+      </div>
+
+      <div class="field" style="grid-column:1/-1">
+        <label>Description</label>
+        <textarea
+          id="albumDescription"
+          placeholder="Album description..."
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label>Published</label>
+        <select id="albumPublished">
+          <option value="true">Published</option>
+          <option value="false">Unpublished</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div style="margin-top:20px;display:flex;gap:10px">
+      <button class="btn-primary" onclick="saveAlbum()">
+        Save Album
+      </button>
+
+      <button class="btn-secondary" onclick="closeAlbumModal()">
+        Cancel
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- PHOTO MODAL -->
+<div class="modal" id="photoModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <div>
+        <h2 id="photoModalTitle">Manage Photos</h2>
+        <div id="photoAlbumInfo" class="album-meta"></div>
+      </div>
+
+      <button class="close" onclick="closePhotoModal()">×</button>
+    </div>
+
+    <div class="card" style="background:#f9fafb">
+
+      <h3>Add Photos</h3>
+
+      <input
+        type="file"
+        id="galleryPhotos"
+        accept="image/*"
+        multiple
+      >
+
+      <div style="margin-top:12px">
+        <button class="btn-primary" onclick="uploadPhotos()">
+          Upload Selected Photos
+        </button>
+      </div>
+
+      <div style="margin-top:10px;font-size:13px;color:#6b7280">
+        You can select multiple images at once.
+      </div>
+
+    </div>
+
+    <div id="photoLoading" class="loading">
+      Loading photos...
+    </div>
+
+    <div id="photoGrid" class="photo-grid"></div>
+
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let currentUser = null;
+let currentRole = null;
+let albums = [];
+let currentAlbum = null;
+let editingAlbumId = null;
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(text,type="info"){
+  const el=document.getElementById("message");
+  el.className="notice "+type;
+  el.textContent=text;
+  el.style.display="block";
+
+  setTimeout(()=>{
+    el.style.display="none";
+  },5000);
+}
+
+
+/* =========================
+   AUTH / ROLE
+========================= */
+
+async function checkAccess(){
+
+  const {
+    data:{session},
+    error
+  } = await supabaseClient.auth.getSession();
+
+  if(error){
+    showMessage(error.message,"error");
+    return;
+  }
+
+  if(!session){
+    window.location.href="auth.html";
+    return;
+  }
+
+  currentUser=session.user;
+
+  const {data:roleData,error:roleError}
+    =await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id",currentUser.id)
+      .maybeSingle();
+
+  if(roleError){
+    showMessage(
+      "Role check failed: "+roleError.message,
+      "error"
+    );
+    return;
+  }
+
+  currentRole=roleData?.role || "member";
+
+  if(
+    currentRole!=="admin" &&
+    currentRole!=="super_admin"
+  ){
+    alert("Access denied.");
+    window.location.href="profile.html";
+    return;
+  }
+
+  await loadAlbums();
+}
+
+
+/* =========================
+   LOAD ALBUMS
+========================= */
+
+async function loadAlbums(){
+
+  document.getElementById("albumLoading")
+    .style.display="block";
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("gallery_albums")
+    .select("*")
+    .order("year",{ascending:false})
+    .order("created_at",{ascending:false});
+
+  document.getElementById("albumLoading")
+    .style.display="none";
+
+  if(error){
+    showMessage(
+      "Could not load albums: "+error.message,
+      "error"
+    );
+    return;
+  }
+
+  albums=data || [];
+
+  buildYearFilter();
+  renderAlbums();
+}
+
+
+/* =========================
+   YEAR FILTER
+========================= */
+
+function buildYearFilter(){
+
+  const select=document.getElementById("filterYear");
+
+  const current=select.value;
+
+  const years=[
+    ...new Set(
+      albums
+        .map(a=>a.year)
+        .filter(Boolean)
+    )
+  ].sort((a,b)=>b-a);
+
+  select.innerHTML=
+    `<option value="">All Years</option>`+
+    years.map(y=>
+      `<option value="${escapeHtml(y)}">${escapeHtml(y)}</option>`
+    ).join("");
+
+  select.value=current;
+}
+
+
+/* =========================
+   RENDER ALBUMS
+========================= */
+
+function renderAlbums(){
+
+  const grid=document.getElementById("albumGrid");
+
+  const search=
+    document.getElementById("searchAlbum")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const year=
+    document.getElementById("filterYear").value;
+
+  const category=
+    document.getElementById("filterCategory").value;
+
+  const filtered=albums.filter(album=>{
+
+    const matchesSearch=
+      !search ||
+      album.album_name.toLowerCase().includes(search) ||
+      (album.description||"")
+        .toLowerCase()
+        .includes(search);
+
+    const matchesYear=
+      !year ||
+      String(album.year)===year;
+
+    const matchesCategory=
+      !category ||
+      album.category===category;
+
+    return (
+      matchesSearch &&
+      matchesYear &&
+      matchesCategory
+    );
+  });
+
+  if(!filtered.length){
+
+    grid.innerHTML=`
+      <div style="grid-column:1/-1;text-align:center;padding:35px;color:#6b7280">
+        No gallery albums found.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML=filtered.map(album=>{
+
+    const cover=album.cover_photo_url
+      ? `<img class="cover"
+          src="${escapeAttr(album.cover_photo_url)}"
+          alt="${escapeAttr(album.album_name)}">`
+      : `<div class="no-cover">No Cover Photo</div>`;
+
+    const status=album.is_published
+      ? `<span class="status published">Published</span>`
+      : `<span class="status hidden">Unpublished</span>`;
+
+    return `
+      <div class="album">
+
+        ${cover}
+
+        <div class="album-body">
+
+          <div class="album-title">
+            ${escapeHtml(album.album_name)}
+          </div>
+
+          <div class="album-meta">
+            ${escapeHtml(album.year)}
+            ·
+            ${escapeHtml(album.category)}
+            ·
+            ${status}
+          </div>
+
+          <div class="album-description">
+            ${escapeHtml(
+              album.description || "No description"
+            )}
+          </div>
+
+          <div class="album-actions">
+
+            <button
+              class="btn-primary"
+              onclick="openPhotoManager('${album.id}')">
+              Photos
+            </button>
+
+            <button
+              class="btn-secondary"
+              onclick="editAlbum('${album.id}')">
+              Edit
+            </button>
+
+            <button
+              class="btn-dark"
+              onclick="togglePublish('${album.id}')">
+              ${album.is_published
+                ? "Unpublish"
+                : "Publish"}
+            </button>
+
+            <button
+              class="btn-danger"
+              onclick="deleteAlbum('${album.id}')">
+              Delete
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+}
+
+
+/* =========================
+   ALBUM MODAL
+========================= */
+
+function openAlbumModal(){
+
+  editingAlbumId=null;
+
+  document.getElementById("albumModalTitle")
+    .textContent="Create Gallery Album";
+
+  document.getElementById("albumName").value="";
+  document.getElementById("albumYear").value=
+    new Date().getFullYear();
+
+  document.getElementById("albumCategory")
+    .value="Jatra";
+
+  document.getElementById("albumDescription")
+    .value="";
+
+  document.getElementById("albumPublished")
+    .value="true";
+
+  document.getElementById("coverPhoto").value="";
+
+  document.getElementById("albumModal")
+    .style.display="flex";
+}
+
+
+function closeAlbumModal(){
+
+  document.getElementById("albumModal")
+    .style.display="none";
+}
+
+
+/* =========================
+   EDIT ALBUM
+========================= */
+
+function editAlbum(id){
+
+  const album=
+    albums.find(a=>a.id===id);
+
+  if(!album)return;
+
+  editingAlbumId=id;
+
+  document.getElementById("albumModalTitle")
+    .textContent="Edit Gallery Album";
+
+  document.getElementById("albumName").value=
+    album.album_name || "";
+
+  document.getElementById("albumYear").value=
+    album.year || "";
+
+  document.getElementById("albumCategory").value=
+    album.category || "Other";
+
+  document.getElementById("albumDescription").value=
+    album.description || "";
+
+  document.getElementById("albumPublished").value=
+    album.is_published ? "true" : "false";
+
+  document.getElementById("coverPhoto").value="";
+
+  document.getElementById("albumModal")
+    .style.display="flex";
+}
+
+
+/* =========================
+   SAVE ALBUM
+========================= */
+
+async function saveAlbum(){
+
+  const name=
+    document.getElementById("albumName")
+      .value.trim();
+
+  const year=
+    parseInt(
+      document.getElementById("albumYear").value
+    );
+
+  const category=
+    document.getElementById("albumCategory").value;
+
+  const description=
+    document.getElementById("albumDescription")
+      .value.trim();
+
+  const published=
+    document.getElementById("albumPublished")
+      .value==="true";
+
+  const file=
+    document.getElementById("coverPhoto")
+      .files[0];
+
+  if(!name){
+    showMessage("Album name is required.","error");
+    return;
+  }
+
+  if(!year){
+    showMessage("Year is required.","error");
+    return;
+  }
+
+  try{
+
+    let coverUrl=null;
+
+    if(editingAlbumId){
+
+      const oldAlbum=
+        albums.find(a=>a.id===editingAlbumId);
+
+      coverUrl=
+        oldAlbum?.cover_photo_url || null;
+    }
+
+    if(file){
+
+      if(!file.type.startsWith("image/")){
+        showMessage(
+          "Please select an image file.",
+          "error"
+        );
+        return;
+      }
+
+      if(file.size>10*1024*1024){
+        showMessage(
+          "Cover photo must be below 10 MB.",
+          "error"
+        );
+        return;
+      }
+
+      const safeName=
+        file.name
+          .replace(/[^a-zA-Z0-9._-]/g,"-");
+
+      const path=
+        `albums/${currentUser.id}/${Date.now()}-${safeName}`;
+
+      const {error:uploadError}=
+        await supabaseClient.storage
+          .from("gallery-photos")
+          .upload(path,file,{
+            cacheControl:"3600",
+            upsert:false
+          });
+
+      if(uploadError)
+        throw uploadError;
+
+      const {
+        data:publicData
+      }=
+        supabaseClient.storage
+          .from("gallery-photos")
+          .getPublicUrl(path);
+
+      coverUrl=publicData.publicUrl;
+    }
+
+    if(editingAlbumId){
+
+      const {error}=
+        await supabaseClient
+          .from("gallery_albums")
+          .update({
+            album_name:name,
+            year:year,
+            category:category,
+            description:description || null,
+            cover_photo_url:coverUrl,
+            is_published:published
+          })
+          .eq("id",editingAlbumId);
+
+      if(error)throw error;
+
+      showMessage(
+        "Gallery album updated successfully.",
+        "success"
+      );
+
+    }else{
+
+      const {error}=
+        await supabaseClient
+          .from("gallery_albums")
+          .insert({
+            album_name:name,
+            year:year,
+            category:category,
+            description:description || null,
+            cover_photo_url:coverUrl,
+            is_published:published,
+            created_by:currentUser.id
+          });
+
+      if(error)throw error;
+
+      showMessage(
+        "Gallery album created successfully.",
+        "success"
+      );
+    }
+
+    closeAlbumModal();
+    await loadAlbums();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Save failed: "+error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================
+   PUBLISH / UNPUBLISH
+========================= */
+
+async function togglePublish(id){
+
+  const album=
+    albums.find(a=>a.id===id);
+
+  if(!album)return;
+
+  const {error}=
+    await supabaseClient
+      .from("gallery_albums")
+      .update({
+        is_published:!album.is_published
+      })
+      .eq("id",id);
+
+  if(error){
+    showMessage(
+      "Update failed: "+error.message,
+      "error"
+    );
+    return;
+  }
+
+  showMessage(
+    album.is_published
+      ? "Album unpublished."
+      : "Album published.",
+    "success"
+  );
+
+  await loadAlbums();
+}
+
+
+/* =========================
+   DELETE ALBUM
+========================= */
+
+async function deleteAlbum(id){
+
+  const album=
+    albums.find(a=>a.id===id);
+
+  if(!album)return;
+
+  if(
+    !confirm(
+      `Delete album "${album.album_name}"?\n\nAll photos linked to this album will also be removed from the database.`
+    )
+  )return;
+
+  const {error}=
+    await supabaseClient
+      .from("gallery_albums")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+    showMessage(
+      "Delete failed: "+error.message,
+      "error"
+    );
+    return;
+  }
+
+  showMessage(
+    "Album deleted successfully.",
+    "success"
+  );
+
+  await loadAlbums();
+}
+
+
+/* =========================
+   PHOTO MANAGER
+========================= */
+
+async function openPhotoManager(albumId){
+
+  currentAlbum=
+    albums.find(a=>a.id===albumId);
+
+  if(!currentAlbum)return;
+
+  document.getElementById("photoModalTitle")
+    .textContent=
+      "Photos — "+currentAlbum.album_name;
+
+  document.getElementById("photoAlbumInfo")
+    .textContent=
+      `${currentAlbum.year} · ${currentAlbum.category}`;
+
+  document.getElementById("galleryPhotos").value="";
+
+  document.getElementById("photoModal")
+    .style.display="flex";
+
+  await loadPhotos();
+}
+
+
+function closePhotoModal(){
+
+  document.getElementById("photoModal")
+    .style.display="none";
+
+  currentAlbum=null;
+}
+
+
+/* =========================
+   LOAD PHOTOS
+========================= */
+
+async function loadPhotos(){
+
+  if(!currentAlbum)return;
+
+  const loading=
+    document.getElementById("photoLoading");
+
+  const grid=
+    document.getElementById("photoGrid");
+
+  loading.style.display="block";
+  grid.innerHTML="";
+
+  const {
+    data,
+    error
+  }=
+    await supabaseClient
+      .from("gallery_photos")
+      .select("*")
+      .eq("album_id",currentAlbum.id)
+      .order("display_order",{ascending:true})
+      .order("created_at",{ascending:true});
+
+  loading.style.display="none";
+
+  if(error){
+
+    showMessage(
+      "Could not load photos: "+error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  if(!data?.length){
+
+    grid.innerHTML=`
+      <div style="grid-column:1/-1;text-align:center;padding:30px;color:#6b7280">
+        No photos in this album yet.
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML=data.map(photo=>`
+
+    <div class="photo-card">
+
+      <img
+        src="${escapeAttr(photo.photo_url)}"
+        alt="${escapeAttr(photo.photo_title || "Gallery Photo")}"
+      >
+
+      <div class="photo-info">
+
+        <strong>
+          ${escapeHtml(
+            photo.photo_title || "Gallery Photo"
+          )}
+        </strong>
+
+        <div style="font-size:12px;color:#6b7280;margin-top:5px">
+          ${photo.is_published
+            ? "Published"
+            : "Unpublished"}
+        </div>
+
+        <div class="photo-actions">
+
+          <button
+            class="btn-dark"
+            onclick="togglePhotoPublish('${photo.id}',${photo.is_published})">
+            ${photo.is_published
+              ? "Hide"
+              : "Publish"}
+          </button>
+
+          <button
+            class="btn-danger"
+            onclick="deletePhoto('${photo.id}')">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `).join("");
+}
+
+
+/* =========================
+   UPLOAD PHOTOS
+========================= */
+
+async function uploadPhotos(){
+
+  if(!currentAlbum){
+    showMessage(
+      "Please select an album first.",
+      "error"
+    );
+    return;
+  }
+
+  const input=
+    document.getElementById("galleryPhotos");
+
+  const files=
+    Array.from(input.files || []);
+
+  if(!files.length){
+    showMessage(
+      "Please select at least one image.",
+      "error"
+    );
+    return;
+  }
+
+  let successCount=0;
+
+  try{
+
+    for(const file of files){
+
+      if(!file.type.startsWith("image/")){
+        continue;
+      }
+
+      if(file.size>10*1024*1024){
+        continue;
+      }
+
+      const safeName=
+        file.name
+          .replace(/[^a-zA-Z0-9._-]/g,"-");
+
+      const path=
+        `albums/${currentAlbum.id}/${currentUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}`;
+
+      const {error:uploadError}=
+        await supabaseClient.storage
+          .from("gallery-photos")
+          .upload(path,file,{
+            cacheControl:"3600",
+            upsert:false
+          });
+
+      if(uploadError){
+        console.error(uploadError);
+        continue;
+      }
+
+      const {
+        data:publicData
+      }=
+        supabaseClient.storage
+          .from("gallery-photos")
+          .getPublicUrl(path);
+
+      const {error:dbError}=
+        await supabaseClient
+          .from("gallery_photos")
+          .insert({
+            album_id:currentAlbum.id,
+            photo_url:publicData.publicUrl,
+            photo_title:file.name,
+            is_published:true,
+            created_by:currentUser.id
+          });
+
+      if(dbError){
+        console.error(dbError);
+        continue;
+      }
+
+      successCount++;
+    }
+
+    input.value="";
+
+    showMessage(
+      `${successCount} photo(s) uploaded successfully.`,
+      "success"
+    );
+
+    await loadPhotos();
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Photo upload failed: "+error.message,
+      "error"
+    );
+  }
+}
+
+
+/* =========================
+   PHOTO PUBLISH
+========================= */
+
+async function togglePhotoPublish(id,currentStatus){
+
+  const {error}=
+    await supabaseClient
+      .from("gallery_photos")
+      .update({
+        is_published:!currentStatus
+      })
+      .eq("id",id);
+
+  if(error){
+
+    showMessage(
+      "Update failed: "+error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  await loadPhotos();
+}
+
+
+/* =========================
+   DELETE PHOTO
+========================= */
+
+async function deletePhoto(id){
+
+  if(
+    !confirm(
+      "Are you sure you want to delete this photo?"
+    )
+  )return;
+
+  const {error}=
+    await supabaseClient
+      .from("gallery_photos")
+      .delete()
+      .eq("id",id);
+
+  if(error){
+
+    showMessage(
+      "Delete failed: "+error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    "Photo deleted successfully.",
+    "success"
+  );
+
+  await loadPhotos();
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function escapeAttr(value){
+  return escapeHtml(value);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+function goBack(){
+
+  if(currentRole==="super_admin"){
+    window.location.href="super-admin.html";
+  }else{
+    window.location.href="admin.html";
+  }
+}
+
+
+/* =========================
+   START
+========================= */
+
+checkAccess();
+
+</script>
+
+</body>
+</html>
