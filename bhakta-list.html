@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Bhakta List | Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f6f7f9;
+  color:#222;
+  line-height:1.6;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.logo-icon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:18px;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:11px;
+}
+
+nav{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  padding:7px 9px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+nav a:hover,
+nav a.active{
+  background:#f5e8e8;
+  color:#7b1e1e;
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:19px;
+}
+
+/* HERO */
+
+.hero{
+  background:
+    linear-gradient(rgba(75,18,10,.86),rgba(75,18,10,.86)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+  text-align:center;
+  padding:75px 0;
+}
+
+.hero h2{
+  font-size:40px;
+  margin-bottom:7px;
+}
+
+.hero p{
+  font-size:16px;
+}
+
+/* MAIN */
+
+.main-section{
+  padding:45px 0 65px;
+}
+
+/* INTRO */
+
+.intro{
+  max-width:850px;
+  margin:0 auto 30px;
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 22px rgba(0,0,0,.07);
+  text-align:center;
+}
+
+.intro h3{
+  color:#7b1e1e;
+  margin-bottom:7px;
+}
+
+.intro p{
+  color:#777;
+  font-size:13px;
+}
+
+/* CONTROLS */
+
+.controls{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.search-box{
+  flex:1;
+  min-width:240px;
+}
+
+.search-box input,
+.year-select select{
+  width:100%;
+  padding:12px 14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  outline:none;
+  background:#fff;
+  font-size:14px;
+}
+
+.search-box input:focus,
+.year-select select:focus{
+  border-color:#7b1e1e;
+}
+
+.year-select{
+  width:180px;
+}
+
+/* SUMMARY */
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.summary-card{
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.summary-card strong{
+  display:block;
+  color:#7b1e1e;
+  font-size:24px;
+}
+
+.summary-card span{
+  color:#777;
+  font-size:12px;
+}
+
+/* TABLE */
+
+.table-card{
+  background:#fff;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 5px 22px rgba(0,0,0,.07);
+}
+
+.table-title{
+  padding:20px 22px;
+  border-bottom:1px solid #eee;
+}
+
+.table-title h3{
+  color:#7b1e1e;
+}
+
+.table-title p{
+  color:#777;
+  font-size:12px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:720px;
+}
+
+thead{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+th,
+td{
+  padding:13px 14px;
+  text-align:left;
+  border-bottom:1px solid #eee;
+  font-size:13px;
+}
+
+th{
+  font-size:12px;
+}
+
+tbody tr:hover{
+  background:#fffaf3;
+}
+
+.serial{
+  font-weight:bold;
+  color:#7b1e1e;
+}
+
+.verified{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#eaf8ef;
+  color:#18733a;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.pending{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#fff5df;
+  color:#8a5b00;
+  font-size:11px;
+  font-weight:bold;
+}
+
+/* EMPTY */
+
+.empty{
+  display:none;
+  padding:45px 20px;
+  text-align:center;
+}
+
+.empty.show{
+  display:block;
+}
+
+.empty-icon{
+  font-size:45px;
+  margin-bottom:8px;
+}
+
+.empty h3{
+  color:#7b1e1e;
+  margin-bottom:5px;
+}
+
+.empty p{
+  color:#777;
+  font-size:13px;
+}
+
+/* PRIVACY */
+
+.privacy{
+  margin-top:25px;
+  padding:18px 20px;
+  border-left:5px solid #7b1e1e;
+  background:#fff;
+  border-radius:9px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.privacy h3{
+  color:#7b1e1e;
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.privacy p{
+  color:#666;
+  font-size:12px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#241313;
+  color:#fff;
+  padding:38px 0 18px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:9px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:13px;
+}
+
+footer a{
+  display:block;
+  margin:4px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:25px;
+  padding-top:14px;
+  text-align:center;
+  color:#aaa;
+  font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+  nav{
+    display:none;
+    position:absolute;
+    top:72px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .summary{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:650px){
+
+  .hero h2{
+    font-size:31px;
+  }
+
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  .controls{
+    display:block;
+  }
+
+  .search-box,
+  .year-select{
+    width:100%;
+    margin-bottom:10px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-icon">
+        🙏
+      </div>
+
+      <div class="logo-text">
+
+        <h1>
+          Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
+
+      </div>
+
+    </a>
+
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()"
+    >
+      ☰
+    </button>
+
+    <nav id="mainNav">
+
+      <a href="index.html">Home</a>
+
+      <a href="about.html">About</a>
+
+      <a href="jatra.html">Uda Jatra</a>
+
+      <a href="notices.html">Notices</a>
+
+      <a href="events.html">Events</a>
+
+      <a href="gallery.html">Gallery</a>
+
+      <a href="members.html">Our Members</a>
+
+      <a href="fund.html">Fund</a>
+
+      <a href="member-fee.html">Member Fee</a>
+
+      <a
+        href="bhakta-list.html"
+        class="active"
+      >
+        Bhakta List
+      </a>
+
+      <a href="complaint.html">Complaint</a>
+
+      <a href="contact.html">Contact</a>
+
+      <a href="search.html">Search</a>
+
+      <a href="auth.html">Login</a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <h2>
+      Bhakta List
+    </h2>
+
+    <p>
+      Year-wise Maa Basuli Uda Jatra Bhakta List
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<section class="main-section">
+
+  <div class="container">
+
+
+    <!-- INTRO -->
+
+    <div class="intro">
+
+      <h3>
+        🙏 Maa Basuli Uda Jatra Bhakta List
+      </h3>
+
+      <p>
+        This section is designed for the official
+        year-wise Bhakta List maintained by the
+        Maa Basuli Uda Jatra Committee.
+        The list will be updated through the
+        official management system.
+      </p>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+
+    <div class="controls">
+
+      <div class="search-box">
+
+        <input
+          type="search"
+          id="bhaktaSearch"
+          placeholder="Search by Bhakta Name or Village..."
+          autocomplete="off"
+        >
+
+      </div>
+
+
+      <div class="year-select">
+
+        <select
+          id="yearSelect"
+          onchange="filterBhaktaList()"
+        >
+
+          <option value="all">
+            All Years
+          </option>
+
+          <option value="2027">
+            2027
+          </option>
+
+          <option value="2026">
+            2026
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary">
+
+      <div class="summary-card">
+
+        <strong id="totalCount">
+          0
+        </strong>
+
+        <span>
+          Total Bhakta
+        </span>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <strong id="yearCount">
+          0
+        </strong>
+
+        <span>
+          Selected Year
+        </span>
+
+      </div>
+
+
+      <div class="summary-card">
+
+        <strong id="verifiedCount">
+          0
+        </strong>
+
+        <span>
+          Verified Records
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+      <div class="table-title">
+
+        <h3>
+          Official Bhakta Records
+        </h3>
+
+        <p>
+          Public information will be displayed
+          according to committee-approved settings.
+        </p>
+
+      </div>
+
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+
+            <tr>
+
+              <th>
+                Sl. No.
+              </th>
+
+              <th>
+                Year
+              </th>
+
+              <th>
+                Bhakta Name
+              </th>
+
+              <th>
+                Village / Area
+              </th>
+
+              <th>
+                Status
+              </th>
+
+              <th>
+                Details
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="bhaktaTableBody">
+          </tbody>
+
+        </table>
+
+      </div>
+
+
+      <div
+        id="emptyState"
+        class="empty"
+      >
+
+        <div class="empty-icon">
+          🙏
+        </div>
+
+        <h3>
+          No Bhakta Records Available
+        </h3>
+
+        <p>
+          Official Bhakta records will appear here
+          after they are added through the committee
+          management system.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- PRIVACY -->
+
+    <div class="privacy">
+
+      <h3>
+        🔐 Privacy & Public Information
+      </h3>
+
+      <p>
+        Only information approved for public display
+        by the committee will be shown here.
+        Sensitive personal information such as passwords,
+        login credentials and other private information
+        will never be displayed publicly.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:9px;">
+          ଜୟ ମା' ବାସୁଳୀ 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Quick Links
+        </h3>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="jatra.html">
+          Uda Jatra
+        </a>
+
+        <a href="notices.html">
+          Notices
+        </a>
+
+        <a href="events.html">
+          Events
+        </a>
+
+        <a href="gallery.html">
+          Gallery
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Services
+        </h3>
+
+        <a href="members.html">
+          Our Members
+        </a>
+
+        <a href="member-fee.html">
+          Member Fee
+        </a>
+
+        <a href="fund.html">
+          Fund & Donation
+        </a>
+
+        <a href="complaint.html">
+          Complaint Box
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="search.html">
+          Search
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+
+function toggleMenu(){
+
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+
+/* =====================================================
+   TEMPORARY BHAKTA DATA
+
+   This is only sample structure.
+
+   IMPORTANT:
+   No real Bhakta information is being invented.
+
+   Later the Super Admin CMS will add official
+   year-wise records through Supabase.
+   ===================================================== */
+
+const bhaktaData = [];
+
+
+/* =====================================================
+   FILTER
+   ===================================================== */
+
+function filterBhaktaList(){
+
+  const search =
+    document
+      .getElementById("bhaktaSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const year =
+    document
+      .getElementById("yearSelect")
+      .value;
+
+
+  let filtered =
+    bhaktaData.filter(function(item){
+
+      const yearMatch =
+        year === "all" ||
+        String(item.year) === year;
+
+
+      const text =
+        (
+          item.name +
+          " " +
+          item.village
+        ).toLowerCase();
+
+
+      const searchMatch =
+        !search ||
+        text.includes(search);
+
+
+      return yearMatch && searchMatch;
+
+    });
+
+
+  renderBhaktaList(filtered);
+
+}
+
+
+/* =====================================================
+   RENDER TABLE
+   ===================================================== */
+
+function renderBhaktaList(list){
+
+  const tbody =
+    document.getElementById(
+      "bhaktaTableBody"
+    );
+
+  const empty =
+    document.getElementById(
+      "emptyState"
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  if(list.length === 0){
+
+    empty.classList.add("show");
+
+  }else{
+
+    empty.classList.remove("show");
+
+  }
+
+
+  list.forEach(function(item,index){
+
+    const row =
+      document.createElement("tr");
+
+
+    const statusClass =
+      item.verified
+        ? "verified"
+        : "pending";
+
+
+    const statusText =
+      item.verified
+        ? "✓ Verified"
+        : "Pending";
+
+
+    row.innerHTML = `
+
+      <td class="serial">
+        ${index + 1}
+      </td>
+
+      <td>
+        ${escapeHtml(item.year)}
+      </td>
+
+      <td>
+        ${escapeHtml(item.name)}
+      </td>
+
+      <td>
+        ${escapeHtml(item.village)}
+      </td>
+
+      <td>
+        <span class="${statusClass}">
+          ${statusText}
+        </span>
+      </td>
+
+      <td>
+        <span style="color:#777;font-size:12px;">
+          Official record
+        </span>
+      </td>
+
+    `;
+
+
+    tbody.appendChild(row);
+
+  });
+
+
+  updateSummary(list);
+
+}
+
+
+/* =====================================================
+   SUMMARY
+   ===================================================== */
+
+function updateSummary(list){
+
+  const selectedYear =
+    document
+      .getElementById("yearSelect")
+      .value;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    bhaktaData.length;
+
+
+  document.getElementById(
+    "yearCount"
+  ).textContent =
+    list.length;
+
+
+  document.getElementById(
+    "verifiedCount"
+  ).textContent =
+    list.filter(
+      item => item.verified
+    ).length;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   SEARCH INPUT
+   ===================================================== */
+
+document
+  .getElementById("bhaktaSearch")
+  .addEventListener(
+    "input",
+    filterBhaktaList
+  );
+
+
+/* =====================================================
+   INITIAL LOAD
+   ===================================================== */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    filterBhaktaList();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
