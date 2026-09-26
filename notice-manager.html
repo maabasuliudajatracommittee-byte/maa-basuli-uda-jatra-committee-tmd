@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notice Management | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fb;
+      color: #1f2937;
+    }
+
+    header {
+      background: linear-gradient(135deg, #7c2d12, #b45309);
+      color: white;
+      padding: 22px 20px;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    header h1 {
+      margin: 0 0 6px;
+      font-size: 26px;
+    }
+
+    header p {
+      margin: 0;
+      opacity: .9;
+    }
+
+    .topbar {
+      max-width: 1200px;
+      margin: 18px auto 0;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .back-btn,
+    .logout-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 11px 16px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .back-btn {
+      background: white;
+      color: #7c2d12;
+      border: 1px solid #ddd;
+    }
+
+    .logout-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,.07);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #7c2d12;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #b45309;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .checkbox-row input {
+      width: auto;
+    }
+
+    .save-btn {
+      background: #15803d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 22px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .cancel-btn {
+      background: #6b7280;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 13px 22px;
+      cursor: pointer;
+      font-weight: 700;
+      margin-left: 8px;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .success {
+      display: block;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      display: block;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .notice-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+
+    .notice-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .notice-title {
+      margin: 0 0 7px;
+      color: #111827;
+      font-size: 19px;
+    }
+
+    .meta {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .published {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .unpublished {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .notice-description {
+      margin: 12px 0;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 7px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .edit-btn {
+      background: #2563eb;
+      color: white;
+    }
+
+    .delete-btn {
+      background: #dc2626;
+      color: white;
+    }
+
+    .toggle-btn {
+      background: #7c3aed;
+      color: white;
+    }
+
+    .pdf-btn {
+      background: #b45309;
+      color: white;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+    }
+
+    .file-info {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 700px) {
+      .form-grid,
+      .search-row {
+        grid-template-columns: 1fr;
+      }
+
+      .notice-head {
+        flex-direction: column;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Notice Management</h1>
+    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+  </div>
+</header>
+
+<div class="topbar">
+  <button class="back-btn" onclick="goDashboard()">← Admin Dashboard</button>
+  <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<div class="container">
+
+  <div id="message" class="message"></div>
+
+  <!-- ADD / EDIT NOTICE -->
+  <div class="card">
+    <h2 id="formTitle">Add New Notice</h2>
+
+    <form id="noticeForm">
+
+      <div class="form-grid">
+
+        <div>
+          <label for="title">Notice Title *</label>
+          <input
+            type="text"
+            id="title"
+            placeholder="Enter notice title"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="noticeDate">Notice Date *</label>
+          <input
+            type="date"
+            id="noticeDate"
+            required
+          >
+        </div>
+
+        <div>
+          <label for="noticeType">Notice Type *</label>
+          <select id="noticeType" required>
+            <option value="General">General</option>
+            <option value="Jatra">Jatra</option>
+            <option value="Programme">Programme</option>
+            <option value="Meeting">Meeting</option>
+            <option value="Important">Important</option>
+            <option value="Tender">Tender</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="pdfFile">PDF File</label>
+          <input
+            type="file"
+            id="pdfFile"
+            accept="application/pdf,.pdf"
+          >
+          <div class="file-info">
+            Optional. Maximum recommended size: 10 MB.
+          </div>
+        </div>
+
+        <div class="full">
+          <label for="description">Notice Details</label>
+          <textarea
+            id="description"
+            placeholder="Write complete notice details..."
+          ></textarea>
+        </div>
+
+        <div class="full checkbox-row">
+          <input
+            type="checkbox"
+            id="isPublished"
+            checked
+          >
+          <label for="isPublished" style="margin:0;">
+            Publish this notice
+          </label>
+        </div>
+
+      </div>
+
+      <br>
+
+      <button type="submit" class="save-btn" id="saveBtn">
+        Save Notice
+      </button>
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="cancelBtn"
+        onclick="resetForm()"
+        style="display:none;"
+      >
+        Cancel Edit
+      </button>
+
+    </form>
+  </div>
+
+
+  <!-- NOTICE LIST -->
+  <div class="card">
+
+    <h2>All Notices</h2>
+
+    <div class="search-row">
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search notice..."
+        oninput="renderNotices()"
+      >
+
+      <select id="statusFilter" onchange="renderNotices()">
+        <option value="all">All Notices</option>
+        <option value="published">Published</option>
+        <option value="unpublished">Unpublished</option>
+      </select>
+    </div>
+
+    <div id="noticeList">
+      <div class="loading">Loading notices...</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const SUPABASE_URL =
+    "https://ynymqntcawobcfccoekb.supabase.co";
+
+  const SUPABASE_KEY =
+    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
+
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  let currentUser = null;
+  let currentRole = null;
+  let editingNoticeId = null;
+  let allNotices = [];
+
+
+  // =========================================
+  // PAGE START
+  // =========================================
+
+  document.addEventListener("DOMContentLoaded", async () => {
+
+    document.getElementById("noticeDate").value =
+      new Date().toISOString().split("T")[0];
+
+    await checkAdminAccess();
+  });
+
+
+  // =========================================
+  // CHECK LOGIN + ADMIN ROLE
+  // =========================================
+
+  async function checkAdminAccess() {
+
+    const {
+      data: { session },
+      error
+    } = await supabaseClient.auth.getSession();
+
+    if (error || !session) {
+      window.location.href = "auth.html";
+      return;
+    }
+
+    currentUser = session.user;
+
+    const {
+      data: roleData,
+      error: roleError
+    } = await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
+
+    if (roleError) {
+      showMessage(
+        "Unable to verify your account role.",
+        "error"
+      );
+      return;
+    }
+
+    currentRole = roleData?.role || "member";
+
+    if (
+      currentRole !== "admin" &&
+      currentRole !== "super_admin"
+    ) {
+      alert("Access denied.");
+      window.location.href = "profile.html";
+      return;
+    }
+
+    await loadNotices();
+  }
+
+
+  // =========================================
+  // LOAD NOTICES
+  // =========================================
+
+  async function loadNotices() {
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("notices")
+      .select("*")
+      .order("notice_date", { ascending: false })
+      .order("created_at", { ascending: false });
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Unable to load notices: " + error.message,
+        "error"
+      );
+
+      document.getElementById("noticeList").innerHTML =
+        `<div class="empty">Unable to load notices.</div>`;
+
+      return;
+    }
+
+    allNotices = data || [];
+
+    renderNotices();
+  }
+
+
+  // =========================================
+  // RENDER NOTICES
+  // =========================================
+
+  function renderNotices() {
+
+    const list =
+      document.getElementById("noticeList");
+
+    const search =
+      document.getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const status =
+      document.getElementById("statusFilter").value;
+
+    let filtered = allNotices.filter(notice => {
+
+      const text =
+        `${notice.title || ""} ${notice.description || ""} ${notice.notice_type || ""}`
+          .toLowerCase();
+
+      const matchesSearch =
+        !search || text.includes(search);
+
+      const matchesStatus =
+        status === "all" ||
+        (status === "published" && notice.is_published) ||
+        (status === "unpublished" && !notice.is_published);
+
+      return matchesSearch && matchesStatus;
+    });
+
+
+    if (!filtered.length) {
+
+      list.innerHTML = `
+        <div class="empty">
+          No notices found.
+        </div>
+      `;
+
+      return;
+    }
+
+
+    list.innerHTML = filtered.map(notice => {
+
+      const date =
+        notice.notice_date
+          ? new Date(
+              notice.notice_date + "T00:00:00"
+            ).toLocaleDateString("en-IN", {
+              day: "2-digit",
+              month: "short",
+              year: "numeric"
+            })
+          : "-";
+
+
+      const pdfButton =
+        notice.pdf_url
+          ? `
+            <a
+              class="action-btn pdf-btn"
+              href="${escapeAttribute(notice.pdf_url)}"
+              target="_blank"
+              rel="noopener"
+            >
+              📄 View PDF
+            </a>
+          `
+          : "";
+
+
+      return `
+        <div class="notice-item">
+
+          <div class="notice-head">
+
+            <div>
+              <h3 class="notice-title">
+                ${escapeHtml(notice.title)}
+              </h3>
+
+              <div class="meta">
+                ${date}
+                &nbsp; • &nbsp;
+                ${escapeHtml(notice.notice_type)}
+              </div>
+            </div>
+
+            <span class="badge ${
+              notice.is_published
+                ? "published"
+                : "unpublished"
+            }">
+              ${
+                notice.is_published
+                  ? "Published"
+                  : "Unpublished"
+              }
+            </span>
+
+          </div>
+
+
+          ${
+            notice.description
+              ? `
+                <div class="notice-description">
+                  ${escapeHtml(notice.description)}
+                </div>
+              `
+              : ""
+          }
+
+
+          <div class="actions">
+
+            ${pdfButton}
+
+            <button
+              class="action-btn edit-btn"
+              onclick="editNotice('${notice.id}')"
+            >
+              ✏️ Edit
+            </button>
+
+            <button
+              class="action-btn toggle-btn"
+              onclick="togglePublish('${notice.id}', ${notice.is_published})"
+            >
+              ${
+                notice.is_published
+                  ? "Hide"
+                  : "Publish"
+              }
+            </button>
+
+            <button
+              class="action-btn delete-btn"
+              onclick="deleteNotice('${notice.id}')"
+            >
+              🗑️ Delete
+            </button>
+
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+  }
+
+
+  // =========================================
+  // ADD / UPDATE NOTICE
+  // =========================================
+
+  document
+    .getElementById("noticeForm")
+    .addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const title =
+        document.getElementById("title").value.trim();
+
+      const noticeDate =
+        document.getElementById("noticeDate").value;
+
+      const noticeType =
+        document.getElementById("noticeType").value;
+
+      const description =
+        document.getElementById("description").value.trim();
+
+      const isPublished =
+        document.getElementById("isPublished").checked;
+
+      const pdfFile =
+        document.getElementById("pdfFile").files[0];
+
+
+      if (!title || !noticeDate) {
+
+        showMessage(
+          "Please enter Notice Title and Date.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const saveBtn =
+        document.getElementById("saveBtn");
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Saving...";
+
+
+      try {
+
+        let pdfUrl = null;
+
+
+        // =====================================
+        // UPDATE EXISTING NOTICE
+        // =====================================
+
+        if (editingNoticeId) {
+
+          const oldNotice =
+            allNotices.find(
+              n => n.id === editingNoticeId
+            );
+
+          pdfUrl =
+            oldNotice?.pdf_url || null;
+
+
+          if (pdfFile) {
+
+            pdfUrl =
+              await uploadPdf(pdfFile);
+
+          }
+
+
+          const {
+            error
+          } = await supabaseClient
+            .from("notices")
+            .update({
+              title,
+              notice_date: noticeDate,
+              notice_type: noticeType,
+              description,
+              pdf_url: pdfUrl,
+              is_published: isPublished
+            })
+            .eq("id", editingNoticeId);
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showMessage(
+            "Notice updated successfully.",
+            "success"
+          );
+
+        }
+
+
+        // =====================================
+        // CREATE NEW NOTICE
+        // =====================================
+
+        else {
+
+          if (pdfFile) {
+
+            pdfUrl =
+              await uploadPdf(pdfFile);
+
+          }
+
+
+          const {
+            error
+          } = await supabaseClient
+            .from("notices")
+            .insert({
+              title,
+              notice_date: noticeDate,
+              notice_type: noticeType,
+              description,
+              pdf_url: pdfUrl,
+              is_published: isPublished,
+              created_by: currentUser.id
+            });
+
+
+          if (error) {
+            throw error;
+          }
+
+
+          showMessage(
+            "Notice created successfully.",
+            "success"
+          );
+        }
+
+
+        resetForm();
+        await loadNotices();
+
+      } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+          "Error: " + error.message,
+          "error"
+        );
+
+      } finally {
+
+        saveBtn.disabled = false;
+        saveBtn.textContent = editingNoticeId
+          ? "Update Notice"
+          : "Save Notice";
+      }
+
+    });
+
+
+  // =========================================
+  // PDF UPLOAD
+  // =========================================
+
+  async function uploadPdf(file) {
+
+    if (
+      file.type !== "application/pdf" &&
+      !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      throw new Error("Only PDF files are allowed.");
+    }
+
+
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error("PDF file must be 10 MB or smaller.");
+    }
+
+
+    const safeName =
+      file.name
+        .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+
+    const filePath =
+      `${currentUser.id}/${Date.now()}-${safeName}`;
+
+
+    const {
+      error: uploadError
+    } = await supabaseClient
+      .storage
+      .from("notice-pdfs")
+      .upload(
+        filePath,
+        file,
+        {
+          contentType: "application/pdf",
+          upsert: false
+        }
+      );
+
+
+    if (uploadError) {
+      throw uploadError;
+    }
+
+
+    const {
+      data
+    } = supabaseClient
+      .storage
+      .from("notice-pdfs")
+      .getPublicUrl(filePath);
+
+
+    return data.publicUrl;
+  }
+
+
+  // =========================================
+  // EDIT NOTICE
+  // =========================================
+
+  function editNotice(id) {
+
+    const notice =
+      allNotices.find(n => n.id === id);
+
+    if (!notice) return;
+
+    editingNoticeId = id;
+
+    document.getElementById("formTitle").textContent =
+      "Edit Notice";
+
+    document.getElementById("title").value =
+      notice.title || "";
+
+    document.getElementById("noticeDate").value =
+      notice.notice_date || "";
+
+    document.getElementById("noticeType").value =
+      notice.notice_type || "General";
+
+    document.getElementById("description").value =
+      notice.description || "";
+
+    document.getElementById("isPublished").checked =
+      !!notice.is_published;
+
+    document.getElementById("pdfFile").value = "";
+
+    document.getElementById("saveBtn").textContent =
+      "Update Notice";
+
+    document.getElementById("cancelBtn").style.display =
+      "inline-block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+
+  // =========================================
+  // TOGGLE PUBLISH
+  // =========================================
+
+  async function togglePublish(id, currentStatus) {
+
+    const newStatus = !currentStatus;
+
+    const {
+      error
+    } = await supabaseClient
+      .from("notices")
+      .update({
+        is_published: newStatus
+      })
+      .eq("id", id);
+
+
+    if (error) {
+
+      showMessage(
+        "Unable to update status: " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      newStatus
+        ? "Notice published."
+        : "Notice unpublished.",
+      "success"
+    );
+
+    await loadNotices();
+  }
+
+
+  // =========================================
+  // DELETE NOTICE
+  // =========================================
+
+  async function deleteNotice(id) {
+
+    const notice =
+      allNotices.find(n => n.id === id);
+
+    if (!notice) return;
+
+
+    const confirmed =
+      confirm(
+        `Delete this notice?\n\n${notice.title}`
+      );
+
+    if (!confirmed) return;
+
+
+    const {
+      error
+    } = await supabaseClient
+      .from("notices")
+      .delete()
+      .eq("id", id);
+
+
+    if (error) {
+
+      showMessage(
+        "Unable to delete notice: " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "Notice deleted successfully.",
+      "success"
+    );
+
+    await loadNotices();
+  }
+
+
+  // =========================================
+  // RESET FORM
+  // =========================================
+
+  function resetForm() {
+
+    editingNoticeId = null;
+
+    document.getElementById("noticeForm").reset();
+
+    document.getElementById("noticeDate").value =
+      new Date().toISOString().split("T")[0];
+
+    document.getElementById("isPublished").checked =
+      true;
+
+    document.getElementById("formTitle").textContent =
+      "Add New Notice";
+
+    document.getElementById("saveBtn").textContent =
+      "Save Notice";
+
+    document.getElementById("cancelBtn").style.display =
+      "none";
+  }
+
+
+  // =========================================
+  // MESSAGE
+  // =========================================
+
+  function showMessage(message, type) {
+
+    const box =
+      document.getElementById("message");
+
+    box.textContent = message;
+
+    box.className =
+      "message " + type;
+
+    setTimeout(() => {
+      box.className = "message";
+      box.textContent = "";
+    }, 5000);
+  }
+
+
+  // =========================================
+  // DASHBOARD
+  // =========================================
+
+  function goDashboard() {
+
+    if (currentRole === "super_admin") {
+      window.location.href = "super-admin.html";
+    } else {
+      window.location.href = "admin.html";
+    }
+  }
+
+
+  // =========================================
+  // LOGOUT
+  // =========================================
+
+  async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "auth.html";
+  }
+
+
+  // =========================================
+  // HTML SECURITY HELPERS
+  // =========================================
+
+  function escapeHtml(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
+  function escapeAttribute(value) {
+
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+  }
+
+</script>
+
+</body>
+</html>
