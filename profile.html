@@ -7,296 +7,284 @@
   <title>Member Profile | Maa Basuli Uda Jatra Committee</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- ID Card Download Library -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
   <style>
-
     *{
       box-sizing:border-box;
-      margin:0;
-      padding:0;
-      font-family:Arial,Helvetica,sans-serif;
     }
 
     body{
-      background:#f4f6f8;
-      color:#1f2937;
-    }
-
-    header{
-      background:#8f3215;
-      color:white;
-      padding:18px 20px;
-      text-align:center;
-    }
-
-    header h1{
-      font-size:23px;
-      margin-bottom:5px;
-    }
-
-    header p{
-      font-size:13px;
-      opacity:.95;
-    }
-
-    .container{
-      max-width:1000px;
-      margin:auto;
-      padding:20px;
+      margin:0;
+      font-family:Arial,"Noto Sans Odia",sans-serif;
+      background:#f5f6f8;
+      color:#172033;
     }
 
     .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-bottom:20px;
-    }
-
-    .topbar h2{
-      color:#7c2d12;
-      font-size:24px;
-    }
-
-    button{
-      border:0;
-      border-radius:8px;
-      padding:11px 16px;
-      cursor:pointer;
-      font-weight:bold;
-    }
-
-    .logout{
-      background:#dc2626;
+      background:#8f2f10;
       color:white;
+      padding:22px 20px;
+    }
+
+    .topbar h1{
+      margin:0;
+      font-size:26px;
+    }
+
+    .topbar p{
+      margin:5px 0 0;
+      opacity:.9;
+    }
+
+    .container{
+      max-width:1050px;
+      margin:30px auto;
+      padding:0 18px;
     }
 
     .card{
       background:white;
-      border-radius:14px;
-      padding:22px;
-      margin-bottom:20px;
-      box-shadow:0 3px 12px rgba(0,0,0,.08);
+      border-radius:16px;
+      padding:24px;
+      margin-bottom:22px;
+      box-shadow:0 5px 22px rgba(0,0,0,.08);
     }
 
-    .card h3{
-      color:#7c2d12;
-      margin-bottom:18px;
+    .card h2{
+      margin-top:0;
+      color:#8f2f10;
     }
 
-    .profile-photo-box{
-      text-align:center;
-      margin-bottom:20px;
-    }
-
-    .profile-photo{
-      width:130px;
-      height:130px;
-      object-fit:cover;
-      border-radius:50%;
-      border:5px solid #f3e8df;
-      background:#eee;
-    }
-
-    .photo-input{
-      margin-top:12px;
-    }
-
-    .photo-input input{
-      width:100%;
-      max-width:350px;
-    }
-
-    .form-grid{
+    .profile-grid{
       display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:15px;
+      grid-template-columns:280px 1fr;
+      gap:30px;
     }
 
-    .field{
-      display:flex;
-      flex-direction:column;
+    .photo-box{
+      text-align:center;
     }
 
-    .field label{
+    .photo-box img{
+      width:190px;
+      height:190px;
+      border-radius:50%;
+      object-fit:cover;
+      border:5px solid #eee;
+    }
+
+    input,select{
+      width:100%;
+      padding:13px;
+      border:1px solid #ccd3dd;
+      border-radius:9px;
+      font-size:15px;
+      margin-top:7px;
+    }
+
+    label{
+      display:block;
       font-weight:bold;
-      font-size:13px;
-      margin-bottom:7px;
+      margin-top:14px;
     }
 
-    .field input,
-    .field select{
-      padding:11px;
-      border:1px solid #cbd5e1;
-      border-radius:8px;
-      font-size:14px;
-      background:white;
-    }
-
-    .field input:disabled,
-    .field select:disabled{
-      background:#f1f5f9;
-      color:#475569;
+    button{
+      border:0;
+      border-radius:9px;
+      padding:13px 18px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
     }
 
     .save-btn{
-      margin-top:18px;
-      background:#8f3215;
-      color:white;
       width:100%;
+      background:#9f3511;
+      color:white;
+      margin-top:22px;
+    }
+
+    .logout{
+      background:#d92323;
+      color:white;
+      float:right;
     }
 
     .message{
+      margin-top:15px;
       padding:12px;
       border-radius:8px;
-      margin-top:12px;
       display:none;
-      font-size:14px;
     }
 
     .success{
-      display:block;
-      background:#dcfce7;
-      color:#166534;
+      background:#d9f7df;
+      color:#126329;
     }
 
     .error{
-      display:block;
-      background:#fee2e2;
-      color:#991b1b;
+      background:#ffe0e0;
+      color:#9b111e;
     }
 
-    .pending{
-      display:block;
-      background:#fef3c7;
-      color:#92400e;
-    }
+    /* DIGITAL ID CARD */
 
-    /* =========================
-       DIGITAL ID CARD
-    ========================= */
+    .id-section{
+      text-align:center;
+    }
 
     .id-card-wrapper{
       display:flex;
       justify-content:center;
-      margin-top:15px;
+      margin:20px 0;
     }
 
     .id-card{
-      width:430px;
+      width:460px;
       max-width:100%;
-      min-height:270px;
       background:white;
-      border:3px solid #8f3215;
-      border-radius:16px;
+      border:2px solid #8f2f10;
+      border-radius:18px;
       overflow:hidden;
-      box-shadow:0 6px 18px rgba(0,0,0,.15);
+      box-shadow:0 8px 25px rgba(0,0,0,.16);
+      text-align:left;
     }
 
     .id-header{
-      background:#8f3215;
-      color:white;
-      padding:14px;
-      text-align:center;
-    }
-
-    .id-header h2{
-      font-size:19px;
-      margin-bottom:4px;
-    }
-
-    .id-header p{
-      font-size:11px;
-    }
-
-    .id-body{
       display:flex;
-      gap:15px;
-      padding:18px;
       align-items:center;
+      gap:13px;
+      padding:13px 15px;
+      background:#9f3511;
+      color:white;
     }
 
-    .id-photo{
-      width:105px;
-      height:125px;
-      object-fit:cover;
-      border-radius:8px;
-      border:2px solid #8f3215;
-      background:#eee;
+    .logo{
+      width:68px;
+      height:68px;
+      object-fit:contain;
+      border-radius:50%;
+      background:white;
+      padding:3px;
       flex-shrink:0;
     }
 
-    .id-info{
+    .committee-title{
+      flex:1;
+      text-align:center;
+    }
+
+    .committee-title .odia{
+      font-family:"Noto Sans Odia","Nirmala UI",Arial,sans-serif;
+      font-size:19px;
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .committee-title .english{
+      font-size:14px;
+      font-weight:bold;
+      margin-top:3px;
+    }
+
+    .committee-title .location{
+      font-size:11px;
+      margin-top:3px;
+    }
+
+    .id-body{
+      padding:18px;
+    }
+
+    .member-top{
+      display:flex;
+      gap:17px;
+      align-items:flex-start;
+    }
+
+    .member-photo{
+      width:120px;
+      height:140px;
+      object-fit:cover;
+      border:2px solid #9f3511;
+      border-radius:10px;
+      background:#f2f2f2;
+    }
+
+    .member-info{
       flex:1;
     }
 
-    .id-name{
-      font-size:19px;
-      font-weight:bold;
-      color:#7c2d12;
+    .member-name{
+      font-size:22px;
+      font-weight:800;
+      color:#8f2f10;
       margin-bottom:4px;
     }
 
-    .id-designation{
-      font-size:12px;
+    .designation{
+      font-size:14px;
       font-weight:bold;
-      color:#475569;
-      margin-bottom:10px;
+      margin-bottom:12px;
     }
 
-    .id-row{
+    .info-row{
       display:flex;
-      gap:7px;
-      font-size:11px;
-      margin-bottom:6px;
+      margin:6px 0;
+      font-size:13px;
     }
 
-    .id-row strong{
-      min-width:72px;
-    }
-
-    .id-status{
-      display:inline-block;
-      padding:4px 9px;
-      border-radius:20px;
-      font-size:10px;
+    .info-label{
+      width:82px;
       font-weight:bold;
-      margin-top:5px;
     }
 
-    .active-status{
-      background:#dcfce7;
-      color:#166534;
+    .status{
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:20px;
+      font-size:11px;
+      font-weight:bold;
+      text-transform:uppercase;
     }
 
-    .inactive-status{
-      background:#fee2e2;
-      color:#991b1b;
+    .active{
+      background:#d9f7df;
+      color:#14752b;
     }
 
-    .id-footer{
-      border-top:1px solid #e5e7eb;
-      padding:8px 12px;
+    .inactive{
+      background:#ffe0e0;
+      color:#a30000;
+    }
+
+    .qr-area{
       text-align:center;
-      font-size:9px;
-      color:#64748b;
+      margin-top:15px;
     }
 
-    .qr-box{
-      text-align:center;
-      padding:0 15px 15px;
-    }
-
-    .qr-box img{
+    .qr-area img{
       width:105px;
       height:105px;
+      object-fit:contain;
       border:1px solid #ddd;
       padding:4px;
       background:white;
+    }
+
+    .qr-text{
+      font-size:10px;
+      color:#555;
+      margin-top:4px;
+    }
+
+    .id-footer{
+      border-top:1px solid #ddd;
+      text-align:center;
+      padding:8px;
+      font-size:10px;
+      color:#555;
     }
 
     .id-actions{
@@ -308,26 +296,18 @@
     }
 
     .download-btn{
-      background:#15803d;
+      background:#16833b;
       color:white;
     }
 
     .print-btn{
-      background:#1d4ed8;
+      background:#2457d6;
       color:white;
     }
 
-    .verify-btn{
-      background:#475569;
+    .public-btn{
+      background:#49576d;
       color:white;
-    }
-
-    .not-approved{
-      text-align:center;
-      padding:20px;
-      background:#fff7ed;
-      border-radius:10px;
-      color:#9a3412;
     }
 
     .loading{
@@ -336,310 +316,311 @@
     }
 
     @media(max-width:700px){
-
-      .form-grid{
+      .profile-grid{
         grid-template-columns:1fr;
       }
 
-      .container{
-        padding:12px;
+      .profile-grid .photo-box{
+        order:0;
       }
 
       .id-card{
         width:100%;
       }
 
-      .id-body{
-        gap:10px;
-        padding:13px;
+      .id-header{
+        gap:8px;
       }
 
-      .id-photo{
-        width:85px;
-        height:105px;
+      .logo{
+        width:55px;
+        height:55px;
       }
 
-      .id-name{
-        font-size:16px;
+      .committee-title .odia{
+        font-size:15px;
       }
 
-      .id-row{
-        font-size:10px;
+      .committee-title .english{
+        font-size:11px;
       }
 
+      .member-photo{
+        width:95px;
+        height:120px;
+      }
+
+      .member-name{
+        font-size:18px;
+      }
     }
 
-    /* =========================
-       PRINT
-    ========================= */
-
+    /* PRINT ONLY ID CARD */
     @media print{
+      body *{
+        visibility:hidden !important;
+      }
+
+      #digitalIdCard,
+      #digitalIdCard *{
+        visibility:visible !important;
+      }
+
+      #digitalIdCard{
+        position:absolute;
+        left:50%;
+        top:20px;
+        transform:translateX(-50%);
+        width:460px;
+        box-shadow:none;
+      }
+
+      .id-actions,
+      .topbar,
+      .profile-grid{
+        display:none !important;
+      }
 
       body{
         background:white;
       }
-
-      header,
-      .topbar,
-      .profile-section,
-      .id-actions,
-      .not-approved,
-      .message{
-        display:none !important;
-      }
-
-      .container{
-        padding:0;
-        margin:0;
-        max-width:none;
-      }
-
-      .card{
-        box-shadow:none;
-        padding:0;
-        margin:0;
-      }
-
-      .id-card-wrapper{
-        margin:0;
-      }
-
-      .id-card{
-        box-shadow:none;
-        width:430px;
-        max-width:none;
-      }
-
-      .id-section h3{
-        display:none;
-      }
-
-      @page{
-        size:A4;
-        margin:15mm;
-      }
-
     }
-
   </style>
 </head>
 
 <body>
 
-<header>
-
-  <h1>ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</h1>
-
-  <p>
-    Maa Basuli Uda Jatra Committee, Thakurmunda
-  </p>
-
-</header>
-
-
-<div class="container">
-
   <div class="topbar">
-
-    <div>
-      <h2>Member Profile</h2>
-      <p id="loginEmail"></p>
-    </div>
-
-    <button
-      class="logout"
-      onclick="logout()">
-      Logout
-    </button>
-
+    <button class="logout" onclick="logout()">Logout</button>
+    <h1>Maa Basuli Uda Jatra Committee</h1>
+    <p>Member Profile & Digital ID</p>
   </div>
 
+  <div class="container">
 
-  <!-- PROFILE EDIT SECTION -->
+    <div id="loading" class="card loading">
+      Loading profile...
+    </div>
 
-  <div class="card profile-section">
+    <div id="profileContent" style="display:none;">
 
-    <h3>My Profile</h3>
+      <!-- PROFILE EDIT -->
+      <div class="card">
+        <h2>Member Profile</h2>
 
-    <div class="profile-photo-box">
+        <div class="profile-grid">
 
-      <img
-        id="profilePhoto"
-        class="profile-photo"
-        src=""
-        alt="Profile Photo">
+          <div class="photo-box">
+            <img id="profilePhoto" src="" alt="Member Photo">
 
-      <div class="photo-input">
+            <label>Change Profile Photo</label>
+            <input
+              type="file"
+              id="photoInput"
+              accept="image/*"
+            >
 
-        <input
-          type="file"
-          id="photoInput"
-          accept="image/*">
+            <small>
+              Maximum 5 MB. JPG, JPEG, PNG or WEBP.
+            </small>
+          </div>
 
-        <br><br>
+          <div>
 
-        <button
-          class="verify-btn"
-          onclick="uploadPhoto()">
-          Upload Profile Photo
+            <label>Full Name</label>
+            <input id="fullName" type="text">
+
+            <label>Email</label>
+            <input id="email" type="email" readonly>
+
+            <label>Mobile Number</label>
+            <input id="mobile" type="text">
+
+            <label>Village</label>
+            <input id="village" type="text">
+
+            <label>Address</label>
+            <input id="address" type="text">
+
+            <label>Blood Group</label>
+            <select id="bloodGroup">
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+
+            <label>Member ID</label>
+            <input id="memberId" type="text" readonly>
+
+            <label>Designation</label>
+            <input id="designation" type="text" readonly>
+
+            <label>Member Status</label>
+            <input id="memberStatus" type="text" readonly>
+
+          </div>
+        </div>
+
+        <button class="save-btn" onclick="saveProfile()">
+          Save Profile
         </button>
 
+        <div id="message" class="message"></div>
+      </div>
+
+
+      <!-- DIGITAL ID -->
+      <div class="card id-section">
+
+        <h2>Digital Member ID Card</h2>
+
+        <div class="id-card-wrapper">
+
+          <div class="id-card" id="digitalIdCard">
+
+            <!-- HEADER -->
+            <div class="id-header">
+
+              <img
+                id="cardLogo"
+                class="logo"
+                src="maa-basuli-logo.png.jpeg"
+                alt="Maa Basuli Logo"
+              >
+
+              <div class="committee-title">
+
+                <div class="odia">
+                  ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି
+                </div>
+
+                <div class="english">
+                  Maa Basuli Uda Jatra Committee
+                </div>
+
+                <div class="location">
+                  Thakurmunda, Mayurbhanj, Odisha
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- BODY -->
+            <div class="id-body">
+
+              <div class="member-top">
+
+                <img
+                  id="cardPhoto"
+                  class="member-photo"
+                  src=""
+                  alt="Member Photo"
+                >
+
+                <div class="member-info">
+
+                  <div id="cardName" class="member-name">
+                    Member Name
+                  </div>
+
+                  <div id="cardDesignation" class="designation">
+                    Member
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-label">Member ID:</div>
+                    <div id="cardMemberId"></div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-label">Mobile:</div>
+                    <div id="cardMobile"></div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-label">Village:</div>
+                    <div id="cardVillage"></div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-label">Blood:</div>
+                    <div id="cardBlood"></div>
+                  </div>
+
+                  <div style="margin-top:8px;">
+                    <span id="cardStatus" class="status active">
+                      ACTIVE
+                    </span>
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <div class="qr-area">
+
+                <img
+                  id="cardQr"
+                  src=""
+                  alt="Member QR Code"
+                >
+
+                <div class="qr-text">
+                  Scan QR to verify live member profile
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="id-footer">
+              Official Digital Member Identity Card
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTION BUTTONS -->
+        <div class="id-actions">
+
+          <button
+            class="download-btn"
+            onclick="downloadIdCard()"
+          >
+            ⬇️ Download ID Card
+          </button>
+
+          <button
+            class="print-btn"
+            onclick="printIdCard()"
+          >
+            🖨️ Print ID Card
+          </button>
+
+          <button
+            class="public-btn"
+            onclick="viewPublicProfile()"
+          >
+            🔎 View Public Profile
+          </button>
+
+        </div>
+
       </div>
 
     </div>
-
-
-    <div class="form-grid">
-
-      <div class="field">
-
-        <label>Full Name</label>
-
-        <input
-          type="text"
-          id="fullName">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Email</label>
-
-        <input
-          type="email"
-          id="email"
-          disabled>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Mobile Number</label>
-
-        <input
-          type="text"
-          id="mobile"
-          placeholder="Enter mobile number">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Village</label>
-
-        <input
-          type="text"
-          id="village"
-          placeholder="Enter village">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Address</label>
-
-        <input
-          type="text"
-          id="address"
-          placeholder="Enter address">
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Blood Group</label>
-
-        <select id="bloodGroup">
-
-          <option value="">Select Blood Group</option>
-          <option value="A+">A+</option>
-          <option value="A-">A-</option>
-          <option value="B+">B+</option>
-          <option value="B-">B-</option>
-          <option value="AB+">AB+</option>
-          <option value="AB-">AB-</option>
-          <option value="O+">O+</option>
-          <option value="O-">O-</option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Member ID</label>
-
-        <input
-          type="text"
-          id="memberId"
-          disabled>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Designation</label>
-
-        <input
-          type="text"
-          id="designation"
-          disabled>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>Member Status</label>
-
-        <input
-          type="text"
-          id="memberStatus"
-          disabled>
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="save-btn"
-      onclick="saveProfile()">
-      Save Profile
-    </button>
-
-    <div
-      id="profileMessage"
-      class="message">
-    </div>
-
   </div>
-
-
-  <!-- DIGITAL ID CARD -->
-
-  <div class="card id-section">
-
-    <h3>Digital Member ID Card</h3>
-
-    <div id="idCardArea">
-
-      <div class="loading">
-        Loading Member ID Card...
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
 
 
 <script>
@@ -650,63 +631,57 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
-
 let currentUser = null;
 let currentProfile = null;
 
 
 /* =========================
-   START
+   SHOW MESSAGE
 ========================= */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  loadSession
-);
+function showMessage(text, type="success"){
+
+  const box = document.getElementById("message");
+
+  box.textContent = text;
+
+  box.className = "message " + type;
+
+  box.style.display = "block";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 5000);
+}
 
 
 /* =========================
-   SESSION
+   LOAD SESSION
 ========================= */
 
 async function loadSession(){
 
   const {
-    data:{
-      session
-    }
-  } =
-  await supabaseClient.auth.getSession();
+    data,
+    error
+  } = await supabaseClient.auth.getSession();
 
+  if(error || !data.session){
 
-  if(!session){
-
-    window.location.href =
-      "auth.html";
+    window.location.href = "auth.html";
 
     return;
   }
 
-
-  currentUser =
-    session.user;
-
-
-  document.getElementById(
-    "loginEmail"
-  ).textContent =
-    currentUser.email || "";
-
+  currentUser = data.session.user;
 
   await loadProfile();
-
 }
 
 
@@ -719,21 +694,16 @@ async function loadProfile(){
   const {
     data,
     error
-  } =
-  await supabaseClient
+  } = await supabaseClient
     .from("member_profiles")
     .select("*")
     .eq("id", currentUser.id)
     .maybeSingle();
 
-
   if(error){
 
-    showMessage(
-      "Unable to load profile: " +
-      error.message,
-      "error"
-    );
+    document.getElementById("loading").innerHTML =
+      "Profile load failed: " + error.message;
 
     return;
   }
@@ -743,138 +713,147 @@ async function loadProfile(){
 
     const {
       error:createError
-    } =
-    await supabaseClient
+    } = await supabaseClient
       .from("member_profiles")
       .insert({
-
         id:currentUser.id,
-
         full_name:
-          currentUser.user_metadata
-            ?.full_name || "",
-
-        email:
-          currentUser.email,
-
-        approval_status:
-          "pending",
-
-        member_status:
-          "inactive"
-
+          currentUser.user_metadata?.full_name || "",
+        email:currentUser.email,
+        approval_status:"pending",
+        member_status:"inactive"
       });
-
 
     if(createError){
 
-      showMessage(
-        "Unable to create profile: " +
-        createError.message,
-        "error"
-      );
+      document.getElementById("loading").innerHTML =
+        "Profile create failed: " + createError.message;
 
       return;
     }
 
-
-    await loadProfile();
-
-    return;
+    return loadProfile();
   }
 
 
-  currentProfile =
-    data;
+  currentProfile = data;
 
+  populateProfile(data);
 
-  fillProfile(data);
+  document.getElementById("loading").style.display = "none";
 
+  document.getElementById("profileContent").style.display = "block";
 }
 
 
 /* =========================
-   FILL PROFILE
+   POPULATE PROFILE
 ========================= */
 
-function fillProfile(profile){
+function populateProfile(p){
 
-  document.getElementById(
-    "fullName"
-  ).value =
-    profile.full_name || "";
+  document.getElementById("fullName").value =
+    p.full_name || "";
 
+  document.getElementById("email").value =
+    p.email || currentUser.email || "";
 
-  document.getElementById(
-    "email"
-  ).value =
-    profile.email ||
-    currentUser.email ||
-    "";
+  document.getElementById("mobile").value =
+    p.mobile || "";
 
+  document.getElementById("village").value =
+    p.village || "";
 
-  document.getElementById(
-    "mobile"
-  ).value =
-    profile.mobile || "";
+  document.getElementById("address").value =
+    p.address || "";
 
+  document.getElementById("bloodGroup").value =
+    p.blood_group || "";
 
-  document.getElementById(
-    "village"
-  ).value =
-    profile.village || "";
+  document.getElementById("memberId").value =
+    p.member_id || "Pending Approval";
 
+  document.getElementById("designation").value =
+    p.designation || "Member";
 
-  document.getElementById(
-    "address"
-  ).value =
-    profile.address || "";
-
-
-  document.getElementById(
-    "bloodGroup"
-  ).value =
-    profile.blood_group || "";
-
-
-  document.getElementById(
-    "memberId"
-  ).value =
-    profile.member_id || "Pending Approval";
-
-
-  document.getElementById(
-    "designation"
-  ).value =
-    profile.designation || "Member";
-
-
-  document.getElementById(
-    "memberStatus"
-  ).value =
-    profile.member_status || "inactive";
+  document.getElementById("memberStatus").value =
+    p.member_status || "inactive";
 
 
   const photo =
-    document.getElementById(
-      "profilePhoto"
-    );
+    p.profile_photo_url ||
+    "https://via.placeholder.com/190?text=Photo";
+
+  document.getElementById("profilePhoto").src = photo;
+
+  updateIdCard(p, photo);
+}
 
 
-  if(profile.profile_photo_url){
+/* =========================
+   UPDATE ID CARD
+========================= */
 
-    photo.src =
-      profile.profile_photo_url;
+function updateIdCard(p, photo){
+
+  document.getElementById("cardName").textContent =
+    p.full_name || "Member Name";
+
+  document.getElementById("cardDesignation").textContent =
+    p.designation || "Member";
+
+  document.getElementById("cardMemberId").textContent =
+    p.member_id || "Pending";
+
+  document.getElementById("cardMobile").textContent =
+    p.mobile || "-";
+
+  document.getElementById("cardVillage").textContent =
+    p.village || "-";
+
+  document.getElementById("cardBlood").textContent =
+    p.blood_group || "-";
+
+  document.getElementById("cardPhoto").src = photo;
+
+
+  const status =
+    (p.member_status || "inactive").toLowerCase();
+
+  const statusElement =
+    document.getElementById("cardStatus");
+
+  statusElement.textContent =
+    status.toUpperCase();
+
+  statusElement.className =
+    "status " +
+    (status === "active" ? "active" : "inactive");
+
+
+  /* QR */
+
+  if(p.member_id){
+
+    const publicUrl =
+      new URL(
+        "member.html?id=" +
+        encodeURIComponent(p.member_id),
+        window.location.href
+      ).href;
+
+    const qrUrl =
+      "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
+      encodeURIComponent(publicUrl);
+
+    document.getElementById("cardQr").src =
+      qrUrl;
 
   }else{
 
-    photo.src =
-      "https://via.placeholder.com/130?text=Photo";
+    document.getElementById("cardQr").removeAttribute("src");
 
   }
-
-
-  renderIdCard(profile);
 
 }
 
@@ -885,37 +864,20 @@ function fillProfile(profile){
 
 async function saveProfile(){
 
-  if(!currentUser) return;
-
-
   const fullName =
-    document.getElementById(
-      "fullName"
-    ).value.trim();
-
+    document.getElementById("fullName").value.trim();
 
   const mobile =
-    document.getElementById(
-      "mobile"
-    ).value.trim();
-
+    document.getElementById("mobile").value.trim();
 
   const village =
-    document.getElementById(
-      "village"
-    ).value.trim();
-
+    document.getElementById("village").value.trim();
 
   const address =
-    document.getElementById(
-      "address"
-    ).value.trim();
-
+    document.getElementById("address").value.trim();
 
   const bloodGroup =
-    document.getElementById(
-      "bloodGroup"
-    ).value;
+    document.getElementById("bloodGroup").value;
 
 
   if(!fullName){
@@ -930,35 +892,17 @@ async function saveProfile(){
 
 
   const {
-    data,
     error
-  } =
-  await supabaseClient
+  } = await supabaseClient
     .from("member_profiles")
     .update({
-
-      full_name:
-        fullName,
-
-      mobile:
-        mobile || null,
-
-      village:
-        village || null,
-
-      address:
-        address || null,
-
-      blood_group:
-        bloodGroup || null
-
+      full_name:fullName,
+      mobile:mobile || null,
+      village:village || null,
+      address:address || null,
+      blood_group:bloodGroup || null
     })
-    .eq(
-      "id",
-      currentUser.id
-    )
-    .select()
-    .single();
+    .eq("id", currentUser.id);
 
 
   if(error){
@@ -973,18 +917,11 @@ async function saveProfile(){
   }
 
 
-  currentProfile =
-    data;
-
-
-  fillProfile(data);
-
+  await loadProfile();
 
   showMessage(
-    "Profile saved successfully.",
-    "success"
+    "Profile saved successfully."
   );
-
 }
 
 
@@ -992,365 +929,133 @@ async function saveProfile(){
    PHOTO UPLOAD
 ========================= */
 
-async function uploadPhoto(){
+document
+  .getElementById("photoInput")
+  .addEventListener(
+    "change",
+    async function(){
 
-  const input =
-    document.getElementById(
-      "photoInput"
-    );
+      const file = this.files[0];
 
-
-  const file =
-    input.files[0];
-
-
-  if(!file){
-
-    showMessage(
-      "Please select a photo first.",
-      "error"
-    );
-
-    return;
-  }
+      if(!file) return;
 
 
-  if(!file.type.startsWith("image/")){
+      if(file.size > 5 * 1024 * 1024){
 
-    showMessage(
-      "Only image files are allowed.",
-      "error"
-    );
+        showMessage(
+          "Photo must be below 5 MB.",
+          "error"
+        );
 
-    return;
-  }
+        this.value = "";
 
-
-  if(file.size > 5 * 1024 * 1024){
-
-    showMessage(
-      "Photo must be less than 5 MB.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  const extension =
-    file.name
-      .split(".")
-      .pop()
-      .toLowerCase();
-
-
-  const filePath =
-    currentUser.id +
-    "/" +
-    Date.now() +
-    "." +
-    extension;
-
-
-  const {
-    error:uploadError
-  } =
-  await supabaseClient
-    .storage
-    .from("member-photos")
-    .upload(
-      filePath,
-      file,
-      {
-        upsert:true
+        return;
       }
-    );
 
 
-  if(uploadError){
+      if(!file.type.startsWith("image/")){
 
-    showMessage(
-      "Photo upload failed: " +
-      uploadError.message,
-      "error"
-    );
+        showMessage(
+          "Please select an image file.",
+          "error"
+        );
 
-    return;
-  }
+        this.value = "";
 
-
-  const {
-    data:publicData
-  } =
-  supabaseClient
-    .storage
-    .from("member-photos")
-    .getPublicUrl(filePath);
+        return;
+      }
 
 
-  const publicUrl =
-    publicData.publicUrl;
+      showMessage("Uploading photo...");
 
 
-  const {
-    data,
-    error
-  } =
-  await supabaseClient
-    .from("member_profiles")
-    .update({
+      const extension =
+        file.name.split(".").pop().toLowerCase();
 
-      profile_photo_url:
-        publicUrl
-
-    })
-    .eq(
-      "id",
-      currentUser.id
-    )
-    .select()
-    .single();
+      const filePath =
+        currentUser.id +
+        "/" +
+        Date.now() +
+        "." +
+        extension;
 
 
-  if(error){
-
-    showMessage(
-      "Photo URL update failed: " +
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-
-  currentProfile =
-    data;
+      const {
+        error:uploadError
+      } = await supabaseClient.storage
+        .from("member-photos")
+        .upload(
+          filePath,
+          file,
+          {
+            upsert:true,
+            contentType:file.type
+          }
+        );
 
 
-  fillProfile(data);
+      if(uploadError){
+
+        showMessage(
+          "Photo upload failed: " +
+          uploadError.message,
+          "error"
+        );
+
+        return;
+      }
 
 
-  input.value = "";
+      const {
+        data:urlData
+      } = supabaseClient.storage
+        .from("member-photos")
+        .getPublicUrl(filePath);
 
 
-  showMessage(
-    "Profile photo uploaded successfully.",
-    "success"
+      const photoUrl =
+        urlData.publicUrl;
+
+
+      const {
+        error:updateError
+      } = await supabaseClient
+        .from("member_profiles")
+        .update({
+          profile_photo_url:photoUrl
+        })
+        .eq("id", currentUser.id);
+
+
+      if(updateError){
+
+        showMessage(
+          "Photo save failed: " +
+          updateError.message,
+          "error"
+        );
+
+        return;
+      }
+
+
+      document.getElementById("profilePhoto").src =
+        photoUrl;
+
+      document.getElementById("cardPhoto").src =
+        photoUrl;
+
+
+      currentProfile.profile_photo_url =
+        photoUrl;
+
+
+      showMessage(
+        "Profile photo updated successfully."
+      );
+
+    }
   );
-
-}
-
-
-/* =========================
-   ID CARD
-========================= */
-
-function renderIdCard(profile){
-
-  const area =
-    document.getElementById(
-      "idCardArea"
-    );
-
-
-  if(
-    !profile.member_id ||
-    profile.approval_status !== "approved"
-  ){
-
-    area.innerHTML = `
-
-      <div class="not-approved">
-
-        <strong>Member ID Card is not active yet.</strong>
-
-        <br><br>
-
-        Your account is waiting for
-        Super Admin approval.
-
-      </div>
-
-    `;
-
-    return;
-  }
-
-
-  const memberUrl =
-    new URL(
-      "member.html",
-      window.location.href
-    );
-
-
-  memberUrl.searchParams.set(
-    "id",
-    profile.member_id
-  );
-
-
-  const qrUrl =
-    "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" +
-    encodeURIComponent(
-      memberUrl.toString()
-    );
-
-
-  const photo =
-    profile.profile_photo_url
-      ? profile.profile_photo_url
-      : "https://via.placeholder.com/300?text=Photo";
-
-
-  const statusClass =
-    profile.member_status === "active"
-      ? "active-status"
-      : "inactive-status";
-
-
-  area.innerHTML = `
-
-    <div class="id-card-wrapper">
-
-      <div
-        class="id-card"
-        id="digitalIdCard">
-
-        <div class="id-header">
-
-          <h2>
-            Maa Basuli Uda Jatra Committee
-          </h2>
-
-          <p>
-            Thakurmunda, Mayurbhanj, Odisha
-          </p>
-
-        </div>
-
-
-        <div class="id-body">
-
-          <img
-            class="id-photo"
-            src="${escapeAttr(photo)}"
-            crossorigin="anonymous"
-            alt="Member Photo">
-
-
-          <div class="id-info">
-
-            <div class="id-name">
-              ${escapeHtml(profile.full_name || "")}
-            </div>
-
-            <div class="id-designation">
-              ${escapeHtml(profile.designation || "Member")}
-            </div>
-
-
-            <div class="id-row">
-              <strong>Member ID:</strong>
-              <span>
-                ${escapeHtml(profile.member_id)}
-              </span>
-            </div>
-
-
-            <div class="id-row">
-              <strong>Mobile:</strong>
-              <span>
-                ${escapeHtml(profile.mobile || "—")}
-              </span>
-            </div>
-
-
-            <div class="id-row">
-              <strong>Village:</strong>
-              <span>
-                ${escapeHtml(profile.village || "—")}
-              </span>
-            </div>
-
-
-            <div class="id-row">
-              <strong>Blood:</strong>
-              <span>
-                ${escapeHtml(profile.blood_group || "—")}
-              </span>
-            </div>
-
-
-            <span
-              class="id-status ${statusClass}">
-
-              ${escapeHtml(
-                profile.member_status || "inactive"
-              )}
-
-            </span>
-
-          </div>
-
-        </div>
-
-
-        <div class="qr-box">
-
-          <img
-            src="${escapeAttr(qrUrl)}"
-            crossorigin="anonymous"
-            alt="Member QR Code">
-
-        </div>
-
-
-        <div class="id-footer">
-
-          Scan QR to verify live member profile
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="id-actions">
-
-      <button
-        class="download-btn"
-        onclick="downloadIdCard()">
-
-        ⬇️ Download ID Card
-
-      </button>
-
-
-      <button
-        class="print-btn"
-        onclick="printIdCard()">
-
-        🖨️ Print ID Card
-
-      </button>
-
-
-      <button
-        class="verify-btn"
-        onclick="openMemberProfile()">
-
-        🔎 View Public Profile
-
-      </button>
-
-    </div>
-
-  `;
-
-}
 
 
 /* =========================
@@ -1360,66 +1065,31 @@ function renderIdCard(profile){
 async function downloadIdCard(){
 
   const card =
-    document.getElementById(
-      "digitalIdCard"
-    );
-
-
-  if(!card){
-
-    alert(
-      "Digital ID Card is not available."
-    );
-
-    return;
-  }
-
-
-  const button =
-    document.querySelector(
-      ".download-btn"
-    );
-
-
-  const oldText =
-    button.textContent;
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "Preparing...";
-
+    document.getElementById("digitalIdCard");
 
   try{
 
     const canvas =
-      await html2canvas(
-        card,
-        {
-          scale:2,
-          useCORS:true,
-          allowTaint:false,
-          backgroundColor:"#ffffff"
-        }
-      );
+      await html2canvas(card,{
+        scale:3,
+        useCORS:true,
+        backgroundColor:"#ffffff",
+        logging:false
+      });
 
 
     const link =
       document.createElement("a");
 
-
     link.download =
-      "Maa-Basuli-Member-ID-" +
-      (currentProfile.member_id || "Card") +
-      ".png";
-
+      (
+        currentProfile?.member_id ||
+        "member"
+      ) +
+      "-digital-id-card.png";
 
     link.href =
-      canvas.toDataURL(
-        "image/png"
-      );
-
+      canvas.toDataURL("image/png");
 
     link.click();
 
@@ -1427,17 +1097,11 @@ async function downloadIdCard(){
   }catch(error){
 
     alert(
-      "Download failed. Please use Print ID Card option."
+      "ID Card download failed. Please try again."
     );
 
+    console.error(error);
   }
-
-
-  button.disabled = false;
-
-  button.textContent =
-    oldText;
-
 }
 
 
@@ -1447,33 +1111,25 @@ async function downloadIdCard(){
 
 function printIdCard(){
 
-  if(!document.getElementById(
-    "digitalIdCard"
-  )){
-
-    alert(
-      "Digital ID Card is not available."
-    );
-
-    return;
-  }
-
-
   window.print();
 
 }
 
 
 /* =========================
-   OPEN PUBLIC PROFILE
+   PUBLIC PROFILE
 ========================= */
 
-function openMemberProfile(){
+function viewPublicProfile(){
 
   if(
     !currentProfile ||
     !currentProfile.member_id
   ){
+
+    alert(
+      "Public profile will be available after Super Admin approval."
+    );
 
     return;
   }
@@ -1481,22 +1137,18 @@ function openMemberProfile(){
 
   const url =
     new URL(
-      "member.html",
+      "member.html?id=" +
+      encodeURIComponent(
+        currentProfile.member_id
+      ),
       window.location.href
-    );
-
-
-  url.searchParams.set(
-    "id",
-    currentProfile.member_id
-  );
+    ).href;
 
 
   window.open(
-    url.toString(),
+    url,
     "_blank"
   );
-
 }
 
 
@@ -1510,66 +1162,14 @@ async function logout(){
 
   window.location.href =
     "index.html";
-
 }
 
 
 /* =========================
-   MESSAGE
+   START
 ========================= */
 
-function showMessage(
-  text,
-  type
-){
-
-  const box =
-    document.getElementById(
-      "profileMessage"
-    );
-
-
-  box.textContent =
-    text;
-
-
-  box.className =
-    "message " + type;
-
-
-  setTimeout(() => {
-
-    box.className =
-      "message";
-
-  },5000);
-
-}
-
-
-/* =========================
-   SECURITY HELPERS
-========================= */
-
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-  .replaceAll("&","&amp;")
-  .replaceAll("<","&lt;")
-  .replaceAll(">","&gt;")
-  .replaceAll('"',"&quot;")
-  .replaceAll("'","&#039;");
-
-}
-
-
-function escapeAttr(value){
-
-  return escapeHtml(value);
-
-}
+loadSession();
 
 </script>
 
