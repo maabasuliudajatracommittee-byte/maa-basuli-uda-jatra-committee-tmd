@@ -6,6 +6,8 @@
 
 <title>Our Members | Maa Basuli Uda Jatra Committee</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   box-sizing:border-box;
@@ -15,9 +17,9 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f7f7f7;
+  background:#f6f7f9;
   color:#222;
-  line-height:1.7;
+  line-height:1.6;
 }
 
 a{
@@ -28,22 +30,6 @@ a{
 .container{
   width:min(1150px,92%);
   margin:auto;
-}
-
-/* TOP BAR */
-
-.topbar{
-  background:#7b1e1e;
-  color:#fff;
-  padding:8px 0;
-  font-size:13px;
-}
-
-.topbar-inner{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
 }
 
 /* HEADER */
@@ -57,52 +43,51 @@ header{
 }
 
 .header-inner{
-  min-height:75px;
+  min-height:72px;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:15px;
-  position:relative;
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
+  gap:11px;
 }
 
 .logo-icon{
-  width:50px;
-  height:50px;
+  width:48px;
+  height:48px;
   border-radius:50%;
   background:#f4c542;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:25px;
 }
 
 .logo-text h1{
   color:#7b1e1e;
-  font-size:19px;
+  font-size:18px;
 }
 
 .logo-text p{
   color:#777;
-  font-size:12px;
+  font-size:11px;
 }
 
 nav{
   display:flex;
-  gap:3px;
+  gap:4px;
   flex-wrap:wrap;
   justify-content:flex-end;
 }
 
 nav a{
-  padding:8px 10px;
+  padding:7px 9px;
   border-radius:7px;
-  font-size:13px;
+  font-size:12px;
   font-weight:bold;
 }
 
@@ -119,99 +104,161 @@ nav a.active{
   color:#fff;
   padding:9px 12px;
   border-radius:7px;
-  font-size:20px;
+  font-size:19px;
 }
 
 /* HERO */
 
-.page-hero{
+.hero{
   background:
-    linear-gradient(rgba(70,15,5,.78),rgba(70,15,5,.78)),
-    url("https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1800&q=85")
+    linear-gradient(rgba(72,17,10,.84),rgba(72,17,10,.84)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=85")
     center/cover;
   color:#fff;
   text-align:center;
-  padding:80px 0;
+  padding:75px 0;
 }
 
-.page-hero h2{
-  font-size:44px;
+.hero h2{
+  font-size:40px;
   margin-bottom:8px;
 }
 
-.page-hero p{
-  font-size:17px;
+.hero p{
+  font-size:15px;
 }
 
-/* SECTIONS */
+/* MAIN */
 
-section{
-  padding:55px 0;
+.main{
+  padding:45px 0 65px;
 }
 
-.section-title{
-  text-align:center;
-  margin-bottom:30px;
-}
+/* INTRO */
 
-.section-title h2{
-  color:#7b1e1e;
-  font-size:30px;
-}
-
-.section-title p{
-  color:#777;
-}
-
-/* INFO */
-
-.info-box{
-  background:#fff8ed;
-  border-left:5px solid #7b1e1e;
-  padding:22px;
-  border-radius:10px;
-  margin-bottom:30px;
-}
-
-.info-box h3{
-  color:#7b1e1e;
-  margin-bottom:6px;
-}
-
-.info-box p{
-  color:#666;
-  font-size:14px;
-}
-
-/* FILTER */
-
-.filter-box{
+.intro{
+  max-width:850px;
+  margin:0 auto 28px;
   background:#fff;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
-  margin-bottom:30px;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 22px rgba(0,0,0,.07);
+  text-align:center;
 }
 
-.filter-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+.intro h3{
+  color:#7b1e1e;
+  margin-bottom:7px;
+}
+
+.intro p{
+  color:#777;
+  font-size:13px;
+}
+
+/* CONTROLS */
+
+.controls{
+  display:flex;
   gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
 }
 
-input,
-select{
+.search{
+  flex:1;
+  min-width:230px;
+}
+
+.search input,
+.filter select{
   width:100%;
-  padding:12px 13px;
+  padding:12px 14px;
   border:1px solid #ddd;
   border-radius:8px;
-  font-size:14px;
+  background:#fff;
   outline:none;
+  font-size:14px;
 }
 
-input:focus,
-select:focus{
+.search input:focus,
+.filter select:focus{
   border-color:#7b1e1e;
+}
+
+.filter{
+  width:190px;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:28px;
+}
+
+.stat{
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  color:#7b1e1e;
+  font-size:25px;
+}
+
+.stat span{
+  color:#777;
+  font-size:12px;
+}
+
+/* LOADING */
+
+.loading{
+  background:#fff;
+  padding:45px 20px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+}
+
+.spinner{
+  width:38px;
+  height:38px;
+  border:4px solid #eee;
+  border-top-color:#7b1e1e;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:0 auto 12px;
+}
+
+@keyframes spin{
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+/* ERROR */
+
+.error-box{
+  display:none;
+  background:#fff0f0;
+  border:1px solid #efcaca;
+  color:#9b2525;
+  padding:18px;
+  border-radius:10px;
+  margin-bottom:20px;
+  font-size:13px;
+}
+
+.error-box.show{
+  display:block;
 }
 
 /* MEMBER GRID */
@@ -219,146 +266,151 @@ select:focus{
 .member-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:20px;
+  gap:18px;
 }
 
 .member-card{
   background:#fff;
   border-radius:15px;
-  padding:24px;
-  text-align:center;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
-  border-top:4px solid #7b1e1e;
+  overflow:hidden;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  transition:.2s;
 }
 
-.member-photo{
-  width:105px;
+.member-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(0,0,0,.11);
+}
+
+.member-top{
   height:105px;
-  margin:0 auto 15px;
+  background:linear-gradient(135deg,#7b1e1e,#a84a2d);
+}
+
+.member-content{
+  padding:0 20px 20px;
+  text-align:center;
+}
+
+.photo{
+  width:92px;
+  height:92px;
+  margin:-48px auto 10px;
   border-radius:50%;
-  overflow:hidden;
+  border:5px solid #fff;
   background:#eee;
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  border:4px solid #f4c542;
+  color:#777;
+  font-size:32px;
 }
 
-.member-photo img{
+.photo img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.member-photo span{
-  font-size:42px;
-}
-
-.member-card h3{
+.member-name{
   color:#7b1e1e;
-  font-size:19px;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:2px;
 }
 
 .designation{
-  display:inline-block;
-  margin-top:5px;
-  padding:5px 10px;
-  background:#f5e8e8;
-  color:#7b1e1e;
-  border-radius:20px;
-  font-size:11px;
+  color:#a06a00;
+  font-size:12px;
   font-weight:bold;
+  margin-bottom:10px;
 }
 
 .member-info{
   text-align:left;
-  margin-top:15px;
-  padding-top:12px;
   border-top:1px solid #eee;
+  padding-top:12px;
 }
 
-.member-info div{
-  font-size:13px;
-  color:#666;
-  margin:4px 0;
+.info-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:5px 0;
+  font-size:12px;
 }
 
-.member-info strong{
-  color:#7b1e1e;
+.info-row span:first-child{
+  color:#888;
+}
+
+.info-row span:last-child{
+  color:#333;
+  font-weight:bold;
+  text-align:right;
 }
 
 .status{
   display:inline-block;
-  margin-top:12px;
-  padding:5px 10px;
+  padding:4px 9px;
   border-radius:20px;
-  background:#e8f7ed;
-  color:#19733a;
-  font-size:11px;
+  background:#eaf8ef;
+  color:#18733a;
+  font-size:10px;
   font-weight:bold;
-}
-
-.qr-note{
-  margin-top:12px;
-  color:#888;
-  font-size:11px;
-}
-
-/* OFFICE BEARERS */
-
-.office-section{
-  background:#fff8ed;
-}
-
-.office-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:18px;
-}
-
-.office-card{
-  background:#fff;
-  padding:22px;
-  text-align:center;
-  border-radius:13px;
-  box-shadow:0 3px 12px rgba(0,0,0,.06);
-}
-
-.office-card .icon{
-  font-size:34px;
-  margin-bottom:7px;
-}
-
-.office-card h3{
-  color:#7b1e1e;
-  font-size:17px;
-}
-
-.office-card p{
-  color:#666;
-  font-size:13px;
-}
-
-/* SEARCH NOTE */
-
-.public-note{
-  background:#fff;
-  border-radius:12px;
-  padding:18px;
-  margin-top:25px;
-  color:#666;
-  font-size:13px;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
 }
 
 /* EMPTY */
 
 .empty{
+  display:none;
   background:#fff;
-  padding:45px 20px;
+  padding:50px 20px;
+  border-radius:15px;
   text-align:center;
-  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+}
+
+.empty.show{
+  display:block;
+}
+
+.empty-icon{
+  font-size:45px;
+  margin-bottom:8px;
+}
+
+.empty h3{
+  color:#7b1e1e;
+  margin-bottom:5px;
+}
+
+.empty p{
   color:#777;
+  font-size:13px;
+}
+
+/* INFO */
+
+.info-box{
+  margin-top:28px;
+  padding:20px;
+  background:#fff;
+  border-left:5px solid #7b1e1e;
+  border-radius:9px;
+  box-shadow:0 3px 14px rgba(0,0,0,.05);
+}
+
+.info-box h3{
+  color:#7b1e1e;
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.info-box p{
+  color:#666;
+  font-size:12px;
 }
 
 /* FOOTER */
@@ -366,7 +418,7 @@ select:focus{
 footer{
   background:#241313;
   color:#fff;
-  padding:40px 0 20px;
+  padding:38px 0 18px;
 }
 
 .footer-grid{
@@ -377,37 +429,37 @@ footer{
 
 footer h3{
   color:#ffd36b;
-  margin-bottom:10px;
+  margin-bottom:9px;
 }
 
 footer p,
 footer a{
   color:#ddd;
-  font-size:14px;
+  font-size:13px;
 }
 
 footer a{
   display:block;
-  margin:5px 0;
+  margin:4px 0;
 }
 
 .copyright{
   border-top:1px solid rgba(255,255,255,.15);
-  margin-top:30px;
-  padding-top:15px;
+  margin-top:25px;
+  padding-top:14px;
   text-align:center;
   color:#aaa;
-  font-size:13px;
+  font-size:12px;
 }
 
 /* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:1000px){
 
   nav{
     display:none;
     position:absolute;
-    top:75px;
+    top:72px;
     left:0;
     right:0;
     background:#fff;
@@ -424,63 +476,45 @@ footer a{
     display:block;
   }
 
-  .filter-grid{
-    grid-template-columns:1fr;
-  }
-
   .member-grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .office-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
 }
 
 @media(max-width:650px){
 
-  .logo-text h1{
-    font-size:16px;
+  .hero h2{
+    font-size:31px;
   }
 
-  .page-hero{
-    padding:65px 0;
+  .controls{
+    display:block;
   }
 
-  .page-hero h2{
-    font-size:32px;
+  .search,
+  .filter{
+    width:100%;
+    margin-bottom:10px;
   }
 
-  .member-grid,
-  .office-grid{
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .member-grid{
     grid-template-columns:1fr;
   }
 
   .footer-grid{
     grid-template-columns:1fr;
   }
+
 }
 </style>
 </head>
 
 <body>
-
-<!-- TOP BAR -->
-
-<div class="topbar">
-
-  <div class="container topbar-inner">
-
-    <span>🙏 जय माँ बसुली</span>
-
-    <span>
-      Thakurmunda, Mayurbhanj, Odisha
-    </span>
-
-  </div>
-
-</div>
-
 
 <!-- HEADER -->
 
@@ -490,7 +524,9 @@ footer a{
 
     <a href="index.html" class="logo">
 
-      <div class="logo-icon">🙏</div>
+      <div class="logo-icon">
+        🙏
+      </div>
 
       <div class="logo-text">
 
@@ -506,7 +542,6 @@ footer a{
 
     </a>
 
-
     <button
       class="menu-btn"
       onclick="toggleMenu()"
@@ -514,31 +549,28 @@ footer a{
       ☰
     </button>
 
-
     <nav id="mainNav">
 
       <a href="index.html">Home</a>
-
       <a href="about.html">About</a>
-
       <a href="jatra.html">Uda Jatra</a>
-
       <a href="notices.html">Notices</a>
-
       <a href="events.html">Events</a>
-
       <a href="gallery.html">Gallery</a>
 
-      <a href="members.html" class="active">
+      <a
+        href="members.html"
+        class="active"
+      >
         Our Members
       </a>
 
       <a href="fund.html">Fund</a>
-
+      <a href="member-fee.html">Member Fee</a>
+      <a href="bhakta-list.html">Bhakta List</a>
       <a href="complaint.html">Complaint</a>
-
       <a href="contact.html">Contact</a>
-
+      <a href="search.html">Search</a>
       <a href="auth.html">Login</a>
 
     </nav>
@@ -550,14 +582,16 @@ footer a{
 
 <!-- HERO -->
 
-<section class="page-hero">
+<section class="hero">
 
   <div class="container">
 
-    <h2>Our Members</h2>
+    <h2>
+      Our Members
+    </h2>
 
     <p>
-      ଆମ ସଦସ୍ୟ — Maa Basuli Uda Jatra Committee
+      Verified Members of Maa Basuli Uda Jatra Committee
     </p>
 
   </div>
@@ -565,108 +599,66 @@ footer a{
 </section>
 
 
-<!-- MEMBER SECTION -->
+<!-- MAIN -->
 
-<section>
+<main class="main">
 
   <div class="container">
 
-    <div class="section-title">
 
-      <h2>ଆମ ସଦସ୍ୟ</h2>
+    <!-- INTRO -->
+
+    <div class="intro">
+
+      <h3>
+        🙏 ଆମ ସଦସ୍ୟ
+      </h3>
 
       <p>
-        Official approved members of the committee
+        This public directory displays only
+        committee members whose membership has
+        been approved and activated by the
+        authorized administration.
       </p>
 
     </div>
 
 
-    <div class="info-box">
+    <!-- ERROR -->
 
-      <h3>🔐 Verified Member Directory</h3>
-
-      <p>
-        Only members approved by the Super Admin will be
-        displayed in this public directory. Member ID,
-        designation and active status can be verified
-        through the official member system.
-      </p>
-
+    <div
+      id="errorBox"
+      class="error-box"
+    >
+      Unable to load member information.
+      Please try again later.
     </div>
 
 
-    <!-- FILTER -->
+    <!-- CONTROLS -->
 
-    <div class="filter-box">
+    <div class="controls">
 
-      <div class="filter-grid">
+      <div class="search">
 
         <input
-          type="text"
-          id="searchMember"
-          placeholder="Search member name or Member ID..."
-          onkeyup="filterMembers()"
+          type="search"
+          id="searchInput"
+          placeholder="Search member name, village or Member ID..."
+          autocomplete="off"
         >
 
+      </div>
 
-        <select
-          id="designationFilter"
-          onchange="filterMembers()"
-        >
 
-          <option value="">
+      <div class="filter">
+
+        <select id="designationFilter">
+
+          <option value="all">
             All Designations
           </option>
 
-          <option value="President">
-            President
-          </option>
-
-          <option value="Vice President">
-            Vice President
-          </option>
-
-          <option value="Secretary">
-            Secretary
-          </option>
-
-          <option value="Vice Secretary">
-            Vice Secretary
-          </option>
-
-          <option value="Treasurer">
-            Treasurer
-          </option>
-
-          <option value="Core Committee Member">
-            Core Committee Member
-          </option>
-
-          <option value="Member">
-            Member
-          </option>
-
-        </select>
-
-
-        <select
-          id="statusFilter"
-          onchange="filterMembers()"
-        >
-
-          <option value="">
-            All Status
-          </option>
-
-          <option value="Active">
-            Active
-          </option>
-
-          <option value="Inactive">
-            Inactive
-          </option>
-
         </select>
 
       </div>
@@ -674,277 +666,119 @@ footer a{
     </div>
 
 
-    <!-- MEMBER LIST -->
+    <!-- STATS -->
 
-    <div
-      class="member-grid"
-      id="memberList"
-    >
+    <div class="stats">
 
+      <div class="stat">
 
-      <!-- SAMPLE MEMBER -->
+        <strong id="totalMembers">
+          0
+        </strong>
 
-      <article
-        class="member-card"
-        data-name="Sample Member"
-        data-id="MB001"
-        data-designation="President"
-        data-status="Active"
-      >
-
-        <div class="member-photo">
-
-          <span>👤</span>
-
-        </div>
-
-        <h3>
-          Approved Member
-        </h3>
-
-        <span class="designation">
-          Member
+        <span>
+          Total Active Members
         </span>
 
-        <div class="member-info">
+      </div>
 
-          <div>
-            <strong>Member ID:</strong>
-            MB001
-          </div>
 
-          <div>
-            <strong>Blood Group:</strong>
-            Not Published
-          </div>
+      <div class="stat">
 
-          <div>
-            <strong>Village:</strong>
-            Thakurmunda
-          </div>
+        <strong id="visibleMembers">
+          0
+        </strong>
 
-        </div>
-
-        <span class="status">
-          ● Active
+        <span>
+          Members Shown
         </span>
 
-        <div class="qr-note">
-          QR verification will be connected later.
-        </div>
-
-      </article>
+      </div>
 
 
-      <!-- FUTURE MEMBERS WILL BE LOADED FROM SUPABASE -->
+      <div class="stat">
+
+        <strong>
+          ✓
+        </strong>
+
+        <span>
+          Approved Directory
+        </span>
+
+      </div>
 
     </div>
 
 
+    <!-- LOADING -->
+
     <div
-      class="empty"
-      id="emptyMessage"
-      style="display:none;margin-top:20px;"
+      id="loading"
+      class="loading"
     >
 
+      <div class="spinner"></div>
+
+      <p>
+        Loading approved members...
+      </p>
+
+    </div>
+
+
+    <!-- MEMBER GRID -->
+
+    <div
+      id="memberGrid"
+      class="member-grid"
+    ></div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      id="emptyState"
+      class="empty"
+    >
+
+      <div class="empty-icon">
+        🔎
+      </div>
+
       <h3>
-        No Member Found
+        No Members Found
       </h3>
 
       <p>
-        No member matches your search or selected filter.
+        No approved and active member matches
+        your search or selected designation.
       </p>
 
     </div>
 
 
-    <div class="public-note">
-
-      <strong>ℹ️ Public Information:</strong>
-
-      This page will later load approved members directly
-      from the secure Supabase member database. Login
-      credentials, passwords and other private account
-      information will never be displayed here.
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- OFFICE BEARERS -->
-
-<section class="office-section">
-
-  <div class="container">
-
-    <div class="section-title">
-
-      <h2>Committee Designations</h2>
-
-      <p>
-        Official positions available in the member system
-      </p>
-
-    </div>
-
-
-    <div class="office-grid">
-
-
-      <div class="office-card">
-
-        <div class="icon">👑</div>
-
-        <h3>President</h3>
-
-        <p>
-          Committee President
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">🤝</div>
-
-        <h3>Vice President</h3>
-
-        <p>
-          Committee Vice President
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">📋</div>
-
-        <h3>Secretary</h3>
-
-        <p>
-          Committee Secretary
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">📝</div>
-
-        <h3>Vice Secretary</h3>
-
-        <p>
-          Committee Vice Secretary
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">💰</div>
-
-        <h3>Treasurer</h3>
-
-        <p>
-          Committee Treasurer
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">⭐</div>
-
-        <h3>Core Committee</h3>
-
-        <p>
-          Core Committee Member
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">👥</div>
-
-        <h3>Member</h3>
-
-        <p>
-          General Committee Member
-        </p>
-
-      </div>
-
-
-      <div class="office-card">
-
-        <div class="icon">🔗</div>
-
-        <h3>QR Verification</h3>
-
-        <p>
-          Member profile verification
-        </p>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- MEMBER LOGIN -->
-
-<section>
-
-  <div class="container">
+    <!-- INFO -->
 
     <div class="info-box">
 
       <h3>
-        🎫 Digital Member ID
+        🔐 Public Member Information
       </h3>
 
       <p>
-        Approved members will receive an automatic Member ID
-        and a permanent QR-linked digital member profile.
-        Members will be able to login and access their own
-        digital ID card.
+        Only committee-approved public information
+        is displayed on this page. Login credentials,
+        passwords, private addresses, email addresses
+        and other sensitive information are not exposed
+        through the public member directory.
       </p>
-
-      <a
-        href="auth.html"
-        style="
-          display:inline-block;
-          margin-top:12px;
-          background:#7b1e1e;
-          color:#fff;
-          padding:9px 15px;
-          border-radius:7px;
-          font-size:13px;
-          font-weight:bold;
-        "
-      >
-        Member Login
-      </a>
 
     </div>
 
   </div>
 
-</section>
+</main>
 
 
 <!-- FOOTER -->
@@ -967,7 +801,7 @@ footer a{
           Thakurmunda, Mayurbhanj, Odisha.
         </p>
 
-        <p style="margin-top:10px;">
+        <p style="margin-top:9px;">
           ଜୟ ମା' ବାସୁଳୀ 🙏
         </p>
 
@@ -981,15 +815,9 @@ footer a{
         </h3>
 
         <a href="index.html">Home</a>
-
-        <a href="about.html">About</a>
-
         <a href="jatra.html">Uda Jatra</a>
-
         <a href="notices.html">Notices</a>
-
         <a href="events.html">Events</a>
-
         <a href="gallery.html">Gallery</a>
 
       </div>
@@ -1001,29 +829,12 @@ footer a{
           Services
         </h3>
 
-        <a href="members.html">
-          Our Members
-        </a>
-
-        <a href="fund.html">
-          Fund & Donation
-        </a>
-
-        <a href="member-fee.html">
-          Member Fee
-        </a>
-
-        <a href="complaint.html">
-          Complaint Box
-        </a>
-
-        <a href="contact.html">
-          Contact
-        </a>
-
-        <a href="auth.html">
-          Login
-        </a>
+        <a href="members.html">Our Members</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="fund.html">Fund & Donation</a>
+        <a href="complaint.html">Complaint Box</a>
+        <a href="contact.html">Contact</a>
 
       </div>
 
@@ -1044,6 +855,45 @@ footer a{
 
 <script>
 
+/* =====================================================
+   SUPABASE CONFIGURATION
+   ===================================================== */
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+/*
+  IMPORTANT:
+  Paste the SAME Supabase Publishable Key that you
+  already used in auth.html and profile.html.
+*/
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+
+const { createClient } =
+  supabase;
+
+
+const supabaseClient =
+  createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =====================================================
+   DATA
+   ===================================================== */
+
+let allMembers = [];
+
+
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+
 function toggleMenu(){
 
   document
@@ -1054,12 +904,143 @@ function toggleMenu(){
 }
 
 
-function filterMembers(){
+/* =====================================================
+   LOAD PUBLIC MEMBERS
+   ===================================================== */
+
+async function loadMembers(){
+
+  const loading =
+    document.getElementById("loading");
+
+  const errorBox =
+    document.getElementById("errorBox");
+
+  try{
+
+    errorBox.classList.remove("show");
+
+    const { data, error } =
+      await supabaseClient
+        .rpc("get_public_members");
+
+
+    if(error){
+
+      console.error(
+        "Member loading error:",
+        error
+      );
+
+      throw error;
+
+    }
+
+
+    allMembers =
+      Array.isArray(data)
+        ? data
+        : [];
+
+
+    populateDesignationFilter();
+
+    renderMembers();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    errorBox.classList.add("show");
+
+    allMembers = [];
+
+    renderMembers();
+
+  }finally{
+
+    loading.style.display = "none";
+
+  }
+
+}
+
+
+/* =====================================================
+   DESIGNATION FILTER
+   ===================================================== */
+
+function populateDesignationFilter(){
+
+  const select =
+    document.getElementById(
+      "designationFilter"
+    );
+
+
+  const designations =
+    [
+      ...new Set(
+        allMembers
+          .map(member => member.designation)
+          .filter(Boolean)
+      )
+    ]
+    .sort(
+      (a,b) =>
+        a.localeCompare(b)
+    );
+
+
+  select.innerHTML = `
+    <option value="all">
+      All Designations
+    </option>
+  `;
+
+
+  designations.forEach(
+    designation => {
+
+      const option =
+        document.createElement("option");
+
+      option.value =
+        designation;
+
+      option.textContent =
+        designation;
+
+      select.appendChild(option);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   RENDER MEMBERS
+   ===================================================== */
+
+function renderMembers(){
+
+  const grid =
+    document.getElementById(
+      "memberGrid"
+    );
+
+  const empty =
+    document.getElementById(
+      "emptyState"
+    );
 
   const search =
     document
-      .getElementById("searchMember")
+      .getElementById("searchInput")
       .value
+      .trim()
       .toLowerCase();
 
   const designation =
@@ -1067,64 +1048,248 @@ function filterMembers(){
       .getElementById("designationFilter")
       .value;
 
-  const status =
-    document
-      .getElementById("statusFilter")
-      .value;
 
-  const members =
-    document.querySelectorAll(".member-card");
+  const filtered =
+    allMembers.filter(member => {
 
-  let visible = 0;
-
-
-  members.forEach(function(member){
-
-    const text =
-      member.innerText.toLowerCase();
-
-    const memberDesignation =
-      member.getAttribute("data-designation");
-
-    const memberStatus =
-      member.getAttribute("data-status");
+      const searchable =
+        [
+          member.full_name,
+          member.member_id,
+          member.village,
+          member.designation,
+          member.blood_group
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
 
-    const searchMatch =
-      text.includes(search);
-
-    const designationMatch =
-      designation === "" ||
-      memberDesignation === designation;
-
-    const statusMatch =
-      status === "" ||
-      memberStatus === status;
+      const searchMatch =
+        !search ||
+        searchable.includes(search);
 
 
-    if(
-      searchMatch &&
-      designationMatch &&
-      statusMatch
-    ){
+      const designationMatch =
+        designation === "all" ||
+        member.designation === designation;
 
-      member.style.display = "";
 
-      visible++;
+      return (
+        searchMatch &&
+        designationMatch
+      );
 
-    }else{
+    });
 
-      member.style.display = "none";
+
+  grid.innerHTML = "";
+
+
+  if(filtered.length === 0){
+
+    empty.classList.add("show");
+
+  }else{
+
+    empty.classList.remove("show");
+
+  }
+
+
+  filtered.forEach(
+    member => {
+
+      grid.appendChild(
+        createMemberCard(member)
+      );
 
     }
+  );
 
-  });
+
+  document.getElementById(
+    "totalMembers"
+  ).textContent =
+    allMembers.length;
 
 
-  document.getElementById("emptyMessage").style.display =
-    visible === 0 ? "block" : "none";
+  document.getElementById(
+    "visibleMembers"
+  ).textContent =
+    filtered.length;
 
 }
+
+
+/* =====================================================
+   MEMBER CARD
+   ===================================================== */
+
+function createMemberCard(member){
+
+  const card =
+    document.createElement("article");
+
+  card.className =
+    "member-card";
+
+
+  const photoHTML =
+    member.profile_photo_url
+      ? `
+        <img
+          src="${escapeHtml(member.profile_photo_url)}"
+          alt="${escapeHtml(member.full_name || "Member")}"
+          loading="lazy"
+        >
+      `
+      : `
+        <span>
+          👤
+        </span>
+      `;
+
+
+  card.innerHTML = `
+
+    <div class="member-top"></div>
+
+    <div class="member-content">
+
+      <div class="photo">
+        ${photoHTML}
+      </div>
+
+      <div class="member-name">
+        ${escapeHtml(
+          member.full_name || "Member"
+        )}
+      </div>
+
+      <div class="designation">
+        ${escapeHtml(
+          member.designation || "Member"
+        )}
+      </div>
+
+      <div class="member-info">
+
+        <div class="info-row">
+
+          <span>
+            Member ID
+          </span>
+
+          <span>
+            ${escapeHtml(
+              member.member_id || "—"
+            )}
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Village
+          </span>
+
+          <span>
+            ${escapeHtml(
+              member.village || "—"
+            )}
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Blood Group
+          </span>
+
+          <span>
+            ${escapeHtml(
+              member.blood_group || "—"
+            )}
+          </span>
+
+        </div>
+
+
+        <div class="info-row">
+
+          <span>
+            Status
+          </span>
+
+          <span>
+            <span class="status">
+              Active
+            </span>
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+
+  return card;
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+   ===================================================== */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =====================================================
+   SEARCH
+   ===================================================== */
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    renderMembers
+  );
+
+
+/* =====================================================
+   DESIGNATION FILTER
+   ===================================================== */
+
+document
+  .getElementById("designationFilter")
+  .addEventListener(
+    "change",
+    renderMembers
+  );
+
+
+/* =====================================================
+   START
+   ===================================================== */
+
+loadMembers();
 
 </script>
 
