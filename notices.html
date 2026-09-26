@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Official Notices | Maa Basuli Uda Jatra Committee</title>
+<title>Notices | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
@@ -15,199 +17,105 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f7f7f7;
-  color:#222;
-  line-height:1.7;
+  background:#f7f8fc;
+  color:#1f2937;
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-.container{
-  width:min(1150px,92%);
-  margin:auto;
-}
-
-/* TOP BAR */
-
-.topbar{
-  background:#7b1e1e;
-  color:#fff;
-  padding:8px 0;
-  font-size:13px;
-}
-
-.topbar-inner{
-  display:flex;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:10px;
-}
-
-/* HEADER */
-
-header{
-  background:#fff;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
-  position:sticky;
-  top:0;
-  z-index:50;
+.header{
+  background:linear-gradient(135deg,#7c2d12,#b45309);
+  color:white;
+  padding:18px 24px;
 }
 
 .header-inner{
-  min-height:75px;
+  width:min(1200px,94%);
+  margin:auto;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:15px;
-  position:relative;
 }
 
-.logo{
+.logo-title h1{
+  font-size:21px;
+}
+
+.logo-title p{
+  font-size:13px;
+  opacity:.9;
+  margin-top:4px;
+}
+
+.nav{
   display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.logo-icon{
-  width:50px;
-  height:50px;
-  border-radius:50%;
-  background:#f4c542;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:26px;
-}
-
-.logo-text h1{
-  color:#7b1e1e;
-  font-size:19px;
-}
-
-.logo-text p{
-  color:#777;
-  font-size:12px;
-}
-
-nav{
-  display:flex;
-  gap:3px;
   flex-wrap:wrap;
-  justify-content:flex-end;
+  gap:8px;
 }
 
-nav a{
-  padding:8px 10px;
+.nav a{
+  color:white;
+  text-decoration:none;
+  padding:8px 11px;
   border-radius:7px;
   font-size:13px;
-  font-weight:bold;
 }
 
-nav a:hover,
-nav a.active{
-  background:#f5e8e8;
-  color:#7b1e1e;
+.nav a:hover,
+.nav a.active{
+  background:rgba(255,255,255,.18);
 }
 
-.menu-btn{
-  display:none;
-  border:0;
-  background:#7b1e1e;
-  color:#fff;
-  padding:9px 12px;
-  border-radius:7px;
-  font-size:20px;
-}
-
-/* HERO */
-
-.page-hero{
-  background:
-    linear-gradient(rgba(70,15,5,.76),rgba(70,15,5,.76)),
-    url("https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1800&q=85")
-    center/cover;
-  color:#fff;
+.hero{
+  background:white;
+  padding:45px 20px;
   text-align:center;
-  padding:80px 0;
+  border-bottom:1px solid #e5e7eb;
 }
 
-.page-hero h2{
-  font-size:44px;
-  margin-bottom:8px;
+.hero h2{
+  color:#7c2d12;
+  font-size:34px;
+  margin-bottom:10px;
 }
 
-.page-hero p{
-  font-size:17px;
+.hero p{
+  color:#6b7280;
+  max-width:750px;
+  margin:auto;
+  line-height:1.6;
 }
 
-/* NOTICE BAR */
+.container{
+  width:min(1100px,94%);
+  margin:25px auto 50px;
+}
 
 .notice-bar{
-  background:#fff3d9;
-  border-bottom:1px solid #ecd39d;
-  padding:14px 0;
+  background:#fff7ed;
+  border-left:5px solid #ea580c;
+  padding:14px 16px;
+  border-radius:8px;
+  margin-bottom:20px;
+  color:#9a3412;
+  font-weight:600;
 }
 
-.notice-bar-inner{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.notice-label{
-  background:#7b1e1e;
-  color:#fff;
-  padding:5px 12px;
-  border-radius:20px;
-  font-size:12px;
-  font-weight:bold;
-  white-space:nowrap;
-}
-
-/* MAIN */
-
-section{
-  padding:55px 0;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.section-title h2{
-  color:#7b1e1e;
-  font-size:30px;
-}
-
-.section-title p{
-  color:#777;
-}
-
-/* FILTER */
-
-.filter-box{
-  background:#fff;
-  padding:20px;
-  border-radius:14px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
-  margin-bottom:28px;
-}
-
-.filter-grid{
+.filters{
+  background:white;
+  padding:18px;
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
+  grid-template-columns:1fr 200px 200px;
   gap:12px;
+  margin-bottom:22px;
 }
 
 input,
 select{
   width:100%;
-  padding:12px 13px;
-  border:1px solid #ddd;
+  padding:12px;
+  border:1px solid #d1d5db;
   border-radius:8px;
   font-size:14px;
   outline:none;
@@ -215,244 +123,140 @@ select{
 
 input:focus,
 select:focus{
-  border-color:#7b1e1e;
+  border-color:#b45309;
 }
-
-/* NOTICE LIST */
 
 .notice-list{
   display:grid;
-  gap:18px;
+  gap:15px;
 }
 
 .notice-card{
-  background:#fff;
-  border-radius:14px;
-  padding:22px;
-  box-shadow:0 3px 14px rgba(0,0,0,.06);
-  border-left:5px solid #7b1e1e;
+  background:white;
+  border-radius:13px;
+  padding:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  border:1px solid #eee;
 }
 
 .notice-top{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
   gap:15px;
+  align-items:flex-start;
 }
 
 .notice-card h3{
-  color:#7b1e1e;
+  color:#7c2d12;
   font-size:19px;
+  margin-bottom:7px;
 }
 
-.notice-date{
-  color:#777;
+.meta{
+  color:#6b7280;
   font-size:13px;
-  white-space:nowrap;
 }
 
-.notice-card p{
-  color:#666;
-  font-size:14px;
-  margin-top:7px;
-}
-
-.notice-meta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:12px;
-}
-
-.tag{
-  background:#f6eaea;
-  color:#7b1e1e;
-  padding:4px 9px;
+.badge{
+  display:inline-block;
+  background:#ffedd5;
+  color:#9a3412;
+  padding:5px 9px;
   border-radius:20px;
   font-size:11px;
   font-weight:bold;
+  white-space:nowrap;
+}
+
+.description{
+  margin-top:13px;
+  color:#4b5563;
+  line-height:1.65;
+  white-space:pre-wrap;
 }
 
 .actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
   margin-top:15px;
 }
 
-.btn{
+.pdf-btn{
   display:inline-block;
-  background:#7b1e1e;
-  color:#fff;
+  background:#7c2d12;
+  color:white;
+  text-decoration:none;
   padding:9px 14px;
   border-radius:7px;
   font-size:13px;
   font-weight:bold;
 }
 
-.btn.secondary{
-  background:#f1e3e3;
-  color:#7b1e1e;
+.pdf-btn:hover{
+  background:#5f210f;
 }
 
-.btn.disabled{
-  background:#ddd;
-  color:#777;
-  cursor:not-allowed;
+.loading,
+.empty,
+.error{
+  background:white;
+  border-radius:12px;
+  padding:35px 20px;
+  text-align:center;
 }
 
-/* EMPTY */
+.loading{
+  color:#6b7280;
+}
 
 .empty{
-  background:#fff;
-  padding:45px 20px;
-  border-radius:14px;
+  color:#6b7280;
+}
+
+.error{
+  color:#991b1b;
+  background:#fee2e2;
+}
+
+.footer{
+  background:#111827;
+  color:#d1d5db;
   text-align:center;
-  color:#777;
-  box-shadow:0 3px 14px rgba(0,0,0,.05);
-}
-
-/* PDF INFO */
-
-.pdf-info{
-  background:#7b1e1e;
-  color:#fff;
-}
-
-.pdf-info .section-title h2,
-.pdf-info .section-title p{
-  color:#fff;
-}
-
-.pdf-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-.pdf-card{
-  background:#fff;
-  color:#222;
-  padding:24px;
-  border-radius:14px;
-}
-
-.pdf-card .icon{
-  font-size:34px;
-  margin-bottom:8px;
-}
-
-.pdf-card h3{
-  color:#7b1e1e;
-  margin-bottom:8px;
-}
-
-.pdf-card p{
-  color:#666;
-  font-size:14px;
-}
-
-/* FOOTER */
-
-footer{
-  background:#241313;
-  color:#fff;
-  padding:40px 0 20px;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
-}
-
-footer h3{
-  color:#ffd36b;
-  margin-bottom:10px;
-}
-
-footer p,
-footer a{
-  color:#ddd;
-  font-size:14px;
-}
-
-footer a{
-  display:block;
-  margin:5px 0;
-}
-
-.copyright{
-  border-top:1px solid rgba(255,255,255,.15);
-  margin-top:30px;
-  padding-top:15px;
-  text-align:center;
-  color:#aaa;
+  padding:28px 15px;
   font-size:13px;
 }
 
-/* MOBILE */
+.footer a{
+  color:#fed7aa;
+  text-decoration:none;
+}
 
-@media(max-width:950px){
+@media(max-width:800px){
 
-  nav{
-    display:none;
-    position:absolute;
-    top:75px;
-    left:0;
-    right:0;
-    background:#fff;
-    padding:12px;
+  .header-inner{
     flex-direction:column;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
+    align-items:flex-start;
   }
 
-  nav.show{
-    display:flex;
-  }
-
-  .menu-btn{
-    display:block;
-  }
-
-  .filter-grid{
+  .filters{
     grid-template-columns:1fr;
   }
 
-  .pdf-grid{
-    grid-template-columns:repeat(2,1fr);
+  .hero h2{
+    font-size:28px;
   }
 }
 
-@media(max-width:650px){
-
-  .logo-text h1{
-    font-size:16px;
-  }
-
-  .page-hero{
-    padding:65px 0;
-  }
-
-  .page-hero h2{
-    font-size:32px;
-  }
+@media(max-width:600px){
 
   .notice-top{
     flex-direction:column;
   }
 
-  .pdf-grid{
-    grid-template-columns:1fr;
+  .nav{
+    width:100%;
   }
 
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-
-  .notice-bar-inner{
-    align-items:flex-start;
-    flex-direction:column;
+  .nav a{
+    font-size:12px;
   }
 }
 </style>
@@ -460,49 +264,24 @@ footer a{
 
 <body>
 
-<!-- TOP BAR -->
+<header class="header">
 
-<div class="topbar">
-  <div class="container topbar-inner">
-    <span>🙏 जय माँ बसुली</span>
-    <span>Thakurmunda, Mayurbhanj, Odisha</span>
-  </div>
-</div>
+  <div class="header-inner">
 
+    <div class="logo-title">
+      <h1>Maa Basuli Uda Jatra Committee</h1>
+      <p>Thakurmunda, Mayurbhanj, Odisha</p>
+    </div>
 
-<!-- HEADER -->
-
-<header>
-
-  <div class="container header-inner">
-
-    <a href="index.html" class="logo">
-
-      <div class="logo-icon">🙏</div>
-
-      <div class="logo-text">
-        <h1>Maa Basuli Uda Jatra Committee</h1>
-        <p>Thakurmunda, Mayurbhanj, Odisha</p>
-      </div>
-
-    </a>
-
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
-
-    <nav id="mainNav">
-
+    <nav class="nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
-      <a href="jatra.html">Uda Jatra</a>
+      <a href="jatra.html">Jatra</a>
       <a href="notices.html" class="active">Notices</a>
       <a href="events.html">Events</a>
       <a href="gallery.html">Gallery</a>
-      <a href="members.html">Our Members</a>
-      <a href="fund.html">Fund</a>
-      <a href="complaint.html">Complaint</a>
+      <a href="members.html">Members</a>
       <a href="contact.html">Contact</a>
-      <a href="auth.html">Login</a>
-
     </nav>
 
   </div>
@@ -510,527 +289,445 @@ footer a{
 </header>
 
 
-<!-- HERO -->
+<section class="hero">
 
-<section class="page-hero">
+  <h2>Official Notices</h2>
 
-  <div class="container">
-
-    <h2>Official Notices</h2>
-
-    <p>
-      Maa Basuli Uda Jatra Committee – Official Announcements
-    </p>
-
-  </div>
+  <p>
+    Maa Basuli Uda Jatra Committee ra official notices,
+    announcements ebam important documents ethare dekhiparibe.
+  </p>
 
 </section>
 
 
-<!-- NOTICE BAR -->
+<main class="container">
 
-<div class="notice-bar">
-
-  <div class="container notice-bar-inner">
-
-    <span class="notice-label">
-      📢 NOTICE
-    </span>
-
-    <span>
-      Important committee announcements and official documents
-      will be published on this page.
-    </span>
-
+  <div class="notice-bar">
+    📢 Latest official notices published by the Committee
   </div>
 
-</div>
 
+  <section class="filters">
 
-<!-- NOTICE SECTION -->
-
-<section>
-
-  <div class="container">
-
-    <div class="section-title">
-
-      <h2>Latest Notices</h2>
-
-      <p>
-        Official notices and announcements
-      </p>
-
-    </div>
-
-
-    <!-- FILTER -->
-
-    <div class="filter-box">
-
-      <div class="filter-grid">
-
-        <input
-          type="text"
-          id="searchNotice"
-          placeholder="Search notice..."
-          onkeyup="filterNotices()"
-        >
-
-        <select id="yearFilter" onchange="filterNotices()">
-
-          <option value="">All Years</option>
-          <option value="2027">2027</option>
-          <option value="2026">2026</option>
-          <option value="2025">2025</option>
-
-        </select>
-
-        <select id="typeFilter" onchange="filterNotices()">
-
-          <option value="">All Types</option>
-          <option value="Jatra">Jatra</option>
-          <option value="Committee">Committee</option>
-          <option value="Programme">Programme</option>
-          <option value="General">General</option>
-
-        </select>
-
-      </div>
-
-    </div>
-
-
-    <!-- NOTICE LIST -->
-
-    <div class="notice-list" id="noticeList">
-
-
-      <!-- NOTICE 1 -->
-
-      <article
-        class="notice-card"
-        data-year="2027"
-        data-type="Jatra"
-      >
-
-        <div class="notice-top">
-
-          <div>
-
-            <h3>
-              Maa Basuli Uda Jatra 2027 – Official Information
-            </h3>
-
-            <p>
-              General information regarding the annual Uda Jatra
-              and publication of official programme updates.
-            </p>
-
-          </div>
-
-          <div class="notice-date">
-            2027
-          </div>
-
-        </div>
-
-
-        <div class="notice-meta">
-
-          <span class="tag">Jatra</span>
-          <span class="tag">2027</span>
-          <span class="tag">Official</span>
-
-        </div>
-
-
-        <div class="actions">
-
-          <a href="jatra-2027.html" class="btn">
-            View Jatra Page
-          </a>
-
-        </div>
-
-      </article>
-
-
-      <!-- NOTICE 2 -->
-
-      <article
-        class="notice-card"
-        data-year="2026"
-        data-type="Jatra"
-      >
-
-        <div class="notice-top">
-
-          <div>
-
-            <h3>
-              Maa Basuli Uda Jatra 2026
-            </h3>
-
-            <p>
-              Information regarding the 2026 annual festival,
-              including the Jatra period and associated activities.
-            </p>
-
-          </div>
-
-          <div class="notice-date">
-            2026
-          </div>
-
-        </div>
-
-
-        <div class="notice-meta">
-
-          <span class="tag">Jatra</span>
-          <span class="tag">2026</span>
-
-        </div>
-
-
-        <div class="actions">
-
-          <a href="jatra.html" class="btn">
-            View Jatra
-          </a>
-
-        </div>
-
-      </article>
-
-
-      <!-- NOTICE 3 -->
-
-      <article
-        class="notice-card"
-        data-year="2027"
-        data-type="Programme"
-      >
-
-        <div class="notice-top">
-
-          <div>
-
-            <h3>
-              Cultural Programme – To Be Updated
-            </h3>
-
-            <p>
-              Detailed cultural programme schedule will be
-              published after official confirmation by the committee.
-            </p>
-
-          </div>
-
-          <div class="notice-date">
-            2027
-          </div>
-
-        </div>
-
-
-        <div class="notice-meta">
-
-          <span class="tag">Programme</span>
-          <span class="tag">2027</span>
-
-        </div>
-
-
-        <div class="actions">
-
-          <span class="btn disabled">
-            PDF Not Available
-          </span>
-
-        </div>
-
-      </article>
-
-
-      <!-- NOTICE 4 -->
-
-      <article
-        class="notice-card"
-        data-year="2026"
-        data-type="General"
-      >
-
-        <div class="notice-top">
-
-          <div>
-
-            <h3>
-              Official Website Notice
-            </h3>
-
-            <p>
-              This website is being developed as the official
-              digital platform for Maa Basuli Uda Jatra Committee.
-            </p>
-
-          </div>
-
-          <div class="notice-date">
-            2026
-          </div>
-
-        </div>
-
-
-        <div class="notice-meta">
-
-          <span class="tag">General</span>
-          <span class="tag">Official</span>
-
-        </div>
-
-      </article>
-
-
-    </div>
-
-
-    <!-- EMPTY MESSAGE -->
-
-    <div
-      class="empty"
-      id="emptyMessage"
-      style="display:none;margin-top:20px;"
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Search notice..."
     >
 
-      <h3>No Notice Found</h3>
+    <select id="yearFilter">
+      <option value="all">All Years</option>
+    </select>
 
-      <p>
-        Your search or filter did not match any notice.
-      </p>
+    <select id="typeFilter">
+      <option value="all">All Types</option>
+      <option value="General">General</option>
+      <option value="Jatra">Jatra</option>
+      <option value="Programme">Programme</option>
+      <option value="Meeting">Meeting</option>
+      <option value="Important">Important</option>
+      <option value="Tender">Tender</option>
+      <option value="Other">Other</option>
+    </select>
 
+  </section>
+
+
+  <section id="noticeList" class="notice-list">
+
+    <div class="loading">
+      Notices load heuchhi...
     </div>
 
-  </div>
+  </section>
 
-</section>
-
-
-<!-- PDF NOTICE INFORMATION -->
-
-<section class="pdf-info">
-
-  <div class="container">
-
-    <div class="section-title">
-
-      <h2>Official PDF Documents</h2>
-
-      <p>
-        Notices published by the authorised committee
-      </p>
-
-    </div>
+</main>
 
 
-    <div class="pdf-grid">
+<footer class="footer">
 
+  <p>
+    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+  </p>
 
-      <div class="pdf-card">
-
-        <div class="icon">📄</div>
-
-        <h3>Read Notice Online</h3>
-
-        <p>
-          Published PDF notices can be opened directly
-          from the website for reading.
-        </p>
-
-      </div>
-
-
-      <div class="pdf-card">
-
-        <div class="icon">⬇️</div>
-
-        <h3>Download Notice</h3>
-
-        <p>
-          Official PDF documents can be downloaded and
-          saved for future reference.
-        </p>
-
-      </div>
-
-
-      <div class="pdf-card">
-
-        <div class="icon">🔐</div>
-
-        <h3>Official Publication</h3>
-
-        <p>
-          Notice documents will be uploaded and managed
-          through the authorised committee administration system.
-        </p>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- FOOTER -->
-
-<footer>
-
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <div>
-
-        <h3>Maa Basuli Uda Jatra Committee</h3>
-
-        <p>
-          Official website of Maa Basuli Uda Jatra Committee,
-          Thakurmunda, Mayurbhanj, Odisha.
-        </p>
-
-        <p style="margin-top:10px;">
-          ଜୟ ମା' ବାସୁଳୀ 🙏
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h3>Quick Links</h3>
-
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="jatra.html">Uda Jatra</a>
-        <a href="notices.html">Notices</a>
-        <a href="events.html">Events</a>
-        <a href="gallery.html">Gallery</a>
-
-      </div>
-
-
-      <div>
-
-        <h3>Services</h3>
-
-        <a href="members.html">Our Members</a>
-        <a href="fund.html">Fund & Donation</a>
-        <a href="member-fee.html">Member Fee</a>
-        <a href="complaint.html">Complaint Box</a>
-        <a href="contact.html">Contact</a>
-        <a href="auth.html">Login</a>
-
-      </div>
-
-    </div>
-
-
-    <div class="copyright">
-
-      © 2026 Maa Basuli Uda Jatra Committee.
-      All Rights Reserved.
-
-    </div>
-
-  </div>
+  <p style="margin-top:8px;">
+    Official Email:
+    <a href="mailto:maabasuliudajatracommittee@gmail.com">
+      maabasuliudajatracommittee@gmail.com
+    </a>
+  </p>
 
 </footer>
 
 
 <script>
 
-function toggleMenu(){
+/* =====================================
+   SUPABASE
+===================================== */
 
-  document
-    .getElementById("mainNav")
-    .classList
-    .toggle("show");
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+let allNotices = [];
+
+
+/* =====================================
+   LOAD PUBLIC NOTICES
+===================================== */
+
+async function loadNotices(){
+
+  const list =
+    document.getElementById("noticeList");
+
+  list.innerHTML = `
+    <div class="loading">
+      Notices load heuchhi...
+    </div>
+  `;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("notices")
+      .select(
+        "id,title,notice_date,notice_type,description,pdf_url"
+      )
+      .eq("is_published",true)
+      .order(
+        "notice_date",
+        {ascending:false}
+      )
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="error">
+        Notices load karibare problem hela.
+        Please try again later.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  allNotices =
+    data || [];
+
+
+  populateYears();
+
+  renderNotices();
 
 }
 
 
-function filterNotices(){
+/* =====================================
+   POPULATE YEAR FILTER
+===================================== */
+
+function populateYears(){
+
+  const yearFilter =
+    document.getElementById("yearFilter");
+
+
+  const years =
+    [
+      ...new Set(
+        allNotices
+          .map(notice => {
+
+            if(!notice.notice_date){
+              return null;
+            }
+
+            return new Date(
+              notice.notice_date + "T00:00:00"
+            ).getFullYear();
+
+          })
+          .filter(Boolean)
+      )
+    ]
+    .sort((a,b)=>b-a);
+
+
+  yearFilter.innerHTML = `
+    <option value="all">All Years</option>
+
+    ${
+      years.map(year => `
+        <option value="${year}">
+          ${year}
+        </option>
+      `).join("")
+    }
+  `;
+
+}
+
+
+/* =====================================
+   RENDER NOTICES
+===================================== */
+
+function renderNotices(){
+
+  const list =
+    document.getElementById("noticeList");
 
   const search =
-    document
-      .getElementById("searchNotice")
+    document.getElementById("searchInput")
       .value
+      .trim()
       .toLowerCase();
 
   const year =
-    document
-      .getElementById("yearFilter")
+    document.getElementById("yearFilter")
       .value;
 
   const type =
-    document
-      .getElementById("typeFilter")
+    document.getElementById("typeFilter")
       .value;
 
-  const notices =
-    document.querySelectorAll(".notice-card");
 
-  let visible = 0;
+  const filtered =
+    allNotices.filter(notice => {
 
-  notices.forEach(function(notice){
-
-    const text =
-      notice.innerText.toLowerCase();
-
-    const noticeYear =
-      notice.getAttribute("data-year");
-
-    const noticeType =
-      notice.getAttribute("data-type");
-
-    const searchMatch =
-      text.includes(search);
-
-    const yearMatch =
-      year === "" || noticeYear === year;
-
-    const typeMatch =
-      type === "" || noticeType === type;
-
-    if(
-      searchMatch &&
-      yearMatch &&
-      typeMatch
-    ){
-
-      notice.style.display = "";
-
-      visible++;
-
-    }else{
-
-      notice.style.display = "none";
-
-    }
-
-  });
+      const text =
+        `${notice.title || ""}
+         ${notice.description || ""}
+         ${notice.notice_type || ""}`
+        .toLowerCase();
 
 
-  document.getElementById("emptyMessage").style.display =
-    visible === 0 ? "block" : "none";
+      const matchesSearch =
+        !search ||
+        text.includes(search);
+
+
+      let matchesYear = true;
+
+      if(year !== "all"){
+
+        matchesYear =
+          notice.notice_date &&
+          new Date(
+            notice.notice_date + "T00:00:00"
+          )
+          .getFullYear()
+          .toString() === year;
+
+      }
+
+
+      const matchesType =
+        type === "all" ||
+        notice.notice_type === type;
+
+
+      return (
+        matchesSearch &&
+        matchesYear &&
+        matchesType
+      );
+
+    });
+
+
+  if(!filtered.length){
+
+    list.innerHTML = `
+      <div class="empty">
+        <h3 style="margin-bottom:8px;">
+          No Notices Found
+        </h3>
+
+        <p>
+          Ehi search/filter re ebe konasi published notice
+          milila nahi.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  list.innerHTML =
+    filtered.map(notice => {
+
+      const date =
+        notice.notice_date
+          ? new Date(
+              notice.notice_date + "T00:00:00"
+            ).toLocaleDateString(
+              "en-IN",
+              {
+                day:"2-digit",
+                month:"short",
+                year:"numeric"
+              }
+            )
+          : "-";
+
+
+      return `
+
+        <article class="notice-card">
+
+          <div class="notice-top">
+
+            <div>
+
+              <h3>
+                ${escapeHtml(notice.title)}
+              </h3>
+
+              <div class="meta">
+                📅 ${date}
+                &nbsp; • &nbsp;
+                ${escapeHtml(
+                  notice.notice_type || "General"
+                )}
+              </div>
+
+            </div>
+
+            <span class="badge">
+              Official Notice
+            </span>
+
+          </div>
+
+
+          ${
+            notice.description
+              ? `
+                <div class="description">
+                  ${escapeHtml(
+                    notice.description
+                  )}
+                </div>
+              `
+              : ""
+          }
+
+
+          ${
+            notice.pdf_url
+              ? `
+                <div class="actions">
+
+                  <a
+                    class="pdf-btn"
+                    href="${escapeAttribute(
+                      notice.pdf_url
+                    )}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    📄 View / Download PDF
+                  </a>
+
+                </div>
+              `
+              : ""
+          }
+
+        </article>
+
+      `;
+
+    }).join("");
 
 }
+
+
+/* =====================================
+   FILTER EVENTS
+===================================== */
+
+document
+  .getElementById("searchInput")
+  .addEventListener(
+    "input",
+    renderNotices
+  );
+
+
+document
+  .getElementById("yearFilter")
+  .addEventListener(
+    "change",
+    renderNotices
+  );
+
+
+document
+  .getElementById("typeFilter")
+  .addEventListener(
+    "change",
+    renderNotices
+  );
+
+
+/* =====================================
+   SECURITY HELPERS
+===================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+loadNotices();
 
 </script>
 
