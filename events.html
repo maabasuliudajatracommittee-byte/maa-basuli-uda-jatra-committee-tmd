@@ -223,6 +223,13 @@ select:focus{
   background:#fee2e2;
 }
 
+.error small{
+  display:block;
+  margin-top:10px;
+  font-weight:normal;
+  word-break:break-word;
+}
+
 .footer{
   background:#111827;
   color:#d1d5db;
@@ -318,7 +325,6 @@ select:focus{
     📅 Official published events and programmes
   </div>
 
-
   <section class="filters">
 
     <input
@@ -374,7 +380,7 @@ select:focus{
 <script>
 
 /* =====================================
-   SUPABASE
+   SUPABASE CONNECTION
 ===================================== */
 
 const SUPABASE_URL =
@@ -386,7 +392,14 @@ const SUPABASE_PUBLISHABLE_KEY =
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+      auth:{
+        persistSession:false,
+        autoRefreshToken:false,
+        detectSessionInUrl:false
+      }
+    }
   );
 
 
@@ -408,38 +421,96 @@ async function loadEvents(){
     </div>
   `;
 
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("events")
-      .select("*")
-      .eq("is_published",true)
-      .order("event_date",{ascending:true});
+  console.log("Connecting to Supabase...");
+  console.log("Project:", SUPABASE_URL);
 
 
-  if(error){
+  try{
 
-    console.error(error);
+    const result =
+      await supabaseClient
+        .from("events")
+        .select(
+          "id,title,event_date,event_type,location,description,is_published,created_at"
+        )
+        .eq("is_published",true)
+        .order("event_date",{ascending:true});
+
+
+    const data = result.data;
+    const error = result.error;
+
+
+    console.log("Events response:", result);
+
+
+    if(error){
+
+      console.error(
+        "SUPABASE EVENTS ERROR:",
+        error
+      );
+
+      list.innerHTML = `
+        <div class="error">
+
+          <strong>
+            Events load karibare problem hela.
+          </strong>
+
+          <small>
+            ${escapeHtml(
+              error.message ||
+              error.details ||
+              "Unknown Supabase error"
+            )}
+          </small>
+
+        </div>
+      `;
+
+      return;
+    }
+
+
+    allEvents = data || [];
+
+    console.log(
+      "Published events:",
+      allEvents.length
+    );
+
+
+    populateYears();
+
+    renderEvents();
+
+  }
+
+  catch(error){
+
+    console.error(
+      "UNEXPECTED EVENTS ERROR:",
+      error
+    );
 
     list.innerHTML = `
       <div class="error">
-        Events load karibare problem hela.
-        Please try again later.
+
+        <strong>
+          Events load karibare problem hela.
+        </strong>
+
+        <small>
+          ${escapeHtml(
+            error.message ||
+            "Network or Supabase connection error"
+          )}
+        </small>
+
       </div>
     `;
-
-    return;
   }
-
-
-  allEvents = data || [];
-
-  populateYears();
-
-  renderEvents();
 
 }
 
@@ -476,7 +547,9 @@ function populateYears(){
 
 
   yearFilter.innerHTML = `
-    <option value="all">All Years</option>
+    <option value="all">
+      All Years
+    </option>
 
     ${
       years.map(year => `
@@ -500,17 +573,20 @@ function renderEvents(){
     document.getElementById("eventList");
 
   const search =
-    document.getElementById("searchInput")
+    document
+      .getElementById("searchInput")
       .value
       .trim()
       .toLowerCase();
 
   const year =
-    document.getElementById("yearFilter")
+    document
+      .getElementById("yearFilter")
       .value;
 
   const type =
-    document.getElementById("typeFilter")
+    document
+      .getElementById("typeFilter")
       .value;
 
 
@@ -531,6 +607,7 @@ function renderEvents(){
 
 
       let matchesYear = true;
+
 
       if(year !== "all"){
 
@@ -569,8 +646,8 @@ function renderEvents(){
         </h3>
 
         <p>
-          Ehi search/filter re ebe konasi published event
-          milila nahi.
+          Ehi search/filter re ebe konasi
+          published event milila nahi.
         </p>
 
       </div>
@@ -722,7 +799,7 @@ document
 
 
 /* =====================================
-   SECURITY HELPERS
+   SECURITY HELPER
 ===================================== */
 
 function escapeHtml(value){
