@@ -1,1048 +1,1460 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Super Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
+<title>Super Admin Dashboard - Maa Basuli Uda Jatra Committee</title>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    body {
-      background: #f4f6f9;
-      color: #222;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#1f2937;
+}
 
-    .topbar {
-      background: linear-gradient(135deg, #7b1e1e, #b3261e);
-      color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      box-shadow: 0 3px 12px rgba(0,0,0,.15);
-    }
+.header{
+  background:linear-gradient(135deg,#581c87,#7e22ce);
+  color:white;
+  padding:18px 24px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+}
 
-    .topbar-inner {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
+.header h1{
+  font-size:22px;
+}
 
-    .brand h1 {
-      font-size: 21px;
-    }
+.header p{
+  font-size:13px;
+  opacity:.9;
+  margin-top:5px;
+}
 
-    .brand p {
-      font-size: 13px;
-      margin-top: 4px;
-      opacity: .9;
-    }
+.logout{
+  background:white;
+  color:#581c87;
+  border:0;
+  padding:10px 17px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
 
-    .logout-btn {
-      background: white;
-      color: #8b1e1e;
-      border: 0;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.container{
+  width:min(1250px,94%);
+  margin:25px auto;
+}
 
-    .container {
-      max-width: 1200px;
-      margin: 25px auto;
-      padding: 0 15px;
-    }
+.welcome{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  margin-bottom:20px;
+}
 
-    .welcome {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      margin-bottom: 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-    }
+.welcome h2{
+  color:#581c87;
+  margin-bottom:6px;
+}
 
-    .welcome h2 {
-      color: #7b1e1e;
-      margin-bottom: 6px;
-    }
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
 
-    .welcome p {
-      color: #666;
-    }
+.stat{
+  background:white;
+  padding:20px;
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+}
 
-    .loading {
-      padding: 30px;
-      text-align: center;
-      color: #777;
-    }
+.stat small{
+  color:#6b7280;
+}
 
-    .error-box {
-      display: none;
-      background: #ffe6e6;
-      color: #a00000;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      border-left: 5px solid #d00000;
-    }
+.stat h3{
+  margin-top:8px;
+  font-size:28px;
+  color:#7e22ce;
+}
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 25px;
-    }
+.toolbar{
+  background:white;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  margin-bottom:20px;
+}
 
-    .stat {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-    }
+.search{
+  width:100%;
+  padding:13px;
+  border:1px solid #d1d5db;
+  border-radius:9px;
+  font-size:15px;
+  outline:none;
+}
 
-    .stat-title {
-      color: #777;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
+.search:focus{
+  border-color:#7e22ce;
+}
 
-    .stat-number {
-      font-size: 30px;
-      font-weight: bold;
-      color: #7b1e1e;
-    }
+.filter-row{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+  flex-wrap:wrap;
+}
 
-    .panel {
-      background: white;
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 25px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.06);
-    }
+.filter{
+  padding:9px 14px;
+  border:1px solid #d1d5db;
+  background:#fff;
+  border-radius:8px;
+  cursor:pointer;
+}
 
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
+.filter.active{
+  background:#7e22ce;
+  color:white;
+  border-color:#7e22ce;
+}
 
-    .panel-header h3 {
-      color: #7b1e1e;
-    }
+.table-wrap{
+  background:white;
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,.07);
+  overflow:auto;
+}
 
-    .search {
-      width: 280px;
-      max-width: 100%;
-      padding: 11px 13px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-    }
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1050px;
+}
 
-    .table-wrap {
-      overflow-x: auto;
-    }
+th{
+  background:#faf5ff;
+  color:#581c87;
+  text-align:left;
+  padding:14px;
+  font-size:13px;
+}
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 900px;
-    }
+td{
+  padding:13px 14px;
+  border-top:1px solid #eee;
+  font-size:14px;
+  vertical-align:middle;
+}
 
-    th,
-    td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #eee;
-      text-align: left;
-      vertical-align: middle;
-      font-size: 14px;
-    }
+.photo{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+  background:#eee;
+}
 
-    th {
-      background: #faf4f4;
-      color: #7b1e1e;
-    }
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
 
-    .member-photo {
-      width: 45px;
-      height: 45px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid #eee;
-    }
+.pending{
+  background:#fef3c7;
+  color:#92400e;
+}
 
-    .no-photo {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background: #eee;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
+.approved{
+  background:#dcfce7;
+  color:#166534;
+}
 
-    .badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
+.rejected{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
-    .pending {
-      background: #fff1cc;
-      color: #8a5a00;
-    }
+.active{
+  background:#dcfce7;
+  color:#166534;
+}
 
-    .approved {
-      background: #dff7e5;
-      color: #08752b;
-    }
+.inactive{
+  background:#e5e7eb;
+  color:#374151;
+}
 
-    .rejected {
-      background: #ffe0e0;
-      color: #a00000;
-    }
+.actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
 
-    .active {
-      background: #dff7e5;
-      color: #08752b;
-    }
+.btn{
+  border:0;
+  padding:7px 10px;
+  border-radius:7px;
+  cursor:pointer;
+  font-size:12px;
+  font-weight:bold;
+}
 
-    .inactive {
-      background: #eee;
-      color: #555;
-    }
+.approve-btn{
+  background:#16a34a;
+  color:white;
+}
 
-    .actions {
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
-    }
+.reject-btn{
+  background:#dc2626;
+  color:white;
+}
 
-    button {
-      cursor: pointer;
-    }
+.activate-btn{
+  background:#2563eb;
+  color:white;
+}
 
-    .btn {
-      border: 0;
-      padding: 8px 11px;
-      border-radius: 7px;
-      font-weight: bold;
-      font-size: 12px;
-    }
+.deactivate-btn{
+  background:#6b7280;
+  color:white;
+}
 
-    .approve {
-      background: #16833b;
-      color: white;
-    }
+.view-btn{
+  background:#7e22ce;
+  color:white;
+}
 
-    .reject {
-      background: #c62828;
-      color: white;
-    }
+.designation{
+  padding:7px;
+  border:1px solid #d1d5db;
+  border-radius:7px;
+}
 
-    .activate {
-      background: #087f5b;
-      color: white;
-    }
+.message{
+  display:none;
+  padding:13px;
+  border-radius:9px;
+  margin-bottom:18px;
+  line-height:1.5;
+}
 
-    .deactivate {
-      background: #555;
-      color: white;
-    }
+.success{
+  background:#dcfce7;
+  color:#166534;
+}
 
-    .designation-select {
-      padding: 7px;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      background: white;
-    }
+.error{
+  background:#fee2e2;
+  color:#991b1b;
+}
 
-    .empty {
-      padding: 30px;
-      text-align: center;
-      color: #777;
-    }
+.info{
+  background:#dbeafe;
+  color:#1e40af;
+}
 
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      z-index: 100;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-    }
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#6b7280;
+}
 
-    .modal-box {
-      background: white;
-      width: 100%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      border-radius: 15px;
-      padding: 22px;
-    }
+.empty{
+  text-align:center;
+  padding:40px;
+  color:#6b7280;
+}
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:1000;
+  padding:20px;
+  overflow:auto;
+}
 
-    .close {
-      background: #eee;
-      border: 0;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      font-size: 18px;
-    }
+.modal-box{
+  width:min(600px,100%);
+  margin:40px auto;
+  background:white;
+  border-radius:16px;
+  padding:25px;
+}
 
-    .profile-large {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
-      margin: 0 auto 15px;
-      border: 4px solid #eee;
-    }
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
 
-    .detail {
-      margin: 10px 0;
-      padding: 11px;
-      background: #f8f8f8;
-      border-radius: 8px;
-    }
+.modal-head h2{
+  color:#581c87;
+}
 
-    .detail strong {
-      display: block;
-      font-size: 12px;
-      color: #777;
-      margin-bottom: 3px;
-    }
+.close{
+  border:0;
+  background:#eee;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:18px;
+}
 
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      max-width: 350px;
-      background: #222;
-      color: white;
-      padding: 14px 18px;
-      border-radius: 10px;
-      display: none;
-      z-index: 200;
-      box-shadow: 0 5px 20px rgba(0,0,0,.2);
-    }
+.detail{
+  display:grid;
+  grid-template-columns:140px 1fr;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid #eee;
+}
 
-    @media (max-width: 800px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+.detail strong{
+  color:#581c87;
+}
 
-      .topbar-inner {
-        align-items: flex-start;
-      }
+.footer{
+  text-align:center;
+  padding:30px 15px;
+  color:#6b7280;
+  font-size:13px;
+}
 
-      .brand h1 {
-        font-size: 17px;
-      }
-    }
+@media(max-width:800px){
 
-    @media (max-width: 500px) {
-      .stats {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
 
-      .stat {
-        padding: 15px;
-      }
+  .header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
 
-      .stat-number {
-        font-size: 24px;
-      }
+  .logout{
+    width:100%;
+  }
+}
 
-      .container {
-        margin-top: 15px;
-      }
-    }
-  </style>
+@media(max-width:500px){
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .detail{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header class="topbar">
-    <div class="topbar-inner">
+<header class="header">
 
-      <div class="brand">
-        <h1>🙏 Maa Basuli Uda Jatra Committee</h1>
-        <p>Super Admin Dashboard • Thakurmunda, Mayurbhanj</p>
-      </div>
+  <div>
+    <h1>👑 Super Admin Dashboard</h1>
+    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+  </div>
 
-      <button class="logout-btn" onclick="logout()">
-        Logout
+  <button class="logout" onclick="logout()">
+    Logout
+  </button>
+
+</header>
+
+
+<main class="container">
+
+  <section class="welcome">
+    <h2>Welcome, Super Admin</h2>
+    <p>
+      Ehi dashboard ru committee ra member ebam administrative
+      system ra full management kariparibe.
+    </p>
+  </section>
+
+
+  <section class="stats">
+
+    <div class="stat">
+      <small>Total Members</small>
+      <h3 id="totalCount">0</h3>
+    </div>
+
+    <div class="stat">
+      <small>Pending Approval</small>
+      <h3 id="pendingCount">0</h3>
+    </div>
+
+    <div class="stat">
+      <small>Active Members</small>
+      <h3 id="activeCount">0</h3>
+    </div>
+
+    <div class="stat">
+      <small>Inactive Members</small>
+      <h3 id="inactiveCount">0</h3>
+    </div>
+
+  </section>
+
+
+  <div id="message" class="message"></div>
+
+
+  <section class="toolbar">
+
+    <input
+      id="search"
+      class="search"
+      type="text"
+      placeholder="Search by Name, Member ID, Email, Mobile, Village..."
+      oninput="renderMembers()"
+    >
+
+    <div class="filter-row">
+
+      <button
+        class="filter active"
+        id="allFilter"
+        onclick="setFilter('all',this)"
+      >
+        All
+      </button>
+
+      <button
+        class="filter"
+        onclick="setFilter('pending',this)"
+      >
+        Pending
+      </button>
+
+      <button
+        class="filter"
+        onclick="setFilter('approved',this)"
+      >
+        Approved
+      </button>
+
+      <button
+        class="filter"
+        onclick="setFilter('active',this)"
+      >
+        Active
+      </button>
+
+      <button
+        class="filter"
+        onclick="setFilter('inactive',this)"
+      >
+        Inactive
       </button>
 
     </div>
-  </header>
 
-  <main class="container">
-
-    <div class="welcome">
-      <h2>Super Admin Dashboard 👑</h2>
-      <p id="adminEmail">Checking login...</p>
-    </div>
-
-    <div id="errorBox" class="error-box"></div>
-
-    <div id="loadingBox" class="loading">
-      Loading dashboard...
-    </div>
-
-    <div id="dashboard" style="display:none;">
-
-      <!-- STATISTICS -->
-
-      <section class="stats">
-
-        <div class="stat">
-          <div class="stat-title">Total Members</div>
-          <div class="stat-number" id="totalMembers">0</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-title">Pending Approval</div>
-          <div class="stat-number" id="pendingMembers">0</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-title">Active Members</div>
-          <div class="stat-number" id="activeMembers">0</div>
-        </div>
-
-        <div class="stat">
-          <div class="stat-title">Inactive Members</div>
-          <div class="stat-number" id="inactiveMembers">0</div>
-        </div>
-
-      </section>
-
-      <!-- MEMBERS -->
-
-      <section class="panel">
-
-        <div class="panel-header">
-
-          <h3>👥 Member Management</h3>
-
-          <input
-            type="text"
-            id="searchBox"
-            class="search"
-            placeholder="Search name / email / mobile / ID..."
-            oninput="renderMembers()"
-          >
-
-        </div>
-
-        <div class="table-wrap">
-
-          <table>
-
-            <thead>
-              <tr>
-                <th>Photo</th>
-                <th>Name</th>
-                <th>Member ID</th>
-                <th>Email</th>
-                <th>Mobile</th>
-                <th>Designation</th>
-                <th>Approval</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody id="memberTable">
-            </tbody>
-
-          </table>
-
-        </div>
-
-      </section>
-
-    </div>
-
-  </main>
+  </section>
 
 
-  <!-- MEMBER DETAILS MODAL -->
+  <section class="table-wrap">
 
-  <div class="modal" id="memberModal">
-
-    <div class="modal-box">
-
-      <div class="modal-header">
-        <h3>Member Details</h3>
-        <button class="close" onclick="closeModal()">×</button>
+    <div id="tableContent">
+      <div class="loading">
+        Members load heuchhi...
       </div>
+    </div>
 
-      <div id="memberDetails"></div>
+  </section>
+
+</main>
+
+
+<footer class="footer">
+  © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+</footer>
+
+
+<!-- MEMBER DETAIL MODAL -->
+
+<div id="memberModal" class="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h2>Member Details</h2>
+
+      <button
+        class="close"
+        onclick="closeModal()"
+      >
+        ×
+      </button>
 
     </div>
+
+    <div id="memberDetails"></div>
 
   </div>
 
-
-  <div class="toast" id="toast"></div>
+</div>
 
 
 <script>
 
-  /* =====================================================
-     SUPABASE CONFIG
-     ===================================================== */
+/* =====================================
+   SUPABASE
+===================================== */
 
-  const SUPABASE_URL =
-    "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
 
-  const SUPABASE_ANON_KEY =
-    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
 
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY
+let allMembers = [];
+let currentFilter = "all";
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+function showMessage(text,type="info"){
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+  box.className = "message " + type;
+  box.style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+function hideMessage(){
+
+  document.getElementById("message").style.display =
+    "none";
+}
+
+
+/* =====================================
+   ROLE CHECK
+===================================== */
+
+async function checkSuperAdmin(){
+
+  const {
+    data:{session}
+  } = await supabaseClient.auth.getSession();
+
+
+  if(!session){
+
+    window.location.replace("auth.html");
+    return false;
+  }
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id",session.user.id)
+    .maybeSingle();
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Role check karibare problem hela.",
+      "error"
     );
 
-
-  /* =====================================================
-     GLOBAL DATA
-     ===================================================== */
-
-  let allMembers = [];
+    return false;
+  }
 
 
-  /* =====================================================
-     START
-     ===================================================== */
+  if(data?.role !== "super_admin"){
 
-  document.addEventListener("DOMContentLoaded", async () => {
+    showMessage(
+      "Access denied. Kebala Super Admin ehi page use kariparibe.",
+      "error"
+    );
 
+    setTimeout(()=>{
+      window.location.replace("profile.html");
+    },1500);
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/* =====================================
+   LOAD MEMBERS
+===================================== */
+
+async function loadMembers(){
+
+  hideMessage();
+
+  const allowed =
     await checkSuperAdmin();
 
-  });
+  if(!allowed) return;
 
 
-  /* =====================================================
-     CHECK SUPER ADMIN
-     ===================================================== */
+  document.getElementById("tableContent").innerHTML =
+    `<div class="loading">Members load heuchhi...</div>`;
 
-  async function checkSuperAdmin() {
 
-    try {
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("member_profiles")
+    .select(`
+      id,
+      member_id,
+      full_name,
+      email,
+      mobile,
+      profile_photo_url,
+      village,
+      address,
+      blood_group,
+      designation,
+      approval_status,
+      member_status,
+      created_at,
+      updated_at
+    `)
+    .order("created_at",{ascending:false});
 
-      const {
-        data: { session },
-        error
-      } = await supabaseClient.auth.getSession();
 
-      if (error) {
-        throw error;
-      }
+  if(error){
 
-      if (!session) {
+    console.error(error);
 
-        window.location.href = "auth.html";
-        return;
+    showMessage(
+      "Member list load hela nahi: " + error.message,
+      "error"
+    );
 
-      }
+    document.getElementById("tableContent").innerHTML =
+      `<div class="empty">Member data load hela nahi.</div>`;
 
-      document.getElementById("adminEmail").textContent =
-        "Logged in as: " + (session.user.email || "");
-
-      const { data: roleData, error: roleError } =
-        await supabaseClient
-          .from("user_roles")
-          .select("role")
-          .eq("user_id", session.user.id)
-          .maybeSingle();
-
-      if (roleError) {
-        throw roleError;
-      }
-
-      if (!roleData || roleData.role !== "super_admin") {
-
-        showError(
-          "Access denied. Kebala Super Admin ei dashboard use kariparibe."
-        );
-
-        setTimeout(() => {
-          window.location.href = "profile.html";
-        }, 2500);
-
-        return;
-      }
-
-      document.getElementById("loadingBox").style.display = "none";
-      document.getElementById("dashboard").style.display = "block";
-
-      await loadMembers();
-
-    } catch (error) {
-
-      console.error(error);
-
-      showError(
-        "Dashboard load heiparilani: " +
-        (error.message || "Unknown error")
-      );
-
-      document.getElementById("loadingBox").style.display = "none";
-
-    }
-
+    return;
   }
 
 
-  /* =====================================================
-     LOAD MEMBERS
-     ===================================================== */
+  allMembers = data || [];
 
-  async function loadMembers() {
+  updateStats();
 
-    const { data, error } =
-      await supabaseClient
-        .from("member_profiles")
-        .select(`
-          id,
-          member_id,
-          full_name,
-          email,
-          mobile,
-          profile_photo_url,
-          village,
-          address,
-          blood_group,
-          designation,
-          approval_status,
-          member_status,
-          qr_code_url,
-          created_at,
-          updated_at
-        `)
-        .order("created_at", { ascending: false });
-
-    if (error) {
-      throw error;
-    }
-
-    allMembers = data || [];
-
-    updateStatistics();
-
-    renderMembers();
-
-  }
+  renderMembers();
+}
 
 
-  /* =====================================================
-     STATISTICS
-     ===================================================== */
+/* =====================================
+   STATS
+===================================== */
 
-  function updateStatistics() {
+function updateStats(){
 
-    const total = allMembers.length;
+  const total =
+    allMembers.length;
 
-    const pending =
-      allMembers.filter(
+  const pending =
+    allMembers.filter(
+      m => m.approval_status === "pending"
+    ).length;
+
+  const active =
+    allMembers.filter(
+      m => m.member_status === "active"
+    ).length;
+
+  const inactive =
+    allMembers.filter(
+      m => m.member_status === "inactive"
+    ).length;
+
+
+  document.getElementById("totalCount").textContent =
+    total;
+
+  document.getElementById("pendingCount").textContent =
+    pending;
+
+  document.getElementById("activeCount").textContent =
+    active;
+
+  document.getElementById("inactiveCount").textContent =
+    inactive;
+}
+
+
+/* =====================================
+   FILTER
+===================================== */
+
+function setFilter(filter,button){
+
+  currentFilter = filter;
+
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+
+  button.classList.add("active");
+
+  renderMembers();
+}
+
+
+/* =====================================
+   RENDER
+===================================== */
+
+function renderMembers(){
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .trim()
+      .toLowerCase();
+
+
+  let list =
+    [...allMembers];
+
+
+  if(currentFilter === "pending"){
+
+    list =
+      list.filter(
         m => m.approval_status === "pending"
-      ).length;
-
-    const active =
-      allMembers.filter(
-        m => m.member_status === "active"
-      ).length;
-
-    const inactive =
-      allMembers.filter(
-        m => m.member_status === "inactive"
-      ).length;
-
-    document.getElementById("totalMembers").textContent = total;
-    document.getElementById("pendingMembers").textContent = pending;
-    document.getElementById("activeMembers").textContent = active;
-    document.getElementById("inactiveMembers").textContent = inactive;
-
+      );
   }
 
 
-  /* =====================================================
-     RENDER MEMBERS
-     ===================================================== */
+  if(currentFilter === "approved"){
 
-  function renderMembers() {
+    list =
+      list.filter(
+        m => m.approval_status === "approved"
+      );
+  }
 
-    const tbody =
-      document.getElementById("memberTable");
 
-    const search =
-      document.getElementById("searchBox")
-        .value
-        .toLowerCase()
-        .trim();
+  if(currentFilter === "active"){
 
-    let members = allMembers;
+    list =
+      list.filter(
+        m => m.member_status === "active"
+      );
+  }
 
-    if (search) {
 
-      members = allMembers.filter(member => {
+  if(currentFilter === "inactive"){
 
-        return [
+    list =
+      list.filter(
+        m => m.member_status === "inactive"
+      );
+  }
 
-          member.full_name,
-          member.member_id,
-          member.email,
-          member.mobile,
-          member.village,
-          member.designation
+
+  if(search){
+
+    list =
+      list.filter(m => {
+
+        const text = [
+
+          m.full_name,
+          m.member_id,
+          m.email,
+          m.mobile,
+          m.village,
+          m.designation,
+          m.blood_group
 
         ]
         .filter(Boolean)
         .join(" ")
-        .toLowerCase()
-        .includes(search);
+        .toLowerCase();
+
+
+        return text.includes(search);
 
       });
+  }
 
-    }
 
-    if (!members.length) {
+  if(!list.length){
 
-      tbody.innerHTML = `
+    document.getElementById("tableContent").innerHTML =
+      `<div class="empty">
+        No member found.
+      </div>`;
+
+    return;
+  }
+
+
+  let html = `
+
+    <table>
+
+      <thead>
+
         <tr>
-          <td colspan="9" class="empty">
-            No member found.
-          </td>
+
+          <th>Photo</th>
+          <th>Member</th>
+          <th>Contact</th>
+          <th>Member ID</th>
+          <th>Designation</th>
+          <th>Approval</th>
+          <th>Status</th>
+          <th>Actions</th>
+
         </tr>
-      `;
 
-      return;
-    }
+      </thead>
 
-
-    tbody.innerHTML = members.map(member => {
-
-      const photo =
-        member.profile_photo_url
-          ? `<img
-              src="${escapeHtml(member.profile_photo_url)}"
-              class="member-photo"
-              alt="Photo"
-             >`
-          : `<div class="no-photo">👤</div>`;
+      <tbody>
+  `;
 
 
-      let approvalBadge = "";
+  list.forEach(member=>{
 
-      if (member.approval_status === "approved") {
-
-        approvalBadge =
-          `<span class="badge approved">Approved</span>`;
-
-      } else if (member.approval_status === "rejected") {
-
-        approvalBadge =
-          `<span class="badge rejected">Rejected</span>`;
-
-      } else {
-
-        approvalBadge =
-          `<span class="badge pending">Pending</span>`;
-
-      }
+    const photo =
+      member.profile_photo_url ||
+      "https://via.placeholder.com/100";
 
 
-      let statusBadge = "";
+    html += `
 
-      if (member.member_status === "active") {
+      <tr>
 
-        statusBadge =
-          `<span class="badge active">Active</span>`;
-
-      } else {
-
-        statusBadge =
-          `<span class="badge inactive">Inactive</span>`;
-
-      }
+        <td>
+          <img
+            class="photo"
+            src="${escapeHtml(photo)}"
+            alt="Member Photo"
+          >
+        </td>
 
 
-      return `
-        <tr>
+        <td>
+          <strong>${escapeHtml(member.full_name || "-")}</strong>
+          <br>
+          <small>${escapeHtml(member.village || "-")}</small>
+        </td>
 
-          <td>${photo}</td>
 
-          <td>
-            <strong>${escapeHtml(member.full_name || "-")}</strong>
-            <br>
-            <small>${escapeHtml(member.village || "")}</small>
-          </td>
+        <td>
+          ${escapeHtml(member.mobile || "-")}
+          <br>
+          <small>${escapeHtml(member.email || "-")}</small>
+        </td>
 
-          <td>
-            <strong>
-              ${escapeHtml(member.member_id || "Not Assigned")}
-            </strong>
-          </td>
 
-          <td>
-            ${escapeHtml(member.email || "-")}
-          </td>
+        <td>
+          <strong>
+            ${escapeHtml(member.member_id || "Not Generated")}
+          </strong>
+        </td>
 
-          <td>
-            ${escapeHtml(member.mobile || "-")}
-          </td>
 
-          <td>
+        <td>
 
-            <select
-              class="designation-select"
-              onchange="changeDesignation(
-                '${member.id}',
-                this.value
-              )"
+          <select
+            class="designation"
+            onchange="changeDesignation(
+              '${member.id}',
+              this.value
+            )"
+          >
+
+            ${designationOptions(member.designation)}
+
+          </select>
+
+        </td>
+
+
+        <td>
+          ${approvalBadge(member.approval_status)}
+        </td>
+
+
+        <td>
+          ${statusBadge(member.member_status)}
+        </td>
+
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              class="btn view-btn"
+              onclick="viewMember('${member.id}')"
             >
+              View
+            </button>
 
-              ${designationOptions(member.designation)}
 
-            </select>
-
-          </td>
-
-          <td>${approvalBadge}</td>
-
-          <td>${statusBadge}</td>
-
-          <td>
-
-            <div class="actions">
-
+            ${
+              member.approval_status === "pending"
+              ?
+              `
               <button
-                class="btn"
-                style="background:#555;color:white;"
-                onclick="viewMember('${member.id}')"
+                class="btn approve-btn"
+                onclick="approveMember('${member.id}')"
               >
-                View
+                Approve
               </button>
 
-
-              ${
-                member.approval_status === "pending"
-
-                ? `
-                  <button
-                    class="btn approve"
-                    onclick="approveMember('${member.id}')"
-                  >
-                    Approve
-                  </button>
-
-                  <button
-                    class="btn reject"
-                    onclick="rejectMember('${member.id}')"
-                  >
-                    Reject
-                  </button>
-                `
-
-                : ""
-              }
+              <button
+                class="btn reject-btn"
+                onclick="rejectMember('${member.id}')"
+              >
+                Reject
+              </button>
+              `
+              :
+              ""
+            }
 
 
-              ${
-                member.approval_status === "approved" &&
-                member.member_status === "active"
-
-                ? `
-                  <button
-                    class="btn deactivate"
-                    onclick="deactivateMember('${member.id}')"
-                  >
-                    Deactivate
-                  </button>
-                `
-
-                : ""
-              }
-
-
-              ${
-                member.approval_status === "approved" &&
-                member.member_status === "inactive"
-
-                ? `
-                  <button
-                    class="btn activate"
-                    onclick="activateMember('${member.id}')"
-                  >
-                    Activate
-                  </button>
-                `
-
-                : ""
-              }
-
-            </div>
-
-          </td>
-
-        </tr>
-      `;
-
-    }).join("");
-
-  }
+            ${
+              member.approval_status === "approved" &&
+              member.member_status === "active"
+              ?
+              `
+              <button
+                class="btn deactivate-btn"
+                onclick="deactivateMember('${member.id}')"
+              >
+                Deactivate
+              </button>
+              `
+              :
+              ""
+            }
 
 
-  /* =====================================================
-     DESIGNATION OPTIONS
-     ===================================================== */
+            ${
+              member.approval_status === "approved" &&
+              member.member_status === "inactive"
+              ?
+              `
+              <button
+                class="btn activate-btn"
+                onclick="activateMember('${member.id}')"
+              >
+                Activate
+              </button>
+              `
+              :
+              ""
+            }
 
-  function designationOptions(current) {
+          </div>
 
-    const options = [
+        </td>
 
-      "Member",
-      "Core Committee Member",
-      "Secretary",
-      "Vice Secretary",
-      "President",
-      "Vice President",
-      "Treasurer"
-
-    ];
-
-    return options.map(option => {
-
-      return `
-        <option
-          value="${escapeHtml(option)}"
-          ${current === option ? "selected" : ""}
-        >
-          ${escapeHtml(option)}
-        </option>
-      `;
-
-    }).join("");
-
-  }
+      </tr>
+    `;
+  });
 
 
-  /* =====================================================
-     APPROVE MEMBER
-     ===================================================== */
-
-  async function approveMember(userId) {
-
-    const member =
-      allMembers.find(m => m.id === userId);
-
-    if (!member) return;
+  html += `
+      </tbody>
+    </table>
+  `;
 
 
-    const ok =
-      confirm(
-        `Approve "${member.full_name}"?\n\n` +
-        `Member ID automatic generate heba.`
-      );
-
-    if (!ok) return;
+  document.getElementById("tableContent").innerHTML =
+    html;
+}
 
 
-    try {
+/* =====================================
+   DESIGNATION OPTIONS
+===================================== */
 
-      const { data, error } =
-        await supabaseClient.rpc(
-          "approve_member",
-          {
-            target_user_id: userId
-          }
-        );
+function designationOptions(current){
 
-      if (error) {
-        throw error;
-      }
+  const options = [
+
+    "Member",
+    "Core Committee Member",
+    "Secretary",
+    "Vice Secretary",
+    "President",
+    "Vice President",
+    "Treasurer"
+
+  ];
 
 
-      showToast(
-        "Member approved successfully. Member ID: " +
-        data
-      );
+  return options.map(option=>{
 
-      await loadMembers();
+    return `
+      <option
+        value="${option}"
+        ${current === option ? "selected" : ""}
+      >
+        ${option}
+      </option>
+    `;
 
-    } catch (error) {
+  }).join("");
+}
 
-      console.error(error);
 
-      showToast(
-        "Approval failed: " +
-        (error.message || "Unknown error")
-      );
+/* =====================================
+   BADGES
+===================================== */
 
+function approvalBadge(status){
+
+  const value =
+    status || "pending";
+
+
+  return `
+    <span class="badge ${value}">
+      ${value.toUpperCase()}
+    </span>
+  `;
+}
+
+
+function statusBadge(status){
+
+  const value =
+    status || "inactive";
+
+
+  return `
+    <span class="badge ${value}">
+      ${value.toUpperCase()}
+    </span>
+  `;
+}
+
+
+/* =====================================
+   APPROVE MEMBER
+===================================== */
+
+async function approveMember(id){
+
+  if(!confirm(
+    "Ehi member ku approve kari Member ID generate karibe?"
+  )) return;
+
+
+  hideMessage();
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "approve_member",
+    {
+      target_user_id:id
     }
+  );
 
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Approval failed: " + error.message,
+      "error"
+    );
+
+    return;
   }
 
 
-  /* =====================================================
-     REJECT MEMBER
-     ===================================================== */
-
-  async function rejectMember(userId) {
-
-    const member =
-      allMembers.find(m => m.id === userId);
-
-    if (!member) return;
+  showMessage(
+    "✅ Member approved. Member ID: " +
+    data,
+    "success"
+  );
 
 
-    const ok =
-      confirm(
-        `Reject "${member.full_name}"?`
-      );
-
-    if (!ok) return;
+  await loadMembers();
+}
 
 
-    try {
+/* =====================================
+   REJECT MEMBER
+===================================== */
 
-      const { error } =
-        await supabaseClient.rpc(
-          "reje
+async function rejectMember(id){
+
+  if(!confirm(
+    "Ehi member request reject karibe?"
+  )) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "reject_member",
+    {
+      target_user_id:id
+    }
+  );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Reject failed: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Member request rejected.",
+    "success"
+  );
+
+
+  await loadMembers();
+}
+
+
+/* =====================================
+   ACTIVATE
+===================================== */
+
+async function activateMember(id){
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "activate_member",
+    {
+      target_user_id:id
+    }
+  );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Activate failed: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Member activated successfully.",
+    "success"
+  );
+
+
+  await loadMembers();
+}
+
+
+/* =====================================
+   DEACTIVATE
+===================================== */
+
+async function deactivateMember(id){
+
+  if(!confirm(
+    "Ehi member ku deactivate karibe?"
+  )) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "deactivate_member",
+    {
+      target_user_id:id
+    }
+  );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Deactivate failed: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Member deactivated successfully.",
+    "success"
+  );
+
+
+  await loadMembers();
+}
+
+
+/* =====================================
+   DESIGNATION
+===================================== */
+
+async function changeDesignation(id,designation){
+
+  /*
+    Secure RPC next database step re add heba.
+    Ebe direct update karibani.
+  */
+
+  showMessage(
+    "Designation update system ra secure database RPC next step re connect heba.",
+    "info"
+  );
+
+
+  await loadMembers();
+}
+
+
+/* =====================================
+   VIEW MEMBER
+===================================== */
+
+function viewMember(id){
+
+  const member =
+    allMembers.find(
+      m => m.id === id
+    );
+
+
+  if(!member) return;
+
+
+  const photo =
+    member.profile_photo_url ||
+    "https://via.placeholder.com/160";
+
+
+  document.getElementById("memberDetails").innerHTML = `
+
+    <div style="text-align:center;margin-bottom:20px;">
+
+      <img
+        src="${escapeHtml(photo)}"
+        style="
+          width:110px;
+          height:110px;
+          border-radius:50%;
+          object-fit:cover;
+        "
+      >
+
+    </div>
+
+
+    <div class="detail">
+      <strong>Full Name</strong>
+      <span>${escapeHtml(member.full_name || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Member ID</strong>
+      <span>${escapeHtml(member.member_id || "Not Generated")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Email</strong>
+      <span>${escapeHtml(member.email || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Mobile</strong>
+      <span>${escapeHtml(member.mobile || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Village</strong>
+      <span>${escapeHtml(member.village || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Address</strong>
+      <span>${escapeHtml(member.address || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Blood Group</strong>
+      <span>${escapeHtml(member.blood_group || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Designation</strong>
+      <span>${escapeHtml(member.designation || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Approval</strong>
+      <span>${escapeHtml(member.approval_status || "-")}</span>
+    </div>
+
+
+    <div class="detail">
+      <strong>Status</strong>
+      <span>${escapeHtml(member.member_status || "-")}</span>
+    </div>
+
+  `;
+
+
+  document.getElementById("memberModal").style.display =
+    "block";
+}
+
+
+function closeModal(){
+
+  document.getElementById("memberModal").style.display =
+    "none";
+}
+
+
+/* =====================================
+   ESCAPE HTML
+===================================== */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+async function logout(){
+
+  try{
+
+    await supabaseClient.auth.signOut();
+
+  }catch(error){
+
+    console.error(error);
+
+  }finally{
+
+    window.location.replace("index.html");
+
+  }
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+loadMembers();
+
+</script>
+
+</body>
+</html>
