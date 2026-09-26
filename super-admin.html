@@ -22,13 +22,13 @@
     }
 
     header{
-      background:#7c2d12;
+      background:linear-gradient(135deg,#7c2d12,#9a3412);
       color:white;
-      padding:18px 20px;
+      padding:20px;
     }
 
     header h1{
-      font-size:22px;
+      font-size:23px;
       margin-bottom:5px;
     }
 
@@ -38,7 +38,7 @@
     }
 
     .container{
-      max-width:1250px;
+      max-width:1300px;
       margin:auto;
       padding:20px;
     }
@@ -47,13 +47,19 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:10px;
+      gap:12px;
       flex-wrap:wrap;
       margin-bottom:20px;
     }
 
     .topbar h2{
-      font-size:22px;
+      font-size:23px;
+      margin-bottom:5px;
+    }
+
+    .account{
+      color:#64748b;
+      font-size:13px;
     }
 
     button{
@@ -74,10 +80,18 @@
       color:white;
     }
 
+    .refresh{
+      background:#2563eb;
+      color:white;
+      margin-right:6px;
+    }
+
+    /* DASHBOARD STATS */
+
     .stats{
       display:grid;
       grid-template-columns:repeat(4,1fr);
-      gap:15px;
+      gap:14px;
       margin-bottom:20px;
     }
 
@@ -86,10 +100,12 @@
       border-radius:12px;
       padding:18px;
       box-shadow:0 2px 8px rgba(0,0,0,.08);
+      border-left:4px solid #7c2d12;
     }
 
     .stat small{
-      color:#6b7280;
+      color:#64748b;
+      font-size:12px;
     }
 
     .stat strong{
@@ -97,6 +113,87 @@
       font-size:28px;
       margin-top:8px;
     }
+
+    .stat .sub{
+      margin-top:5px;
+      font-size:11px;
+      color:#94a3b8;
+    }
+
+    .stat.green-border{
+      border-left-color:#15803d;
+    }
+
+    .stat.blue-border{
+      border-left-color:#2563eb;
+    }
+
+    .stat.orange-border{
+      border-left-color:#d97706;
+    }
+
+    .stat.purple-border{
+      border-left-color:#7e22ce;
+    }
+
+    .stat.red-border{
+      border-left-color:#dc2626;
+    }
+
+    /* ALERTS */
+
+    .alerts{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .alert-card{
+      border-radius:12px;
+      padding:18px;
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+    }
+
+    .alert-card.warning-alert{
+      border-left:5px solid #d97706;
+    }
+
+    .alert-card.danger-alert{
+      border-left:5px solid #dc2626;
+    }
+
+    .alert-icon{
+      font-size:30px;
+    }
+
+    .alert-text{
+      flex:1;
+    }
+
+    .alert-text strong{
+      display:block;
+      font-size:18px;
+      margin-bottom:5px;
+    }
+
+    .alert-text span{
+      font-size:12px;
+      color:#64748b;
+    }
+
+    .alert-button{
+      background:#7c2d12;
+      color:white;
+      white-space:nowrap;
+    }
+
+    /* CARD */
 
     .card{
       background:white;
@@ -107,7 +204,7 @@
     }
 
     .card h3{
-      margin-bottom:15px;
+      margin-bottom:7px;
     }
 
     .card-subtitle{
@@ -204,17 +301,26 @@
       color:white;
     }
 
+    .teal{
+      background:#0f766e;
+      color:white;
+    }
+
+    /* ADMIN */
+
     .admin-form{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
     }
 
-    input,select{
+    input,
+    select{
       border:1px solid #d1d5db;
       border-radius:8px;
       padding:11px;
       font-size:14px;
+      background:white;
     }
 
     .admin-form input{
@@ -266,6 +372,8 @@
       color:#991b1b;
     }
 
+    /* TABLE */
+
     .table-wrap{
       overflow-x:auto;
     }
@@ -276,7 +384,8 @@
       min-width:900px;
     }
 
-    th,td{
+    th,
+    td{
       padding:11px;
       border-bottom:1px solid #e5e7eb;
       text-align:left;
@@ -295,12 +404,14 @@
       font-weight:bold;
     }
 
-    .badge-active{
+    .badge-active,
+    .badge-approved{
       background:#dcfce7;
       color:#166534;
     }
 
-    .badge-inactive{
+    .badge-inactive,
+    .badge-rejected{
       background:#fee2e2;
       color:#991b1b;
     }
@@ -308,16 +419,6 @@
     .badge-pending{
       background:#fef3c7;
       color:#92400e;
-    }
-
-    .badge-approved{
-      background:#dcfce7;
-      color:#166534;
-    }
-
-    .badge-rejected{
-      background:#fee2e2;
-      color:#991b1b;
     }
 
     .photo{
@@ -349,6 +450,8 @@
       text-align:center;
       padding:25px;
     }
+
+    /* MODAL */
 
     .modal{
       position:fixed;
@@ -407,8 +510,18 @@
       margin-top:15px;
     }
 
-    @media(max-width:1000px){
+    .last-updated{
+      color:#94a3b8;
+      font-size:11px;
+      margin-top:7px;
+    }
+
+    @media(max-width:1050px){
       .control-grid{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .stats{
         grid-template-columns:repeat(3,1fr);
       }
     }
@@ -420,6 +533,10 @@
 
       .control-grid{
         grid-template-columns:repeat(2,1fr);
+      }
+
+      .alerts{
+        grid-template-columns:1fr;
       }
     }
 
@@ -448,6 +565,15 @@
       .member-detail img{
         grid-row:auto;
       }
+
+      .alert-card{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .alert-button{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -459,47 +585,199 @@
   <p>Super Admin Control Panel</p>
 </header>
 
+
 <div class="container">
 
+  <!-- TOPBAR -->
+
   <div class="topbar">
+
     <div>
-      <h2>Super Admin Dashboard</h2>
-      <p id="adminEmail">Checking account...</p>
+      <h2>👑 Super Admin Dashboard</h2>
+      <p id="adminEmail" class="account">
+        Checking account...
+      </p>
     </div>
 
-    <button class="logout" onclick="logout()">Logout</button>
+    <div>
+      <button
+        class="refresh"
+        onclick="refreshDashboard()">
+        🔄 Refresh
+      </button>
+
+      <button
+        class="logout"
+        onclick="logout()">
+        Logout
+      </button>
+    </div>
+
   </div>
 
-  <!-- STATS -->
+
+  <!-- LIVE STATS -->
 
   <div class="stats">
 
     <div class="stat">
       <small>Total Members</small>
       <strong id="totalMembers">0</strong>
+      <div class="sub">All registered members</div>
     </div>
 
-    <div class="stat">
+    <div class="stat orange-border">
       <small>Pending Approval</small>
       <strong id="pendingMembers">0</strong>
+      <div class="sub">Awaiting Super Admin action</div>
     </div>
 
-    <div class="stat">
+    <div class="stat green-border">
+      <small>Approved Members</small>
+      <strong id="approvedMembers">0</strong>
+      <div class="sub">Approved accounts</div>
+    </div>
+
+    <div class="stat green-border">
       <small>Active Members</small>
       <strong id="activeMembers">0</strong>
+      <div class="sub">Currently active</div>
+    </div>
+
+    <div class="stat red-border">
+      <small>Inactive Members</small>
+      <strong id="inactiveMembers">0</strong>
+      <div class="sub">Currently inactive</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Admin Accounts</small>
+      <strong id="adminCount">0</strong>
+      <div class="sub">Admin role users</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Published Notices</small>
+      <strong id="noticeCount">0</strong>
+      <div class="sub">Public notices</div>
+    </div>
+
+    <div class="stat purple-border">
+      <small>Published Events</small>
+      <strong id="eventCount">0</strong>
+      <div class="sub">Public events</div>
+    </div>
+
+    <div class="stat purple-border">
+      <small>Gallery Albums</small>
+      <strong id="galleryAlbumCount">0</strong>
+      <div class="sub">Total albums</div>
     </div>
 
     <div class="stat">
-      <small>Inactive Members</small>
-      <strong id="inactiveMembers">0</strong>
+      <small>Gallery Photos</small>
+      <strong id="galleryPhotoCount">0</strong>
+      <div class="sub">Total photos</div>
+    </div>
+
+    <div class="stat orange-border">
+      <small>Total Complaints</small>
+      <strong id="complaintCount">0</strong>
+      <div class="sub">All complaints</div>
+    </div>
+
+    <div class="stat red-border">
+      <small>Pending Complaints</small>
+      <strong id="pendingComplaintCount">0</strong>
+      <div class="sub">Need attention</div>
+    </div>
+
+    <div class="stat orange-border">
+      <small>Under Review</small>
+      <strong id="reviewComplaintCount">0</strong>
+      <div class="sub">Complaints under review</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Resolved Complaints</small>
+      <strong id="resolvedComplaintCount">0</strong>
+      <div class="sub">Resolved complaints</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Fee Records</small>
+      <strong id="feePaymentCount">0</strong>
+      <div class="sub">Payment records</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Fund Transactions</small>
+      <strong id="fundTransactionCount">0</strong>
+      <div class="sub">Fund records</div>
     </div>
 
   </div>
 
 
-  <!-- =========================================
-       SUPER ADMIN FULL CONTROL CENTER
-  ========================================== -->
+  <!-- ALERTS -->
+
+  <div class="alerts">
+
+    <div class="alert-card warning-alert">
+
+      <div class="alert-icon">
+        👤
+      </div>
+
+      <div class="alert-text">
+        <strong>
+          <span id="pendingMemberAlert">0</span>
+          Member Approval Pending
+        </strong>
+
+        <span>
+          New member applications are waiting for approval.
+        </span>
+      </div>
+
+      <button
+        class="alert-button"
+        onclick="openPendingMembers()">
+        Review
+      </button>
+
+    </div>
+
+
+    <div class="alert-card danger-alert">
+
+      <div class="alert-icon">
+        📝
+      </div>
+
+      <div class="alert-text">
+        <strong>
+          <span id="pendingComplaintAlert">0</span>
+          Complaint Pending
+        </strong>
+
+        <span>
+          Complaints requiring administrative attention.
+        </span>
+      </div>
+
+      <button
+        class="alert-button"
+        onclick="openPage('complaint-manager.html')">
+        Review
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- CONTROL CENTER -->
 
   <div class="control-section">
 
@@ -512,224 +790,382 @@
 
     <div class="control-grid">
 
+
       <!-- MEMBERS -->
 
       <div class="control-card">
+
         <div class="control-icon">👥</div>
+
         <h4>Member Management</h4>
-        <p>Member approval, status, designation, profile and Member ID manage karantu.</p>
-        <button class="ready" onclick="scrollToSection('memberManagement')">
+
+        <p>
+          Member approval, status, designation, profile and Member ID manage karantu.
+        </p>
+
+        <button
+          class="ready"
+          onclick="scrollToSection('memberManagement')">
           Open Member Management
         </button>
+
       </div>
 
 
       <!-- ADMINS -->
 
       <div class="control-card">
+
         <div class="control-icon">👨‍💼</div>
+
         <h4>Admin Management</h4>
-        <p>Admin create, view and remove admin role manage karantu.</p>
-        <button class="ready" onclick="scrollToSection('adminManagement')">
+
+        <p>
+          Admin create, view and remove admin role manage karantu.
+        </p>
+
+        <button
+          class="ready"
+          onclick="scrollToSection('adminManagement')">
           Open Admin Management
         </button>
+
       </div>
 
 
       <!-- NOTICE -->
 
       <div class="control-card">
+
         <div class="control-icon">📢</div>
+
         <h4>Notice Management</h4>
-        <p>Notice add, edit, publish, unpublish and PDF upload karantu.</p>
-        <button class="green" onclick="openPage('notice-manager.html')">
+
+        <p>
+          Notice add, edit, publish, unpublish and PDF upload karantu.
+        </p>
+
+        <button
+          class="green"
+          onclick="openPage('notice-manager.html')">
           Open Notice Manager
         </button>
+
       </div>
 
 
       <!-- EVENT -->
 
       <div class="control-card">
+
         <div class="control-icon">🎉</div>
+
         <h4>Event Management</h4>
-        <p>Programme, event date, location and event details manage karantu.</p>
-        <button class="blue" onclick="openPage('event-manager.html')">
+
+        <p>
+          Programme, event date, location and event details manage karantu.
+        </p>
+
+        <button
+          class="blue"
+          onclick="openPage('event-manager.html')">
           Open Event Manager
         </button>
+
       </div>
 
 
       <!-- GALLERY -->
 
       <div class="control-card">
+
         <div class="control-icon">🖼️</div>
+
         <h4>Gallery Management</h4>
-        <p>Album, cover photo, photos publish and delete manage karantu.</p>
-        <button class="purple" onclick="openPage('gallery-manager.html')">
+
+        <p>
+          Album, cover photo, photos publish and delete manage karantu.
+        </p>
+
+        <button
+          class="purple"
+          onclick="openPage('gallery-manager.html')">
           Open Gallery Manager
         </button>
+
       </div>
 
 
       <!-- COMPLAINT -->
 
       <div class="control-card">
+
         <div class="control-icon">📝</div>
+
         <h4>Complaint Management</h4>
-        <p>Complaint dekha, status change and official remark manage karantu.</p>
-        <button class="orange" onclick="openPage('complaint-manager.html')">
+
+        <p>
+          Complaint dekha, status change and official remark manage karantu.
+        </p>
+
+        <button
+          class="orange"
+          onclick="openPage('complaint-manager.html')">
           Open Complaint Manager
         </button>
+
       </div>
 
 
       <!-- FUND -->
 
       <div class="control-card">
+
         <div class="control-icon">💰</div>
+
         <h4>Fund Management</h4>
-        <p>Collection, expense, savings and year-wise fund management.</p>
-        <button class="setup" onclick="setupRequired('Fund Management')">
-          Setup Required
+
+        <p>
+          Collection, expense, savings and year-wise fund management.
+        </p>
+
+        <button
+          class="teal"
+          onclick="openPage('fund-manager.html')">
+          Open Fund Manager
         </button>
+
       </div>
 
 
       <!-- FEE -->
 
       <div class="control-card">
+
         <div class="control-icon">💳</div>
+
         <h4>Member Fee Management</h4>
-        <p>Year-wise fee, paid/unpaid status and member fee records.</p>
-        <button class="setup" onclick="setupRequired('Member Fee Management')">
-          Setup Required
+
+        <p>
+          Year-wise fee, paid/unpaid status and member fee records.
+        </p>
+
+        <button
+          class="teal"
+          onclick="openPage('member-fee-manager.html')">
+          Open Fee Manager
         </button>
+
       </div>
 
 
       <!-- DONATION -->
 
       <div class="control-card">
+
         <div class="control-icon">💸</div>
+
         <h4>Donation Management</h4>
-        <p>Donation information, QR and donation records manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Donation Management')">
+
+        <p>
+          Donation information, QR and donation records manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Donation Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- JATRA -->
 
       <div class="control-card">
+
         <div class="control-icon">🎪</div>
+
         <h4>Jatra Management</h4>
-        <p>Jatra year-wise page, date, programme and details manage karantu.</p>
-        <button class="setup" onclick="setupRequired('Jatra Management')">
+
+        <p>
+          Jatra year-wise page, date, programme and details manage karantu.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Jatra Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- BHAKTA -->
 
       <div class="control-card">
+
         <div class="control-icon">🙏</div>
+
         <h4>Bhakta List</h4>
-        <p>Year-wise Bhakta list add, edit and manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Bhakta List Management')">
+
+        <p>
+          Year-wise Bhakta list add, edit and manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Bhakta List Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- WEBSITE -->
 
       <div class="control-card">
+
         <div class="control-icon">🌐</div>
+
         <h4>Website Management</h4>
-        <p>Website content, pages and important information manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Website Management CMS')">
+
+        <p>
+          Website content, pages and important information manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Website Management CMS')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- HOMEPAGE -->
 
       <div class="control-card">
+
         <div class="control-icon">🏠</div>
+
         <h4>Homepage Management</h4>
-        <p>Homepage banner, welcome section and featured content manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Homepage Management')">
+
+        <p>
+          Homepage banner, welcome section and featured content manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Homepage Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- DOCUMENT -->
 
       <div class="control-card">
+
         <div class="control-icon">📄</div>
+
         <h4>Documents</h4>
-        <p>Committee documents, official PDFs and downloadable files manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Document Management')">
+
+        <p>
+          Committee documents, official PDFs and downloadable files manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Document Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- CONTACT -->
 
       <div class="control-card">
+
         <div class="control-icon">📞</div>
+
         <h4>Contact Information</h4>
-        <p>Official email, phone, address and contact information manage kariba.</p>
-        <button class="setup" onclick="setupRequired('Contact Management')">
+
+        <p>
+          Official email, phone, address and contact information manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Contact Management')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- AUDIT -->
 
       <div class="control-card">
+
         <div class="control-icon">📋</div>
+
         <h4>Audit Log</h4>
-        <p>Admin and Super Admin actions ra secure activity history.</p>
-        <button class="setup" onclick="setupRequired('Audit Log')">
+
+        <p>
+          Admin and Super Admin actions ra secure activity history.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Audit Log')">
           Setup Required
         </button>
+
       </div>
 
 
       <!-- BACKUP -->
 
       <div class="control-card">
+
         <div class="control-icon">💾</div>
+
         <h4>Backup & System</h4>
-        <p>Database backup, system settings and security controls.</p>
-        <button class="setup" onclick="setupRequired('Backup & System Settings')">
+
+        <p>
+          Database backup, system settings and security controls.
+        </p>
+
+        <button
+          class="setup"
+          onclick="setupRequired('Backup & System Settings')">
           Setup Required
         </button>
+
       </div>
 
     </div>
 
 
     <div class="system-note">
-      <strong>Note:</strong>
-      Green/Blue/Purple/Orange buttons already-built manager pages open karibe.
-      Grey “Setup Required” features ra backend/database management ebe build heba baki achhi.
+
+      <strong>System Status:</strong>
+      Green/Blue/Purple/Orange buttons are connected to the existing
+      management pages. Fund and Member Fee management are now live.
+
+    </div>
+
+    <div class="last-updated">
+      Dashboard data is loaded directly from Supabase.
     </div>
 
   </div>
 
 
-  <!-- =========================================
-       ADMIN MANAGEMENT
-  ========================================== -->
+  <!-- ADMIN MANAGEMENT -->
 
   <div class="card" id="adminManagement">
 
@@ -747,7 +1183,9 @@
         placeholder="Enter existing user email"
       >
 
-      <button class="primary" onclick="makeAdmin()">
+      <button
+        class="primary"
+        onclick="makeAdmin()">
         Make Admin
       </button>
 
@@ -760,20 +1198,26 @@
       <table>
 
         <thead>
+
           <tr>
             <th>Email</th>
             <th>Role</th>
             <th>Created</th>
             <th>Action</th>
           </tr>
+
         </thead>
 
         <tbody id="adminsTableBody">
+
           <tr>
-            <td colspan="4" class="loading">
+            <td
+              colspan="4"
+              class="loading">
               Loading Admins...
             </td>
           </tr>
+
         </tbody>
 
       </table>
@@ -783,15 +1227,16 @@
   </div>
 
 
-  <!-- =========================================
-       MEMBER MANAGEMENT
-  ========================================== -->
+  <!-- MEMBER MANAGEMENT -->
 
-  <div class="card" id="memberManagement">
+  <div
+    class="card"
+    id="memberManagement">
 
     <h3>Member Management</h3>
 
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+    <div
+      style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
 
       <input
         type="search"
@@ -801,12 +1246,30 @@
         style="flex:1;min-width:250px;"
       >
 
-      <select id="statusFilter" onchange="renderMembers()">
-        <option value="all">All Status</option>
-        <option value="pending">Pending</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-        <option value="rejected">Rejected</option>
+      <select
+        id="statusFilter"
+        onchange="renderMembers()">
+
+        <option value="all">
+          All Status
+        </option>
+
+        <option value="pending">
+          Pending
+        </option>
+
+        <option value="active">
+          Active
+        </option>
+
+        <option value="inactive">
+          Inactive
+        </option>
+
+        <option value="rejected">
+          Rejected
+        </option>
+
       </select>
 
     </div>
@@ -834,7 +1297,9 @@
         <tbody id="membersTableBody">
 
           <tr>
-            <td colspan="9" class="loading">
+            <td
+              colspan="9"
+              class="loading">
               Loading Members...
             </td>
           </tr>
@@ -852,15 +1317,21 @@
 
 <!-- MEMBER VIEW MODAL -->
 
-<div class="modal" id="memberModal">
+<div
+  class="modal"
+  id="memberModal">
 
   <div class="modal-box">
 
     <div class="modal-head">
 
-      <h3>Member Details</h3>
+      <h3>
+        Member Details
+      </h3>
 
-      <button class="close" onclick="closeMemberModal()">
+      <button
+        class="close"
+        onclick="closeMemberModal()">
         Close
       </button>
 
@@ -881,6 +1352,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
+
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
@@ -890,32 +1362,44 @@ const supabaseClient =
 
 let members = [];
 
+let dashboardSummary = null;
+
 
 /* =========================
    START
 ========================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
 
-  const {
-    data: {
-      session
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+
+    if(!session){
+
+      window.location.href =
+        "auth.html";
+
+      return;
     }
-  } = await supabaseClient.auth.getSession();
 
-  if (!session) {
 
-    window.location.href = "auth.html";
+    document.getElementById(
+      "adminEmail"
+    ).textContent =
+      session.user.email || "";
 
-    return;
+
+    await checkSuperAdmin();
+
   }
-
-  document.getElementById("adminEmail").textContent =
-    session.user.email || "";
-
-  await checkSuperAdmin();
-
-});
+);
 
 
 /* =========================
@@ -925,54 +1409,238 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function checkSuperAdmin(){
 
   const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    window.location.href =
+      "auth.html";
+
+    return;
+  }
+
+
+  const {
     data,
     error
-  } = await supabaseClient
-    .from("user_roles")
-    .select("role")
-    .eq(
-      "user_id",
-      (await supabaseClient.auth.getUser()).data.user.id
-    )
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq(
+        "user_id",
+        user.id
+      )
+      .maybeSingle();
+
 
   if(error){
 
-    alert("Unable to verify account role.");
+    alert(
+      "Unable to verify account role."
+    );
 
-    window.location.href = "index.html";
-
-    return;
-  }
-
-  if(!data || data.role !== "super_admin"){
-
-    alert("Access denied. Super Admin only.");
-
-    window.location.href = "index.html";
+    window.location.href =
+      "index.html";
 
     return;
   }
 
-  await loadMembers();
-  await loadAdmins();
+
+  if(
+    !data ||
+    data.role !== "super_admin"
+  ){
+
+    alert(
+      "Access denied. Super Admin only."
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+
+  await refreshDashboard();
 
 }
 
 
 /* =========================
-   OPEN EXISTING PAGE
+   REFRESH DASHBOARD
+========================= */
+
+async function refreshDashboard(){
+
+  await Promise.all([
+    loadDashboardSummary(),
+    loadMembers(),
+    loadAdmins()
+  ]);
+
+}
+
+
+/* =========================
+   DASHBOARD SUMMARY
+========================= */
+
+async function loadDashboardSummary(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "get_super_admin_dashboard_summary"
+    );
+
+
+  if(error){
+
+    console.error(
+      "Dashboard summary error:",
+      error
+    );
+
+    return;
+  }
+
+
+  dashboardSummary =
+    data || {};
+
+
+  renderDashboardSummary();
+
+}
+
+
+/* =========================
+   RENDER SUMMARY
+========================= */
+
+function renderDashboardSummary(){
+
+  const s =
+    dashboardSummary || {};
+
+
+  setText(
+    "totalMembers",
+    s.members || 0
+  );
+
+  setText(
+    "pendingMembers",
+    s.pending_members || 0
+  );
+
+  setText(
+    "approvedMembers",
+    s.approved_members || 0
+  );
+
+  setText(
+    "activeMembers",
+    s.active_members || 0
+  );
+
+  setText(
+    "inactiveMembers",
+    s.inactive_members || 0
+  );
+
+  setText(
+    "adminCount",
+    s.admins || 0
+  );
+
+  setText(
+    "noticeCount",
+    s.published_notices || 0
+  );
+
+  setText(
+    "eventCount",
+    s.published_events || 0
+  );
+
+  setText(
+    "galleryAlbumCount",
+    s.gallery_albums || 0
+  );
+
+  setText(
+    "galleryPhotoCount",
+    s.gallery_photos || 0
+  );
+
+  setText(
+    "complaintCount",
+    s.complaints || 0
+  );
+
+  setText(
+    "pendingComplaintCount",
+    s.pending_complaints || 0
+  );
+
+  setText(
+    "reviewComplaintCount",
+    s.under_review_complaints || 0
+  );
+
+  setText(
+    "resolvedComplaintCount",
+    s.resolved_complaints || 0
+  );
+
+  setText(
+    "feePaymentCount",
+    s.fee_payments || 0
+  );
+
+  setText(
+    "fundTransactionCount",
+    s.fund_transactions || 0
+  );
+
+
+  setText(
+    "pendingMemberAlert",
+    s.pending_members || 0
+  );
+
+  setText(
+    "pendingComplaintAlert",
+    s.pending_complaints || 0
+  );
+
+}
+
+
+/* =========================
+   OPEN PAGE
 ========================= */
 
 function openPage(page){
 
-  window.location.href = page;
+  window.location.href =
+    page;
 
 }
 
 
 /* =========================
-   SCROLL TO SECTION
+   SCROLL
 ========================= */
 
 function scrollToSection(id){
@@ -982,10 +1650,36 @@ function scrollToSection(id){
 
   if(!element) return;
 
+
   element.scrollIntoView({
     behavior:"smooth",
     block:"start"
   });
+
+}
+
+
+/* =========================
+   PENDING MEMBERS
+========================= */
+
+function openPendingMembers(){
+
+  const filter =
+    document.getElementById(
+      "statusFilter"
+    );
+
+  filter.value =
+    "pending";
+
+
+  renderMembers();
+
+
+  scrollToSection(
+    "memberManagement"
+  );
 
 }
 
@@ -999,7 +1693,7 @@ function setupRequired(feature){
   alert(
     feature +
     " ra database/backend system ebe build heba baki achhi.\n\n" +
-    "Ehi button ebe kevala reserved control rakha jaichi."
+    "Ehi button ebe reserved control rakha jaichi."
   );
 
 }
@@ -1014,68 +1708,43 @@ async function loadMembers(){
   const {
     data,
     error
-  } = await supabaseClient.rpc(
-    "get_all_members_for_super_admin"
-  );
+  } =
+    await supabaseClient.rpc(
+      "get_all_members_for_super_admin"
+    );
+
 
   if(error){
 
-    document.getElementById("membersTableBody").innerHTML =
-      `<tr>
-        <td colspan="9" class="empty">
-          Error loading members: ${escapeHtml(error.message)}
+    document.getElementById(
+      "membersTableBody"
+    ).innerHTML =
+      `
+      <tr>
+        <td
+          colspan="9"
+          class="empty">
+          Error loading members:
+          ${escapeHtml(error.message)}
         </td>
-      </tr>`;
+      </tr>
+      `;
 
     return;
   }
 
-  members = data || [];
 
-  updateStats();
+  members =
+    data || [];
+
 
   renderMembers();
 
-}
 
-
-/* =========================
-   STATS
-========================= */
-
-function updateStats(){
-
-  const total =
-    members.length;
-
-  const pending =
-    members.filter(
-      m => m.approval_status === "pending"
-    ).length;
-
-  const active =
-    members.filter(
-      m =>
-        m.approval_status === "approved" &&
-        m.member_status === "active"
-    ).length;
-
-  const inactive =
-    members.filter(
-      m => m.member_status === "inactive"
-    ).length;
-
-  document.getElementById("totalMembers").textContent =
-    total;
-
-  document.getElementById("pendingMembers").textContent =
-    pending;
-
-  document.getElementById("activeMembers").textContent =
-    active;
-
-  document.getElementById("inactiveMembers").textContent =
-    inactive;
+  /*
+    Dashboard summary RPC is the
+    authoritative dashboard count.
+  */
 
 }
 
@@ -1087,273 +1756,366 @@ function updateStats(){
 function renderMembers(){
 
   const tbody =
-    document.getElementById("membersTableBody");
+    document.getElementById(
+      "membersTableBody"
+    );
+
 
   const search =
-    document.getElementById("memberSearch")
+    document.getElementById(
+      "memberSearch"
+    )
       .value
       .trim()
       .toLowerCase();
 
+
   const filter =
-    document.getElementById("statusFilter")
+    document.getElementById(
+      "statusFilter"
+    )
       .value;
 
-  let list =
-    members.filter(member => {
 
-      const searchable = [
+  const list =
+    members.filter(
+      member => {
 
-        member.full_name,
-        member.member_id,
-        member.email,
-        member.mobile,
-        member.village,
-        member.designation
+        const searchable = [
 
-      ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+          member.full_name,
+          member.member_id,
+          member.email,
+          member.mobile,
+          member.village,
+          member.designation
 
-      const matchesSearch =
-        !search ||
-        searchable.includes(search);
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
-      let matchesFilter = true;
 
-      if(filter === "pending"){
+        const matchesSearch =
+          !search ||
+          searchable.includes(search);
 
-        matchesFilter =
-          member.approval_status === "pending";
+
+        let matchesFilter =
+          true;
+
+
+        if(
+          filter === "pending"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+            "pending";
+
+        }
+
+
+        if(
+          filter === "active"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+              "approved" &&
+            member.member_status ===
+              "active";
+
+        }
+
+
+        if(
+          filter === "inactive"
+        ){
+
+          matchesFilter =
+            member.member_status ===
+            "inactive";
+
+        }
+
+
+        if(
+          filter === "rejected"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+            "rejected";
+
+        }
+
+
+        return (
+          matchesSearch &&
+          matchesFilter
+        );
 
       }
-
-      if(filter === "active"){
-
-        matchesFilter =
-          member.approval_status === "approved" &&
-          member.member_status === "active";
-
-      }
-
-      if(filter === "inactive"){
-
-        matchesFilter =
-          member.member_status === "inactive";
-
-      }
-
-      if(filter === "rejected"){
-
-        matchesFilter =
-          member.approval_status === "rejected";
-
-      }
-
-      return matchesSearch && matchesFilter;
-
-    });
+    );
 
 
-  if(list.length === 0){
+  if(
+    list.length === 0
+  ){
 
     tbody.innerHTML =
-      `<tr>
-        <td colspan="9" class="empty">
+      `
+      <tr>
+        <td
+          colspan="9"
+          class="empty">
           No members found.
         </td>
-      </tr>`;
+      </tr>
+      `;
 
     return;
   }
 
 
   tbody.innerHTML =
-    list.map(member => {
+    list.map(
+      member => {
 
-      const photo =
-        member.profile_photo_url
-          ? `<img class="photo"
-              src="${escapeAttr(member.profile_photo_url)}"
-              alt="Photo">`
-          : `<div class="photo"></div>`;
+        const photo =
+          member.profile_photo_url
 
+            ? `
+              <img
+                class="photo"
+                src="${escapeAttr(
+                  member.profile_photo_url
+                )}"
+                alt="Photo">
+              `
 
-      let approvalBadge = "";
-
-      if(member.approval_status === "pending"){
-
-        approvalBadge =
-          `<span class="badge badge-pending">
-            Pending
-          </span>`;
-
-      }else if(member.approval_status === "approved"){
-
-        approvalBadge =
-          `<span class="badge badge-approved">
-            Approved
-          </span>`;
-
-      }else{
-
-        approvalBadge =
-          `<span class="badge badge-rejected">
-            Rejected
-          </span>`;
-
-      }
+            : `
+              <div class="photo"></div>
+              `;
 
 
-      const statusBadge =
-        member.member_status === "active"
-
-          ? `<span class="badge badge-active">
-              Active
-            </span>`
-
-          : `<span class="badge badge-inactive">
-              Inactive
-            </span>`;
+        let approvalBadge =
+          "";
 
 
-      let actions = `
+        if(
+          member.approval_status ===
+          "pending"
+        ){
 
-        <button
-          class="secondary"
-          onclick="viewMember('${member.id}')">
-          View
-        </button>
+          approvalBadge =
+            `
+            <span
+              class="badge badge-pending">
+              Pending
+            </span>
+            `;
 
-      `;
+        }
+        else if(
+          member.approval_status ===
+          "approved"
+        ){
+
+          approvalBadge =
+            `
+            <span
+              class="badge badge-approved">
+              Approved
+            </span>
+            `;
+
+        }
+        else{
+
+          approvalBadge =
+            `
+            <span
+              class="badge badge-rejected">
+              Rejected
+            </span>
+            `;
+
+        }
 
 
-      if(member.approval_status === "pending"){
+        const statusBadge =
+          member.member_status ===
+          "active"
 
-        actions += `
+            ? `
+              <span
+                class="badge badge-active">
+                Active
+              </span>
+              `
 
+            : `
+              <span
+                class="badge badge-inactive">
+                Inactive
+              </span>
+              `;
+
+
+        let actions =
+          `
           <button
-            class="success"
-            onclick="approveMember('${member.id}')">
-            Approve
+            class="secondary"
+            onclick="viewMember('${member.id}')">
+            View
           </button>
-
-          <button
-            class="danger"
-            onclick="rejectMember('${member.id}')">
-            Reject
-          </button>
-
-        `;
-
-      }
+          `;
 
 
-      if(
-        member.approval_status === "approved" &&
-        member.member_status === "active"
-      ){
+        if(
+          member.approval_status ===
+          "pending"
+        ){
 
-        actions += `
+          actions +=
+            `
+            <button
+              class="success"
+              onclick="approveMember('${member.id}')">
+              Approve
+            </button>
 
-          <button
-            class="warning"
-            onclick="deactivateMember('${member.id}')">
-            Deactivate
-          </button>
+            <button
+              class="danger"
+              onclick="rejectMember('${member.id}')">
+              Reject
+            </button>
+            `;
 
-        `;
-
-      }
-
-
-      if(
-        member.approval_status === "approved" &&
-        member.member_status === "inactive"
-      ){
-
-        actions += `
-
-          <button
-            class="success"
-            onclick="activateMember('${member.id}')">
-            Activate
-          </button>
-
-        `;
-
-      }
+        }
 
 
-      return `
+        if(
+          member.approval_status ===
+            "approved" &&
+          member.member_status ===
+            "active"
+        ){
 
-        <tr>
+          actions +=
+            `
+            <button
+              class="warning"
+              onclick="deactivateMember('${member.id}')">
+              Deactivate
+            </button>
+            `;
 
-          <td>${photo}</td>
+        }
 
-          <td>
-            ${escapeHtml(member.member_id || "—")}
-          </td>
 
-          <td>
-            ${escapeHtml(member.full_name || "—")}
-          </td>
+        if(
+          member.approval_status ===
+            "approved" &&
+          member.member_status ===
+            "inactive"
+        ){
 
-          <td>
-            ${escapeHtml(member.email || "—")}
-          </td>
+          actions +=
+            `
+            <button
+              class="success"
+              onclick="activateMember('${member.id}')">
+              Activate
+            </button>
+            `;
 
-          <td>
-            ${escapeHtml(member.mobile || "—")}
-          </td>
+        }
 
-          <td>
 
-            <select
-              onchange="changeDesignation(
-                '${member.id}',
-                this.value
-              )">
+        return `
+          <tr>
 
-              ${designationOptions(
-                member.designation
+            <td>
+              ${photo}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                member.member_id ||
+                "—"
               )}
+            </td>
 
-            </select>
+            <td>
+              ${escapeHtml(
+                member.full_name ||
+                "—"
+              )}
+            </td>
 
-          </td>
+            <td>
+              ${escapeHtml(
+                member.email ||
+                "—"
+              )}
+            </td>
 
-          <td>
-            ${approvalBadge}
-          </td>
+            <td>
+              ${escapeHtml(
+                member.mobile ||
+                "—"
+              )}
+            </td>
 
-          <td>
-            ${statusBadge}
-          </td>
+            <td>
 
-          <td>
+              <select
+                onchange="changeDesignation(
+                  '${member.id}',
+                  this.value
+                )">
 
-            <div class="actions">
-              ${actions}
-            </div>
+                ${designationOptions(
+                  member.designation
+                )}
 
-          </td>
+              </select>
 
-        </tr>
+            </td>
 
-      `;
+            <td>
+              ${approvalBadge}
+            </td>
 
-    }).join("");
+            <td>
+              ${statusBadge}
+            </td>
+
+            <td>
+              <div class="actions">
+                ${actions}
+              </div>
+            </td>
+
+          </tr>
+        `;
+
+      }
+    ).join("");
 
 }
 
 
 /* =========================
-   DESIGNATION OPTIONS
+   DESIGNATION
 ========================= */
 
-function designationOptions(current){
+function designationOptions(
+  current
+){
 
   const list = [
 
@@ -1367,90 +2129,106 @@ function designationOptions(current){
 
   ];
 
-  return list.map(item => {
 
-    const selected =
-      item === current
-        ? "selected"
-        : "";
+  return list.map(
+    item => {
 
-    return `
-      <option
-        value="${escapeAttr(item)}"
-        ${selected}>
-        ${escapeHtml(item)}
-      </option>
-    `;
+      const selected =
+        item === current
+          ? "selected"
+          : "";
 
-  }).join("");
+
+      return `
+        <option
+          value="${escapeAttr(item)}"
+          ${selected}>
+          ${escapeHtml(item)}
+        </option>
+      `;
+
+    }
+  ).join("");
 
 }
 
 
 /* =========================
-   APPROVE MEMBER
+   APPROVE
 ========================= */
 
 async function approveMember(id){
 
-  if(!confirm(
-    "Ehi member ku approve karibe?"
-  )) return;
+  if(
+    !confirm(
+      "Ehi member ku approve karibe?"
+    )
+  ) return;
 
 
   const {
     data,
     error
-  } = await supabaseClient.rpc(
-    "approve_member",
-    {
-      target_user_id: id
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "approve_member",
+      {
+        target_user_id:id
+      }
+    );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
 
 
   alert(
-    "Member approved successfully.\nMember ID: " +
+    "Member approved successfully.\n" +
+    "Member ID: " +
     data
   );
 
-  await loadMembers();
+
+  await refreshDashboard();
 
 }
 
 
 /* =========================
-   REJECT MEMBER
+   REJECT
 ========================= */
 
 async function rejectMember(id){
 
-  if(!confirm(
-    "Ehi member ku reject karibe?"
-  )) return;
+  if(
+    !confirm(
+      "Ehi member ku reject karibe?"
+    )
+  ) return;
 
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "reject_member",
-    {
-      target_user_id: id
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "reject_member",
+      {
+        target_user_id:id
+      }
+    );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
@@ -1460,7 +2238,8 @@ async function rejectMember(id){
     "Member rejected."
   );
 
-  await loadMembers();
+
+  await refreshDashboard();
 
 }
 
@@ -1471,24 +2250,29 @@ async function rejectMember(id){
 
 async function activateMember(id){
 
-  if(!confirm(
-    "Member ku Active karibe?"
-  )) return;
+  if(
+    !confirm(
+      "Member ku Active karibe?"
+    )
+  ) return;
 
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "activate_member",
-    {
-      target_user_id: id
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "activate_member",
+      {
+        target_user_id:id
+      }
+    );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
@@ -1498,7 +2282,8 @@ async function activateMember(id){
     "Member activated."
   );
 
-  await loadMembers();
+
+  await refreshDashboard();
 
 }
 
@@ -1509,24 +2294,29 @@ async function activateMember(id){
 
 async function deactivateMember(id){
 
-  if(!confirm(
-    "Member ku Deactive karibe?"
-  )) return;
+  if(
+    !confirm(
+      "Member ku Deactive karibe?"
+    )
+  ) return;
 
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "deactivate_member",
-    {
-      target_user_id: id
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "deactivate_member",
+      {
+        target_user_id:id
+      }
+    );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
@@ -1536,13 +2326,14 @@ async function deactivateMember(id){
     "Member deactivated."
   );
 
-  await loadMembers();
+
+  await refreshDashboard();
 
 }
 
 
 /* =========================
-   CHANGE DESIGNATION
+   DESIGNATION CHANGE
 ========================= */
 
 async function changeDesignation(
@@ -1552,18 +2343,21 @@ async function changeDesignation(
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "update_member_designation",
-    {
-      target_user_id: id,
-      new_designation: designation
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "update_member_designation",
+      {
+        target_user_id:id,
+        new_designation:designation
+      }
+    );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     await loadMembers();
 
@@ -1587,88 +2381,125 @@ function viewMember(id){
       m => m.id === id
     );
 
+
   if(!member) return;
 
 
   const photo =
     member.profile_photo_url
 
-      ? `<img
-          src="${escapeAttr(member.profile_photo_url)}"
-          alt="Member Photo">`
+      ? `
+        <img
+          src="${escapeAttr(
+            member.profile_photo_url
+          )}"
+          alt="Member Photo">
+        `
 
-      : `<img
+      : `
+        <img
           src=""
           alt="No Photo"
-          style="background:#eee;">`;
+          style="background:#eee;">
+        `;
 
 
   document.getElementById(
     "memberDetails"
-  ).innerHTML = `
-
+  ).innerHTML =
+    `
     <div class="member-detail">
 
       ${photo}
 
       <strong>Member ID</strong>
       <span>
-        ${escapeHtml(member.member_id || "—")}
+        ${escapeHtml(
+          member.member_id ||
+          "—"
+        )}
       </span>
 
       <strong>Name</strong>
       <span>
-        ${escapeHtml(member.full_name || "—")}
+        ${escapeHtml(
+          member.full_name ||
+          "—"
+        )}
       </span>
 
       <strong>Email</strong>
       <span>
-        ${escapeHtml(member.email || "—")}
+        ${escapeHtml(
+          member.email ||
+          "—"
+        )}
       </span>
 
       <strong>Mobile</strong>
       <span>
-        ${escapeHtml(member.mobile || "—")}
+        ${escapeHtml(
+          member.mobile ||
+          "—"
+        )}
       </span>
 
       <strong>Village</strong>
       <span>
-        ${escapeHtml(member.village || "—")}
+        ${escapeHtml(
+          member.village ||
+          "—"
+        )}
       </span>
 
       <strong>Address</strong>
       <span>
-        ${escapeHtml(member.address || "—")}
+        ${escapeHtml(
+          member.address ||
+          "—"
+        )}
       </span>
 
       <strong>Blood Group</strong>
       <span>
-        ${escapeHtml(member.blood_group || "—")}
+        ${escapeHtml(
+          member.blood_group ||
+          "—"
+        )}
       </span>
 
       <strong>Designation</strong>
       <span>
-        ${escapeHtml(member.designation || "—")}
+        ${escapeHtml(
+          member.designation ||
+          "—"
+        )}
       </span>
 
       <strong>Approval Status</strong>
       <span>
-        ${escapeHtml(member.approval_status || "—")}
+        ${escapeHtml(
+          member.approval_status ||
+          "—"
+        )}
       </span>
 
       <strong>Member Status</strong>
       <span>
-        ${escapeHtml(member.member_status || "—")}
+        ${escapeHtml(
+          member.member_status ||
+          "—"
+        )}
       </span>
 
     </div>
-
-  `;
+    `;
 
 
   document.getElementById(
     "memberModal"
-  ).style.display = "flex";
+  ).style.display =
+    "flex";
 
 }
 
@@ -1677,13 +2508,14 @@ function closeMemberModal(){
 
   document.getElementById(
     "memberModal"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
 }
 
 
 /* =========================
-   ADMIN MANAGEMENT
+   MAKE ADMIN
 ========================= */
 
 async function makeAdmin(){
@@ -1693,8 +2525,10 @@ async function makeAdmin(){
       "adminEmailInput"
     );
 
+
   const email =
     input.value.trim();
+
 
   if(!email){
 
@@ -1709,12 +2543,13 @@ async function makeAdmin(){
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "find_user_and_make_admin",
-    {
-      target_email: email
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "find_user_and_make_admin",
+      {
+        target_email:email
+      }
+    );
 
 
   if(error){
@@ -1733,12 +2568,19 @@ async function makeAdmin(){
     true
   );
 
-  input.value = "";
 
-  await loadAdmins();
+  input.value =
+    "";
+
+
+  await refreshDashboard();
 
 }
 
+
+/* =========================
+   ADMIN MESSAGE
+========================= */
 
 function showAdminMessage(
   message,
@@ -1750,8 +2592,10 @@ function showAdminMessage(
       "adminMessage"
     );
 
+
   box.textContent =
     message;
+
 
   box.className =
     success
@@ -1776,69 +2620,93 @@ async function loadAdmins(){
   const {
     data,
     error
-  } = await supabaseClient.rpc(
-    "get_all_admins_for_super_admin"
-  );
+  } =
+    await supabaseClient.rpc(
+      "get_all_admins_for_super_admin"
+    );
 
 
   if(error){
 
     tbody.innerHTML =
-      `<tr>
-        <td colspan="4" class="empty">
-          ${escapeHtml(error.message)}
+      `
+      <tr>
+        <td
+          colspan="4"
+          class="empty">
+          ${escapeHtml(
+            error.message
+          )}
         </td>
-      </tr>`;
+      </tr>
+      `;
 
     return;
   }
 
 
-  if(!data || data.length === 0){
+  if(
+    !data ||
+    data.length === 0
+  ){
 
     tbody.innerHTML =
-      `<tr>
-        <td colspan="4" class="empty">
+      `
+      <tr>
+        <td
+          colspan="4"
+          class="empty">
           No Admin accounts found.
         </td>
-      </tr>`;
+      </tr>
+      `;
 
     return;
   }
 
 
   tbody.innerHTML =
-    data.map(admin => `
+    data.map(
+      admin => `
+        <tr>
 
-      <tr>
+          <td>
+            ${escapeHtml(
+              admin.email ||
+              "—"
+            )}
+          </td>
 
-        <td>
-          ${escapeHtml(admin.email || "—")}
-        </td>
+          <td>
 
-        <td>
-          <span class="badge badge-approved">
-            Admin
-          </span>
-        </td>
+            <span
+              class="badge badge-approved">
+              Admin
+            </span>
 
-        <td>
-          ${formatDate(admin.created_at)}
-        </td>
+          </td>
 
-        <td>
+          <td>
+            ${formatDate(
+              admin.created_at
+            )}
+          </td>
 
-          <button
-            class="danger"
-            onclick="removeAdmin('${admin.user_id}')">
-            Remove Admin
-          </button>
+          <td>
 
-        </td>
+            <button
+              class="danger"
+              onclick="removeAdmin(
+                '${admin.user_id}'
+              )">
+              Remove Admin
+            </button>
 
-      </tr>
+          </td>
 
-    `).join("");
+        </tr>
+      `
+    ).join("");
 
 }
 
@@ -1849,19 +2717,22 @@ async function loadAdmins(){
 
 async function removeAdmin(id){
 
-  if(!confirm(
-    "Ehi user ra Admin role remove kari Member role karibe?"
-  )) return;
+  if(
+    !confirm(
+      "Ehi user ra Admin role remove kari Member role karibe?"
+    )
+  ) return;
 
 
   const {
     error
-  } = await supabaseClient.rpc(
-    "remove_admin_role",
-    {
-      target_user_id: id
-    }
-  );
+  } =
+    await supabaseClient.rpc(
+      "remove_admin_role",
+      {
+        target_user_id:id
+      }
+    );
 
 
   if(error){
@@ -1881,7 +2752,7 @@ async function removeAdmin(id){
   );
 
 
-  await loadAdmins();
+  await refreshDashboard();
 
 }
 
@@ -1904,12 +2775,33 @@ async function logout(){
    HELPERS
 ========================= */
 
+function setText(
+  id,
+  value
+){
+
+  const element =
+    document.getElementById(id);
+
+  if(element){
+
+    element.textContent =
+      value ?? 0;
+
+  }
+
+}
+
+
 function formatDate(value){
 
-  if(!value) return "—";
+  if(!value)
+    return "—";
+
 
   const date =
     new Date(value);
+
 
   return date.toLocaleDateString(
     "en-IN",
@@ -1925,25 +2817,44 @@ function formatDate(value){
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
 
 function escapeAttr(value){
 
-  return escapeHtml(value);
+  return escapeHtml(
+    value
+  );
 
 }
 
 
 /* =========================
-   MODAL CLICK OUTSIDE
+   MODAL OUTSIDE CLICK
 ========================= */
 
 document.getElementById(
@@ -1952,7 +2863,9 @@ document.getElementById(
   "click",
   function(event){
 
-    if(event.target === this){
+    if(
+      event.target === this
+    ){
 
       closeMemberModal();
 
