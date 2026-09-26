@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fund & Donation | Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+  background:#7b1e1e;
+  color:#fff;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* HEADER */
+
+header{
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  position:relative;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:19px;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:12px;
+}
+
+nav{
+  display:flex;
+  gap:3px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  padding:8px 10px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+nav a:hover,
+nav a.active{
+  background:#f5e8e8;
+  color:#7b1e1e;
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:20px;
+}
+
+/* HERO */
+
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.80),rgba(70,15,5,.80)),
+    url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+  text-align:center;
+  padding:80px 0;
+}
+
+.page-hero h2{
+  font-size:44px;
+  margin-bottom:8px;
+}
+
+.page-hero p{
+  font-size:17px;
+}
+
+/* SECTIONS */
+
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+/* BALANCE */
+
+.balance-section{
+  margin-top:-30px;
+  position:relative;
+  z-index:5;
+}
+
+.balance-card{
+  background:#fff;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 6px 25px rgba(0,0,0,.12);
+  text-align:center;
+}
+
+.balance-label{
+  color:#777;
+  font-size:14px;
+}
+
+.balance-amount{
+  color:#7b1e1e;
+  font-size:42px;
+  font-weight:bold;
+  margin:5px 0;
+}
+
+.balance-note{
+  color:#888;
+  font-size:12px;
+}
+
+/* FUND CARDS */
+
+.fund-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
+
+.fund-card{
+  background:#fff;
+  padding:24px;
+  border-radius:14px;
+  text-align:center;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+
+.fund-card .icon{
+  font-size:35px;
+  margin-bottom:7px;
+}
+
+.fund-card h3{
+  color:#7b1e1e;
+  font-size:17px;
+}
+
+.fund-card .amount{
+  font-size:22px;
+  font-weight:bold;
+  margin-top:7px;
+}
+
+.fund-card p{
+  color:#777;
+  font-size:12px;
+}
+
+/* YEAR FILTER */
+
+.year-box{
+  background:#fff8ed;
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:30px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+}
+
+.year-box label{
+  color:#7b1e1e;
+  font-weight:bold;
+}
+
+select{
+  padding:10px 14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fff;
+  font-size:14px;
+}
+
+/* TABLE */
+
+.table-wrap{
+  overflow-x:auto;
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,
+td{
+  padding:13px 15px;
+  border-bottom:1px solid #eee;
+  text-align:left;
+  font-size:13px;
+}
+
+th{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+td{
+  color:#555;
+}
+
+.income{
+  color:#18733a;
+  font-weight:bold;
+}
+
+.expense{
+  color:#b3261e;
+  font-weight:bold;
+}
+
+/* DONATION */
+
+.donation-section{
+  background:#fff8ed;
+}
+
+.donation-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.donation-card{
+  background:#fff;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+
+.donation-card h3{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
+
+.qr-placeholder{
+  width:220px;
+  height:220px;
+  margin:15px auto;
+  border:2px dashed #bbb;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#888;
+  font-size:13px;
+  padding:20px;
+}
+
+.bank-details{
+  display:grid;
+  gap:9px;
+}
+
+.bank-details div{
+  padding:9px 0;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+.bank-details strong{
+  color:#7b1e1e;
+}
+
+/* NOTICE */
+
+.notice-box{
+  background:#fff;
+  border-left:5px solid #7b1e1e;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.notice-box h3{
+  color:#7b1e1e;
+  margin-bottom:6px;
+}
+
+.notice-box p{
+  color:#666;
+  font-size:14px;
+}
+
+/* BUTTON */
+
+.btn{
+  display:inline-block;
+  margin-top:15px;
+  background:#7b1e1e;
+  color:#fff;
+  padding:10px 16px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.btn:hover{
+  background:#5e1515;
+}
+
+/* FOOTER */
+
+footer{
+  background:#241313;
+  color:#fff;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+  nav{
+    display:none;
+    position:absolute;
+    top:75px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .fund-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .donation-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+
+  .logo-text h1{
+    font-size:16px;
+  }
+
+  .page-hero{
+    padding:65px 0;
+  }
+
+  .page-hero h2{
+    font-size:32px;
+  }
+
+  .fund-grid{
+    grid-template-columns:1fr;
+  }
+
+  .year-box{
+    flex-direction:column;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .balance-amount{
+    font-size:34px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 जय माँ बसुली</span>
+    <span>Thakurmunda, Mayurbhanj, Odisha</span>
+  </div>
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-icon">🙏</div>
+
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+      </div>
+
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav id="mainNav">
+
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="jatra.html">Uda Jatra</a>
+      <a href="notices.html">Notices</a>
+      <a href="events.html">Events</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="members.html">Our Members</a>
+      <a href="fund.html" class="active">Fund</a>
+      <a href="complaint.html">Complaint</a>
+      <a href="contact.html">Contact</a>
+      <a href="auth.html">Login</a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <h2>Fund & Donation</h2>
+
+    <p>
+      Transparency in Collection, Expenses & Savings
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- CURRENT BALANCE -->
+
+<section class="balance-section">
+
+  <div class="container">
+
+    <div class="balance-card">
+
+      <div class="balance-label">
+        Current Available Fund
+      </div>
+
+      <div class="balance-amount">
+        ₹0.00
+      </div>
+
+      <div class="balance-note">
+        Official balance will be updated by the Super Admin.
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FUND SUMMARY -->
+
+<section>
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Fund Summary</h2>
+
+      <p>
+        Year-wise financial overview
+      </p>
+
+    </div>
+
+
+    <div class="year-box">
+
+      <label for="fundYear">
+        Select Year:
+      </label>
+
+      <select id="fundYear" onchange="changeYear()">
+
+        <option value="2027">
+          2027
+        </option>
+
+        <option value="2026">
+          2026
+        </option>
+
+        <option value="2025">
+          2025
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="fund-grid">
+
+
+      <div class="fund-card">
+
+        <div class="icon">💰</div>
+
+        <h3>Collection</h3>
+
+        <div class="amount">
+          ₹0.00
+        </div>
+
+        <p>
+          Total collection
+        </p>
+
+      </div>
+
+
+      <div class="fund-card">
+
+        <div class="icon">💸</div>
+
+        <h3>Expenses</h3>
+
+        <div class="amount">
+          ₹0.00
+        </div>
+
+        <p>
+          Total expenses
+        </p>
+
+      </div>
+
+
+      <div class="fund-card">
+
+        <div class="icon">🏦</div>
+
+        <h3>Savings</h3>
+
+        <div class="amount">
+          ₹0.00
+        </div>
+
+        <p>
+          Total savings
+        </p>
+
+      </div>
+
+
+      <div class="fund-card">
+
+        <div class="icon">🎁</div>
+
+        <h3>Donation</h3>
+
+        <div class="amount">
+          ₹0.00
+        </div>
+
+        <p>
+          Donation received
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TRANSACTIONS -->
+
+<section style="background:#fff;">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Financial Transactions</h2>
+
+      <p>
+        Public summary of authorised fund activities
+      </p>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Date</th>
+
+            <th>Description</th>
+
+            <th>Type</th>
+
+            <th>Amount</th>
+
+            <th>Year</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody>
+
+          <tr>
+
+            <td>—</td>
+
+            <td>
+              No transaction published yet
+            </td>
+
+            <td>—</td>
+
+            <td>₹0.00</td>
+
+            <td>2027</td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- DONATION -->
+
+<section class="donation-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Donate to Maa Basuli Uda Jatra Committee</h2>
+
+      <p>
+        Support the festival and committee activities
+      </p>
+
+    </div>
+
+
+    <div class="donation-grid">
+
+
+      <!-- QR -->
+
+      <div class="donation-card">
+
+        <h3>
+          📱 Scan & Donate
+        </h3>
+
+        <p>
+          Official donation QR code will be displayed
+          here after it is configured by the Super Admin.
+        </p>
+
+
+        <div class="qr-placeholder">
+
+          Official Donation QR<br>
+          Will Be Added Here
+
+        </div>
+
+
+        <p style="text-align:center;color:#777;font-size:12px;">
+          Please verify the official recipient name before making
+          any payment.
+        </p>
+
+      </div>
+
+
+      <!-- BANK -->
+
+      <div class="donation-card">
+
+        <h3>
+          🏦 Bank Account Details
+        </h3>
+
+        <p style="color:#666;font-size:13px;margin-bottom:15px;">
+          Official bank details will be published here
+          after verification by the committee.
+        </p>
+
+
+        <div class="bank-details">
+
+          <div>
+            <strong>Account Name:</strong>
+            To Be Updated
+          </div>
+
+          <div>
+            <strong>Bank Name:</strong>
+            To Be Updated
+          </div>
+
+          <div>
+            <strong>Account Number:</strong>
+            To Be Updated
+          </div>
+
+          <div>
+            <strong>IFSC:</strong>
+            To Be Updated
+          </div>
+
+          <div>
+            <strong>Branch:</strong>
+            To Be Updated
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- TRANSPARENCY -->
+
+<section>
+
+  <div class="container">
+
+    <div class="notice-box">
+
+      <h3>
+        📊 Financial Transparency
+      </h3>
+
+      <p>
+        Fund collection, authorised expenses, savings and
+        donation information will be maintained through the
+        official management system. The Super Admin will be
+        able to update financial records and publish the
+        information intended for public viewing.
+      </p>
+
+      <p style="margin-top:8px;">
+        Bank balance and payment verification should only be
+        shown as live information after a proper bank or
+        payment-gateway integration is configured.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- MEMBER FEE -->
+
+<section style="background:#fff8ed;">
+
+  <div class="container">
+
+    <div class="notice-box">
+
+      <h3>
+        💳 Member Fee
+      </h3>
+
+      <p>
+        Members can check the fee fixed by the Super Admin
+        and use the official payment method configured by
+        the committee.
+      </p>
+
+      <a
+        href="member-fee.html"
+        class="btn"
+      >
+        View Member Fee
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:10px;">
+          ଜୟ ମା' ବାସୁଳୀ 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Quick Links
+        </h3>
+
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Services
+        </h3>
+
+        <a href="members.html">
+          Our Members
+        </a>
+
+        <a href="fund.html">
+          Fund & Donation
+        </a>
+
+        <a href="member-fee.html">
+          Member Fee
+        </a>
+
+        <a href="complaint.html">
+          Complaint Box
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="auth.html">
+          Login
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+function toggleMenu(){
+
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+
+function changeYear(){
+
+  const year =
+    document.getElementById("fundYear").value;
+
+  console.log(
+    "Selected financial year:",
+    year
+  );
+
+}
+
+</script>
+
+</body>
+</html>
