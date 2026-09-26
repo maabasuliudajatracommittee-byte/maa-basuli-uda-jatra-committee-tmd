@@ -21,6 +21,7 @@ body{
   color:#1f2937;
 }
 
+/* HEADER */
 .header{
   background:linear-gradient(135deg,#7c2d12,#b45309);
   color:white;
@@ -65,6 +66,7 @@ body{
   background:rgba(255,255,255,.18);
 }
 
+/* HERO */
 .hero{
   background:white;
   padding:45px 20px;
@@ -85,6 +87,7 @@ body{
   line-height:1.6;
 }
 
+/* MAIN */
 .container{
   width:min(1100px,94%);
   margin:25px auto 50px;
@@ -100,6 +103,7 @@ body{
   font-weight:600;
 }
 
+/* FILTERS */
 .filters{
   background:white;
   padding:18px;
@@ -126,6 +130,7 @@ select:focus{
   border-color:#b45309;
 }
 
+/* EVENTS */
 .event-list{
   display:grid;
   gap:16px;
@@ -201,6 +206,7 @@ select:focus{
   font-size:13px;
 }
 
+/* STATES */
 .loading,
 .empty,
 .error{
@@ -230,6 +236,7 @@ select:focus{
   word-break:break-word;
 }
 
+/* FOOTER */
 .footer{
   background:#111827;
   color:#d1d5db;
@@ -243,6 +250,7 @@ select:focus{
   text-decoration:none;
 }
 
+/* MOBILE */
 @media(max-width:800px){
 
   .header-inner{
@@ -282,6 +290,7 @@ select:focus{
 
 <body>
 
+<!-- HEADER -->
 <header class="header">
 
   <div class="header-inner">
@@ -307,6 +316,7 @@ select:focus{
 </header>
 
 
+<!-- HERO -->
 <section class="hero">
 
   <h2>Events & Programmes</h2>
@@ -319,12 +329,15 @@ select:focus{
 </section>
 
 
+<!-- MAIN -->
 <main class="container">
 
   <div class="info-bar">
     📅 Official published events and programmes
   </div>
 
+
+  <!-- FILTERS -->
   <section class="filters">
 
     <input
@@ -338,18 +351,41 @@ select:focus{
     </select>
 
     <select id="typeFilter">
-      <option value="all">All Types</option>
-      <option value="Jatra">Jatra</option>
-      <option value="Programme">Programme</option>
-      <option value="Cultural">Cultural</option>
-      <option value="Meeting">Meeting</option>
-      <option value="Committee">Committee</option>
-      <option value="Other">Other</option>
+
+      <option value="all">
+        All Types
+      </option>
+
+      <option value="Jatra">
+        Jatra
+      </option>
+
+      <option value="Programme">
+        Programme
+      </option>
+
+      <option value="Cultural">
+        Cultural
+      </option>
+
+      <option value="Meeting">
+        Meeting
+      </option>
+
+      <option value="Committee">
+        Committee
+      </option>
+
+      <option value="Other">
+        Other
+      </option>
+
     </select>
 
   </section>
 
 
+  <!-- EVENT LIST -->
   <section id="eventList" class="event-list">
 
     <div class="loading">
@@ -361,6 +397,7 @@ select:focus{
 </main>
 
 
+<!-- FOOTER -->
 <footer class="footer">
 
   <p>
@@ -368,10 +405,13 @@ select:focus{
   </p>
 
   <p style="margin-top:8px;">
+
     Official Email:
+
     <a href="mailto:maabasuliudajatracommittee@gmail.com">
       maabasuliudajatracommittee@gmail.com
     </a>
+
   </p>
 
 </footer>
@@ -379,15 +419,17 @@ select:focus{
 
 <script>
 
-/* =====================================
+/* =====================================================
    SUPABASE CONNECTION
-===================================== */
+   SAME WORKING KEY AS AUTH.HTML
+===================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -406,14 +448,15 @@ const supabaseClient =
 let allEvents = [];
 
 
-/* =====================================
+/* =====================================================
    LOAD EVENTS
-===================================== */
+===================================================== */
 
 async function loadEvents(){
 
   const list =
     document.getElementById("eventList");
+
 
   list.innerHTML = `
     <div class="loading">
@@ -421,28 +464,46 @@ async function loadEvents(){
     </div>
   `;
 
-  console.log("Connecting to Supabase...");
-  console.log("Project:", SUPABASE_URL);
+
+  console.log(
+    "Maa Basuli Events: Connecting to Supabase..."
+  );
 
 
   try{
 
-    const result =
+    const response =
       await supabaseClient
         .from("events")
         .select(
           "id,title,event_date,event_type,location,description,is_published,created_at"
         )
-        .eq("is_published",true)
-        .order("event_date",{ascending:true});
+        .eq(
+          "is_published",
+          true
+        )
+        .order(
+          "event_date",
+          {
+            ascending:true
+          }
+        );
 
 
-    const data = result.data;
-    const error = result.error;
+    const data =
+      response.data;
+
+    const error =
+      response.error;
 
 
-    console.log("Events response:", result);
+    console.log(
+      "Events API Response:",
+      response
+    );
 
+
+    /* ERROR */
 
     if(error){
 
@@ -451,7 +512,9 @@ async function loadEvents(){
         error
       );
 
+
       list.innerHTML = `
+
         <div class="error">
 
           <strong>
@@ -462,18 +525,24 @@ async function loadEvents(){
             ${escapeHtml(
               error.message ||
               error.details ||
+              error.hint ||
               "Unknown Supabase error"
             )}
           </small>
 
         </div>
+
       `;
 
       return;
     }
 
 
-    allEvents = data || [];
+    /* SUCCESS */
+
+    allEvents =
+      data || [];
+
 
     console.log(
       "Published events:",
@@ -494,7 +563,9 @@ async function loadEvents(){
       error
     );
 
+
     list.innerHTML = `
+
       <div class="error">
 
         <strong>
@@ -509,96 +580,129 @@ async function loadEvents(){
         </small>
 
       </div>
+
     `;
+
   }
 
 }
 
 
-/* =====================================
+/* =====================================================
    YEAR FILTER
-===================================== */
+===================================================== */
 
 function populateYears(){
 
   const yearFilter =
-    document.getElementById("yearFilter");
+    document.getElementById(
+      "yearFilter"
+    );
 
 
-  const years =
-    [
-      ...new Set(
-        allEvents
-          .map(event => {
+  const years = [
 
-            if(!event.event_date){
-              return null;
-            }
+    ...new Set(
 
-            return new Date(
-              event.event_date + "T00:00:00"
-            ).getFullYear();
+      allEvents
 
-          })
-          .filter(Boolean)
-      )
-    ]
-    .sort((a,b)=>b-a);
+        .map(event => {
+
+          if(!event.event_date){
+            return null;
+          }
+
+
+          return new Date(
+            event.event_date +
+            "T00:00:00"
+          ).getFullYear();
+
+        })
+
+        .filter(Boolean)
+
+    )
+
+  ].sort(
+    (a,b)=>b-a
+  );
 
 
   yearFilter.innerHTML = `
+
     <option value="all">
       All Years
     </option>
 
     ${
       years.map(year => `
+
         <option value="${year}">
           ${year}
         </option>
+
       `).join("")
     }
+
   `;
 
 }
 
 
-/* =====================================
+/* =====================================================
    RENDER EVENTS
-===================================== */
+===================================================== */
 
 function renderEvents(){
 
   const list =
-    document.getElementById("eventList");
+    document.getElementById(
+      "eventList"
+    );
+
 
   const search =
     document
-      .getElementById("searchInput")
+      .getElementById(
+        "searchInput"
+      )
       .value
       .trim()
       .toLowerCase();
 
+
   const year =
     document
-      .getElementById("yearFilter")
+      .getElementById(
+        "yearFilter"
+      )
       .value;
+
 
   const type =
     document
-      .getElementById("typeFilter")
+      .getElementById(
+        "typeFilter"
+      )
       .value;
 
 
   const filtered =
     allEvents.filter(event => {
 
-      const text =
-        `${event.title || ""}
-         ${event.description || ""}
-         ${event.event_type || ""}
-         ${event.location || ""}`
-        .toLowerCase();
+
+      const text = `
+
+        ${event.title || ""}
+
+        ${event.description || ""}
+
+        ${event.event_type || ""}
+
+        ${event.location || ""}
+
+      `.toLowerCase();
 
 
       const matchesSearch =
@@ -613,11 +717,14 @@ function renderEvents(){
 
         matchesYear =
           event.event_date &&
+
           new Date(
-            event.event_date + "T00:00:00"
+            event.event_date +
+            "T00:00:00"
           )
           .getFullYear()
-          .toString() === year;
+          .toString()
+          === year;
 
       }
 
@@ -636,9 +743,12 @@ function renderEvents(){
     });
 
 
+  /* NO EVENTS */
+
   if(!filtered.length){
 
     list.innerHTML = `
+
       <div class="empty">
 
         <h3 style="margin-bottom:8px;">
@@ -651,172 +761,244 @@ function renderEvents(){
         </p>
 
       </div>
+
     `;
 
     return;
   }
 
 
+  /* EVENTS */
+
   list.innerHTML =
-    filtered.map(event => {
 
-      const date =
-        event.event_date
-          ? new Date(
-              event.event_date + "T00:00:00"
-            ).toLocaleDateString(
-              "en-IN",
-              {
-                day:"2-digit",
-                month:"short",
-                year:"numeric"
-              }
-            )
-          : "Date to be announced";
+    filtered
+
+      .map(event => {
 
 
-      return `
+        const date =
+          event.event_date
 
-        <article class="event-card">
+            ? new Date(
+                event.event_date +
+                "T00:00:00"
+              ).toLocaleDateString(
+                "en-IN",
+                {
+                  day:"2-digit",
+                  month:"short",
+                  year:"numeric"
+                }
+              )
 
-          <div class="event-top">
+            : "Date to be announced";
 
-            <div>
 
-              <h3>
-                ${escapeHtml(event.title)}
-              </h3>
+        return `
 
-              <div class="meta">
-                📅 ${date}
+          <article class="event-card">
+
+            <div class="event-top">
+
+              <div>
+
+                <h3>
+                  ${escapeHtml(
+                    event.title
+                  )}
+                </h3>
+
+                <div class="meta">
+                  📅 ${date}
+                </div>
+
               </div>
 
-            </div>
 
-            <span class="badge">
-              ${escapeHtml(
-                event.event_type || "Event"
-              )}
-            </span>
+              <span class="badge">
 
-          </div>
+                ${escapeHtml(
+                  event.event_type ||
+                  "Event"
+                )}
 
-
-          ${
-            event.description
-              ? `
-                <div class="description">
-                  ${escapeHtml(
-                    event.description
-                  )}
-                </div>
-              `
-              : ""
-          }
-
-
-          <div class="event-details">
-
-            <div class="detail-box">
-
-              <strong>📅 Date</strong>
-
-              <span>
-                ${date}
               </span>
 
             </div>
 
 
-            <div class="detail-box">
+            ${
+              event.description
 
-              <strong>📍 Location</strong>
+                ? `
 
-              <span>
-                ${
-                  escapeHtml(
-                    event.location ||
-                    "Thakurmunda"
-                  )
-                }
-              </span>
+                  <div class="description">
+
+                    ${escapeHtml(
+                      event.description
+                    )}
+
+                  </div>
+
+                `
+
+                : ""
+            }
+
+
+            <div class="event-details">
+
+
+              <div class="detail-box">
+
+                <strong>
+                  📅 Date
+                </strong>
+
+                <span>
+                  ${date}
+                </span>
+
+              </div>
+
+
+              <div class="detail-box">
+
+                <strong>
+                  📍 Location
+                </strong>
+
+                <span>
+
+                  ${
+                    escapeHtml(
+                      event.location ||
+                      "Thakurmunda"
+                    )
+                  }
+
+                </span>
+
+              </div>
+
+
+              <div class="detail-box">
+
+                <strong>
+                  🏷️ Type
+                </strong>
+
+                <span>
+
+                  ${
+                    escapeHtml(
+                      event.event_type ||
+                      "Event"
+                    )
+                  }
+
+                </span>
+
+              </div>
+
 
             </div>
 
+          </article>
 
-            <div class="detail-box">
+        `;
 
-              <strong>🏷️ Type</strong>
+      })
 
-              <span>
-                ${
-                  escapeHtml(
-                    event.event_type ||
-                    "Event"
-                  )
-                }
-              </span>
-
-            </div>
-
-          </div>
-
-        </article>
-
-      `;
-
-    }).join("");
+      .join("");
 
 }
 
 
-/* =====================================
-   FILTER EVENTS
-===================================== */
+/* =====================================================
+   SEARCH
+===================================================== */
 
 document
-  .getElementById("searchInput")
+  .getElementById(
+    "searchInput"
+  )
   .addEventListener(
     "input",
     renderEvents
   );
 
 
+/* =====================================================
+   YEAR FILTER
+===================================================== */
+
 document
-  .getElementById("yearFilter")
+  .getElementById(
+    "yearFilter"
+  )
   .addEventListener(
     "change",
     renderEvents
   );
 
 
+/* =====================================================
+   TYPE FILTER
+===================================================== */
+
 document
-  .getElementById("typeFilter")
+  .getElementById(
+    "typeFilter"
+  )
   .addEventListener(
     "change",
     renderEvents
   );
 
 
-/* =====================================
-   SECURITY HELPER
-===================================== */
+/* =====================================================
+   HTML SECURITY
+===================================================== */
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return String(
+    value ?? ""
+  )
+
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+
+  .replace(
+    /</g,
+    "&lt;"
+  )
+
+  .replace(
+    />/g,
+    "&gt;"
+  )
+
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+
+  .replace(
+    /'/g,
+    "&#039;"
+  );
 
 }
 
 
-/* =====================================
+/* =====================================================
    START
-===================================== */
+===================================================== */
 
 loadEvents();
 
