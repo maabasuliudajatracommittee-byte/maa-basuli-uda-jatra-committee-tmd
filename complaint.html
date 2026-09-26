@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Complaint Box | Maa Basuli Uda Jatra Committee</title>
@@ -11,7 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
 <style>
-
 *{
   box-sizing:border-box;
   margin:0;
@@ -24,9 +21,7 @@ body{
   color:#333;
 }
 
-
-/* ================= HEADER ================= */
-
+/* HEADER */
 header{
   background:linear-gradient(135deg,#7b1e00,#a63d00);
   color:#fff;
@@ -73,9 +68,7 @@ nav a.active{
   background:rgba(255,255,255,.18);
 }
 
-
-/* ================= HERO ================= */
-
+/* HERO */
 .hero{
   background:
     linear-gradient(
@@ -85,14 +78,11 @@ nav a.active{
     url("maa-basuli-logo.png.jpeg") center/cover;
 
   min-height:270px;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
   text-align:center;
   color:#fff;
-
   padding:40px 20px;
 }
 
@@ -108,9 +98,7 @@ nav a.active{
   line-height:1.6;
 }
 
-
-/* ================= MAIN ================= */
-
+/* MAIN */
 .container{
   max-width:900px;
   margin:40px auto;
@@ -131,9 +119,7 @@ nav a.active{
   line-height:1.6;
 }
 
-
-/* ================= INFO ================= */
-
+/* INFO */
 .info-box{
   background:#fff8ed;
   border:1px solid #f0d3a5;
@@ -149,9 +135,7 @@ nav a.active{
   color:#7b1e00;
 }
 
-
-/* ================= FORM ================= */
-
+/* FORM */
 .form-card{
   background:#fff;
   border-radius:16px;
@@ -212,9 +196,7 @@ nav a.active{
   margin-top:5px;
 }
 
-
-/* ================= ERROR ================= */
-
+/* ERROR */
 .error-box{
   display:none;
   background:#fff0f0;
@@ -227,9 +209,7 @@ nav a.active{
   font-size:14px;
 }
 
-
-/* ================= BUTTON ================= */
-
+/* BUTTON */
 .submit-btn{
   width:100%;
   border:none;
@@ -242,16 +222,11 @@ nav a.active{
     );
 
   color:#fff;
-
   padding:14px 20px;
-
   border-radius:9px;
-
   font-size:16px;
   font-weight:bold;
-
   cursor:pointer;
-
   transition:.2s;
 }
 
@@ -267,39 +242,28 @@ nav a.active{
   box-shadow:none;
 }
 
-
-/* ================= SUCCESS ================= */
-
+/* SUCCESS */
 .success-card{
   display:none;
-
   background:#fff;
-
   border-radius:16px;
-
   padding:35px 25px;
-
   box-shadow:0 5px 25px rgba(0,0,0,.08);
-
   text-align:center;
 }
 
 .success-icon{
-  width:70px;
-  height:70px;
-
+  width:75px;
+  height:75px;
   margin:0 auto 18px;
-
   border-radius:50%;
-
   background:#e8f7ed;
   color:#15803d;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  font-size:35px;
+  font-size:38px;
+  font-weight:bold;
 }
 
 .success-card h3{
@@ -314,51 +278,42 @@ nav a.active{
   margin-bottom:20px;
 }
 
+/* COMPLAINT NUMBER */
 .reference-box{
   background:#fff7ed;
-
   border:2px dashed #d47b32;
-
   border-radius:12px;
-
-  padding:18px;
-
+  padding:22px 18px;
   margin:20px auto;
-
-  max-width:500px;
+  max-width:550px;
 }
 
 .reference-label{
-  font-size:12px;
+  font-size:13px;
   color:#777;
-  margin-bottom:7px;
+  margin-bottom:10px;
   text-transform:uppercase;
-  letter-spacing:.5px;
+  letter-spacing:.6px;
+  font-weight:bold;
 }
 
 .reference-number{
-  font-size:27px;
+  font-size:30px;
   font-weight:bold;
   color:#7b1e00;
-  letter-spacing:1px;
+  letter-spacing:1.5px;
   word-break:break-word;
+  padding:8px;
 }
 
 .copy-btn{
   margin-top:12px;
-
   background:#fff;
-
   color:#7b1e00;
-
   border:1px solid #7b1e00;
-
-  padding:9px 15px;
-
+  padding:10px 17px;
   border-radius:7px;
-
   cursor:pointer;
-
   font-weight:bold;
 }
 
@@ -368,19 +323,12 @@ nav a.active{
 
 .new-btn{
   display:inline-block;
-
   border:none;
-
   background:#7b1e00;
-
   color:#fff;
-
   padding:12px 20px;
-
   border-radius:8px;
-
   font-weight:bold;
-
   cursor:pointer;
 }
 
@@ -388,18 +336,12 @@ nav a.active{
   background:#a63d00;
 }
 
-
-/* ================= FOOTER ================= */
-
+/* FOOTER */
 footer{
   margin-top:50px;
-
   background:#21120d;
-
   color:#fff;
-
   text-align:center;
-
   padding:28px 15px;
 }
 
@@ -409,9 +351,7 @@ footer p{
   opacity:.85;
 }
 
-
-/* ================= MOBILE ================= */
-
+/* MOBILE */
 @media(max-width:800px){
 
   .header-inner{
@@ -426,7 +366,6 @@ footer p{
   .hero h2{
     font-size:32px;
   }
-
 }
 
 @media(max-width:600px){
@@ -444,124 +383,62 @@ footer p{
   }
 
   .reference-number{
-    font-size:22px;
+    font-size:23px;
   }
 
+  .success-card{
+    padding:28px 18px;
+  }
 }
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header>
-
 <div class="header-inner">
 
 <div class="brand">
-
-<h1>
-Maa Basuli Uda Jatra Committee
-</h1>
-
-<p>
-Thakurmunda, Mayurbhanj, Odisha
-</p>
-
+<h1>Maa Basuli Uda Jatra Committee</h1>
+<p>Thakurmunda, Mayurbhanj, Odisha</p>
 </div>
 
-
 <nav>
-
-<a href="index.html">
-Home
-</a>
-
-<a href="about.html">
-About
-</a>
-
-<a href="jatra.html">
-Uda Jatra
-</a>
-
-<a href="notices.html">
-Notices
-</a>
-
-<a href="events.html">
-Events
-</a>
-
-<a href="gallery.html">
-Gallery
-</a>
-
-<a href="members.html">
-Members
-</a>
-
-<a href="complaint.html" class="active">
-Complaint
-</a>
-
-<a href="contact.html">
-Contact
-</a>
-
+<a href="index.html">Home</a>
+<a href="about.html">About</a>
+<a href="jatra.html">Uda Jatra</a>
+<a href="notices.html">Notices</a>
+<a href="events.html">Events</a>
+<a href="gallery.html">Gallery</a>
+<a href="members.html">Members</a>
+<a href="complaint.html" class="active">Complaint</a>
+<a href="contact.html">Contact</a>
 </nav>
 
 </div>
-
 </header>
 
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
 <section class="hero">
-
 <div>
-
-<h2>
-Complaint Box
-</h2>
+<h2>Complaint Box</h2>
 
 <p>
 Maa Basuli Uda Jatra Committee sambandhare
 apananka complaint, suggestion ba grievance submit karantu.
 </p>
-
 </div>
-
 </section>
 
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
 <main class="container">
-
 
 <h2 class="page-title">
 Submit Your Complaint
 </h2>
 
-
 <p class="page-subtitle">
 Apananka complaint Committee dwara review kara jiba.
-Complaint submit pare apananku eka Reference Number miliba.
+Complaint submit pare apananku eka Complaint Number miliba.
 </p>
-
 
 <div class="info-box">
 
@@ -571,36 +448,24 @@ Apananka mobile number ebam anya personal details
 public website re display heba nahin.
 
 Complaint submit pare milithiba
-<strong>Reference Number</strong>
+<strong>Complaint Number</strong>
 future follow-up pain surakshita rakhnthu.
 
 </div>
 
-
-<!-- =====================================================
-     FORM CARD
-===================================================== -->
-
+<!-- FORM -->
 <div id="formCard" class="form-card">
 
-<h3>
-Complaint Details
-</h3>
-
+<h3>Complaint Details</h3>
 
 <div id="errorBox" class="error-box"></div>
 
-
 <form id="complaintForm">
-
-
-<!-- NAME -->
 
 <div class="form-group">
 
 <label for="name">
-Full Name
-<span class="required">*</span>
+Full Name <span class="required">*</span>
 </label>
 
 <input
@@ -614,14 +479,10 @@ autocomplete="name"
 
 </div>
 
-
-<!-- MOBILE -->
-
 <div class="form-group">
 
 <label for="mobile">
-Mobile Number
-<span class="required">*</span>
+Mobile Number <span class="required">*</span>
 </label>
 
 <input
@@ -636,14 +497,10 @@ autocomplete="tel"
 
 </div>
 
-
-<!-- ADDRESS -->
-
 <div class="form-group">
 
 <label for="address">
-Address
-<span class="required">*</span>
+Address <span class="required">*</span>
 </label>
 
 <textarea
@@ -655,14 +512,10 @@ required
 
 </div>
 
-
-<!-- COMPLAINT -->
-
 <div class="form-group">
 
 <label for="complaintText">
-Complaint / Grievance
-<span class="required">*</span>
+Complaint / Grievance <span class="required">*</span>
 </label>
 
 <textarea
@@ -678,7 +531,6 @@ required
 
 </div>
 
-
 <button
 type="submit"
 id="submitBtn"
@@ -687,40 +539,31 @@ class="submit-btn"
 Submit Complaint
 </button>
 
-
 </form>
 
 </div>
 
-
-<!-- =====================================================
-     SUCCESS CARD
-===================================================== -->
-
+<!-- SUCCESS CARD -->
 <div id="successCard" class="success-card">
 
 <div class="success-icon">
 ✓
 </div>
 
-
 <h3>
 Complaint Submitted Successfully
 </h3>
-
 
 <p>
 Apananka complaint successfully receive heichi.
 Committee review pare appropriate action neba.
 </p>
 
-
 <div class="reference-box">
 
 <div class="reference-label">
-Your Complaint Reference Number
+Your Complaint Number
 </div>
-
 
 <div
 id="referenceNumber"
@@ -729,23 +572,21 @@ class="reference-number"
 -
 </div>
 
-
 <button
 type="button"
 id="copyBtn"
 class="copy-btn"
 >
-📋 Copy Reference Number
+📋 Copy Complaint Number
 </button>
 
 </div>
 
-
 <p>
-Ei Reference Number ku future follow-up pain
+<strong>Important:</strong><br>
+Ei Complaint Number ku future follow-up pain
 save kari rakhnthu.
 </p>
-
 
 <button
 type="button"
@@ -757,13 +598,7 @@ Submit Another Complaint
 
 </div>
 
-
 </main>
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
 
 <footer>
 
@@ -778,7 +613,6 @@ Official Committee Website
 
 </footer>
 
-
 <script>
 
 /* =========================================================
@@ -790,7 +624,6 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -869,7 +702,7 @@ function validateMobile(mobile){
 
 
 /* =========================================================
-   ERROR MESSAGE
+   ERROR
 ========================================================= */
 
 function showError(message){
@@ -884,7 +717,6 @@ function showError(message){
   });
 
 }
-
 
 function hideError(){
 
@@ -907,28 +739,20 @@ complaintForm.addEventListener(
 
     hideError();
 
-
-    /* -----------------------------------------------
-       GET VALUES
-    ------------------------------------------------ */
-
     const name =
       document.getElementById("name")
       .value
       .trim();
-
 
     const mobile =
       document.getElementById("mobile")
       .value
       .trim();
 
-
     const address =
       document.getElementById("address")
       .value
       .trim();
-
 
     const complaint =
       complaintText
@@ -936,9 +760,7 @@ complaintForm.addEventListener(
       .trim();
 
 
-    /* -----------------------------------------------
-       VALIDATION
-    ------------------------------------------------ */
+    /* VALIDATION */
 
     if(!name){
 
@@ -947,9 +769,7 @@ complaintForm.addEventListener(
       );
 
       return;
-
     }
-
 
     if(!validateMobile(mobile)){
 
@@ -958,9 +778,7 @@ complaintForm.addEventListener(
       );
 
       return;
-
     }
-
 
     if(!address){
 
@@ -969,9 +787,7 @@ complaintForm.addEventListener(
       );
 
       return;
-
     }
-
 
     if(complaint.length < 10){
 
@@ -980,13 +796,10 @@ complaintForm.addEventListener(
       );
 
       return;
-
     }
 
 
-    /* -----------------------------------------------
-       LOADING
-    ------------------------------------------------ */
+    /* LOADING */
 
     submitBtn.disabled = true;
 
@@ -996,51 +809,42 @@ complaintForm.addEventListener(
 
     try{
 
+      /*
+       IMPORTANT:
 
-      /* =================================================
-         IMPORTANT
+       Complaint submission is done ONLY through
+       the secure Supabase RPC.
 
-         DO NOT use:
+       There is NO direct:
+       .from("complaints").insert(...)
+       here.
+      */
 
-         .from("complaints").insert(...)
-
-         DO NOT use:
-
-         .select("reference_no")
-
-         Public complaint submission is handled only
-         through the secure RPC.
-      ================================================= */
-
-
-      const result =
-        await supabaseClient.rpc(
-          "submit_public_complaint",
-          {
-            p_name: name,
-            p_mobile: mobile,
-            p_address: address,
-            p_complaint_text: complaint
-          }
-        );
-
-
-      console.log(
-        "Complaint RPC result:",
-        result
+      const {
+        data,
+        error
+      } =
+      await supabaseClient.rpc(
+        "submit_public_complaint",
+        {
+          p_name: name,
+          p_mobile: mobile,
+          p_address: address,
+          p_complaint_text: complaint
+        }
       );
 
 
-      const data =
-        result.data;
+      console.log(
+        "Complaint RPC response:",
+        {
+          data,
+          error
+        }
+      );
 
-      const error =
-        result.error;
 
-
-      /* -----------------------------------------------
-         RPC ERROR
-      ------------------------------------------------ */
+      /* RPC ERROR */
 
       if(error){
 
@@ -1053,13 +857,10 @@ complaintForm.addEventListener(
           error.message ||
           "Complaint submission failed."
         );
-
       }
 
 
-      /* -----------------------------------------------
-         NO REFERENCE
-      ------------------------------------------------ */
+      /* CHECK REFERENCE NUMBER */
 
       if(
         data === null ||
@@ -1068,34 +869,41 @@ complaintForm.addEventListener(
       ){
 
         throw new Error(
-          "Complaint was submitted, but Reference Number was not returned."
+          "Complaint submission completed, but Complaint Number was not returned."
         );
-
       }
 
 
-      /* -----------------------------------------------
-         SUCCESS
-      ------------------------------------------------ */
+      /*
+       SUCCESS
 
-      const generatedReference =
+       Example:
+       MB-CMP-00005
+      */
+
+      const generatedComplaintNumber =
         String(data).trim();
 
 
       referenceNumber.textContent =
-        generatedReference;
+        generatedComplaintNumber;
 
+
+      /*
+       VERY IMPORTANT:
+
+       Only AFTER successful RPC response,
+       hide form and show success card.
+      */
 
       formCard.style.display =
         "none";
-
 
       successCard.style.display =
         "block";
 
 
       complaintForm.reset();
-
 
       charCount.textContent =
         "0 / 3000";
@@ -1106,7 +914,6 @@ complaintForm.addEventListener(
         behavior:"smooth"
       });
 
-
     }
     catch(error){
 
@@ -1114,7 +921,6 @@ complaintForm.addEventListener(
         "Complaint submission failed:",
         error
       );
-
 
       showError(
         error.message ||
@@ -1137,7 +943,7 @@ complaintForm.addEventListener(
 
 
 /* =========================================================
-   COPY REFERENCE NUMBER
+   COPY COMPLAINT NUMBER
 ========================================================= */
 
 copyBtn.addEventListener(
@@ -1147,13 +953,13 @@ copyBtn.addEventListener(
     const reference =
       referenceNumber.textContent.trim();
 
-
-    if(!reference){
+    if(
+      !reference ||
+      reference === "-"
+    ){
 
       return;
-
     }
-
 
     try{
 
@@ -1161,27 +967,24 @@ copyBtn.addEventListener(
         reference
       );
 
-
       copyBtn.textContent =
         "✓ Copied";
-
 
       setTimeout(
         function(){
 
           copyBtn.textContent =
-            "📋 Copy Reference Number";
+            "📋 Copy Complaint Number";
 
         },
         2000
       );
 
-
     }
     catch(error){
 
       window.prompt(
-        "Copy your Complaint Reference Number:",
+        "Copy your Complaint Number:",
         reference
       );
 
@@ -1192,7 +995,7 @@ copyBtn.addEventListener(
 
 
 /* =========================================================
-   NEW COMPLAINT
+   SUBMIT ANOTHER COMPLAINT
 ========================================================= */
 
 newComplaintBtn.addEventListener(
@@ -1202,24 +1005,18 @@ newComplaintBtn.addEventListener(
     successCard.style.display =
       "none";
 
-
     formCard.style.display =
       "block";
 
-
     hideError();
 
-
     complaintForm.reset();
-
 
     charCount.textContent =
       "0 / 3000";
 
-
     referenceNumber.textContent =
       "-";
-
 
     window.scrollTo({
       top:0,
