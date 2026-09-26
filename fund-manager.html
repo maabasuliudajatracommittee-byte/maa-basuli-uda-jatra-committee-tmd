@@ -64,6 +64,11 @@ button{
   font-weight:bold;
 }
 
+button:disabled{
+  opacity:.6;
+  cursor:not-allowed;
+}
+
 .back{
   background:#475569;
   color:white;
@@ -108,9 +113,16 @@ textarea{
   font-size:14px;
 }
 
+select:focus,
+input:focus,
+textarea:focus{
+  outline:none;
+  border-color:#7c2d12;
+}
+
 .year-bar select{
   width:auto;
-  min-width:130px;
+  min-width:140px;
 }
 
 textarea{
@@ -176,15 +188,16 @@ textarea{
 }
 
 .type-buttons{
-  display:flex;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
   gap:10px;
 }
 
 .type-btn{
-  flex:1;
   border:2px solid #d1d5db;
   background:#fff;
   color:#374151;
+  min-height:45px;
 }
 
 .type-btn.active-collection{
@@ -197,6 +210,30 @@ textarea{
   background:#dc2626;
   color:white;
   border-color:#dc2626;
+}
+
+.type-btn.active-donation{
+  background:#2563eb;
+  color:white;
+  border-color:#2563eb;
+}
+
+.type-btn.active-member-fee{
+  background:#7c3aed;
+  color:white;
+  border-color:#7c3aed;
+}
+
+.type-btn.active-income{
+  background:#0891b2;
+  color:white;
+  border-color:#0891b2;
+}
+
+.type-btn.active-savings{
+  background:#d97706;
+  color:white;
+  border-color:#d97706;
 }
 
 .form-actions{
@@ -257,7 +294,7 @@ textarea{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:1050px;
+  min-width:1450px;
 }
 
 th,
@@ -266,6 +303,7 @@ td{
   border-bottom:1px solid #e5e7eb;
   text-align:left;
   font-size:13px;
+  vertical-align:top;
 }
 
 th{
@@ -278,6 +316,7 @@ th{
   border-radius:20px;
   font-size:11px;
   font-weight:bold;
+  white-space:nowrap;
 }
 
 .badge-collection{
@@ -288,6 +327,26 @@ th{
 .badge-expense{
   background:#fee2e2;
   color:#991b1b;
+}
+
+.badge-donation{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.badge-member-fee{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+.badge-other-income{
+  background:#cffafe;
+  color:#0e7490;
+}
+
+.badge-savings{
+  background:#fef3c7;
+  color:#92400e;
 }
 
 .badge-published{
@@ -332,6 +391,39 @@ th{
   border:2px solid #d97706;
 }
 
+.transaction-title{
+  font-weight:bold;
+  margin-bottom:4px;
+}
+
+.transaction-description{
+  color:#64748b;
+  line-height:1.4;
+}
+
+.amount-income{
+  color:#15803d;
+  font-weight:bold;
+}
+
+.amount-expense{
+  color:#dc2626;
+  font-weight:bold;
+}
+
+.amount-savings{
+  color:#d97706;
+  font-weight:bold;
+}
+
+@media(max-width:900px){
+
+  .type-buttons{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
 @media(max-width:800px){
 
   .summary{
@@ -355,7 +447,7 @@ th{
   }
 
   .type-buttons{
-    flex-direction:column;
+    grid-template-columns:1fr;
   }
 
   .year-bar select{
@@ -382,6 +474,7 @@ th{
     </div>
 
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
+
       <button class="back" onclick="goBack()">
         ← Dashboard
       </button>
@@ -389,12 +482,14 @@ th{
       <button class="logout" onclick="logout()">
         Logout
       </button>
+
     </div>
 
   </div>
 
 
   <!-- YEAR -->
+
   <div class="card">
 
     <div class="year-bar">
@@ -420,18 +515,41 @@ th{
   <div class="summary">
 
     <div class="summary-box collection">
-      <small>Total Collection</small>
-      <strong id="totalCollection">₹0.00</strong>
+
+      <small>
+        Total Collection / Income
+      </small>
+
+      <strong id="totalCollection">
+        ₹0.00
+      </strong>
+
     </div>
+
 
     <div class="summary-box expense">
-      <small>Total Expense</small>
-      <strong id="totalExpense">₹0.00</strong>
+
+      <small>
+        Total Expense
+      </small>
+
+      <strong id="totalExpense">
+        ₹0.00
+      </strong>
+
     </div>
 
+
     <div class="summary-box balance">
-      <small>Available Balance / Savings</small>
-      <strong id="totalSavings">₹0.00</strong>
+
+      <small>
+        Available Balance / Savings
+      </small>
+
+      <strong id="totalSavings">
+        ₹0.00
+      </strong>
+
     </div>
 
   </div>
@@ -447,6 +565,9 @@ th{
 
     <div class="form-grid">
 
+
+      <!-- TRANSACTION TYPE -->
+
       <div class="form-group full">
 
         <label>
@@ -460,9 +581,31 @@ th{
             id="collectionBtn"
             class="type-btn active-collection"
             onclick="setTransactionType('Collection')">
-
             💰 Collection
+          </button>
 
+          <button
+            type="button"
+            id="donationBtn"
+            class="type-btn"
+            onclick="setTransactionType('Donation')">
+            🎁 Donation
+          </button>
+
+          <button
+            type="button"
+            id="memberFeeBtn"
+            class="type-btn"
+            onclick="setTransactionType('Member Fee')">
+            👥 Member Fee
+          </button>
+
+          <button
+            type="button"
+            id="otherIncomeBtn"
+            class="type-btn"
+            onclick="setTransactionType('Other Income')">
+            ➕ Other Income
           </button>
 
           <button
@@ -470,15 +613,23 @@ th{
             id="expenseBtn"
             class="type-btn"
             onclick="setTransactionType('Expense')">
-
             💸 Expense
+          </button>
 
+          <button
+            type="button"
+            id="savingsBtn"
+            class="type-btn"
+            onclick="setTransactionType('Savings')">
+            🏦 Savings
           </button>
 
         </div>
 
       </div>
 
+
+      <!-- DATE -->
 
       <div class="form-group">
 
@@ -492,6 +643,8 @@ th{
 
       </div>
 
+
+      <!-- AMOUNT -->
 
       <div class="form-group">
 
@@ -509,6 +662,24 @@ th{
       </div>
 
 
+      <!-- TITLE -->
+
+      <div class="form-group">
+
+        <label for="title">
+          Title / Particular
+        </label>
+
+        <input
+          type="text"
+          id="title"
+          placeholder="e.g. Jatra Donation, Decoration Expense">
+
+      </div>
+
+
+      <!-- CATEGORY -->
+
       <div class="form-group">
 
         <label for="category">
@@ -522,6 +693,79 @@ th{
 
       </div>
 
+
+      <!-- PAYMENT MODE -->
+
+      <div class="form-group">
+
+        <label for="paymentMode">
+          Payment Mode
+        </label>
+
+        <select id="paymentMode">
+
+          <option value="">
+            Select Payment Mode
+          </option>
+
+          <option value="Cash">
+            Cash
+          </option>
+
+          <option value="UPI">
+            UPI
+          </option>
+
+          <option value="Bank Transfer">
+            Bank Transfer
+          </option>
+
+          <option value="Cheque">
+            Cheque
+          </option>
+
+          <option value="Other">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- DONOR -->
+
+      <div class="form-group">
+
+        <label for="donorName">
+          Donor / Payer Name
+        </label>
+
+        <input
+          type="text"
+          id="donorName"
+          placeholder="Optional">
+
+      </div>
+
+
+      <!-- RECEIPT -->
+
+      <div class="form-group">
+
+        <label for="receiptNo">
+          Receipt No.
+        </label>
+
+        <input
+          type="text"
+          id="receiptNo"
+          placeholder="Optional receipt number">
+
+      </div>
+
+
+      <!-- REFERENCE -->
 
       <div class="form-group">
 
@@ -537,15 +781,17 @@ th{
       </div>
 
 
+      <!-- DESCRIPTION -->
+
       <div class="form-group full">
 
         <label for="description">
-          Particular / Description
+          Description
         </label>
 
         <textarea
           id="description"
-          placeholder="Enter transaction details"></textarea>
+          placeholder="Enter complete transaction details"></textarea>
 
       </div>
 
@@ -588,6 +834,7 @@ th{
       Fund Transactions
     </h3>
 
+
     <div
       style="
         display:flex;
@@ -600,14 +847,15 @@ th{
       <input
         type="search"
         id="transactionSearch"
-        placeholder="Search category / description / reference..."
+        placeholder="Search title / category / donor / description / reference..."
         oninput="renderTransactions()"
         style="flex:1;min-width:250px;">
+
 
       <select
         id="typeFilter"
         onchange="renderTransactions()"
-        style="width:auto;min-width:150px;">
+        style="width:auto;min-width:180px;">
 
         <option value="all">
           All Types
@@ -617,8 +865,24 @@ th{
           Collection
         </option>
 
+        <option value="Donation">
+          Donation
+        </option>
+
+        <option value="Member Fee">
+          Member Fee
+        </option>
+
+        <option value="Other Income">
+          Other Income
+        </option>
+
         <option value="Expense">
           Expense
+        </option>
+
+        <option value="Savings">
+          Savings
         </option>
 
       </select>
@@ -636,9 +900,11 @@ th{
 
             <th>Date</th>
             <th>Type</th>
-            <th>Category</th>
+            <th>Title / Category</th>
+            <th>Donor / Payer</th>
+            <th>Payment Mode</th>
             <th>Description</th>
-            <th>Reference</th>
+            <th>Reference / Receipt</th>
             <th>Amount</th>
             <th>Visibility</th>
             <th>Action</th>
@@ -650,9 +916,11 @@ th{
         <tbody id="transactionsBody">
 
           <tr>
-            <td colspan="8" class="loading">
+
+            <td colspan="10" class="loading">
               Loading transactions...
             </td>
+
           </tr>
 
         </tbody>
@@ -673,6 +941,7 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
 
 const supabaseClient =
   window.supabase.createClient(
@@ -706,6 +975,7 @@ document.addEventListener(
       }
     } = await supabaseClient.auth.getSession();
 
+
     if(!session){
 
       window.location.href =
@@ -714,10 +984,12 @@ document.addEventListener(
       return;
     }
 
+
     document.getElementById(
       "adminEmail"
     ).textContent =
       session.user.email || "";
+
 
     await checkSuperAdmin();
 
@@ -736,6 +1008,7 @@ async function checkSuperAdmin(){
       user
     }
   } = await supabaseClient.auth.getUser();
+
 
   if(!user){
 
@@ -791,7 +1064,7 @@ async function checkSuperAdmin(){
 
 
 /* =====================================
-   YEAR LIST
+   FINANCIAL YEAR LIST
 ===================================== */
 
 function populateYears(){
@@ -801,11 +1074,18 @@ function populateYears(){
       "yearSelect"
     );
 
+
   const currentYear =
     new Date().getFullYear();
 
+
   select.innerHTML = "";
 
+
+  /*
+    Shows current year + 2 future years
+    and previous years from 2020-21.
+  */
 
   for(
     let year = currentYear + 2;
@@ -813,17 +1093,55 @@ function populateYears(){
     year--
   ){
 
+    const startYear =
+      year;
+
+    const endYear =
+      year + 1;
+
+
+    const financialYear =
+      `${startYear}-${String(endYear).slice(-2)}`;
+
+
     const option =
       document.createElement("option");
 
-    option.value = year;
-    option.textContent = year;
 
-    if(year === currentYear){
+    option.value =
+      financialYear;
 
-      option.selected = true;
+
+    option.textContent =
+      financialYear;
+
+
+    /*
+      Current financial year selection.
+      April onwards = current year/current year+1.
+      January-March = previous year/current year.
+    */
+
+    const month =
+      new Date().getMonth() + 1;
+
+
+    const currentFinancialYear =
+      month >= 4
+        ? `${currentYear}-${String(currentYear + 1).slice(-2)}`
+        : `${currentYear - 1}-${String(currentYear).slice(-2)}`;
+
+
+    if(
+      financialYear ===
+      currentFinancialYear
+    ){
+
+      option.selected =
+        true;
 
     }
+
 
     select.appendChild(option);
 
@@ -841,18 +1159,22 @@ function setDefaultDate(){
   const now =
     new Date();
 
+
   const year =
     now.getFullYear();
+
 
   const month =
     String(
       now.getMonth() + 1
     ).padStart(2,"0");
 
+
   const day =
     String(
       now.getDate()
     ).padStart(2,"0");
+
 
   document.getElementById(
     "transactionDate"
@@ -869,18 +1191,16 @@ function setDefaultDate(){
 async function loadFundData(){
 
   const year =
-    Number(
-      document.getElementById(
-        "yearSelect"
-      ).value
-    );
+    document.getElementById(
+      "yearSelect"
+    ).value;
 
 
   document.getElementById(
     "transactionsBody"
   ).innerHTML = `
     <tr>
-      <td colspan="8" class="loading">
+      <td colspan="10" class="loading">
         Loading transactions...
       </td>
     </tr>
@@ -914,7 +1234,7 @@ async function loadFundData(){
       "transactionsBody"
     ).innerHTML = `
       <tr>
-        <td colspan="8" class="empty">
+        <td colspan="10" class="empty">
           Error loading fund records:
           ${escapeHtml(error.message)}
         </td>
@@ -942,59 +1262,102 @@ async function loadFundData(){
 
 function calculateSummary(){
 
-  let collection = 0;
+  let income =
+    0;
 
-  let expense = 0;
+  let expense =
+    0;
+
+  let savings =
+    0;
 
 
-  transactions.forEach(item => {
+  transactions.forEach(
+    item => {
 
-    const amount =
-      Number(item.amount) || 0;
+      const amount =
+        Number(item.amount) || 0;
 
 
-    if(
-      item.transaction_type ===
-      "Collection"
-    ){
+      /*
+        These are treated as income.
+      */
 
-      collection += amount;
+      if(
+        [
+          "Collection",
+          "Donation",
+          "Member Fee",
+          "Other Income"
+        ].includes(
+          item.transaction_type
+        )
+      ){
+
+        income += amount;
+
+      }
+
+
+      /*
+        Expense reduces balance.
+      */
+
+      if(
+        item.transaction_type ===
+        "Expense"
+      ){
+
+        expense += amount;
+
+      }
+
+
+      /*
+        Savings is money set aside.
+        It is not added to income.
+        It reduces available balance.
+      */
+
+      if(
+        item.transaction_type ===
+        "Savings"
+      ){
+
+        savings += amount;
+
+      }
 
     }
+  );
 
 
-    if(
-      item.transaction_type ===
-      "Expense"
-    ){
-
-      expense += amount;
-
-    }
-
-  });
-
-
-  const savings =
-    collection - expense;
+  const availableBalance =
+    income - expense - savings;
 
 
   document.getElementById(
     "totalCollection"
   ).textContent =
-    formatCurrency(collection);
+    formatCurrency(
+      income
+    );
 
 
   document.getElementById(
     "totalExpense"
   ).textContent =
-    formatCurrency(expense);
+    formatCurrency(
+      expense
+    );
 
 
   document.getElementById(
     "totalSavings"
   ).textContent =
-    formatCurrency(savings);
+    formatCurrency(
+      availableBalance
+    );
 
 }
 
@@ -1027,46 +1390,65 @@ function renderTransactions(){
 
 
   const list =
-    transactions.filter(item => {
-
-      const searchable = [
-
-        item.category,
-        item.description,
-        item.reference_no
-
-      ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
+    transactions.filter(
+      item => {
 
 
-      const matchesSearch =
-        !search ||
-        searchable.includes(search);
+        const searchable = [
+
+          item.title,
+
+          item.category,
+
+          item.donor_name,
+
+          item.description,
+
+          item.reference_no,
+
+          item.receipt_no,
+
+          item.payment_mode
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
 
 
-      const matchesType =
-        typeFilter === "all" ||
-        item.transaction_type ===
-        typeFilter;
+        const matchesSearch =
+          !search ||
+          searchable.includes(
+            search
+          );
 
 
-      return (
-        matchesSearch &&
-        matchesType
-      );
-
-    });
+        const matchesType =
+          typeFilter === "all" ||
+          item.transaction_type ===
+          typeFilter;
 
 
-  if(list.length === 0){
+        return (
+          matchesSearch &&
+          matchesType
+        );
+
+      }
+    );
+
+
+  if(
+    list.length === 0
+  ){
 
     tbody.innerHTML = `
       <tr>
-        <td colspan="8" class="empty">
+        <td colspan="10" class="empty">
           No fund transactions found
-          for this year.
+          for ${escapeHtml(
+            document.getElementById("yearSelect").value
+          )}.
         </td>
       </tr>
     `;
@@ -1076,129 +1458,234 @@ function renderTransactions(){
 
 
   tbody.innerHTML =
-    list.map(item => {
+    list.map(
+      item => {
 
-      const typeBadge =
-        item.transaction_type ===
-        "Collection"
 
-        ? `
-          <span class="badge badge-collection">
-            Collection
-          </span>
-        `
+        const typeBadge =
+          getTypeBadge(
+            item.transaction_type
+          );
 
-        : `
-          <span class="badge badge-expense">
-            Expense
-          </span>
+
+        const visibility =
+          item.is_published
+
+          ? `
+            <span class="badge badge-published">
+              Published
+            </span>
+          `
+
+          : `
+            <span class="badge badge-hidden">
+              Hidden
+            </span>
+          `;
+
+
+        const amount =
+          formatCurrency(
+            Number(item.amount)
+          );
+
+
+        const amountClass =
+          item.transaction_type === "Expense"
+            ? "amount-expense"
+            : item.transaction_type === "Savings"
+              ? "amount-savings"
+              : "amount-income";
+
+
+        const title =
+          item.title ||
+          item.category ||
+          "—";
+
+
+        const category =
+          item.category
+            ? `<div style="color:#64748b;font-size:12px;margin-top:3px;">
+                ${escapeHtml(item.category)}
+               </div>`
+            : "";
+
+
+        const description =
+          item.description ||
+          "—";
+
+
+        const referenceReceipt = [
+
+          item.reference_no
+            ? `Ref: ${escapeHtml(item.reference_no)}`
+            : "",
+
+          item.receipt_no
+            ? `Receipt: ${escapeHtml(item.receipt_no)}`
+            : ""
+
+        ]
+        .filter(Boolean)
+        .join("<br>") || "—";
+
+
+        return `
+
+          <tr>
+
+            <td>
+              ${formatDate(
+                item.transaction_date
+              )}
+            </td>
+
+
+            <td>
+              ${typeBadge}
+            </td>
+
+
+            <td>
+
+              <div class="transaction-title">
+                ${escapeHtml(title)}
+              </div>
+
+              ${category}
+
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+                item.donor_name || "—"
+              )}
+            </td>
+
+
+            <td>
+              ${escapeHtml(
+                item.payment_mode || "—"
+              )}
+            </td>
+
+
+            <td>
+
+              <div class="transaction-description">
+                ${escapeHtml(description)}
+              </div>
+
+            </td>
+
+
+            <td>
+              ${referenceReceipt}
+            </td>
+
+
+            <td>
+
+              <strong class="${amountClass}">
+                ${amount}
+              </strong>
+
+            </td>
+
+
+            <td>
+              ${visibility}
+            </td>
+
+
+            <td>
+
+              <div class="actions">
+
+                <button
+                  class="secondary"
+                  onclick="editTransaction('${item.id}')">
+
+                  Edit
+
+                </button>
+
+
+                <button
+                  class="warning"
+                  onclick="togglePublish(
+                    '${item.id}',
+                    ${item.is_published}
+                  )">
+
+                  ${
+                    item.is_published
+                      ? "Hide"
+                      : "Publish"
+                  }
+
+                </button>
+
+
+                <button
+                  class="danger"
+                  onclick="deleteTransaction('${item.id}')">
+
+                  Delete
+
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
         `;
 
+      }
+    ).join("");
 
-      const visibility =
-        item.is_published
-
-        ? `
-          <span class="badge badge-published">
-            Published
-          </span>
-        `
-
-        : `
-          <span class="badge badge-hidden">
-            Hidden
-          </span>
-        `;
+}
 
 
-      const amount =
-        formatCurrency(
-          Number(item.amount)
-        );
+/* =====================================
+   TYPE BADGE
+===================================== */
+
+function getTypeBadge(type){
+
+  const classes = {
+
+    "Collection":
+      "badge badge-collection",
+
+    "Donation":
+      "badge badge-donation",
+
+    "Member Fee":
+      "badge badge-member-fee",
+
+    "Other Income":
+      "badge badge-other-income",
+
+    "Expense":
+      "badge badge-expense",
+
+    "Savings":
+      "badge badge-savings"
+
+  };
 
 
-      return `
-
-        <tr>
-
-          <td>
-            ${formatDate(item.transaction_date)}
-          </td>
-
-          <td>
-            ${typeBadge}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.category || "—"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.description || "—"
-            )}
-          </td>
-
-          <td>
-            ${escapeHtml(
-              item.reference_no || "—"
-            )}
-          </td>
-
-          <td>
-            <strong>
-              ${amount}
-            </strong>
-          </td>
-
-          <td>
-            ${visibility}
-          </td>
-
-          <td>
-
-            <div class="actions">
-
-              <button
-                class="secondary"
-                onclick="editTransaction('${item.id}')">
-
-                Edit
-
-              </button>
-
-              <button
-                class="warning"
-                onclick="togglePublish(
-                  '${item.id}',
-                  ${item.is_published}
-                )">
-
-                ${item.is_published
-                  ? "Hide"
-                  : "Publish"}
-
-              </button>
-
-              <button
-                class="danger"
-                onclick="deleteTransaction('${item.id}')">
-
-                Delete
-
-              </button>
-
-            </div>
-
-          </td>
-
-        </tr>
-
-      `;
-
-    }).join("");
+  return `
+    <span class="${classes[type] || "badge badge-hidden"}">
+      ${escapeHtml(type || "Unknown")}
+    </span>
+  `;
 
 }
 
@@ -1213,36 +1700,80 @@ function setTransactionType(type){
     type;
 
 
-  const collectionBtn =
-    document.getElementById(
-      "collectionBtn"
-    );
+  const ids = [
 
-  const expenseBtn =
-    document.getElementById(
-      "expenseBtn"
-    );
+    "collectionBtn",
+    "donationBtn",
+    "memberFeeBtn",
+    "otherIncomeBtn",
+    "expenseBtn",
+    "savingsBtn"
 
-
-  collectionBtn.className =
-    "type-btn";
+  ];
 
 
-  expenseBtn.className =
-    "type-btn";
+  ids.forEach(
+    id => {
+
+      document.getElementById(
+        id
+      ).className =
+        "type-btn";
+
+    }
+  );
 
 
-  if(type === "Collection"){
+  const activeClasses = {
 
-    collectionBtn.className =
-      "type-btn active-collection";
+    "Collection":
+      "type-btn active-collection",
 
-  }else{
+    "Donation":
+      "type-btn active-donation",
 
-    expenseBtn.className =
-      "type-btn active-expense";
+    "Member Fee":
+      "type-btn active-member-fee",
 
-  }
+    "Other Income":
+      "type-btn active-income",
+
+    "Expense":
+      "type-btn active-expense",
+
+    "Savings":
+      "type-btn active-savings"
+
+  };
+
+
+  const buttonMap = {
+
+    "Collection":
+      "collectionBtn",
+
+    "Donation":
+      "donationBtn",
+
+    "Member Fee":
+      "memberFeeBtn",
+
+    "Other Income":
+      "otherIncomeBtn",
+
+    "Expense":
+      "expenseBtn",
+
+    "Savings":
+      "savingsBtn"
+
+  };
+
+
+  document.getElementById(
+    buttonMap[type]
+  ).className =
+    activeClasses[type];
 
 }
 
@@ -1254,11 +1785,9 @@ function setTransactionType(type){
 async function saveTransaction(){
 
   const year =
-    Number(
-      document.getElementById(
-        "yearSelect"
-      ).value
-    );
+    document.getElementById(
+      "yearSelect"
+    ).value;
 
 
   const date =
@@ -1275,9 +1804,33 @@ async function saveTransaction(){
     );
 
 
+  const title =
+    document.getElementById(
+      "title"
+    ).value.trim();
+
+
   const category =
     document.getElementById(
       "category"
+    ).value.trim();
+
+
+  const paymentMode =
+    document.getElementById(
+      "paymentMode"
+    ).value;
+
+
+  const donorName =
+    document.getElementById(
+      "donorName"
+    ).value.trim();
+
+
+  const receiptNo =
+    document.getElementById(
+      "receiptNo"
     ).value.trim();
 
 
@@ -1315,11 +1868,23 @@ async function saveTransaction(){
   }
 
 
+  if(!title){
+
+    showFormMessage(
+      "Please enter Title / Particular.",
+      false
+    );
+
+    return;
+  }
+
+
   const {
     data: {
       user
     }
-  } = await supabaseClient.auth.getUser();
+  } =
+    await supabaseClient.auth.getUser();
 
 
   if(!user){
@@ -1335,18 +1900,24 @@ async function saveTransaction(){
   }
 
 
+  /*
+    IMPORTANT:
+    financial_year is TEXT in Supabase.
+  */
+
   const payload = {
 
-    financial_year: year,
+    financial_year:
+      year,
 
     transaction_type:
       transactionType,
 
-    transaction_date:
-      date,
-
     amount:
       amount,
+
+    title:
+      title,
 
     category:
       category || null,
@@ -1354,8 +1925,20 @@ async function saveTransaction(){
     description:
       description || null,
 
+    transaction_date:
+      date,
+
+    payment_mode:
+      paymentMode || null,
+
     reference_no:
-      referenceNo || null
+      referenceNo || null,
+
+    donor_name:
+      donorName || null,
+
+    receipt_no:
+      receiptNo || null
 
   };
 
@@ -1367,19 +1950,31 @@ async function saveTransaction(){
 
     result =
       await supabaseClient
-        .from("fund_transactions")
-        .update(payload)
-        .eq("id", editingId);
+        .from(
+          "fund_transactions"
+        )
+        .update(
+          payload
+        )
+        .eq(
+          "id",
+          editingId
+        );
 
   }else{
 
     payload.created_by =
       user.id;
 
+
     result =
       await supabaseClient
-        .from("fund_transactions")
-        .insert(payload);
+        .from(
+          "fund_transactions"
+        )
+        .insert(
+          payload
+        );
 
   }
 
@@ -1405,6 +2000,7 @@ async function saveTransaction(){
 
   cancelEdit();
 
+
   await loadFundData();
 
 }
@@ -1418,11 +2014,13 @@ function editTransaction(id){
 
   const item =
     transactions.find(
-      row => row.id === id
+      row =>
+        row.id === id
     );
 
 
-  if(!item) return;
+  if(!item)
+    return;
 
 
   editingId =
@@ -1449,31 +2047,64 @@ function editTransaction(id){
   document.getElementById(
     "transactionDate"
   ).value =
-    item.transaction_date;
+    item.transaction_date ||
+    "";
 
 
   document.getElementById(
     "amount"
   ).value =
-    item.amount;
+    item.amount ||
+    "";
+
+
+  document.getElementById(
+    "title"
+  ).value =
+    item.title ||
+    "";
 
 
   document.getElementById(
     "category"
   ).value =
-    item.category || "";
+    item.category ||
+    "";
+
+
+  document.getElementById(
+    "paymentMode"
+  ).value =
+    item.payment_mode ||
+    "";
+
+
+  document.getElementById(
+    "donorName"
+  ).value =
+    item.donor_name ||
+    "";
+
+
+  document.getElementById(
+    "receiptNo"
+  ).value =
+    item.receipt_no ||
+    "";
 
 
   document.getElementById(
     "referenceNo"
   ).value =
-    item.reference_no || "";
+    item.reference_no ||
+    "";
 
 
   document.getElementById(
     "description"
   ).value =
-    item.description || "";
+    item.description ||
+    "";
 
 
   document.getElementById(
@@ -1540,25 +2171,54 @@ function cancelEdit(){
 
   document.getElementById(
     "amount"
-  ).value = "";
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "title"
+  ).value =
+    "";
 
 
   document.getElementById(
     "category"
-  ).value = "";
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "paymentMode"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "donorName"
+  ).value =
+    "";
+
+
+  document.getElementById(
+    "receiptNo"
+  ).value =
+    "";
 
 
   document.getElementById(
     "referenceNo"
-  ).value = "";
+  ).value =
+    "";
 
 
   document.getElementById(
     "description"
-  ).value = "";
+  ).value =
+    "";
 
 
   setDefaultDate();
+
 
   setTransactionType(
     "Collection"
@@ -1594,18 +2254,26 @@ async function togglePublish(
 
   const {
     error
-  } = await supabaseClient
-    .from("fund_transactions")
-    .update({
-      is_published:
-        !currentStatus
-    })
-    .eq("id", id);
+  } =
+    await supabaseClient
+      .from(
+        "fund_transactions"
+      )
+      .update({
+        is_published:
+          !currentStatus
+      })
+      .eq(
+        "id",
+        id
+      );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
@@ -1620,7 +2288,9 @@ async function togglePublish(
    DELETE
 ===================================== */
 
-async function deleteTransaction(id){
+async function deleteTransaction(
+  id
+){
 
   if(
     !confirm(
@@ -1634,15 +2304,23 @@ async function deleteTransaction(id){
 
   const {
     error
-  } = await supabaseClient
-    .from("fund_transactions")
-    .delete()
-    .eq("id", id);
+  } =
+    await supabaseClient
+      .from(
+        "fund_transactions"
+      )
+      .delete()
+      .eq(
+        "id",
+        id
+      );
 
 
   if(error){
 
-    alert(error.message);
+    alert(
+      error.message
+    );
 
     return;
   }
@@ -1684,7 +2362,9 @@ function showFormMessage(
    FORMAT CURRENCY
 ===================================== */
 
-function formatCurrency(amount){
+function formatCurrency(
+  amount
+){
 
   return new Intl.NumberFormat(
     "en-IN",
@@ -1704,7 +2384,9 @@ function formatCurrency(amount){
    FORMAT DATE
 ===================================== */
 
-function formatDate(value){
+function formatDate(
+  value
+){
 
   if(!value){
 
@@ -1735,7 +2417,9 @@ function formatDate(value){
    ESCAPE HTML
 ===================================== */
 
-function escapeHtml(value){
+function escapeHtml(
+  value
+){
 
   return String(
     value ?? ""
