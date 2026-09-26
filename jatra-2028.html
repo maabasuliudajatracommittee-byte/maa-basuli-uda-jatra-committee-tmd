@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Maa Basuli Uda Jatra 2028 | Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f6f7f9;
+  color:#222;
+  line-height:1.6;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* HEADER */
+
+header{
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:11px;
+}
+
+.logo-icon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:18px;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:11px;
+}
+
+nav{
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  padding:7px 9px;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+nav a:hover,
+nav a.active{
+  background:#f5e8e8;
+  color:#7b1e1e;
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:19px;
+}
+
+/* HERO */
+
+.hero{
+  background:
+    linear-gradient(rgba(72,17,10,.84),rgba(72,17,10,.84)),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+  text-align:center;
+  padding:85px 0;
+}
+
+.hero .year{
+  display:inline-block;
+  padding:7px 15px;
+  border:1px solid rgba(255,255,255,.4);
+  border-radius:30px;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.hero h2{
+  font-size:43px;
+  margin-bottom:8px;
+}
+
+.hero p{
+  font-size:16px;
+}
+
+/* NOTICE */
+
+.notice{
+  background:#fff5dd;
+  border-bottom:1px solid #f1dfb3;
+  padding:13px 0;
+}
+
+.notice-inner{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.notice strong{
+  color:#7b1e1e;
+  white-space:nowrap;
+}
+
+.notice span{
+  color:#6d5b38;
+  font-size:13px;
+}
+
+/* MAIN */
+
+.main{
+  padding:48px 0 70px;
+}
+
+/* INTRO */
+
+.intro{
+  background:#fff;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 5px 22px rgba(0,0,0,.07);
+  text-align:center;
+  max-width:900px;
+  margin:0 auto 30px;
+}
+
+.intro h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+  font-size:24px;
+}
+
+.intro p{
+  color:#666;
+  font-size:14px;
+}
+
+/* INFO GRID */
+
+.info-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.info-card{
+  background:#fff;
+  border-radius:13px;
+  padding:20px;
+  box-shadow:0 4px 17px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.info-icon{
+  font-size:27px;
+  margin-bottom:7px;
+}
+
+.info-card h4{
+  color:#7b1e1e;
+  font-size:14px;
+  margin-bottom:4px;
+}
+
+.info-card p{
+  color:#666;
+  font-size:12px;
+}
+
+/* SECTION TITLE */
+
+.section-title{
+  margin:35px 0 17px;
+}
+
+.section-title h3{
+  color:#7b1e1e;
+  font-size:24px;
+}
+
+.section-title p{
+  color:#777;
+  font-size:13px;
+}
+
+/* TIMELINE */
+
+.timeline{
+  position:relative;
+  margin:10px 0 35px;
+}
+
+.timeline:before{
+  content:"";
+  position:absolute;
+  left:25px;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#e0cfcf;
+}
+
+.timeline-item{
+  position:relative;
+  padding-left:65px;
+  margin-bottom:20px;
+}
+
+.timeline-dot{
+  position:absolute;
+  left:14px;
+  top:3px;
+  width:23px;
+  height:23px;
+  border-radius:50%;
+  background:#7b1e1e;
+  border:5px solid #f6f7f9;
+}
+
+.timeline-card{
+  background:#fff;
+  padding:19px 21px;
+  border-radius:12px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.timeline-card .date{
+  color:#a06a00;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.timeline-card h4{
+  color:#7b1e1e;
+  margin:3px 0;
+}
+
+.timeline-card p{
+  color:#666;
+  font-size:13px;
+}
+
+/* PROGRAMMES */
+
+.programme-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:17px;
+}
+
+.programme{
+  background:#fff;
+  padding:23px;
+  border-radius:13px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+}
+
+.programme .icon{
+  font-size:30px;
+}
+
+.programme h4{
+  color:#7b1e1e;
+  margin:7px 0 4px;
+}
+
+.programme p{
+  color:#666;
+  font-size:13px;
+}
+
+/* IMPORTANT */
+
+.important{
+  margin-top:30px;
+  background:#fff;
+  border-left:5px solid #7b1e1e;
+  padding:21px;
+  border-radius:10px;
+  box-shadow:0 3px 14px rgba(0,0,0,.05);
+}
+
+.important h3{
+  color:#7b1e1e;
+  margin-bottom:6px;
+}
+
+.important p{
+  color:#666;
+  font-size:13px;
+}
+
+/* YEAR LINKS */
+
+.year-links{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-top:25px;
+}
+
+.year-link{
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.year-link h4{
+  color:#7b1e1e;
+  font-size:21px;
+}
+
+.year-link p{
+  color:#777;
+  font-size:12px;
+  margin:5px 0 10px;
+}
+
+.year-link a{
+  display:inline-block;
+  padding:8px 13px;
+  background:#7b1e1e;
+  color:#fff;
+  border-radius:7px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+/* FOOTER */
+
+footer{
+  background:#241313;
+  color:#fff;
+  padding:40px 0 18px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:9px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:13px;
+}
+
+footer a{
+  display:block;
+  margin:4px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:25px;
+  padding-top:14px;
+  text-align:center;
+  color:#aaa;
+  font-size:12px;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+  nav{
+    display:none;
+    position:absolute;
+    top:72px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .info-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .programme-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+
+@media(max-width:650px){
+
+  .hero{
+    padding:65px 0;
+  }
+
+  .hero h2{
+    font-size:31px;
+  }
+
+  .notice-inner{
+    display:block;
+  }
+
+  .notice strong{
+    display:block;
+    margin-bottom:3px;
+  }
+
+  .info-grid,
+  .programme-grid,
+  .year-links{
+    grid-template-columns:1fr;
+  }
+
+  .intro{
+    padding:22px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-icon">
+        🙏
+      </div>
+
+      <div class="logo-text">
+
+        <h1>
+          Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()"
+    >
+      ☰
+    </button>
+
+
+    <nav id="mainNav">
+
+      <a href="index.html">Home</a>
+
+      <a href="about.html">About</a>
+
+      <a
+        href="jatra.html"
+        class="active"
+      >
+        Uda Jatra
+      </a>
+
+      <a href="notices.html">Notices</a>
+
+      <a href="events.html">Events</a>
+
+      <a href="gallery.html">Gallery</a>
+
+      <a href="members.html">Our Members</a>
+
+      <a href="fund.html">Fund</a>
+
+      <a href="member-fee.html">Member Fee</a>
+
+      <a href="bhakta-list.html">Bhakta List</a>
+
+      <a href="complaint.html">Complaint</a>
+
+      <a href="contact.html">Contact</a>
+
+      <a href="search.html">Search</a>
+
+      <a href="auth.html">Login</a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="container">
+
+    <div class="year">
+      JATRA YEAR 2028
+    </div>
+
+    <h2>
+      Maa Basuli Uda Jatra 2028
+    </h2>
+
+    <p>
+      Official Jatra Year Page
+      · Thakurmunda, Mayurbhanj, Odisha
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- NOTICE -->
+
+<section class="notice">
+
+  <div class="container notice-inner">
+
+    <strong>
+      📢 Important:
+    </strong>
+
+    <span>
+      2028 Jatra programme dates, notices and detailed
+      schedules will be published here after official
+      confirmation by the committee.
+    </span>
+
+  </div>
+
+</section>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+  <div class="container">
+
+
+    <!-- INTRO -->
+
+    <div class="intro">
+
+      <h3>
+        🙏 Maa Basuli Uda Jatra 2028
+      </h3>
+
+      <p>
+        Welcome to the dedicated information page for
+        Maa Basuli Uda Jatra 2028. This page is designed
+        to provide the official festival programme,
+        notices, events, cultural programmes, important
+        information and updates for devotees and visitors.
+      </p>
+
+    </div>
+
+
+    <!-- INFORMATION -->
+
+    <div class="info-grid">
+
+      <div class="info-card">
+
+        <div class="info-icon">
+          📅
+        </div>
+
+        <h4>
+          Jatra Year
+        </h4>
+
+        <p>
+          2028
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <div class="info-icon">
+          📍
+        </div>
+
+        <h4>
+          Location
+        </h4>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <div class="info-icon">
+          🛕
+        </div>
+
+        <h4>
+          Festival
+        </h4>
+
+        <p>
+          Maa Basuli Uda Jatra
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <div class="info-icon">
+          📢
+        </div>
+
+        <h4>
+          Programme Status
+        </h4>
+
+        <p>
+          Official Schedule Pending
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- KEY DATES -->
+
+    <div class="section-title">
+
+      <h3>
+        Important Dates & Schedule
+      </h3>
+
+      <p>
+        Official dates will be displayed after committee confirmation.
+      </p>
+
+    </div>
+
+
+    <div class="timeline">
+
+
+      <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-card">
+
+          <div class="date">
+            DATE TO BE ANNOUNCED
+          </div>
+
+          <h4>
+            Meena Bazar
+          </h4>
+
+          <p>
+            Meena Bazar opening and closing dates
+            will be published through the official
+            committee notice.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-card">
+
+          <div class="date">
+            DATE TO BE ANNOUNCED
+          </div>
+
+          <h4>
+            Main Maa Basuli Uda Jatra
+          </h4>
+
+          <p>
+            The official main Uda Jatra date and
+            detailed programme will be published
+            after confirmation.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-card">
+
+          <div class="date">
+            DATE TO BE ANNOUNCED
+          </div>
+
+          <h4>
+            Cultural Programmes
+          </h4>
+
+          <p>
+            Cultural programme dates, performers
+            and venue details will be added here.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="timeline-item">
+
+        <div class="timeline-dot"></div>
+
+        <div class="timeline-card">
+
+          <div class="date">
+            DATE TO BE ANNOUNCED
+          </div>
+
+          <h4>
+            Special Committee Programmes
+          </h4>
+
+          <p>
+            Special religious, cultural and committee
+            programmes will be listed after official
+            announcement.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- PROGRAMMES -->
+
+    <div class="section-title">
+
+      <h3>
+        2028 Jatra Programme Sections
+      </h3>
+
+      <p>
+        Different programme information can be managed
+        separately through the future Super Admin CMS.
+      </p>
+
+    </div>
+
+
+    <div class="programme-grid">
+
+
+      <div class="programme">
+
+        <div class="icon">
+          🛕
+        </div>
+
+        <h4>
+          Religious Programmes
+        </h4>
+
+        <p>
+          Religious rituals, Maa Basuli related
+          programmes and other approved spiritual
+          activities.
+        </p>
+
+      </div>
+
+
+      <div class="programme">
+
+        <div class="icon">
+          🎭
+        </div>
+
+        <h4>
+          Cultural Programmes
+        </h4>
+
+        <p>
+          Cultural performances, traditional
+          programmes and other committee-approved
+          cultural events.
+        </p>
+
+      </div>
+
+
+      <div class="programme">
+
+        <div class="icon">
+          🎪
+        </div>
+
+        <h4>
+          Meena Bazar
+        </h4>
+
+        <p>
+          Information about stalls, timings,
+          public facilities and official bazar
+          arrangements.
+        </p>
+
+      </div>
+
+
+      <div class="programme">
+
+        <div class="icon">
+          👥
+        </div>
+
+        <h4>
+          Committee Programmes
+        </h4>
+
+        <p>
+          Official committee meetings, arrangements,
+          public announcements and special programmes.
+        </p>
+
+      </div>
+
+
+      <div class="programme">
+
+        <div class="icon">
+          📢
+        </div>
+
+        <h4>
+          Notices & Announcements
+        </h4>
+
+        <p>
+          Official notices, instructions and important
+          announcements related to the 2028 Jatra.
+        </p>
+
+      </div>
+
+
+      <div class="programme">
+
+        <div class="icon">
+          📸
+        </div>
+
+        <h4>
+          Jatra Gallery
+        </h4>
+
+        <p>
+          Official photographs and videos from the
+          2028 Maa Basuli Uda Jatra.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- IMPORTANT INFORMATION -->
+
+    <div class="important">
+
+      <h3>
+        ℹ️ Official Information
+      </h3>
+
+      <p>
+        The information shown on this page is a
+        website structure for the 2028 Jatra.
+        Final dates, programmes, performers,
+        venue details, notices and other official
+        information should be published only after
+        approval/confirmation by the Maa Basuli
+        Uda Jatra Committee.
+      </p>
+
+    </div>
+
+
+    <!-- YEAR ARCHIVE -->
+
+    <div class="section-title">
+
+      <h3>
+        Jatra Year Archive
+      </h3>
+
+      <p>
+        Visit other available Jatra year pages.
+      </p>
+
+    </div>
+
+
+    <div class="year-links">
+
+
+      <div class="year-link">
+
+        <h4>
+          2026
+        </h4>
+
+        <p>
+          Maa Basuli Uda Jatra 2026
+        </p>
+
+        <a href="jatra.html">
+          View Jatra
+        </a>
+
+      </div>
+
+
+      <div class="year-link">
+
+        <h4>
+          2027
+        </h4>
+
+        <p>
+          Maa Basuli Uda Jatra 2027
+        </p>
+
+        <a href="jatra-2027.html">
+          View Jatra
+        </a>
+
+      </div>
+
+
+      <div class="year-link">
+
+        <h4>
+          2028
+        </h4>
+
+        <p>
+          Current Jatra Year
+        </p>
+
+        <a href="jatra-2028.html">
+          Current Page
+        </a>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:9px;">
+          ଜୟ ମା' ବାସୁଳୀ 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Quick Links
+        </h3>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="jatra.html">
+          Uda Jatra
+        </a>
+
+        <a href="notices.html">
+          Notices
+        </a>
+
+        <a href="events.html">
+          Events
+        </a>
+
+        <a href="gallery.html">
+          Gallery
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Services
+        </h3>
+
+        <a href="members.html">
+          Our Members
+        </a>
+
+        <a href="member-fee.html">
+          Member Fee
+        </a>
+
+        <a href="bhakta-list.html">
+          Bhakta List
+        </a>
+
+        <a href="fund.html">
+          Fund & Donation
+        </a>
+
+        <a href="complaint.html">
+          Complaint Box
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+function toggleMenu(){
+
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+</script>
+
+</body>
+</html>
