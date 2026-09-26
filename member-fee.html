@@ -6,6 +6,8 @@
 
 <title>Member Fee | Maa Basuli Uda Jatra Committee</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   box-sizing:border-box;
@@ -205,6 +207,7 @@ section{
   border-radius:8px;
   font-size:15px;
   outline:none;
+  text-transform:uppercase;
 }
 
 .search-row input:focus{
@@ -223,6 +226,11 @@ section{
 
 .btn:hover{
   background:#5e1515;
+}
+
+.btn:disabled{
+  opacity:.65;
+  cursor:not-allowed;
 }
 
 /* RESULT */
@@ -283,6 +291,34 @@ section{
 .status.paid{
   background:#e9f8ee;
   color:#18733a;
+}
+
+.status.partial{
+  background:#fff8dc;
+  color:#9a6700;
+}
+
+.status.not-found{
+  background:#f1f1f1;
+  color:#666;
+}
+
+/* ERROR */
+
+.error-message{
+  display:none;
+  margin-top:15px;
+  background:#fff0ed;
+  color:#b3261e;
+  border:1px solid #f1c8c2;
+  padding:12px 15px;
+  border-radius:8px;
+  font-size:13px;
+  text-align:center;
+}
+
+.error-message.show{
+  display:block;
 }
 
 /* YEAR */
@@ -557,16 +593,27 @@ footer a{
 
     <a href="index.html" class="logo">
 
-      <div class="logo-icon">🙏</div>
+      <div class="logo-icon">
+        🙏
+      </div>
 
       <div class="logo-text">
-        <h1>Maa Basuli Uda Jatra Committee</h1>
-        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+        <h1>
+          Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
       </div>
 
     </a>
 
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()">
+      ☰
+    </button>
 
     <nav id="mainNav">
 
@@ -596,7 +643,9 @@ footer a{
 
   <div class="container">
 
-    <h2>Member Fee</h2>
+    <h2>
+      Member Fee
+    </h2>
 
     <p>
       Check your annual membership fee and payment status
@@ -615,7 +664,9 @@ footer a{
 
     <div class="search-card">
 
-      <h3>🔎 Check Member Fee</h3>
+      <h3>
+        🔎 Check Member Fee
+      </h3>
 
       <p>
         Enter your official Member ID to view your fee details.
@@ -628,21 +679,29 @@ footer a{
           id="memberIdInput"
           placeholder="Enter Member ID e.g. MB001"
           autocomplete="off"
+          maxlength="30"
         >
 
         <button
           class="btn"
-          onclick="checkFee()"
-        >
+          id="checkFeeBtn"
+          onclick="checkFee()">
           Check Fee
         </button>
 
       </div>
 
+      <div
+        id="errorMessage"
+        class="error-message">
+      </div>
+
 
       <div id="result" class="result">
 
-        <h3>Member Fee Details</h3>
+        <h3>
+          Member Fee Details
+        </h3>
 
         <div class="result-grid">
 
@@ -668,14 +727,35 @@ footer a{
 
           <div class="result-item">
             <span>Payment Status</span>
-            <strong id="resultStatus">
-              —
-            </strong>
+            <strong id="resultStatus">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Paid Amount</span>
+            <strong id="resultPaidAmount">—</strong>
           </div>
 
           <div class="result-item">
             <span>Payment Date</span>
             <strong id="resultDate">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Payment Mode</span>
+            <strong id="resultMode">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Receipt No.</span>
+            <strong id="resultReceipt">—</strong>
+          </div>
+
+          <div
+            class="result-item"
+            id="remarkItem"
+            style="display:none;">
+            <span>Remarks</span>
+            <strong id="resultRemark">—</strong>
           </div>
 
         </div>
@@ -697,7 +777,9 @@ footer a{
 
     <div class="section-title">
 
-      <h2>Annual Member Fee</h2>
+      <h2>
+        Annual Member Fee
+      </h2>
 
       <p>
         Fee structure fixed by the Super Admin
@@ -709,23 +791,12 @@ footer a{
     <div class="year-box">
 
       <label for="feeYear">
-        Select Year:
+        Select Financial Year:
       </label>
 
-      <select id="feeYear">
-
-        <option value="2027">
-          2027
-        </option>
-
-        <option value="2026">
-          2026
-        </option>
-
-        <option value="2025">
-          2025
-        </option>
-
+      <select
+        id="feeYear"
+        onchange="loadFeeSettings()">
       </select>
 
     </div>
@@ -733,20 +804,24 @@ footer a{
 
     <div class="fee-grid">
 
-
       <div class="fee-card">
 
-        <div class="icon">👤</div>
+        <div class="icon">
+          👤
+        </div>
 
-        <h3>General Member</h3>
+        <h3>
+          Member Fee
+        </h3>
 
-        <div class="amount">
+        <div
+          class="amount"
+          id="feeAmount">
           ₹0
         </div>
 
-        <p>
-          Official fee will be published by
-          the Super Admin.
+        <p id="feeDescription">
+          Loading official fee...
         </p>
 
       </div>
@@ -754,17 +829,22 @@ footer a{
 
       <div class="fee-card">
 
-        <div class="icon">⭐</div>
+        <div class="icon">
+          📅
+        </div>
 
-        <h3>Committee Member</h3>
+        <h3>
+          Financial Year
+        </h3>
 
-        <div class="amount">
-          ₹0
+        <div
+          class="amount"
+          id="displayYear">
+          —
         </div>
 
         <p>
-          Official fee will be published by
-          the Super Admin.
+          Current published fee year
         </p>
 
       </div>
@@ -772,17 +852,22 @@ footer a{
 
       <div class="fee-card">
 
-        <div class="icon">🏛️</div>
+        <div class="icon">
+          🔐
+        </div>
 
-        <h3>Office Bearer</h3>
+        <h3>
+          Official Status
+        </h3>
 
-        <div class="amount">
-          ₹0
+        <div
+          class="amount"
+          id="feeStatus">
+          —
         </div>
 
         <p>
-          Official fee will be published by
-          the Super Admin.
+          Controlled by Super Admin
         </p>
 
       </div>
@@ -802,7 +887,9 @@ footer a{
 
     <div class="section-title">
 
-      <h2>Pay Member Fee</h2>
+      <h2>
+        Pay Member Fee
+      </h2>
 
       <p>
         Official payment methods
@@ -827,14 +914,22 @@ footer a{
 
         <div class="qr-placeholder">
 
-          Official Member Fee QR<br>
+          Official Member Fee QR
+          <br>
           Will Be Added Here
 
         </div>
 
-        <p style="text-align:center;color:#777;font-size:12px;">
+        <p
+          style="
+            text-align:center;
+            color:#777;
+            font-size:12px;
+          ">
+
           Always verify the official recipient name
           before making payment.
+
         </p>
 
       </div>
@@ -847,21 +942,27 @@ footer a{
         </h3>
 
         <p style="color:#666;font-size:14px;">
+
           Members may pay the applicable fee through
           an authorised committee representative,
           subject to the committee's rules.
+
         </p>
 
-        <div class="info-box" style="margin-top:20px;">
+        <div
+          class="info-box"
+          style="margin-top:20px;">
 
           <h3>
             Important
           </h3>
 
           <p>
+
             After receiving the payment, the authorised
             administrator can update the member's fee
             status as <strong>Paid</strong>.
+
           </p>
 
         </div>
@@ -895,12 +996,12 @@ footer a{
         </li>
 
         <li>
-          Fee amount will be controlled by the Super Admin.
+          Fee amount is controlled by the Super Admin.
         </li>
 
         <li>
-          Payment status will be updated after the payment
-          is verified by the authorised committee administrator.
+          Payment status is updated after payment is verified
+          by the authorised committee administrator.
         </li>
 
         <li>
@@ -929,7 +1030,6 @@ footer a{
   <div class="container">
 
     <div class="footer-grid">
-
 
       <div>
 
@@ -1014,6 +1114,27 @@ footer a{
 
 <script>
 
+/* =====================================
+   SUPABASE CONFIG
+===================================== */
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================
+   MENU
+===================================== */
+
 function toggleMenu(){
 
   document
@@ -1024,72 +1145,671 @@ function toggleMenu(){
 }
 
 
-function checkFee(){
+/* =====================================
+   CURRENCY
+===================================== */
 
-  const input =
-    document
-      .getElementById("memberIdInput")
-      .value
-      .trim()
-      .toUpperCase();
+function formatCurrency(
+  amount
+){
 
-  const result =
-    document.getElementById("result");
+  return new Intl.NumberFormat(
+    "en-IN",
+    {
+      style:"currency",
+      currency:"INR",
+      minimumFractionDigits:2
+    }
+  ).format(
+    Number(amount) || 0
+  );
+
+}
 
 
-  if(!input){
+/* =====================================
+   DATE
+===================================== */
 
-    alert("Please enter your Member ID.");
+function formatDate(
+  value
+){
+
+  if(!value){
+    return "—";
+  }
+
+  const date =
+    new Date(
+      value + "T00:00:00"
+    );
+
+  if(
+    Number.isNaN(
+      date.getTime()
+    )
+  ){
+
+    return "—";
+
+  }
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =====================================
+   ESCAPE HTML
+===================================== */
+
+function escapeHtml(
+  value
+){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+
+/* =====================================
+   FINANCIAL YEARS
+===================================== */
+
+function populateFinancialYears(){
+
+  const select =
+    document.getElementById(
+      "feeYear"
+    );
+
+  const currentYear =
+    new Date().getFullYear();
+
+  const currentMonth =
+    new Date().getMonth() + 1;
+
+  const currentFYStart =
+    currentMonth >= 4
+      ? currentYear
+      : currentYear - 1;
+
+
+  select.innerHTML = "";
+
+
+  for(
+    let year = currentYear + 2;
+    year >= 2020;
+    year--
+  ){
+
+    const financialYear =
+      `${year}-${String(year + 1).slice(-2)}`;
+
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+
+    option.value =
+      financialYear;
+
+
+    option.textContent =
+      financialYear;
+
+
+    if(
+      year === currentFYStart
+    ){
+
+      option.selected =
+        true;
+
+    }
+
+
+    select.appendChild(
+      option
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   LOAD FEE SETTINGS
+===================================== */
+
+async function loadFeeSettings(){
+
+  const financialYear =
+    document.getElementById(
+      "feeYear"
+    ).value;
+
+
+  document.getElementById(
+    "displayYear"
+  ).textContent =
+    financialYear;
+
+
+  document.getElementById(
+    "feeAmount"
+  ).textContent =
+    "Loading...";
+
+
+  document.getElementById(
+    "feeDescription"
+  ).textContent =
+    "Loading official fee information...";
+
+
+  document.getElementById(
+    "feeStatus"
+  ).textContent =
+    "Loading";
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("member_fee_settings")
+      .select(`
+        financial_year,
+        fee_amount,
+        description,
+        is_active
+      `)
+      .eq(
+        "financial_year",
+        financialYear
+      )
+      .eq(
+        "is_active",
+        true
+      )
+      .maybeSingle();
+
+
+  if(error){
+
+    console.error(
+      "Fee settings error:",
+      error
+    );
+
+
+    document.getElementById(
+      "feeAmount"
+    ).textContent =
+      "Unavailable";
+
+
+    document.getElementById(
+      "feeDescription"
+    ).textContent =
+      "Unable to load official fee information.";
+
+
+    document.getElementById(
+      "feeStatus"
+    ).textContent =
+      "Error";
+
 
     return;
   }
 
 
-  /*
-    TEMPORARY DEMO DISPLAY
+  if(!data){
 
-    Later this section will be connected to Supabase.
-    The real system will:
-    1. Verify Member ID
-    2. Load approved member
-    3. Load selected year's fee
-    4. Show Paid/Unpaid status
-    5. Show payment date
-  */
+    document.getElementById(
+      "feeAmount"
+    ).textContent =
+      "₹0.00";
 
 
-  document.getElementById("resultId").textContent = input;
-
-  document.getElementById("resultName").textContent =
-    "Member information will load from Supabase";
-
-  document.getElementById("resultYear").textContent =
-    document.getElementById("feeYear").value;
-
-  document.getElementById("resultAmount").textContent =
-    "₹0";
-
-  document.getElementById("resultStatus").innerHTML =
-    '<span class="status unpaid">Not Available Yet</span>';
-
-  document.getElementById("resultDate").textContent =
-    "—";
+    document.getElementById(
+      "feeDescription"
+    ).textContent =
+      "No active fee has been published for this financial year.";
 
 
-  result.classList.add("show");
+    document.getElementById(
+      "feeStatus"
+    ).textContent =
+      "Not Published";
+
+
+    return;
+  }
+
+
+  document.getElementById(
+    "feeAmount"
+  ).textContent =
+    formatCurrency(
+      data.fee_amount
+    );
+
+
+  document.getElementById(
+    "feeDescription"
+  ).textContent =
+    data.description ||
+    "Annual membership fee fixed by the Super Admin.";
+
+
+  document.getElementById(
+    "feeStatus"
+  ).textContent =
+    "Active";
 
 }
 
 
-document
-  .getElementById("memberIdInput")
-  .addEventListener("keydown",function(event){
+/* =====================================
+   RESET RESULT
+===================================== */
 
-    if(event.key === "Enter"){
-      checkFee();
+function resetResult(){
+
+  document
+    .getElementById("result")
+    .classList
+    .remove("show");
+
+
+  document
+    .getElementById("errorMessage")
+    .classList
+    .remove("show");
+
+
+  document.getElementById(
+    "errorMessage"
+  ).textContent = "";
+
+
+  document.getElementById(
+    "remarkItem"
+  ).style.display =
+    "none";
+
+}
+
+
+/* =====================================
+   SHOW ERROR
+===================================== */
+
+function showError(
+  message
+){
+
+  const errorBox =
+    document.getElementById(
+      "errorMessage"
+    );
+
+
+  errorBox.textContent =
+    message;
+
+
+  errorBox.classList.add(
+    "show"
+  );
+
+}
+
+
+/* =====================================
+   STATUS BADGE
+===================================== */
+
+function getStatusBadge(
+  status
+){
+
+  const normalized =
+    String(
+      status || "Unpaid"
+    )
+    .trim()
+    .toLowerCase();
+
+
+  if(
+    normalized === "paid"
+  ){
+
+    return `
+      <span class="status paid">
+        Paid
+      </span>
+    `;
+
+  }
+
+
+  if(
+    normalized === "partial"
+  ){
+
+    return `
+      <span class="status partial">
+        Partial
+      </span>
+    `;
+
+  }
+
+
+  return `
+    <span class="status unpaid">
+      Unpaid
+    </span>
+  `;
+
+}
+
+
+/* =====================================
+   CHECK MEMBER FEE
+===================================== */
+
+async function checkFee(){
+
+  const input =
+    document
+      .getElementById(
+        "memberIdInput"
+      )
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const financialYear =
+    document
+      .getElementById(
+        "feeYear"
+      )
+      .value;
+
+
+  const result =
+    document.getElementById(
+      "result"
+    );
+
+
+  const button =
+    document.getElementById(
+      "checkFeeBtn"
+    );
+
+
+  resetResult();
+
+
+  if(!input){
+
+    showError(
+      "Please enter your Member ID."
+    );
+
+    return;
+  }
+
+
+  if(!financialYear){
+
+    showError(
+      "Please select a financial year."
+    );
+
+    return;
+  }
+
+
+  button.disabled =
+    true;
+
+  button.textContent =
+    "Checking...";
+
+
+  try{
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient
+        .rpc(
+          "get_public_member_fee",
+          {
+            p_member_id:
+              input,
+
+            p_financial_year:
+              financialYear
+          }
+        );
+
+
+    if(error){
+
+      console.error(
+        "Member fee RPC error:",
+        error
+      );
+
+      showError(
+        "Unable to check fee details right now. Please try again."
+      );
+
+      return;
     }
 
-  });
+
+    if(
+      !data ||
+      data.length === 0
+    ){
+
+      showError(
+        "No active approved member or active fee record was found for this Member ID and financial year."
+      );
+
+      return;
+    }
+
+
+    const member =
+      data[0];
+
+
+    document.getElementById(
+      "resultId"
+    ).textContent =
+      member.member_id ||
+      input;
+
+
+    document.getElementById(
+      "resultName"
+    ).textContent =
+      member.full_name ||
+      "—";
+
+
+    document.getElementById(
+      "resultYear"
+    ).textContent =
+      member.financial_year ||
+      financialYear;
+
+
+    document.getElementById(
+      "resultAmount"
+    ).textContent =
+      formatCurrency(
+        member.fee_amount
+      );
+
+
+    document.getElementById(
+      "resultStatus"
+    ).innerHTML =
+      getStatusBadge(
+        member.payment_status
+      );
+
+
+    document.getElementById(
+      "resultPaidAmount"
+    ).textContent =
+      formatCurrency(
+        member.paid_amount
+      );
+
+
+    document.getElementById(
+      "resultDate"
+    ).textContent =
+      formatDate(
+        member.payment_date
+      );
+
+
+    document.getElementById(
+      "resultMode"
+    ).textContent =
+      member.payment_mode ||
+      "—";
+
+
+    document.getElementById(
+      "resultReceipt"
+    ).textContent =
+      member.receipt_no ||
+      "—";
+
+
+    if(
+      member.remarks
+    ){
+
+      document.getElementById(
+        "resultRemark"
+      ).textContent =
+        member.remarks;
+
+
+      document.getElementById(
+        "remarkItem"
+      ).style.display =
+        "block";
+
+    }
+
+
+    result.classList.add(
+      "show"
+    );
+
+  }
+
+  catch(error){
+
+    console.error(
+      error
+    );
+
+
+    showError(
+      "An unexpected error occurred. Please try again."
+    );
+
+  }
+
+  finally{
+
+    button.disabled =
+      false;
+
+    button.textContent =
+      "Check Fee";
+
+  }
+
+}
+
+
+/* =====================================
+   ENTER KEY
+===================================== */
+
+document
+  .getElementById(
+    "memberIdInput"
+  )
+  .addEventListener(
+    "keydown",
+    function(event){
+
+      if(
+        event.key === "Enter"
+      ){
+
+        checkFee();
+
+      }
+
+    }
+  );
+
+
+/* =====================================
+   INITIAL LOAD
+===================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async function(){
+
+    populateFinancialYears();
+
+    await loadFeeSettings();
+
+  }
+);
 
 </script>
 
