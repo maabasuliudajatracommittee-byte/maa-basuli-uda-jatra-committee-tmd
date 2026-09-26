@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Fund Management | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  background:#f4f6f8;
+  color:#1f2937;
+}
+
+header{
+  background:#7c2d12;
+  color:white;
+  padding:18px 20px;
+}
+
+header h1{
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+header p{
+  font-size:13px;
+  opacity:.9;
+}
+
+.container{
+  max-width:1250px;
+  margin:auto;
+  padding:20px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.topbar h2{
+  font-size:22px;
+}
+
+button{
+  border:0;
+  border-radius:8px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.back{
+  background:#475569;
+  color:white;
+}
+
+.logout{
+  background:#dc2626;
+  color:white;
+}
+
+.card{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.card h3{
+  margin-bottom:15px;
+}
+
+.year-bar{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+
+.year-bar label{
+  font-weight:bold;
+}
+
+select,
+input,
+textarea{
+  width:100%;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  padding:11px;
+  font-size:14px;
+}
+
+.year-bar select{
+  width:auto;
+  min-width:130px;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:20px;
+}
+
+.summary-box{
+  background:white;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.summary-box small{
+  color:#64748b;
+}
+
+.summary-box strong{
+  display:block;
+  margin-top:8px;
+  font-size:26px;
+}
+
+.collection strong{
+  color:#15803d;
+}
+
+.expense strong{
+  color:#dc2626;
+}
+
+.balance strong{
+  color:#7c2d12;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  font-size:13px;
+  font-weight:bold;
+}
+
+.type-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.type-btn{
+  flex:1;
+  border:2px solid #d1d5db;
+  background:#fff;
+  color:#374151;
+}
+
+.type-btn.active-collection{
+  background:#15803d;
+  color:white;
+  border-color:#15803d;
+}
+
+.type-btn.active-expense{
+  background:#dc2626;
+  color:white;
+  border-color:#dc2626;
+}
+
+.form-actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+  flex-wrap:wrap;
+}
+
+.primary{
+  background:#7c2d12;
+  color:white;
+}
+
+.secondary{
+  background:#475569;
+  color:white;
+}
+
+.success{
+  background:#15803d;
+  color:white;
+}
+
+.danger{
+  background:#dc2626;
+  color:white;
+}
+
+.warning{
+  background:#d97706;
+  color:white;
+}
+
+.message{
+  margin-top:12px;
+  padding:10px;
+  border-radius:8px;
+  display:none;
+}
+
+.message.success-msg{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error-msg{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1050px;
+}
+
+th,
+td{
+  padding:11px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:13px;
+}
+
+th{
+  background:#f8fafc;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.badge-collection{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-expense{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.badge-published{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-hidden{
+  background:#e5e7eb;
+  color:#475569;
+}
+
+.actions{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.actions button{
+  padding:7px 9px;
+  font-size:11px;
+}
+
+.empty{
+  text-align:center;
+  padding:25px;
+  color:#6b7280;
+}
+
+.loading{
+  text-align:center;
+  padding:25px;
+}
+
+.help{
+  color:#64748b;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.editing{
+  border:2px solid #d97706;
+}
+
+@media(max-width:800px){
+
+  .summary{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .container{
+    padding:12px;
+  }
+
+  .card{
+    padding:14px;
+  }
+
+  .type-buttons{
+    flex-direction:column;
+  }
+
+  .year-bar select{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Maa Basuli Uda Jatra Committee</h1>
+  <p>Fund Management — Super Admin</p>
+</header>
+
+<div class="container">
+
+  <div class="topbar">
+
+    <div>
+      <h2>Fund Management</h2>
+      <p id="adminEmail">Checking account...</p>
+    </div>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="back" onclick="goBack()">
+        ← Dashboard
+      </button>
+
+      <button class="logout" onclick="logout()">
+        Logout
+      </button>
+    </div>
+
+  </div>
+
+
+  <!-- YEAR -->
+  <div class="card">
+
+    <div class="year-bar">
+
+      <label for="yearSelect">
+        Financial Year:
+      </label>
+
+      <select id="yearSelect" onchange="loadFundData()">
+      </select>
+
+      <button class="secondary" onclick="loadFundData()">
+        ↻ Refresh
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- SUMMARY -->
+
+  <div class="summary">
+
+    <div class="summary-box collection">
+      <small>Total Collection</small>
+      <strong id="totalCollection">₹0.00</strong>
+    </div>
+
+    <div class="summary-box expense">
+      <small>Total Expense</small>
+      <strong id="totalExpense">₹0.00</strong>
+    </div>
+
+    <div class="summary-box balance">
+      <small>Available Balance / Savings</small>
+      <strong id="totalSavings">₹0.00</strong>
+    </div>
+
+  </div>
+
+
+  <!-- ADD / EDIT TRANSACTION -->
+
+  <div class="card" id="formCard">
+
+    <h3 id="formTitle">
+      Add Fund Transaction
+    </h3>
+
+    <div class="form-grid">
+
+      <div class="form-group full">
+
+        <label>
+          Transaction Type
+        </label>
+
+        <div class="type-buttons">
+
+          <button
+            type="button"
+            id="collectionBtn"
+            class="type-btn active-collection"
+            onclick="setTransactionType('Collection')">
+
+            💰 Collection
+
+          </button>
+
+          <button
+            type="button"
+            id="expenseBtn"
+            class="type-btn"
+            onclick="setTransactionType('Expense')">
+
+            💸 Expense
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="transactionDate">
+          Date
+        </label>
+
+        <input
+          type="date"
+          id="transactionDate">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="amount">
+          Amount (₹)
+        </label>
+
+        <input
+          type="number"
+          id="amount"
+          min="0.01"
+          step="0.01"
+          placeholder="Enter amount">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="category">
+          Category
+        </label>
+
+        <input
+          type="text"
+          id="category"
+          placeholder="e.g. Donation, Decoration, Programme">
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="referenceNo">
+          Reference / Voucher No.
+        </label>
+
+        <input
+          type="text"
+          id="referenceNo"
+          placeholder="Optional reference number">
+
+      </div>
+
+
+      <div class="form-group full">
+
+        <label for="description">
+          Particular / Description
+        </label>
+
+        <textarea
+          id="description"
+          placeholder="Enter transaction details"></textarea>
+
+      </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+      <button
+        class="primary"
+        id="saveBtn"
+        onclick="saveTransaction()">
+
+        Save Transaction
+
+      </button>
+
+      <button
+        class="secondary"
+        id="cancelEditBtn"
+        onclick="cancelEdit()"
+        style="display:none;">
+
+        Cancel Edit
+
+      </button>
+
+    </div>
+
+    <div id="formMessage" class="message"></div>
+
+  </div>
+
+
+  <!-- TRANSACTIONS -->
+
+  <div class="card">
+
+    <h3>
+      Fund Transactions
+    </h3>
+
+    <div
+      style="
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:15px;
+      "
+    >
+
+      <input
+        type="search"
+        id="transactionSearch"
+        placeholder="Search category / description / reference..."
+        oninput="renderTransactions()"
+        style="flex:1;min-width:250px;">
+
+      <select
+        id="typeFilter"
+        onchange="renderTransactions()"
+        style="width:auto;min-width:150px;">
+
+        <option value="all">
+          All Types
+        </option>
+
+        <option value="Collection">
+          Collection
+        </option>
+
+        <option value="Expense">
+          Expense
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Date</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Reference</th>
+            <th>Amount</th>
+            <th>Visibility</th>
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="transactionsBody">
+
+          <tr>
+            <td colspan="8" class="loading">
+              Loading transactions...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let transactions = [];
+
+let transactionType = "Collection";
+
+let editingId = null;
+
+
+/* =====================================
+   START
+===================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    setDefaultDate();
+
+    populateYears();
+
+    const {
+      data: {
+        session
+      }
+    } = await supabaseClient.auth.getSession();
+
+    if(!session){
+
+      window.location.href =
+        "auth.html";
+
+      return;
+    }
+
+    document.getElementById(
+      "adminEmail"
+    ).textContent =
+      session.user.email || "";
+
+    await checkSuperAdmin();
+
+  }
+);
+
+
+/* =====================================
+   CHECK SUPER ADMIN
+===================================== */
+
+async function checkSuperAdmin(){
+
+  const {
+    data: {
+      user
+    }
+  } = await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    window.location.href =
+      "auth.html";
+
+    return;
+  }
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+
+  if(error){
+
+    alert(
+      "Unable to verify account role."
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+
+  if(
+    !data ||
+    data.role !== "super_admin"
+  ){
+
+    alert(
+      "Access denied. Super Admin only."
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+
+  await loadFundData();
+
+}
+
+
+/* =====================================
+   YEAR LIST
+===================================== */
+
+function populateYears(){
+
+  const select =
+    document.getElementById(
+      "yearSelect"
+    );
+
+  const currentYear =
+    new Date().getFullYear();
+
+  select.innerHTML = "";
+
+
+  for(
+    let year = currentYear + 2;
+    year >= 2020;
+    year--
+  ){
+
+    const option =
+      document.createElement("option");
+
+    option.value = year;
+    option.textContent = year;
+
+    if(year === currentYear){
+
+      option.selected = true;
+
+    }
+
+    select.appendChild(option);
+
+  }
+
+}
+
+
+/* =====================================
+   DEFAULT DATE
+===================================== */
+
+function setDefaultDate(){
+
+  const now =
+    new Date();
+
+  const year =
+    now.getFullYear();
+
+  const month =
+    String(
+      now.getMonth() + 1
+    ).padStart(2,"0");
+
+  const day =
+    String(
+      now.getDate()
+    ).padStart(2,"0");
+
+  document.getElementById(
+    "transactionDate"
+  ).value =
+    `${year}-${month}-${day}`;
+
+}
+
+
+/* =====================================
+   LOAD FUND DATA
+===================================== */
+
+async function loadFundData(){
+
+  const year =
+    Number(
+      document.getElementById(
+        "yearSelect"
+      ).value
+    );
+
+
+  document.getElementById(
+    "transactionsBody"
+  ).innerHTML = `
+    <tr>
+      <td colspan="8" class="loading">
+        Loading transactions...
+      </td>
+    </tr>
+  `;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("fund_transactions")
+    .select("*")
+    .eq("financial_year", year)
+    .order(
+      "transaction_date",
+      {
+        ascending:false
+      }
+    )
+    .order(
+      "created_at",
+      {
+        ascending:false
+      }
+    );
+
+
+  if(error){
+
+    document.getElementById(
+      "transactionsBody"
+    ).innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          Error loading fund records:
+          ${escapeHtml(error.message)}
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  transactions =
+    data || [];
+
+
+  calculateSummary();
+
+  renderTransactions();
+
+}
+
+
+/* =====================================
+   CALCULATE SUMMARY
+===================================== */
+
+function calculateSummary(){
+
+  let collection = 0;
+
+  let expense = 0;
+
+
+  transactions.forEach(item => {
+
+    const amount =
+      Number(item.amount) || 0;
+
+
+    if(
+      item.transaction_type ===
+      "Collection"
+    ){
+
+      collection += amount;
+
+    }
+
+
+    if(
+      item.transaction_type ===
+      "Expense"
+    ){
+
+      expense += amount;
+
+    }
+
+  });
+
+
+  const savings =
+    collection - expense;
+
+
+  document.getElementById(
+    "totalCollection"
+  ).textContent =
+    formatCurrency(collection);
+
+
+  document.getElementById(
+    "totalExpense"
+  ).textContent =
+    formatCurrency(expense);
+
+
+  document.getElementById(
+    "totalSavings"
+  ).textContent =
+    formatCurrency(savings);
+
+}
+
+
+/* =====================================
+   RENDER TRANSACTIONS
+===================================== */
+
+function renderTransactions(){
+
+  const tbody =
+    document.getElementById(
+      "transactionsBody"
+    );
+
+
+  const search =
+    document.getElementById(
+      "transactionSearch"
+    )
+    .value
+    .trim()
+    .toLowerCase();
+
+
+  const typeFilter =
+    document.getElementById(
+      "typeFilter"
+    ).value;
+
+
+  const list =
+    transactions.filter(item => {
+
+      const searchable = [
+
+        item.category,
+        item.description,
+        item.reference_no
+
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+
+      const matchesSearch =
+        !search ||
+        searchable.includes(search);
+
+
+      const matchesType =
+        typeFilter === "all" ||
+        item.transaction_type ===
+        typeFilter;
+
+
+      return (
+        matchesSearch &&
+        matchesType
+      );
+
+    });
+
+
+  if(list.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="8" class="empty">
+          No fund transactions found
+          for this year.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  tbody.innerHTML =
+    list.map(item => {
+
+      const typeBadge =
+        item.transaction_type ===
+        "Collection"
+
+        ? `
+          <span class="badge badge-collection">
+            Collection
+          </span>
+        `
+
+        : `
+          <span class="badge badge-expense">
+            Expense
+          </span>
+        `;
+
+
+      const visibility =
+        item.is_published
+
+        ? `
+          <span class="badge badge-published">
+            Published
+          </span>
+        `
+
+        : `
+          <span class="badge badge-hidden">
+            Hidden
+          </span>
+        `;
+
+
+      const amount =
+        formatCurrency(
+          Number(item.amount)
+        );
+
+
+      return `
+
+        <tr>
+
+          <td>
+            ${formatDate(item.transaction_date)}
+          </td>
+
+          <td>
+            ${typeBadge}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.category || "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.description || "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.reference_no || "—"
+            )}
+          </td>
+
+          <td>
+            <strong>
+              ${amount}
+            </strong>
+          </td>
+
+          <td>
+            ${visibility}
+          </td>
+
+          <td>
+
+            <div class="actions">
+
+              <button
+                class="secondary"
+                onclick="editTransaction('${item.id}')">
+
+                Edit
+
+              </button>
+
+              <button
+                class="warning"
+                onclick="togglePublish(
+                  '${item.id}',
+                  ${item.is_published}
+                )">
+
+                ${item.is_published
+                  ? "Hide"
+                  : "Publish"}
+
+              </button>
+
+              <button
+                class="danger"
+                onclick="deleteTransaction('${item.id}')">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================
+   SET TRANSACTION TYPE
+===================================== */
+
+function setTransactionType(type){
+
+  transactionType =
+    type;
+
+
+  const collectionBtn =
+    document.getElementById(
+      "collectionBtn"
+    );
+
+  const expenseBtn =
+    document.getElementById(
+      "expenseBtn"
+    );
+
+
+  collectionBtn.className =
+    "type-btn";
+
+
+  expenseBtn.className =
+    "type-btn";
+
+
+  if(type === "Collection"){
+
+    collectionBtn.className =
+      "type-btn active-collection";
+
+  }else{
+
+    expenseBtn.className =
+      "type-btn active-expense";
+
+  }
+
+}
+
+
+/* =====================================
+   SAVE / UPDATE
+===================================== */
+
+async function saveTransaction(){
+
+  const year =
+    Number(
+      document.getElementById(
+        "yearSelect"
+      ).value
+    );
+
+
+  const date =
+    document.getElementById(
+      "transactionDate"
+    ).value;
+
+
+  const amount =
+    Number(
+      document.getElementById(
+        "amount"
+      ).value
+    );
+
+
+  const category =
+    document.getElementById(
+      "category"
+    ).value.trim();
+
+
+  const referenceNo =
+    document.getElementById(
+      "referenceNo"
+    ).value.trim();
+
+
+  const description =
+    document.getElementById(
+      "description"
+    ).value.trim();
+
+
+  if(!date){
+
+    showFormMessage(
+      "Please select transaction date.",
+      false
+    );
+
+    return;
+  }
+
+
+  if(!amount || amount <= 0){
+
+    showFormMessage(
+      "Please enter a valid amount.",
+      false
+    );
+
+    return;
+  }
+
+
+  const {
+    data: {
+      user
+    }
+  } = await supabaseClient.auth.getUser();
+
+
+  if(!user){
+
+    alert(
+      "Session expired. Please login again."
+    );
+
+    window.location.href =
+      "auth.html";
+
+    return;
+  }
+
+
+  const payload = {
+
+    financial_year: year,
+
+    transaction_type:
+      transactionType,
+
+    transaction_date:
+      date,
+
+    amount:
+      amount,
+
+    category:
+      category || null,
+
+    description:
+      description || null,
+
+    reference_no:
+      referenceNo || null
+
+  };
+
+
+  let result;
+
+
+  if(editingId){
+
+    result =
+      await supabaseClient
+        .from("fund_transactions")
+        .update(payload)
+        .eq("id", editingId);
+
+  }else{
+
+    payload.created_by =
+      user.id;
+
+    result =
+      await supabaseClient
+        .from("fund_transactions")
+        .insert(payload);
+
+  }
+
+
+  if(result.error){
+
+    showFormMessage(
+      result.error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showFormMessage(
+    editingId
+      ? "Fund transaction updated successfully."
+      : "Fund transaction added successfully.",
+    true
+  );
+
+
+  cancelEdit();
+
+  await loadFundData();
+
+}
+
+
+/* =====================================
+   EDIT
+===================================== */
+
+function editTransaction(id){
+
+  const item =
+    transactions.find(
+      row => row.id === id
+    );
+
+
+  if(!item) return;
+
+
+  editingId =
+    id;
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Edit Fund Transaction";
+
+
+  document.getElementById(
+    "yearSelect"
+  ).value =
+    item.financial_year;
+
+
+  setTransactionType(
+    item.transaction_type
+  );
+
+
+  document.getElementById(
+    "transactionDate"
+  ).value =
+    item.transaction_date;
+
+
+  document.getElementById(
+    "amount"
+  ).value =
+    item.amount;
+
+
+  document.getElementById(
+    "category"
+  ).value =
+    item.category || "";
+
+
+  document.getElementById(
+    "referenceNo"
+  ).value =
+    item.reference_no || "";
+
+
+  document.getElementById(
+    "description"
+  ).value =
+    item.description || "";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Update Transaction";
+
+
+  document.getElementById(
+    "cancelEditBtn"
+  ).style.display =
+    "inline-block";
+
+
+  document.getElementById(
+    "formCard"
+  ).classList.add(
+    "editing"
+  );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================
+   CANCEL EDIT
+===================================== */
+
+function cancelEdit(){
+
+  editingId =
+    null;
+
+
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "Add Fund Transaction";
+
+
+  document.getElementById(
+    "saveBtn"
+  ).textContent =
+    "Save Transaction";
+
+
+  document.getElementById(
+    "cancelEditBtn"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "formCard"
+  ).classList.remove(
+    "editing"
+  );
+
+
+  document.getElementById(
+    "amount"
+  ).value = "";
+
+
+  document.getElementById(
+    "category"
+  ).value = "";
+
+
+  document.getElementById(
+    "referenceNo"
+  ).value = "";
+
+
+  document.getElementById(
+    "description"
+  ).value = "";
+
+
+  setDefaultDate();
+
+  setTransactionType(
+    "Collection"
+  );
+
+}
+
+
+/* =====================================
+   PUBLISH / HIDE
+===================================== */
+
+async function togglePublish(
+  id,
+  currentStatus
+){
+
+  const action =
+    currentStatus
+      ? "hide"
+      : "publish";
+
+
+  if(
+    !confirm(
+      `Ei fund record ku ${action} karibe?`
+    )
+  ){
+
+    return;
+  }
+
+
+  const {
+    error
+  } = await supabaseClient
+    .from("fund_transactions")
+    .update({
+      is_published:
+        !currentStatus
+    })
+    .eq("id", id);
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  await loadFundData();
+
+}
+
+
+/* =====================================
+   DELETE
+===================================== */
+
+async function deleteTransaction(id){
+
+  if(
+    !confirm(
+      "Ehi fund transaction permanently delete karibe?"
+    )
+  ){
+
+    return;
+  }
+
+
+  const {
+    error
+  } = await supabaseClient
+    .from("fund_transactions")
+    .delete()
+    .eq("id", id);
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  await loadFundData();
+
+}
+
+
+/* =====================================
+   MESSAGE
+===================================== */
+
+function showFormMessage(
+  message,
+  success
+){
+
+  const box =
+    document.getElementById(
+      "formMessage"
+    );
+
+
+  box.textContent =
+    message;
+
+
+  box.className =
+    success
+      ? "message success-msg"
+      : "message error-msg";
+
+}
+
+
+/* =====================================
+   FORMAT CURRENCY
+===================================== */
+
+function formatCurrency(amount){
+
+  return new Intl.NumberFormat(
+    "en-IN",
+    {
+      style:"currency",
+      currency:"INR",
+      minimumFractionDigits:2
+    }
+  ).format(
+    Number(amount) || 0
+  );
+
+}
+
+
+/* =====================================
+   FORMAT DATE
+===================================== */
+
+function formatDate(value){
+
+  if(!value){
+
+    return "—";
+
+  }
+
+
+  const date =
+    new Date(
+      value + "T00:00:00"
+    );
+
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =====================================
+   ESCAPE HTML
+===================================== */
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
+}
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* =====================================
+   BACK
+===================================== */
+
+function goBack(){
+
+  window.location.href =
+    "super-admin.html";
+
+}
+
+</script>
+
+</body>
+</html>
