@@ -4,346 +4,325 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Super Admin | Maa Basuli Uda Jatra Committee</title>
+  <title>Super Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:Arial,Helvetica,sans-serif;
     }
 
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f7fb;
-      color: #1f2937;
+    body{
+      background:#f4f6f8;
+      color:#1f2937;
     }
 
-    header {
-      background: linear-gradient(135deg, #7c2d12, #b45309);
-      color: white;
-      padding: 20px;
+    header{
+      background:#7c2d12;
+      color:white;
+      padding:18px 20px;
     }
 
-    .header-inner {
-      width: min(1200px, 94%);
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
+    header h1{
+      font-size:22px;
+      margin-bottom:5px;
     }
 
-    header h1 {
-      font-size: 22px;
-      margin-bottom: 5px;
+    header p{
+      font-size:13px;
+      opacity:.9;
     }
 
-    header p {
-      font-size: 13px;
-      opacity: .9;
+    .container{
+      max-width:1250px;
+      margin:auto;
+      padding:20px;
     }
 
-    .logout-btn {
-      background: white;
-      color: #7c2d12;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:20px;
     }
 
-    .container {
-      width: min(1200px, 94%);
-      margin: 25px auto;
+    .topbar h2{
+      font-size:22px;
     }
 
-    .security {
-      background: #ecfdf5;
-      color: #047857;
-      padding: 13px 16px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      font-weight: 600;
+    button{
+      border:0;
+      border-radius:8px;
+      padding:10px 15px;
+      cursor:pointer;
+      font-weight:bold;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-      margin-bottom: 20px;
+    .logout{
+      background:#dc2626;
+      color:white;
     }
 
-    .stat {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:20px;
     }
 
-    .stat span {
-      color: #6b7280;
-      font-size: 13px;
+    .stat{
+      background:white;
+      border-radius:12px;
+      padding:18px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
     }
 
-    .stat h2 {
-      margin-top: 8px;
-      color: #7c2d12;
+    .stat small{
+      color:#6b7280;
     }
 
-    .panel {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 5px 20px rgba(0,0,0,.06);
-      margin-bottom: 20px;
+    .stat strong{
+      display:block;
+      font-size:28px;
+      margin-top:8px;
     }
 
-    .panel h2 {
-      margin-bottom: 15px;
-      color: #7c2d12;
+    .card{
+      background:white;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
     }
 
-    .filters {
-      display: grid;
-      grid-template-columns: 1fr 190px 190px;
-      gap: 10px;
-      margin-bottom: 20px;
+    .card h3{
+      margin-bottom:15px;
     }
 
-    input,
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      outline: none;
-      background: white;
+    .admin-form{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    input:focus,
-    select:focus {
-      border-color: #b45309;
+    input,select{
+      border:1px solid #d1d5db;
+      border-radius:8px;
+      padding:11px;
+      font-size:14px;
     }
 
-    .message {
-      padding: 14px;
-      border-radius: 9px;
-      background: #fff7ed;
-      color: #9a3412;
-      margin-bottom: 15px;
-      display: none;
+    .admin-form input{
+      flex:1;
+      min-width:250px;
     }
 
-    .table-wrap {
-      overflow-x: auto;
+    .primary{
+      background:#7c2d12;
+      color:white;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 950px;
+    .success{
+      background:#15803d;
+      color:white;
     }
 
-    th,
-    td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #e5e7eb;
-      text-align: left;
-      font-size: 13px;
-      vertical-align: middle;
+    .danger{
+      background:#dc2626;
+      color:white;
     }
 
-    th {
-      background: #f9fafb;
-      color: #374151;
+    .warning{
+      background:#d97706;
+      color:white;
     }
 
-    .member-photo {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      background: #eee;
+    .secondary{
+      background:#475569;
+      color:white;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
+    .message{
+      margin-top:12px;
+      padding:10px;
+      border-radius:8px;
+      display:none;
     }
 
-    .approved {
-      background: #dcfce7;
-      color: #166534;
+    .message.success-msg{
+      display:block;
+      background:#dcfce7;
+      color:#166534;
     }
 
-    .pending {
-      background: #fef3c7;
-      color: #92400e;
+    .message.error-msg{
+      display:block;
+      background:#fee2e2;
+      color:#991b1b;
     }
 
-    .rejected {
-      background: #fee2e2;
-      color: #991b1b;
+    .table-wrap{
+      overflow-x:auto;
     }
 
-    .active {
-      background: #dcfce7;
-      color: #166534;
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
     }
 
-    .inactive {
-      background: #f3f4f6;
-      color: #4b5563;
+    th,td{
+      padding:11px;
+      border-bottom:1px solid #e5e7eb;
+      text-align:left;
+      font-size:13px;
     }
 
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    th{
+      background:#f8fafc;
     }
 
-    .btn {
-      border: none;
-      padding: 7px 10px;
-      border-radius: 7px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 600;
+    .badge{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:20px;
+      font-size:11px;
+      font-weight:bold;
     }
 
-    .btn-view {
-      background: #e0f2fe;
-      color: #075985;
+    .badge-active{
+      background:#dcfce7;
+      color:#166534;
     }
 
-    .btn-approve {
-      background: #dcfce7;
-      color: #166534;
+    .badge-inactive{
+      background:#fee2e2;
+      color:#991b1b;
     }
 
-    .btn-reject {
-      background: #fee2e2;
-      color: #991b1b;
+    .badge-pending{
+      background:#fef3c7;
+      color:#92400e;
     }
 
-    .btn-active {
-      background: #dcfce7;
-      color: #166534;
+    .badge-approved{
+      background:#dcfce7;
+      color:#166534;
     }
 
-    .btn-inactive {
-      background: #f3f4f6;
-      color: #374151;
+    .badge-rejected{
+      background:#fee2e2;
+      color:#991b1b;
     }
 
-    .designation-select {
-      min-width: 175px;
-      padding: 8px;
-      font-size: 12px;
+    .photo{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      object-fit:cover;
+      background:#e5e7eb;
     }
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.55);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 9999;
+    .actions{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
     }
 
-    .modal-box {
-      background: white;
-      width: min(600px, 100%);
-      max-height: 90vh;
-      overflow-y: auto;
-      border-radius: 16px;
-      padding: 25px;
-      position: relative;
+    .actions button{
+      padding:7px 9px;
+      font-size:11px;
     }
 
-    .close {
-      position: absolute;
-      right: 15px;
-      top: 12px;
-      border: none;
-      background: #f3f4f6;
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
+    .empty{
+      text-align:center;
+      padding:25px;
+      color:#6b7280;
     }
 
-    .modal-photo {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
-      margin: 10px auto 20px;
-      border: 4px solid #f59e0b;
+    .loading{
+      text-align:center;
+      padding:25px;
     }
 
-    .modal-title {
-      text-align: center;
-      color: #7c2d12;
-      margin-bottom: 20px;
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.6);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:1000;
     }
 
-    .details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
+    .modal-box{
+      background:white;
+      width:100%;
+      max-width:600px;
+      max-height:90vh;
+      overflow:auto;
+      border-radius:14px;
+      padding:20px;
     }
 
-    .detail {
-      background: #f9fafb;
-      padding: 12px;
-      border-radius: 8px;
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:15px;
     }
 
-    .detail small {
-      display: block;
-      color: #6b7280;
-      margin-bottom: 4px;
+    .close{
+      background:#e5e7eb;
     }
 
-    .detail strong {
-      word-break: break-word;
+    .member-detail{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:10px;
+      font-size:14px;
     }
 
-    @media (max-width: 800px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .member-detail img{
+      width:110px;
+      height:110px;
+      object-fit:cover;
+      border-radius:10px;
+      grid-row:span 6;
+    }
 
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .header-inner {
-        align-items: flex-start;
-        flex-direction: column;
+    @media(max-width:800px){
+      .stats{
+        grid-template-columns:repeat(2,1fr);
       }
     }
 
-    @media (max-width: 500px) {
-      .stats {
-        grid-template-columns: 1fr;
+    @media(max-width:500px){
+      .stats{
+        grid-template-columns:1fr 1fr;
       }
 
-      .details {
-        grid-template-columns: 1fr;
+      .container{
+        padding:12px;
+      }
+
+      .card{
+        padding:14px;
+      }
+
+      .member-detail{
+        grid-template-columns:1fr;
+      }
+
+      .member-detail img{
+        grid-row:auto;
       }
     }
   </style>
@@ -352,100 +331,151 @@
 <body>
 
 <header>
-  <div class="header-inner">
-    <div>
-      <h1>Super Admin Dashboard</h1>
-      <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
-    </div>
-
-    <button class="logout-btn" onclick="logout()">
-      Logout
-    </button>
-  </div>
+  <h1>Maa Basuli Uda Jatra Committee</h1>
+  <p>Super Admin Control Panel</p>
 </header>
-
 
 <div class="container">
 
-  <div class="security">
-    🔐 Secure Super Admin Mode — Member records are loaded through a protected RPC.
+  <div class="topbar">
+    <div>
+      <h2>Super Admin Dashboard</h2>
+      <p id="adminEmail">Checking account...</p>
+    </div>
+
+    <button class="logout" onclick="logout()">Logout</button>
   </div>
 
-
+  <!-- STATS -->
   <div class="stats">
 
     <div class="stat">
-      <span>Total Members</span>
-      <h2 id="totalCount">0</h2>
+      <small>Total Members</small>
+      <strong id="totalMembers">0</strong>
     </div>
 
     <div class="stat">
-      <span>Pending Approval</span>
-      <h2 id="pendingCount">0</h2>
+      <small>Pending Approval</small>
+      <strong id="pendingMembers">0</strong>
     </div>
 
     <div class="stat">
-      <span>Active Members</span>
-      <h2 id="activeCount">0</h2>
+      <small>Active Members</small>
+      <strong id="activeMembers">0</strong>
     </div>
 
     <div class="stat">
-      <span>Inactive Members</span>
-      <h2 id="inactiveCount">0</h2>
+      <small>Inactive Members</small>
+      <strong id="inactiveMembers">0</strong>
     </div>
 
   </div>
 
+  <!-- ADMIN MANAGEMENT -->
+  <div class="card">
 
-  <div class="panel">
+    <h3>Admin Management</h3>
 
-    <h2>Member Management</h2>
+    <p style="color:#64748b;font-size:13px;margin-bottom:12px;">
+      Existing Supabase Authentication user ra email enter kari Admin role assign karantu.
+    </p>
 
-    <div class="filters">
+    <div class="admin-form">
 
       <input
-        type="text"
-        id="searchInput"
-        placeholder="Search name, Member ID, mobile, village..."
+        type="email"
+        id="adminEmailInput"
+        placeholder="Enter existing user email"
       >
 
-      <select id="approvalFilter">
-        <option value="all">All Approval Status</option>
-        <option value="pending">Pending</option>
-        <option value="approved">Approved</option>
-        <option value="rejected">Rejected</option>
-      </select>
-
-      <select id="statusFilter">
-        <option value="all">All Member Status</option>
-        <option value="active">Active</option>
-        <option value="inactive">Inactive</option>
-      </select>
+      <button class="primary" onclick="makeAdmin()">
+        Make Admin
+      </button>
 
     </div>
 
+    <div id="adminMessage" class="message"></div>
 
-    <div id="message" class="message"></div>
+    <div style="margin-top:20px;" class="table-wrap">
 
+      <table>
+
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="adminsTableBody">
+          <tr>
+            <td colspan="4" class="loading">
+              Loading Admins...
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- MEMBER MANAGEMENT -->
+  <div class="card">
+
+    <h3>Member Management</h3>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+
+      <input
+        type="search"
+        id="memberSearch"
+        placeholder="Search member name / ID / mobile / village..."
+        oninput="renderMembers()"
+        style="flex:1;min-width:250px;"
+      >
+
+      <select id="statusFilter" onchange="renderMembers()">
+        <option value="all">All Status</option>
+        <option value="pending">Pending</option>
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="rejected">Rejected</option>
+      </select>
+
+    </div>
 
     <div class="table-wrap">
 
       <table>
 
         <thead>
+
           <tr>
             <th>Photo</th>
-            <th>Member</th>
             <th>Member ID</th>
+            <th>Name</th>
+            <th>Email</th>
             <th>Mobile</th>
             <th>Designation</th>
             <th>Approval</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
+
         </thead>
 
-        <tbody id="memberTableBody">
+        <tbody id="membersTableBody">
+
+          <tr>
+            <td colspan="9" class="loading">
+              Loading Members...
+            </td>
+          </tr>
+
         </tbody>
 
       </table>
@@ -463,70 +493,17 @@
 
   <div class="modal-box">
 
-    <button class="close" onclick="closeModal()">×</button>
+    <div class="modal-head">
 
-    <h2 class="modal-title">Member Details</h2>
+      <h3>Member Details</h3>
 
-    <img
-      id="modalPhoto"
-      class="modal-photo"
-      src=""
-      alt="Member Photo"
-    >
-
-    <div class="details">
-
-      <div class="detail">
-        <small>Full Name</small>
-        <strong id="modalName">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Member ID</small>
-        <strong id="modalMemberId">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Email</small>
-        <strong id="modalEmail">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Mobile</small>
-        <strong id="modalMobile">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Village</small>
-        <strong id="modalVillage">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Blood Group</small>
-        <strong id="modalBlood">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Designation</small>
-        <strong id="modalDesignation">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Approval</small>
-        <strong id="modalApproval">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Member Status</small>
-        <strong id="modalStatus">—</strong>
-      </div>
-
-      <div class="detail">
-        <small>Address</small>
-        <strong id="modalAddress">—</strong>
-      </div>
+      <button class="close" onclick="closeMemberModal()">
+        Close
+      </button>
 
     </div>
+
+    <div id="memberDetails"></div>
 
   </div>
 
@@ -535,225 +512,192 @@
 
 <script>
 
-  /* =================================
-     SUPABASE CONFIG
-  ================================= */
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
 
-  const SUPABASE_URL =
-    "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-  const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-
-  const supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
-  let allMembers = [];
+let members = [];
 
 
-  /* =================================
-     AUTH CHECK
-  ================================= */
+/* =========================
+   START
+========================= */
 
-  async function checkSuperAdmin() {
+document.addEventListener("DOMContentLoaded", async () => {
 
-    const {
-      data: { session }
-    } = await supabaseClient.auth.getSession();
-
-
-    if (!session) {
-
-      window.location.href = "auth.html";
-
-      return false;
+  const {
+    data: {
+      session
     }
+  } = await supabaseClient.auth.getSession();
 
+  if (!session) {
 
-    const {
-      data: roleData,
-      error
-    } = await supabaseClient
-      .from("user_roles")
-      .select("role")
-      .eq("user_id", session.user.id)
-      .maybeSingle();
+    window.location.href = "auth.html";
 
-
-    if (error) {
-
-      console.error(error);
-
-      alert("Unable to verify account role.");
-
-      await supabaseClient.auth.signOut();
-
-      window.location.href = "auth.html";
-
-      return false;
-    }
-
-
-    if (!roleData || roleData.role !== "super_admin") {
-
-      alert("Access denied. Super Admin only.");
-
-      window.location.href = "profile.html";
-
-      return false;
-    }
-
-
-    return true;
+    return;
   }
 
+  document.getElementById("adminEmail").textContent =
+    session.user.email || "";
 
-  /* =================================
-     LOAD MEMBERS THROUGH SECURE RPC
-  ================================= */
+  await checkSuperAdmin();
 
-  async function loadMembers() {
-
-    showMessage(
-      "Loading member records...",
-      true
-    );
+});
 
 
-    const {
-      data,
-      error
-    } = await supabaseClient.rpc(
-      "get_all_members_for_super_admin"
-    );
+/* =========================
+   CHECK SUPER ADMIN
+========================= */
 
+async function checkSuperAdmin(){
 
-    if (error) {
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", (await supabaseClient.auth.getUser()).data.user.id)
+    .maybeSingle();
 
-      console.error(
-        "Secure member RPC error:",
-        error
-      );
+  if(error){
 
-      showMessage(
-        "Unable to load member records. Please refresh and try again.",
-        true
-      );
+    alert("Unable to verify account role.");
 
-      return;
-    }
+    window.location.href = "index.html";
 
-
-    allMembers = data || [];
-
-
-    updateStats();
-
-    renderMembers(
-      getFilteredMembers()
-    );
-
-
-    hideMessage();
-
+    return;
   }
 
+  if(!data || data.role !== "super_admin"){
 
-  /* =================================
-     STATS
-  ================================= */
+    alert("Access denied. Super Admin only.");
 
-  function updateStats() {
+    window.location.href = "index.html";
 
-    const total =
-      allMembers.length;
-
-
-    const pending =
-      allMembers.filter(
-        m => m.approval_status === "pending"
-      ).length;
-
-
-    const active =
-      allMembers.filter(
-        m => m.member_status === "active"
-      ).length;
-
-
-    const inactive =
-      allMembers.filter(
-        m => m.member_status === "inactive"
-      ).length;
-
-
-    document.getElementById(
-      "totalCount"
-    ).textContent = total;
-
-
-    document.getElementById(
-      "pendingCount"
-    ).textContent = pending;
-
-
-    document.getElementById(
-      "activeCount"
-    ).textContent = active;
-
-
-    document.getElementById(
-      "inactiveCount"
-    ).textContent = inactive;
-
+    return;
   }
 
+  await loadMembers();
+  await loadAdmins();
 
-  /* =================================
-     FILTER
-  ================================= */
-
-  function getFilteredMembers() {
-
-    const search =
-      document.getElementById(
-        "searchInput"
-      ).value
-       .trim()
-       .toLowerCase();
+}
 
 
-    const approval =
-      document.getElementById(
-        "approvalFilter"
-      ).value;
+/* =========================
+   LOAD MEMBERS
+========================= */
+
+async function loadMembers(){
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "get_all_members_for_super_admin"
+  );
+
+  if(error){
+
+    document.getElementById("membersTableBody").innerHTML =
+      `<tr>
+        <td colspan="9" class="empty">
+          Error loading members: ${escapeHtml(error.message)}
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+  members = data || [];
+
+  updateStats();
+
+  renderMembers();
+
+}
 
 
-    const status =
-      document.getElementById(
-        "statusFilter"
-      ).value;
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+  const total =
+    members.length;
+
+  const pending =
+    members.filter(
+      m => m.approval_status === "pending"
+    ).length;
+
+  const active =
+    members.filter(
+      m =>
+        m.approval_status === "approved" &&
+        m.member_status === "active"
+    ).length;
+
+  const inactive =
+    members.filter(
+      m => m.member_status === "inactive"
+    ).length;
+
+  document.getElementById("totalMembers").textContent =
+    total;
+
+  document.getElementById("pendingMembers").textContent =
+    pending;
+
+  document.getElementById("activeMembers").textContent =
+    active;
+
+  document.getElementById("inactiveMembers").textContent =
+    inactive;
+
+}
 
 
-    return allMembers.filter(member => {
+/* =========================
+   RENDER MEMBERS
+========================= */
+
+function renderMembers(){
+
+  const tbody =
+    document.getElementById("membersTableBody");
+
+  const search =
+    document.getElementById("memberSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const filter =
+    document.getElementById("statusFilter")
+      .value;
+
+  let list =
+    members.filter(member => {
 
       const searchable = [
 
         member.full_name,
-
         member.member_id,
-
-        member.mobile,
-
-        member.village,
-
         member.email,
-
+        member.mobile,
+        member.village,
         member.designation
 
       ]
@@ -761,740 +705,850 @@
       .join(" ")
       .toLowerCase();
 
-
-      const searchMatch =
+      const matchesSearch =
         !search ||
         searchable.includes(search);
 
+      let matchesFilter = true;
 
-      const approvalMatch =
-        approval === "all" ||
-        member.approval_status === approval;
+      if(filter === "pending"){
 
+        matchesFilter =
+          member.approval_status === "pending";
 
-      const statusMatch =
-        status === "all" ||
-        member.member_status === status;
+      }
 
+      if(filter === "active"){
 
-      return (
-        searchMatch &&
-        approvalMatch &&
-        statusMatch
-      );
+        matchesFilter =
+          member.approval_status === "approved" &&
+          member.member_status === "active";
+
+      }
+
+      if(filter === "inactive"){
+
+        matchesFilter =
+          member.member_status === "inactive";
+
+      }
+
+      if(filter === "rejected"){
+
+        matchesFilter =
+          member.approval_status === "rejected";
+
+      }
+
+      return matchesSearch && matchesFilter;
 
     });
 
+
+  if(list.length === 0){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="9" class="empty">
+          No members found.
+        </td>
+      </tr>`;
+
+    return;
   }
 
 
-  function renderMembers(members) {
-
-    const tbody =
-      document.getElementById(
-        "memberTableBody"
-      );
-
-
-    tbody.innerHTML = "";
-
-
-    if (!members.length) {
-
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="8"
-              style="text-align:center;padding:30px;color:#6b7280;">
-            No members found.
-          </td>
-        </tr>
-      `;
-
-      return;
-    }
-
-
-    members.forEach(member => {
-
-      const tr =
-        document.createElement("tr");
-
+  tbody.innerHTML =
+    list.map(member => {
 
       const photo =
-        member.profile_photo_url ||
-        "https://via.placeholder.com/60?text=Member";
+        member.profile_photo_url
+          ? `<img class="photo"
+              src="${escapeAttr(member.profile_photo_url)}"
+              alt="Photo">`
+          : `<div class="photo"></div>`;
 
 
-      tr.innerHTML = `
+      let approvalBadge = "";
 
-        <td>
-          <img
-            class="member-photo"
-            src="${escapeHTML(photo)}"
-            alt="Member"
-          >
-        </td>
+      if(member.approval_status === "pending"){
 
-        <td>
-          <strong>${escapeHTML(member.full_name || "—")}</strong>
-          <br>
-          <small>${escapeHTML(member.email || "—")}</small>
-        </td>
+        approvalBadge =
+          `<span class="badge badge-pending">
+            Pending
+          </span>`;
 
-        <td>
-          <strong>${escapeHTML(member.member_id || "Pending")}</strong>
-        </td>
+      }else if(member.approval_status === "approved"){
 
-        <td>
-          ${escapeHTML(member.mobile || "—")}
-        </td>
+        approvalBadge =
+          `<span class="badge badge-approved">
+            Approved
+          </span>`;
 
-        <td>
+      }else{
 
-          <select
-            class="designation-select"
-            onchange="changeDesignation('${member.id}', this.value)"
-            ${member.approval_status !== "approved" ? "disabled" : ""}
-          >
+        approvalBadge =
+          `<span class="badge badge-rejected">
+            Rejected
+          </span>`;
 
-            ${designationOption("Member", member.designation)}
-            ${designationOption("Core Committee Member", member.designation)}
-            ${designationOption("Secretary", member.designation)}
-            ${designationOption("Vice Secretary", member.designation)}
-            ${designationOption("President", member.designation)}
-            ${designationOption("Vice President", member.designation)}
-            ${designationOption("Treasurer", member.designation)}
+      }
 
-          </select>
 
-        </td>
+      const statusBadge =
+        member.member_status === "active"
 
-        <td>
-          ${approvalBadge(member.approval_status)}
-        </td>
+          ? `<span class="badge badge-active">
+              Active
+            </span>`
 
-        <td>
-          ${statusBadge(member.member_status)}
-        </td>
+          : `<span class="badge badge-inactive">
+              Inactive
+            </span>`;
 
-        <td>
 
-          <div class="actions">
+      let actions = `
 
-            <button
-              class="btn btn-view"
-              onclick="viewMember('${member.id}')">
-              View
-            </button>
+        <button
+          class="secondary"
+          onclick="viewMember('${member.id}')">
+          View
+        </button>
 
-            ${
-              member.approval_status === "pending"
-              ? `
-                <button
-                  class="btn btn-approve"
-                  onclick="approveMember('${member.id}')">
-                  Approve
-                </button>
-
-                <button
-                  class="btn btn-reject"
-                  onclick="rejectMember('${member.id}')">
-                  Reject
-                </button>
-              `
-              : ""
-            }
-
-            ${
-              member.approval_status === "approved"
-              && member.member_status === "active"
-              ? `
-                <button
-                  class="btn btn-inactive"
-                  onclick="deactivateMember('${member.id}')">
-                  Deactivate
-                </button>
-              `
-              : ""
-            }
-
-            ${
-              member.approval_status === "approved"
-              && member.member_status === "inactive"
-              ? `
-                <button
-                  class="btn btn-active"
-                  onclick="activateMember('${member.id}')">
-                  Activate
-                </button>
-              `
-              : ""
-            }
-
-          </div>
-
-        </td>
       `;
 
 
-      tbody.appendChild(tr);
+      if(member.approval_status === "pending"){
 
-    });
+        actions += `
 
-  }
+          <button
+            class="success"
+            onclick="approveMember('${member.id}')">
+            Approve
+          </button>
+
+          <button
+            class="danger"
+            onclick="rejectMember('${member.id}')">
+            Reject
+          </button>
+
+        `;
+
+      }
 
 
-  function designationOption(
-    value,
-    current
-  ) {
+      if(
+        member.approval_status === "approved" &&
+        member.member_status === "active"
+      ){
+
+        actions += `
+
+          <button
+            class="warning"
+            onclick="deactivateMember('${member.id}')">
+            Deactivate
+          </button>
+
+        `;
+
+      }
+
+
+      if(
+        member.approval_status === "approved" &&
+        member.member_status === "inactive"
+      ){
+
+        actions += `
+
+          <button
+            class="success"
+            onclick="activateMember('${member.id}')">
+            Activate
+          </button>
+
+        `;
+
+      }
+
+
+      return `
+
+        <tr>
+
+          <td>${photo}</td>
+
+          <td>
+            ${escapeHtml(member.member_id || "—")}
+          </td>
+
+          <td>
+            ${escapeHtml(member.full_name || "—")}
+          </td>
+
+          <td>
+            ${escapeHtml(member.email || "—")}
+          </td>
+
+          <td>
+            ${escapeHtml(member.mobile || "—")}
+          </td>
+
+          <td>
+
+            <select
+              onchange="changeDesignation(
+                '${member.id}',
+                this.value
+              )">
+
+              ${designationOptions(
+                member.designation
+              )}
+
+            </select>
+
+          </td>
+
+          <td>
+            ${approvalBadge}
+          </td>
+
+          <td>
+            ${statusBadge}
+          </td>
+
+          <td>
+
+            <div class="actions">
+              ${actions}
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================
+   DESIGNATION OPTIONS
+========================= */
+
+function designationOptions(current){
+
+  const list = [
+
+    "Member",
+    "Core Committee Member",
+    "Secretary",
+    "Vice Secretary",
+    "President",
+    "Vice President",
+    "Treasurer"
+
+  ];
+
+  return list.map(item => {
+
+    const selected =
+      item === current
+        ? "selected"
+        : "";
 
     return `
       <option
-        value="${escapeHTML(value)}"
-        ${value === current ? "selected" : ""}
-      >
-        ${escapeHTML(value)}
+        value="${escapeAttr(item)}"
+        ${selected}>
+        ${escapeHtml(item)}
       </option>
     `;
 
+  }).join("");
+
+}
+
+
+/* =========================
+   APPROVE MEMBER
+========================= */
+
+async function approveMember(id){
+
+  if(!confirm(
+    "Ehi member ku approve karibe?"
+  )) return;
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "approve_member",
+    {
+      target_user_id: id
+    }
+  );
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
   }
 
 
-  function approvalBadge(status) {
+  alert(
+    "Member approved successfully.\nMember ID: " +
+    data
+  );
 
-    const label =
-      status || "unknown";
+  await loadMembers();
+
+}
 
 
-    return `
-      <span class="badge ${escapeHTML(label)}">
-        ${escapeHTML(label.toUpperCase())}
+/* =========================
+   REJECT MEMBER
+========================= */
+
+async function rejectMember(id){
+
+  if(!confirm(
+    "Ehi member ku reject karibe?"
+  )) return;
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "reject_member",
+    {
+      target_user_id: id
+    }
+  );
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  alert(
+    "Member rejected."
+  );
+
+  await loadMembers();
+
+}
+
+
+/* =========================
+   ACTIVATE
+========================= */
+
+async function activateMember(id){
+
+  if(!confirm(
+    "Member ku Active karibe?"
+  )) return;
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "activate_member",
+    {
+      target_user_id: id
+    }
+  );
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  alert(
+    "Member activated."
+  );
+
+  await loadMembers();
+
+}
+
+
+/* =========================
+   DEACTIVATE
+========================= */
+
+async function deactivateMember(id){
+
+  if(!confirm(
+    "Member ku Deactive karibe?"
+  )) return;
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "deactivate_member",
+    {
+      target_user_id: id
+    }
+  );
+
+
+  if(error){
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  alert(
+    "Member deactivated."
+  );
+
+  await loadMembers();
+
+}
+
+
+/* =========================
+   CHANGE DESIGNATION
+========================= */
+
+async function changeDesignation(
+  id,
+  designation
+){
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "update_member_designation",
+    {
+      target_user_id: id,
+      new_designation: designation
+    }
+  );
+
+
+  if(error){
+
+    alert(error.message);
+
+    await loadMembers();
+
+    return;
+  }
+
+
+  await loadMembers();
+
+}
+
+
+/* =========================
+   VIEW MEMBER
+========================= */
+
+function viewMember(id){
+
+  const member =
+    members.find(
+      m => m.id === id
+    );
+
+  if(!member) return;
+
+
+  const photo =
+    member.profile_photo_url
+
+      ? `<img
+          src="${escapeAttr(member.profile_photo_url)}"
+          alt="Member Photo">`
+
+      : `<img
+          src=""
+          alt="No Photo"
+          style="background:#eee;">`;
+
+
+  document.getElementById(
+    "memberDetails"
+  ).innerHTML = `
+
+    <div class="member-detail">
+
+      ${photo}
+
+      <strong>Member ID</strong>
+      <span>
+        ${escapeHtml(member.member_id || "—")}
       </span>
-    `;
 
-  }
-
-
-  function statusBadge(status) {
-
-    const label =
-      status || "unknown";
-
-
-    return `
-      <span class="badge ${escapeHTML(label)}">
-        ${escapeHTML(label.toUpperCase())}
+      <strong>Name</strong>
+      <span>
+        ${escapeHtml(member.full_name || "—")}
       </span>
-    `;
 
-  }
+      <strong>Email</strong>
+      <span>
+        ${escapeHtml(member.email || "—")}
+      </span>
+
+      <strong>Mobile</strong>
+      <span>
+        ${escapeHtml(member.mobile || "—")}
+      </span>
+
+      <strong>Village</strong>
+      <span>
+        ${escapeHtml(member.village || "—")}
+      </span>
+
+      <strong>Address</strong>
+      <span>
+        ${escapeHtml(member.address || "—")}
+      </span>
+
+      <strong>Blood Group</strong>
+      <span>
+        ${escapeHtml(member.blood_group || "—")}
+      </span>
+
+      <strong>Designation</strong>
+      <span>
+        ${escapeHtml(member.designation || "—")}
+      </span>
+
+      <strong>Approval Status</strong>
+      <span>
+        ${escapeHtml(member.approval_status || "—")}
+      </span>
+
+      <strong>Member Status</strong>
+      <span>
+        ${escapeHtml(member.member_status || "—")}
+      </span>
+
+    </div>
+
+  `;
 
-
-  /* =================================
-     APPROVE MEMBER
-  ================================= */
-
-  async function approveMember(id) {
-
-    if (!confirm(
-      "Approve this member and generate Member ID?"
-    )) {
-      return;
-    }
-
-
-    const {
-      data,
-      error
-    } = await supabaseClient.rpc(
-      "approve_member",
-      {
-        target_user_id: id
-      }
-    );
-
-
-    if (error) {
-
-      alert(
-        "Approval failed: " +
-        error.message
-      );
-
-      return;
-    }
-
-
-    alert(
-      "Member approved successfully.\nMember ID: " +
-      data
-    );
-
-
-    await loadMembers();
-
-  }
-
-
-  /* =================================
-     REJECT MEMBER
-  ================================= */
-
-  async function rejectMember(id) {
-
-    if (!confirm(
-      "Are you sure you want to reject this member?"
-    )) {
-      return;
-    }
-
-
-    const {
-      error
-    } = await supabaseClient.rpc(
-      "reject_member",
-      {
-        target_user_id: id
-      }
-    );
-
-
-    if (error) {
-
-      alert(
-        "Rejection failed: " +
-        error.message
-      );
-
-      return;
-    }
-
-
-    alert(
-      "Member rejected successfully."
-    );
-
-
-    await loadMembers();
-
-  }
-
-
-  /* =================================
-     ACTIVATE MEMBER
-  ================================= */
-
-  async function activateMember(id) {
-
-    if (!confirm(
-      "Activate this member?"
-    )) {
-      return;
-    }
-
-
-    const {
-      error
-    } = await supabaseClient.rpc(
-      "activate_member",
-      {
-        target_user_id: id
-      }
-    );
-
-
-    if (error) {
-
-      alert(
-        "Activation failed: " +
-        error.message
-      );
-
-      return;
-    }
-
-
-    alert(
-      "Member activated successfully."
-    );
-
-
-    await loadMembers();
-
-  }
-
-
-  /* =================================
-     DEACTIVATE MEMBER
-  ================================= */
-
-  async function deactivateMember(id) {
-
-    if (!confirm(
-      "Deactivate this member?"
-    )) {
-      return;
-    }
-
-
-    const {
-      error
-    } = await supabaseClient.rpc(
-      "deactivate_member",
-      {
-        target_user_id: id
-      }
-    );
-
-
-    if (error) {
-
-      alert(
-        "Deactivation failed: " +
-        error.message
-      );
-
-      return;
-    }
-
-
-    alert(
-      "Member deactivated successfully."
-    );
-
-
-    await loadMembers();
-
-  }
-
-
-  /* =================================
-     CHANGE DESIGNATION
-  ================================= */
-
-  async function changeDesignation(
-    id,
-    designation
-  ) {
-
-    const member =
-      allMembers.find(
-        m => m.id === id
-      );
-
-
-    if (!member) {
-      return;
-    }
-
-
-    if (!confirm(
-      "Change designation to " +
-      designation +
-      "?"
-    )) {
-
-      renderMembers(
-        getFilteredMembers()
-      );
-
-      return;
-    }
-
-
-    const {
-      error
-    } = await supabaseClient.rpc(
-      "update_member_designation",
-      {
-        target_user_id: id,
-        new_designation: designation
-      }
-    );
-
-
-    if (error) {
-
-      alert(
-        "Designation update failed: " +
-        error.message
-      );
-
-      renderMembers(
-        getFilteredMembers()
-      );
-
-      return;
-    }
-
-
-    member.designation =
-      designation;
-
-
-    alert(
-      "Designation updated successfully."
-    );
-
-
-    renderMembers(
-      getFilteredMembers()
-    );
-
-  }
-
-
-  /* =================================
-     VIEW MEMBER
-  ================================= */
-
-  function viewMember(id) {
-
-    const member =
-      allMembers.find(
-        m => m.id === id
-      );
-
-
-    if (!member) {
-      return;
-    }
-
-
-    document.getElementById(
-      "modalPhoto"
-    ).src =
-      member.profile_photo_url ||
-      "https://via.placeholder.com/120?text=Member";
-
-
-    document.getElementById(
-      "modalName"
-    ).textContent =
-      member.full_name || "—";
-
-
-    document.getElementById(
-      "modalMemberId"
-    ).textContent =
-      member.member_id || "Pending";
-
-
-    document.getElementById(
-      "modalEmail"
-    ).textContent =
-      member.email || "—";
-
-
-    document.getElementById(
-      "modalMobile"
-    ).textContent =
-      member.mobile || "—";
-
-
-    document.getElementById(
-      "modalVillage"
-    ).textContent =
-      member.village || "—";
-
-
-    document.getElementById(
-      "modalBlood"
-    ).textContent =
-      member.blood_group || "—";
-
-
-    document.getElementById(
-      "modalDesignation"
-    ).textContent =
-      member.designation || "—";
-
-
-    document.getElementById(
-      "modalApproval"
-    ).textContent =
-      member.approval_status || "—";
-
-
-    document.getElementById(
-      "modalStatus"
-    ).textContent =
-      member.member_status || "—";
-
-
-    document.getElementById(
-      "modalAddress"
-    ).textContent =
-      member.address || "—";
-
-
-    document.getElementById(
-      "memberModal"
-    ).style.display =
-      "flex";
-
-  }
-
-
-  function closeModal() {
-
-    document.getElementById(
-      "memberModal"
-    ).style.display =
-      "none";
-
-  }
-
-
-  /* =================================
-     SEARCH / FILTER EVENTS
-  ================================= */
-
-  document.getElementById(
-    "searchInput"
-  ).addEventListener(
-    "input",
-    () => {
-
-      renderMembers(
-        getFilteredMembers()
-      );
-
-    }
-  );
-
-
-  document.getElementById(
-    "approvalFilter"
-  ).addEventListener(
-    "change",
-    () => {
-
-      renderMembers(
-        getFilteredMembers()
-      );
-
-    }
-  );
-
-
-  document.getElementById(
-    "statusFilter"
-  ).addEventListener(
-    "change",
-    () => {
-
-      renderMembers(
-        getFilteredMembers()
-      );
-
-    }
-  );
-
-
-  /* =================================
-     MESSAGE
-  ================================= */
-
-  function showMessage(
-    message,
-    visible
-  ) {
-
-    const element =
-      document.getElementById(
-        "message"
-      );
-
-
-    element.textContent =
-      message;
-
-
-    element.style.display =
-      visible ? "block" : "none";
-
-  }
-
-
-  function hideMessage() {
-
-    document.getElementById(
-      "message"
-    ).style.display =
-      "none";
-
-  }
-
-
-  /* =================================
-     HTML ESCAPE
-  ================================= */
-
-  function escapeHTML(value) {
-
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-
-  }
-
-
-  /* =================================
-     LOGOUT
-  ================================= */
-
-  async function logout() {
-
-    await supabaseClient.auth.signOut();
-
-    window.location.href =
-      "auth.html";
-
-  }
-
-
-  /* =================================
-     CLOSE MODAL OUTSIDE
-  ================================= */
 
   document.getElementById(
     "memberModal"
-  ).addEventListener(
-    "click",
-    function(event) {
+  ).style.display = "flex";
 
-      if (event.target === this) {
+}
 
-        closeModal();
 
-      }
+function closeMemberModal(){
 
+  document.getElementById(
+    "memberModal"
+  ).style.display = "none";
+
+}
+
+
+/* =========================
+   ADMIN MANAGEMENT
+========================= */
+
+async function makeAdmin(){
+
+  const input =
+    document.getElementById(
+      "adminEmailInput"
+    );
+
+  const email =
+    input.value.trim();
+
+  if(!email){
+
+    showAdminMessage(
+      "Please enter an email address.",
+      false
+    );
+
+    return;
+  }
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "find_user_and_make_admin",
+    {
+      target_email: email
     }
   );
 
 
-  /* =================================
-     START DASHBOARD
-  ================================= */
+  if(error){
 
-  (async function() {
+    showAdminMessage(
+      error.message,
+      false
+    );
 
-    const authorized =
-      await checkSuperAdmin();
+    return;
+  }
 
 
-    if (authorized) {
+  showAdminMessage(
+    "Admin role successfully assigned.",
+    true
+  );
 
-      await loadMembers();
+  input.value = "";
+
+  await loadAdmins();
+
+}
+
+
+function showAdminMessage(
+  message,
+  success
+){
+
+  const box =
+    document.getElementById(
+      "adminMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    success
+      ? "message success-msg"
+      : "message error-msg";
+
+}
+
+
+/* =========================
+   LOAD ADMINS
+========================= */
+
+async function loadAdmins(){
+
+  const tbody =
+    document.getElementById(
+      "adminsTableBody"
+    );
+
+
+  const {
+    data,
+    error
+  } = await supabaseClient.rpc(
+    "get_all_admins_for_super_admin"
+  );
+
+
+  if(error){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="4" class="empty">
+          ${escapeHtml(error.message)}
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+
+  if(!data || data.length === 0){
+
+    tbody.innerHTML =
+      `<tr>
+        <td colspan="4" class="empty">
+          No Admin accounts found.
+        </td>
+      </tr>`;
+
+    return;
+  }
+
+
+  tbody.innerHTML =
+    data.map(admin => `
+
+      <tr>
+
+        <td>
+          ${escapeHtml(admin.email || "—")}
+        </td>
+
+        <td>
+          <span class="badge badge-approved">
+            Admin
+          </span>
+        </td>
+
+        <td>
+          ${formatDate(admin.created_at)}
+        </td>
+
+        <td>
+
+          <button
+            class="danger"
+            onclick="removeAdmin('${admin.user_id}')">
+            Remove Admin
+          </button>
+
+        </td>
+
+      </tr>
+
+    `).join("");
+
+}
+
+
+/* =========================
+   REMOVE ADMIN
+========================= */
+
+async function removeAdmin(id){
+
+  if(!confirm(
+    "Ehi user ra Admin role remove kari Member role karibe?"
+  )) return;
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "remove_admin_role",
+    {
+      target_user_id: id
+    }
+  );
+
+
+  if(error){
+
+    showAdminMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showAdminMessage(
+    "Admin role removed successfully.",
+    true
+  );
+
+
+  await loadAdmins();
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function formatDate(value){
+
+  if(!value) return "—";
+
+  const date =
+    new Date(value);
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+function escapeAttr(value){
+
+  return escapeHtml(value);
+
+}
+
+
+/* =========================
+   MODAL CLICK OUTSIDE
+========================= */
+
+document.getElementById(
+  "memberModal"
+).addEventListener(
+  "click",
+  function(event){
+
+    if(event.target === this){
+
+      closeMemberModal();
 
     }
 
-  })();
+  }
+);
 
 </script>
 
