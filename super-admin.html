@@ -9,11 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
   font-family:Arial,Helvetica,sans-serif;
@@ -31,9 +27,7 @@ body{
   gap:15px;
 }
 
-.header h1{
-  font-size:22px;
-}
+.header h1{font-size:22px}
 
 .header p{
   font-size:13px;
@@ -83,9 +77,7 @@ body{
   box-shadow:0 4px 18px rgba(0,0,0,.07);
 }
 
-.stat small{
-  color:#6b7280;
-}
+.stat small{color:#6b7280}
 
 .stat h3{
   margin-top:8px;
@@ -110,9 +102,7 @@ body{
   outline:none;
 }
 
-.search:focus{
-  border-color:#7e22ce;
-}
+.search:focus{border-color:#7e22ce}
 
 .filter-row{
   display:flex;
@@ -179,30 +169,11 @@ td{
   font-weight:bold;
 }
 
-.pending{
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.approved{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.rejected{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.active{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.inactive{
-  background:#e5e7eb;
-  color:#374151;
-}
+.pending{background:#fef3c7;color:#92400e}
+.approved{background:#dcfce7;color:#166534}
+.rejected{background:#fee2e2;color:#991b1b}
+.active{background:#dcfce7;color:#166534}
+.inactive{background:#e5e7eb;color:#374151}
 
 .actions{
   display:flex;
@@ -219,35 +190,23 @@ td{
   font-weight:bold;
 }
 
-.approve-btn{
-  background:#16a34a;
-  color:white;
-}
-
-.reject-btn{
-  background:#dc2626;
-  color:white;
-}
-
-.activate-btn{
-  background:#2563eb;
-  color:white;
-}
-
-.deactivate-btn{
-  background:#6b7280;
-  color:white;
-}
-
-.view-btn{
-  background:#7e22ce;
-  color:white;
-}
+.approve-btn{background:#16a34a;color:white}
+.reject-btn{background:#dc2626;color:white}
+.activate-btn{background:#2563eb;color:white}
+.deactivate-btn{background:#6b7280;color:white}
+.view-btn{background:#7e22ce;color:white}
 
 .designation{
   padding:7px;
   border:1px solid #d1d5db;
   border-radius:7px;
+  background:white;
+  min-width:150px;
+}
+
+.designation:disabled{
+  opacity:.6;
+  cursor:not-allowed;
 }
 
 .message{
@@ -258,20 +217,9 @@ td{
   line-height:1.5;
 }
 
-.success{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.error{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.info{
-  background:#dbeafe;
-  color:#1e40af;
-}
+.success{background:#dcfce7;color:#166534}
+.error{background:#fee2e2;color:#991b1b}
+.info{background:#dbeafe;color:#1e40af}
 
 .loading{
   text-align:center;
@@ -310,9 +258,7 @@ td{
   margin-bottom:20px;
 }
 
-.modal-head h2{
-  color:#581c87;
-}
+.modal-head h2{color:#581c87}
 
 .close{
   border:0;
@@ -332,9 +278,7 @@ td{
   border-bottom:1px solid #eee;
 }
 
-.detail strong{
-  color:#581c87;
-}
+.detail strong{color:#581c87}
 
 .footer{
   text-align:center;
@@ -344,30 +288,20 @@ td{
 }
 
 @media(max-width:800px){
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .stats{grid-template-columns:repeat(2,1fr)}
 
   .header{
     flex-direction:column;
     align-items:flex-start;
   }
 
-  .logout{
-    width:100%;
-  }
+  .logout{width:100%}
 }
 
 @media(max-width:500px){
+  .stats{grid-template-columns:1fr}
 
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .detail{
-    grid-template-columns:1fr;
-  }
+  .detail{grid-template-columns:1fr}
 }
 </style>
 </head>
@@ -381,9 +315,7 @@ td{
     <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
   </div>
 
-  <button class="logout" onclick="logout()">
-    Logout
-  </button>
+  <button class="logout" onclick="logout()">Logout</button>
 
 </header>
 
@@ -441,7 +373,6 @@ td{
 
       <button
         class="filter active"
-        id="allFilter"
         onclick="setFilter('all',this)"
       >
         All
@@ -483,9 +414,7 @@ td{
   <section class="table-wrap">
 
     <div id="tableContent">
-      <div class="loading">
-        Members load heuchhi...
-      </div>
+      <div class="loading">Members load heuchhi...</div>
     </div>
 
   </section>
@@ -498,8 +427,6 @@ td{
 </footer>
 
 
-<!-- MEMBER DETAIL MODAL -->
-
 <div id="memberModal" class="modal">
 
   <div class="modal-box">
@@ -508,12 +435,7 @@ td{
 
       <h2>Member Details</h2>
 
-      <button
-        class="close"
-        onclick="closeModal()"
-      >
-        ×
-      </button>
+      <button class="close" onclick="closeModal()">×</button>
 
     </div>
 
@@ -525,10 +447,6 @@ td{
 
 
 <script>
-
-/* =====================================
-   SUPABASE
-===================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
@@ -706,36 +624,23 @@ async function loadMembers(){
 
 function updateStats(){
 
-  const total =
+  document.getElementById("totalCount").textContent =
     allMembers.length;
 
-  const pending =
+  document.getElementById("pendingCount").textContent =
     allMembers.filter(
       m => m.approval_status === "pending"
     ).length;
 
-  const active =
+  document.getElementById("activeCount").textContent =
     allMembers.filter(
       m => m.member_status === "active"
     ).length;
 
-  const inactive =
+  document.getElementById("inactiveCount").textContent =
     allMembers.filter(
       m => m.member_status === "inactive"
     ).length;
-
-
-  document.getElementById("totalCount").textContent =
-    total;
-
-  document.getElementById("pendingCount").textContent =
-    pending;
-
-  document.getElementById("activeCount").textContent =
-    active;
-
-  document.getElementById("inactiveCount").textContent =
-    inactive;
 }
 
 
@@ -747,13 +652,11 @@ function setFilter(filter,button){
 
   currentFilter = filter;
 
-
   document
     .querySelectorAll(".filter")
     .forEach(btn=>{
       btn.classList.remove("active");
     });
-
 
   button.classList.add("active");
 
@@ -762,7 +665,7 @@ function setFilter(filter,button){
 
 
 /* =====================================
-   RENDER
+   RENDER MEMBERS
 ===================================== */
 
 function renderMembers(){
@@ -775,92 +678,70 @@ function renderMembers(){
       .toLowerCase();
 
 
-  let list =
-    [...allMembers];
+  let list = [...allMembers];
 
 
   if(currentFilter === "pending"){
-
-    list =
-      list.filter(
-        m => m.approval_status === "pending"
-      );
+    list = list.filter(
+      m => m.approval_status === "pending"
+    );
   }
-
 
   if(currentFilter === "approved"){
-
-    list =
-      list.filter(
-        m => m.approval_status === "approved"
-      );
+    list = list.filter(
+      m => m.approval_status === "approved"
+    );
   }
-
 
   if(currentFilter === "active"){
-
-    list =
-      list.filter(
-        m => m.member_status === "active"
-      );
+    list = list.filter(
+      m => m.member_status === "active"
+    );
   }
 
-
   if(currentFilter === "inactive"){
-
-    list =
-      list.filter(
-        m => m.member_status === "inactive"
-      );
+    list = list.filter(
+      m => m.member_status === "inactive"
+    );
   }
 
 
   if(search){
 
-    list =
-      list.filter(m => {
+    list = list.filter(m => {
 
-        const text = [
+      const text = [
+        m.full_name,
+        m.member_id,
+        m.email,
+        m.mobile,
+        m.village,
+        m.designation,
+        m.blood_group
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
 
-          m.full_name,
-          m.member_id,
-          m.email,
-          m.mobile,
-          m.village,
-          m.designation,
-          m.blood_group
-
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-
-        return text.includes(search);
-
-      });
+      return text.includes(search);
+    });
   }
 
 
   if(!list.length){
 
     document.getElementById("tableContent").innerHTML =
-      `<div class="empty">
-        No member found.
-      </div>`;
+      `<div class="empty">No member found.</div>`;
 
     return;
   }
 
 
   let html = `
-
     <table>
 
       <thead>
-
         <tr>
-
           <th>Photo</th>
           <th>Member</th>
           <th>Contact</th>
@@ -869,16 +750,14 @@ function renderMembers(){
           <th>Approval</th>
           <th>Status</th>
           <th>Actions</th>
-
         </tr>
-
       </thead>
 
       <tbody>
   `;
 
 
-  list.forEach(member=>{
+  list.forEach(member => {
 
     const photo =
       member.profile_photo_url ||
@@ -899,16 +778,26 @@ function renderMembers(){
 
 
         <td>
-          <strong>${escapeHtml(member.full_name || "-")}</strong>
+          <strong>
+            ${escapeHtml(member.full_name || "-")}
+          </strong>
+
           <br>
-          <small>${escapeHtml(member.village || "-")}</small>
+
+          <small>
+            ${escapeHtml(member.village || "-")}
+          </small>
         </td>
 
 
         <td>
           ${escapeHtml(member.mobile || "-")}
+
           <br>
-          <small>${escapeHtml(member.email || "-")}</small>
+
+          <small>
+            ${escapeHtml(member.email || "-")}
+          </small>
         </td>
 
 
@@ -1041,7 +930,6 @@ function renderMembers(){
 function designationOptions(current){
 
   const options = [
-
     "Member",
     "Core Committee Member",
     "Secretary",
@@ -1049,11 +937,10 @@ function designationOptions(current){
     "President",
     "Vice President",
     "Treasurer"
-
   ];
 
 
-  return options.map(option=>{
+  return options.map(option => {
 
     return `
       <option
@@ -1074,9 +961,7 @@ function designationOptions(current){
 
 function approvalBadge(status){
 
-  const value =
-    status || "pending";
-
+  const value = status || "pending";
 
   return `
     <span class="badge ${value}">
@@ -1088,9 +973,7 @@ function approvalBadge(status){
 
 function statusBadge(status){
 
-  const value =
-    status || "inactive";
-
+  const value = status || "inactive";
 
   return `
     <span class="badge ${value}">
@@ -1101,7 +984,7 @@ function statusBadge(status){
 
 
 /* =====================================
-   APPROVE MEMBER
+   APPROVE
 ===================================== */
 
 async function approveMember(id){
@@ -1139,8 +1022,7 @@ async function approveMember(id){
 
 
   showMessage(
-    "✅ Member approved. Member ID: " +
-    data,
+    "✅ Member approved. Member ID: " + data,
     "success"
   );
 
@@ -1150,7 +1032,7 @@ async function approveMember(id){
 
 
 /* =====================================
-   REJECT MEMBER
+   REJECT
 ===================================== */
 
 async function rejectMember(id){
@@ -1280,19 +1162,44 @@ async function deactivateMember(id){
 
 
 /* =====================================
-   DESIGNATION
+   SECURE DESIGNATION UPDATE
 ===================================== */
 
-async function changeDesignation(id,designation){
+async function changeDesignation(id,newDesignation){
 
-  /*
-    Secure RPC next database step re add heba.
-    Ebe direct update karibani.
-  */
+  hideMessage();
+
+
+  const {
+    error
+  } = await supabaseClient.rpc(
+    "update_member_designation",
+    {
+      target_user_id:id,
+      new_designation:newDesignation
+    }
+  );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Designation update failed: " + error.message,
+      "error"
+    );
+
+    await loadMembers();
+
+    return;
+  }
+
 
   showMessage(
-    "Designation update system ra secure database RPC next step re connect heba.",
-    "info"
+    "✅ Designation successfully updated to " +
+    newDesignation + ".",
+    "success"
   );
 
 
@@ -1345,7 +1252,9 @@ function viewMember(id){
 
     <div class="detail">
       <strong>Member ID</strong>
-      <span>${escapeHtml(member.member_id || "Not Generated")}</span>
+      <span>
+        ${escapeHtml(member.member_id || "Not Generated")}
+      </span>
     </div>
 
 
