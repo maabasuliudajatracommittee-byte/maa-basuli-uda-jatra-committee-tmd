@@ -6,6 +6,8 @@
 
 <title>Fund & Donation | Maa Basuli Uda Jatra Committee</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   box-sizing:border-box;
@@ -271,7 +273,7 @@ select{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:650px;
+  min-width:850px;
 }
 
 th,
@@ -299,6 +301,62 @@ td{
 .expense{
   color:#b3261e;
   font-weight:bold;
+}
+
+.savings{
+  color:#b77900;
+  font-weight:bold;
+}
+
+.type-badge{
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.type-income{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.type-donation{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.type-member{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+.type-other{
+  background:#cffafe;
+  color:#0e7490;
+}
+
+.type-expense{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.type-savings{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+
+.error-row{
+  text-align:center;
+  padding:25px;
+  color:#b3261e;
 }
 
 /* DONATION */
@@ -502,10 +560,17 @@ footer a{
 <!-- TOP BAR -->
 
 <div class="topbar">
+
   <div class="container topbar-inner">
+
     <span>🙏 जय माँ बसुली</span>
-    <span>Thakurmunda, Mayurbhanj, Odisha</span>
+
+    <span>
+      Thakurmunda, Mayurbhanj, Odisha
+    </span>
+
   </div>
+
 </div>
 
 
@@ -517,16 +582,31 @@ footer a{
 
     <a href="index.html" class="logo">
 
-      <div class="logo-icon">🙏</div>
+      <div class="logo-icon">
+        🙏
+      </div>
 
       <div class="logo-text">
-        <h1>Maa Basuli Uda Jatra Committee</h1>
-        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+
+        <h1>
+          Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
+
       </div>
 
     </a>
 
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()">
+      ☰
+    </button>
+
 
     <nav id="mainNav">
 
@@ -555,7 +635,9 @@ footer a{
 
   <div class="container">
 
-    <h2>Fund & Donation</h2>
+    <h2>
+      Fund & Donation
+    </h2>
 
     <p>
       Transparency in Collection, Expenses & Savings
@@ -578,12 +660,16 @@ footer a{
         Current Available Fund
       </div>
 
-      <div class="balance-amount">
+      <div
+        class="balance-amount"
+        id="currentBalance">
         ₹0.00
       </div>
 
-      <div class="balance-note">
-        Official balance will be updated by the Super Admin.
+      <div
+        class="balance-note"
+        id="balanceNote">
+        Loading official published fund data...
       </div>
 
     </div>
@@ -601,7 +687,9 @@ footer a{
 
     <div class="section-title">
 
-      <h2>Fund Summary</h2>
+      <h2>
+        Fund Summary
+      </h2>
 
       <p>
         Year-wise financial overview
@@ -613,23 +701,12 @@ footer a{
     <div class="year-box">
 
       <label for="fundYear">
-        Select Year:
+        Financial Year:
       </label>
 
-      <select id="fundYear" onchange="changeYear()">
-
-        <option value="2027">
-          2027
-        </option>
-
-        <option value="2026">
-          2026
-        </option>
-
-        <option value="2025">
-          2025
-        </option>
-
+      <select
+        id="fundYear"
+        onchange="loadFundData()">
       </select>
 
     </div>
@@ -640,16 +717,22 @@ footer a{
 
       <div class="fund-card">
 
-        <div class="icon">💰</div>
+        <div class="icon">
+          💰
+        </div>
 
-        <h3>Collection</h3>
+        <h3>
+          Collection / Income
+        </h3>
 
-        <div class="amount">
+        <div
+          class="amount"
+          id="totalIncome">
           ₹0.00
         </div>
 
         <p>
-          Total collection
+          Published income
         </p>
 
       </div>
@@ -657,16 +740,22 @@ footer a{
 
       <div class="fund-card">
 
-        <div class="icon">💸</div>
+        <div class="icon">
+          💸
+        </div>
 
-        <h3>Expenses</h3>
+        <h3>
+          Expenses
+        </h3>
 
-        <div class="amount">
+        <div
+          class="amount"
+          id="totalExpense">
           ₹0.00
         </div>
 
         <p>
-          Total expenses
+          Published expenses
         </p>
 
       </div>
@@ -674,16 +763,22 @@ footer a{
 
       <div class="fund-card">
 
-        <div class="icon">🏦</div>
+        <div class="icon">
+          🏦
+        </div>
 
-        <h3>Savings</h3>
+        <h3>
+          Savings
+        </h3>
 
-        <div class="amount">
+        <div
+          class="amount"
+          id="totalSavings">
           ₹0.00
         </div>
 
         <p>
-          Total savings
+          Savings / reserved amount
         </p>
 
       </div>
@@ -691,16 +786,22 @@ footer a{
 
       <div class="fund-card">
 
-        <div class="icon">🎁</div>
+        <div class="icon">
+          🎁
+        </div>
 
-        <h3>Donation</h3>
+        <h3>
+          Donation
+        </h3>
 
-        <div class="amount">
+        <div
+          class="amount"
+          id="totalDonation">
           ₹0.00
         </div>
 
         <p>
-          Donation received
+          Published donations
         </p>
 
       </div>
@@ -720,7 +821,9 @@ footer a{
 
     <div class="section-title">
 
-      <h2>Financial Transactions</h2>
+      <h2>
+        Financial Transactions
+      </h2>
 
       <p>
         Public summary of authorised fund activities
@@ -737,36 +840,42 @@ footer a{
 
           <tr>
 
-            <th>Date</th>
+            <th>
+              Date
+            </th>
 
-            <th>Description</th>
+            <th>
+              Title / Description
+            </th>
 
-            <th>Type</th>
+            <th>
+              Type
+            </th>
 
-            <th>Amount</th>
+            <th>
+              Payment Mode
+            </th>
 
-            <th>Year</th>
+            <th>
+              Amount
+            </th>
 
           </tr>
 
         </thead>
 
 
-        <tbody>
+        <tbody id="transactionsBody">
 
           <tr>
 
-            <td>—</td>
+            <td
+              colspan="5"
+              class="loading">
 
-            <td>
-              No transaction published yet
+              Loading published transactions...
+
             </td>
-
-            <td>—</td>
-
-            <td>₹0.00</td>
-
-            <td>2027</td>
 
           </tr>
 
@@ -789,7 +898,9 @@ footer a{
 
     <div class="section-title">
 
-      <h2>Donate to Maa Basuli Uda Jatra Committee</h2>
+      <h2>
+        Donate to Maa Basuli Uda Jatra Committee
+      </h2>
 
       <p>
         Support the festival and committee activities
@@ -817,15 +928,23 @@ footer a{
 
         <div class="qr-placeholder">
 
-          Official Donation QR<br>
+          Official Donation QR
+          <br>
           Will Be Added Here
 
         </div>
 
 
-        <p style="text-align:center;color:#777;font-size:12px;">
-          Please verify the official recipient name before making
-          any payment.
+        <p
+          style="
+            text-align:center;
+            color:#777;
+            font-size:12px;
+          ">
+
+          Please verify the official recipient name
+          before making any payment.
+
         </p>
 
       </div>
@@ -839,36 +958,53 @@ footer a{
           🏦 Bank Account Details
         </h3>
 
-        <p style="color:#666;font-size:13px;margin-bottom:15px;">
+        <p
+          style="
+            color:#666;
+            font-size:13px;
+            margin-bottom:15px;
+          ">
+
           Official bank details will be published here
           after verification by the committee.
+
         </p>
 
 
         <div class="bank-details">
 
           <div>
-            <strong>Account Name:</strong>
+            <strong>
+              Account Name:
+            </strong>
             To Be Updated
           </div>
 
           <div>
-            <strong>Bank Name:</strong>
+            <strong>
+              Bank Name:
+            </strong>
             To Be Updated
           </div>
 
           <div>
-            <strong>Account Number:</strong>
+            <strong>
+              Account Number:
+            </strong>
             To Be Updated
           </div>
 
           <div>
-            <strong>IFSC:</strong>
+            <strong>
+              IFSC:
+            </strong>
             To Be Updated
           </div>
 
           <div>
-            <strong>Branch:</strong>
+            <strong>
+              Branch:
+            </strong>
             To Be Updated
           </div>
 
@@ -898,15 +1034,16 @@ footer a{
       <p>
         Fund collection, authorised expenses, savings and
         donation information will be maintained through the
-        official management system. The Super Admin will be
-        able to update financial records and publish the
-        information intended for public viewing.
+        official management system. Only records published
+        by the Super Admin are displayed publicly on this page.
       </p>
 
       <p style="margin-top:8px;">
+
         Bank balance and payment verification should only be
         shown as live information after a proper bank or
         payment-gateway integration is configured.
+
       </p>
 
     </div>
@@ -936,9 +1073,10 @@ footer a{
 
       <a
         href="member-fee.html"
-        class="btn"
-      >
+        class="btn">
+
         View Member Fee
+
       </a>
 
     </div>
@@ -981,12 +1119,29 @@ footer a{
           Quick Links
         </h3>
 
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="jatra.html">Uda Jatra</a>
-        <a href="notices.html">Notices</a>
-        <a href="events.html">Events</a>
-        <a href="gallery.html">Gallery</a>
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="jatra.html">
+          Uda Jatra
+        </a>
+
+        <a href="notices.html">
+          Notices
+        </a>
+
+        <a href="events.html">
+          Events
+        </a>
+
+        <a href="gallery.html">
+          Gallery
+        </a>
 
       </div>
 
@@ -1040,6 +1195,27 @@ footer a{
 
 <script>
 
+/* =====================================
+   SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =====================================
+   MENU
+===================================== */
+
 function toggleMenu(){
 
   document
@@ -1050,17 +1226,659 @@ function toggleMenu(){
 }
 
 
-function changeYear(){
+/* =====================================
+   FORMAT CURRENCY
+===================================== */
 
-  const year =
-    document.getElementById("fundYear").value;
+function formatCurrency(amount){
 
-  console.log(
-    "Selected financial year:",
-    year
+  return new Intl.NumberFormat(
+    "en-IN",
+    {
+      style:"currency",
+      currency:"INR",
+      minimumFractionDigits:2
+    }
+  ).format(
+    Number(amount) || 0
   );
 
 }
+
+
+/* =====================================
+   FORMAT DATE
+===================================== */
+
+function formatDate(value){
+
+  if(!value){
+    return "—";
+  }
+
+  const date =
+    new Date(
+      value + "T00:00:00"
+    );
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+
+/* =====================================
+   ESCAPE HTML
+===================================== */
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+
+/* =====================================
+   FINANCIAL YEAR
+===================================== */
+
+function populateFinancialYears(){
+
+  const select =
+    document.getElementById(
+      "fundYear"
+    );
+
+  const currentYear =
+    new Date().getFullYear();
+
+  const currentMonth =
+    new Date().getMonth() + 1;
+
+
+  const currentFYStart =
+    currentMonth >= 4
+      ? currentYear
+      : currentYear - 1;
+
+
+  select.innerHTML = "";
+
+
+  for(
+    let year = currentYear + 2;
+    year >= 2020;
+    year--
+  ){
+
+    const fy =
+      `${year}-${String(year + 1).slice(-2)}`;
+
+
+    const option =
+      document.createElement("option");
+
+
+    option.value =
+      fy;
+
+
+    option.textContent =
+      fy;
+
+
+    if(
+      year === currentFYStart
+    ){
+
+      option.selected =
+        true;
+
+    }
+
+
+    select.appendChild(
+      option
+    );
+
+  }
+
+}
+
+
+/* =====================================
+   LOAD FUND DATA
+===================================== */
+
+async function loadFundData(){
+
+  const financialYear =
+    document.getElementById(
+      "fundYear"
+    ).value;
+
+
+  const body =
+    document.getElementById(
+      "transactionsBody"
+    );
+
+
+  body.innerHTML = `
+    <tr>
+      <td colspan="5" class="loading">
+        Loading published transactions...
+      </td>
+    </tr>
+  `;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .select(`
+        id,
+        financial_year,
+        transaction_type,
+        amount,
+        title,
+        category,
+        description,
+        transaction_date,
+        payment_mode,
+        reference_no,
+        donor_name,
+        receipt_no
+      `)
+      .eq(
+        "financial_year",
+        financialYear
+      )
+      .eq(
+        "is_published",
+        true
+      )
+      .order(
+        "transaction_date",
+        {
+          ascending:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    console.error(
+      error
+    );
+
+
+    body.innerHTML = `
+      <tr>
+        <td
+          colspan="5"
+          class="error-row">
+
+          Unable to load published
+          fund information.
+
+        </td>
+      </tr>
+    `;
+
+
+    resetSummary();
+
+    return;
+  }
+
+
+  calculateSummary(
+    data || []
+  );
+
+
+  renderTransactions(
+    data || []
+  );
+
+}
+
+
+/* =====================================
+   RESET SUMMARY
+===================================== */
+
+function resetSummary(){
+
+  document.getElementById(
+    "totalIncome"
+  ).textContent =
+    "₹0.00";
+
+
+  document.getElementById(
+    "totalExpense"
+  ).textContent =
+    "₹0.00";
+
+
+  document.getElementById(
+    "totalSavings"
+  ).textContent =
+    "₹0.00";
+
+
+  document.getElementById(
+    "totalDonation"
+  ).textContent =
+    "₹0.00";
+
+
+  document.getElementById(
+    "currentBalance"
+  ).textContent =
+    "₹0.00";
+
+
+  document.getElementById(
+    "balanceNote"
+  ).textContent =
+    "No published fund data available.";
+
+}
+
+
+/* =====================================
+   CALCULATE SUMMARY
+===================================== */
+
+function calculateSummary(
+  transactions
+){
+
+  let income =
+    0;
+
+  let expense =
+    0;
+
+  let savings =
+    0;
+
+  let donation =
+    0;
+
+
+  transactions.forEach(
+    item => {
+
+      const amount =
+        Number(
+          item.amount
+        ) || 0;
+
+
+      if(
+        [
+          "Collection",
+          "Donation",
+          "Member Fee",
+          "Other Income"
+        ].includes(
+          item.transaction_type
+        )
+      ){
+
+        income +=
+          amount;
+
+      }
+
+
+      if(
+        item.transaction_type ===
+        "Expense"
+      ){
+
+        expense +=
+          amount;
+
+      }
+
+
+      if(
+        item.transaction_type ===
+        "Savings"
+      ){
+
+        savings +=
+          amount;
+
+      }
+
+
+      if(
+        item.transaction_type ===
+        "Donation"
+      ){
+
+        donation +=
+          amount;
+
+      }
+
+    }
+  );
+
+
+  const availableBalance =
+    income -
+    expense -
+    savings;
+
+
+  document.getElementById(
+    "totalIncome"
+  ).textContent =
+    formatCurrency(
+      income
+    );
+
+
+  document.getElementById(
+    "totalExpense"
+  ).textContent =
+    formatCurrency(
+      expense
+    );
+
+
+  document.getElementById(
+    "totalSavings"
+  ).textContent =
+    formatCurrency(
+      savings
+    );
+
+
+  document.getElementById(
+    "totalDonation"
+  ).textContent =
+    formatCurrency(
+      donation
+    );
+
+
+  document.getElementById(
+    "currentBalance"
+  ).textContent =
+    formatCurrency(
+      availableBalance
+    );
+
+
+  document.getElementById(
+    "balanceNote"
+  ).textContent =
+    "Based on published records for " +
+    document.getElementById(
+      "fundYear"
+    ).value +
+    ".";
+
+}
+
+
+/* =====================================
+   TRANSACTION BADGE
+===================================== */
+
+function getTypeBadge(
+  type
+){
+
+  const map = {
+
+    "Collection":
+      ["type-income","Collection"],
+
+    "Donation":
+      ["type-donation","Donation"],
+
+    "Member Fee":
+      ["type-member","Member Fee"],
+
+    "Other Income":
+      ["type-other","Other Income"],
+
+    "Expense":
+      ["type-expense","Expense"],
+
+    "Savings":
+      ["type-savings","Savings"]
+
+  };
+
+
+  const item =
+    map[type];
+
+
+  if(!item){
+
+    return `
+      <span class="type-badge">
+        ${escapeHtml(type || "—")}
+      </span>
+    `;
+
+  }
+
+
+  return `
+    <span class="type-badge ${item[0]}">
+      ${item[1]}
+    </span>
+  `;
+
+}
+
+
+/* =====================================
+   RENDER TRANSACTIONS
+===================================== */
+
+function renderTransactions(
+  transactions
+){
+
+  const body =
+    document.getElementById(
+      "transactionsBody"
+    );
+
+
+  if(
+    transactions.length === 0
+  ){
+
+    body.innerHTML = `
+      <tr>
+
+        <td
+          colspan="5"
+          class="loading">
+
+          No published transactions
+          available for this financial year.
+
+        </td>
+
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  body.innerHTML =
+    transactions
+      .map(
+        item => {
+
+          const type =
+            item.transaction_type;
+
+
+          const amount =
+            formatCurrency(
+              Number(item.amount)
+            );
+
+
+          let amountClass =
+            "income";
+
+
+          if(
+            type === "Expense"
+          ){
+
+            amountClass =
+              "expense";
+
+          }
+
+
+          if(
+            type === "Savings"
+          ){
+
+            amountClass =
+              "savings";
+
+          }
+
+
+          const title =
+            item.title ||
+            item.category ||
+            "Fund Transaction";
+
+
+          const description =
+            item.description ||
+            "";
+
+
+          return `
+
+            <tr>
+
+              <td>
+                ${formatDate(
+                  item.transaction_date
+                )}
+              </td>
+
+
+              <td>
+
+                <strong>
+                  ${escapeHtml(
+                    title
+                  )}
+                </strong>
+
+                ${
+                  description
+                    ? `
+                      <div
+                        style="
+                          color:#888;
+                          font-size:12px;
+                          margin-top:3px;
+                        ">
+
+                        ${escapeHtml(
+                          description
+                        )}
+
+                      </div>
+                    `
+                    : ""
+                }
+
+              </td>
+
+
+              <td>
+                ${getTypeBadge(
+                  type
+                )}
+              </td>
+
+
+              <td>
+                ${escapeHtml(
+                  item.payment_mode ||
+                  "—"
+                )}
+              </td>
+
+
+              <td class="${amountClass}">
+                ${amount}
+              </td>
+
+            </tr>
+
+          `;
+
+        }
+      )
+      .join("");
+
+}
+
+
+/* =====================================
+   START
+===================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    populateFinancialYears();
+
+    await loadFundData();
+
+  }
+);
 
 </script>
 
