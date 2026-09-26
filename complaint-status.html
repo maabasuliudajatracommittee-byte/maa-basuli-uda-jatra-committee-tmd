@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Complaint Status | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f5f7fa;
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      background: linear-gradient(135deg, #7c2d12, #b45309);
+      color: white;
+      padding: 18px 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .brand h1 {
+      font-size: 21px;
+      margin-bottom: 4px;
+    }
+
+    .brand p {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .home-btn {
+      display: inline-block;
+      text-decoration: none;
+      background: white;
+      color: #7c2d12;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .home-btn:hover {
+      background: #fef3c7;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 18px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .hero-icon {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+
+    .hero h2 {
+      color: #7c2d12;
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      color: #6b7280;
+      line-height: 1.6;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    /* =========================
+       SEARCH CARD
+    ========================= */
+
+    .search-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .search-card h3 {
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .search-card p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-group input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #b45309;
+      box-shadow: 0 0 0 3px rgba(180,83,9,0.10);
+    }
+
+    .check-btn {
+      border: none;
+      background: #7c2d12;
+      color: white;
+      padding: 0 22px;
+      border-radius: 9px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .check-btn:hover {
+      background: #9a3412;
+    }
+
+    .check-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    /* =========================
+       RESULT
+    ========================= */
+
+    .result-card {
+      display: none;
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 22px;
+      padding-bottom: 17px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .result-header h3 {
+      color: #374151;
+    }
+
+    .reference-number {
+      color: #7c2d12;
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    .status-box {
+      padding: 22px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 22px;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+    }
+
+    .status-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      margin-bottom: 9px;
+    }
+
+    .status-value {
+      display: inline-block;
+      padding: 9px 18px;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: bold;
+    }
+
+    .status-pending {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-review {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .status-resolved {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-rejected {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .status-unknown {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    /* =========================
+       DETAILS GRID
+    ========================= */
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .detail-box {
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .detail-box.full {
+      grid-column: 1 / -1;
+    }
+
+    .detail-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #6b7280;
+      font-weight: bold;
+      margin-bottom: 7px;
+    }
+
+    .detail-value {
+      color: #111827;
+      font-size: 14px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .remark-box {
+      background: #fff7ed;
+      border-color: #fed7aa;
+    }
+
+    .remark-box .detail-label {
+      color: #9a3412;
+    }
+
+    /* =========================
+       NOT FOUND
+    ========================= */
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 15px;
+      border-radius: 9px;
+      font-size: 14px;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .message.info {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    /* =========================
+       SECURITY NOTE
+    ========================= */
+
+    .security-note {
+      margin-top: 22px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 650px) {
+
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .home-btn {
+        width: 100%;
+        text-align: center;
+      }
+
+      .container {
+        margin-top: 25px;
+      }
+
+      .hero h2 {
+        font-size: 25px;
+      }
+
+      .search-card,
+      .result-card {
+        padding: 20px;
+      }
+
+      .input-group {
+        flex-direction: column;
+      }
+
+      .check-btn {
+        height: 48px;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .detail-box.full {
+        grid-column: auto;
+      }
+
+      .result-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <!-- =========================================
+       HEADER
+  ========================================== -->
+
+  <header>
+
+    <div class="header-inner">
+
+      <div class="brand">
+
+        <h1>
+          🌺 Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Public Complaint Status Service
+        </p>
+
+      </div>
+
+      <a
+        href="index.html"
+        class="home-btn"
+      >
+        ← Back to Website
+      </a>
+
+    </div>
+
+  </header>
+
+
+  <!-- =========================================
+       MAIN
+  ========================================== -->
+
+  <main class="container">
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+      <div class="hero-icon">
+        🔎
+      </div>
+
+      <h2>
+        Check Complaint Status
+      </h2>
+
+      <p>
+        Enter your Complaint Number to check the current status
+        of your submitted complaint.
+      </p>
+
+    </section>
+
+
+    <!-- =========================================
+         SEARCH
+    ========================================== -->
+
+    <section class="search-card">
+
+      <h3>
+        Complaint Number
+      </h3>
+
+      <p>
+        Example: MB-CMP-00006
+      </p>
+
+
+      <div class="input-group">
+
+        <input
+          type="text"
+          id="referenceInput"
+          placeholder="Enter Complaint Number"
+          autocomplete="off"
+          maxlength="50"
+        >
+
+        <button
+          type="button"
+          id="checkButton"
+          class="check-btn"
+        >
+          Check Status
+        </button>
+
+      </div>
+
+
+      <div
+        id="message"
+        class="message"
+      ></div>
+
+    </section>
+
+
+    <!-- =========================================
+         RESULT
+    ========================================== -->
+
+    <section
+      id="resultCard"
+      class="result-card"
+    >
+
+      <div class="result-header">
+
+        <h3>
+          Complaint Status
+        </h3>
+
+        <div
+          id="resultReference"
+          class="reference-number"
+        >
+        </div>
+
+      </div>
+
+
+      <!-- STATUS -->
+
+      <div class="status-box">
+
+        <div class="status-label">
+          Current Status
+        </div>
+
+        <div
+          id="statusValue"
+          class="status-value status-unknown"
+        >
+          -
+        </div>
+
+      </div>
+
+
+      <!-- DETAILS -->
+
+      <div class="details-grid">
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            Complaint Number
+          </div>
+
+          <div
+            id="detailReference"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            Complaint Date
+          </div>
+
+          <div
+            id="detailCreated"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div class="detail-box">
+
+          <div class="detail-label">
+            Last Updated
+          </div>
+
+          <div
+            id="detailUpdated"
+            class="detail-value"
+          >
+            -
+          </div>
+
+        </div>
+
+
+        <div
+          id="remarkBox"
+          class="detail-box remark-box"
+        >
+
+          <div class="detail-label">
+            Official Response
+          </div>
+
+          <div
+            id="detailRemark"
+            class="detail-value"
+          >
+            No response has been added yet.
+          </div>
+
+        </div>
+
+
+      </div>
+
+
+      <!-- SECURITY -->
+
+      <div class="security-note">
+
+        🔐 <strong>Privacy Notice:</strong>
+        For privacy and security, personal information such as
+        name, mobile number, address and complaint details are
+        not displayed on this public status page.
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+
+  <footer>
+
+    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda,
+    Mayurbhanj, Odisha.
+
+  </footer>
+
+
+  <!-- =========================================
+       JAVASCRIPT
+  ========================================== -->
+
+  <script>
+
+    /* =========================================
+       SUPABASE CONFIG
+    ========================================== */
+
+    const SUPABASE_URL =
+      "https://ynymqntcawobcfccoekb.supabase.co";
+
+    const SUPABASE_KEY =
+      "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+
+
+    /* =========================================
+       ELEMENTS
+    ========================================== */
+
+    const referenceInput =
+      document.getElementById(
+        "referenceInput"
+      );
+
+    const checkButton =
+      document.getElementById(
+        "checkButton"
+      );
+
+    const message =
+      document.getElementById(
+        "message"
+      );
+
+    const resultCard =
+      document.getElementById(
+        "resultCard"
+      );
+
+
+    /* =========================================
+       CHECK BUTTON
+    ========================================== */
+
+    checkButton.addEventListener(
+      "click",
+      checkComplaintStatus
+    );
+
+
+    /* ENTER KEY */
+
+    referenceInput.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (event.key === "Enter") {
+
+          event.preventDefault();
+
+          checkComplaintStatus();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================
+       CHECK STATUS
+    ========================================== */
+
+    async function checkComplaintStatus() {
+
+      clearMessage();
+
+      resultCard.classList.remove(
+        "show"
+      );
+
+
+      const reference =
+        referenceInput.value
+          .trim()
+          .toUpperCase();
+
+
+      /* VALIDATION */
+
+      if (!reference) {
+
+        showMessage(
+          "Please enter your Complaint Number.",
+          "error"
+        );
+
+        referenceInput.focus();
+
+        return;
+      }
+
+
+      if (
+        !reference.startsWith("MB-CMP-")
+      ) {
+
+        showMessage(
+          "Please enter a valid Complaint Number, for example MB-CMP-00006.",
+          "error"
+        );
+
+        referenceInput.focus();
+
+        return;
+      }
+
+
+      /* LOADING */
+
+      checkButton.disabled = true;
+
+      checkButton.textContent =
+        "Checking...";
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.rpc(
+            "get_public_complaint_status",
+            {
+              p_reference_no: reference
+            }
+          );
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        /* NOT FOUND */
+
+        if (
+          !data ||
+          !Array.isArray(data) ||
+          data.length === 0
+        ) {
+
+          showMessage(
+            "No complaint was found with this Complaint Number. Please check the number and try again.",
+            "error"
+          );
+
+          return;
+        }
+
+
+        /* FIRST RESULT */
+
+        const complaint =
+          data[0];
+
+
+        displayComplaintStatus(
+          complaint
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "Complaint status error:",
+          error
+        );
+
+
+        showMessage(
+          "Unable to check complaint status right now. Please try again later.",
+          "error"
+        );
+
+      }
+
+      finally {
+
+        checkButton.disabled = false;
+
+        checkButton.textContent =
+          "Check Status";
+
+      }
+
+    }
+
+
+    /* =========================================
+       DISPLAY RESULT
+    ========================================== */
+
+    function displayComplaintStatus(
+      complaint
+    ) {
+
+      const status =
+        complaint.status ||
+        "Pending";
+
+
+      /* REFERENCE */
+
+      document.getElementById(
+        "resultReference"
+      ).textContent =
+        complaint.reference_no ||
+        "-";
+
+
+      document.getElementById(
+        "detailReference"
+      ).textContent =
+        complaint.reference_no ||
+        "-";
+
+
+      /* STATUS */
+
+      const statusValue =
+        document.getElementById(
+          "statusValue"
+        );
+
+
+      statusValue.textContent =
+        status;
+
+
+      statusValue.className =
+        "status-value " +
+        getStatusClass(status);
+
+
+      /* DATES */
+
+      document.getElementById(
+        "detailCreated"
+      ).textContent =
+        formatDate(
+          complaint.created_at
+        );
+
+
+      document.getElementById(
+        "detailUpdated"
+      ).textContent =
+        formatDate(
+          complaint.updated_at
+        );
+
+
+      /* ADMIN REMARK */
+
+      const remark =
+        complaint.admin_remark;
+
+
+      const remarkElement =
+        document.getElementById(
+          "detailRemark"
+        );
+
+
+      if (
+        remark &&
+        String(remark).trim()
+      ) {
+
+        remarkElement.textContent =
+          remark;
+
+      } else {
+
+        remarkElement.textContent =
+          "No official response has been added yet.";
+
+      }
+
+
+      /* SHOW RESULT */
+
+      resultCard.classList.add(
+        "show"
+      );
+
+
+      resultCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    }
+
+
+    /* =========================================
+       STATUS CSS CLASS
+    ========================================== */
+
+    function getStatusClass(
+      status
+    ) {
+
+      switch (
+        String(status)
+          .trim()
+          .toLowerCase()
+      ) {
+
+        case "pending":
+
+          return "status-pending";
+
+
+        case "under review":
+
+          return "status-review";
+
+
+        case "resolved":
+
+          return "status-resolved";
+
+
+        case "rejected":
+
+          return "status-rejected";
+
+
+        default:
+
+          return "status-unknown";
+
+      }
+
+    }
+
+
+    /* =========================================
+       DATE FORMAT
+    ========================================== */
+
+    function formatDate(
+      value
+    ) {
+
+      if (!value) {
+        return "-";
+      }
+
+
+      const date =
+        new Date(value);
+
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "-";
+
+      }
+
+
+      return date.toLocaleString(
+        "en-IN",
+        {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit"
+        }
+      );
+
+    }
+
+
+    /* =========================================
+       MESSAGE
+    ========================================== */
+
+    function showMessage(
+      text,
+      type
+    ) {
+
+      message.textContent =
+        text;
+
+      message.className =
+        "message show " +
+        type;
+
+    }
+
+
+    function clearMessage() {
+
+      message.textContent =
+        "";
+
+      message.className =
+        "message";
+
+    }
+
+
+  </script>
+
+</body>
+</html>
