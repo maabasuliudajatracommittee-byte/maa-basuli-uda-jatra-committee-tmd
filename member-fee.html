@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Member Fee | Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+  background:#7b1e1e;
+  color:#fff;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* HEADER */
+
+header{
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  position:relative;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:19px;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:12px;
+}
+
+nav{
+  display:flex;
+  gap:3px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  padding:8px 10px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+nav a:hover,
+nav a.active{
+  background:#f5e8e8;
+  color:#7b1e1e;
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:20px;
+}
+
+/* HERO */
+
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.82),rgba(70,15,5,.82)),
+    url("https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+  text-align:center;
+  padding:80px 0;
+}
+
+.page-hero h2{
+  font-size:44px;
+  margin-bottom:8px;
+}
+
+.page-hero p{
+  font-size:17px;
+}
+
+/* SECTIONS */
+
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+/* SEARCH CARD */
+
+.fee-search{
+  margin-top:-35px;
+  position:relative;
+  z-index:5;
+}
+
+.search-card{
+  background:#fff;
+  padding:30px;
+  border-radius:18px;
+  box-shadow:0 6px 25px rgba(0,0,0,.12);
+  max-width:700px;
+  margin:auto;
+}
+
+.search-card h3{
+  color:#7b1e1e;
+  text-align:center;
+  margin-bottom:5px;
+}
+
+.search-card p{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
+.search-row{
+  display:flex;
+  gap:10px;
+}
+
+.search-row input{
+  flex:1;
+  padding:13px 15px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-size:15px;
+  outline:none;
+}
+
+.search-row input:focus{
+  border-color:#7b1e1e;
+}
+
+.btn{
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#5e1515;
+}
+
+/* RESULT */
+
+.result{
+  display:none;
+  margin-top:20px;
+  padding:20px;
+  background:#fff8ed;
+  border-radius:12px;
+  border:1px solid #f0dfc5;
+}
+
+.result.show{
+  display:block;
+}
+
+.result h3{
+  color:#7b1e1e;
+  margin-bottom:10px;
+}
+
+.result-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.result-item{
+  background:#fff;
+  padding:12px;
+  border-radius:8px;
+}
+
+.result-item span{
+  display:block;
+  color:#888;
+  font-size:11px;
+}
+
+.result-item strong{
+  color:#333;
+}
+
+.status{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.status.unpaid{
+  background:#fff0ed;
+  color:#b3261e;
+}
+
+.status.paid{
+  background:#e9f8ee;
+  color:#18733a;
+}
+
+/* YEAR */
+
+.year-box{
+  background:#fff;
+  padding:18px;
+  border-radius:12px;
+  margin-bottom:25px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.year-box label{
+  color:#7b1e1e;
+  font-weight:bold;
+}
+
+select{
+  padding:10px 14px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fff;
+  font-size:14px;
+}
+
+/* FEE CARDS */
+
+.fee-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.fee-card{
+  background:#fff;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+  text-align:center;
+}
+
+.fee-card .icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.fee-card h3{
+  color:#7b1e1e;
+  font-size:18px;
+}
+
+.fee-card .amount{
+  font-size:30px;
+  font-weight:bold;
+  margin:8px 0;
+  color:#222;
+}
+
+.fee-card p{
+  color:#777;
+  font-size:13px;
+}
+
+/* PAYMENT */
+
+.payment-section{
+  background:#fff8ed;
+}
+
+.payment-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.payment-card{
+  background:#fff;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+
+.payment-card h3{
+  color:#7b1e1e;
+  margin-bottom:10px;
+}
+
+.qr-placeholder{
+  width:210px;
+  height:210px;
+  border:2px dashed #bbb;
+  border-radius:12px;
+  margin:20px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:#888;
+  font-size:13px;
+  padding:20px;
+}
+
+.bank-details{
+  margin-top:15px;
+}
+
+.bank-details div{
+  padding:9px 0;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+.bank-details strong{
+  color:#7b1e1e;
+}
+
+/* INFO */
+
+.info-box{
+  background:#fff;
+  border-left:5px solid #7b1e1e;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.info-box h3{
+  color:#7b1e1e;
+  margin-bottom:7px;
+}
+
+.info-box p,
+.info-box li{
+  color:#666;
+  font-size:14px;
+}
+
+.info-box ul{
+  padding-left:20px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#241313;
+  color:#fff;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+  nav{
+    display:none;
+    position:absolute;
+    top:75px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .fee-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .payment-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+
+  .logo-text h1{
+    font-size:16px;
+  }
+
+  .page-hero{
+    padding:65px 0;
+  }
+
+  .page-hero h2{
+    font-size:32px;
+  }
+
+  .search-row{
+    flex-direction:column;
+  }
+
+  .result-grid{
+    grid-template-columns:1fr;
+  }
+
+  .fee-grid{
+    grid-template-columns:1fr;
+  }
+
+  .year-box{
+    flex-direction:column;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 जय माँ बसुली</span>
+    <span>Thakurmunda, Mayurbhanj, Odisha</span>
+  </div>
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-icon">🙏</div>
+
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+      </div>
+
+    </a>
+
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+    <nav id="mainNav">
+
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="jatra.html">Uda Jatra</a>
+      <a href="notices.html">Notices</a>
+      <a href="events.html">Events</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="members.html">Our Members</a>
+      <a href="fund.html">Fund</a>
+      <a href="member-fee.html" class="active">Member Fee</a>
+      <a href="complaint.html">Complaint</a>
+      <a href="contact.html">Contact</a>
+      <a href="auth.html">Login</a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <h2>Member Fee</h2>
+
+    <p>
+      Check your annual membership fee and payment status
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- MEMBER SEARCH -->
+
+<section class="fee-search">
+
+  <div class="container">
+
+    <div class="search-card">
+
+      <h3>🔎 Check Member Fee</h3>
+
+      <p>
+        Enter your official Member ID to view your fee details.
+      </p>
+
+      <div class="search-row">
+
+        <input
+          type="text"
+          id="memberIdInput"
+          placeholder="Enter Member ID e.g. MB001"
+          autocomplete="off"
+        >
+
+        <button
+          class="btn"
+          onclick="checkFee()"
+        >
+          Check Fee
+        </button>
+
+      </div>
+
+
+      <div id="result" class="result">
+
+        <h3>Member Fee Details</h3>
+
+        <div class="result-grid">
+
+          <div class="result-item">
+            <span>Member ID</span>
+            <strong id="resultId">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Member Name</span>
+            <strong id="resultName">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Financial Year</span>
+            <strong id="resultYear">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Fee Amount</span>
+            <strong id="resultAmount">—</strong>
+          </div>
+
+          <div class="result-item">
+            <span>Payment Status</span>
+            <strong id="resultStatus">
+              —
+            </strong>
+          </div>
+
+          <div class="result-item">
+            <span>Payment Date</span>
+            <strong id="resultDate">—</strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- YEARLY FEE -->
+
+<section>
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Annual Member Fee</h2>
+
+      <p>
+        Fee structure fixed by the Super Admin
+      </p>
+
+    </div>
+
+
+    <div class="year-box">
+
+      <label for="feeYear">
+        Select Year:
+      </label>
+
+      <select id="feeYear">
+
+        <option value="2027">
+          2027
+        </option>
+
+        <option value="2026">
+          2026
+        </option>
+
+        <option value="2025">
+          2025
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <div class="fee-grid">
+
+
+      <div class="fee-card">
+
+        <div class="icon">👤</div>
+
+        <h3>General Member</h3>
+
+        <div class="amount">
+          ₹0
+        </div>
+
+        <p>
+          Official fee will be published by
+          the Super Admin.
+        </p>
+
+      </div>
+
+
+      <div class="fee-card">
+
+        <div class="icon">⭐</div>
+
+        <h3>Committee Member</h3>
+
+        <div class="amount">
+          ₹0
+        </div>
+
+        <p>
+          Official fee will be published by
+          the Super Admin.
+        </p>
+
+      </div>
+
+
+      <div class="fee-card">
+
+        <div class="icon">🏛️</div>
+
+        <h3>Office Bearer</h3>
+
+        <div class="amount">
+          ₹0
+        </div>
+
+        <p>
+          Official fee will be published by
+          the Super Admin.
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- PAYMENT -->
+
+<section class="payment-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>Pay Member Fee</h2>
+
+      <p>
+        Official payment methods
+      </p>
+
+    </div>
+
+
+    <div class="payment-grid">
+
+
+      <div class="payment-card">
+
+        <h3>
+          📱 Pay by QR
+        </h3>
+
+        <p style="color:#666;font-size:13px;">
+          Official member-fee payment QR code
+          will be configured by the Super Admin.
+        </p>
+
+        <div class="qr-placeholder">
+
+          Official Member Fee QR<br>
+          Will Be Added Here
+
+        </div>
+
+        <p style="text-align:center;color:#777;font-size:12px;">
+          Always verify the official recipient name
+          before making payment.
+        </p>
+
+      </div>
+
+
+      <div class="payment-card">
+
+        <h3>
+          💵 Cash Payment
+        </h3>
+
+        <p style="color:#666;font-size:14px;">
+          Members may pay the applicable fee through
+          an authorised committee representative,
+          subject to the committee's rules.
+        </p>
+
+        <div class="info-box" style="margin-top:20px;">
+
+          <h3>
+            Important
+          </h3>
+
+          <p>
+            After receiving the payment, the authorised
+            administrator can update the member's fee
+            status as <strong>Paid</strong>.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- INFORMATION -->
+
+<section>
+
+  <div class="container">
+
+    <div class="info-box">
+
+      <h3>
+        📌 Important Information
+      </h3>
+
+      <ul>
+
+        <li>
+          Member ID is the official identifier for checking
+          membership fee information.
+        </li>
+
+        <li>
+          Fee amount will be controlled by the Super Admin.
+        </li>
+
+        <li>
+          Payment status will be updated after the payment
+          is verified by the authorised committee administrator.
+        </li>
+
+        <li>
+          Members should not share their password or login
+          credentials with anyone.
+        </li>
+
+        <li>
+          Do not make payment to any unofficial QR code,
+          account or personal number.
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:10px;">
+          ଜୟ ମା' ବାସୁଳୀ 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Quick Links
+        </h3>
+
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Services
+        </h3>
+
+        <a href="members.html">
+          Our Members
+        </a>
+
+        <a href="fund.html">
+          Fund & Donation
+        </a>
+
+        <a href="member-fee.html">
+          Member Fee
+        </a>
+
+        <a href="complaint.html">
+          Complaint Box
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="auth.html">
+          Login
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+function toggleMenu(){
+
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+
+function checkFee(){
+
+  const input =
+    document
+      .getElementById("memberIdInput")
+      .value
+      .trim()
+      .toUpperCase();
+
+  const result =
+    document.getElementById("result");
+
+
+  if(!input){
+
+    alert("Please enter your Member ID.");
+
+    return;
+  }
+
+
+  /*
+    TEMPORARY DEMO DISPLAY
+
+    Later this section will be connected to Supabase.
+    The real system will:
+    1. Verify Member ID
+    2. Load approved member
+    3. Load selected year's fee
+    4. Show Paid/Unpaid status
+    5. Show payment date
+  */
+
+
+  document.getElementById("resultId").textContent = input;
+
+  document.getElementById("resultName").textContent =
+    "Member information will load from Supabase";
+
+  document.getElementById("resultYear").textContent =
+    document.getElementById("feeYear").value;
+
+  document.getElementById("resultAmount").textContent =
+    "₹0";
+
+  document.getElementById("resultStatus").innerHTML =
+    '<span class="status unpaid">Not Available Yet</span>';
+
+  document.getElementById("resultDate").textContent =
+    "—";
+
+
+  result.classList.add("show");
+
+}
+
+
+document
+  .getElementById("memberIdInput")
+  .addEventListener("keydown",function(event){
+
+    if(event.key === "Enter"){
+      checkFee();
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
