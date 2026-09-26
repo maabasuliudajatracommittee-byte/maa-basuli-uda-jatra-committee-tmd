@@ -51,6 +51,10 @@ body{
   cursor:pointer;
 }
 
+.logout:hover{
+  background:#f3f4f6;
+}
+
 .container{
   width:min(1200px,94%);
   margin:25px auto;
@@ -67,6 +71,11 @@ body{
 .welcome h2{
   color:#7c2d12;
   margin-bottom:6px;
+}
+
+.welcome p{
+  line-height:1.5;
+  color:#6b7280;
 }
 
 .stats{
@@ -132,6 +141,14 @@ body{
   background:#7c2d12;
 }
 
+.card .notice-button{
+  background:#15803d;
+}
+
+.card .notice-button:hover{
+  background:#166534;
+}
+
 .complaints{
   margin-top:20px;
 }
@@ -193,6 +210,7 @@ body{
 }
 
 @media(max-width:800px){
+
   .stats{
     grid-template-columns:repeat(2,1fr);
   }
@@ -203,6 +221,7 @@ body{
 }
 
 @media(max-width:500px){
+
   .header{
     flex-direction:column;
     align-items:flex-start;
@@ -238,11 +257,14 @@ body{
 <main class="container">
 
   <section class="welcome">
+
     <h2>Welcome, Admin</h2>
+
     <p>
       Ehi dashboard ru committee ra approved administrative work
       manage kariparibe.
     </p>
+
   </section>
 
 
@@ -273,51 +295,87 @@ body{
 
   <section class="grid">
 
+
+    <!-- =================================
+         NOTICES
+    ================================== -->
+
     <div class="card">
+
       <h3>📢 Notices</h3>
+
       <p>
         Committee notices, announcements ebam PDF notice
         management pain.
       </p>
-      <button onclick="comingSoon('Notices')">
+
+      <button
+        class="notice-button"
+        onclick="openNoticeManager()"
+      >
         Manage Notices
       </button>
+
     </div>
 
 
+    <!-- =================================
+         EVENTS
+    ================================== -->
+
     <div class="card">
+
       <h3>📅 Events & Programmes</h3>
+
       <p>
         Uda Jatra, cultural programme ebam committee events
         manage kariba.
       </p>
+
       <button onclick="comingSoon('Events')">
         Manage Events
       </button>
+
     </div>
 
 
+    <!-- =================================
+         GALLERY
+    ================================== -->
+
     <div class="card">
+
       <h3>🖼️ Gallery</h3>
+
       <p>
         Jatra photos, cultural photos, temple photos ebam
         album management.
       </p>
+
       <button onclick="comingSoon('Gallery')">
         Manage Gallery
       </button>
+
     </div>
 
 
+    <!-- =================================
+         COMPLAINTS
+    ================================== -->
+
     <div class="card">
+
       <h3>📝 Complaints</h3>
+
       <p>
         Public complaint receive heba pare admin eha review
         kariparibe.
       </p>
+
       <button onclick="loadComplaints()">
         View Complaints
       </button>
+
     </div>
 
   </section>
@@ -331,9 +389,11 @@ body{
     <h3>Recent Complaints</h3>
 
     <div id="complaintList">
+
       <div class="loading">
         Complaints load heuchhi...
       </div>
+
     </div>
 
   </section>
@@ -342,7 +402,9 @@ body{
 
 
 <footer class="footer">
+
   © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+
 </footer>
 
 
@@ -356,7 +418,7 @@ const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUq_t--2_Nov";
 
 const supabaseClient =
   window.supabase.createClient(
@@ -375,8 +437,13 @@ function showMessage(text,type="info"){
     document.getElementById("message");
 
   box.textContent = text;
-  box.className = "message " + type;
-  box.style.display = "block";
+
+  box.className =
+    "message " + type;
+
+  box.style.display =
+    "block";
+
 }
 
 
@@ -388,12 +455,14 @@ async function checkAdmin(){
 
   const {
     data:{session}
-  } = await supabaseClient.auth.getSession();
+  } =
+    await supabaseClient.auth.getSession();
 
 
   if(!session){
 
     window.location.replace("auth.html");
+
     return false;
   }
 
@@ -401,11 +470,12 @@ async function checkAdmin(){
   const {
     data:roleData,
     error:roleError
-  } = await supabaseClient
-    .from("user_roles")
-    .select("role")
-    .eq("user_id",session.user.id)
-    .maybeSingle();
+  } =
+    await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id",session.user.id)
+      .maybeSingle();
 
 
   if(roleError){
@@ -426,16 +496,22 @@ async function checkAdmin(){
 
 
   /*
-    Only Admin can use this page.
     Super Admin ku Super Admin Dashboard ku pathaiba.
   */
 
   if(role === "super_admin"){
 
-    window.location.replace("super-admin.html");
+    window.location.replace(
+      "super-admin.html"
+    );
+
     return false;
   }
 
+
+  /*
+    Only Admin can use this page.
+  */
 
   if(role !== "admin"){
 
@@ -444,9 +520,15 @@ async function checkAdmin(){
       "error"
     );
 
+
     setTimeout(()=>{
-      window.location.replace("profile.html");
+
+      window.location.replace(
+        "profile.html"
+      );
+
     },1500);
+
 
     return false;
   }
@@ -465,28 +547,89 @@ async function loadDashboard(){
   const allowed =
     await checkAdmin();
 
-  if(!allowed) return;
+
+  if(!allowed){
+
+    return;
+  }
 
 
   /*
-    Current database re notices/events/gallery/
-    complaints tables create heini.
-    Therefore ehi stage re zero show karuchhu.
-    Later actual tables connect heba.
+    Notices table already created.
+    Therefore notice count real database ru load heba.
   */
 
-  document.getElementById("noticeCount").textContent = "0";
-  document.getElementById("eventCount").textContent = "0";
-  document.getElementById("galleryCount").textContent = "0";
-  document.getElementById("complaintCount").textContent = "0";
+  const {
+    count:noticeCount,
+    error:noticeError
+  } =
+    await supabaseClient
+      .from("notices")
+      .select("*",{count:"exact",head:true});
 
 
-  document.getElementById("complaintList").innerHTML = `
+  if(!noticeError){
+
+    document.getElementById(
+      "noticeCount"
+    ).textContent =
+      noticeCount ?? 0;
+
+  }else{
+
+    console.error(noticeError);
+
+    document.getElementById(
+      "noticeCount"
+    ).textContent = "0";
+  }
+
+
+  /*
+    Events / Gallery / Complaints database
+    pare connect heba.
+  */
+
+  document.getElementById(
+    "eventCount"
+  ).textContent = "0";
+
+
+  document.getElementById(
+    "galleryCount"
+  ).textContent = "0";
+
+
+  document.getElementById(
+    "complaintCount"
+  ).textContent = "0";
+
+
+  document.getElementById(
+    "complaintList"
+  ).innerHTML = `
+
     <div class="loading">
+
       Ebe complaint database module setup heini.
       Next stage re Supabase complaints table connect heba.
+
     </div>
+
   `;
+
+}
+
+
+/* =====================================
+   OPEN NOTICE MANAGER
+===================================== */
+
+function openNoticeManager(){
+
+  window.location.href =
+    "notice-manager.html";
+
 }
 
 
@@ -499,14 +642,26 @@ async function loadComplaints(){
   const allowed =
     await checkAdmin();
 
-  if(!allowed) return;
+
+  if(!allowed){
+
+    return;
+  }
 
 
-  document.getElementById("complaintList").innerHTML = `
+  document.getElementById(
+    "complaintList"
+  ).innerHTML = `
+
     <div class="loading">
-      Complaint management module next database stage re active heba.
+
+      Complaint management module
+      next database stage re active heba.
+
     </div>
+
   `;
+
 }
 
 
@@ -517,10 +672,14 @@ async function loadComplaints(){
 function comingSoon(section){
 
   showMessage(
+
     section +
     " management module next CMS/database stage re active heba.",
+
     "info"
+
   );
+
 }
 
 
@@ -532,11 +691,16 @@ async function logoutAdmin(){
 
   try{
 
-    const {error} =
+    const {
+      error
+    } =
       await supabaseClient.auth.signOut();
 
+
     if(error){
+
       console.error(error);
+
     }
 
   }catch(err){
@@ -545,9 +709,12 @@ async function logoutAdmin(){
 
   }finally{
 
-    window.location.replace("index.html");
+    window.location.replace(
+      "index.html"
+    );
 
   }
+
 }
 
 
