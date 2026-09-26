@@ -28,7 +28,7 @@ header{
 }
 
 .header-inner{
-  max-width:1000px;
+  max-width:1050px;
   margin:auto;
   display:flex;
   justify-content:space-between;
@@ -38,6 +38,7 @@ header{
 
 .brand h1{
   font-size:20px;
+  line-height:1.4;
 }
 
 .brand p{
@@ -47,16 +48,21 @@ header{
 }
 
 .logout{
-  border:1px solid rgba(255,255,255,.6);
+  border:1px solid rgba(255,255,255,.7);
   background:transparent;
   color:white;
-  padding:9px 14px;
+  padding:9px 15px;
   border-radius:8px;
   cursor:pointer;
+  font-weight:700;
+}
+
+.logout:hover{
+  background:rgba(255,255,255,.12);
 }
 
 .container{
-  max-width:1000px;
+  max-width:1050px;
   margin:25px auto;
   padding:0 15px;
 }
@@ -77,16 +83,21 @@ header{
 .subtitle{
   color:#666;
   font-size:14px;
-  line-height:1.5;
+  line-height:1.6;
   margin-bottom:20px;
 }
 
 .status{
-  padding:13px;
+  padding:13px 15px;
   border-radius:10px;
   margin-bottom:20px;
   font-weight:600;
   line-height:1.5;
+}
+
+.status.loading{
+  background:#f0f0f0;
+  color:#555;
 }
 
 .status.pending{
@@ -137,10 +148,11 @@ header{
 .field textarea:focus,
 .field select:focus{
   border-color:#7b1e1e;
+  box-shadow:0 0 0 2px rgba(123,30,30,.08);
 }
 
 .field textarea{
-  min-height:90px;
+  min-height:95px;
   resize:vertical;
 }
 
@@ -148,16 +160,26 @@ header{
   grid-column:1/-1;
 }
 
+.controlled{
+  background:#f1f1f1 !important;
+  color:#666;
+  cursor:not-allowed;
+}
+
 .photo-area{
   display:flex;
   align-items:center;
   gap:20px;
-  margin-bottom:20px;
+  margin-bottom:22px;
+  padding:15px;
+  border:1px solid #eee;
+  border-radius:12px;
+  background:#fafafa;
 }
 
 .photo{
-  width:105px;
-  height:105px;
+  width:110px;
+  height:110px;
   border-radius:50%;
   object-fit:cover;
   border:4px solid #eee;
@@ -168,18 +190,36 @@ header{
   flex:1;
 }
 
+.photo-actions strong{
+  display:block;
+  margin-bottom:4px;
+}
+
 .photo-actions input{
   margin-top:8px;
+  width:100%;
+}
+
+.photo-actions small{
+  display:block;
+  margin-top:7px;
+  color:#777;
+  font-size:12px;
 }
 
 .btn{
   border:none;
   background:#7b1e1e;
   color:white;
-  padding:12px 18px;
+  padding:12px 20px;
   border-radius:9px;
   cursor:pointer;
   font-weight:700;
+  font-size:14px;
+}
+
+.btn:hover{
+  background:#641818;
 }
 
 .btn:disabled{
@@ -187,34 +227,28 @@ header{
   cursor:not-allowed;
 }
 
-.secondary{
-  background:#555;
-}
-
 .message{
   display:none;
-  padding:12px;
+  padding:13px 15px;
   border-radius:9px;
   margin-bottom:15px;
   font-size:14px;
   line-height:1.5;
+  font-weight:600;
 }
 
 .message.success{
   display:block;
   background:#e8f7ed;
   color:#176b35;
+  border:1px solid #bde5c9;
 }
 
 .message.error{
   display:block;
   background:#fdecec;
   color:#a51f1f;
-}
-
-.controlled{
-  background:#f4f4f4 !important;
-  color:#666;
+  border:1px solid #f2c2c2;
 }
 
 .member-card{
@@ -222,16 +256,27 @@ header{
 }
 
 .member-id{
-  font-size:28px;
+  font-size:30px;
   font-weight:800;
   color:#7b1e1e;
-  margin:10px 0;
+  margin:10px 0 15px;
+}
+
+.member-card h3{
+  margin-top:12px;
+  font-size:21px;
+}
+
+.member-card > p{
+  margin-top:5px;
+  color:#666;
+  font-weight:600;
 }
 
 .qr-box{
   margin:20px auto;
-  width:180px;
-  min-height:180px;
+  width:190px;
+  height:190px;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -241,13 +286,17 @@ header{
 }
 
 .qr-box img{
-  width:160px;
-  height:160px;
+  width:170px;
+  height:170px;
+  object-fit:contain;
 }
 
 .info-table{
   width:100%;
+  max-width:650px;
+  margin:20px auto 0;
   border-collapse:collapse;
+  text-align:left;
 }
 
 .info-table td{
@@ -262,10 +311,34 @@ header{
 }
 
 .hidden{
-  display:none;
+  display:none !important;
+}
+
+.loading-text{
+  text-align:center;
+  padding:30px;
+  color:#666;
+}
+
+.note{
+  margin-top:15px;
+  padding:12px;
+  background:#f8f8f8;
+  border-left:4px solid #7b1e1e;
+  font-size:13px;
+  line-height:1.6;
+  color:#555;
+}
+
+footer{
+  text-align:center;
+  padding:25px 15px;
+  color:#777;
+  font-size:12px;
 }
 
 @media(max-width:700px){
+
   .grid{
     grid-template-columns:1fr;
   }
@@ -278,8 +351,30 @@ header{
     align-items:flex-start;
   }
 
+  .brand h1{
+    font-size:17px;
+  }
+
+  .brand p{
+    font-size:11px;
+  }
+
   .photo-area{
     align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .photo{
+    width:100px;
+    height:100px;
+  }
+
+  .card{
+    padding:18px;
+  }
+
+  .info-table td:first-child{
+    width:45%;
   }
 }
 </style>
@@ -295,7 +390,7 @@ header{
       <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
     </div>
 
-    <button class="logout" onclick="logout()">
+    <button class="logout" id="logoutButton">
       Logout
     </button>
 
@@ -308,7 +403,7 @@ header{
   <div id="message" class="message"></div>
 
 
-  <!-- PROFILE SETUP -->
+  <!-- PROFILE -->
 
   <section class="card">
 
@@ -317,20 +412,22 @@ header{
     <p class="subtitle">
       Nijara basic information complete karantu.
       Super Admin approval pare Member ID, Designation,
-      Active Status ebam QR automatically manage heba.
+      Active Status ebam QR manage heba.
     </p>
 
-    <div id="statusBox" class="status pending">
+    <div id="statusBox" class="status loading">
       Profile loading...
     </div>
 
+
+    <!-- PHOTO -->
 
     <div class="photo-area">
 
       <img
         id="profilePhoto"
         class="photo"
-        src="https://via.placeholder.com/105?text=Photo"
+        src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='100%25' height='100%25' fill='%23eeeeee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23777777' font-size='15'%3EPhoto%3C/text%3E%3C/svg%3E"
         alt="Profile Photo"
       >
 
@@ -345,7 +442,7 @@ header{
         >
 
         <small>
-          JPG / PNG / WEBP. Maximum 5MB.
+          JPG / PNG / WEBP only. Maximum 5MB.
         </small>
 
       </div>
@@ -353,17 +450,20 @@ header{
     </div>
 
 
+    <!-- FORM -->
+
     <form id="profileForm">
 
       <div class="grid">
 
         <div class="field">
 
-          <label>Full Name</label>
+          <label for="fullName">Full Name *</label>
 
           <input
             type="text"
             id="fullName"
+            placeholder="Enter full name"
             required
           >
 
@@ -372,7 +472,7 @@ header{
 
         <div class="field">
 
-          <label>Email</label>
+          <label for="email">Email</label>
 
           <input
             type="email"
@@ -386,13 +486,14 @@ header{
 
         <div class="field">
 
-          <label>Mobile Number</label>
+          <label for="mobile">Mobile Number</label>
 
           <input
             type="tel"
             id="mobile"
             placeholder="Enter mobile number"
             maxlength="15"
+            inputmode="numeric"
           >
 
         </div>
@@ -400,7 +501,7 @@ header{
 
         <div class="field">
 
-          <label>Village</label>
+          <label for="village">Village</label>
 
           <input
             type="text"
@@ -413,7 +514,7 @@ header{
 
         <div class="field full">
 
-          <label>Address</label>
+          <label for="address">Address</label>
 
           <textarea
             id="address"
@@ -425,7 +526,7 @@ header{
 
         <div class="field">
 
-          <label>Blood Group</label>
+          <label for="bloodGroup">Blood Group</label>
 
           <select id="bloodGroup">
 
@@ -450,7 +551,7 @@ header{
 
         <div class="field">
 
-          <label>Member ID</label>
+          <label for="memberId">Member ID</label>
 
           <input
             type="text"
@@ -465,14 +566,13 @@ header{
 
         <div class="field">
 
-          <label>Designation</label>
+          <label for="designation">Designation</label>
 
           <input
             type="text"
             id="designation"
             class="controlled"
             readonly
-            value="Member"
           >
 
         </div>
@@ -480,14 +580,13 @@ header{
 
         <div class="field">
 
-          <label>Member Status</label>
+          <label for="memberStatus">Member Status</label>
 
           <input
             type="text"
             id="memberStatus"
             class="controlled"
             readonly
-            value="Inactive"
           >
 
         </div>
@@ -495,17 +594,27 @@ header{
       </div>
 
 
-      <br>
+      <div style="margin-top:20px;">
 
-      <button
-        type="submit"
-        class="btn"
-        id="saveButton"
-      >
-        Save Profile
-      </button>
+        <button
+          type="submit"
+          class="btn"
+          id="saveButton"
+        >
+          Save Profile
+        </button>
+
+      </div>
 
     </form>
+
+
+    <div class="note">
+      <strong>Important:</strong>
+      Member ID, Designation, Approval Status and Member Status
+      member nijara change kariparibe nahi.
+      E sabu Super Admin manage karibe.
+    </div>
 
   </section>
 
@@ -526,7 +635,7 @@ header{
     <img
       id="cardPhoto"
       class="photo"
-      src="https://via.placeholder.com/105?text=Photo"
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='110' height='110'%3E%3Crect width='100%25' height='100%25' fill='%23eeeeee'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%23777777' font-size='15'%3EPhoto%3C/text%3E%3C/svg%3E"
       alt="Member"
     >
 
@@ -538,6 +647,7 @@ header{
       Member
     </p>
 
+
     <div class="qr-box">
 
       <img
@@ -547,6 +657,7 @@ header{
       >
 
     </div>
+
 
     <table class="info-table">
 
@@ -592,25 +703,34 @@ header{
 </main>
 
 
+<footer>
+  © Maa Basuli Uda Jatra Committee, Thakurmunda
+</footer>
+
+
 <script>
 
 /* ==========================================================
-   SUPABASE CONFIGURATION
-   ==========================================================
-
-   IMPORTANT:
-   Use the SAME Project URL and Publishable/Anon Key
-   that you already used in auth.html.
-*/
+   SUPABASE CONFIG
+   ========================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
+
+
+/*
+  IMPORTANT:
+  Eithi SAME Publishable Key use karantu jaha auth.html re achhi.
+
+  NEVER use Supabase Secret / Service Role key in this file.
+*/
 
 const SUPABASE_ANON_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
 
 const { createClient } = supabase;
+
 
 const supabaseClient = createClient(
   SUPABASE_URL,
@@ -619,7 +739,7 @@ const supabaseClient = createClient(
 
 
 /* ==========================================================
-   GLOBAL
+   GLOBAL VARIABLES
    ========================================================== */
 
 let currentUser = null;
@@ -627,12 +747,21 @@ let currentProfile = null;
 
 
 /* ==========================================================
+   DOM SHORTCUT
+   ========================================================== */
+
+function $(id){
+  return document.getElementById(id);
+}
+
+
+/* ==========================================================
    MESSAGE
    ========================================================== */
 
-function showMessage(text, type="success"){
+function showMessage(text, type = "success"){
 
-  const box = document.getElementById("message");
+  const box = $("message");
 
   box.className = "message " + type;
   box.textContent = text;
@@ -647,7 +776,7 @@ function showMessage(text, type="success"){
 
 function clearMessage(){
 
-  const box = document.getElementById("message");
+  const box = $("message");
 
   box.className = "message";
   box.textContent = "";
@@ -656,18 +785,84 @@ function clearMessage(){
 
 
 /* ==========================================================
-   LOAD USER
+   ERROR MESSAGE
+   ========================================================== */
+
+function friendlyError(error){
+
+  if(!error){
+    return "Something went wrong. Please try again.";
+  }
+
+  const msg =
+    error.message ||
+    error.error_description ||
+    String(error);
+
+
+  const lower =
+    msg.toLowerCase();
+
+
+  if(
+    lower.includes("duplicate") &&
+    lower.includes("mobile")
+  ){
+
+    return "Ei mobile number already another member account re use heichi. Any other mobile number use karantu.";
+
+  }
+
+
+  if(
+    lower.includes("unique") &&
+    lower.includes("mobile")
+  ){
+
+    return "Ei mobile number already registered achhi. Another mobile number use karantu.";
+
+  }
+
+
+  if(lower.includes("jwt")){
+
+    return "Login session expire heichi. Please login again.";
+
+  }
+
+
+  if(lower.includes("row-level security")){
+
+    return "Profile save permission issue. Please contact Super Admin.";
+
+  }
+
+
+  if(lower.includes("not authenticated")){
+
+    return "Login session nahi. Please login again.";
+
+  }
+
+
+  return msg;
+}
+
+
+/* ==========================================================
+   CHECK SESSION
    ========================================================== */
 
 async function loadUser(){
 
   try{
 
-    const {
-      data:{
-        session
-      }
-    } = await supabaseClient.auth.getSession();
+    const result =
+      await supabaseClient.auth.getSession();
+
+
+    const session =
+      result.data?.session;
 
 
     if(!session){
@@ -678,9 +873,11 @@ async function loadUser(){
     }
 
 
-    currentUser = session.user;
+    currentUser =
+      session.user;
 
-    document.getElementById("email").value =
+
+    $("email").value =
       currentUser.email || "";
 
 
@@ -689,10 +886,10 @@ async function loadUser(){
 
   }catch(error){
 
-    console.error(error);
+    console.error("Session error:", error);
 
     showMessage(
-      "Profile load heiparilani. Please login again.",
+      friendlyError(error),
       "error"
     );
 
@@ -707,50 +904,116 @@ async function loadUser(){
 
 async function loadProfile(){
 
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("member_profiles")
-    .select("*")
-    .eq("id", currentUser.id)
-    .maybeSingle();
+  try{
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("member_profiles")
+      .select(
+        "id,member_id,full_name,email,mobile,profile_photo_url,village,address,blood_group,designation,approval_status,member_status,qr_code_url,created_at,updated_at"
+      )
+      .eq(
+        "id",
+        currentUser.id
+      )
+      .maybeSingle();
 
 
-  if(error){
+    if(error){
 
-    console.error(error);
+      console.error("Load profile error:", error);
 
-    showMessage(
-      error.message,
-      "error"
-    );
+      showMessage(
+        friendlyError(error),
+        "error"
+      );
 
-    return;
+      return;
 
-  }
+    }
 
-
-  if(!data){
 
     /*
-      Normally signup trigger automatically creates
-      member_profiles row.
+      If trigger-created profile is missing,
+      create it automatically.
     */
 
+    if(!data){
+
+      const {
+        data:newProfile,
+        error:createError
+      } = await supabaseClient
+        .from("member_profiles")
+        .insert({
+          id:currentUser.id,
+          full_name:
+            currentUser.user_metadata?.full_name ||
+            "",
+          email:
+            currentUser.email || "",
+          approval_status:"pending",
+          member_status:"inactive",
+          designation:"Member"
+        })
+        .select()
+        .single();
+
+
+      if(createError){
+
+        console.error(
+          "Create profile error:",
+          createError
+        );
+
+        showMessage(
+          "Member profile create heiparilani. " +
+          friendlyError(createError),
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      currentProfile =
+        newProfile;
+
+      fillProfile(
+        newProfile
+      );
+
+      return;
+
+    }
+
+
+    currentProfile =
+      data;
+
+
+    fillProfile(
+      data
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Profile load exception:",
+      error
+    );
+
     showMessage(
-      "Member profile record mililani. Please contact Super Admin.",
+      friendlyError(error),
       "error"
     );
 
-    return;
-
   }
-
-
-  currentProfile = data;
-
-  fillProfile(data);
 
 }
 
@@ -761,45 +1024,62 @@ async function loadProfile(){
 
 function fillProfile(profile){
 
-  document.getElementById("fullName").value =
+  $("fullName").value =
     profile.full_name || "";
 
-  document.getElementById("email").value =
-    profile.email || currentUser.email || "";
 
-  document.getElementById("mobile").value =
+  $("email").value =
+    profile.email ||
+    currentUser.email ||
+    "";
+
+
+  $("mobile").value =
     profile.mobile || "";
 
-  document.getElementById("village").value =
+
+  $("village").value =
     profile.village || "";
 
-  document.getElementById("address").value =
+
+  $("address").value =
     profile.address || "";
 
-  document.getElementById("bloodGroup").value =
+
+  $("bloodGroup").value =
     profile.blood_group || "";
 
-  document.getElementById("memberId").value =
+
+  $("memberId").value =
     profile.member_id || "";
 
-  document.getElementById("designation").value =
-    profile.designation || "Member";
 
-  document.getElementById("memberStatus").value =
-    profile.member_status || "inactive";
+  $("designation").value =
+    profile.designation ||
+    "Member";
+
+
+  $("memberStatus").value =
+    profile.member_status ||
+    "inactive";
 
 
   if(profile.profile_photo_url){
 
-    document.getElementById("profilePhoto").src =
+    $("profilePhoto").src =
       profile.profile_photo_url;
 
   }
 
 
-  updateStatus(profile);
+  updateStatus(
+    profile
+  );
 
-  renderApprovedCard(profile);
+
+  renderApprovedCard(
+    profile
+  );
 
 }
 
@@ -811,35 +1091,62 @@ function fillProfile(profile){
 function updateStatus(profile){
 
   const box =
-    document.getElementById("statusBox");
+    $("statusBox");
 
 
-  if(profile.approval_status === "approved"){
+  if(
+    profile.approval_status ===
+    "approved"
+  ){
 
-    box.className = "status approved";
+    if(
+      profile.member_status ===
+      "active"
+    ){
 
-    box.textContent =
-      "✅ Your membership has been approved by the Super Admin.";
+      box.className =
+        "status approved";
+
+      box.textContent =
+        "✅ Membership approved and active. " +
+        "Your Member ID and digital verification are available below.";
+
+    }else{
+
+      box.className =
+        "status pending";
+
+      box.textContent =
+        "⚠️ Membership approved, but current Member Status is inactive. Please contact Super Admin.";
+
+    }
+
+    return;
 
   }
 
-  else if(profile.approval_status === "rejected"){
 
-    box.className = "status rejected";
+  if(
+    profile.approval_status ===
+    "rejected"
+  ){
+
+    box.className =
+      "status rejected";
 
     box.textContent =
-      "❌ Your membership approval was rejected. Please contact the Committee.";
+      "❌ Membership approval rejected. Please contact the Committee.";
+
+    return;
 
   }
 
-  else{
 
-    box.className = "status pending";
+  box.className =
+    "status pending";
 
-    box.textContent =
-      "⏳ Profile submitted. Super Admin approval pending.";
-
-  }
+  box.textContent =
+    "⏳ Profile submitted. Super Admin approval pending.";
 
 }
 
@@ -848,390 +1155,130 @@ function updateStatus(profile){
    PHOTO UPLOAD
    ========================================================== */
 
-document
-  .getElementById("photoInput")
-  .addEventListener(
-    "change",
-    async function(){
+$("photoInput")
+.addEventListener(
+  "change",
+  async function(){
 
-      clearMessage();
-
-      const file = this.files[0];
-
-      if(!file){
-        return;
-      }
+    clearMessage();
 
 
-      if(file.size > 5 * 1024 * 1024){
-
-        showMessage(
-          "Photo maximum 5MB heba darkar.",
-          "error"
-        );
-
-        this.value = "";
-
-        return;
-
-      }
+    const file =
+      this.files?.[0];
 
 
-      const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-      ];
+    if(!file){
+
+      return;
+
+    }
 
 
-      if(!allowedTypes.includes(file.type)){
+    if(!currentUser){
 
-        showMessage(
-          "Only JPG, PNG or WEBP photo allowed.",
-          "error"
-        );
+      showMessage(
+        "Login session nahi. Please login again.",
+        "error"
+      );
 
-        this.value = "";
+      this.value = "";
 
-        return;
+      return;
 
-      }
-
-
-      try{
-
-        const fileExt =
-          file.name.split(".").pop().toLowerCase();
+    }
 
 
-        const filePath =
-          currentUser.id +
-          "/" +
-          Date.now() +
-          "." +
-          fileExt;
+    if(
+      file.size >
+      5 * 1024 * 1024
+    ){
+
+      showMessage(
+        "Photo maximum 5MB heba darkar.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+
+    }
 
 
-        const {
-          error:uploadError
-        } = await supabaseClient
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+
+    if(
+      !allowedTypes.includes(
+        file.type
+      )
+    ){
+
+      showMessage(
+        "Only JPG, PNG or WEBP photo allowed.",
+        "error"
+      );
+
+      this.value = "";
+
+      return;
+
+    }
+
+
+    try{
+
+      /*
+        File name unique rakha jauchi.
+      */
+
+      const fileExt =
+        file.name
+          .split(".")
+          .pop()
+          .toLowerCase();
+
+
+      const filePath =
+        currentUser.id +
+        "/" +
+        Date.now() +
+        "." +
+        fileExt;
+
+
+      showMessage(
+        "Photo upload heuchhi...",
+        "success"
+      );
+
+
+      const {
+        error:uploadError
+      } =
+        await supabaseClient
           .storage
           .from("member-photos")
           .upload(
             filePath,
             file,
             {
+              cacheControl:"3600",
               upsert:false,
               contentType:file.type
             }
           );
 
 
-        if(uploadError){
+      if(uploadError){
 
-          throw uploadError;
-
-        }
-
-
-        const {
-          data:publicData
-        } = supabaseClient
-          .storage
-          .from("member-photos")
-          .getPublicUrl(filePath);
-
-
-        const publicUrl =
-          publicData.publicUrl;
-
-
-        const {
-          error:updateError
-        } = await supabaseClient
-          .from("member_profiles")
-          .update({
-            profile_photo_url:publicUrl
-          })
-          .eq("id",currentUser.id);
-
-
-        if(updateError){
-
-          throw updateError;
-
-        }
-
-
-        document.getElementById("profilePhoto").src =
-          publicUrl;
-
-
-        showMessage(
-          "Profile photo upload heigala.",
-          "success"
-        );
-
-
-        await loadProfile();
-
-
-      }catch(error){
-
-        console.error(error);
-
-        showMessage(
-          error.message ||
-          "Photo upload failed.",
-          "error"
-        );
-
-      }
-
-    }
-  );
-
-
-/* ==========================================================
-   SAVE PROFILE
-   ========================================================== */
-
-document
-  .getElementById("profileForm")
-  .addEventListener(
-    "submit",
-    async function(event){
-
-      event.preventDefault();
-
-      clearMessage();
-
-
-      const saveButton =
-        document.getElementById("saveButton");
-
-
-      const fullName =
-        document.getElementById("fullName").value.trim();
-
-      const mobile =
-        document.getElementById("mobile").value.trim();
-
-      const village =
-        document.getElementById("village").value.trim();
-
-      const address =
-        document.getElementById("address").value.trim();
-
-      const bloodGroup =
-        document.getElementById("bloodGroup").value;
-
-
-      if(!fullName){
-
-        showMessage(
-          "Full Name required.",
-          "error"
-        );
-
-        return;
+        throw uploadError;
 
       }
 
 
-      saveButton.disabled = true;
-      saveButton.textContent = "Saving...";
-
-
-      try{
-
-        /*
-          IMPORTANT:
-          Member-controlled information only.
-
-          Member ID, designation, approval status,
-          member status, QR and email are NOT sent here.
-        */
-
-        const {
-          error
-        } = await supabaseClient
-          .from("member_profiles")
-          .update({
-
-            full_name:fullName,
-
-            mobile:
-              mobile || null,
-
-            village:
-              village || null,
-
-            address:
-              address || null,
-
-            blood_group:
-              bloodGroup || null
-
-          })
-          .eq(
-            "id",
-            currentUser.id
-          );
-
-
-        if(error){
-
-          throw error;
-
-        }
-
-
-        showMessage(
-          "Profile successfully saved.",
-          "success"
-        );
-
-
-        await loadProfile();
-
-
-      }catch(error){
-
-        console.error(error);
-
-        showMessage(
-          error.message ||
-          "Profile save failed.",
-          "error"
-        );
-
-      }
-
-
-      saveButton.disabled = false;
-      saveButton.textContent = "Save Profile";
-
-    }
-  );
-
-
-/* ==========================================================
-   APPROVED MEMBER CARD
-   ========================================================== */
-
-function renderApprovedCard(profile){
-
-  const card =
-    document.getElementById("approvedCard");
-
-
-  if(
-    profile.approval_status !== "approved" ||
-    !profile.member_id
-  ){
-
-    card.classList.add("hidden");
-
-    return;
-
-  }
-
-
-  card.classList.remove("hidden");
-
-
-  document.getElementById("cardMemberId").textContent =
-    profile.member_id;
-
-
-  document.getElementById("cardName").textContent =
-    profile.full_name || "-";
-
-
-  document.getElementById("cardDesignation").textContent =
-    profile.designation || "Member";
-
-
-  if(profile.profile_photo_url){
-
-    document.getElementById("cardPhoto").src =
-      profile.profile_photo_url;
-
-  }
-
-
-  document.getElementById("infoMemberId").textContent =
-    profile.member_id || "-";
-
-
-  document.getElementById("infoName").textContent =
-    profile.full_name || "-";
-
-
-  document.getElementById("infoMobile").textContent =
-    profile.mobile || "-";
-
-
-  document.getElementById("infoVillage").textContent =
-    profile.village || "-";
-
-
-  document.getElementById("infoBlood").textContent =
-    profile.blood_group || "-";
-
-
-  document.getElementById("infoDesignation").textContent =
-    profile.designation || "-";
-
-
-  document.getElementById("infoStatus").textContent =
-    profile.member_status || "-";
-
-
-  /*
-    QR currently points to a future public verification page.
-
-    Once member.html is created, Super Admin approval
-    system will generate/use the permanent verification URL.
-  */
-
-  const verifyUrl =
-    window.location.origin +
-    "/maa-basuli-uda-jatra-committee/member.html?id=" +
-    encodeURIComponent(profile.member_id);
-
-
-  const qrUrl =
-    "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" +
-    encodeURIComponent(verifyUrl);
-
-
-  document.getElementById("qrImage").src =
-    qrUrl;
-
-}
-
-
-/* ==========================================================
-   LOGOUT
-   ========================================================== */
-
-async function logout(){
-
-  try{
-
-    await supabaseClient.auth.signOut();
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-  window.location.href = "auth.html";
-
-}
-
-
-/* ==================================================
+      const {
