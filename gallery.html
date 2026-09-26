@@ -316,13 +316,13 @@
       color: #555;
     }
 
-    /* MODAL */
+    /* PHOTO MODAL */
 
     .modal {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.88);
+      background: rgba(0,0,0,0.90);
       z-index: 9999;
       align-items: center;
       justify-content: center;
@@ -331,21 +331,24 @@
 
     .modal-content {
       max-width: 95vw;
-      max-height: 90vh;
+      max-height: 92vh;
       text-align: center;
     }
 
     .modal-content img {
       max-width: 95vw;
-      max-height: 80vh;
+      max-height: 75vh;
       object-fit: contain;
       border-radius: 8px;
+      display: block;
+      margin: auto;
     }
 
     .modal-title {
       color: white;
       margin-top: 12px;
       font-size: 15px;
+      line-height: 1.4;
     }
 
     .modal-close {
@@ -356,6 +359,25 @@
       font-size: 38px;
       cursor: pointer;
       line-height: 1;
+      z-index: 10000;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 11px 20px;
+      background: white;
+      color: #7b1e00;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    .download-btn:hover {
+      background: #ffe8dc;
+      transform: translateY(-1px);
     }
 
     footer {
@@ -411,6 +433,14 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .modal {
+        padding: 15px;
+      }
+
+      .modal-content img {
+        max-height: 65vh;
+      }
+
     }
 
     @media (max-width: 450px) {
@@ -421,6 +451,15 @@
 
       .photo-card img {
         height: 240px;
+      }
+
+      .modal-content img {
+        max-height: 60vh;
+      }
+
+      .download-btn {
+        width: 100%;
+        max-width: 240px;
       }
 
     }
@@ -680,6 +719,7 @@
     ×
   </span>
 
+
   <div
     class="modal-content"
     onclick="event.stopPropagation()"
@@ -691,10 +731,22 @@
       alt="Gallery Photo"
     >
 
+
     <div
       id="modalTitle"
       class="modal-title"
     ></div>
+
+
+    <a
+      id="downloadPhotoBtn"
+      class="download-btn"
+      href="#"
+      download
+      target="_blank"
+    >
+      ⬇️ Download Photo
+    </a>
 
   </div>
 
@@ -778,7 +830,9 @@ function escapeHtml(value) {
 async function loadAlbums() {
 
   const status =
-    document.getElementById("albumStatus");
+    document.getElementById(
+      "albumStatus"
+    );
 
   status.textContent =
     "Loading Gallery...";
@@ -855,7 +909,9 @@ async function loadAlbums() {
 function populateYearFilter() {
 
   const select =
-    document.getElementById("yearFilter");
+    document.getElementById(
+      "yearFilter"
+    );
 
 
   const years = [
@@ -868,7 +924,8 @@ function populateYearFilter() {
 
 
   years.sort(
-    (a,b) => Number(b) - Number(a)
+    (a, b) =>
+      Number(b) - Number(a)
   );
 
 
@@ -882,9 +939,12 @@ function populateYearFilter() {
   years.forEach(year => {
 
     const option =
-      document.createElement("option");
+      document.createElement(
+        "option"
+      );
 
     option.value = year;
+
     option.textContent = year;
 
     select.appendChild(option);
@@ -901,10 +961,14 @@ function populateYearFilter() {
 function renderAlbums() {
 
   const grid =
-    document.getElementById("albumGrid");
+    document.getElementById(
+      "albumGrid"
+    );
 
   const status =
-    document.getElementById("albumStatus");
+    document.getElementById(
+      "albumStatus"
+    );
 
 
   const search =
@@ -932,22 +996,28 @@ function renderAlbums() {
 
       const matchesSearch =
         !search ||
-        String(album.album_name || "")
+        String(
+          album.album_name || ""
+        )
           .toLowerCase()
           .includes(search) ||
-        String(album.description || "")
+        String(
+          album.description || ""
+        )
           .toLowerCase()
           .includes(search);
 
 
       const matchesYear =
         !year ||
-        String(album.year) === String(year);
+        String(album.year) ===
+          String(year);
 
 
       const matchesCategory =
         !category ||
-        album.category === category;
+        album.category ===
+          category;
 
 
       return (
@@ -967,8 +1037,10 @@ function renderAlbums() {
     status.style.display =
       "block";
 
+
     status.innerHTML = `
       <div class="empty">
+
         <h3 style="margin-bottom:8px;">
           No Gallery Albums Found
         </h3>
@@ -976,6 +1048,7 @@ function renderAlbums() {
         <p>
           Ei filter re ebe kona album available nahin.
         </p>
+
       </div>
     `;
 
@@ -991,7 +1064,10 @@ function renderAlbums() {
   filtered.forEach(album => {
 
     const card =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
+
 
     card.className =
       "album-card";
@@ -1002,8 +1078,12 @@ function renderAlbums() {
         ? `
           <img
             class="album-cover"
-            src="${escapeHtml(album.cover_photo_url)}"
-            alt="${escapeHtml(album.album_name)}"
+            src="${escapeHtml(
+              album.cover_photo_url
+            )}"
+            alt="${escapeHtml(
+              album.album_name
+            )}"
             loading="lazy"
           >
         `
@@ -1021,18 +1101,24 @@ function renderAlbums() {
       <div class="album-info">
 
         <h3>
-          ${escapeHtml(album.album_name)}
+          ${escapeHtml(
+            album.album_name
+          )}
         </h3>
 
 
         <div class="album-meta">
 
           <span class="badge">
-            ${escapeHtml(album.year)}
+            ${escapeHtml(
+              album.year
+            )}
           </span>
 
           <span class="badge">
-            ${escapeHtml(album.category)}
+            ${escapeHtml(
+              album.category
+            )}
           </span>
 
         </div>
@@ -1078,12 +1164,14 @@ async function openAlbum(album) {
 
   document.getElementById(
     "albumSection"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
 
   document.getElementById(
     "albumView"
-  ).style.display = "block";
+  ).style.display =
+    "block";
 
 
   document.getElementById(
@@ -1103,11 +1191,15 @@ async function openAlbum(album) {
   ).innerHTML = `
 
     <span class="badge">
-      ${escapeHtml(album.year)}
+      ${escapeHtml(
+        album.year
+      )}
     </span>
 
     <span class="badge">
-      ${escapeHtml(album.category)}
+      ${escapeHtml(
+        album.category
+      )}
     </span>
 
   `;
@@ -1130,12 +1222,15 @@ async function openAlbum(album) {
    LOAD PHOTOS
 ========================================================= */
 
-async function loadPhotos(albumId) {
+async function loadPhotos(
+  albumId
+) {
 
   const status =
     document.getElementById(
       "photoStatus"
     );
+
 
   const grid =
     document.getElementById(
@@ -1167,7 +1262,8 @@ async function loadPhotos(albumId) {
         photo_title,
         photo_description,
         display_order,
-        is_published
+        is_published,
+        created_at
       `)
       .eq("album_id", albumId)
       .eq("is_published", true)
@@ -1192,6 +1288,7 @@ async function loadPhotos(albumId) {
 
       status.innerHTML = `
         <div class="empty">
+
           <h3 style="margin-bottom:8px;">
             No Photos Yet
           </h3>
@@ -1199,6 +1296,7 @@ async function loadPhotos(albumId) {
           <p>
             Ehi album re ebe photo upload heini.
           </p>
+
         </div>
       `;
 
@@ -1214,7 +1312,10 @@ async function loadPhotos(albumId) {
     photos.forEach(photo => {
 
       const card =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       card.className =
         "photo-card";
@@ -1223,9 +1324,12 @@ async function loadPhotos(albumId) {
       card.innerHTML = `
 
         <img
-          src="${escapeHtml(photo.photo_url)}"
+          src="${escapeHtml(
+            photo.photo_url
+          )}"
           alt="${escapeHtml(
-            photo.photo_title || "Gallery Photo"
+            photo.photo_title ||
+            "Gallery Photo"
           )}"
           loading="lazy"
         >
@@ -1263,8 +1367,13 @@ async function loadPhotos(albumId) {
 
     status.innerHTML = `
       <div class="error">
+
         Photos load heiparilani.<br><br>
-        ${escapeHtml(error.message)}
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>
     `;
 
@@ -1281,12 +1390,14 @@ function showAlbums() {
 
   document.getElementById(
     "albumView"
-  ).style.display = "none";
+  ).style.display =
+    "none";
 
 
   document.getElementById(
     "albumSection"
-  ).style.display = "block";
+  ).style.display =
+    "block";
 
 
   window.scrollTo({
@@ -1298,22 +1409,59 @@ function showAlbums() {
 
 
 /* =========================================================
-   PHOTO MODAL
+   OPEN PHOTO MODAL
 ========================================================= */
 
 function openPhotoModal(photo) {
 
-  document.getElementById(
-    "modalImage"
-  ).src =
+  const image =
+    document.getElementById(
+      "modalImage"
+    );
+
+
+  const title =
+    document.getElementById(
+      "modalTitle"
+    );
+
+
+  const downloadBtn =
+    document.getElementById(
+      "downloadPhotoBtn"
+    );
+
+
+  image.src =
     photo.photo_url;
 
 
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
+  title.textContent =
     photo.photo_title ||
     "Maa Basuli Uda Jatra";
+
+
+  downloadBtn.href =
+    photo.photo_url;
+
+
+  /*
+    Download filename
+  */
+
+  const cleanTitle =
+    (
+      photo.photo_title ||
+      "maa-basuli-gallery-photo"
+    )
+      .replace(
+        /[^a-zA-Z0-9_-]/g,
+        "_"
+      );
+
+
+  downloadBtn.download =
+    cleanTitle + ".jpg";
 
 
   document.getElementById(
@@ -1323,6 +1471,10 @@ function openPhotoModal(photo) {
 
 }
 
+
+/* =========================================================
+   CLOSE PHOTO MODAL
+========================================================= */
 
 function closePhotoModal() {
 
@@ -1344,7 +1496,9 @@ function closePhotoModal() {
 ========================================================= */
 
 document
-  .getElementById("searchInput")
+  .getElementById(
+    "searchInput"
+  )
   .addEventListener(
     "input",
     renderAlbums
@@ -1352,7 +1506,9 @@ document
 
 
 document
-  .getElementById("yearFilter")
+  .getElementById(
+    "yearFilter"
+  )
   .addEventListener(
     "change",
     renderAlbums
@@ -1360,7 +1516,9 @@ document
 
 
 document
-  .getElementById("categoryFilter")
+  .getElementById(
+    "categoryFilter"
+  )
   .addEventListener(
     "change",
     renderAlbums
@@ -1368,14 +1526,16 @@ document
 
 
 /* =========================================================
-   ESC KEY CLOSE MODAL
+   ESC KEY
 ========================================================= */
 
 document.addEventListener(
   "keydown",
   function(event) {
 
-    if (event.key === "Escape") {
+    if (
+      event.key === "Escape"
+    ) {
 
       closePhotoModal();
 
