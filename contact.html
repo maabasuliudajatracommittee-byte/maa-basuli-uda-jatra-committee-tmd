@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contact Us | Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+/* TOP BAR */
+
+.topbar{
+  background:#7b1e1e;
+  color:#fff;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
+  display:flex;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+/* HEADER */
+
+header{
+  background:#fff;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:75px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  position:relative;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.logo-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:26px;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:19px;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:12px;
+}
+
+nav{
+  display:flex;
+  gap:3px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+nav a{
+  padding:8px 10px;
+  border-radius:7px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+nav a:hover,
+nav a.active{
+  background:#f5e8e8;
+  color:#7b1e1e;
+}
+
+.menu-btn{
+  display:none;
+  border:0;
+  background:#7b1e1e;
+  color:#fff;
+  padding:9px 12px;
+  border-radius:7px;
+  font-size:20px;
+}
+
+/* HERO */
+
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.82),rgba(70,15,5,.82)),
+    url("https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:#fff;
+  text-align:center;
+  padding:80px 0;
+}
+
+.page-hero h2{
+  font-size:44px;
+  margin-bottom:8px;
+}
+
+.page-hero p{
+  font-size:17px;
+}
+
+/* SECTIONS */
+
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+/* CONTACT */
+
+.contact-wrap{
+  margin-top:-35px;
+  position:relative;
+  z-index:5;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.card{
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
+  box-shadow:0 5px 22px rgba(0,0,0,.10);
+}
+
+.card h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+}
+
+.card-intro{
+  color:#777;
+  font-size:13px;
+  margin-bottom:22px;
+}
+
+/* CONTACT ITEMS */
+
+.contact-item{
+  display:flex;
+  gap:15px;
+  padding:16px 0;
+  border-bottom:1px solid #eee;
+}
+
+.contact-item:last-child{
+  border-bottom:0;
+}
+
+.contact-icon{
+  min-width:45px;
+  height:45px;
+  border-radius:10px;
+  background:#fff3dc;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+}
+
+.contact-item h4{
+  color:#7b1e1e;
+  margin-bottom:2px;
+}
+
+.contact-item p,
+.contact-item a{
+  color:#666;
+  font-size:13px;
+}
+
+.contact-item a:hover{
+  color:#7b1e1e;
+}
+
+/* SOCIAL */
+
+.social-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-top:20px;
+}
+
+.social-card{
+  padding:15px;
+  border:1px solid #eee;
+  border-radius:10px;
+  background:#fff;
+  transition:.2s;
+}
+
+.social-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.social-card strong{
+  display:block;
+  color:#7b1e1e;
+}
+
+.social-card span{
+  color:#777;
+  font-size:12px;
+}
+
+/* CONTACT FORM */
+
+.form-group{
+  margin-bottom:16px;
+}
+
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-size:13px;
+  font-weight:bold;
+  color:#444;
+}
+
+.form-group input,
+.form-group textarea{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  font-family:inherit;
+  font-size:14px;
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus{
+  border-color:#7b1e1e;
+}
+
+.form-group textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.submit-btn{
+  width:100%;
+  padding:13px;
+  border:0;
+  border-radius:9px;
+  background:#7b1e1e;
+  color:#fff;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.submit-btn:hover{
+  background:#5e1515;
+}
+
+.success-box{
+  display:none;
+  margin-top:15px;
+  padding:14px;
+  border-radius:8px;
+  background:#eaf8ef;
+  color:#18733a;
+  font-size:13px;
+}
+
+.success-box.show{
+  display:block;
+}
+
+/* MAP */
+
+.map-section{
+  background:#fff8ed;
+}
+
+.map-box{
+  min-height:320px;
+  background:#eee;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+}
+
+.map-content{
+  max-width:550px;
+}
+
+.map-content .map-icon{
+  font-size:50px;
+  margin-bottom:10px;
+}
+
+.map-content h3{
+  color:#7b1e1e;
+  margin-bottom:5px;
+}
+
+.map-content p{
+  color:#777;
+  font-size:14px;
+}
+
+.map-btn{
+  display:inline-block;
+  margin-top:15px;
+  padding:10px 17px;
+  border-radius:8px;
+  background:#7b1e1e;
+  color:#fff;
+  font-size:13px;
+  font-weight:bold;
+}
+
+/* OFFICE HOURS */
+
+.info-box{
+  background:#fff;
+  border-left:5px solid #7b1e1e;
+  padding:22px;
+  border-radius:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.info-box h3{
+  color:#7b1e1e;
+  margin-bottom:7px;
+}
+
+.info-box p,
+.info-box li{
+  color:#666;
+  font-size:14px;
+}
+
+.info-box ul{
+  padding-left:20px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#241313;
+  color:#fff;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:950px){
+
+  nav{
+    display:none;
+    position:absolute;
+    top:75px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
+
+  nav.show{
+    display:flex;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+
+  .logo-text h1{
+    font-size:16px;
+  }
+
+  .page-hero{
+    padding:65px 0;
+  }
+
+  .page-hero h2{
+    font-size:32px;
+  }
+
+  .social-grid{
+    grid-template-columns:1fr;
+  }
+
+  .card{
+    padding:22px;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+  <div class="container topbar-inner">
+
+    <span>🙏 जय माँ बसुली</span>
+
+    <span>
+      Thakurmunda, Mayurbhanj, Odisha
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+
+      <div class="logo-icon">
+        🙏
+      </div>
+
+      <div class="logo-text">
+
+        <h1>
+          Maa Basuli Uda Jatra Committee
+        </h1>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
+
+      </div>
+
+    </a>
+
+
+    <button
+      class="menu-btn"
+      onclick="toggleMenu()"
+    >
+      ☰
+    </button>
+
+
+    <nav id="mainNav">
+
+      <a href="index.html">Home</a>
+
+      <a href="about.html">About</a>
+
+      <a href="jatra.html">Uda Jatra</a>
+
+      <a href="notices.html">Notices</a>
+
+      <a href="events.html">Events</a>
+
+      <a href="gallery.html">Gallery</a>
+
+      <a href="members.html">Our Members</a>
+
+      <a href="fund.html">Fund</a>
+
+      <a href="member-fee.html">Member Fee</a>
+
+      <a href="complaint.html">Complaint</a>
+
+      <a
+        href="contact.html"
+        class="active"
+      >
+        Contact
+      </a>
+
+      <a href="auth.html">Login</a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<!-- HERO -->
+
+<section class="page-hero">
+
+  <div class="container">
+
+    <h2>
+      Contact Us
+    </h2>
+
+    <p>
+      Get in touch with Maa Basuli Uda Jatra Committee
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- CONTACT INFORMATION -->
+
+<section class="contact-wrap">
+
+  <div class="container">
+
+    <div class="contact-grid">
+
+
+      <!-- OFFICIAL CONTACT -->
+
+      <div class="card">
+
+        <h3>
+          📍 Official Contact
+        </h3>
+
+        <p class="card-intro">
+          For official committee-related information,
+          programmes and general enquiries.
+        </p>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            📍
+          </div>
+
+          <div>
+
+            <h4>
+              Address
+            </h4>
+
+            <p>
+              Maa Basuli Uda Jatra Committee<br>
+              Thakurmunda, Mayurbhanj<br>
+              Odisha, India
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            ✉️
+          </div>
+
+          <div>
+
+            <h4>
+              Official Email
+            </h4>
+
+            <a
+              href="mailto:maabasuliudajatracommittee@gmail.com"
+            >
+              maabasuliudajatracommittee@gmail.com
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            📱
+          </div>
+
+          <div>
+
+            <h4>
+              Official Phone
+            </h4>
+
+            <p>
+              Official contact number will be published
+              by the Super Admin.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            🕐
+          </div>
+
+          <div>
+
+            <h4>
+              Office / Enquiry
+            </h4>
+
+            <p>
+              Timing and availability will be updated
+              through the official website.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CONTACT FORM -->
+
+      <div class="card">
+
+        <h3>
+          ✉️ Send an Enquiry
+        </h3>
+
+        <p class="card-intro">
+          Send a general message to the committee.
+        </p>
+
+
+        <form
+          id="contactForm"
+          onsubmit="submitEnquiry(event)"
+        >
+
+
+          <div class="form-group">
+
+            <label>
+              Your Name
+            </label>
+
+            <input
+              type="text"
+              id="contactName"
+              placeholder="Enter your name"
+              required
+              maxlength="100"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Mobile Number
+            </label>
+
+            <input
+              type="tel"
+              id="contactMobile"
+              placeholder="Enter your 10-digit mobile number"
+              required
+              maxlength="10"
+              pattern="[0-9]{10}"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="contactEmail"
+              placeholder="Enter your email address"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Message
+            </label>
+
+            <textarea
+              id="contactMessage"
+              placeholder="Write your message..."
+              required
+              maxlength="2000"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            Send Enquiry
+          </button>
+
+
+        </form>
+
+
+        <div
+          id="successBox"
+          class="success-box"
+        >
+          ✅ Your enquiry has been recorded in demo mode.
+          The official enquiry system will be connected
+          to Supabase during the CMS stage.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SOCIAL MEDIA -->
+
+<section>
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>
+        Official Social Media
+      </h2>
+
+      <p>
+        Follow the committee for official updates
+      </p>
+
+    </div>
+
+
+    <div class="social-grid">
+
+
+      <a
+        class="social-card"
+        href="https://www.instagram.com/jaymaabasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          📸 Instagram
+        </strong>
+
+        <span>
+          @jaymaabasuli
+        </span>
+
+      </a>
+
+
+      <a
+        class="social-card"
+        href="https://www.youtube.com/@jaymaabasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          ▶️ YouTube
+        </strong>
+
+        <span>
+          Jay Maa Basuli
+        </span>
+
+      </a>
+
+
+      <a
+        class="social-card"
+        href="https://x.com/JayMaaBasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          𝕏 X / Twitter
+        </strong>
+
+        <span>
+          @JayMaaBasuli
+        </span>
+
+      </a>
+
+
+      <div class="social-card">
+
+        <strong>
+          👍 Facebook
+        </strong>
+
+        <span>
+          Official Facebook page will be linked here.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LOCATION -->
+
+<section class="map-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>
+        Our Location
+      </h2>
+
+      <p>
+        Thakurmunda, Mayurbhanj, Odisha
+      </p>
+
+    </div>
+
+
+    <div class="map-box">
+
+      <div class="map-content">
+
+        <div class="map-icon">
+          📍
+        </div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha, India
+        </p>
+
+
+        <a
+          class="map-btn"
+          href="https://www.google.com/maps/search/?api=1&query=Thakurmunda%2C%20Mayurbhanj%2C%20Odisha"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Location in Google Maps
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- IMPORTANT -->
+
+<section>
+
+  <div class="container">
+
+    <div class="info-box">
+
+      <h3>
+        📌 Important Information
+      </h3>
+
+      <ul>
+
+        <li>
+          For complaints, please use the dedicated
+          <strong>Complaint Box</strong>.
+        </li>
+
+        <li>
+          For membership-related matters, please use
+          the official Member Login system.
+        </li>
+
+        <li>
+          Do not share passwords, OTPs, PINs or banking
+          credentials through the enquiry form.
+        </li>
+
+        <li>
+          Official announcements and committee information
+          will be published through this website.
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+
+      <div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:10px;">
+          ଜୟ ମା' ବାସୁଳୀ 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Quick Links
+        </h3>
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="jatra.html">
+          Uda Jatra
+        </a>
+
+        <a href="notices.html">
+          Notices
+        </a>
+
+        <a href="events.html">
+          Events
+        </a>
+
+        <a href="gallery.html">
+          Gallery
+        </a>
+
+      </div>
+
+
+      <div>
+
+        <h3>
+          Services
+        </h3>
+
+        <a href="members.html">
+          Our Members
+        </a>
+
+        <a href="fund.html">
+          Fund & Donation
+        </a>
+
+        <a href="member-fee.html">
+          Member Fee
+        </a>
+
+        <a href="complaint.html">
+          Complaint Box
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
+        <a href="auth.html">
+          Login
+        </a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+<script>
+
+/* MOBILE MENU */
+
+function toggleMenu(){
+
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+
+/* CONTACT FORM — TEMPORARY FRONTEND MODE */
+
+function submitEnquiry(event){
+
+  event.preventDefault();
+
+
+  const mobile =
+    document
+      .getElementById("contactMobile")
+      .value
+      .trim();
+
+
+  if(!/^[0-9]{10}$/.test(mobile)){
+
+    alert(
+      "Please enter a valid 10-digit mobile number."
+    );
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("successBox")
+    .classList
+    .add("show");
+
+
+  document
+    .getElementById("contactForm")
+    .reset();
+
+
+  document
+    .getElementById("successBox")
+    .scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+}
+
+</script>
+
+</body>
+</html>
