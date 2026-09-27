@@ -1,351 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Settings | Maa Basuli Uda Jatra Committee</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Website Settings - Maa Basuli Uda Jatra Committee</title>
 
-  <style>
-    *{box-sizing:border-box}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      background:#f4f6f9;
-      color:#222;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    header{
-      background:#7b1e1e;
-      color:#fff;
-      padding:20px 24px;
-    }
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f9;
+  color:#222;
+}
 
-    header h1{
-      margin:0;
-      font-size:24px;
-    }
+.header{
+  background:#7b1e1e;
+  color:white;
+  padding:18px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:10px;
+}
 
-    header p{
-      margin:6px 0 0;
-      opacity:.9;
-    }
+.header h1{
+  font-size:22px;
+}
 
-    .topbar{
-      background:#fff;
-      padding:12px 24px;
-      border-bottom:1px solid #ddd;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.header button{
+  border:0;
+  background:#fff;
+  color:#7b1e1e;
+  padding:9px 16px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .topbar button{
-      border:0;
-      padding:9px 14px;
-      border-radius:6px;
-      background:#7b1e1e;
-      color:#fff;
-      cursor:pointer;
-    }
+.container{
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 15px;
+}
 
-    .container{
-      max-width:1000px;
-      margin:25px auto;
-      padding:0 15px;
-    }
+.card{
+  background:white;
+  border-radius:12px;
+  padding:22px;
+  margin-bottom:20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+}
 
-    .card{
-      background:#fff;
-      border-radius:10px;
-      padding:22px;
-      margin-bottom:20px;
-      box-shadow:0 2px 8px rgba(0,0,0,.08);
-    }
+.card h2{
+  color:#7b1e1e;
+  margin-bottom:18px;
+  border-bottom:2px solid #eee;
+  padding-bottom:10px;
+}
 
-    .card h2{
-      margin-top:0;
-      color:#7b1e1e;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:16px;
-    }
+.field{
+  margin-bottom:15px;
+}
 
-    .full{
-      grid-column:1/-1;
-    }
+.field.full{
+  grid-column:1/-1;
+}
 
-    label{
-      display:block;
-      font-weight:bold;
-      margin-bottom:6px;
-    }
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:7px;
+}
 
-    input,textarea{
-      width:100%;
-      padding:11px;
-      border:1px solid #ccc;
-      border-radius:6px;
-      font-size:14px;
-    }
+input,textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #ccc;
+  border-radius:7px;
+  font-size:14px;
+}
 
-    textarea{
-      min-height:110px;
-      resize:vertical;
-    }
+textarea{
+  min-height:110px;
+  resize:vertical;
+}
 
-    .actions{
-      margin-top:20px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:20px;
+}
 
-    .btn{
-      border:0;
-      padding:11px 18px;
-      border-radius:6px;
-      cursor:pointer;
-      color:#fff;
-      font-size:14px;
-    }
+.photo-box{
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:18px;
+  background:#fafafa;
+}
 
-    .primary{background:#7b1e1e}
-    .secondary{background:#555}
+.photo-box h3{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
 
-    .status{
-      display:inline-block;
-      padding:5px 10px;
-      border-radius:20px;
-      background:#d1fae5;
-      color:#065f46;
-      font-weight:bold;
-      font-size:12px;
-    }
+.preview{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  border-radius:9px;
+  border:1px solid #ddd;
+  background:#eee;
+  margin-bottom:12px;
+}
 
-    #message{
-      display:none;
-      padding:12px;
-      border-radius:6px;
-      margin-bottom:15px;
-      font-weight:bold;
-    }
+.logo-preview{
+  object-fit:contain;
+  background:white;
+}
 
-    .preview{
-      display:flex;
-      gap:20px;
-      align-items:center;
-      margin-top:15px;
-      padding:15px;
-      background:#f8f8f8;
-      border-radius:8px;
-    }
+.photo-box input[type=file]{
+  background:white;
+}
 
-    .preview img{
-      max-width:90px;
-      max-height:90px;
-      object-fit:contain;
-    }
+.upload-status{
+  margin-top:8px;
+  font-size:13px;
+  color:#555;
+}
 
-    @media(max-width:700px){
-      .grid{
-        grid-template-columns:1fr;
-      }
+.btn{
+  border:0;
+  padding:12px 20px;
+  border-radius:7px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:14px;
+}
 
-      .full{
-        grid-column:auto;
-      }
-    }
-  </style>
+.btn-primary{
+  background:#7b1e1e;
+  color:white;
+}
+
+.btn-primary:hover{
+  background:#5e1515;
+}
+
+.btn-secondary{
+  background:#555;
+  color:white;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.message{
+  display:none;
+  padding:12px 15px;
+  border-radius:7px;
+  margin-bottom:18px;
+  font-weight:bold;
+}
+
+.success{
+  background:#d4edda;
+  color:#155724;
+}
+
+.error{
+  background:#f8d7da;
+  color:#721c24;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  font-size:18px;
+}
+
+@media(max-width:700px){
+  .grid,
+  .photo-grid{
+    grid-template-columns:1fr;
+  }
+
+  .header{
+    padding:15px;
+  }
+
+  .header h1{
+    font-size:18px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>🙏 Maa Basuli Uda Jatra Committee</h1>
-  <p>Website Settings Management</p>
-</header>
-
-<div class="topbar">
-
-  <div id="userEmail">
-    Checking login...
-  </div>
-
-  <div>
-    <button onclick="loadSettings()">🔄 Refresh</button>
-    <button onclick="goDashboard()">🏠 Super Admin Dashboard</button>
-    <button onclick="logout()">Logout</button>
-  </div>
-
+<div class="header">
+  <h1>🌺 Maa Basuli Uda Jatra Committee — Website Settings</h1>
+  <button onclick="goBack()">← Super Admin</button>
 </div>
 
 <div class="container">
 
-  <div id="message"></div>
+  <div id="message" class="message"></div>
 
-  <div class="card">
+  <div id="loading" class="loading">
+    Checking Super Admin access...
+  </div>
 
-    <h2>⚙️ Website Settings</h2>
+  <div id="mainContent" style="display:none;">
 
-    <form id="settingsForm">
+    <!-- WEBSITE PHOTOS -->
+    <div class="card">
+      <h2>🖼️ Official Website Photos</h2>
+
+      <p style="margin-bottom:20px;color:#666;">
+        Super Admin can change these photos anytime. Uploaded photos will be
+        stored in Supabase Storage and their URLs will automatically be saved
+        in Website Settings.
+      </p>
+
+      <div class="photo-grid">
+
+        <!-- LOGO -->
+        <div class="photo-box">
+          <h3>1. Official Logo</h3>
+
+          <img id="logoPreview"
+               class="preview logo-preview"
+               src=""
+               alt="Official Logo">
+
+          <input
+            type="file"
+            id="logoFile"
+            accept="image/*"
+            onchange="previewImage(this,'logoPreview')">
+
+          <div id="logoStatus" class="upload-status">
+            No new file selected.
+          </div>
+        </div>
+
+        <!-- MAA BASULI -->
+        <div class="photo-box">
+          <h3>2. Maa Basuli Photo</h3>
+
+          <img id="maaBasuliPreview"
+               class="preview"
+               src=""
+               alt="Maa Basuli">
+
+          <input
+            type="file"
+            id="maaBasuliFile"
+            accept="image/*"
+            onchange="previewImage(this,'maaBasuliPreview')">
+
+          <div id="maaBasuliStatus" class="upload-status">
+            No new file selected.
+          </div>
+        </div>
+
+        <!-- TEMPLE -->
+        <div class="photo-box">
+          <h3>3. Temple Photo</h3>
+
+          <img id="templePreview"
+               class="preview"
+               src=""
+               alt="Temple">
+
+          <input
+            type="file"
+            id="templeFile"
+            accept="image/*"
+            onchange="previewImage(this,'templePreview')">
+
+          <div id="templeStatus" class="upload-status">
+            No new file selected.
+          </div>
+        </div>
+
+        <!-- GROUP -->
+        <div class="photo-box">
+          <h3>4. Committee Group Photo</h3>
+
+          <img id="groupPreview"
+               class="preview"
+               src=""
+               alt="Committee Group">
+
+          <input
+            type="file"
+            id="groupFile"
+            accept="image/*"
+            onchange="previewImage(this,'groupPreview')">
+
+          <div id="groupStatus" class="upload-status">
+            No new file selected.
+          </div>
+        </div>
+
+      </div>
+
+      <br>
+
+      <div class="actions">
+        <button class="btn btn-primary" onclick="savePhotos()">
+          💾 Upload & Save Photos
+        </button>
+      </div>
+    </div>
+
+
+    <!-- GENERAL SETTINGS -->
+    <div class="card">
+
+      <h2>⚙️ General Website Settings</h2>
 
       <div class="grid">
 
-        <div>
+        <div class="field">
           <label>Site Name</label>
-          <input
-            type="text"
-            id="siteName"
-            placeholder="Maa Basuli Uda Jatra Committee">
+          <input id="siteName" type="text">
         </div>
 
-        <div>
+        <div class="field">
           <label>Site Title</label>
-          <input
-            type="text"
-            id="siteTitle"
-            placeholder="Maa Basuli Uda Jatra Committee, Thakurmunda">
+          <input id="siteTitle" type="text">
         </div>
 
-        <div>
-          <label>Logo URL</label>
-          <input
-            type="url"
-            id="logoUrl"
-            placeholder="https://...">
-        </div>
-
-        <div>
-          <label>Favicon URL</label>
-          <input
-            type="url"
-            id="faviconUrl"
-            placeholder="https://...">
-        </div>
-
-        <div>
+        <div class="field">
           <label>Phone</label>
-          <input
-            type="text"
-            id="phone">
+          <input id="phone" type="text">
         </div>
 
-        <div>
+        <div class="field">
           <label>Email</label>
-          <input
-            type="email"
-            id="email">
+          <input id="email" type="email">
         </div>
 
-        <div class="full">
+        <div class="field full">
           <label>Address</label>
-          <input
-            type="text"
-            id="address">
+          <textarea id="address"></textarea>
         </div>
 
-      </div>
-
-      <h2 style="margin-top:30px">🌐 Social Media</h2>
-
-      <div class="grid">
-
-        <div>
+        <div class="field">
           <label>Facebook URL</label>
-          <input
-            type="url"
-            id="facebookUrl">
+          <input id="facebookUrl" type="url">
         </div>
 
-        <div>
+        <div class="field">
           <label>Instagram URL</label>
-          <input
-            type="url"
-            id="instagramUrl">
+          <input id="instagramUrl" type="url">
         </div>
 
-        <div>
+        <div class="field">
           <label>YouTube URL</label>
-          <input
-            type="url"
-            id="youtubeUrl">
+          <input id="youtubeUrl" type="url">
         </div>
 
-        <div>
-          <label>X / Twitter URL</label>
-          <input
-            type="url"
-            id="twitterUrl">
+        <div class="field">
+          <label>Twitter / X URL</label>
+          <input id="twitterUrl" type="url">
         </div>
 
-      </div>
-
-      <h2 style="margin-top:30px">📝 Website Content</h2>
-
-      <div class="grid">
-
-        <div class="full">
+        <div class="field full">
           <label>About Text</label>
-          <textarea
-            id="aboutText"
-            placeholder="About Maa Basuli Uda Jatra Committee..."></textarea>
+          <textarea id="aboutText"></textarea>
         </div>
 
-        <div class="full">
+        <div class="field full">
           <label>Footer Text</label>
-          <textarea
-            id="footerText"
-            placeholder="© Maa Basuli Uda Jatra Committee"></textarea>
+          <textarea id="footerText"></textarea>
         </div>
 
       </div>
 
       <div class="actions">
-
-        <button
-          type="submit"
-          class="btn primary">
-          💾 Save Settings
+        <button class="btn btn-primary" onclick="saveGeneralSettings()">
+          💾 Save Website Settings
         </button>
-
-        <button
-          type="button"
-          class="btn secondary"
-          onclick="loadSettings()">
-          ↻ Reload
-        </button>
-
       </div>
 
-    </form>
-
-  </div>
-
-  <div class="card">
-
-    <h2>📌 Current Status</h2>
-
-    <div id="statusBox">
-      No settings saved yet.
-    </div>
-
-    <div
-      id="logoPreview"
-      class="preview"
-      style="display:none">
     </div>
 
   </div>
-
 </div>
+
 
 <script>
 
@@ -361,63 +424,100 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
-let currentSettingsId = null;
+const BUCKET = "site-media";
+
+let currentSettings = null;
 
 
-/* ---------------------------
+/* ==============================
    MESSAGE
----------------------------- */
+============================== */
 
-function showMessage(message, success=true){
+function showMessage(text,type="success"){
 
-  const box =
-    document.getElementById("message");
+  const box = document.getElementById("message");
 
-  box.textContent = message;
+  box.className =
+    "message " +
+    (type === "success" ? "success" : "error");
 
+  box.textContent = text;
   box.style.display = "block";
 
-  box.style.background =
-    success ? "#d1fae5" : "#fee2e2";
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
-  box.style.color =
-    success ? "#065f46" : "#991b1b";
-
-  setTimeout(() => {
-    box.style.display = "none";
-  }, 3500);
 }
 
 
-/* ---------------------------
-   AUTH
----------------------------- */
+/* ==============================
+   AUTH + SUPER ADMIN CHECK
+============================== */
 
 async function checkAuth(){
 
-  const {
-    data:{session}
-  } = await supabaseClient.auth.getSession();
+  try{
 
-  if(!session){
+    const {
+      data:{session},
+      error
+    } = await supabaseClient.auth.getSession();
 
-    window.location.href =
-      "index.html";
+    if(error){
+      throw error;
+    }
+
+    if(!session){
+
+      window.location.href = "auth.html";
+      return false;
+
+    }
+
+    const {
+      data:roleData,
+      error:roleError
+    } = await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id",session.user.id)
+      .maybeSingle();
+
+    if(roleError){
+      throw roleError;
+    }
+
+    if(!roleData || roleData.role !== "super_admin"){
+
+      alert("Access denied. Super Admin only.");
+
+      window.location.href = "super-admin.html";
+
+      return false;
+    }
+
+    return true;
+
+  }catch(error){
+
+    console.error(error);
+
+    alert("Authentication check failed.");
+
+    window.location.href = "auth.html";
 
     return false;
+
   }
 
-  document.getElementById("userEmail")
-    .textContent =
-      session.user.email || "Logged in";
-
-  return true;
 }
 
 
-/* ---------------------------
+/* ==============================
    LOAD SETTINGS
----------------------------- */
+============================== */
 
 async function loadSettings(){
 
@@ -427,301 +527,602 @@ async function loadSettings(){
   } = await supabaseClient
     .from("website_settings")
     .select("*")
-    .order("created_at", {
-      ascending:false
-    })
-    .limit(1);
+    .order("created_at",{ascending:false})
+    .limit(1)
+    .maybeSingle();
 
   if(error){
 
     console.error(error);
 
     showMessage(
-      "Failed to load settings: " +
-      error.message,
-      false
+      "Website settings load failed: " + error.message,
+      "error"
     );
 
     return;
+
   }
 
-  if(!data || data.length === 0){
+  currentSettings = data || null;
 
-    currentSettingsId = null;
-
-    document.getElementById("statusBox")
-      .innerHTML =
-        "⚠️ No website settings saved yet.";
-
-    document.getElementById("logoPreview")
-      .style.display = "none";
-
+  if(!data){
     return;
   }
 
-  const item = data[0];
-
-  currentSettingsId = item.id;
 
   document.getElementById("siteName").value =
-    item.site_name || "";
+    data.site_name || "";
 
   document.getElementById("siteTitle").value =
-    item.site_title || "";
-
-  document.getElementById("logoUrl").value =
-    item.logo_url || "";
-
-  document.getElementById("faviconUrl").value =
-    item.favicon_url || "";
+    data.site_title || "";
 
   document.getElementById("phone").value =
-    item.phone || "";
+    data.phone || "";
 
   document.getElementById("email").value =
-    item.email || "";
+    data.email || "";
 
   document.getElementById("address").value =
-    item.address || "";
+    data.address || "";
 
   document.getElementById("facebookUrl").value =
-    item.facebook_url || "";
+    data.facebook_url || "";
 
   document.getElementById("instagramUrl").value =
-    item.instagram_url || "";
+    data.instagram_url || "";
 
   document.getElementById("youtubeUrl").value =
-    item.youtube_url || "";
+    data.youtube_url || "";
 
   document.getElementById("twitterUrl").value =
-    item.twitter_url || "";
+    data.twitter_url || "";
 
   document.getElementById("aboutText").value =
-    item.about_text || "";
+    data.about_text || "";
 
   document.getElementById("footerText").value =
-    item.footer_text || "";
+    data.footer_text || "";
 
 
-  document.getElementById("statusBox")
-    .innerHTML = `
-      <span class="status">
-        Active
-      </span>
-      &nbsp; Settings saved successfully.
-    `;
+  setPreview(
+    "logoPreview",
+    data.logo_url
+  );
+
+  setPreview(
+    "maaBasuliPreview",
+    data.maa_basuli_url
+  );
+
+  setPreview(
+    "templePreview",
+    data.temple_url
+  );
+
+  setPreview(
+    "groupPreview",
+    data.group_photo_url
+  );
+
+}
 
 
-  if(item.logo_url){
+/* ==============================
+   PREVIEW
+============================== */
 
-    document.getElementById("logoPreview")
-      .style.display = "flex";
+function setPreview(id,url){
 
-    document.getElementById("logoPreview")
-      .innerHTML = `
-        <img
-          src="${escapeHtml(item.logo_url)}"
-          onerror="this.style.display='none'">
+  const img =
+    document.getElementById(id);
 
-        <div>
-          <strong>Logo Preview</strong>
-          <br>
-          Website logo URL is configured.
-        </div>
-      `;
+  if(url){
+
+    img.src = url;
+
+    img.style.display = "block";
 
   }else{
 
-    document.getElementById("logoPreview")
-      .style.display = "none";
+    img.removeAttribute("src");
+
   }
 
 }
 
 
-/* ---------------------------
-   SAVE
----------------------------- */
+function previewImage(input,previewId){
 
-document
-  .getElementById("settingsForm")
-  .addEventListener("submit", async function(e){
+  if(!input.files || !input.files[0]){
+    return;
+  }
 
-    e.preventDefault();
+  const file = input.files[0];
 
-    const {
-      data:{session}
-    } = await supabaseClient.auth.getSession();
+  const url =
+    URL.createObjectURL(file);
+
+  document.getElementById(previewId).src = url;
+
+}
 
 
-    const payload = {
+/* ==============================
+   UPLOAD FILE
+============================== */
 
-      site_name:
-        document.getElementById("siteName")
-          .value.trim() || null,
+async function uploadPhoto(file,folder){
 
-      site_title:
-        document.getElementById("siteTitle")
-          .value.trim() || null,
+  if(!file){
+    return null;
+  }
 
-      logo_url:
-        document.getElementById("logoUrl")
-          .value.trim() || null,
+  if(!file.type.startsWith("image/")){
 
-      favicon_url:
-        document.getElementById("faviconUrl")
-          .value.trim() || null,
+    throw new Error(
+      "Only image files are allowed."
+    );
 
-      phone:
-        document.getElementById("phone")
-          .value.trim() || null,
+  }
 
-      email:
-        document.getElementById("email")
-          .value.trim() || null,
 
-      address:
-        document.getElementById("address")
-          .value.trim() || null,
+  const maxSize =
+    10 * 1024 * 1024;
 
-      facebook_url:
-        document.getElementById("facebookUrl")
-          .value.trim() || null,
+  if(file.size > maxSize){
 
-      instagram_url:
-        document.getElementById("instagramUrl")
-          .value.trim() || null,
+    throw new Error(
+      "Image size must be below 10 MB."
+    );
 
-      youtube_url:
-        document.getElementById("youtubeUrl")
-          .value.trim() || null,
+  }
 
-      twitter_url:
-        document.getElementById("twitterUrl")
-          .value.trim() || null,
 
-      about_text:
-        document.getElementById("aboutText")
-          .value.trim() || null,
+  const extension =
+    file.name.split(".").pop().toLowerCase();
 
-      footer_text:
-        document.getElementById("footerText")
-          .value.trim() || null,
+  const fileName =
+    "image-" +
+    Date.now() +
+    "-" +
+    Math.random()
+      .toString(36)
+      .substring(2,8) +
+    "." +
+    extension;
 
-      is_active:true,
+  const filePath =
+    "website/" +
+    folder +
+    "/" +
+    fileName;
+
+
+  const {
+    error
+  } = await supabaseClient
+    .storage
+    .from(BUCKET)
+    .upload(
+      filePath,
+      file,
+      {
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type
+      }
+    );
+
+
+  if(error){
+    throw error;
+  }
+
+
+  const {
+    data
+  } = supabaseClient
+    .storage
+    .from(BUCKET)
+    .getPublicUrl(filePath);
+
+
+  if(!data || !data.publicUrl){
+
+    throw new Error(
+      "Public URL could not be generated."
+    );
+
+  }
+
+
+  return data.publicUrl;
+
+}
+
+
+/* ==============================
+   SAVE PHOTOS
+============================== */
+
+async function savePhotos(){
+
+  const button =
+    event.target;
+
+  button.disabled = true;
+  button.textContent =
+    "⏳ Uploading...";
+
+  try{
+
+    const logoFile =
+      document.getElementById("logoFile").files[0];
+
+    const maaBasuliFile =
+      document.getElementById("maaBasuliFile").files[0];
+
+    const templeFile =
+      document.getElementById("templeFile").files[0];
+
+    const groupFile =
+      document.getElementById("groupFile").files[0];
+
+
+    let logoUrl =
+      currentSettings?.logo_url || null;
+
+    let maaBasuliUrl =
+      currentSettings?.maa_basuli_url || null;
+
+    let templeUrl =
+      currentSettings?.temple_url || null;
+
+    let groupPhotoUrl =
+      currentSettings?.group_photo_url || null;
+
+
+    if(logoFile){
+
+      document.getElementById("logoStatus").textContent =
+        "Uploading...";
+
+      logoUrl =
+        await uploadPhoto(
+          logoFile,
+          "logo"
+        );
+
+      document.getElementById("logoStatus").textContent =
+        "Uploaded successfully.";
+
+    }
+
+
+    if(maaBasuliFile){
+
+      document.getElementById("maaBasuliStatus").textContent =
+        "Uploading...";
+
+      maaBasuliUrl =
+        await uploadPhoto(
+          maaBasuliFile,
+          "maa-basuli"
+        );
+
+      document.getElementById("maaBasuliStatus").textContent =
+        "Uploaded successfully.";
+
+    }
+
+
+    if(templeFile){
+
+      document.getElementById("templeStatus").textContent =
+        "Uploading...";
+
+      templeUrl =
+        await uploadPhoto(
+          templeFile,
+          "temple"
+        );
+
+      document.getElementById("templeStatus").textContent =
+        "Uploaded successfully.";
+
+    }
+
+
+    if(groupFile){
+
+      document.getElementById("groupStatus").textContent =
+        "Uploading...";
+
+      groupPhotoUrl =
+        await uploadPhoto(
+          groupFile,
+          "group"
+        );
+
+      document.getElementById("groupStatus").textContent =
+        "Uploaded successfully.";
+
+    }
+
+
+    const updateData = {
+
+      logo_url: logoUrl,
+
+      maa_basuli_url:
+        maaBasuliUrl,
+
+      temple_url:
+        templeUrl,
+
+      group_photo_url:
+        groupPhotoUrl,
 
       updated_at:
         new Date().toISOString()
+
     };
 
 
-    let error;
+    let result;
 
 
-    if(currentSettingsId){
+    if(currentSettings?.id){
 
-      const result =
+      result =
         await supabaseClient
           .from("website_settings")
-          .update(payload)
-          .eq("id", currentSettingsId);
-
-      error = result.error;
-
-    }else{
-
-      payload.created_by =
-        session?.user?.id || null;
-
-      const result =
-        await supabaseClient
-          .from("website_settings")
-          .insert([payload])
+          .update(updateData)
+          .eq("id",currentSettings.id)
           .select()
           .single();
 
-      error = result.error;
+    }else{
 
-      if(!error && result.data){
-        currentSettingsId =
-          result.data.id;
-      }
+      const {
+        data:{user}
+      } =
+        await supabaseClient.auth.getUser();
+
+      updateData.created_by =
+        user?.id || null;
+
+      result =
+        await supabaseClient
+          .from("website_settings")
+          .insert(updateData)
+          .select()
+          .single();
+
     }
 
 
-    if(error){
-
-      console.error(error);
-
-      showMessage(
-        "Save failed: " +
-        error.message,
-        false
-      );
-
-      return;
+    if(result.error){
+      throw result.error;
     }
+
+
+    currentSettings =
+      result.data;
+
+
+    setPreview(
+      "logoPreview",
+      logoUrl
+    );
+
+    setPreview(
+      "maaBasuliPreview",
+      maaBasuliUrl
+    );
+
+    setPreview(
+      "templePreview",
+      templeUrl
+    );
+
+    setPreview(
+      "groupPreview",
+      groupPhotoUrl
+    );
+
+
+    document.getElementById("logoFile").value = "";
+    document.getElementById("maaBasuliFile").value = "";
+    document.getElementById("templeFile").value = "";
+    document.getElementById("groupFile").value = "";
 
 
     showMessage(
-      "Website settings saved successfully."
+      "✅ All selected photos saved successfully."
     );
 
-    await loadSettings();
 
-  });
+  }catch(error){
 
+    console.error(error);
 
-/* ---------------------------
-   ESCAPE
----------------------------- */
+    showMessage(
+      "❌ Photo upload/save failed: " +
+      error.message,
+      "error"
+    );
 
-function escapeHtml(value){
+  }finally{
 
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+    button.disabled = false;
+    button.textContent =
+      "💾 Upload & Save Photos";
+
+  }
+
 }
 
 
-/* ---------------------------
-   DASHBOARD
----------------------------- */
+/* ==============================
+   SAVE GENERAL SETTINGS
+============================== */
 
-function goDashboard(){
+async function saveGeneralSettings(){
+
+  const button =
+    event.target;
+
+  button.disabled = true;
+  button.textContent =
+    "⏳ Saving...";
+
+
+  try{
+
+    const {
+      data:{user}
+    } =
+      await supabaseClient.auth.getUser();
+
+
+    const data = {
+
+      site_name:
+        document.getElementById("siteName").value.trim(),
+
+      site_title:
+        document.getElementById("siteTitle").value.trim(),
+
+      phone:
+        document.getElementById("phone").value.trim(),
+
+      email:
+        document.getElementById("email").value.trim(),
+
+      address:
+        document.getElementById("address").value.trim(),
+
+      facebook_url:
+        document.getElementById("facebookUrl").value.trim(),
+
+      instagram_url:
+        document.getElementById("instagramUrl").value.trim(),
+
+      youtube_url:
+        document.getElementById("youtubeUrl").value.trim(),
+
+      twitter_url:
+        document.getElementById("twitterUrl").value.trim(),
+
+      about_text:
+        document.getElementById("aboutText").value.trim(),
+
+      footer_text:
+        document.getElementById("footerText").value.trim(),
+
+      updated_at:
+        new Date().toISOString()
+
+    };
+
+
+    let result;
+
+
+    if(currentSettings?.id){
+
+      result =
+        await supabaseClient
+          .from("website_settings")
+          .update(data)
+          .eq("id",currentSettings.id)
+          .select()
+          .single();
+
+    }else{
+
+      data.created_by =
+        user?.id || null;
+
+      result =
+        await supabaseClient
+          .from("website_settings")
+          .insert(data)
+          .select()
+          .single();
+
+    }
+
+
+    if(result.error){
+      throw result.error;
+    }
+
+
+    currentSettings =
+      result.data;
+
+
+    showMessage(
+      "✅ Website settings saved successfully."
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "❌ Save failed: " +
+      error.message,
+      "error"
+    );
+
+  }finally{
+
+    button.disabled = false;
+    button.textContent =
+      "💾 Save Website Settings";
+
+  }
+
+}
+
+
+/* ==============================
+   BACK
+============================== */
+
+function goBack(){
 
   window.location.href =
     "super-admin.html";
+
 }
 
 
-/* ---------------------------
-   LOGOUT
----------------------------- */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "index.html";
-}
-
-
-/* ---------------------------
-   START
----------------------------- */
+/* ==============================
+   INITIALIZE
+============================== */
 
 (async function(){
 
-  const ok = await checkAuth();
+  const allowed =
+    await checkAuth();
 
-  if(!ok) return;
+  if(!allowed){
+    return;
+  }
 
   await loadSettings();
+
+  document.getElementById("loading").style.display =
+    "none";
+
+  document.getElementById("mainContent").style.display =
+    "block";
 
 })();
 
