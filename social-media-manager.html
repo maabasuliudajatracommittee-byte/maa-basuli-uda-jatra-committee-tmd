@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Management | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+body{background:#f4f6f8;color:#1f2937}
+header{
+  background:linear-gradient(135deg,#7c2d12,#b45309);
+  color:#fff;padding:18px 22px;
+  display:flex;align-items:center;gap:14px;
+  position:sticky;top:0;z-index:10;
+  box-shadow:0 3px 12px rgba(0,0,0,.15)
+}
+header img{width:58px;height:58px;border-radius:50%;object-fit:cover;background:#fff;padding:3px}
+header h1{font-size:21px}
+header p{font-size:13px;opacity:.9;margin-top:4px}
+.container{max-width:1150px;margin:25px auto;padding:0 16px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.topbar h2{color:#7c2d12}
+button{
+  border:0;border-radius:8px;padding:11px 16px;
+  cursor:pointer;font-weight:700
+}
+.btn-primary{background:#2563eb;color:#fff}
+.btn-success{background:#15803d;color:#fff}
+.btn-warning{background:#d97706;color:#fff}
+.btn-danger{background:#dc2626;color:#fff}
+.btn-gray{background:#64748b;color:#fff}
+.card{
+  background:#fff;border-radius:14px;padding:20px;
+  box-shadow:0 3px 14px rgba(0,0,0,.08);margin-bottom:20px
+}
+.card h3{margin-bottom:15px;color:#7c2d12}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.field input,.field select{
+  width:100%;padding:11px;border:1px solid #d1d5db;
+  border-radius:8px;outline:none
+}
+.field input:focus,.field select:focus{border-color:#2563eb}
+.full{grid-column:1/-1}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.preview{
+  width:72px;height:72px;border-radius:12px;object-fit:cover;
+  border:1px solid #ddd;background:#f8fafc
+}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:850px}
+th,td{padding:12px 10px;border-bottom:1px solid #e5e7eb;text-align:left;vertical-align:middle}
+th{background:#f8fafc;color:#374151;font-size:13px}
+td{font-size:14px}
+.logo-cell{display:flex;align-items:center;gap:10px}
+.logo-cell img{width:48px;height:48px;border-radius:10px;object-fit:cover;border:1px solid #ddd}
+.badge{
+  display:inline-block;padding:5px 9px;border-radius:999px;
+  font-size:12px;font-weight:700
+}
+.active{background:#dcfce7;color:#166534}
+.inactive{background:#fee2e2;color:#991b1b}
+.muted{color:#64748b;font-size:13px}
+.status{padding:11px 14px;border-radius:8px;margin-bottom:15px;display:none}
+.status.success{display:block;background:#dcfce7;color:#166534}
+.status.error{display:block;background:#fee2e2;color:#991b1b}
+.status.info{display:block;background:#dbeafe;color:#1e40af}
+.empty{text-align:center;padding:30px;color:#64748b}
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  header h1{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <img id="siteLogo" src="" alt="Official Logo">
+  <div>
+    <h1 id="siteName">Maa Basuli Uda Jatra Committee</h1>
+    <p>Super Admin • Social Media Management</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="topbar">
+    <div>
+      <h2>📱 Social Media Management</h2>
+      <p class="muted">Facebook, Instagram, YouTube, X, WhatsApp ebam anyanya platform manage karantu.</p>
+    </div>
+    <button class="btn-gray" onclick="goBack()">← Back to Dashboard</button>
+  </div>
+
+  <div id="statusBox" class="status"></div>
+
+  <div class="card">
+    <h3 id="formTitle">➕ Add Social Media</h3>
+
+    <input type="hidden" id="editId">
+
+    <div class="grid">
+
+      <div class="field">
+        <label>Platform Name *</label>
+        <input id="platformName" type="text" placeholder="Facebook / Instagram / YouTube / WhatsApp">
+      </div>
+
+      <div class="field">
+        <label>Display Order</label>
+        <input id="displayOrder" type="number" value="0" min="0">
+      </div>
+
+      <div class="field full">
+        <label>Social Media Link *</label>
+        <input id="linkUrl" type="url" placeholder="https://...">
+      </div>
+
+      <div class="field">
+        <label>Logo Image</label>
+        <input id="logoFile" type="file" accept="image/*" onchange="previewLogo(event)">
+      </div>
+
+      <div class="field">
+        <label>Logo Preview</label><br>
+        <img id="logoPreview" class="preview" alt="Logo Preview">
+      </div>
+
+      <div class="field">
+        <label>Status</label>
+        <select id="isActive">
+          <option value="true">Active</option>
+          <option value="false">Deactive</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="saveSocial()">💾 Save Social Media</button>
+      <button class="btn-gray" onclick="resetForm()">Clear</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📋 Social Media List</h3>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Logo</th>
+            <th>Platform</th>
+            <th>Link</th>
+            <th>Status</th>
+            <th>Order</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="socialTableBody">
+          <tr><td colspan="6" class="empty">Loading...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let socialRows = [];
+let currentUser = null;
+
+function showStatus(message, type="info"){
+  const box = document.getElementById("statusBox");
+  box.className = "status " + type;
+  box.textContent = message;
+}
+
+function clearStatus(){
+  const box = document.getElementById("statusBox");
+  box.className = "status";
+  box.textContent = "";
+}
+
+async function checkAuth(){
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if(error || !data.user){
+    window.location.href = "auth.html";
+    return false;
+  }
+
+  currentUser = data.user;
+
+  const { data: roleData, error: roleError } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", currentUser.id)
+    .maybeSingle();
+
+  if(roleError || !roleData || roleData.role !== "super_admin"){
+    document.body.innerHTML = `
+      <div style="padding:50px;text-align:center;font-family:Arial">
+        <h2>Access Denied</h2>
+        <p>Only Super Admin can manage social media.</p>
+        <br>
+        <button onclick="location.href='auth.html'"
+          style="padding:10px 16px;border:0;border-radius:8px;background:#2563eb;color:#fff">
+          Go to Login
+        </button>
+      </div>`;
+    return false;
+  }
+
+  await loadWebsiteSettings();
+  await loadSocialMedia();
+  return true;
+}
+
+async function loadWebsiteSettings(){
+  const { data } = await supabaseClient
+    .from("website_settings")
+    .select("site_name,logo_url")
+    .order("created_at",{ascending:false})
+    .limit(1)
+    .maybeSingle();
+
+  if(data){
+    if(data.site_name){
+      document.getElementById("siteName").textContent = data.site_name;
+    }
+    if(data.logo_url){
+      document.getElementById("siteLogo").src = data.logo_url;
+    }
+  }
+}
+
+async function loadSocialMedia(){
+  const { data, error } = await supabaseClient
+    .from("social_media")
+    .select("*")
+    .order("display_order",{ascending:true})
+    .order("created_at",{ascending:true});
+
+  if(error){
+    showStatus("Social media load failed: " + error.message,"error");
+    return;
+  }
+
+  socialRows = data || [];
+  renderTable();
+}
+
+function renderTable(){
+  const tbody = document.getElementById("socialTableBody");
+
+  if(!socialRows.length){
+    tbody.innerHTML = `<tr><td colspan="6" class="empty">No social media added yet.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = socialRows.map(row => `
+    <tr>
+      <td>
+        <div class="logo-cell">
+          ${
+            row.logo_url
+            ? `<img src="${escapeAttr(row.logo_url)}" alt="logo">`
+            : `<div style="width:48px;height:48px;border-radius:10px;background:#e5e7eb;display:flex;align-items:center;justify-content:center">📱</div>`
+          }
+        </div>
+      </td>
+      <td><strong>${escapeHtml(row.platform_name)}</strong></td>
+      <td>
+        <a href="${escapeAttr(row.link_url)}" target="_blank" rel="noopener noreferrer">
+          ${escapeHtml(row.link_url)}
+        </a>
+      </td>
+      <td>
+        ${
+          row.is_active
+          ? `<span class="badge active">Active</span>`
+          : `<span class="badge inactive">Deactive</span>`
+        }
+      </td>
+      <td>${Number(row.display_order || 0)}</td>
+      <td>
+        <div class="actions" style="margin:0">
+          <button class="btn-warning" onclick="editSocial('${row.id}')">✏️ Edit</button>
+          <button class="${row.is_active ? 'btn-gray' : 'btn-success'}"
+            onclick="toggleStatus('${row.id}',${!row.is_active})">
+            ${row.is_active ? 'Deactivate' : 'Activate'}
+          </button>
+          <button class="btn-danger" onclick="deleteSocial('${row.id}')">🗑️ Delete</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function editSocial(id){
+  const row = socialRows.find(x => x.id === id);
+  if(!row) return;
+
+  document.getElementById("editId").value = row.id;
+  document.getElementById("platformName").value = row.platform_name || "";
+  document.getElementById("linkUrl").value = row.link_url || "";
+  document.getElementById("displayOrder").value = row.display_order ?? 0;
+  document.getElementById("isActive").value = String(row.is_active);
+
+  document.getElementById("logoPreview").src = row.logo_url || "";
+  document.getElementById("formTitle").textContent = "✏️ Edit Social Media";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function resetForm(){
+  document.getElementById("editId").value = "";
+  document.getElementById("platformName").value = "";
+  document.getElementById("linkUrl").value = "";
+  document.getElementById("displayOrder").value = 0;
+  document.getElementById("isActive").value = "true";
+  document.getElementById("logoFile").value = "";
+  document.getElementById("logoPreview").src = "";
+  document.getElementById("formTitle").textContent = "➕ Add Social Media";
+  clearStatus();
+}
+
+function previewLogo(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  document.getElementById("logoPreview").src = URL.createObjectURL(file);
+}
+
+async function uploadLogo(file){
+  if(!file) return null;
+
+  const ext = file.name.split(".").pop().toLowerCase() || "png";
+  const safeName = "social-" + Date.now() + "-" + Math.random().toString(36).slice(2,8) + "." + ext;
+  const path = "website/social-media/" + safeName;
+
+  const { error } = await supabaseClient.storage
+    .from("site-media")
+    .upload(path,file,{
+      upsert:false,
+      contentType:file.type || "image/*"
+    });
+
+  if(error) throw new Error("Logo upload failed: " + error.message);
+
+  const { data } = supabaseClient.storage
+    .from("site-media")
+    .getPublicUrl(path);
+
+  return data.publicUrl;
+}
+
+async function saveSocial(){
+  clearStatus();
+
+  const editId = document.getElementById("editId").value.trim();
+  const platformName = document.getElementById("platformName").value.trim();
+  const linkUrl = document.getElementById("linkUrl").value.trim();
+  const displayOrder = parseInt(document.getElementById("displayOrder").value,10) || 0;
+  const isActive = document.getElementById("isActive").value === "true";
+  const logoFile = document.getElementById("logoFile").files[0];
+
+  if(!platformName){
+    showStatus("Platform Name required.","error");
+    return;
+  }
+
+  if(!linkUrl){
+    showStatus("Social Media Link required.","error");
+    return;
+  }
+
+  try{
+    new URL(linkUrl);
+  }catch(e){
+    showStatus("Please enter a valid URL starting with https:// or http://","error");
+    return;
+  }
+
+  try{
+    showStatus("Saving...","info");
+
+    let logoUrl = null;
+
+    if(editId){
+      const oldRow = socialRows.find(x => x.id === editId);
+      logoUrl = oldRow ? oldRow.logo_url : null;
+    }
+
+    if(logoFile){
+      logoUrl = await uploadLogo(logoFile);
+    }
+
+    const payload = {
+      platform_name: platformName,
+      link_url: linkUrl,
+      display_order: displayOrder,
+      is_active: isActive,
+      updated_at: new Date().toISOString()
+    };
+
+    if(logoUrl) payload.logo_url = logoUrl;
+
+    if(editId){
+      const { error } = await supabaseClient
+        .from("social_media")
+        .update(payload)
+        .eq("id",editId);
+
+      if(error) throw error;
+
+      showStatus("Social media updated successfully.","success");
+    }else{
+      payload.created_by = currentUser.id;
+
+      const { error } = await supabaseClient
+        .from("social_media")
+        .insert(payload);
+
+      if(error) throw error;
+
+      showStatus("Social media added successfully.","success");
+    }
+
+    resetForm();
+    await loadSocialMedia();
+
+  }catch(error){
+    console.error(error);
+    showStatus(error.message || "Save failed.","error");
+  }
+}
+
+async function toggleStatus(id,newStatus){
+  try{
+    const { error } = await supabaseClient
+      .from("social_media")
+      .update({
+        is_active:newStatus,
+        updated_at:new Date().toISOString()
+      })
+      .eq("id",id);
+
+    if(error) throw error;
+
+    showStatus(newStatus ? "Social media activated." : "Social media deactivated.","success");
+    await loadSocialMedia();
+
+  }catch(error){
+    showStatus(error.message || "Status update failed.","error");
+  }
+}
+
+async function deleteSocial(id){
+  const row = socialRows.find(x => x.id === id);
+  if(!row) return;
+
+  if(!confirm(`Delete "${row.platform_name}"?`)) return;
+
+  try{
+    const { error } = await supabaseClient
+      .from("social_media")
+      .delete()
+      .eq("id",id);
+
+    if(error) throw error;
+
+    showStatus("Social media deleted successfully.","success");
+    await loadSocialMedia();
+
+  }catch(error){
+    showStatus(error.message || "Delete failed.","error");
+  }
+}
+
+function goBack(){
+  window.location.href = "super-admin.html";
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function escapeAttr(value){
+  return escapeHtml(value);
+}
+
+checkAuth();
+</script>
+
+</body>
+</html>
