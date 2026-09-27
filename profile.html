@@ -141,8 +141,8 @@
     }
 
     .id-card{
-      width:460px;
-      max-width:100%;
+      width:540px;
+      max-width:none;
       background:white;
       border:2px solid #8f2f10;
       border-radius:18px;
@@ -194,18 +194,20 @@
     }
 
     .id-body{
-      padding:18px;
+      padding:20px;
     }
 
     .member-top{
       display:flex;
-      gap:17px;
+      gap:20px;
       align-items:flex-start;
+      min-width:0;
     }
 
     .member-photo{
-      width:120px;
-      height:140px;
+      width:135px;
+      height:155px;
+      flex:0 0 135px;
       object-fit:cover;
       border:2px solid #9f3511;
       border-radius:10px;
@@ -213,28 +215,30 @@
     }
 
     .member-info{
-      flex:1;
+      flex:1 1 auto;
+      min-width:0;
+      max-width:100%;
     }
 
     .member-name{
-      font-size:22px;
+      font-size:24px;
       font-weight:800;
       color:#8f2f10;
       margin-bottom:4px;
     }
 
     .designation{
-      font-size:14px;
+      font-size:16px;
       font-weight:bold;
       margin-bottom:12px;
     }
 
     .info-row{
       display:grid;
-      grid-template-columns:82px minmax(0,1fr);
-      column-gap:6px;
-      margin:6px 0;
-      font-size:13px;
+      grid-template-columns:95px minmax(0,1fr);
+      column-gap:8px;
+      margin:7px 0;
+      font-size:15px;
       min-width:0;
     }
 
@@ -250,12 +254,6 @@
       overflow-wrap:anywhere;
       word-break:break-word;
       white-space:normal;
-    }
-
-    .member-info{
-      flex:1 1 auto;
-      min-width:0;
-      max-width:100%;
     }
 
     .status{
@@ -343,7 +341,8 @@
       }
 
       .id-card{
-        width:100%;
+        width:540px;
+        max-width:none;
       }
 
       .id-header{
@@ -364,28 +363,13 @@
       }
 
       .member-photo{
-        width:95px;
-        height:120px;
-        flex:0 0 95px;
-      }
-
-      .member-top{
-        min-width:0;
+        width:135px;
+        height:155px;
+        flex:0 0 135px;
       }
 
       .member-name{
-        font-size:18px;
-        overflow-wrap:anywhere;
-        word-break:break-word;
-      }
-
-      .designation{
-        overflow-wrap:anywhere;
-        word-break:break-word;
-      }
-
-      .id-body{
-        overflow:visible;
+        font-size:24px;
       }
     }
 
@@ -405,7 +389,8 @@
         left:50%;
         top:20px;
         transform:translateX(-50%);
-        width:460px;
+        width:540px;
+        max-width:none;
         box-shadow:none;
       }
 
