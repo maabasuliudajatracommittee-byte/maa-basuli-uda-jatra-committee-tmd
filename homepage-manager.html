@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Homepage Manager | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f4f6f9;
+      color:#222;
+    }
+
+    header{
+      background:#7b1e1e;
+      color:#fff;
+      padding:20px 24px;
+    }
+
+    header h1{
+      margin:0;
+      font-size:24px;
+    }
+
+    header p{
+      margin:6px 0 0;
+      opacity:.9;
+    }
+
+    .topbar{
+      background:#fff;
+      padding:12px 24px;
+      border-bottom:1px solid #ddd;
+
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .topbar button{
+      border:0;
+      padding:9px 14px;
+      border-radius:6px;
+
+      background:#7b1e1e;
+      color:#fff;
+
+      cursor:pointer;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:25px auto;
+      padding:0 15px;
+    }
+
+    .card{
+      background:#fff;
+      padding:22px;
+
+      border-radius:10px;
+
+      box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
+
+      margin-bottom:20px;
+    }
+
+    .card h2{
+      margin-top:0;
+      color:#7b1e1e;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+
+      gap:15px;
+    }
+
+    .full{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:block;
+
+      font-weight:bold;
+
+      margin-bottom:6px;
+    }
+
+    input,
+    select,
+    textarea{
+      width:100%;
+
+      padding:10px;
+
+      border:1px solid #ccc;
+
+      border-radius:6px;
+
+      font-size:14px;
+    }
+
+    textarea{
+      min-height:100px;
+      resize:vertical;
+    }
+
+    .buttons{
+      display:flex;
+
+      gap:10px;
+
+      flex-wrap:wrap;
+
+      margin-top:18px;
+    }
+
+    .btn{
+      border:0;
+
+      padding:10px 16px;
+
+      border-radius:6px;
+
+      cursor:pointer;
+
+      color:#fff;
+    }
+
+    .primary{
+      background:#7b1e1e;
+    }
+
+    .secondary{
+      background:#555;
+    }
+
+    .success{
+      background:#198754;
+    }
+
+    .warning{
+      background:#d97706;
+    }
+
+    .danger{
+      background:#c62828;
+    }
+
+    #message{
+      display:none;
+
+      padding:12px;
+
+      border-radius:6px;
+
+      margin-bottom:15px;
+
+      font-weight:bold;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+
+      border-collapse:collapse;
+
+      min-width:1000px;
+    }
+
+    th,
+    td{
+      padding:11px 9px;
+
+      border-bottom:1px solid #ddd;
+
+      text-align:left;
+
+      vertical-align:middle;
+    }
+
+    th{
+      background:#f1f1f1;
+    }
+
+    .badge{
+      display:inline-block;
+
+      padding:5px 9px;
+
+      border-radius:20px;
+
+      font-size:12px;
+
+      font-weight:bold;
+    }
+
+    .active{
+      background:#d1fae5;
+      color:#065f46;
+    }
+
+    .inactive{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .actions{
+      display:flex;
+
+      gap:5px;
+
+      flex-wrap:wrap;
+    }
+
+    .actions button{
+      border:0;
+
+      padding:7px 9px;
+
+      border-radius:5px;
+
+      cursor:pointer;
+
+      color:#fff;
+
+      font-size:12px;
+    }
+
+    .image-preview{
+      margin-top:10px;
+    }
+
+    .image-preview img{
+      max-width:180px;
+      max-height:120px;
+
+      object-fit:cover;
+
+      border-radius:8px;
+
+      border:1px solid #ddd;
+    }
+
+    @media(max-width:700px){
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .full{
+        grid-column:auto;
+      }
+
+      header h1{
+        font-size:20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <h1>
+    🙏 Maa Basuli Uda Jatra Committee
+  </h1>
+
+  <p>
+    Homepage Management
+  </p>
+
+</header>
+
+
+<div class="topbar">
+
+  <div id="userEmail">
+    Checking login...
+  </div>
+
+  <div>
+
+    <button onclick="loadSections()">
+      🔄 Refresh
+    </button>
+
+    <button onclick="goDashboard()">
+      🏠 Super Admin Dashboard
+    </button>
+
+    <button onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="container">
+
+  <div id="message"></div>
+
+
+  <!-- FORM -->
+
+  <div class="card">
+
+    <h2 id="formTitle">
+      ➕ Add Homepage Section
+    </h2>
+
+    <form id="sectionForm">
+
+      <input
+        type="hidden"
+        id="editId"
+      >
+
+
+      <div class="grid">
+
+
+        <div>
+
+          <label>
+            Section Key *
+          </label>
+
+          <select id="sectionKey" required>
+
+            <option value="">
+              Select Section
+            </option>
+
+            <option value="hero">
+              Hero / Banner
+            </option>
+
+            <option value="about">
+              About
+            </option>
+
+            <option value="jatra">
+              Jatra
+            </option>
+
+            <option value="programme">
+              Programme
+            </option>
+
+            <option value="notice">
+              Notice
+            </option>
+
+            <option value="event">
+              Events
+            </option>
+
+            <option value="gallery">
+              Gallery
+            </option>
+
+            <option value="committee">
+              Committee
+            </option>
+
+            <option value="contact">
+              Contact
+            </option>
+
+            <option value="custom">
+              Custom Section
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Display Order
+          </label>
+
+          <input
+            type="number"
+            id="displayOrder"
+            value="0"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Section Title
+          </label>
+
+          <input
+            type="text"
+            id="sectionTitle"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Section Subtitle
+          </label>
+
+          <input
+            type="text"
+            id="sectionSubtitle"
+          >
+
+        </div>
+
+
+        <div class="full">
+
+          <label>
+            Content
+          </label>
+
+          <textarea
+            id="content"
+            placeholder="Homepage section content..."
+          ></textarea>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Image URL
+          </label>
+
+          <input
+            type="url"
+            id="imageUrl"
+            placeholder="https://..."
+          >
+
+          <div
+            id="imagePreview"
+            class="image-preview"
+            style="display:none">
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Button Text
+          </label>
+
+          <input
+            type="text"
+            id="buttonText"
+            placeholder="Read More"
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Button URL
+          </label>
+
+          <input
+            type="text"
+            id="buttonUrl"
+            placeholder="page.html or https://..."
+          >
+
+        </div>
+
+
+        <div>
+
+          <label>
+            Status
+          </label>
+
+          <select id="isActive">
+
+            <option value="true">
+              Active
+            </option>
+
+            <option value="false">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+      <div class="buttons">
+
+        <button
+          type="submit"
+          class="btn primary"
+          id="saveBtn">
+
+          💾 Save Section
+
+        </button>
+
+
+        <button
+          type="button"
+          class="btn secondary"
+          onclick="resetForm()">
+
+          Clear
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+
+  <!-- LIST -->
+
+  <div class="card">
+
+    <h2>
+      📋 Homepage Sections
+    </h2>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>
+              Order
+            </th>
+
+            <th>
+              Section
+            </th>
+
+            <th>
+              Title
+            </th>
+
+            <th>
+              Content
+            </th>
+
+            <th>
+              Status
+            </th>
+
+            <th>
+              Actions
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="sectionTable">
+
+          <tr>
+
+            <td colspan="6">
+              Loading...
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let sections = [];
+
+
+/* ---------------------------
+   MESSAGE
+---------------------------- */
+
+function showMessage(
+  message,
+  success = true
+){
+
+  const box =
+    document.getElementById("message");
+
+
+  box.textContent =
+    message;
+
+
+  box.style.display =
+    "block";
+
+
+  box.style.background =
+    success
+      ? "#d1fae5"
+      : "#fee2e2";
+
+
+  box.style.color =
+    success
+      ? "#065f46"
+      : "#991b1b";
+
+
+  setTimeout(() => {
+
+    box.style.display =
+      "none";
+
+  }, 3500);
+
+}
+
+
+/* ---------------------------
+   AUTH
+---------------------------- */
+
+async function checkAuth(){
+
+  const {
+    data:{
+      session
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if(!session){
+
+    window.location.href =
+      "index.html";
+
+    return false;
+  }
+
+
+  document
+    .getElementById("userEmail")
+    .textContent =
+      session.user.email ||
+      "Logged in";
+
+
+  return true;
+
+}
+
+
+/* ---------------------------
+   LOAD
+---------------------------- */
+
+async function loadSections(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("homepage_sections")
+      .select("*")
+      .order("display_order", {
+        ascending:true
+      })
+      .order("created_at", {
+        ascending:true
+      });
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Failed to load sections: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  sections =
+    data || [];
+
+
+  renderTable();
+
+}
+
+
+/* ---------------------------
+   RENDER
+---------------------------- */
+
+function renderTable(){
+
+  const tbody =
+    document.getElementById(
+      "sectionTable"
+    );
+
+
+  if(sections.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6">
+          No homepage sections found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  tbody.innerHTML =
+    sections.map(item => {
+
+      const status =
+        item.is_active
+          ? `
+            <span class="badge active">
+              Active
+            </span>
+          `
+          : `
+            <span class="badge inactive">
+              Inactive
+            </span>
+          `;
+
+
+      const content =
+        item.content || "";
+
+
+      const shortContent =
+        content.length > 80
+          ? content.substring(0,80) + "..."
+          : content;
+
+
+      return `
+
+        <tr>
+
+          <td>
+            ${item.display_order ?? 0}
+          </td>
+
+          <td>
+            <strong>
+              ${escapeHtml(
+                item.section_key || ""
+              )}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHtml(
+              item.section_title || "—"
+            )}
+          </td>
+
+          <td>
+            ${escapeHtml(
+              shortContent || "—"
+            )}
+          </td>
+
+          <td>
+            ${status}
+          </td>
+
+          <td>
+
+            <div class="actions">
+
+              <button
+                class="warning"
+                onclick="editSection('${item.id}')">
+
+                Edit
+
+              </button>
+
+
+              <button
+                class="success"
+                onclick="toggleActive('${item.id}')">
+
+                ${item.is_active
+                  ? "Deactivate"
+                  : "Activate"}
+
+              </button>
+
+
+              <button
+                class="danger"
+                onclick="deleteSection('${item.id}')">
+
+                Delete
+
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* ---------------------------
+   SAVE
+---------------------------- */
+
+document
+  .getElementById("sectionForm")
+  .addEventListener(
+    "submit",
+    async function(e){
+
+      e.preventDefault();
+
+
+      const editId =
+        document
+          .getElementById("editId")
+          .value;
+
+
+      const {
+        data:{
+          session
+        }
+      } =
+        await supabaseClient
+          .auth
+          .getSession();
+
+
+      const payload = {
+
+        section_key:
+          document
+            .getElementById("sectionKey")
+            .value,
+
+        section_title:
+          document
+            .getElementById("sectionTitle")
+            .value
+            .trim() || null,
+
+        section_subtitle:
+          document
+            .getElementById("sectionSubtitle")
+            .value
+            .trim() || null,
+
+        content:
+          document
+            .getElementById("content")
+            .value
+            .trim() || null,
+
+        image_url:
+          document
+            .getElementById("imageUrl")
+            .value
+            .trim() || null,
+
+        button_text:
+          document
+            .getElementById("buttonText")
+            .value
+            .trim() || null,
+
+        button_url:
+          document
+            .getElementById("buttonUrl")
+            .value
+            .trim() || null,
+
+        display_order:
+          parseInt(
+            document
+              .getElementById("displayOrder")
+              .value
+          ) || 0,
+
+        is_active:
+          document
+            .getElementById("isActive")
+            .value === "true",
+
+        updated_at:
+          new Date()
+            .toISOString()
+
+      };
+
+
+      if(!editId){
+
+        payload.created_by =
+          session?.user?.id || null;
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("homepage_sections")
+            .insert([payload]);
+
+
+        if(error){
+
+          console.error(error);
+
+          showMessage(
+            "Save failed: " +
+            error.message,
+            false
+          );
+
+          return;
+        }
+
+
+        showMessage(
+          "Homepage section saved successfully."
+        );
+
+      }else{
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("homepage_sections")
+            .update(payload)
+            .eq("id", editId);
+
+
+        if(error){
+
+          console.error(error);
+
+          showMessage(
+            "Update failed: " +
+            error.message,
+            false
+          );
+
+          return;
+        }
+
+
+        showMessage(
+          "Homepage section updated successfully."
+        );
+
+      }
+
+
+      resetForm();
+
+      await loadSections();
+
+    }
+  );
+
+
+/* ---------------------------
+   EDIT
+---------------------------- */
+
+function editSection(id){
+
+  const item =
+    sections.find(
+      x => x.id === id
+    );
+
+
+  if(!item) return;
+
+
+  document
+    .getElementById("editId")
+    .value =
+      item.id;
+
+
+  document
+    .getElementById("sectionKey")
+    .value =
+      item.section_key || "";
+
+
+  document
+    .getElementById("sectionTitle")
+    .value =
+      item.section_title || "";
+
+
+  document
+    .getElementById("sectionSubtitle")
+    .value =
+      item.section_subtitle || "";
+
+
+  document
+    .getElementById("content")
+    .value =
+      item.content || "";
+
+
+  document
+    .getElementById("imageUrl")
+    .value =
+      item.image_url || "";
+
+
+  document
+    .getElementById("buttonText")
+    .value =
+      item.button_text || "";
+
+
+  document
+    .getElementById("buttonUrl")
+    .value =
+      item.button_url || "";
+
+
+  document
+    .getElementById("displayOrder")
+    .value =
+      item.display_order ?? 0;
+
+
+  document
+    .getElementById("isActive")
+    .value =
+      item.is_active
+        ? "true"
+        : "false";
+
+
+  document
+    .getElementById("formTitle")
+    .textContent =
+      "✏️ Edit Homepage Section";
+
+
+  document
+    .getElementById("saveBtn")
+    .textContent =
+      "💾 Update Section";
+
+
+  updateImagePreview();
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* ---------------------------
+   ACTIVE / INACTIVE
+---------------------------- */
+
+async function toggleActive(id){
+
+  const item =
+    sections.find(
+      x => x.id === id
+    );
+
+
+  if(!item) return;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("homepage_sections")
+      .update({
+
+        is_active:
+          !item.is_active,
+
+        updated_at:
+          new Date()
+            .toISOString()
+
+      })
+      .eq("id", id);
+
+
+  if(error){
+
+    showMessage(
+      "Status update failed: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    item.is_active
+      ? "Section deactivated."
+      : "Section activated."
+  );
+
+
+  await loadSections();
+
+}
+
+
+/* ---------------------------
+   DELETE
+---------------------------- */
+
+async function deleteSection(id){
+
+  const item =
+    sections.find(
+      x => x.id === id
+    );
+
+
+  if(!item) return;
+
+
+  const ok =
+    confirm(
+      "Delete homepage section '" +
+      (item.section_title ||
+       item.section_key) +
+      "' permanently?"
+    );
+
+
+  if(!ok) return;
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("homepage_sections")
+      .delete()
+      .eq("id", id);
+
+
+  if(error){
+
+    showMessage(
+      "Delete failed: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    "Homepage section deleted successfully."
+  );
+
+
+  await loadSections();
+
+}
+
+
+/* ---------------------------
+   IMAGE PREVIEW
+---------------------------- */
+
+document
+  .getElementById("imageUrl")
+  .addEventListener(
+    "input",
+    updateImagePreview
+  );
+
+
+function updateImagePreview(){
+
+  const url =
+    document
+      .getElementById("imageUrl")
+      .value
+      .trim();
+
+
+  const box =
+    document.getElementById(
+      "imagePreview"
+    );
+
+
+  if(!url){
+
+    box.style.display =
+      "none";
+
+    box.innerHTML =
+      "";
+
+    return;
+  }
+
+
+  box.style.display =
+    "block";
+
+
+  box.innerHTML = `
+
+    <img
+      src="${escapeHtml(url)}"
+      onerror="this.style.display='none'"
+      alt="Image Preview">
+
+  `;
+
+}
+
+
+/* ---------------------------
+   RESET
+---------------------------- */
+
+function resetForm(){
+
+  document
+    .getElementById("sectionForm")
+    .reset();
+
+
+  document
+    .getElementById("editId")
+    .value =
+      "";
+
+
+  document
+    .getElementById("displayOrder")
+    .value =
+      "0";
+
+
+  document
+    .getElementById("isActive")
+    .value =
+      "true";
+
+
+  document
+    .getElementById("formTitle")
+    .textContent =
+      "➕ Add Homepage Section";
+
+
+  document
+    .getElementById("saveBtn")
+    .textContent =
+      "💾 Save Section";
+
+
+  document
+    .getElementById("imagePreview")
+    .style.display =
+      "none";
+
+}
+
+
+/* ---------------------------
+   ESCAPE HTML
+---------------------------- */
+
+function escapeHtml(value){
+
+  return String(value)
+
+    .replace(/&/g,"&amp;")
+
+    .replace(/</g,"&lt;")
+
+    .replace(/>/g,"&gt;")
+
+    .replace(/"/g,"&quot;")
+
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ---------------------------
+   NAVIGATION
+---------------------------- */
+
+function goDashboard(){
+
+  window.location.href =
+    "super-admin.html";
+
+}
+
+
+/* ---------------------------
+   LOGOUT
+---------------------------- */
+
+async function logout(){
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+
+  window.location.href =
+    "index.html";
+
+}
+
+
+/* ---------------------------
+   START
+---------------------------- */
+
+(async function(){
+
+  const ok =
+    await checkAuth();
+
+
+  if(!ok) return;
+
+
+  await loadSections();
+
+})();
+
+</script>
+
+</body>
+</html>
