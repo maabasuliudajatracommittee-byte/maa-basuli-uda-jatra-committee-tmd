@@ -599,7 +599,13 @@
 
       email: email,
 
-      password: password
+      password: password,
+
+      options: {
+        data: {
+          mobile: mobile
+        }
+      }
 
     });
 
@@ -632,7 +638,7 @@
           mobile: mobile,
           approval_status: "pending",
           member_status: "inactive",
-          memberId: null
+          member_id: null
         })
         .eq("id", data.user.id);
 
