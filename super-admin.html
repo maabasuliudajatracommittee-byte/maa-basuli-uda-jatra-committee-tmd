@@ -256,7 +256,6 @@
     .purple{background:#7e22ce;color:white}
     .orange{background:#d97706;color:white}
     .teal{background:#0f766e;color:white}
-    .red{background:#b91c1c;color:white}
 
     .admin-form{
       display:flex;
@@ -949,9 +948,9 @@
         </p>
 
         <button
-          class="red"
+          class="setup"
           onclick="openPage('jatra-manager.html')">
-          Open Jatra Manager
+          Open Manager
         </button>
 
       </div>
@@ -967,9 +966,9 @@
         </p>
 
         <button
-          class="orange"
+          class="setup"
           onclick="openPage('bhakta-manager.html')">
-          Open Bhakta Manager
+          Open Manager
         </button>
 
       </div>
@@ -985,9 +984,9 @@
         </p>
 
         <button
-          class="blue"
+          class="setup"
           onclick="openPage('website-settings.html')">
-          Open Website Settings
+          Open Manager
         </button>
 
       </div>
@@ -1003,9 +1002,9 @@
         </p>
 
         <button
-          class="green"
+          class="setup"
           onclick="openPage('homepage-manager.html')">
-          Open Homepage Manager
+          Open Manager
         </button>
 
       </div>
@@ -1021,9 +1020,9 @@
         </p>
 
         <button
-          class="purple"
+          class="setup"
           onclick="openPage('documents-manager.html')">
-          Open Documents Manager
+          Open Manager
         </button>
 
       </div>
@@ -1039,9 +1038,9 @@
         </p>
 
         <button
-          class="teal"
+          class="setup"
           onclick="openPage('contact-manager.html')">
-          Open Contact Manager
+          Open Manager
         </button>
 
       </div>
@@ -1057,9 +1056,9 @@
         </p>
 
         <button
-          class="secondary"
+          class="setup"
           onclick="openPage('audit-logs.html')">
-          Open Audit Logs
+          Open Manager
         </button>
 
       </div>
@@ -1075,9 +1074,9 @@
         </p>
 
         <button
-          class="primary"
+          class="setup"
           onclick="openPage('backup-manager.html')">
-          Open Backup Manager
+          Open Manager
         </button>
 
       </div>
@@ -1087,8 +1086,8 @@
     <div class="system-note">
 
       <strong>System Status:</strong>
-      All management modules are connected. Setup Required controls have been removed.
-      This dashboard is restricted to the Super Admin role.
+      All management buttons are connected to the respective
+      manager pages. Fund, Member Fee and Donation management are live.
 
     </div>
 
@@ -1843,6 +1842,10 @@ function openPendingMembers(){
   );
 
 }
+
+/* =========================
+   SETUP REQUIRED
+========================= */
 
 /* =========================
    LOAD MEMBERS
