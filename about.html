@@ -6,6 +6,8 @@
 
 <title>About Us | Maa Basuli Uda Jatra Committee</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{
   box-sizing:border-box;
@@ -30,6 +32,7 @@ a{
   margin:auto;
 }
 
+/* TOP BAR */
 .topbar{
   background:#7b1e1e;
   color:white;
@@ -44,6 +47,7 @@ a{
   gap:10px;
 }
 
+/* HEADER */
 header{
   background:white;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
@@ -67,14 +71,21 @@ header{
 }
 
 .logo-icon{
-  width:50px;
-  height:50px;
+  width:52px;
+  height:52px;
   border-radius:50%;
-  background:#f4c542;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
+  padding:3px;
+}
+
+.logo-icon.fallback{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:25px;
+  padding:0;
 }
 
 .logo-text h1{
@@ -115,8 +126,10 @@ nav a.active{
   padding:9px 12px;
   border-radius:7px;
   font-size:20px;
+  cursor:pointer;
 }
 
+/* PAGE HERO */
 .page-hero{
   background:
     linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
@@ -137,6 +150,7 @@ nav a.active{
   opacity:.95;
 }
 
+/* GENERAL */
 section{
   padding:55px 0;
 }
@@ -155,6 +169,7 @@ section{
   color:#777;
 }
 
+/* ABOUT */
 .about-grid{
   display:grid;
   grid-template-columns:1.2fr .8fr;
@@ -193,6 +208,7 @@ section{
   border-radius:10px;
 }
 
+/* VALUES */
 .values{
   background:#fff8ed;
 }
@@ -225,6 +241,7 @@ section{
   font-size:14px;
 }
 
+/* HIGHLIGHT */
 .highlight{
   background:#7b1e1e;
   color:white;
@@ -246,6 +263,7 @@ section{
   font-size:16px;
 }
 
+/* BACK */
 .back{
   text-align:center;
   padding:35px 0;
@@ -260,6 +278,7 @@ section{
   font-weight:bold;
 }
 
+/* FOOTER */
 footer{
   background:#241313;
   color:white;
@@ -297,6 +316,7 @@ footer a{
   font-size:13px;
 }
 
+/* MOBILE */
 @media(max-width:900px){
 
   nav{
@@ -338,6 +358,11 @@ footer a{
     font-size:16px;
   }
 
+  .logo-icon{
+    width:46px;
+    height:46px;
+  }
+
   .page-hero{
     padding:65px 0;
   }
@@ -368,7 +393,7 @@ footer a{
 <div class="topbar">
   <div class="container topbar-inner">
     <span>🙏 जय माँ बसुली</span>
-    <span>Thakurmunda, Mayurbhanj, Odisha</span>
+    <span id="topLocation">Thakurmunda, Mayurbhanj, Odisha</span>
   </div>
 </div>
 
@@ -381,10 +406,15 @@ footer a{
 
     <a href="index.html" class="logo">
 
-      <div class="logo-icon">🙏</div>
+      <img
+        id="siteLogo"
+        class="logo-icon"
+        src=""
+        alt="Maa Basuli Uda Jatra Committee Logo"
+      >
 
       <div class="logo-text">
-        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <h1 id="siteName">Maa Basuli Uda Jatra Committee</h1>
         <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
 
@@ -477,8 +507,9 @@ footer a{
       <div class="image-card">
 
         <img
-          src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=85"
-          alt="Temple"
+          id="aboutTempleImage"
+          src=""
+          alt="Maa Basuli Temple"
         >
 
       </div>
@@ -621,7 +652,9 @@ footer a{
 
       <div>
 
-        <h3>Maa Basuli Uda Jatra Committee</h3>
+        <h3 id="footerSiteName">
+          Maa Basuli Uda Jatra Committee
+        </h3>
 
         <p>
           Official website of Maa Basuli Uda Jatra Committee,
@@ -640,6 +673,7 @@ footer a{
         <h3>Quick Links</h3>
 
         <a href="index.html">Home</a>
+        <a href="about.html">About</a>
         <a href="jatra.html">Uda Jatra</a>
         <a href="notices.html">Notices</a>
         <a href="events.html">Events</a>
@@ -678,6 +712,23 @@ footer a{
 
 <script>
 
+/* SUPABASE */
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* MOBILE MENU */
+
 function toggleMenu(){
 
   document
@@ -686,6 +737,101 @@ function toggleMenu(){
     .toggle("show");
 
 }
+
+
+/* LOAD WEBSITE SETTINGS */
+
+async function loadWebsiteSettings(){
+
+  try{
+
+    const { data, error } =
+      await supabaseClient
+        .from("website_settings")
+        .select(`
+          site_name,
+          logo_url,
+          temple_url,
+          address
+        `)
+        .order("created_at", { ascending:false })
+        .limit(1)
+        .maybeSingle();
+
+    if(error){
+
+      console.error(
+        "Website settings error:",
+        error
+      );
+
+      return;
+    }
+
+
+    if(!data) return;
+
+
+    /* SITE NAME */
+
+    if(data.site_name){
+
+      document.getElementById("siteName").textContent =
+        data.site_name;
+
+      document.getElementById("footerSiteName").textContent =
+        data.site_name;
+
+      document.title =
+        "About Us | " + data.site_name;
+    }
+
+
+    /* LOGO */
+
+    if(data.logo_url){
+
+      const logo =
+        document.getElementById("siteLogo");
+
+      logo.src = data.logo_url;
+
+      logo.classList.remove("fallback");
+    }
+
+
+    /* TEMPLE IMAGE */
+
+    if(data.temple_url){
+
+      document.getElementById("aboutTempleImage").src =
+        data.temple_url;
+    }
+
+
+    /* ADDRESS */
+
+    if(data.address){
+
+      document.getElementById("topLocation").textContent =
+        data.address;
+    }
+
+  }catch(error){
+
+    console.error(
+      "Settings loading failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* START */
+
+loadWebsiteSettings();
 
 </script>
 
