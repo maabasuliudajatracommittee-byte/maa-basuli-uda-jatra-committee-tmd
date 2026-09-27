@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhakta Manager | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f4f6f9;
+      color:#222;
+    }
+
+    header{
+      background:#7b1e1e;
+      color:#fff;
+      padding:18px 24px;
+    }
+
+    header h1{
+      margin:0;
+      font-size:24px;
+    }
+
+    header p{
+      margin:6px 0 0;
+      opacity:.9;
+    }
+
+    .topbar{
+      background:#fff;
+      padding:12px 24px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      border-bottom:1px solid #ddd;
+      flex-wrap:wrap;
+    }
+
+    .topbar button{
+      border:0;
+      padding:9px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      background:#7b1e1e;
+      color:#fff;
+    }
+
+    .container{
+      max-width:1200px;
+      margin:25px auto;
+      padding:0 15px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .stat{
+      background:#fff;
+      padding:18px;
+      border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .stat small{
+      color:#666;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:27px;
+      margin-top:7px;
+    }
+
+    .card{
+      background:#fff;
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+      margin-bottom:20px;
+    }
+
+    .card h2{
+      margin-top:0;
+      color:#7b1e1e;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+    }
+
+    .full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:6px;
+    }
+
+    input,select,textarea{
+      width:100%;
+      padding:10px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      font-size:14px;
+    }
+
+    textarea{
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .buttons{
+      display:flex;
+      gap:10px;
+      margin-top:15px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      padding:10px 16px;
+      border-radius:6px;
+      cursor:pointer;
+      color:#fff;
+    }
+
+    .primary{
+      background:#7b1e1e;
+    }
+
+    .secondary{
+      background:#555;
+    }
+
+    .success{
+      background:#198754;
+    }
+
+    .warning{
+      background:#d97706;
+    }
+
+    .danger{
+      background:#c62828;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:1000px;
+    }
+
+    th,td{
+      padding:11px 9px;
+      border-bottom:1px solid #ddd;
+      text-align:left;
+      vertical-align:middle;
+    }
+
+    th{
+      background:#f1f1f1;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:bold;
+    }
+
+    .active{
+      background:#d1fae5;
+      color:#065f46;
+    }
+
+    .inactive{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .published{
+      background:#dbeafe;
+      color:#1e40af;
+    }
+
+    .hidden{
+      background:#eee;
+      color:#555;
+    }
+
+    .photo{
+      width:45px;
+      height:45px;
+      object-fit:cover;
+      border-radius:50%;
+      border:1px solid #ddd;
+    }
+
+    .actions{
+      display:flex;
+      gap:5px;
+      flex-wrap:wrap;
+    }
+
+    .actions button{
+      border:0;
+      padding:7px 9px;
+      border-radius:5px;
+      cursor:pointer;
+      color:#fff;
+      font-size:12px;
+    }
+
+    .search{
+      margin-bottom:15px;
+    }
+
+    #message{
+      display:none;
+      padding:12px;
+      border-radius:6px;
+      margin-bottom:15px;
+      font-weight:bold;
+    }
+
+    @media(max-width:700px){
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .full{
+        grid-column:auto;
+      }
+
+      header h1{
+        font-size:20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🙏 Maa Basuli Uda Jatra Committee</h1>
+  <p>Bhakta Management</p>
+</header>
+
+<div class="topbar">
+  <div id="userEmail">Checking login...</div>
+
+  <div>
+    <button onclick="loadBhaktas()">🔄 Refresh</button>
+    <button onclick="goDashboard()">🏠 Super Admin Dashboard</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <div id="message"></div>
+
+  <!-- STATS -->
+  <div class="stats">
+
+    <div class="stat">
+      <small>Total Bhaktas</small>
+      <strong id="totalCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Active</small>
+      <strong id="activeCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Inactive</small>
+      <strong id="inactiveCount">0</strong>
+    </div>
+
+    <div class="stat">
+      <small>Published</small>
+      <strong id="publishedCount">0</strong>
+    </div>
+
+  </div>
+
+  <!-- ADD / EDIT -->
+  <div class="card">
+
+    <h2 id="formTitle">➕ Add Bhakta</h2>
+
+    <form id="bhaktaForm">
+
+      <input type="hidden" id="editId">
+
+      <div class="form-grid">
+
+        <div>
+          <label>Bhakta Name *</label>
+          <input type="text" id="name" required>
+        </div>
+
+        <div>
+          <label>Mobile Number</label>
+          <input type="text" id="mobile">
+        </div>
+
+        <div>
+          <label>Village</label>
+          <input type="text" id="village">
+        </div>
+
+        <div>
+          <label>Financial Year *</label>
+          <input type="text" id="financialYear" placeholder="2027-28" required>
+        </div>
+
+        <div>
+          <label>Bhakta Type</label>
+          <select id="bhaktaType">
+            <option value="">Select Type</option>
+            <option value="General Bhakta">General Bhakta</option>
+            <option value="Sevak">Sevak</option>
+            <option value="Volunteer">Volunteer</option>
+            <option value="Donor">Donor</option>
+            <option value="Committee Bhakta">Committee Bhakta</option>
+            <option value="Special Bhakta">Special Bhakta</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Seva</label>
+          <input type="text" id="seva" placeholder="Temple Seva / Jatra Seva">
+        </div>
+
+        <div class="full">
+          <label>Address</label>
+          <textarea id="address"></textarea>
+        </div>
+
+        <div class="full">
+          <label>Photo URL</label>
+          <input type="url" id="photoUrl" placeholder="https://...">
+        </div>
+
+        <div>
+          <label>Status</label>
+          <select id="isActive">
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="btn primary" id="saveBtn">
+          💾 Save Bhakta
+        </button>
+
+        <button type="button"
+                class="btn secondary"
+                onclick="resetForm()">
+          Clear
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- LIST -->
+  <div class="card">
+
+    <h2>📋 Bhakta List</h2>
+
+    <div class="search">
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="Search by name, mobile, village, type..."
+        oninput="renderTable()">
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Village</th>
+            <th>Type</th>
+            <th>Seva</th>
+            <th>FY</th>
+            <th>Status</th>
+            <th>Publish</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody id="bhaktaTable">
+          <tr>
+            <td colspan="10">Loading...</td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let bhaktas = [];
+
+
+/* ---------------------------
+   MESSAGE
+---------------------------- */
+
+function showMessage(message, success = true){
+
+  const box = document.getElementById("message");
+
+  box.textContent = message;
+
+  box.style.display = "block";
+
+  box.style.background =
+    success ? "#d1fae5" : "#fee2e2";
+
+  box.style.color =
+    success ? "#065f46" : "#991b1b";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 3000);
+}
+
+
+/* ---------------------------
+   AUTH
+---------------------------- */
+
+async function checkAuth(){
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+
+    window.location.href = "index.html";
+
+    return false;
+  }
+
+  document.getElementById("userEmail").textContent =
+    session.user.email || "Logged in";
+
+  return true;
+}
+
+
+/* ---------------------------
+   LOAD
+---------------------------- */
+
+async function loadBhaktas(){
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("bhaktas")
+    .select("*")
+    .order("created_at", { ascending:false });
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Failed to load Bhakta records: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  bhaktas = data || [];
+
+  updateStats();
+
+  renderTable();
+}
+
+
+/* ---------------------------
+   STATS
+---------------------------- */
+
+function updateStats(){
+
+  const total = bhaktas.length;
+
+  const active =
+    bhaktas.filter(x => x.is_active === true).length;
+
+  const inactive =
+    bhaktas.filter(x => x.is_active === false).length;
+
+  const published =
+    bhaktas.filter(x => x.is_published === true).length;
+
+  document.getElementById("totalCount").textContent =
+    total;
+
+  document.getElementById("activeCount").textContent =
+    active;
+
+  document.getElementById("inactiveCount").textContent =
+    inactive;
+
+  document.getElementById("publishedCount").textContent =
+    published;
+}
+
+
+/* ---------------------------
+   RENDER
+---------------------------- */
+
+function renderTable(){
+
+  const tbody =
+    document.getElementById("bhaktaTable");
+
+  const search =
+    document.getElementById("searchBox")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const filtered =
+    bhaktas.filter(item => {
+
+      const text = [
+
+        item.name,
+        item.mobile,
+        item.village,
+        item.bhakta_type,
+        item.seva,
+        item.financial_year
+
+      ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+
+      return text.includes(search);
+    });
+
+
+  if(filtered.length === 0){
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="10">
+          No Bhakta records found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+
+  tbody.innerHTML =
+    filtered.map(item => {
+
+      const photo =
+        item.photo_url
+        ? `<img class="photo"
+             src="${escapeHtml(item.photo_url)}"
+             onerror="this.style.display='none'">`
+        : "—";
+
+
+      const status =
+        item.is_active
+        ? `<span class="badge active">Active</span>`
+        : `<span class="badge inactive">Inactive</span>`;
+
+
+      const published =
+        item.is_published
+        ? `<span class="badge published">Published</span>`
+        : `<span class="badge hidden">Hidden</span>`;
+
+
+      return `
+
+        <tr>
+
+          <td>${photo}</td>
+
+          <td>
+            <strong>${escapeHtml(item.name || "")}</strong>
+          </td>
+
+          <td>${escapeHtml(item.mobile || "—")}</td>
+
+          <td>${escapeHtml(item.village || "—")}</td>
+
+          <td>${escapeHtml(item.bhakta_type || "—")}</td>
+
+          <td>${escapeHtml(item.seva || "—")}</td>
+
+          <td>${escapeHtml(item.financial_year || "—")}</td>
+
+          <td>${status}</td>
+
+          <td>${published}</td>
+
+          <td>
+
+            <div class="actions">
+
+              <button
+                class="warning"
+                onclick="editBhakta('${item.id}')">
+                Edit
+              </button>
+
+              <button
+                class="success"
+                onclick="toggleActive('${item.id}')">
+                ${item.is_active ? "Deactivate" : "Activate"}
+              </button>
+
+              <button
+                class="primary"
+                onclick="togglePublish('${item.id}')">
+                ${item.is_published ? "Hide" : "Publish"}
+              </button>
+
+              <button
+                class="danger"
+                onclick="deleteBhakta('${item.id}')">
+                Delete
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+}
+
+
+/* ---------------------------
+   SAVE
+---------------------------- */
+
+document.getElementById("bhaktaForm")
+.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  const editId =
+    document.getElementById("editId").value;
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+
+  const payload = {
+
+    name:
+      document.getElementById("name").value.trim(),
+
+    mobile:
+      document.getElementById("mobile").value.trim() || null,
+
+    village:
+      document.getElementById("village").value.trim() || null,
+
+    address:
+      document.getElementById("address").value.trim() || null,
+
+    photo_url:
+      document.getElementById("photoUrl").value.trim() || null,
+
+    bhakta_type:
+      document.getElementById("bhaktaType").value || null,
+
+    seva:
+      document.getElementById("seva").value.trim() || null,
+
+    financial_year:
+      document.getElementById("financialYear").value.trim(),
+
+    is_active:
+      document.getElementById("isActive").value === "true",
+
+    updated_at:
+      new Date().toISOString()
+  };
+
+
+  if(!editId){
+
+    payload.created_by =
+      session?.user?.id || null;
+
+    payload.is_published = false;
+
+
+    const { error } =
+      await supabaseClient
+        .from("bhaktas")
+        .insert([payload]);
+
+
+    if(error){
+
+      console.error(error);
+
+      showMessage(
+        "Save failed: " + error.message,
+        false
+      );
+
+      return;
+    }
+
+    showMessage("Bhakta saved successfully.");
+
+  }else{
+
+    const { error } =
+      await supabaseClient
+        .from("bhaktas")
+        .update(payload)
+        .eq("id", editId);
+
+
+    if(error){
+
+      console.error(error);
+
+      showMessage(
+        "Update failed: " + error.message,
+        false
+      );
+
+      return;
+    }
+
+    showMessage("Bhakta updated successfully.");
+  }
+
+
+  resetForm();
+
+  await loadBhaktas();
+
+});
+
+
+/* ---------------------------
+   EDIT
+---------------------------- */
+
+function editBhakta(id){
+
+  const item =
+    bhaktas.find(x => x.id === id);
+
+  if(!item) return;
+
+
+  document.getElementById("editId").value =
+    item.id;
+
+  document.getElementById("name").value =
+    item.name || "";
+
+  document.getElementById("mobile").value =
+    item.mobile || "";
+
+  document.getElementById("village").value =
+    item.village || "";
+
+  document.getElementById("address").value =
+    item.address || "";
+
+  document.getElementById("photoUrl").value =
+    item.photo_url || "";
+
+  document.getElementById("bhaktaType").value =
+    item.bhakta_type || "";
+
+  document.getElementById("seva").value =
+    item.seva || "";
+
+  document.getElementById("financialYear").value =
+    item.financial_year || "";
+
+  document.getElementById("isActive").value =
+    item.is_active ? "true" : "false";
+
+
+  document.getElementById("formTitle").textContent =
+    "✏️ Edit Bhakta";
+
+  document.getElementById("saveBtn").textContent =
+    "💾 Update Bhakta";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* ---------------------------
+   ACTIVE / INACTIVE
+---------------------------- */
+
+async function toggleActive(id){
+
+  const item =
+    bhaktas.find(x => x.id === id);
+
+  if(!item) return;
+
+
+  const newStatus =
+    !item.is_active;
+
+
+  const { error } =
+    await supabaseClient
+      .from("bhaktas")
+      .update({
+        is_active:newStatus,
+        updated_at:new Date().toISOString()
+      })
+      .eq("id", id);
+
+
+  if(error){
+
+    showMessage(
+      "Status update failed: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    newStatus
+      ? "Bhakta activated."
+      : "Bhakta deactivated."
+  );
+
+  loadBhaktas();
+}
+
+
+/* ---------------------------
+   PUBLISH / HIDE
+---------------------------- */
+
+async function togglePublish(id){
+
+  const item =
+    bhaktas.find(x => x.id === id);
+
+  if(!item) return;
+
+
+  const newStatus =
+    !item.is_published;
+
+
+  const { error } =
+    await supabaseClient
+      .from("bhaktas")
+      .update({
+        is_published:newStatus,
+        updated_at:new Date().toISOString()
+      })
+      .eq("id", id);
+
+
+  if(error){
+
+    showMessage(
+      "Publish update failed: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showMessage(
+    newStatus
+      ? "Bhakta published."
+      : "Bhakta hidden."
+  );
+
+  loadBhaktas();
+}
+
+
+/* ---------------------------
+   DELETE
+---------------------------- */
+
+async function deleteBhakta(id){
+
+  const item =
+    bhaktas.find(x => x.id === id);
+
+  if(!item) return;
+
+
+  const confirmDelete =
+    confirm(
+      "Delete Bhakta '" +
+      item.name +
+      "' permanently?"
+    );
+
+
+  if(!confirmDelete) return;
+
+
+  const { error } =
+    await supabaseClient
+      .from("bhaktas")
+      .delete()
+      .eq("id", id);
+
+
+  if(error){
+
+    showMessage(
+      "Delete failed: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+
+  showMessage("Bhakta deleted successfully.");
+
+  loadBhaktas();
+}
+
+
+/* ---------------------------
+   RESET
+---------------------------- */
+
+function resetForm(){
+
+  document.getElementById("bhaktaForm").reset();
+
+  document.getElementById("editId").value = "";
+
+  document.getElementById("formTitle").textContent =
+    "➕ Add Bhakta";
+
+  document.getElementById("saveBtn").textContent =
+    "💾 Save Bhakta";
+
+  document.getElementById("isActive").value =
+    "true";
+}
+
+
+/* ---------------------------
+   ESCAPE HTML
+---------------------------- */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* ---------------------------
+   NAVIGATION
+---------------------------- */
+
+function goDashboard(){
+
+  window.location.href =
+    "super-admin.html";
+}
+
+
+/* ---------------------------
+   LOGOUT
+---------------------------- */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+}
+
+
+/* ---------------------------
+   START
+---------------------------- */
+
+(async function(){
+
+  const ok = await checkAuth();
+
+  if(!ok) return;
+
+  await loadBhaktas();
+
+})();
+
+</script>
+
+</body>
+</html>
