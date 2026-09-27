@@ -5,881 +5,1523 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documents Management - Maa Basuli Uda Jatra Committee</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
+
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7fb;
-    color:#222;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fb;
+  color:#222;
 }
+
 header{
-    background:#7b1e1e;
-    color:#fff;
-    padding:16px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
+  background:#6d28d9;
+  color:#fff;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
 }
-header h1{margin:0;font-size:21px}
-header small{opacity:.9}
+
+header h1{
+  margin:0;
+  font-size:21px;
+}
+
+header p{
+  margin:5px 0 0;
+  font-size:13px;
+  opacity:.9;
+}
 
 .top-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
+
 button{
-    border:0;
-    padding:10px 15px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:600;
+  border:0;
+  border-radius:8px;
+  padding:10px 15px;
+  cursor:pointer;
+  font-weight:600;
 }
-.btn-light{background:#fff;color:#7b1e1e}
-.btn-primary{background:#7b1e1e;color:#fff}
-.btn-success{background:#198754;color:#fff}
-.btn-warning{background:#f0ad4e;color:#fff}
-.btn-danger{background:#dc3545;color:#fff}
-.btn-secondary{background:#6c757d;color:#fff}
+
+.btn-white{
+  background:#fff;
+  color:#4c1d95;
+}
+
+.btn-red{
+  background:#dc2626;
+  color:#fff;
+}
+
+.btn-purple{
+  background:#6d28d9;
+  color:#fff;
+}
 
 .container{
-    max-width:1250px;
-    margin:25px auto;
-    padding:0 15px;
+  max-width:1200px;
+  margin:25px auto;
+  padding:0 15px;
 }
 
 .card{
-    background:#fff;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:20px;
-    box-shadow:0 3px 15px rgba(0,0,0,.08);
-}
-
-.card h2{
-    margin-top:0;
-    color:#7b1e1e;
-    font-size:20px;
+  background:#fff;
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
 }
 
 .stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
 }
+
 .stat{
-    background:#fff;
-    padding:18px;
-    border-radius:10px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
+  padding:18px;
+  border-radius:12px;
+  background:#f3e8ff;
 }
-.stat h3{
-    margin:0 0 8px;
-    font-size:14px;
-    color:#666;
-}
-.stat strong{
-    font-size:27px;
-    color:#7b1e1e;
+
+.stat b{
+  display:block;
+  font-size:28px;
+  color:#6d28d9;
+  margin-top:5px;
 }
 
 .form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
 }
 
-.form-group{
-    display:flex;
-    flex-direction:column;
+.full{
+  grid-column:1/-1;
 }
-.form-group.full{
-    grid-column:1/-1;
-}
+
 label{
-    font-weight:600;
-    margin-bottom:6px;
-}
-input,select,textarea{
-    width:100%;
-    padding:11px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:14px;
-}
-textarea{
-    min-height:90px;
-    resize:vertical;
+  font-weight:600;
+  font-size:14px;
+  display:block;
+  margin-bottom:6px;
 }
 
-.form-actions{
-    margin-top:18px;
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+input,select,textarea{
+  width:100%;
+  padding:11px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:14px;
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:15px;
 }
 
 .table-wrap{
-    overflow-x:auto;
+  overflow:auto;
 }
+
 table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:1000px;
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
 }
+
 th,td{
-    padding:11px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-    vertical-align:middle;
+  padding:11px;
+  border-bottom:1px solid #e5e7eb;
+  text-align:left;
+  font-size:13px;
+  vertical-align:top;
 }
+
 th{
-    background:#f3f3f3;
-    color:#555;
+  background:#f3f4f6;
 }
-tr:hover{background:#fafafa}
 
 .badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:700;
-}
-.badge-green{background:#d1e7dd;color:#0f5132}
-.badge-red{background:#f8d7da;color:#842029}
-.badge-yellow{background:#fff3cd;color:#664d03}
-.badge-blue{background:#cfe2ff;color:#084298}
-
-.actions{
-    display:flex;
-    gap:5px;
-    flex-wrap:wrap;
-}
-.actions button{
-    padding:7px 10px;
-    font-size:12px;
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:11px;
+  font-weight:700;
 }
 
-.search-row{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:10px;
+.active{
+  background:#dcfce7;
+  color:#166534;
 }
 
-.hidden{display:none!important}
+.inactive{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.published{
+  background:#dbeafe;
+  color:#1d4ed8;
+}
+
+.hidden-badge{
+  background:#f3f4f6;
+  color:#4b5563;
+}
 
 .message{
-    padding:12px;
-    border-radius:7px;
-    margin-bottom:15px;
-    display:none;
+  display:none;
+  padding:12px;
+  border-radius:8px;
+  margin-bottom:15px;
 }
+
 .success{
-    background:#d1e7dd;
-    color:#0f5132;
+  background:#dcfce7;
+  color:#166534;
 }
+
 .error{
-    background:#f8d7da;
-    color:#842029;
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-#loading{
-    text-align:center;
-    padding:20px;
-    color:#777;
+.hidden{
+  display:none!important;
 }
 
-@media(max-width:800px){
-    .stats{grid-template-columns:repeat(2,1fr)}
-    .form-grid{grid-template-columns:1fr}
-    .search-row{grid-template-columns:1fr}
+.small{
+  font-size:12px;
+  color:#6b7280;
 }
 
-@media(max-width:500px){
-    .stats{grid-template-columns:1fr}
-    header h1{font-size:17px}
+.link{
+  color:#2563eb;
+  text-decoration:none;
+}
+
+@media(max-width:750px){
+  .stats,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  header{
+    align-items:flex-start;
+    flex-direction:column;
+  }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <header>
-    <div>
-        <h1>📄 Documents Management</h1>
-        <small>Maa Basuli Uda Jatra Committee</small>
-    </div>
+  <div>
+    <h1>📄 Documents Management</h1>
+    <p>Maa Basuli Uda Jatra Committee — Super Admin</p>
+  </div>
 
-    <div class="top-actions">
-        <button class="btn-light" onclick="goDashboard()">Dashboard</button>
-        <button class="btn-light" onclick="loadDocuments()">Refresh</button>
-        <button class="btn-danger" onclick="logout()">Logout</button>
-    </div>
+  <div class="top-actions">
+    <button class="btn-white" onclick="goDashboard()">Dashboard</button>
+    <button class="btn-red" onclick="logout()">Logout</button>
+  </div>
 </header>
+
 
 <div class="container">
 
-    <div id="message" class="message"></div>
+  <div id="message" class="message"></div>
+
+
+  <!-- STATISTICS -->
+  <div class="card">
 
     <div class="stats">
-        <div class="stat">
-            <h3>Total Documents</h3>
-            <strong id="totalCount">0</strong>
-        </div>
 
-        <div class="stat">
-            <h3>Published</h3>
-            <strong id="publishedCount">0</strong>
-        </div>
+      <div class="stat">
+        Total Documents
+        <b id="totalCount">0</b>
+      </div>
 
-        <div class="stat">
-            <h3>Active</h3>
-            <strong id="activeCount">0</strong>
-        </div>
+      <div class="stat">
+        Published
+        <b id="publishedCount">0</b>
+      </div>
 
-        <div class="stat">
-            <h3>Inactive</h3>
-            <strong id="inactiveCount">0</strong>
-        </div>
+      <div class="stat">
+        Active
+        <b id="activeCount">0</b>
+      </div>
+
     </div>
 
-    <!-- ADD / EDIT -->
-    <div class="card">
-        <h2 id="formTitle">➕ Add Document</h2>
+  </div>
 
-        <div class="form-grid">
 
-            <div class="form-group">
-                <label>Document Title *</label>
-                <input type="text" id="title" placeholder="Enter document title">
-            </div>
+  <!-- DOCUMENT FORM -->
+  <div class="card">
 
-            <div class="form-group">
-                <label>Document Type</label>
-                <select id="documentType">
-                    <option value="">Select Type</option>
-                    <option value="Notice">Notice</option>
-                    <option value="Permission Letter">Permission Letter</option>
-                    <option value="Invitation">Invitation</option>
-                    <option value="RTI">RTI</option>
-                    <option value="Report">Report</option>
-                    <option value="Certificate">Certificate</option>
-                    <option value="Letter">Letter</option>
-                    <option value="Office Order">Office Order</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+    <h2 id="formTitle">➕ Add Document</h2>
 
-            <div class="form-group">
-                <label>Financial Year</label>
-                <input type="text" id="financialYear" placeholder="2026-27">
-            </div>
+    <div class="form-grid">
 
-            <div class="form-group">
-                <label>Display Order</label>
-                <input type="number" id="displayOrder" value="0">
-            </div>
+      <div>
+        <label>Document Title *</label>
+        <input
+          id="title"
+          type="text"
+          placeholder="Document title">
+      </div>
 
-            <div class="form-group full">
-                <label>Description</label>
-                <textarea id="description" placeholder="Enter document description"></textarea>
-            </div>
 
-            <div class="form-group full">
-                <label>Document URL</label>
-                <input type="url" id="documentUrl" placeholder="https://...">
-            </div>
+      <div>
+        <label>Document Type</label>
 
-            <div class="form-group">
-                <label>Active Status</label>
-                <select id="isActive">
-                    <option value="true">Active</option>
-                    <option value="false">Inactive</option>
-                </select>
-            </div>
+        <select id="documentType">
 
-            <div class="form-group">
-                <label>Publish Status</label>
-                <select id="isPublished">
-                    <option value="false">Hidden</option>
-                    <option value="true">Published</option>
-                </select>
-            </div>
+          <option value="">Select type</option>
+          <option>Notice</option>
+          <option>Permission Letter</option>
+          <option>Invitation</option>
+          <option>RTI</option>
+          <option>Report</option>
+          <option>Meeting Document</option>
+          <option>Other</option>
 
-        </div>
+        </select>
+      </div>
 
-        <div class="form-actions">
-            <button class="btn-primary" onclick="saveDocument()">Save Document</button>
-            <button class="btn-secondary hidden" id="cancelBtn" onclick="resetForm()">Cancel Edit</button>
-        </div>
+
+      <div>
+        <label>Financial Year</label>
+
+        <input
+          id="financialYear"
+          type="text"
+          placeholder="2026-27">
+      </div>
+
+
+      <div>
+        <label>Display Order</label>
+
+        <input
+          id="displayOrder"
+          type="number"
+          value="0">
+      </div>
+
+
+      <div class="full">
+
+        <label>Document URL</label>
+
+        <input
+          id="documentUrl"
+          type="url"
+          placeholder="https://...">
+
+      </div>
+
+
+      <div class="full">
+
+        <label>Description</label>
+
+        <textarea
+          id="description"
+          placeholder="Short description"></textarea>
+
+      </div>
+
+
+      <div>
+
+        <label>
+          <input
+            id="isActive"
+            type="checkbox"
+            checked
+            style="width:auto;margin-right:6px">
+
+          Active
+        </label>
+
+      </div>
+
+
+      <div>
+
+        <label>
+          <input
+            id="isPublished"
+            type="checkbox"
+            style="width:auto;margin-right:6px">
+
+          Published
+        </label>
+
+      </div>
+
     </div>
 
-    <!-- SEARCH -->
-    <div class="card">
-        <h2>📋 Documents List</h2>
 
-        <div class="search-row">
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search title, description, type..."
-                oninput="renderDocuments()"
-            >
+    <div class="actions">
 
-            <select id="filterPublished" onchange="renderDocuments()">
-                <option value="">All Publish Status</option>
-                <option value="true">Published</option>
-                <option value="false">Hidden</option>
-            </select>
+      <button
+        class="btn-purple"
+        onclick="saveDocument()">
 
-            <select id="filterActive" onchange="renderDocuments()">
-                <option value="">All Active Status</option>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
-        </div>
+        Save Document
 
-        <div id="loading">Loading documents...</div>
+      </button>
 
-        <div class="table-wrap">
-            <table id="documentsTable" class="hidden">
-                <thead>
-                    <tr>
-                        <th>Sl.</th>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Financial Year</th>
-                        <th>Order</th>
-                        <th>Active</th>
-                        <th>Published</th>
-                        <th>Document</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
 
-                <tbody id="documentsBody"></tbody>
-            </table>
-        </div>
+      <button
+        id="cancelBtn"
+        class="btn-white hidden"
+        onclick="resetForm()">
+
+        Cancel Edit
+
+      </button>
+
     </div>
+
+  </div>
+
+
+  <!-- DOCUMENT LIST -->
+  <div class="card">
+
+    <div
+      style="
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:15px">
+
+      <h2 style="margin:0">
+        Document List
+      </h2>
+
+
+      <input
+        id="searchInput"
+        style="max-width:350px"
+        placeholder="Search documents..."
+        oninput="renderDocuments()">
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+            <th>Title</th>
+            <th>Type</th>
+            <th>Financial Year</th>
+            <th>Order</th>
+            <th>Status</th>
+            <th>URL</th>
+            <th>Actions</th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody id="documentsBody">
+
+          <tr>
+            <td colspan="8">
+              Loading...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
 
 </div>
 
 
 <script>
-const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-const supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
+const SUPABASE_URL =
+"https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_VyaVcI_yPlsg0aTfd5ZpU_t--2_Nov";
+
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-let currentAccessToken = null;
 
-async function getSessionUser(){
-    const { data, error } = await supabaseClient.auth.getSession();
+let currentUser = null;
+let documents = [];
+let editingId = null;
 
-    if(error || !data.session){
-        location.href = "auth.html";
-        return null;
-    }
 
-    currentAccessToken = data.session.access_token;
-    return data.session.user;
+/* API HEADERS */
+
+function apiHeaders(extra = {}){
+
+  return {
+
+    "apikey": SUPABASE_KEY,
+
+    "Authorization":
+      "Bearer " + SUPABASE_KEY,
+
+    "Content-Type":
+      "application/json",
+
+    ...extra
+
+  };
+
 }
 
-function apiHeaders(){
-    return {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + currentAccessToken,
-        "Content-Type": "application/json"
-    };
+
+/* MESSAGE */
+
+function showMessage(
+  text,
+  type = "success"
+){
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+  box.style.display = "block";
+
+
+  setTimeout(
+    () => {
+      box.style.display = "none";
+    },
+    4000
+  );
+
 }
+
+
+/* DASHBOARD */
 
 function goDashboard(){
-    location.href="super-admin.html";
+
+  window.location.href =
+    "super-admin.html";
+
 }
+
+
+/* LOGOUT */
 
 async function logout(){
-    try{
-        await supabaseClient.auth.signOut();
-    }catch(e){}
-    currentAccessToken = null;
-    location.href="auth.html";
+
+  try{
+
+    await supabaseClient.auth.signOut();
+
+  }catch(e){}
+
+  localStorage.removeItem(
+    "supabase_access_token"
+  );
+
+  localStorage.removeItem(
+    "supabase_refresh_token"
+  );
+
+  window.location.href =
+    "auth.html";
+
 }
 
-</script>
-function showMessage(text,type="success"){
-    const box=document.getElementById("message");
 
-    box.textContent=text;
-    box.className="message " + type;
-    box.style.display="block";
+/* AUTH CHECK */
 
-    setTimeout(()=>{
-        box.style.display="none";
-    },4000);
+async function checkAuth(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.getSession();
+
+
+  if(
+    error ||
+    !data.session
+  ){
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+
+  }
+
+
+  currentUser =
+    data.session.user;
+
+  return true;
+
 }
 
-function goDashboard(){
-    location.href="super-admin.html";
-}
 
-async function logout(){
-    const token=getSupabaseAccessToken();
-
-    try{
-        if(token){
-            await fetch(
-                SUPABASE_URL + "/auth/v1/logout",
-                {
-                    method:"POST",
-                    headers:apiHeaders()
-                }
-            );
-        }
-    }catch(e){}
-
-    clearLegacyAuth();
-    localStorage.removeItem("supabase_refresh_token");
-
-    location.href="auth.html";
-}
+/* LOAD DOCUMENTS */
 
 async function loadDocuments(){
 
-    document.getElementById("loading").classList.remove("hidden");
-    document.getElementById("documentsTable").classList.add("hidden");
-
-    const res=await fetch(
-        SUPABASE_URL +
-        "/rest/v1/documents?select=*&order=display_order.asc,created_at.desc",
-        {
-            headers:apiHeaders()
-        }
+  const body =
+    document.getElementById(
+      "documentsBody"
     );
 
+
+  body.innerHTML =
+    '<tr><td colspan="8">Loading...</td></tr>';
+
+
+  try{
+
+    const res =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/documents?select=*&order=display_order.asc,created_at.desc",
+
+        {
+          headers:
+            apiHeaders()
+        }
+
+      );
+
+
     if(!res.ok){
-        const err=await res.text();
-        console.error(err);
 
-        document.getElementById("loading").textContent=
-            "Unable to load documents.";
+      throw new Error(
+        await res.text()
+      );
 
-        showMessage("Documents load failed.","error");
-        return;
     }
 
-    documents=await res.json();
+
+    documents =
+      await res.json();
+
 
     updateStats();
+
     renderDocuments();
 
-    document.getElementById("loading").classList.add("hidden");
-    document.getElementById("documentsTable").classList.remove("hidden");
+
+  }catch(err){
+
+    console.error(err);
+
+    body.innerHTML =
+      '<tr><td colspan="8">Unable to load documents.</td></tr>';
+
+
+    showMessage(
+      "Documents load failed: " +
+      err.message,
+      "error"
+    );
+
+  }
+
 }
+
+
+/* STATISTICS */
 
 function updateStats(){
 
-    document.getElementById("totalCount").textContent=documents.length;
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    documents.length;
 
-    document.getElementById("publishedCount").textContent=
-        documents.filter(x=>x.is_published===true).length;
 
-    document.getElementById("activeCount").textContent=
-        documents.filter(x=>x.is_active===true).length;
+  document.getElementById(
+    "publishedCount"
+  ).textContent =
+    documents.filter(
+      x => x.is_published === true
+    ).length;
 
-    document.getElementById("inactiveCount").textContent=
-        documents.filter(x=>x.is_active===false).length;
+
+  document.getElementById(
+    "activeCount"
+  ).textContent =
+    documents.filter(
+      x => x.is_active === true
+    ).length;
+
 }
+
+
+/* ESCAPE HTML */
+
+function esc(value){
+
+  return String(
+    value ?? ""
+  )
+
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
+}
+
+
+/* RENDER */
 
 function renderDocuments(){
 
-    const search=
-        document.getElementById("searchInput").value
-        .trim()
+  const body =
+    document.getElementById(
+      "documentsBody"
+    );
+
+
+  const search =
+    document.getElementById(
+      "searchInput"
+    ).value
+     .trim()
+     .toLowerCase();
+
+
+  const filtered =
+    documents.filter(
+      doc => {
+
+        const text = [
+
+          doc.title,
+          doc.description,
+          doc.document_type,
+          doc.financial_year
+
+        ]
+        .join(" ")
         .toLowerCase();
 
-    const publishedFilter=
-        document.getElementById("filterPublished").value;
 
-    const activeFilter=
-        document.getElementById("filterActive").value;
+        return (
+          !search ||
+          text.includes(search)
+        );
 
-    let filtered=documents.filter(doc=>{
+      }
+    );
 
-        const text=(
-            (doc.title||"") + " " +
-            (doc.description||"") + " " +
-            (doc.document_type||"") + " " +
-            (doc.financial_year||"")
-        ).toLowerCase();
 
-        if(search && !text.includes(search)){
-            return false;
-        }
+  body.innerHTML = "";
 
-        if(
-            publishedFilter!=="" &&
-            String(doc.is_published)!==publishedFilter
-        ){
-            return false;
-        }
 
-        if(
-            activeFilter!=="" &&
-            String(doc.is_active)!==activeFilter
-        ){
-            return false;
-        }
+  if(filtered.length === 0){
 
-        return true;
-    });
+    body.innerHTML =
+      '<tr><td colspan="8">No documents found.</td></tr>';
 
-    const body=document.getElementById("documentsBody");
+    return;
 
-    body.innerHTML="";
+  }
 
-    if(filtered.length===0){
-        body.innerHTML=`
-            <tr>
-                <td colspan="9" style="text-align:center;padding:25px">
-                    No documents found.
-                </td>
-            </tr>
-        `;
-        return;
+
+  filtered.forEach(
+    (doc,index) => {
+
+      const tr =
+        document.createElement(
+          "tr"
+        );
+
+
+      tr.innerHTML = `
+
+        <td>
+          ${index + 1}
+        </td>
+
+
+        <td>
+
+          <b>
+            ${esc(doc.title)}
+          </b>
+
+          <br>
+
+          <span class="small">
+            ${esc(
+              doc.description || ""
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+          ${esc(
+            doc.document_type || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${esc(
+            doc.financial_year || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${doc.display_order ?? 0}
+        </td>
+
+
+        <td>
+
+          ${
+            doc.is_active
+
+            ? '<span class="badge active">Active</span>'
+
+            : '<span class="badge inactive">Inactive</span>'
+          }
+
+          <br>
+
+          ${
+            doc.is_published
+
+            ? '<span class="badge published">Published</span>'
+
+            : '<span class="badge hidden-badge">Hidden</span>'
+          }
+
+        </td>
+
+
+        <td>
+
+          ${
+            doc.document_url
+
+            ? `<a
+                class="link"
+                href="${esc(doc.document_url)}"
+                target="_blank"
+                rel="noopener">
+                View
+               </a>`
+
+            : "-"
+          }
+
+        </td>
+
+
+        <td>
+
+          <div class="actions">
+
+            <button
+              onclick="editDocument('${doc.id}')">
+              Edit
+            </button>
+
+
+            <button
+              onclick="togglePublish(
+                '${doc.id}',
+                ${!doc.is_published}
+              )">
+
+              ${
+                doc.is_published
+                ? "Hide"
+                : "Publish"
+              }
+
+            </button>
+
+
+            <button
+              onclick="toggleActive(
+                '${doc.id}',
+                ${!doc.is_active}
+              )">
+
+              ${
+                doc.is_active
+                ? "Deactivate"
+                : "Activate"
+              }
+
+            </button>
+
+
+            <button
+              class="btn-red"
+              onclick="deleteDocument('${doc.id}')">
+
+              Delete
+
+            </button>
+
+          </div>
+
+        </td>
+
+      `;
+
+
+      body.appendChild(tr);
+
     }
+  );
 
-    filtered.forEach((doc,index)=>{
-
-        const tr=document.createElement("tr");
-
-        tr.innerHTML=`
-            <td>${index+1}</td>
-
-            <td>
-                <strong>${escapeHtml(doc.title||"")}</strong>
-                ${
-                    doc.description
-                    ? `<br><small>${escapeHtml(doc.description)}</small>`
-                    : ""
-                }
-            </td>
-
-            <td>${escapeHtml(doc.document_type||"-")}</td>
-
-            <td>${escapeHtml(doc.financial_year||"-")}</td>
-
-            <td>${doc.display_order ?? 0}</td>
-
-            <td>
-                ${
-                    doc.is_active
-                    ? '<span class="badge badge-green">Active</span>'
-                    : '<span class="badge badge-red">Inactive</span>'
-                }
-            </td>
-
-            <td>
-                ${
-                    doc.is_published
-                    ? '<span class="badge badge-blue">Published</span>'
-                    : '<span class="badge badge-yellow">Hidden</span>'
-                }
-            </td>
-
-            <td>
-                ${
-                    doc.document_url
-                    ? `<a href="${escapeAttribute(doc.document_url)}"
-                           target="_blank"
-                           rel="noopener"
-                           class="btn-secondary"
-                           style="display:inline-block;padding:7px 10px;border-radius:6px;color:white;text-decoration:none">
-                           View
-                       </a>`
-                    : "-"
-                }
-            </td>
-
-            <td>
-                <div class="actions">
-
-                    <button
-                        class="btn-primary"
-                        onclick="editDocument('${doc.id}')">
-                        Edit
-                    </button>
-
-                    <button
-                        class="${doc.is_published?'btn-warning':'btn-success'}"
-                        onclick="togglePublish('${doc.id}',${!doc.is_published})">
-                        ${doc.is_published?'Hide':'Publish'}
-                    </button>
-
-                    <button
-                        class="${doc.is_active?'btn-warning':'btn-success'}"
-                        onclick="toggleActive('${doc.id}',${!doc.is_active})">
-                        ${doc.is_active?'Deactivate':'Activate'}
-                    </button>
-
-                    <button
-                        class="btn-danger"
-                        onclick="deleteDocument('${doc.id}')">
-                        Delete
-                    </button>
-
-                </div>
-            </td>
-        `;
-
-        body.appendChild(tr);
-    });
 }
 
-function escapeHtml(value){
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-}
 
-function escapeAttribute(value){
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;");
-}
+/* RESET FORM */
 
 function resetForm(){
 
-    editingId=null;
+  editingId = null;
 
-    document.getElementById("formTitle").textContent="➕ Add Document";
 
-    document.getElementById("title").value="";
-    document.getElementById("documentType").value="";
-    document.getElementById("financialYear").value="";
-    document.getElementById("displayOrder").value="0";
-    document.getElementById("description").value="";
-    document.getElementById("documentUrl").value="";
-    document.getElementById("isActive").value="true";
-    document.getElementById("isPublished").value="false";
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "➕ Add Document";
 
-    document.getElementById("cancelBtn").classList.add("hidden");
+
+  document.getElementById(
+    "title"
+  ).value = "";
+
+
+  document.getElementById(
+    "documentType"
+  ).value = "";
+
+
+  document.getElementById(
+    "financialYear"
+  ).value = "";
+
+
+  document.getElementById(
+    "documentUrl"
+  ).value = "";
+
+
+  document.getElementById(
+    "displayOrder"
+  ).value = "0";
+
+
+  document.getElementById(
+    "description"
+  ).value = "";
+
+
+  document.getElementById(
+    "isActive"
+  ).checked = true;
+
+
+  document.getElementById(
+    "isPublished"
+  ).checked = false;
+
+
+  document.getElementById(
+    "cancelBtn"
+  ).classList.add(
+    "hidden"
+  );
+
 }
+
+
+/* EDIT */
 
 function editDocument(id){
 
-    const doc=documents.find(x=>x.id===id);
+  const doc =
+    documents.find(
+      x => x.id === id
+    );
 
-    if(!doc)return;
 
-    editingId=id;
+  if(!doc) return;
 
-    document.getElementById("formTitle").textContent="✏️ Edit Document";
 
-    document.getElementById("title").value=doc.title||"";
-    document.getElementById("documentType").value=doc.document_type||"";
-    document.getElementById("financialYear").value=doc.financial_year||"";
-    document.getElementById("displayOrder").value=doc.display_order ?? 0;
-    document.getElementById("description").value=doc.description||"";
-    document.getElementById("documentUrl").value=doc.document_url||"";
-    document.getElementById("isActive").value=String(doc.is_active);
-    document.getElementById("isPublished").value=String(doc.is_published);
+  editingId = id;
 
-    document.getElementById("cancelBtn").classList.remove("hidden");
 
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
+  document.getElementById(
+    "formTitle"
+  ).textContent =
+    "✏️ Edit Document";
+
+
+  document.getElementById(
+    "title"
+  ).value =
+    doc.title || "";
+
+
+  document.getElementById(
+    "documentType"
+  ).value =
+    doc.document_type || "";
+
+
+  document.getElementById(
+    "financialYear"
+  ).value =
+    doc.financial_year || "";
+
+
+  document.getElementById(
+    "documentUrl"
+  ).value =
+    doc.document_url || "";
+
+
+  document.getElementById(
+    "displayOrder"
+  ).value =
+    doc.display_order ?? 0;
+
+
+  document.getElementById(
+    "description"
+  ).value =
+    doc.description || "";
+
+
+  document.getElementById(
+    "isActive"
+  ).checked =
+    !!doc.is_active;
+
+
+  document.getElementById(
+    "isPublished"
+  ).checked =
+    !!doc.is_published;
+
+
+  document.getElementById(
+    "cancelBtn"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
+
+
+/* SAVE */
 
 async function saveDocument(){
 
-    const title=document.getElementById("title").value.trim();
+  const title =
+    document.getElementById(
+      "title"
+    ).value.trim();
 
-    if(!title){
-        showMessage("Document Title is required.","error");
-        return;
-    }
 
-    const payload={
-        title:title,
-        description:document.getElementById("description").value.trim() || null,
-        document_type:document.getElementById("documentType").value || null,
-        document_url:document.getElementById("documentUrl").value.trim() || null,
-        financial_year:document.getElementById("financialYear").value.trim() || null,
-        display_order:Number(document.getElementById("displayOrder").value)||0,
-        is_active:document.getElementById("isActive").value==="true",
-        is_published:document.getElementById("isPublished").value==="true"
-    };
+  if(!title){
 
-    let url=SUPABASE_URL+"/rest/v1/documents";
-    let method="POST";
+    showMessage(
+      "Document Title is required.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const payload = {
+
+    title,
+
+    description:
+      document.getElementById(
+        "description"
+      ).value.trim() || null,
+
+
+    document_type:
+      document.getElementById(
+        "documentType"
+      ).value || null,
+
+
+    document_url:
+      document.getElementById(
+        "documentUrl"
+      ).value.trim() || null,
+
+
+    financial_year:
+      document.getElementById(
+        "financialYear"
+      ).value.trim() || null,
+
+
+    display_order:
+      Number(
+        document.getElementById(
+          "displayOrder"
+        ).value
+      ) || 0,
+
+
+    is_active:
+      document.getElementById(
+        "isActive"
+      ).checked,
+
+
+    is_published:
+      document.getElementById(
+        "isPublished"
+      ).checked
+
+  };
+
+
+  try{
+
+    let res;
+
 
     if(editingId){
-        url += "?id=eq."+encodeURIComponent(editingId);
-        method="PATCH";
+
+      res =
+        await fetch(
+
+          SUPABASE_URL +
+          "/rest/v1/documents?id=eq." +
+          encodeURIComponent(
+            editingId
+          ),
+
+          {
+
+            method:"PATCH",
+
+            headers:
+              apiHeaders({
+                "Prefer":
+                  "return=minimal"
+              }),
+
+            body:
+              JSON.stringify(
+                payload
+              )
+
+          }
+
+        );
+
     }else{
-        payload.created_by=currentUser.id;
+
+      payload.created_by =
+        currentUser.id;
+
+
+      res =
+        await fetch(
+
+          SUPABASE_URL +
+          "/rest/v1/documents",
+
+          {
+
+            method:"POST",
+
+            headers:
+              apiHeaders({
+                "Prefer":
+                  "return=minimal"
+              }),
+
+            body:
+              JSON.stringify(
+                payload
+              )
+
+          }
+
+        );
+
     }
 
-    const res=await fetch(url,{
-        method:method,
-        headers:{
-            ...apiHeaders(),
-            "Prefer": editingId
-                ? "return=representation"
-                : "return=representation"
-        },
-        body:JSON.stringify(payload)
-    });
 
     if(!res.ok){
-        const err=await res.text();
-        console.error(err);
 
-        showMessage(
-            "Document save failed: " + err,
-            "error"
-        );
-        return;
+      throw new Error(
+        await res.text()
+      );
+
     }
 
+
     showMessage(
-        editingId
-        ? "Document updated successfully."
-        : "Document added successfully."
+      editingId
+      ? "Document updated successfully."
+      : "Document added successfully."
     );
+
 
     resetForm();
+
     await loadDocuments();
-}
 
-async function togglePublish(id,value){
 
-    const res=await fetch(
-        SUPABASE_URL+
-        "/rest/v1/documents?id=eq."+encodeURIComponent(id),
-        {
-            method:"PATCH",
-            headers:{
-                ...apiHeaders(),
-                "Prefer":"return=minimal"
-            },
-            body:JSON.stringify({
-                is_published:value
-            })
-        }
-    );
+  }catch(err){
 
-    if(!res.ok){
-        showMessage("Publish status update failed.","error");
-        return;
-    }
+    console.error(err);
 
     showMessage(
-        value
-        ? "Document published."
-        : "Document hidden."
+      "Document save failed: " +
+      err.message,
+      "error"
     );
 
-    await loadDocuments();
+  }
+
 }
 
-async function toggleActive(id,value){
 
-    const res=await fetch(
-        SUPABASE_URL+
-        "/rest/v1/documents?id=eq."+encodeURIComponent(id),
+/* PUBLISH / HIDE */
+
+async function togglePublish(
+  id,
+  value
+){
+
+  try{
+
+    const res =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/documents?id=eq." +
+        encodeURIComponent(id),
+
         {
-            method:"PATCH",
-            headers:{
-                ...apiHeaders(),
-                "Prefer":"return=minimal"
-            },
-            body:JSON.stringify({
-                is_active:value
+
+          method:"PATCH",
+
+          headers:
+            apiHeaders({
+              "Prefer":
+                "return=minimal"
+            }),
+
+          body:
+            JSON.stringify({
+              is_published:value
             })
+
         }
-    );
+
+      );
+
 
     if(!res.ok){
-        showMessage("Active status update failed.","error");
-        return;
+
+      throw new Error(
+        await res.text()
+      );
+
     }
+
 
     showMessage(
-        value
-        ? "Document activated."
-        : "Document deactivated."
+      value
+      ? "Document published."
+      : "Document hidden."
     );
+
 
     await loadDocuments();
+
+
+  }catch(err){
+
+    showMessage(
+      "Publish status update failed: " +
+      err.message,
+      "error"
+    );
+
+  }
+
 }
 
-async function deleteDocument(id){
 
-    const doc=documents.find(x=>x.id===id);
+/* ACTIVE / INACTIVE */
 
-    if(!doc)return;
+async function toggleActive(
+  id,
+  value
+){
 
-    if(!confirm(
-        `Delete "${doc.title}" permanently?`
-    )){
-        return;
-    }
+  try{
 
-    const res=await fetch(
-        SUPABASE_URL+
-        "/rest/v1/documents?id=eq."+encodeURIComponent(id),
+    const res =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/documents?id=eq." +
+        encodeURIComponent(id),
+
         {
-            method:"DELETE",
-            headers:{
-                ...apiHeaders(),
-                "Prefer":"return=minimal"
-            }
+
+          method:"PATCH",
+
+          headers:
+            apiHeaders({
+              "Prefer":
+                "return=minimal"
+            }),
+
+          body:
+            JSON.stringify({
+              is_active:value
+            })
+
         }
-    );
+
+      );
+
 
     if(!res.ok){
-        const err=await res.text();
-        console.error(err);
 
-        showMessage(
-            "Delete failed: " + err,
-            "error"
-        );
-        return;
+      throw new Error(
+        await res.text()
+      );
+
     }
 
-    showMessage("Document deleted successfully.");
+
+    showMessage(
+      value
+      ? "Document activated."
+      : "Document deactivated."
+    );
+
 
     await loadDocuments();
+
+
+  }catch(err){
+
+    showMessage(
+      "Active status update failed: " +
+      err.message,
+      "error"
+    );
+
+  }
+
 }
 
-async function init(){
 
-    currentUser=await getSessionUser();
+/* DELETE */
 
-    if(!currentUser)return;
+async function deleteDocument(
+  id
+){
+
+  const doc =
+    documents.find(
+      x => x.id === id
+    );
+
+
+  if(!doc) return;
+
+
+  if(
+    !confirm(
+      'Delete "' +
+      (doc.title ||
+       "this document") +
+      '"?'
+    )
+  ){
+
+    return;
+
+  }
+
+
+  try{
+
+    const res =
+      await fetch(
+
+        SUPABASE_URL +
+        "/rest/v1/documents?id=eq." +
+        encodeURIComponent(id),
+
+        {
+
+          method:"DELETE",
+
+          headers:
+            apiHeaders({
+              "Prefer":
+                "return=minimal"
+            })
+
+        }
+
+      );
+
+
+    if(!res.ok){
+
+      throw new Error(
+        await res.text()
+      );
+
+    }
+
+
+    showMessage(
+      "Document deleted."
+    );
+
+
+    if(editingId === id){
+
+      resetForm();
+
+    }
+
 
     await loadDocuments();
+
+
+  }catch(err){
+
+    showMessage(
+      "Document delete failed: " +
+      err.message,
+      "error"
+    );
+
+  }
+
 }
 
-init();
+
+/* START */
+
+(async function(){
+
+  const ok =
+    await checkAuth();
+
+
+  if(ok){
+
+    await loadDocuments();
+
+  }
+
+})();
+
 </script>
 
 </body>
