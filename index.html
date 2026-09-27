@@ -76,12 +76,11 @@ header{
   width:52px;
   height:52px;
   border-radius:50%;
+  overflow:hidden;
   background:#f4c542;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
-  flex-shrink:0;
 }
 
 .logo-icon img{
@@ -167,23 +166,20 @@ nav a:hover{
 /* HERO */
 
 .hero{
-  min-height:520px;
-
+  min-height:575px;
   background:
-    linear-gradient(rgba(60,15,5,.55),rgba(60,15,5,.65)),
+    linear-gradient(rgba(40,10,5,.48),rgba(40,10,5,.62)),
     url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
     center/cover;
-
   display:flex;
   align-items:center;
   color:white;
-
   transition:background-image .3s ease;
 }
 
 .hero-content{
   max-width:760px;
-  padding:70px 0;
+  padding:80px 0;
 }
 
 .hero h2{
@@ -298,36 +294,6 @@ section{
   font-size:14px;
 }
 
-/* PHOTO CARDS */
-
-.photo-card{
-  background:#fff;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
-}
-
-.photo-card img{
-  width:100%;
-  height:260px;
-  object-fit:cover;
-  display:block;
-}
-
-.photo-card-content{
-  padding:20px;
-}
-
-.photo-card h3{
-  color:#7b1e1e;
-  margin-bottom:7px;
-}
-
-.photo-card p{
-  color:#666;
-  font-size:14px;
-}
-
 /* JATRA */
 
 .jatra{
@@ -347,7 +313,7 @@ section{
   margin-bottom:10px;
 }
 
-/* QUICK LINKS */
+/* QUICK */
 
 .quick{
   background:#7b1e1e;
@@ -494,10 +460,6 @@ footer a{
   .notice-inner{
     align-items:flex-start;
   }
-
-  .photo-card img{
-    height:230px;
-  }
 }
 </style>
 </head>
@@ -513,21 +475,15 @@ footer a{
   </div>
 </div>
 
-
 <!-- HEADER -->
 
 <header>
-
   <div class="container header-inner">
 
     <a href="index.html" class="logo">
 
       <div class="logo-icon">
-        <img
-          id="siteLogo"
-          src=""
-          alt="Maa Basuli Uda Jatra Committee Logo"
-        >
+        <img id="headerLogo" src="" alt="Maa Basuli Logo">
       </div>
 
       <div class="logo-text">
@@ -556,14 +512,11 @@ footer a{
     </nav>
 
   </div>
-
 </header>
-
 
 <!-- NOTICE -->
 
 <div class="notice-bar">
-
   <div class="container notice-inner">
 
     <div class="notice-title">
@@ -571,18 +524,14 @@ footer a{
     </div>
 
     <div class="notice-scroll">
-
       <span>
-        Maa Basuli Uda Jatra Committee — Official Website
-        | Important notices will appear here.
+        Maa Basuli Uda Jatra Committee — Official Website |
+        Important notices will appear here.
       </span>
-
     </div>
 
   </div>
-
 </div>
-
 
 <!-- HERO -->
 
@@ -628,7 +577,6 @@ footer a{
 
 </section>
 
-
 <!-- ABOUT -->
 
 <section>
@@ -636,72 +584,43 @@ footer a{
   <div class="container">
 
     <div class="section-title">
-
       <h2>About Maa Basuli Uda Jatra</h2>
-
-      <p>
-        Tradition • Culture • Devotion • Community
-      </p>
-
+      <p>Tradition • Culture • Devotion • Community</p>
     </div>
-
 
     <div class="grid">
 
-      <div class="photo-card">
+      <div class="card">
+        <div class="card-icon">🙏</div>
 
-        <img
-          id="maaBasuliPhoto"
-          src=""
-          alt="Maa Basuli"
-        >
+        <h3>Our Temple</h3>
 
-        <div class="photo-card-content">
+        <p>
+          Learn about Maa Basuli Temple, its cultural importance
+          and the traditions associated with the sacred place.
+        </p>
 
-          <h3>🙏 Maa Basuli</h3>
-
-          <p>
-            Learn about Maa Basuli, her sacred tradition,
-            cultural importance and religious heritage.
-          </p>
-
-          <a href="about.html" class="card-link">
-            Read More →
-          </a>
-
-        </div>
-
+        <a href="about.html" class="card-link">
+          Read More →
+        </a>
       </div>
-
-
-      <div class="photo-card">
-
-        <img
-          id="templePhoto"
-          src=""
-          alt="Maa Basuli Temple"
-        >
-
-        <div class="photo-card-content">
-
-          <h3>🏛️ Maa Basuli Temple</h3>
-
-          <p>
-            Learn about Maa Basuli Temple, its cultural importance
-            and traditions associated with this sacred place.
-          </p>
-
-          <a href="about.html" class="card-link">
-            Temple Information →
-          </a>
-
-        </div>
-
-      </div>
-
 
       <div class="card">
+        <div class="card-icon">🎉</div>
 
+        <h3>Uda Jatra</h3>
+
+        <p>
+          Explore the history, rituals, programmes and important
+          dates of Maa Basuli Uda Jatra.
+        </p>
+
+        <a href="jatra.html" class="card-link">
+          Explore Jatra →
+        </a>
+      </div>
+
+      <div class="card">
         <div class="card-icon">👥</div>
 
         <h3>Committee</h3>
@@ -714,7 +633,6 @@ footer a{
         <a href="members.html" class="card-link">
           View Members →
         </a>
-
       </div>
 
     </div>
@@ -723,7 +641,6 @@ footer a{
 
 </section>
 
-
 <!-- JATRA -->
 
 <section class="jatra">
@@ -731,13 +648,9 @@ footer a{
   <div class="container">
 
     <div class="section-title">
-
       <h2>Featured Uda Jatra</h2>
-
       <p>Annual cultural and religious celebration</p>
-
     </div>
-
 
     <div class="grid">
 
@@ -756,7 +669,6 @@ footer a{
 
       </div>
 
-
       <div class="jatra-card">
 
         <h3>🌺 Jatra Archive</h3>
@@ -771,7 +683,6 @@ footer a{
         </a>
 
       </div>
-
 
       <div class="jatra-card">
 
@@ -794,7 +705,6 @@ footer a{
 
 </section>
 
-
 <!-- QUICK SERVICES -->
 
 <section class="quick">
@@ -802,22 +712,14 @@ footer a{
   <div class="container">
 
     <div class="section-title">
-
       <h2>Quick Services</h2>
-
-      <p>
-        Important committee services and information
-      </p>
-
+      <p>Important committee services and information</p>
     </div>
-
 
     <div class="grid">
 
       <div class="card">
-
         <div class="card-icon">💰</div>
-
         <h3>Fund & Donation</h3>
 
         <p>
@@ -828,14 +730,10 @@ footer a{
         <a href="fund.html" class="card-link">
           Open Fund →
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">📢</div>
-
         <h3>Notices</h3>
 
         <p>
@@ -845,14 +743,10 @@ footer a{
         <a href="notices.html" class="card-link">
           View Notices →
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">🖼️</div>
-
         <h3>Gallery</h3>
 
         <p>
@@ -863,14 +757,10 @@ footer a{
         <a href="gallery.html" class="card-link">
           Open Gallery →
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">📝</div>
-
         <h3>Complaint Box</h3>
 
         <p>
@@ -881,14 +771,10 @@ footer a{
         <a href="complaint.html" class="card-link">
           Submit Complaint →
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">🧾</div>
-
         <h3>Member Fee</h3>
 
         <p>
@@ -898,14 +784,10 @@ footer a{
         <a href="member-fee.html" class="card-link">
           Member Fee →
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">📞</div>
-
         <h3>Contact</h3>
 
         <p>
@@ -916,7 +798,6 @@ footer a{
         <a href="contact.html" class="card-link">
           Contact Us →
         </a>
-
       </div>
 
     </div>
@@ -925,7 +806,6 @@ footer a{
 
 </section>
 
-
 <!-- LOGIN -->
 
 <section>
@@ -933,22 +813,14 @@ footer a{
   <div class="container">
 
     <div class="section-title">
-
       <h2>Committee Login</h2>
-
-      <p>
-        Secure access for Members, Admins and Super Admin
-      </p>
-
+      <p>Secure access for Members, Admins and Super Admin</p>
     </div>
-
 
     <div class="grid">
 
       <div class="card">
-
         <div class="card-icon">👤</div>
-
         <h3>Member Login</h3>
 
         <p>
@@ -958,14 +830,10 @@ footer a{
         <a href="auth.html" class="btn btn-primary">
           Member Login
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">🛡️</div>
-
         <h3>Admin Login</h3>
 
         <p>
@@ -976,14 +844,10 @@ footer a{
         <a href="auth.html" class="btn btn-primary">
           Admin Login
         </a>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">👑</div>
-
         <h3>Super Admin</h3>
 
         <p>
@@ -994,7 +858,6 @@ footer a{
         <a href="auth.html" class="btn btn-primary">
           Super Admin Login
         </a>
-
       </div>
 
     </div>
@@ -1002,7 +865,6 @@ footer a{
   </div>
 
 </section>
-
 
 <!-- FOOTER -->
 
@@ -1027,7 +889,6 @@ footer a{
 
       </div>
 
-
       <div>
 
         <h3>Quick Links</h3>
@@ -1040,7 +901,6 @@ footer a{
         <a href="members.html">Our Members</a>
 
       </div>
-
 
       <div>
 
@@ -1056,41 +916,31 @@ footer a{
 
     </div>
 
-
     <div class="copyright">
-
       © 2026 Maa Basuli Uda Jatra Committee.
       All Rights Reserved.
-
     </div>
 
   </div>
 
 </footer>
 
-
 <script>
 
-/* ================================
-   SUPABASE
-================================ */
-
 const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
+"https://ynymqntcawobcfccoekb.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+"sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
-/* ================================
-   MOBILE MENU
-================================ */
+/* MENU */
 
 function toggleMenu(){
 
@@ -1102,9 +952,7 @@ function toggleMenu(){
 }
 
 
-/* ================================
-   LOAD WEBSITE SETTINGS
-================================ */
+/* LOAD WEBSITE SETTINGS */
 
 async function loadWebsiteSettings(){
 
@@ -1115,23 +963,17 @@ async function loadWebsiteSettings(){
         .from("website_settings")
         .select(`
           logo_url,
-          maa_basuli_url,
-          temple_url,
-          group_photo_url,
-          site_name,
-          site_title
+          group_photo_url
         `)
         .eq("is_active", true)
-        .order("created_at", {
-          ascending:false
-        })
+        .order("created_at", { ascending:false })
         .limit(1)
         .maybeSingle();
 
     if(error){
 
       console.error(
-        "Website settings load error:",
+        "Website settings error:",
         error
       );
 
@@ -1139,58 +981,32 @@ async function loadWebsiteSettings(){
     }
 
     if(!data){
-
       console.log(
         "No active website settings found."
       );
-
       return;
     }
 
 
-    /* LOGO */
+    /* OFFICIAL LOGO */
 
     if(data.logo_url){
 
       const logo =
-        document.getElementById("siteLogo");
-
-      logo.src = data.logo_url;
-
-    }
-
-
-    /* MAA BASULI PHOTO */
-
-    if(data.maa_basuli_url){
-
-      const maaPhoto =
         document.getElementById(
-          "maaBasuliPhoto"
+          "headerLogo"
         );
 
-      maaPhoto.src =
-        data.maa_basuli_url;
+      if(logo){
+
+        logo.src = data.logo_url;
+
+      }
 
     }
 
 
-    /* TEMPLE PHOTO */
-
-    if(data.temple_url){
-
-      const templePhoto =
-        document.getElementById(
-          "templePhoto"
-        );
-
-      templePhoto.src =
-        data.temple_url;
-
-    }
-
-
-    /* GROUP PHOTO → HERO BACKGROUND */
+    /* COMMITTEE GROUP PHOTO */
 
     if(data.group_photo_url){
 
@@ -1199,48 +1015,21 @@ async function loadWebsiteSettings(){
           "heroSection"
         );
 
-      hero.style.backgroundImage =
-        `linear-gradient(
-          rgba(60,15,5,.55),
-          rgba(60,15,5,.65)
-        ),
-        url("${data.group_photo_url}")`;
+      if(hero){
 
-    }
+        hero.style.backgroundImage =
+          "linear-gradient(rgba(40,10,5,.48),rgba(40,10,5,.62)), url('" +
+          data.group_photo_url +
+          "')";
 
-
-    /* SITE TITLE */
-
-    if(data.site_title){
-
-      document.title =
-        data.site_title;
-
-    }
-
-
-    /* SITE NAME */
-
-    if(data.site_name){
-
-      const headings =
-        document.querySelectorAll(
-          ".logo-text h1"
-        );
-
-      headings.forEach(function(el){
-
-        el.textContent =
-          data.site_name;
-
-      });
+      }
 
     }
 
   }catch(error){
 
     console.error(
-      "Unexpected website settings error:",
+      "Settings load failed:",
       error
     );
 
@@ -1249,17 +1038,11 @@ async function loadWebsiteSettings(){
 }
 
 
-/* ================================
-   START
-================================ */
+/* START */
 
 document.addEventListener(
   "DOMContentLoaded",
-  function(){
-
-    loadWebsiteSettings();
-
-  }
+  loadWebsiteSettings
 );
 
 </script>
