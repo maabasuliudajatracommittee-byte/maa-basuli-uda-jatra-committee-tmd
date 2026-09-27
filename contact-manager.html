@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Management - Maa Basuli Uda Jatra Committee</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f7fb;
+    color:#222;
+}
+header{
+    background:#7b1e1e;
+    color:#fff;
+    padding:16px 22px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+header h1{margin:0;font-size:21px}
+header small{opacity:.9}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+button{
+    border:0;
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:600;
+}
+.btn-light{background:#fff;color:#7b1e1e}
+.btn-primary{background:#7b1e1e;color:#fff}
+.btn-success{background:#198754;color:#fff}
+.btn-warning{background:#f0ad4e;color:#fff}
+.btn-danger{background:#dc3545;color:#fff}
+.btn-secondary{background:#6c757d;color:#fff}
+
+.container{
+    max-width:1250px;
+    margin:25px auto;
+    padding:0 15px;
+}
+.card{
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+.card h2{
+    margin-top:0;
+    color:#7b1e1e;
+    font-size:20px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+.stat{
+    background:#fff;
+    padding:18px;
+    border-radius:10px;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+}
+.stat h3{
+    margin:0 0 8px;
+    font-size:14px;
+    color:#666;
+}
+.stat strong{
+    font-size:27px;
+    color:#7b1e1e;
+}
+
+.search-row{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:10px;
+    margin-bottom:18px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #ccc;
+    border-radius:7px;
+    font-size:14px;
+}
+textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.table-wrap{overflow-x:auto}
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
+}
+th,td{
+    padding:11px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+    vertical-align:top;
+}
+th{
+    background:#f3f3f3;
+    color:#555;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+}
+.badge-green{background:#d1e7dd;color:#0f5132}
+.badge-red{background:#f8d7da;color:#842029}
+.badge-yellow{background:#fff3cd;color:#664d03}
+.badge-blue{background:#cfe2ff;color:#084298}
+.badge-gray{background:#e2e3e5;color:#41464b}
+
+.actions{
+    display:flex;
+    gap:5px;
+    flex-wrap:wrap;
+}
+.actions button{
+    padding:7px 10px;
+    font-size:12px;
+}
+
+.reply-box{
+    min-width:250px;
+}
+
+.message{
+    padding:12px;
+    border-radius:7px;
+    margin-bottom:15px;
+    display:none;
+}
+.success{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+.error{
+    background:#f8d7da;
+    color:#842029;
+}
+
+#loading{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+
+.hidden{display:none!important}
+
+@media(max-width:1000px){
+    .stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:700px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .search-row{grid-template-columns:1fr}
+}
+@media(max-width:450px){
+    .stats{grid-template-columns:1fr}
+    header h1{font-size:17px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <h1>📞 Contact Management</h1>
+        <small>Maa Basuli Uda Jatra Committee</small>
+    </div>
+
+    <div class="top-actions">
+        <button class="btn-light" onclick="goDashboard()">Dashboard</button>
+        <button class="btn-light" onclick="loadMessages()">Refresh</button>
+        <button class="btn-danger" onclick="logout()">Logout</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <div id="messageBox" class="message"></div>
+
+    <div class="stats">
+        <div class="stat">
+            <h3>Total Messages</h3>
+            <strong id="totalCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>New</h3>
+            <strong id="newCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>In Progress</h3>
+            <strong id="progressCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>Resolved</h3>
+            <strong id="resolvedCount">0</strong>
+        </div>
+
+        <div class="stat">
+            <h3>Published</h3>
+            <strong id="publishedCount">0</strong>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📨 Contact / Enquiry Messages</h2>
+
+        <div class="search-row">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search name, mobile, subject, message..."
+                oninput="renderMessages()"
+            >
+
+            <select id="filterStatus" onchange="renderMessages()">
+                <option value="">All Status</option>
+                <option value="New">New</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Resolved">Resolved</option>
+                <option value="Closed">Closed</option>
+            </select>
+
+            <select id="filterPublished" onchange="renderMessages()">
+                <option value="">All Publish Status</option>
+                <option value="true">Published</option>
+                <option value="false">Hidden</option>
+            </select>
+
+        </div>
+
+        <div id="loading">Loading contact messages...</div>
+
+        <div class="table-wrap">
+            <table id="messagesTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Sl.</th>
+                        <th>Name</th>
+                        <th>Contact</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Admin Reply</th>
+                        <th>Published</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="messagesBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+let currentUser = null;
+let messages = [];
+
+function apiHeaders(){
+    const token = localStorage.getItem("supabase_access_token");
+
+    return {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json"
+    };
+}
+
+async function getSessionUser(){
+
+    const token = localStorage.getItem("supabase_access_token");
+
+    if(!token){
+        location.href="login.html";
+        return null;
+    }
+
+    const res = await fetch(
+        SUPABASE_URL + "/auth/v1/user",
+        {
+            headers:{
+                "apikey":SUPABASE_KEY,
+                "Authorization":"Bearer " + token
+            }
+        }
+    );
+
+    if(!res.ok){
+        localStorage.removeItem("supabase_access_token");
+        localStorage.removeItem("supabase_refresh_token");
+        location.href="login.html";
+        return null;
+    }
+
+    return await res.json();
+}
+
+function showMessage(text,type="success"){
+
+    const box=document.getElementById("messageBox");
+
+    box.textContent=text;
+    box.className="message " + type;
+    box.style.display="block";
+
+    setTimeout(()=>{
+        box.style.display="none";
+    },4000);
+}
+
+function goDashboard(){
+    location.href="super-admin.html";
+}
+
+async function logout(){
+
+    const token=localStorage.getItem("supabase_access_token");
+
+    try{
+        if(token){
+            await fetch(
+                SUPABASE_URL + "/auth/v1/logout",
+                {
+                    method:"POST",
+                    headers:apiHeaders()
+                }
+            );
+        }
+    }catch(e){}
+
+    localStorage.removeItem("supabase_access_token");
+    localStorage.removeItem("supabase_refresh_token");
+
+    location.href="login.html";
+}
+
+async function loadMessages(){
+
+    document.getElementById("loading").classList.remove("hidden");
+    document.getElementById("messagesTable").classList.add("hidden");
+
+    const res=await fetch(
+        SUPABASE_URL +
+        "/rest/v1/contact_messages?select=*&order=created_at.desc",
+        {
+            headers:apiHeaders()
+        }
+    );
+
+    if(!res.ok){
+
+        const err=await res.text();
+        console.error(err);
+
+        document.getElementById("loading").textContent=
+            "Unable to load contact messages.";
+
+        showMessage("Contact messages load failed.","error");
+        return;
+    }
+
+    messages=await res.json();
+
+    updateStats();
+    renderMessages();
+
+    document.getElementById("loading").classList.add("hidden");
+    document.getElementById("messagesTable").classList.remove("hidden");
+}
+
+function updateStats(){
+
+    document.getElementById("totalCount").textContent=
+        messages.length;
+
+    document.getElementById("newCount").textContent=
+        messages.filter(x=>x.status==="New").length;
+
+    document.getElementById("progressCount").textContent=
+        messages.filter(x=>x.status==="In Progress").length;
+
+    document.getElementById("resolvedCount").textContent=
+        messages.filter(x=>x.status==="Resolved").length;
+
+    document.getElementById("publishedCount").textContent=
+        messages.filter(x=>x.is_published===true).length;
+}
+
+function renderMessages(){
+
+    const search=
+        document.getElementById("searchInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const statusFilter=
+        document.getElementById("filterStatus").value;
+
+    const publishedFilter=
+        document.getElementById("filterPublished").value;
+
+    const filtered=messages.filter(msg=>{
+
+        const text=(
+            (msg.name||"") + " " +
+            (msg.mobile||"") + " " +
+            (msg.email||"") + " " +
+            (msg.subject||"") + " " +
+            (msg.message||"") + " " +
+            (msg.admin_reply||"")
+        ).toLowerCase();
+
+        if(search && !text.includes(search)){
+            return false;
+        }
+
+        if(
+            statusFilter &&
+            msg.status!==statusFilter
+        ){
+            return false;
+        }
+
+        if(
+            publishedFilter!=="" &&
+            String(msg.is_published)!==publishedFilter
+        ){
+            return false;
+        }
+
+        return true;
+    });
+
+    const body=document.getElementById("messagesBody");
+
+    body.innerHTML="";
+
+    if(filtered.length===0){
+
+        body.innerHTML=`
+            <tr>
+                <td colspan="10"
+                    style="text-align:center;padding:25px">
+                    No contact messages found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    filtered.forEach((msg,index)=>{
+
+        const tr=document.createElement("tr");
+
+        tr.innerHTML=`
+
+            <td>${index+1}</td>
+
+            <td>
+                <strong>${escapeHtml(msg.name||"-")}</strong>
+            </td>
+
+            <td>
+                ${escapeHtml(msg.mobile||"-")}
+                ${
+                    msg.email
+                    ? `<br>${escapeHtml(msg.email)}`
+                    : ""
+                }
+            </td>
+
+            <td>
+                ${escapeHtml(msg.subject||"-")}
+            </td>
+
+            <td style="max-width:260px">
+                ${escapeHtml(msg.message||"-")}
+            </td>
+
+            <td>
+                <select
+                    onchange="changeStatus('${msg.id}',this.value)"
+                    style="min-width:125px"
+                >
+                    <option value="New"
+                        ${msg.status==="New"?"selected":""}>
+                        New
+                    </option>
+
+                    <option value="In Progress"
+                        ${msg.status==="In Progress"?"selected":""}>
+                        In Progress
+                    </option>
+
+                    <option value="Resolved"
+                        ${msg.status==="Resolved"?"selected":""}>
+                        Resolved
+                    </option>
+
+                    <option value="Closed"
+                        ${msg.status==="Closed"?"selected":""}>
+                        Closed
+                    </option>
+                </select>
+            </td>
+
+            <td>
+                <textarea
+                    class="reply-box"
+                    id="reply-${msg.id}"
+                    placeholder="Admin reply..."
+                >${escapeHtml(msg.admin_reply||"")}</textarea>
+
+                <button
+                    class="btn-primary"
+                    style="margin-top:5px"
+                    onclick="saveReply('${msg.id}')">
+                    Save Reply
+                </button>
+            </td>
+
+            <td>
+                ${
+                    msg.is_published
+                    ? '<span class="badge badge-blue">Published</span>'
+                    : '<span class="badge badge-yellow">Hidden</span>'
+                }
+            </td>
+
+            <td>
+                ${formatDate(msg.created_at)}
+            </td>
+
+            <td>
+                <div class="actions">
+
+                    <button
+                        class="${msg.is_published?'btn-warning':'btn-success'}"
+                        onclick="togglePublish(
+                            '${msg.id}',
+                            ${!msg.is_published}
+                        )">
+                        ${msg.is_published?"Hide":"Publish"}
+                    </button>
+
+                    <button
+                        class="btn-danger"
+                        onclick="deleteMessage('${msg.id}')">
+                        Delete
+                    </button>
+
+                </div>
+            </td>
+        `;
+
+        body.appendChild(tr);
+    });
+}
+
+function formatDate(value){
+
+    if(!value)return "-";
+
+    const date=new Date(value);
+
+    return date.toLocaleString("en-IN",{
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+    });
+}
+
+function escapeHtml(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+async function changeStatus(id,status){
+
+    const res=await fetch(
+        SUPABASE_URL+
+        "/rest/v1/contact_messages?id=eq."+
+        encodeURIComponent(id),
+        {
+            method:"PATCH",
+            headers:{
+                ...apiHeaders(),
+                "Prefer":"return=minimal"
+            },
+            body:JSON.stringify({
+                status:status
+            })
+        }
+    );
+
+    if(!res.ok){
+
+        const err=await res.text();
+        console.error(err);
+
+        showMessage(
+            "Status update failed.",
+            "error"
+        );
+
+        return;
+    }
+
+    showMessage("Status updated successfully.");
+
+    await loadMessages();
+}
+
+async function saveReply(id){
+
+    const textarea=document.getElementById("reply-"+id);
+
+    if(!textarea)return;
+
+    const reply=textarea.value.trim();
+
+    const res=await fetch(
+        SUPABASE_URL+
+        "/rest/v1/contact_messages?id=eq."+
+        encodeURIComponent(id),
+        {
+            method:"PATCH",
+            headers:{
+                ...apiHeaders(),
+                "Prefer":"return=minimal"
+            },
+            body:JSON.stringify({
+                admin_reply:reply || null
+            })
+        }
+    );
+
+    if(!res.ok){
+
+        const err=await res.text();
+        console.error(err);
+
+        showMessage(
+            "Reply save failed.",
+            "error"
+        );
+
+        return;
+    }
+
+    showMessage("Admin reply saved successfully.");
+
+    await loadMessages();
+}
+
+async function togglePublish(id,value){
+
+    const res=await fetch(
+        SUPABASE_URL+
+        "/rest/v1/contact_messages?id=eq."+
+        encodeURIComponent(id),
+        {
+            method:"PATCH",
+            headers:{
+                ...apiHeaders(),
+                "Prefer":"return=minimal"
+            },
+            body:JSON.stringify({
+                is_published:value
+            })
+        }
+    );
+
+    if(!res.ok){
+
+        showMessage(
+            "Publish status update failed.",
+            "error"
+        );
+
+        return;
+    }
+
+    showMessage(
+        value
+        ? "Message published."
+        : "Message hidden."
+    );
+
+    await loadMessages();
+}
+
+async function deleteMessage(id){
+
+    const msg=messages.find(x=>x.id===id);
+
+    if(!msg)return;
+
+    if(!confirm(
+        "Delete this contact message permanently?"
+    )){
+        return;
+    }
+
+    const res=await fetch(
+        SUPABASE_URL+
+        "/rest/v1/contact_messages?id=eq."+
+        encodeURIComponent(id),
+        {
+            method:"DELETE",
+            headers:{
+                ...apiHeaders(),
+                "Prefer":"return=minimal"
+            }
+        }
+    );
+
+    if(!res.ok){
+
+        const err=await res.text();
+        console.error(err);
+
+        showMessage(
+            "Delete failed.",
+            "error"
+        );
+
+        return;
+    }
+
+    showMessage(
+        "Contact message deleted successfully."
+    );
+
+    await loadMessages();
+}
+
+async function init(){
+
+    currentUser=await getSessionUser();
+
+    if(!currentUser)return;
+
+    await loadMessages();
+}
+
+init();
+</script>
+
+</body>
+</html>
