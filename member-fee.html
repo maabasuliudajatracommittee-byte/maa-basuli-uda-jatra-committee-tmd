@@ -1,341 +1,272 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Member Fee | Maa Basuli Uda Jatra Committee</title>
+  <title>Member Fee | Maa Basuli Uda Jatra Committee</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{
-  box-sizing:border-box;
-}
+  <style>
+    *{
+      box-sizing:border-box;
+    }
 
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f4f6f9;
-  color:#172033;
-}
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f7f4f0;
+      color:#2b1a12;
+    }
 
-header{
-  background:linear-gradient(135deg,#6d28d9,#4f46e5);
-  color:white;
-  padding:22px 20px;
-}
+    header{
+      background:linear-gradient(135deg,#8f2700,#b83d00);
+      color:white;
+      padding:22px 20px;
+    }
 
-.header-inner{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
+    .header-inner{
+      max-width:1100px;
+      margin:auto;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+    }
 
-header h1{
-  margin:0;
-  font-size:25px;
-}
+    .brand h1{
+      margin:0;
+      font-size:26px;
+    }
 
-header p{
-  margin:6px 0 0;
-  opacity:.9;
-}
+    .brand p{
+      margin:6px 0 0;
+      opacity:.9;
+      font-size:14px;
+    }
 
-.nav-btn{
-  background:#64748b;
-  color:white;
-  border:0;
-  border-radius:8px;
-  padding:10px 15px;
-  text-decoration:none;
-  font-weight:700;
-}
+    .back-btn{
+      background:white;
+      color:#8f2700;
+      text-decoration:none;
+      padding:11px 18px;
+      border-radius:8px;
+      font-weight:bold;
+    }
 
-.container{
-  max-width:1100px;
-  margin:28px auto;
-  padding:0 15px;
-}
+    .container{
+      max-width:1000px;
+      margin:35px auto;
+      padding:0 16px;
+    }
 
-.card{
-  background:white;
-  border-radius:14px;
-  padding:24px;
-  margin-bottom:22px;
-  box-shadow:0 3px 14px rgba(0,0,0,.07);
-}
+    .hero{
+      text-align:center;
+      margin-bottom:25px;
+    }
 
-.card h2{
-  margin-top:0;
-}
+    .hero h2{
+      margin:0;
+      color:#8f2700;
+      font-size:30px;
+    }
 
-.search-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr auto;
-  gap:14px;
-  align-items:end;
-}
+    .hero p{
+      color:#666;
+      margin-top:8px;
+    }
 
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
+    .card{
+      background:white;
+      border-radius:14px;
+      padding:25px;
+      box-shadow:0 4px 18px rgba(0,0,0,.08);
+      margin-bottom:22px;
+    }
 
-label{
-  font-weight:700;
-  font-size:14px;
-}
+    .card h3{
+      margin-top:0;
+      color:#8f2700;
+    }
 
-input,
-select{
-  width:100%;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:15px;
-  background:white;
-}
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
 
-button{
-  border:0;
-  border-radius:8px;
-  padding:12px 18px;
-  cursor:pointer;
-  font-weight:700;
-}
+    label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:7px;
+    }
 
-.btn-primary{
-  background:#4f46e5;
-  color:white;
-}
+    input,select{
+      width:100%;
+      padding:13px;
+      border:1px solid #ccc;
+      border-radius:8px;
+      font-size:15px;
+      background:white;
+    }
 
-.btn-secondary{
-  background:#64748b;
-  color:white;
-}
+    input:focus,select:focus{
+      outline:none;
+      border-color:#a83400;
+    }
 
-.message{
-  display:none;
-  padding:13px 16px;
-  border-radius:9px;
-  margin-bottom:18px;
-  font-weight:600;
-}
+    .btn{
+      margin-top:20px;
+      background:#9c2f00;
+      color:white;
+      border:none;
+      padding:13px 25px;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-.message.success{
-  display:block;
-  background:#dcfce7;
-  color:#166534;
-}
+    .btn:hover{
+      background:#7d2500;
+    }
 
-.message.error{
-  display:block;
-  background:#fee2e2;
-  color:#991b1b;
-}
+    .message{
+      display:none;
+      padding:13px 15px;
+      border-radius:8px;
+      margin-top:18px;
+      font-weight:bold;
+    }
 
-.loading{
-  text-align:center;
-  padding:25px;
-  color:#64748b;
-}
+    .error{
+      background:#ffe2e2;
+      color:#a00000;
+    }
 
-.result{
-  display:none;
-}
+    .success{
+      background:#e3f7e8;
+      color:#176b2c;
+    }
 
-.member-head{
-  display:flex;
-  gap:20px;
-  align-items:center;
-  margin-bottom:22px;
-  padding-bottom:18px;
-  border-bottom:1px solid #e5e7eb;
-}
+    .result{
+      display:none;
+    }
 
-.member-photo{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  object-fit:cover;
-  border:3px solid #e0e7ff;
-  background:#f1f5f9;
-}
+    .member-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      background:#fff7f2;
+      border:1px solid #f0d8ca;
+      padding:18px;
+      border-radius:10px;
+      margin-bottom:20px;
+    }
 
-.member-name{
-  font-size:23px;
-  font-weight:800;
-}
+    .member-head h3{
+      margin:0 0 6px;
+    }
 
-.member-id{
-  margin-top:5px;
-  color:#4f46e5;
-  font-weight:700;
-}
+    .member-head p{
+      margin:3px 0;
+      color:#666;
+    }
 
-.info-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-}
+    .status{
+      padding:8px 14px;
+      border-radius:20px;
+      font-weight:bold;
+      white-space:nowrap;
+    }
 
-.info-box{
-  background:#f8fafc;
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  padding:16px;
-}
+    .status.paid{
+      background:#dff5e5;
+      color:#16702e;
+    }
 
-.info-label{
-  font-size:13px;
-  color:#64748b;
-  margin-bottom:5px;
-}
+    .status.unpaid{
+      background:#fff0d9;
+      color:#9a5700;
+    }
 
-.info-value{
-  font-size:17px;
-  font-weight:800;
-}
+    .details{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
+    }
 
-.status{
-  display:inline-block;
-  padding:7px 13px;
-  border-radius:20px;
-  font-size:13px;
-  font-weight:800;
-}
+    .detail{
+      border:1px solid #e5e5e5;
+      border-radius:9px;
+      padding:15px;
+      background:#fff;
+    }
 
-.status-paid{
-  background:#dcfce7;
-  color:#166534;
-}
+    .detail .label{
+      font-size:13px;
+      color:#777;
+      margin-bottom:5px;
+    }
 
-.status-unpaid{
-  background:#fee2e2;
-  color:#991b1b;
-}
+    .detail .value{
+      font-size:17px;
+      font-weight:bold;
+    }
 
-.status-partial{
-  background:#fef3c7;
-  color:#92400e;
-}
+    .fee-highlight{
+      background:#fff3e8;
+      border:2px solid #e2b08f;
+      text-align:center;
+      padding:22px;
+      border-radius:12px;
+      margin:20px 0;
+    }
 
-.fee-highlight{
-  background:linear-gradient(135deg,#eef2ff,#f5f3ff);
-  border:1px solid #c7d2fe;
-  border-radius:13px;
-  padding:22px;
-  margin-bottom:20px;
-}
+    .fee-highlight .small{
+      color:#777;
+      font-size:14px;
+    }
 
-.fee-highlight-title{
-  color:#4338ca;
-  font-weight:700;
-  margin-bottom:7px;
-}
+    .fee-highlight .amount{
+      font-size:34px;
+      font-weight:bold;
+      color:#8f2700;
+      margin-top:5px;
+    }
 
-.fee-amount{
-  font-size:32px;
-  font-weight:900;
-  color:#312e81;
-}
+    footer{
+      margin-top:45px;
+      background:#35170d;
+      color:white;
+      text-align:center;
+      padding:25px 15px;
+      font-size:14px;
+    }
 
-.payment-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
+    @media(max-width:700px){
+      .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
 
-.payment-box{
-  padding:16px;
-  border:1px solid #e5e7eb;
-  border-radius:10px;
-  background:#fff;
-}
+      .form-grid,
+      .details{
+        grid-template-columns:1fr;
+      }
 
-.payment-box strong{
-  display:block;
-  margin-bottom:5px;
-  color:#475569;
-}
+      .member-head{
+        flex-direction:column;
+        align-items:flex-start;
+      }
 
-.info{
-  background:#eff6ff;
-  border:1px solid #bfdbfe;
-  color:#1e40af;
-  padding:16px;
-  border-radius:10px;
-  line-height:1.6;
-}
-
-.qr-box{
-  margin-top:20px;
-  padding:20px;
-  text-align:center;
-  background:#fafafa;
-  border-radius:12px;
-  border:1px dashed #cbd5e1;
-}
-
-.qr-box img{
-  max-width:180px;
-  width:100%;
-  height:auto;
-}
-
-.hidden{
-  display:none !important;
-}
-
-footer{
-  margin-top:40px;
-  background:#172033;
-  color:white;
-  text-align:center;
-  padding:25px 15px;
-}
-
-@media(max-width:800px){
-
-  .search-grid{
-    grid-template-columns:1fr;
-  }
-
-  .info-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .payment-grid{
-    grid-template-columns:1fr;
-  }
-
-  .header-inner{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-}
-
-@media(max-width:500px){
-
-  header h1{
-    font-size:21px;
-  }
-
-  .info-grid{
-    grid-template-columns:1fr;
-  }
-
-  .member-head{
-    flex-direction:column;
-    align-items:flex-start;
-  }
-}
-</style>
+      .hero h2{
+        font-size:25px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -343,38 +274,33 @@ footer{
 <header>
   <div class="header-inner">
 
-    <div>
-      <h1>💳 Member Fee</h1>
-      <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+    <div class="brand">
+      <h1>Maa Basuli Uda Jatra Committee</h1>
+      <p>Thakurmunda, Mayurbhanj, Odisha</p>
     </div>
 
-    <a href="index.html" class="nav-btn">
-      ← Home
-    </a>
+    <a class="back-btn" href="index.html">← Home</a>
 
   </div>
 </header>
 
 
-<div class="container">
+<main class="container">
 
-  <div id="message" class="message"></div>
+  <div class="hero">
+    <h2>Member Fee</h2>
+    <p>Check your financial-year-wise membership fee and payment status.</p>
+  </div>
 
-  <!-- SEARCH -->
-  <div class="card">
 
-    <h2>🔎 Check Member Fee</h2>
+  <section class="card">
 
-    <p>
-      Enter your Member ID and select Financial Year to view your
-      official member fee and payment status.
-    </p>
+    <h3>🔎 Check Member Fee</h3>
 
-    <div class="search-grid">
+    <div class="form-grid">
 
-      <div class="field">
-        <label>Member ID</label>
-
+      <div>
+        <label for="memberId">Member ID</label>
         <input
           type="text"
           id="memberId"
@@ -383,10 +309,8 @@ footer{
         >
       </div>
 
-
-      <div class="field">
-
-        <label>Financial Year</label>
+      <div>
+        <label for="financialYear">Financial Year</label>
 
         <select id="financialYear">
           <option value="">Select Financial Year</option>
@@ -394,706 +318,463 @@ footer{
 
       </div>
 
-
-      <button
-        class="btn-primary"
-        onclick="checkFee()"
-      >
-        🔎 Check Fee
-      </button>
-
     </div>
 
-  </div>
+    <button class="btn" id="checkBtn">
+      Check Fee
+    </button>
+
+    <div id="message" class="message"></div>
+
+  </section>
 
 
-  <!-- LOADING -->
-  <div
-    id="loading"
-    class="card loading hidden"
-  >
-    Checking member fee...
-  </div>
+  <section class="card result" id="resultCard">
 
+    <h3>Member Fee Details</h3>
 
-  <!-- RESULT -->
-  <div
-    id="result"
-    class="result"
-  >
+    <div class="member-head">
 
-    <div class="card">
+      <div>
+        <h3 id="memberName">-</h3>
+        <p>
+          Member ID:
+          <strong id="resultMemberId">-</strong>
+        </p>
 
-      <div class="member-head">
-
-        <img
-          id="memberPhoto"
-          class="member-photo"
-          src=""
-          alt="Member Photo"
-        >
-
-        <div>
-
-          <div
-            id="memberName"
-            class="member-name"
-          >
-            -
-          </div>
-
-          <div
-            id="memberIdDisplay"
-            class="member-id"
-          >
-            -
-          </div>
-
-        </div>
-
+        <p>
+          Financial Year:
+          <strong id="resultYear">-</strong>
+        </p>
       </div>
 
-
-      <div class="fee-highlight">
-
-        <div class="fee-highlight-title">
-          Annual Member Fee
-        </div>
-
-        <div
-          id="feeAmount"
-          class="fee-amount"
-        >
-          ₹0.00
-        </div>
-
-        <div
-          id="feeDescription"
-          style="margin-top:8px;color:#475569;"
-        >
-          -
-        </div>
-
-      </div>
-
-
-      <div class="info-grid">
-
-        <div class="info-box">
-
-          <div class="info-label">
-            Financial Year
-          </div>
-
-          <div
-            id="yearDisplay"
-            class="info-value"
-          >
-            -
-          </div>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <div class="info-label">
-            Payment Status
-          </div>
-
-          <div id="paymentStatusDisplay">
-            -
-          </div>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <div class="info-label">
-            Paid Amount
-          </div>
-
-          <div
-            id="paidAmount"
-            class="info-value"
-          >
-            ₹0.00
-          </div>
-
-        </div>
-
+      <div id="paymentStatus" class="status unpaid">
+        Unpaid
       </div>
 
     </div>
 
 
-    <!-- PAYMENT DETAILS -->
-    <div class="card">
+    <div class="fee-highlight">
 
-      <h2>🧾 Payment Details</h2>
+      <div class="small">
+        Annual Member Fee
+      </div>
 
-      <div class="payment-grid">
-
-        <div class="payment-box">
-
-          <strong>Payment Date</strong>
-
-          <span id="paymentDate">
-            -
-          </span>
-
-        </div>
-
-
-        <div class="payment-box">
-
-          <strong>Payment Mode</strong>
-
-          <span id="paymentMode">
-            -
-          </span>
-
-        </div>
-
-
-        <div class="payment-box">
-
-          <strong>Receipt Number</strong>
-
-          <span id="receiptNo">
-            -
-          </span>
-
-        </div>
-
-
-        <div class="payment-box">
-
-          <strong>Remarks</strong>
-
-          <span id="remarks">
-            -
-          </span>
-
-        </div>
-
+      <div class="amount">
+        ₹ <span id="feeAmount">0</span>
       </div>
 
     </div>
 
 
-    <!-- PAYMENT INFORMATION -->
-    <div class="card">
+    <div class="details">
 
-      <h2>💰 Member Fee Payment</h2>
+      <div class="detail">
+        <div class="label">Paid Amount</div>
+        <div class="value" id="paidAmount">₹0</div>
+      </div>
 
-      <div class="info">
+      <div class="detail">
+        <div class="label">Payment Date</div>
+        <div class="value" id="paymentDate">-</div>
+      </div>
 
-        <strong>Cash Payment:</strong>
-        Member fee can be deposited with the authorized
-        Maa Basuli Uda Jatra Committee office/member fee collection authority.
+      <div class="detail">
+        <div class="label">Payment Mode</div>
+        <div class="value" id="paymentMode">-</div>
+      </div>
 
-        <br><br>
+      <div class="detail">
+        <div class="label">Receipt No.</div>
+        <div class="value" id="receiptNo">-</div>
+      </div>
 
-        <strong>Online Payment:</strong>
-        Use the official payment/QR details provided by the
-        Maa Basuli Uda Jatra Committee.
+      <div class="detail" style="grid-column:1/-1;">
+        <div class="label">Fee Description</div>
+        <div class="value" id="feeDescription">-</div>
+      </div>
 
-        <br><br>
-
-        After payment, keep your receipt/reference number safely.
-
+      <div class="detail" style="grid-column:1/-1;">
+        <div class="label">Remarks</div>
+        <div class="value" id="remarks">-</div>
       </div>
 
     </div>
 
-  </div>
+  </section>
 
-
-  <!-- ANNUAL FEE INFORMATION -->
-  <div class="card">
-
-    <h2>📋 Annual Member Fee</h2>
-
-    <div class="info">
-
-      The annual member fee amount shown above is the fee officially
-      configured by the Super Admin for the selected Financial Year.
-
-      <br><br>
-
-      Payment status shown on this page is based on the latest payment
-      record maintained by the Committee.
-
-    </div>
-
-  </div>
-
-</div>
+</main>
 
 
 <footer>
+  <div>
+    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+  </div>
 
-  <strong>Maa Basuli Uda Jatra Committee</strong>
-
-  <br>
-
-  Thakurmunda, Mayurbhanj, Odisha
-
-  <br><br>
-
-  © 2026 Maa Basuli Uda Jatra Committee.
-  All Rights Reserved.
-
+  <div style="margin-top:6px;">
+    Official Member Fee Information
+  </div>
 </footer>
 
 
 <script>
 
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
+  const SUPABASE_URL =
+    "https://ynymqntcawobcfccoekb.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+  const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+  const supabaseClient =
+    supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
 
 
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+  const memberIdInput =
+    document.getElementById("memberId");
 
+  const financialYearSelect =
+    document.getElementById("financialYear");
 
-/* =====================================================
-   MESSAGE
-===================================================== */
+  const checkBtn =
+    document.getElementById("checkBtn");
 
-function showMessage(
-  text,
-  type = "success"
-){
-
-  const box =
+  const message =
     document.getElementById("message");
 
-  box.textContent =
-    text;
-
-  box.className =
-    "message " + type;
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
+  const resultCard =
+    document.getElementById("resultCard");
 
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
+  function showMessage(text, type){
 
-function escapeHtml(value){
+    message.textContent = text;
 
-  if(
-    value === null ||
-    value === undefined
-  ){
-    return "";
-  }
+    message.className =
+      "message " + type;
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-
-/* =====================================================
-   LOAD FINANCIAL YEARS
-===================================================== */
-
-async function loadYears(){
-
-  const select =
-    document.getElementById(
-      "financialYear"
-    );
-
-  select.innerHTML =
-    '<option value="">Loading years...</option>';
-
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient
-      .from("member_fee_settings")
-      .select(
-        "financial_year"
-      )
-      .eq(
-        "is_active",
-        true
-      )
-      .order(
-        "financial_year",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    console.error(error);
-
-    select.innerHTML =
-      '<option value="">Unable to load years</option>';
-
-    return;
+    message.style.display = "block";
   }
 
 
-  const uniqueYears =
-    [
-      ...new Set(
-        (data || []).map(
-          row =>
-            String(
-              row.financial_year
-            )
-        )
-      )
-    ];
+  function hideMessage(){
 
+    message.style.display = "none";
 
-  select.innerHTML =
-    '<option value="">Select Financial Year</option>';
-
-
-  uniqueYears.forEach(year => {
-
-    const option =
-      document.createElement(
-        "option"
-      );
-
-    option.value =
-      year;
-
-    option.textContent =
-      year;
-
-    select.appendChild(
-      option
-    );
-
-  });
-
-}
-
-
-/* =====================================================
-   CHECK FEE
-===================================================== */
-
-async function checkFee(){
-
-  const memberId =
-    document.getElementById(
-      "memberId"
-    ).value
-      .trim()
-      .toUpperCase();
-
-
-  const financialYear =
-    document.getElementById(
-      "financialYear"
-    ).value;
-
-
-  if(!memberId){
-
-    showMessage(
-      "Please enter Member ID.",
-      "error"
-    );
-
-    return;
   }
 
 
-  if(!financialYear){
+  function generateFinancialYears(){
 
-    showMessage(
-      "Please select Financial Year.",
-      "error"
-    );
+    const currentYear =
+      new Date().getFullYear();
 
-    return;
+    financialYearSelect.innerHTML =
+      '<option value="">Select Financial Year</option>';
+
+    /*
+      Show current + future financial years.
+      Example:
+      2026-27
+      2027-28
+      2028-29
+    */
+
+    for(
+      let year = currentYear - 2;
+      year <= currentYear + 5;
+      year++
+    ){
+
+      const nextYear =
+        String(year + 1).slice(-2);
+
+      const fy =
+        `${year}-${nextYear}`;
+
+      const option =
+        document.createElement("option");
+
+      option.value = fy;
+      option.textContent = fy;
+
+      financialYearSelect.appendChild(option);
+    }
+
   }
 
 
-  document.getElementById(
-    "result"
-  ).style.display =
-    "none";
+  function formatDate(dateValue){
 
+    if(!dateValue){
+      return "-";
+    }
 
-  document.getElementById(
-    "loading"
-  ).classList.remove(
-    "hidden"
-  );
+    const date =
+      new Date(dateValue + "T00:00:00");
 
+    if(isNaN(date.getTime())){
+      return dateValue;
+    }
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.rpc(
-      "get_public_member_fee",
+    return date.toLocaleDateString(
+      "en-IN",
       {
-        p_member_id:
-          memberId,
-
-        p_financial_year:
-          financialYear
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
       }
     );
 
+  }
 
-  document.getElementById(
-    "loading"
-  ).classList.add(
-    "hidden"
+
+  function formatAmount(value){
+
+    const amount =
+      Number(value || 0);
+
+    return amount.toLocaleString(
+      "en-IN",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+  }
+
+
+  function resetResult(){
+
+    resultCard.style.display = "none";
+
+  }
+
+
+  async function checkMemberFee(){
+
+    hideMessage();
+
+    resetResult();
+
+    const memberId =
+      memberIdInput.value.trim().toUpperCase();
+
+    const financialYear =
+      financialYearSelect.value.trim();
+
+
+    if(!memberId){
+
+      showMessage(
+        "Please enter Member ID.",
+        "error"
+      );
+
+      memberIdInput.focus();
+
+      return;
+    }
+
+
+    if(!financialYear){
+
+      showMessage(
+        "Please select Financial Year.",
+        "error"
+      );
+
+      financialYearSelect.focus();
+
+      return;
+    }
+
+
+    checkBtn.disabled = true;
+
+    checkBtn.textContent =
+      "Checking...";
+
+
+    try{
+
+      const { data, error } =
+        await supabaseClient
+          .rpc(
+            "get_public_member_fee",
+            {
+              p_member_id: memberId,
+              p_financial_year: financialYear
+            }
+          );
+
+
+      if(error){
+
+        console.error(
+          "Member fee error:",
+          error
+        );
+
+        throw error;
+
+      }
+
+
+      if(!data || data.length === 0){
+
+        showMessage(
+          "No active fee record found for this Member ID and Financial Year.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const record =
+        data[0];
+
+
+      document.getElementById(
+        "memberName"
+      ).textContent =
+        record.full_name || "-";
+
+
+      document.getElementById(
+        "resultMemberId"
+      ).textContent =
+        record.member_id || "-";
+
+
+      document.getElementById(
+        "resultYear"
+      ).textContent =
+        record.financial_year || financialYear;
+
+
+      document.getElementById(
+        "feeAmount"
+      ).textContent =
+        formatAmount(record.fee_amount);
+
+
+      document.getElementById(
+        "paidAmount"
+      ).textContent =
+        "₹" + formatAmount(record.paid_amount);
+
+
+      document.getElementById(
+        "paymentDate"
+      ).textContent =
+        formatDate(record.payment_date);
+
+
+      document.getElementById(
+        "paymentMode"
+      ).textContent =
+        record.payment_mode || "-";
+
+
+      document.getElementById(
+        "receiptNo"
+      ).textContent =
+        record.receipt_no || "-";
+
+
+      document.getElementById(
+        "feeDescription"
+      ).textContent =
+        record.fee_description || "-";
+
+
+      document.getElementById(
+        "remarks"
+      ).textContent =
+        record.remarks || "-";
+
+
+      const status =
+        record.payment_status || "Unpaid";
+
+
+      const statusElement =
+        document.getElementById(
+          "paymentStatus"
+        );
+
+
+      statusElement.textContent =
+        status;
+
+
+      statusElement.className =
+        "status " +
+        (
+          status.toLowerCase() === "paid"
+            ? "paid"
+            : "unpaid"
+        );
+
+
+      resultCard.style.display =
+        "block";
+
+
+      showMessage(
+        "Member fee details loaded successfully.",
+        "success"
+      );
+
+    }
+    catch(error){
+
+      console.error(error);
+
+      showMessage(
+        error.message ||
+        "Unable to load member fee details.",
+        "error"
+      );
+
+    }
+    finally{
+
+      checkBtn.disabled = false;
+
+      checkBtn.textContent =
+        "Check Fee";
+
+    }
+
+  }
+
+
+  checkBtn.addEventListener(
+    "click",
+    checkMemberFee
   );
 
 
-  if(error){
-
-    console.error(error);
-
-    showMessage(
-      "Unable to check member fee. Please try again.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  if(
-    !data ||
-    !data.length
-  ){
-
-    showMessage(
-      "No active approved member fee record found for this Member ID and Financial Year.",
-      "error"
-    );
-
-    return;
-  }
-
-
-  renderResult(
-    data[0]
-  );
-
-}
-
-
-/* =====================================================
-   RENDER RESULT
-===================================================== */
-
-function renderResult(row){
-
-  document.getElementById(
-    "memberName"
-  ).textContent =
-    row.full_name || "-";
-
-
-  document.getElementById(
-    "memberIdDisplay"
-  ).textContent =
-    row.member_id || "-";
-
-
-  document.getElementById(
-    "yearDisplay"
-  ).textContent =
-    row.financial_year || "-";
-
-
-  document.getElementById(
-    "feeAmount"
-  ).textContent =
-    "₹" +
-    Number(
-      row.fee_amount || 0
-    ).toFixed(2);
-
-
-  document.getElementById(
-    "feeDescription"
-  ).textContent =
-    row.fee_description ||
-    "Annual Member Fee";
-
-
-  document.getElementById(
-    "paidAmount"
-  ).textContent =
-    "₹" +
-    Number(
-      row.paid_amount || 0
-    ).toFixed(2);
-
-
-  document.getElementById(
-    "paymentDate"
-  ).textContent =
-    row.payment_date
-      ? new Date(
-          row.payment_date
-        ).toLocaleDateString(
-          "en-IN"
-        )
-      : "-";
-
-
-  document.getElementById(
-    "paymentMode"
-  ).textContent =
-    row.payment_mode ||
-    "-";
-
-
-  document.getElementById(
-    "receiptNo"
-  ).textContent =
-    row.receipt_no ||
-    "-";
-
-
-  document.getElementById(
-    "remarks"
-  ).textContent =
-    row.remarks ||
-    "-";
-
-
-  /* STATUS */
-
-  const status =
-    row.payment_status ||
-    "Unpaid";
-
-
-  const statusBox =
-    document.getElementById(
-      "paymentStatusDisplay"
-    );
-
-
-  if(status === "Paid"){
-
-    statusBox.innerHTML =
-      '<span class="status status-paid">✓ Paid</span>';
-
-  }
-  else if(
-    status === "Partial"
-  ){
-
-    statusBox.innerHTML =
-      '<span class="status status-partial">Partial</span>';
-
-  }
-  else{
-
-    statusBox.innerHTML =
-      '<span class="status status-unpaid">Unpaid</span>';
-
-  }
-
-
-  /* PHOTO */
-
-  const photo =
-    document.getElementById(
-      "memberPhoto"
-    );
-
-
-  photo.src =
-    "https://ui-avatars.com/api/?name=" +
-    encodeURIComponent(
-      row.full_name || "Member"
-    ) +
-    "&background=4f46e5&color=fff&size=180";
-
-
-  /*
-    Public fee RPC intentionally does not expose
-    profile_photo_url, so a public profile image
-    is not guessed or fetched directly.
-  */
-
-
-  document.getElementById(
-    "result"
-  ).style.display =
-    "block";
-
-
-  document.getElementById(
-    "result"
-  ).scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
-}
-
-
-/* =====================================================
-   ENTER KEY
-===================================================== */
-
-document
-  .getElementById("memberId")
-  .addEventListener(
+  memberIdInput.addEventListener(
     "keydown",
-    function(e){
+    function(event){
 
-      if(
-        e.key === "Enter"
-      ){
-
-        checkFee();
-
+      if(event.key === "Enter"){
+        checkMemberFee();
       }
 
     }
   );
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
-
-loadYears();
+  generateFinancialYears();
 
 </script>
 
