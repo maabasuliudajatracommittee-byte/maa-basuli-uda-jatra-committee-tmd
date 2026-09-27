@@ -128,6 +128,11 @@
       color:#9b111e;
     }
 
+    .info{
+      background:#dbeafe;
+      color:#1e40af;
+    }
+
     /* DIGITAL ID CARD */
 
     .id-section{
@@ -470,13 +475,13 @@
             <input id="email" type="email" readonly>
 
             <label>Mobile Number</label>
-            <input id="mobile" type="text">
+            <input id="mobile" type="text" readonly>
+
+            <label>Date of Birth</label>
+            <input id="dateOfBirth" type="date">
 
             <label>Village</label>
             <input id="village" type="text">
-
-            <label>Address</label>
-            <input id="address" type="text">
 
             <label>Blood Group</label>
             <select id="bloodGroup">
@@ -491,14 +496,20 @@
               <option value="O-">O-</option>
             </select>
 
-            <label>Member ID</label>
-            <input id="memberId" type="text" readonly>
+            <div id="approvalDetails" style="display:none;">
+              <label>Member ID</label>
+              <input id="memberId" type="text" readonly>
 
-            <label>Designation</label>
-            <input id="designation" type="text" readonly>
+              <label>Designation</label>
+              <input id="designation" type="text" readonly>
 
-            <label>Member Status</label>
-            <input id="memberStatus" type="text" readonly>
+              <label>Member Status</label>
+              <input id="memberStatus" type="text" readonly>
+            </div>
+
+            <div id="pendingNotice" class="message info" style="display:block;margin-top:18px;">
+              Your profile is pending Admin/Super Admin approval. Member ID, Designation and ID Card will be available after approval.
+            </div>
 
           </div>
         </div>
@@ -512,7 +523,7 @@
 
 
       <!-- DIGITAL ID -->
-      <div class="card id-section">
+      <div class="card id-section" id="digitalIdSection" style="display:none;">
 
         <h2>Digital Member ID Card</h2>
 
@@ -753,10 +764,10 @@ async function loadProfile(){
       .from("member_profiles")
       .insert({
         id:currentUser.id,
-        full_name:
-          currentUser.user_metadata?.full_name || "",
+        full_name:"",
         email:currentUser.email,
         approval_status:"pending",
+        member_id:null,
         member_status:"inactive"
       });
 
@@ -797,24 +808,45 @@ function populateProfile(p){
   document.getElementById("mobile").value =
     p.mobile || "";
 
+  document.getElementById("dateOfBirth").value =
+    p.date_of_birth || "";
+
   document.getElementById("village").value =
     p.village || "";
-
-  document.getElementById("address").value =
-    p.address || "";
 
   document.getElementById("bloodGroup").value =
     p.blood_group || "";
 
-  document.getElementById("memberId").value =
-    p.member_id || "Pending Approval";
+  const approved =
+    String(p.approval_status || "").toLowerCase() === "approved";
 
-  document.getElementById("designation").value =
-    p.designation || "Member";
+  const approvalDetails =
+    document.getElementById("approvalDetails");
 
-  document.getElementById("memberStatus").value =
-    p.member_status || "inactive";
+  const pendingNotice =
+    document.getElementById("pendingNotice");
 
+  const digitalIdSection =
+    document.getElementById("digitalIdSection");
+
+  if(approved){
+    approvalDetails.style.display = "block";
+    pendingNotice.style.display = "none";
+    digitalIdSection.style.display = "block";
+
+    document.getElementById("memberId").value =
+      p.member_id || "";
+
+    document.getElementById("designation").value =
+      p.designation || "";
+
+    document.getElementById("memberStatus").value =
+      p.member_status || "inactive";
+  }else{
+    approvalDetails.style.display = "none";
+    pendingNotice.style.display = "block";
+    digitalIdSection.style.display = "none";
+  }
 
   const photo =
     p.profile_photo_url ||
@@ -906,11 +938,11 @@ async function saveProfile(){
   const mobile =
     document.getElementById("mobile").value.trim();
 
+  const dateOfBirth =
+    document.getElementById("dateOfBirth").value;
+
   const village =
     document.getElementById("village").value.trim();
-
-  const address =
-    document.getElementById("address").value.trim();
 
   const bloodGroup =
     document.getElementById("bloodGroup").value;
@@ -933,9 +965,8 @@ async function saveProfile(){
     .from("member_profiles")
     .update({
       full_name:fullName,
-      mobile:mobile || null,
+      date_of_birth:dateOfBirth || null,
       village:village || null,
-      address:address || null,
       blood_group:bloodGroup || null
     })
     .eq("id", currentUser.id);
@@ -1100,6 +1131,15 @@ document
 
 async function downloadIdCard(){
 
+  if(
+    !currentProfile ||
+    String(currentProfile.approval_status || "").toLowerCase() !== "approved" ||
+    !currentProfile.member_id
+  ){
+    alert("ID Card download will be available after Admin/Super Admin approval.");
+    return;
+  }
+
   const card =
     document.getElementById("digitalIdCard");
 
@@ -1184,6 +1224,15 @@ async function downloadIdCard(){
 ========================= */
 
 function printIdCard(){
+
+  if(
+    !currentProfile ||
+    String(currentProfile.approval_status || "").toLowerCase() !== "approved" ||
+    !currentProfile.member_id
+  ){
+    alert("ID Card print will be available after Admin/Super Admin approval.");
+    return;
+  }
 
   window.print();
 
