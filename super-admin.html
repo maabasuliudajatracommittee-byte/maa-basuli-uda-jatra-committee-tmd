@@ -256,6 +256,7 @@
     .purple{background:#7e22ce;color:white}
     .orange{background:#d97706;color:white}
     .teal{background:#0f766e;color:white}
+    .red{background:#b91c1c;color:white}
 
     .admin-form{
       display:flex;
@@ -948,9 +949,9 @@
         </p>
 
         <button
-          class="setup"
+          class="red"
           onclick="openPage('jatra-manager.html')">
-          Open Manager
+          Open Jatra Manager
         </button>
 
       </div>
@@ -966,9 +967,9 @@
         </p>
 
         <button
-          class="setup"
+          class="orange"
           onclick="openPage('bhakta-manager.html')">
-          Open Manager
+          Open Bhakta Manager
         </button>
 
       </div>
@@ -984,27 +985,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="openPage('website-settings.html')">
-          Open Manager
-        </button>
-
-      </div>
-
-      <div class="control-card">
-
-        <div class="control-icon">📱</div>
-
-        <h4>Social Media Management</h4>
-
-        <p>
-          Facebook, Instagram, YouTube, X, WhatsApp ebam anyanya social media logo, link, status and order manage karantu.
-        </p>
-
-        <button
           class="blue"
-          onclick="openPage('social-media-manager.html')">
-          Open Social Media Manager
+          onclick="openPage('website-settings.html')">
+          Open Website Settings
         </button>
 
       </div>
@@ -1020,9 +1003,9 @@
         </p>
 
         <button
-          class="setup"
+          class="green"
           onclick="openPage('homepage-manager.html')">
-          Open Manager
+          Open Homepage Manager
         </button>
 
       </div>
@@ -1038,9 +1021,9 @@
         </p>
 
         <button
-          class="setup"
+          class="purple"
           onclick="openPage('documents-manager.html')">
-          Open Manager
+          Open Documents Manager
         </button>
 
       </div>
@@ -1056,9 +1039,9 @@
         </p>
 
         <button
-          class="setup"
+          class="teal"
           onclick="openPage('contact-manager.html')">
-          Open Manager
+          Open Contact Manager
         </button>
 
       </div>
@@ -1074,9 +1057,9 @@
         </p>
 
         <button
-          class="setup"
+          class="secondary"
           onclick="openPage('audit-logs.html')">
-          Open Manager
+          Open Audit Logs
         </button>
 
       </div>
@@ -1092,9 +1075,9 @@
         </p>
 
         <button
-          class="setup"
+          class="primary"
           onclick="openPage('backup-manager.html')">
-          Open Manager
+          Open Backup Manager
         </button>
 
       </div>
@@ -1104,8 +1087,8 @@
     <div class="system-note">
 
       <strong>System Status:</strong>
-      All management buttons are connected to the respective
-      manager pages. Fund, Member Fee and Donation management are live.
+      All management modules are connected. Setup Required controls have been removed.
+      This dashboard is restricted to the Super Admin role.
 
     </div>
 
@@ -1808,7 +1791,6 @@ function openPage(page){
     "homepage-manager.html",
     "documents-manager.html",
     "contact-manager.html",
-    "social-media-manager.html",
     "audit-logs.html",
     "backup-manager.html"
   ];
@@ -1861,10 +1843,6 @@ function openPendingMembers(){
   );
 
 }
-
-/* =========================
-   SETUP REQUIRED
-========================= */
 
 /* =========================
    LOAD MEMBERS
@@ -2111,6 +2089,12 @@ function renderMembers(){
             class="secondary"
             onclick="viewMember('${member.id}')">
             View
+          </button>
+
+          <button
+            class="danger"
+            onclick="resetUserPassword('${member.id}', '${member.email || ""}')">
+            🔑 Reset Password
           </button>
           `;
 
@@ -2619,6 +2603,90 @@ function closeMemberModal(){
 }
 
 /* =========================
+   RESET USER PASSWORD
+   Super Admin only
+========================= */
+
+async function resetUserPassword(userId, email){
+
+  const newPassword = prompt(
+    "Enter new password for " + (email || "this user") + ":\n\nMinimum 6 characters."
+  );
+
+  if(newPassword === null) return;
+
+  if(newPassword.length < 6){
+
+    alert("Password minimum 6 characters heba darkar.");
+    return;
+  }
+
+  const confirmPassword = prompt(
+    "Confirm new password:"
+  );
+
+  if(confirmPassword === null) return;
+
+  if(newPassword !== confirmPassword){
+
+    alert("Password duita match karuni.");
+    return;
+  }
+
+  if(!confirm(
+    "" + (email || "User") + " ra password reset karibe?"
+  )) return;
+
+  const {
+    data:{session}
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+
+    alert("Login session milila nahi. Punithare login karantu.");
+    return;
+  }
+
+  try{
+
+    const response = await fetch(
+      SUPABASE_URL + "/functions/v1/reset-user-password",
+      {
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "Authorization":"Bearer " + session.access_token
+        },
+        body:JSON.stringify({
+          target_user_id:userId,
+          new_password:newPassword
+        })
+      }
+    );
+
+    const result = await response.json().catch(() => ({}));
+
+    if(!response.ok){
+
+      alert(
+        "Password reset failed: " +
+        (result.error || "Unknown error")
+      );
+      return;
+    }
+
+    alert("✅ Password successfully reset hela.");
+
+  }catch(error){
+
+    console.error(error);
+    alert("Password reset failed. Edge Function deploy heichi ki check karantu.");
+
+  }
+
+}
+
+/* =========================
    MAKE ADMIN
 ========================= */
 
@@ -2789,6 +2857,12 @@ async function loadAdmins(){
                 '${admin.user_id}'
               )">
               Remove Admin
+            </button>
+
+            <button
+              class="warning"
+              onclick="resetUserPassword('${admin.user_id}', '${admin.email || ""}')">
+              🔑 Reset Password
             </button>
 
           </td>
