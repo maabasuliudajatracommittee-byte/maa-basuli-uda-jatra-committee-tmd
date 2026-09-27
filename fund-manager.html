@@ -294,7 +294,7 @@ textarea{
 table{
   width:100%;
   border-collapse:collapse;
-  min-width:1450px;
+  min-width:1200px;
 }
 
 th,
@@ -379,12 +379,6 @@ th{
 .loading{
   text-align:center;
   padding:25px;
-}
-
-.help{
-  color:#64748b;
-  font-size:12px;
-  margin-top:5px;
 }
 
 .editing{
@@ -526,7 +520,6 @@ th{
 
     </div>
 
-
     <div class="summary-box expense">
 
       <small>
@@ -538,7 +531,6 @@ th{
       </strong>
 
     </div>
-
 
     <div class="summary-box balance">
 
@@ -564,7 +556,6 @@ th{
     </h3>
 
     <div class="form-grid">
-
 
       <!-- TRANSACTION TYPE -->
 
@@ -733,38 +724,6 @@ th{
       </div>
 
 
-      <!-- DONOR -->
-
-      <div class="form-group">
-
-        <label for="donorName">
-          Donor / Payer Name
-        </label>
-
-        <input
-          type="text"
-          id="donorName"
-          placeholder="Optional">
-
-      </div>
-
-
-      <!-- RECEIPT -->
-
-      <div class="form-group">
-
-        <label for="receiptNo">
-          Receipt No.
-        </label>
-
-        <input
-          type="text"
-          id="receiptNo"
-          placeholder="Optional receipt number">
-
-      </div>
-
-
       <!-- REFERENCE -->
 
       <div class="form-group">
@@ -776,7 +735,7 @@ th{
         <input
           type="text"
           id="referenceNo"
-          placeholder="Optional reference number">
+          placeholder="Optional reference / voucher number">
 
       </div>
 
@@ -834,7 +793,6 @@ th{
       Fund Transactions
     </h3>
 
-
     <div
       style="
         display:flex;
@@ -847,10 +805,9 @@ th{
       <input
         type="search"
         id="transactionSearch"
-        placeholder="Search title / category / donor / description / reference..."
+        placeholder="Search title / category / description / reference..."
         oninput="renderTransactions()"
         style="flex:1;min-width:250px;">
-
 
       <select
         id="typeFilter"
@@ -901,10 +858,9 @@ th{
             <th>Date</th>
             <th>Type</th>
             <th>Title / Category</th>
-            <th>Donor / Payer</th>
             <th>Payment Mode</th>
             <th>Description</th>
-            <th>Reference / Receipt</th>
+            <th>Reference / Voucher</th>
             <th>Amount</th>
             <th>Visibility</th>
             <th>Action</th>
@@ -917,7 +873,7 @@ th{
 
           <tr>
 
-            <td colspan="10" class="loading">
+            <td colspan="9" class="loading">
               Loading transactions...
             </td>
 
@@ -1082,11 +1038,6 @@ function populateYears(){
   select.innerHTML = "";
 
 
-  /*
-    Shows current year + 2 future years
-    and previous years from 2020-21.
-  */
-
   for(
     let year = currentYear + 2;
     year >= 2020;
@@ -1115,12 +1066,6 @@ function populateYears(){
     option.textContent =
       financialYear;
 
-
-    /*
-      Current financial year selection.
-      April onwards = current year/current year+1.
-      January-March = previous year/current year.
-    */
 
     const month =
       new Date().getMonth() + 1;
@@ -1200,7 +1145,7 @@ async function loadFundData(){
     "transactionsBody"
   ).innerHTML = `
     <tr>
-      <td colspan="10" class="loading">
+      <td colspan="9" class="loading">
         Loading transactions...
       </td>
     </tr>
@@ -1234,7 +1179,7 @@ async function loadFundData(){
       "transactionsBody"
     ).innerHTML = `
       <tr>
-        <td colspan="10" class="empty">
+        <td colspan="9" class="empty">
           Error loading fund records:
           ${escapeHtml(error.message)}
         </td>
@@ -1279,10 +1224,6 @@ function calculateSummary(){
         Number(item.amount) || 0;
 
 
-      /*
-        These are treated as income.
-      */
-
       if(
         [
           "Collection",
@@ -1299,10 +1240,6 @@ function calculateSummary(){
       }
 
 
-      /*
-        Expense reduces balance.
-      */
-
       if(
         item.transaction_type ===
         "Expense"
@@ -1312,12 +1249,6 @@ function calculateSummary(){
 
       }
 
-
-      /*
-        Savings is money set aside.
-        It is not added to income.
-        It reduces available balance.
-      */
 
       if(
         item.transaction_type ===
@@ -1393,20 +1324,15 @@ function renderTransactions(){
     transactions.filter(
       item => {
 
-
         const searchable = [
 
           item.title,
 
           item.category,
 
-          item.donor_name,
-
           item.description,
 
           item.reference_no,
-
-          item.receipt_no,
 
           item.payment_mode
 
@@ -1444,7 +1370,7 @@ function renderTransactions(){
 
     tbody.innerHTML = `
       <tr>
-        <td colspan="10" class="empty">
+        <td colspan="9" class="empty">
           No fund transactions found
           for ${escapeHtml(
             document.getElementById("yearSelect").value
@@ -1460,7 +1386,6 @@ function renderTransactions(){
   tbody.innerHTML =
     list.map(
       item => {
-
 
         const typeBadge =
           getTypeBadge(
@@ -1506,9 +1431,11 @@ function renderTransactions(){
 
         const category =
           item.category
-            ? `<div style="color:#64748b;font-size:12px;margin-top:3px;">
+            ? `
+              <div style="color:#64748b;font-size:12px;margin-top:3px;">
                 ${escapeHtml(item.category)}
-               </div>`
+              </div>
+            `
             : "";
 
 
@@ -1517,19 +1444,10 @@ function renderTransactions(){
           "—";
 
 
-        const referenceReceipt = [
-
+        const reference =
           item.reference_no
-            ? `Ref: ${escapeHtml(item.reference_no)}`
-            : "",
-
-          item.receipt_no
-            ? `Receipt: ${escapeHtml(item.receipt_no)}`
-            : ""
-
-        ]
-        .filter(Boolean)
-        .join("<br>") || "—";
+            ? escapeHtml(item.reference_no)
+            : "—";
 
 
         return `
@@ -1561,13 +1479,6 @@ function renderTransactions(){
 
             <td>
               ${escapeHtml(
-                item.donor_name || "—"
-              )}
-            </td>
-
-
-            <td>
-              ${escapeHtml(
                 item.payment_mode || "—"
               )}
             </td>
@@ -1583,7 +1494,7 @@ function renderTransactions(){
 
 
             <td>
-              ${referenceReceipt}
+              ${reference}
             </td>
 
 
@@ -1822,18 +1733,6 @@ async function saveTransaction(){
     ).value;
 
 
-  const donorName =
-    document.getElementById(
-      "donorName"
-    ).value.trim();
-
-
-  const receiptNo =
-    document.getElementById(
-      "receiptNo"
-    ).value.trim();
-
-
   const referenceNo =
     document.getElementById(
       "referenceNo"
@@ -1900,11 +1799,6 @@ async function saveTransaction(){
   }
 
 
-  /*
-    IMPORTANT:
-    financial_year is TEXT in Supabase.
-  */
-
   const payload = {
 
     financial_year:
@@ -1913,11 +1807,11 @@ async function saveTransaction(){
     transaction_type:
       transactionType,
 
+    transaction_date:
+      date,
+
     amount:
       amount,
-
-    title:
-      title,
 
     category:
       category || null,
@@ -1925,19 +1819,28 @@ async function saveTransaction(){
     description:
       description || null,
 
-    transaction_date:
-      date,
-
-    payment_mode:
-      paymentMode || null,
-
     reference_no:
       referenceNo || null,
 
-    reference_no:
-  referenceNo || null
+    is_published:
+      editingId
+        ? undefined
+        : false,
+
+    title:
+      title,
+
+    payment_mode:
+      paymentMode || null
 
   };
+
+
+  /* Remove undefined field */
+
+  if(payload.is_published === undefined){
+    delete payload.is_published;
+  }
 
 
   let result;
@@ -2077,20 +1980,6 @@ function editTransaction(id){
 
 
   document.getElementById(
-    "donorName"
-  ).value =
-    item.donor_name ||
-    "";
-
-
-  document.getElementById(
-    "receiptNo"
-  ).value =
-    item.receipt_no ||
-    "";
-
-
-  document.getElementById(
     "referenceNo"
   ).value =
     item.reference_no ||
@@ -2186,18 +2075,6 @@ function cancelEdit(){
 
   document.getElementById(
     "paymentMode"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "donorName"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "receiptNo"
   ).value =
     "";
 
