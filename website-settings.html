@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Settings | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f4f6f9;
+      color:#222;
+    }
+
+    header{
+      background:#7b1e1e;
+      color:#fff;
+      padding:20px 24px;
+    }
+
+    header h1{
+      margin:0;
+      font-size:24px;
+    }
+
+    header p{
+      margin:6px 0 0;
+      opacity:.9;
+    }
+
+    .topbar{
+      background:#fff;
+      padding:12px 24px;
+      border-bottom:1px solid #ddd;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .topbar button{
+      border:0;
+      padding:9px 14px;
+      border-radius:6px;
+      background:#7b1e1e;
+      color:#fff;
+      cursor:pointer;
+    }
+
+    .container{
+      max-width:1000px;
+      margin:25px auto;
+      padding:0 15px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:10px;
+      padding:22px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .card h2{
+      margin-top:0;
+      color:#7b1e1e;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .full{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:block;
+      font-weight:bold;
+      margin-bottom:6px;
+    }
+
+    input,textarea{
+      width:100%;
+      padding:11px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      font-size:14px;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .actions{
+      margin-top:20px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border:0;
+      padding:11px 18px;
+      border-radius:6px;
+      cursor:pointer;
+      color:#fff;
+      font-size:14px;
+    }
+
+    .primary{background:#7b1e1e}
+    .secondary{background:#555}
+
+    .status{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:20px;
+      background:#d1fae5;
+      color:#065f46;
+      font-weight:bold;
+      font-size:12px;
+    }
+
+    #message{
+      display:none;
+      padding:12px;
+      border-radius:6px;
+      margin-bottom:15px;
+      font-weight:bold;
+    }
+
+    .preview{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      margin-top:15px;
+      padding:15px;
+      background:#f8f8f8;
+      border-radius:8px;
+    }
+
+    .preview img{
+      max-width:90px;
+      max-height:90px;
+      object-fit:contain;
+    }
+
+    @media(max-width:700px){
+      .grid{
+        grid-template-columns:1fr;
+      }
+
+      .full{
+        grid-column:auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🙏 Maa Basuli Uda Jatra Committee</h1>
+  <p>Website Settings Management</p>
+</header>
+
+<div class="topbar">
+
+  <div id="userEmail">
+    Checking login...
+  </div>
+
+  <div>
+    <button onclick="loadSettings()">🔄 Refresh</button>
+    <button onclick="goDashboard()">🏠 Super Admin Dashboard</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+<div class="container">
+
+  <div id="message"></div>
+
+  <div class="card">
+
+    <h2>⚙️ Website Settings</h2>
+
+    <form id="settingsForm">
+
+      <div class="grid">
+
+        <div>
+          <label>Site Name</label>
+          <input
+            type="text"
+            id="siteName"
+            placeholder="Maa Basuli Uda Jatra Committee">
+        </div>
+
+        <div>
+          <label>Site Title</label>
+          <input
+            type="text"
+            id="siteTitle"
+            placeholder="Maa Basuli Uda Jatra Committee, Thakurmunda">
+        </div>
+
+        <div>
+          <label>Logo URL</label>
+          <input
+            type="url"
+            id="logoUrl"
+            placeholder="https://...">
+        </div>
+
+        <div>
+          <label>Favicon URL</label>
+          <input
+            type="url"
+            id="faviconUrl"
+            placeholder="https://...">
+        </div>
+
+        <div>
+          <label>Phone</label>
+          <input
+            type="text"
+            id="phone">
+        </div>
+
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            id="email">
+        </div>
+
+        <div class="full">
+          <label>Address</label>
+          <input
+            type="text"
+            id="address">
+        </div>
+
+      </div>
+
+      <h2 style="margin-top:30px">🌐 Social Media</h2>
+
+      <div class="grid">
+
+        <div>
+          <label>Facebook URL</label>
+          <input
+            type="url"
+            id="facebookUrl">
+        </div>
+
+        <div>
+          <label>Instagram URL</label>
+          <input
+            type="url"
+            id="instagramUrl">
+        </div>
+
+        <div>
+          <label>YouTube URL</label>
+          <input
+            type="url"
+            id="youtubeUrl">
+        </div>
+
+        <div>
+          <label>X / Twitter URL</label>
+          <input
+            type="url"
+            id="twitterUrl">
+        </div>
+
+      </div>
+
+      <h2 style="margin-top:30px">📝 Website Content</h2>
+
+      <div class="grid">
+
+        <div class="full">
+          <label>About Text</label>
+          <textarea
+            id="aboutText"
+            placeholder="About Maa Basuli Uda Jatra Committee..."></textarea>
+        </div>
+
+        <div class="full">
+          <label>Footer Text</label>
+          <textarea
+            id="footerText"
+            placeholder="© Maa Basuli Uda Jatra Committee"></textarea>
+        </div>
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          type="submit"
+          class="btn primary">
+          💾 Save Settings
+        </button>
+
+        <button
+          type="button"
+          class="btn secondary"
+          onclick="loadSettings()">
+          ↻ Reload
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+  <div class="card">
+
+    <h2>📌 Current Status</h2>
+
+    <div id="statusBox">
+      No settings saved yet.
+    </div>
+
+    <div
+      id="logoPreview"
+      class="preview"
+      style="display:none">
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let currentSettingsId = null;
+
+
+/* ---------------------------
+   MESSAGE
+---------------------------- */
+
+function showMessage(message, success=true){
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = message;
+
+  box.style.display = "block";
+
+  box.style.background =
+    success ? "#d1fae5" : "#fee2e2";
+
+  box.style.color =
+    success ? "#065f46" : "#991b1b";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 3500);
+}
+
+
+/* ---------------------------
+   AUTH
+---------------------------- */
+
+async function checkAuth(){
+
+  const {
+    data:{session}
+  } = await supabaseClient.auth.getSession();
+
+  if(!session){
+
+    window.location.href =
+      "index.html";
+
+    return false;
+  }
+
+  document.getElementById("userEmail")
+    .textContent =
+      session.user.email || "Logged in";
+
+  return true;
+}
+
+
+/* ---------------------------
+   LOAD SETTINGS
+---------------------------- */
+
+async function loadSettings(){
+
+  const {
+    data,
+    error
+  } = await supabaseClient
+    .from("website_settings")
+    .select("*")
+    .order("created_at", {
+      ascending:false
+    })
+    .limit(1);
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Failed to load settings: " +
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  if(!data || data.length === 0){
+
+    currentSettingsId = null;
+
+    document.getElementById("statusBox")
+      .innerHTML =
+        "⚠️ No website settings saved yet.";
+
+    document.getElementById("logoPreview")
+      .style.display = "none";
+
+    return;
+  }
+
+  const item = data[0];
+
+  currentSettingsId = item.id;
+
+  document.getElementById("siteName").value =
+    item.site_name || "";
+
+  document.getElementById("siteTitle").value =
+    item.site_title || "";
+
+  document.getElementById("logoUrl").value =
+    item.logo_url || "";
+
+  document.getElementById("faviconUrl").value =
+    item.favicon_url || "";
+
+  document.getElementById("phone").value =
+    item.phone || "";
+
+  document.getElementById("email").value =
+    item.email || "";
+
+  document.getElementById("address").value =
+    item.address || "";
+
+  document.getElementById("facebookUrl").value =
+    item.facebook_url || "";
+
+  document.getElementById("instagramUrl").value =
+    item.instagram_url || "";
+
+  document.getElementById("youtubeUrl").value =
+    item.youtube_url || "";
+
+  document.getElementById("twitterUrl").value =
+    item.twitter_url || "";
+
+  document.getElementById("aboutText").value =
+    item.about_text || "";
+
+  document.getElementById("footerText").value =
+    item.footer_text || "";
+
+
+  document.getElementById("statusBox")
+    .innerHTML = `
+      <span class="status">
+        Active
+      </span>
+      &nbsp; Settings saved successfully.
+    `;
+
+
+  if(item.logo_url){
+
+    document.getElementById("logoPreview")
+      .style.display = "flex";
+
+    document.getElementById("logoPreview")
+      .innerHTML = `
+        <img
+          src="${escapeHtml(item.logo_url)}"
+          onerror="this.style.display='none'">
+
+        <div>
+          <strong>Logo Preview</strong>
+          <br>
+          Website logo URL is configured.
+        </div>
+      `;
+
+  }else{
+
+    document.getElementById("logoPreview")
+      .style.display = "none";
+  }
+
+}
+
+
+/* ---------------------------
+   SAVE
+---------------------------- */
+
+document
+  .getElementById("settingsForm")
+  .addEventListener("submit", async function(e){
+
+    e.preventDefault();
+
+    const {
+      data:{session}
+    } = await supabaseClient.auth.getSession();
+
+
+    const payload = {
+
+      site_name:
+        document.getElementById("siteName")
+          .value.trim() || null,
+
+      site_title:
+        document.getElementById("siteTitle")
+          .value.trim() || null,
+
+      logo_url:
+        document.getElementById("logoUrl")
+          .value.trim() || null,
+
+      favicon_url:
+        document.getElementById("faviconUrl")
+          .value.trim() || null,
+
+      phone:
+        document.getElementById("phone")
+          .value.trim() || null,
+
+      email:
+        document.getElementById("email")
+          .value.trim() || null,
+
+      address:
+        document.getElementById("address")
+          .value.trim() || null,
+
+      facebook_url:
+        document.getElementById("facebookUrl")
+          .value.trim() || null,
+
+      instagram_url:
+        document.getElementById("instagramUrl")
+          .value.trim() || null,
+
+      youtube_url:
+        document.getElementById("youtubeUrl")
+          .value.trim() || null,
+
+      twitter_url:
+        document.getElementById("twitterUrl")
+          .value.trim() || null,
+
+      about_text:
+        document.getElementById("aboutText")
+          .value.trim() || null,
+
+      footer_text:
+        document.getElementById("footerText")
+          .value.trim() || null,
+
+      is_active:true,
+
+      updated_at:
+        new Date().toISOString()
+    };
+
+
+    let error;
+
+
+    if(currentSettingsId){
+
+      const result =
+        await supabaseClient
+          .from("website_settings")
+          .update(payload)
+          .eq("id", currentSettingsId);
+
+      error = result.error;
+
+    }else{
+
+      payload.created_by =
+        session?.user?.id || null;
+
+      const result =
+        await supabaseClient
+          .from("website_settings")
+          .insert([payload])
+          .select()
+          .single();
+
+      error = result.error;
+
+      if(!error && result.data){
+        currentSettingsId =
+          result.data.id;
+      }
+    }
+
+
+    if(error){
+
+      console.error(error);
+
+      showMessage(
+        "Save failed: " +
+        error.message,
+        false
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      "Website settings saved successfully."
+    );
+
+    await loadSettings();
+
+  });
+
+
+/* ---------------------------
+   ESCAPE
+---------------------------- */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* ---------------------------
+   DASHBOARD
+---------------------------- */
+
+function goDashboard(){
+
+  window.location.href =
+    "super-admin.html";
+}
+
+
+/* ---------------------------
+   LOGOUT
+---------------------------- */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+}
+
+
+/* ---------------------------
+   START
+---------------------------- */
+
+(async function(){
+
+  const ok = await checkAuth();
+
+  if(!ok) return;
+
+  await loadSettings();
+
+})();
+
+</script>
+
+</body>
+</html>
