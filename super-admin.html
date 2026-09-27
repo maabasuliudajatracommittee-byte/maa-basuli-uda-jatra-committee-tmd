@@ -2357,9 +2357,7 @@ async function downloadMemberIdCard(id){
 
     if(!member){
 
-      throw new Error(
-        "Member record not found."
-      );
+      throw new Error("Member record not found.");
 
     }
 
@@ -2370,9 +2368,7 @@ async function downloadMemberIdCard(id){
 
     try{
 
-      const {
-        data:settings
-      } =
+      const { data: settings } =
         await supabaseClient
           .from("website_settings")
           .select("*")
@@ -2385,13 +2381,9 @@ async function downloadMemberIdCard(id){
         settings?.site_logo_url ||
         "";
 
-    }
-    catch(error){
+    }catch(error){
 
-      console.warn(
-        "Logo load skipped:",
-        error
-      );
+      console.warn("Logo load skipped:",error);
 
     }
 
@@ -2400,6 +2392,26 @@ async function downloadMemberIdCard(id){
 
     const active =
       member.member_status === "active";
+
+    const logoHtml =
+      logoUrl
+        ? '<img class="logo" src="' +
+          escapeAttr(logoUrl) +
+          '" alt="Maa Basuli Logo">'
+        : '<div class="logo"></div>';
+
+    const photoHtml =
+      photo
+        ? '<img class="member-photo" src="' +
+          escapeAttr(photo) +
+          '" alt="Member Photo">'
+        : '<div class="member-photo"></div>';
+
+    const statusClass =
+      active ? "active" : "inactive";
+
+    const statusText =
+      active ? "ACTIVE" : "INACTIVE";
 
     const qrValue =
       location.origin +
@@ -2410,6 +2422,10 @@ async function downloadMemberIdCard(id){
       "#verify=" +
       encodeURIComponent(memberId);
 
+    const qrUrl =
+      "https://api.qrserver.com/v1/create-qr-code/?size=270x270&data=" +
+      encodeURIComponent(qrValue);
+
     const win =
       window.open(
         "",
@@ -2419,9 +2435,7 @@ async function downloadMemberIdCard(id){
 
     if(!win){
 
-      alert(
-        "Please allow pop-ups for this website."
-      );
+      alert("Please allow pop-ups for this website.");
 
       return;
     }
@@ -2432,24 +2446,18 @@ async function downloadMemberIdCard(id){
 
 <meta charset="UTF-8">
 
-<title>
-Official Digital Member Identity Card - ${escapeHtml(memberId)}
-</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+<title>Official Digital Member Identity Card - ${escapeHtml(memberId)}</title>
 
 <style>
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  padding:24px;
   background:#eeeeee;
   font-family:Arial,Helvetica,sans-serif;
   color:#182238;
+  padding:24px;
 }
 
 .toolbar{
@@ -2472,6 +2480,7 @@ body{
 .id-card{
   width:1200px;
   max-width:100%;
+  min-height:760px;
   margin:auto;
   background:#fff;
   border:3px solid #a63b18;
@@ -2676,14 +2685,7 @@ body{
 
   <div class="header">
 
-    ${
-      logoUrl
-        ? `<img
-             class="logo"
-             src="${escapeAttr(logoUrl)}"
-             alt="Maa Basuli Logo">`
-        : `<div class="logo"></div>`
-    }
+    ${logoHtml}
 
     <div class="header-text">
 
@@ -2706,16 +2708,7 @@ body{
   <div class="main">
 
     <div class="photo-wrap">
-
-      ${
-        photo
-          ? `<img
-               class="member-photo"
-               src="${escapeAttr(photo)}"
-               alt="Member Photo">`
-          : `<div class="member-photo"></div>`
-      }
-
+      ${photoHtml}
     </div>
 
     <div class="details">
@@ -2748,18 +2741,19 @@ body{
         <div>${escapeHtml(member.blood_group || "—")}</div>
       </div>
 
-      <div class="status ${active ? "active" : "inactive"}">
-        ${active ? "ACTIVE" : "INACTIVE"}
+      <div class="status ${statusClass}">
+        ${statusText}
       </div>
 
     </div>
 
     <div class="qr-section">
 
-      <canvas
+      <img
         id="memberQR"
-        class="qr">
-      </canvas>
+        class="qr"
+        src="${qrUrl}"
+        alt="Member QR Code">
 
       <p class="qr-text">
         Scan QR to verify live member profile
@@ -2774,22 +2768,6 @@ body{
   </div>
 
 </div>
-
-<script>
-
-new QRious({
-
-  element:
-    document.getElementById("memberQR"),
-
-  size:270,
-
-  value:
-    ${JSON.stringify(qrValue)}
-
-});
-
-</script>
 
 </body>
 </html>`);
@@ -2812,7 +2790,6 @@ new QRious({
   }
 
 }
-
 
 /* =========================
    DESIGNATION
