@@ -86,8 +86,6 @@
       margin-right:6px;
     }
 
-    /* DASHBOARD STATS */
-
     .stats{
       display:grid;
       grid-template-columns:repeat(4,1fr);
@@ -120,27 +118,11 @@
       color:#94a3b8;
     }
 
-    .stat.green-border{
-      border-left-color:#15803d;
-    }
-
-    .stat.blue-border{
-      border-left-color:#2563eb;
-    }
-
-    .stat.orange-border{
-      border-left-color:#d97706;
-    }
-
-    .stat.purple-border{
-      border-left-color:#7e22ce;
-    }
-
-    .stat.red-border{
-      border-left-color:#dc2626;
-    }
-
-    /* ALERTS */
+    .stat.green-border{border-left-color:#15803d}
+    .stat.blue-border{border-left-color:#2563eb}
+    .stat.orange-border{border-left-color:#d97706}
+    .stat.purple-border{border-left-color:#7e22ce}
+    .stat.red-border{border-left-color:#dc2626}
 
     .alerts{
       display:grid;
@@ -193,8 +175,6 @@
       white-space:nowrap;
     }
 
-    /* CARD */
-
     .card{
       background:white;
       border-radius:12px;
@@ -212,8 +192,6 @@
       font-size:13px;
       margin-bottom:15px;
     }
-
-    /* CONTROL CENTER */
 
     .control-section{
       background:white;
@@ -271,42 +249,13 @@
       font-size:12px;
     }
 
-    .ready{
-      background:#7c2d12;
-      color:white;
-    }
-
-    .setup{
-      background:#64748b;
-      color:white;
-    }
-
-    .green{
-      background:#15803d;
-      color:white;
-    }
-
-    .blue{
-      background:#2563eb;
-      color:white;
-    }
-
-    .purple{
-      background:#7e22ce;
-      color:white;
-    }
-
-    .orange{
-      background:#d97706;
-      color:white;
-    }
-
-    .teal{
-      background:#0f766e;
-      color:white;
-    }
-
-    /* ADMIN */
+    .ready{background:#7c2d12;color:white}
+    .setup{background:#64748b;color:white}
+    .green{background:#15803d;color:white}
+    .blue{background:#2563eb;color:white}
+    .purple{background:#7e22ce;color:white}
+    .orange{background:#d97706;color:white}
+    .teal{background:#0f766e;color:white}
 
     .admin-form{
       display:flex;
@@ -315,7 +264,8 @@
     }
 
     input,
-    select{
+    select,
+    textarea{
       border:1px solid #d1d5db;
       border-radius:8px;
       padding:11px;
@@ -323,35 +273,22 @@
       background:white;
     }
 
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+    }
+
     .admin-form input{
       flex:1;
       min-width:250px;
     }
 
-    .primary{
-      background:#7c2d12;
-      color:white;
-    }
-
-    .success{
-      background:#15803d;
-      color:white;
-    }
-
-    .danger{
-      background:#dc2626;
-      color:white;
-    }
-
-    .warning{
-      background:#d97706;
-      color:white;
-    }
-
-    .secondary{
-      background:#475569;
-      color:white;
-    }
+    .primary{background:#7c2d12;color:white}
+    .success{background:#15803d;color:white}
+    .danger{background:#dc2626;color:white}
+    .warning{background:#d97706;color:white}
+    .secondary{background:#475569;color:white}
 
     .message{
       margin-top:12px;
@@ -371,8 +308,6 @@
       background:#fee2e2;
       color:#991b1b;
     }
-
-    /* TABLE */
 
     .table-wrap{
       overflow-x:auto;
@@ -405,13 +340,15 @@
     }
 
     .badge-active,
-    .badge-approved{
+    .badge-approved,
+    .badge-published{
       background:#dcfce7;
       color:#166534;
     }
 
     .badge-inactive,
-    .badge-rejected{
+    .badge-rejected,
+    .badge-hidden{
       background:#fee2e2;
       color:#991b1b;
     }
@@ -450,8 +387,6 @@
       text-align:center;
       padding:25px;
     }
-
-    /* MODAL */
 
     .modal{
       position:fixed;
@@ -516,6 +451,60 @@
       margin-top:7px;
     }
 
+    .donation-summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin:15px 0;
+    }
+
+    .donation-box{
+      background:#f8fafc;
+      border-radius:10px;
+      padding:15px;
+      border-left:4px solid #7e22ce;
+    }
+
+    .donation-box small{
+      color:#64748b;
+    }
+
+    .donation-box strong{
+      display:block;
+      font-size:22px;
+      margin-top:5px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .form-group{
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+    }
+
+    .form-group label{
+      font-size:12px;
+      font-weight:bold;
+      color:#475569;
+    }
+
+    .form-group.full{
+      grid-column:1/-1;
+    }
+
+    .donation-form-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
     @media(max-width:1050px){
       .control-grid{
         grid-template-columns:repeat(3,1fr);
@@ -536,6 +525,14 @@
       }
 
       .alerts{
+        grid-template-columns:1fr;
+      }
+
+      .donation-summary{
+        grid-template-columns:1fr;
+      }
+
+      .form-grid{
         grid-template-columns:1fr;
       }
     }
@@ -585,10 +582,7 @@
   <p>Super Admin Control Panel</p>
 </header>
 
-
 <div class="container">
-
-  <!-- TOPBAR -->
 
   <div class="topbar">
 
@@ -614,9 +608,6 @@
     </div>
 
   </div>
-
-
-  <!-- LIVE STATS -->
 
   <div class="stats">
 
@@ -718,9 +709,6 @@
 
   </div>
 
-
-  <!-- ALERTS -->
-
   <div class="alerts">
 
     <div class="alert-card warning-alert">
@@ -747,7 +735,6 @@
       </button>
 
     </div>
-
 
     <div class="alert-card danger-alert">
 
@@ -776,9 +763,6 @@
 
   </div>
 
-
-  <!-- CONTROL CENTER -->
-
   <div class="control-section">
 
     <h3>👑 Super Admin Full Control Center</h3>
@@ -787,11 +771,7 @@
       Website ra samasta management system ku ehi panel ru control karantu.
     </p>
 
-
     <div class="control-grid">
-
-
-      <!-- MEMBERS -->
 
       <div class="control-card">
 
@@ -811,9 +791,6 @@
 
       </div>
 
-
-      <!-- ADMINS -->
-
       <div class="control-card">
 
         <div class="control-icon">👨‍💼</div>
@@ -831,9 +808,6 @@
         </button>
 
       </div>
-
-
-      <!-- NOTICE -->
 
       <div class="control-card">
 
@@ -853,9 +827,6 @@
 
       </div>
 
-
-      <!-- EVENT -->
-
       <div class="control-card">
 
         <div class="control-icon">🎉</div>
@@ -873,9 +844,6 @@
         </button>
 
       </div>
-
-
-      <!-- GALLERY -->
 
       <div class="control-card">
 
@@ -895,9 +863,6 @@
 
       </div>
 
-
-      <!-- COMPLAINT -->
-
       <div class="control-card">
 
         <div class="control-icon">📝</div>
@@ -915,9 +880,6 @@
         </button>
 
       </div>
-
-
-      <!-- FUND -->
 
       <div class="control-card">
 
@@ -937,9 +899,6 @@
 
       </div>
 
-
-      <!-- FEE -->
-
       <div class="control-card">
 
         <div class="control-icon">💳</div>
@@ -958,8 +917,7 @@
 
       </div>
 
-
-      <!-- DONATION -->
+      <!-- DONATION MANAGEMENT - NOW LIVE -->
 
       <div class="control-card">
 
@@ -968,19 +926,16 @@
         <h4>Donation Management</h4>
 
         <p>
-          Donation information, QR and donation records manage kariba.
+          Donation record add, edit, publish/hide and delete manage karantu.
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Donation Management')">
-          Setup Required
+          class="purple"
+          onclick="scrollToSection('donationManagement')">
+          Open Donation Manager
         </button>
 
       </div>
-
-
-      <!-- JATRA -->
 
       <div class="control-card">
 
@@ -1000,9 +955,6 @@
 
       </div>
 
-
-      <!-- BHAKTA -->
-
       <div class="control-card">
 
         <div class="control-icon">🙏</div>
@@ -1020,9 +972,6 @@
         </button>
 
       </div>
-
-
-      <!-- WEBSITE -->
 
       <div class="control-card">
 
@@ -1042,9 +991,6 @@
 
       </div>
 
-
-      <!-- HOMEPAGE -->
-
       <div class="control-card">
 
         <div class="control-icon">🏠</div>
@@ -1062,9 +1008,6 @@
         </button>
 
       </div>
-
-
-      <!-- DOCUMENT -->
 
       <div class="control-card">
 
@@ -1084,9 +1027,6 @@
 
       </div>
 
-
-      <!-- CONTACT -->
-
       <div class="control-card">
 
         <div class="control-icon">📞</div>
@@ -1105,9 +1045,6 @@
 
       </div>
 
-
-      <!-- AUDIT -->
-
       <div class="control-card">
 
         <div class="control-icon">📋</div>
@@ -1125,9 +1062,6 @@
         </button>
 
       </div>
-
-
-      <!-- BACKUP -->
 
       <div class="control-card">
 
@@ -1149,12 +1083,11 @@
 
     </div>
 
-
     <div class="system-note">
 
       <strong>System Status:</strong>
       Green/Blue/Purple/Orange buttons are connected to the existing
-      management pages. Fund and Member Fee management are now live.
+      management pages. Fund, Member Fee and Donation management are now live.
 
     </div>
 
@@ -1164,6 +1097,237 @@
 
   </div>
 
+  <!-- DONATION MANAGEMENT -->
+
+  <div class="card" id="donationManagement">
+
+    <h3>💸 Donation Management</h3>
+
+    <p class="card-subtitle">
+      Donation records existing fund_transactions table re manage karantu.
+      Donation transaction type automatic bhabare use heba.
+    </p>
+
+    <div class="donation-summary">
+
+      <div class="donation-box">
+        <small>Total Donation Records</small>
+        <strong id="donationRecordCount">0</strong>
+      </div>
+
+      <div class="donation-box">
+        <small>Published Donations</small>
+        <strong id="publishedDonationCount">0</strong>
+      </div>
+
+      <div class="donation-box">
+        <small>Total Donation Amount</small>
+        <strong id="donationTotalAmount">₹0</strong>
+      </div>
+
+    </div>
+
+    <div
+      class="card"
+      style="background:#fafafa;border:1px solid #e5e7eb;box-shadow:none;">
+
+      <h3 id="donationFormTitle">
+        Add Donation
+      </h3>
+
+      <input
+        type="hidden"
+        id="donationEditId"
+        value=""
+      >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>Donation Date</label>
+
+          <input
+            type="date"
+            id="donationDate"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Amount</label>
+
+          <input
+            type="number"
+            id="donationAmount"
+            min="0"
+            step="0.01"
+            placeholder="Enter donation amount"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Donor / Donation Title</label>
+
+          <input
+            type="text"
+            id="donationTitle"
+            placeholder="Donor name / donation title"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Category</label>
+
+          <input
+            type="text"
+            id="donationCategory"
+            placeholder="Example: Uda Jatra Donation"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Payment Mode</label>
+
+          <select id="donationPaymentMode">
+
+            <option value="Cash">
+              Cash
+            </option>
+
+            <option value="UPI">
+              UPI
+            </option>
+
+            <option value="Bank Transfer">
+              Bank Transfer
+            </option>
+
+            <option value="Cheque">
+              Cheque
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Reference / Receipt No.</label>
+
+          <input
+            type="text"
+            id="donationReference"
+            placeholder="Reference / receipt number"
+          >
+
+        </div>
+
+        <div class="form-group full">
+
+          <label>Description</label>
+
+          <textarea
+            id="donationDescription"
+            placeholder="Donation details..."
+          ></textarea>
+
+        </div>
+
+      </div>
+
+      <div class="donation-form-actions">
+
+        <button
+          class="purple"
+          id="donationSaveButton"
+          onclick="saveDonation()">
+          Save Donation
+        </button>
+
+        <button
+          class="secondary"
+          id="donationCancelButton"
+          onclick="cancelDonationEdit()"
+          style="display:none;">
+          Cancel Edit
+        </button>
+
+      </div>
+
+      <div
+        id="donationMessage"
+        class="message">
+      </div>
+
+    </div>
+
+    <div
+      style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+
+      <input
+        type="search"
+        id="donationSearch"
+        placeholder="Search donation..."
+        oninput="renderDonations()"
+        style="flex:1;min-width:250px;"
+      >
+
+      <button
+        class="refresh"
+        onclick="loadDonations()">
+        🔄 Refresh Donations
+      </button>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Date</th>
+            <th>Title / Donor</th>
+            <th>Category</th>
+            <th>Payment Mode</th>
+            <th>Reference</th>
+            <th>Amount</th>
+            <th>Visibility</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="donationTableBody">
+
+          <tr>
+            <td
+              colspan="8"
+              class="loading">
+              Loading Donations...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
 
   <!-- ADMIN MANAGEMENT -->
 
@@ -1225,7 +1389,6 @@
     </div>
 
   </div>
-
 
   <!-- MEMBER MANAGEMENT -->
 
@@ -1314,7 +1477,6 @@
 
 </div>
 
-
 <!-- MEMBER VIEW MODAL -->
 
 <div
@@ -1343,7 +1505,6 @@
 
 </div>
 
-
 <script>
 
 const SUPABASE_URL =
@@ -1352,18 +1513,15 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
   );
 
-
 let members = [];
-
 let dashboardSummary = null;
-
+let donations = [];
 
 /* =========================
    START
@@ -1380,7 +1538,6 @@ document.addEventListener(
     } =
       await supabaseClient.auth.getSession();
 
-
     if(!session){
 
       window.location.href =
@@ -1389,18 +1546,15 @@ document.addEventListener(
       return;
     }
 
-
     document.getElementById(
       "adminEmail"
     ).textContent =
       session.user.email || "";
 
-
     await checkSuperAdmin();
 
   }
 );
-
 
 /* =========================
    CHECK SUPER ADMIN
@@ -1415,7 +1569,6 @@ async function checkSuperAdmin(){
   } =
     await supabaseClient.auth.getUser();
 
-
   if(!user){
 
     window.location.href =
@@ -1423,7 +1576,6 @@ async function checkSuperAdmin(){
 
     return;
   }
-
 
   const {
     data,
@@ -1438,7 +1590,6 @@ async function checkSuperAdmin(){
       )
       .maybeSingle();
 
-
   if(error){
 
     alert(
@@ -1450,7 +1601,6 @@ async function checkSuperAdmin(){
 
     return;
   }
-
 
   if(
     !data ||
@@ -1467,11 +1617,11 @@ async function checkSuperAdmin(){
     return;
   }
 
-
   await refreshDashboard();
 
-}
+  await loadDonations();
 
+}
 
 /* =========================
    REFRESH DASHBOARD
@@ -1485,8 +1635,9 @@ async function refreshDashboard(){
     loadAdmins()
   ]);
 
-}
+  await loadDonations();
 
+}
 
 /* =========================
    DASHBOARD SUMMARY
@@ -1502,7 +1653,6 @@ async function loadDashboardSummary(){
       "get_super_admin_dashboard_summary"
     );
 
-
   if(error){
 
     console.error(
@@ -1513,15 +1663,12 @@ async function loadDashboardSummary(){
     return;
   }
 
-
   dashboardSummary =
     data || {};
-
 
   renderDashboardSummary();
 
 }
-
 
 /* =========================
    RENDER SUMMARY
@@ -1531,7 +1678,6 @@ function renderDashboardSummary(){
 
   const s =
     dashboardSummary || {};
-
 
   setText(
     "totalMembers",
@@ -1613,7 +1759,6 @@ function renderDashboardSummary(){
     s.fund_transactions || 0
   );
 
-
   setText(
     "pendingMemberAlert",
     s.pending_members || 0
@@ -1626,7 +1771,6 @@ function renderDashboardSummary(){
 
 }
 
-
 /* =========================
    OPEN PAGE
 ========================= */
@@ -1637,7 +1781,6 @@ function openPage(page){
     page;
 
 }
-
 
 /* =========================
    SCROLL
@@ -1650,14 +1793,12 @@ function scrollToSection(id){
 
   if(!element) return;
 
-
   element.scrollIntoView({
     behavior:"smooth",
     block:"start"
   });
 
 }
-
 
 /* =========================
    PENDING MEMBERS
@@ -1673,16 +1814,13 @@ function openPendingMembers(){
   filter.value =
     "pending";
 
-
   renderMembers();
-
 
   scrollToSection(
     "memberManagement"
   );
 
 }
-
 
 /* =========================
    SETUP REQUIRED
@@ -1698,7 +1836,6 @@ function setupRequired(feature){
 
 }
 
-
 /* =========================
    LOAD MEMBERS
 ========================= */
@@ -1712,7 +1849,6 @@ async function loadMembers(){
     await supabaseClient.rpc(
       "get_all_members_for_super_admin"
     );
-
 
   if(error){
 
@@ -1733,21 +1869,12 @@ async function loadMembers(){
     return;
   }
 
-
   members =
     data || [];
 
-
   renderMembers();
 
-
-  /*
-    Dashboard summary RPC is the
-    authoritative dashboard count.
-  */
-
 }
-
 
 /* =========================
    RENDER MEMBERS
@@ -1760,7 +1887,6 @@ function renderMembers(){
       "membersTableBody"
     );
 
-
   const search =
     document.getElementById(
       "memberSearch"
@@ -1769,13 +1895,11 @@ function renderMembers(){
       .trim()
       .toLowerCase();
 
-
   const filter =
     document.getElementById(
       "statusFilter"
     )
       .value;
-
 
   const list =
     members.filter(
@@ -1795,15 +1919,12 @@ function renderMembers(){
         .join(" ")
         .toLowerCase();
 
-
         const matchesSearch =
           !search ||
           searchable.includes(search);
 
-
         let matchesFilter =
           true;
-
 
         if(
           filter === "pending"
@@ -1814,7 +1935,6 @@ function renderMembers(){
             "pending";
 
         }
-
 
         if(
           filter === "active"
@@ -1828,7 +1948,6 @@ function renderMembers(){
 
         }
 
-
         if(
           filter === "inactive"
         ){
@@ -1838,7 +1957,6 @@ function renderMembers(){
             "inactive";
 
         }
-
 
         if(
           filter === "rejected"
@@ -1850,7 +1968,6 @@ function renderMembers(){
 
         }
 
-
         return (
           matchesSearch &&
           matchesFilter
@@ -1858,7 +1975,6 @@ function renderMembers(){
 
       }
     );
-
 
   if(
     list.length === 0
@@ -1877,7 +1993,6 @@ function renderMembers(){
 
     return;
   }
-
 
   tbody.innerHTML =
     list.map(
@@ -1899,10 +2014,8 @@ function renderMembers(){
               <div class="photo"></div>
               `;
 
-
         let approvalBadge =
           "";
-
 
         if(
           member.approval_status ===
@@ -1944,7 +2057,6 @@ function renderMembers(){
 
         }
 
-
         const statusBadge =
           member.member_status ===
           "active"
@@ -1963,7 +2075,6 @@ function renderMembers(){
               </span>
               `;
 
-
         let actions =
           `
           <button
@@ -1972,7 +2083,6 @@ function renderMembers(){
             View
           </button>
           `;
-
 
         if(
           member.approval_status ===
@@ -1996,7 +2106,6 @@ function renderMembers(){
 
         }
 
-
         if(
           member.approval_status ===
             "approved" &&
@@ -2015,7 +2124,6 @@ function renderMembers(){
 
         }
 
-
         if(
           member.approval_status ===
             "approved" &&
@@ -2033,7 +2141,6 @@ function renderMembers(){
             `;
 
         }
-
 
         return `
           <tr>
@@ -2108,7 +2215,6 @@ function renderMembers(){
 
 }
 
-
 /* =========================
    DESIGNATION
 ========================= */
@@ -2129,7 +2235,6 @@ function designationOptions(
 
   ];
 
-
   return list.map(
     item => {
 
@@ -2137,7 +2242,6 @@ function designationOptions(
         item === current
           ? "selected"
           : "";
-
 
       return `
         <option
@@ -2152,7 +2256,6 @@ function designationOptions(
 
 }
 
-
 /* =========================
    APPROVE
 ========================= */
@@ -2165,7 +2268,6 @@ async function approveMember(id){
     )
   ) return;
 
-
   const {
     data,
     error
@@ -2177,7 +2279,6 @@ async function approveMember(id){
       }
     );
 
-
   if(error){
 
     alert(
@@ -2187,18 +2288,15 @@ async function approveMember(id){
     return;
   }
 
-
   alert(
     "Member approved successfully.\n" +
     "Member ID: " +
     data
   );
 
-
   await refreshDashboard();
 
 }
-
 
 /* =========================
    REJECT
@@ -2212,7 +2310,6 @@ async function rejectMember(id){
     )
   ) return;
 
-
   const {
     error
   } =
@@ -2223,7 +2320,6 @@ async function rejectMember(id){
       }
     );
 
-
   if(error){
 
     alert(
@@ -2233,16 +2329,13 @@ async function rejectMember(id){
     return;
   }
 
-
   alert(
     "Member rejected."
   );
 
-
   await refreshDashboard();
 
 }
-
 
 /* =========================
    ACTIVATE
@@ -2256,7 +2349,6 @@ async function activateMember(id){
     )
   ) return;
 
-
   const {
     error
   } =
@@ -2267,7 +2359,6 @@ async function activateMember(id){
       }
     );
 
-
   if(error){
 
     alert(
@@ -2277,16 +2368,13 @@ async function activateMember(id){
     return;
   }
 
-
   alert(
     "Member activated."
   );
 
-
   await refreshDashboard();
 
 }
-
 
 /* =========================
    DEACTIVATE
@@ -2300,7 +2388,6 @@ async function deactivateMember(id){
     )
   ) return;
 
-
   const {
     error
   } =
@@ -2311,7 +2398,6 @@ async function deactivateMember(id){
       }
     );
 
-
   if(error){
 
     alert(
@@ -2321,16 +2407,13 @@ async function deactivateMember(id){
     return;
   }
 
-
   alert(
     "Member deactivated."
   );
 
-
   await refreshDashboard();
 
 }
-
 
 /* =========================
    DESIGNATION CHANGE
@@ -2352,7 +2435,6 @@ async function changeDesignation(
       }
     );
 
-
   if(error){
 
     alert(
@@ -2364,11 +2446,9 @@ async function changeDesignation(
     return;
   }
 
-
   await loadMembers();
 
 }
-
 
 /* =========================
    VIEW MEMBER
@@ -2381,9 +2461,7 @@ function viewMember(id){
       m => m.id === id
     );
 
-
   if(!member) return;
-
 
   const photo =
     member.profile_photo_url
@@ -2402,7 +2480,6 @@ function viewMember(id){
           alt="No Photo"
           style="background:#eee;">
         `;
-
 
   document.getElementById(
     "memberDetails"
@@ -2495,14 +2572,12 @@ function viewMember(id){
     </div>
     `;
 
-
   document.getElementById(
     "memberModal"
   ).style.display =
     "flex";
 
 }
-
 
 function closeMemberModal(){
 
@@ -2512,7 +2587,6 @@ function closeMemberModal(){
     "none";
 
 }
-
 
 /* =========================
    MAKE ADMIN
@@ -2525,10 +2599,8 @@ async function makeAdmin(){
       "adminEmailInput"
     );
 
-
   const email =
     input.value.trim();
-
 
   if(!email){
 
@@ -2540,7 +2612,6 @@ async function makeAdmin(){
     return;
   }
 
-
   const {
     error
   } =
@@ -2550,7 +2621,6 @@ async function makeAdmin(){
         target_email:email
       }
     );
-
 
   if(error){
 
@@ -2562,21 +2632,17 @@ async function makeAdmin(){
     return;
   }
 
-
   showAdminMessage(
     "Admin role successfully assigned.",
     true
   );
 
-
   input.value =
     "";
-
 
   await refreshDashboard();
 
 }
-
 
 /* =========================
    ADMIN MESSAGE
@@ -2592,10 +2658,8 @@ function showAdminMessage(
       "adminMessage"
     );
 
-
   box.textContent =
     message;
-
 
   box.className =
     success
@@ -2603,7 +2667,6 @@ function showAdminMessage(
       : "message error-msg";
 
 }
-
 
 /* =========================
    LOAD ADMINS
@@ -2616,7 +2679,6 @@ async function loadAdmins(){
       "adminsTableBody"
     );
 
-
   const {
     data,
     error
@@ -2624,7 +2686,6 @@ async function loadAdmins(){
     await supabaseClient.rpc(
       "get_all_admins_for_super_admin"
     );
-
 
   if(error){
 
@@ -2644,7 +2705,6 @@ async function loadAdmins(){
     return;
   }
 
-
   if(
     !data ||
     data.length === 0
@@ -2663,7 +2723,6 @@ async function loadAdmins(){
 
     return;
   }
-
 
   tbody.innerHTML =
     data.map(
@@ -2710,7 +2769,6 @@ async function loadAdmins(){
 
 }
 
-
 /* =========================
    REMOVE ADMIN
 ========================= */
@@ -2723,7 +2781,6 @@ async function removeAdmin(id){
     )
   ) return;
 
-
   const {
     error
   } =
@@ -2733,7 +2790,6 @@ async function removeAdmin(id){
         target_user_id:id
       }
     );
-
 
   if(error){
 
@@ -2745,17 +2801,862 @@ async function removeAdmin(id){
     return;
   }
 
-
   showAdminMessage(
     "Admin role removed successfully.",
     true
   );
 
-
   await refreshDashboard();
 
 }
 
+/* =====================================================
+   DONATION MANAGEMENT
+   Uses existing fund_transactions table
+   transaction_type = Donation
+===================================================== */
+
+/* =========================
+   LOAD DONATIONS
+========================= */
+
+async function loadDonations(){
+
+  const tbody =
+    document.getElementById(
+      "donationTableBody"
+    );
+
+  if(!tbody) return;
+
+  tbody.innerHTML =
+    `
+    <tr>
+      <td
+        colspan="8"
+        class="loading">
+        Loading Donations...
+      </td>
+    </tr>
+    `;
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .select(`
+        id,
+        financial_year,
+        transaction_type,
+        transaction_date,
+        amount,
+        category,
+        description,
+        reference_no,
+        is_published,
+        created_by,
+        created_at,
+        updated_at,
+        title,
+        payment_mode
+      `)
+      .eq(
+        "transaction_type",
+        "Donation"
+      )
+      .order(
+        "transaction_date",
+        {
+          ascending:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+  if(error){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="8"
+          class="empty">
+          Error loading donations:
+          ${escapeHtml(error.message)}
+        </td>
+      </tr>
+      `;
+
+    showDonationMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  donations =
+    data || [];
+
+  renderDonations();
+
+}
+
+/* =========================
+   RENDER DONATIONS
+========================= */
+
+function renderDonations(){
+
+  const tbody =
+    document.getElementById(
+      "donationTableBody"
+    );
+
+  if(!tbody) return;
+
+  const searchElement =
+    document.getElementById(
+      "donationSearch"
+    );
+
+  const search =
+    searchElement
+      ? searchElement.value
+          .trim()
+          .toLowerCase()
+      : "";
+
+  const list =
+    donations.filter(
+      item => {
+
+        const searchable = [
+
+          item.title,
+          item.category,
+          item.description,
+          item.reference_no,
+          item.payment_mode,
+          item.financial_year
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+        return (
+          !search ||
+          searchable.includes(search)
+        );
+
+      }
+    );
+
+  updateDonationSummary();
+
+  if(
+    list.length === 0
+  ){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="8"
+          class="empty">
+          No donation records found.
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    list.map(
+      item => {
+
+        const visibility =
+          item.is_published
+
+            ? `
+              <span
+                class="badge badge-published">
+                Published
+              </span>
+              `
+
+            : `
+              <span
+                class="badge badge-hidden">
+                Hidden
+              </span>
+              `;
+
+        const publishButton =
+          item.is_published
+
+            ? `
+              <button
+                class="warning"
+                onclick="toggleDonationPublish(
+                  '${item.id}',
+                  false
+                )">
+                Hide
+              </button>
+              `
+
+            : `
+              <button
+                class="success"
+                onclick="toggleDonationPublish(
+                  '${item.id}',
+                  true
+                )">
+                Publish
+              </button>
+              `;
+
+        return `
+          <tr>
+
+            <td>
+              ${formatDate(
+                item.transaction_date
+              )}
+            </td>
+
+            <td>
+              <strong>
+                ${escapeHtml(
+                  item.title ||
+                  "Donation"
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.category ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.payment_mode ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.reference_no ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              <strong>
+                ₹${formatAmount(
+                  item.amount
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${visibility}
+            </td>
+
+            <td>
+
+              <div class="actions">
+
+                <button
+                  class="secondary"
+                  onclick="editDonation(
+                    '${item.id}'
+                  )">
+                  Edit
+                </button>
+
+                ${publishButton}
+
+                <button
+                  class="danger"
+                  onclick="deleteDonation(
+                    '${item.id}'
+                  )">
+                  Delete
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+        `;
+
+      }
+    ).join("");
+
+}
+
+/* =========================
+   DONATION SUMMARY
+========================= */
+
+function updateDonationSummary(){
+
+  const totalRecords =
+    donations.length;
+
+  const publishedRecords =
+    donations.filter(
+      item => item.is_published
+    ).length;
+
+  const totalAmount =
+    donations.reduce(
+      (sum,item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
+      0
+    );
+
+  setText(
+    "donationRecordCount",
+    totalRecords
+  );
+
+  setText(
+    "publishedDonationCount",
+    publishedRecords
+  );
+
+  setText(
+    "donationTotalAmount",
+    "₹" +
+    formatAmount(
+      totalAmount
+    )
+  );
+
+}
+
+/* =========================
+   SAVE DONATION
+========================= */
+
+async function saveDonation(){
+
+  const editId =
+    document.getElementById(
+      "donationEditId"
+    ).value.trim();
+
+  const donationDate =
+    document.getElementById(
+      "donationDate"
+    ).value;
+
+  const amount =
+    Number(
+      document.getElementById(
+        "donationAmount"
+      ).value
+    );
+
+  const title =
+    document.getElementById(
+      "donationTitle"
+    ).value.trim();
+
+  const category =
+    document.getElementById(
+      "donationCategory"
+    ).value.trim();
+
+  const paymentMode =
+    document.getElementById(
+      "donationPaymentMode"
+    ).value;
+
+  const referenceNo =
+    document.getElementById(
+      "donationReference"
+    ).value.trim();
+
+  const description =
+    document.getElementById(
+      "donationDescription"
+    ).value.trim();
+
+  if(!donationDate){
+
+    showDonationMessage(
+      "Please select donation date.",
+      false
+    );
+
+    return;
+  }
+
+  if(
+    !amount ||
+    amount <= 0
+  ){
+
+    showDonationMessage(
+      "Please enter a valid donation amount.",
+      false
+    );
+
+    return;
+  }
+
+  if(!title){
+
+    showDonationMessage(
+      "Please enter donor / donation title.",
+      false
+    );
+
+    return;
+  }
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    showDonationMessage(
+      "Session expired. Please login again.",
+      false
+    );
+
+    return;
+  }
+
+  let error = null;
+
+  if(editId){
+
+    const result =
+      await supabaseClient
+        .from("fund_transactions")
+        .update({
+          transaction_date:
+            donationDate,
+          amount:
+            amount,
+          category:
+            category || null,
+          description:
+            description || null,
+          reference_no:
+            referenceNo || null,
+          title:
+            title,
+          payment_mode:
+            paymentMode
+        })
+        .eq(
+          "id",
+          editId
+        );
+
+    error =
+      result.error;
+
+  }
+  else{
+
+    const financialYear =
+      getFinancialYear(
+        donationDate
+      );
+
+    const result =
+      await supabaseClient
+        .from("fund_transactions")
+        .insert({
+          financial_year:
+            financialYear,
+
+          transaction_type:
+            "Donation",
+
+          transaction_date:
+            donationDate,
+
+          amount:
+            amount,
+
+          category:
+            category || null,
+
+          description:
+            description || null,
+
+          reference_no:
+            referenceNo || null,
+
+          title:
+            title,
+
+          payment_mode:
+            paymentMode,
+
+          created_by:
+            user.id,
+
+          is_published:
+            false
+        });
+
+    error =
+      result.error;
+
+  }
+
+  if(error){
+
+    showDonationMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  showDonationMessage(
+    editId
+      ? "Donation updated successfully."
+      : "Donation saved successfully. It is currently Hidden until published.",
+    true
+  );
+
+  cancelDonationEdit();
+
+  await loadDonations();
+
+  await loadDashboardSummary();
+
+}
+
+/* =========================
+   EDIT DONATION
+========================= */
+
+function editDonation(id){
+
+  const item =
+    donations.find(
+      donation =>
+        donation.id === id
+    );
+
+  if(!item) return;
+
+  document.getElementById(
+    "donationEditId"
+  ).value =
+    item.id || "";
+
+  document.getElementById(
+    "donationDate"
+  ).value =
+    item.transaction_date || "";
+
+  document.getElementById(
+    "donationAmount"
+  ).value =
+    item.amount ?? "";
+
+  document.getElementById(
+    "donationTitle"
+  ).value =
+    item.title || "";
+
+  document.getElementById(
+    "donationCategory"
+  ).value =
+    item.category || "";
+
+  document.getElementById(
+    "donationPaymentMode"
+  ).value =
+    item.payment_mode || "Cash";
+
+  document.getElementById(
+    "donationReference"
+  ).value =
+    item.reference_no || "";
+
+  document.getElementById(
+    "donationDescription"
+  ).value =
+    item.description || "";
+
+  document.getElementById(
+    "donationFormTitle"
+  ).textContent =
+    "Edit Donation";
+
+  document.getElementById(
+    "donationSaveButton"
+  ).textContent =
+    "Update Donation";
+
+  document.getElementById(
+    "donationCancelButton"
+  ).style.display =
+    "inline-block";
+
+  scrollToSection(
+    "donationManagement"
+  );
+
+}
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelDonationEdit(){
+
+  document.getElementById(
+    "donationEditId"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationDate"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationAmount"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationTitle"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationCategory"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationPaymentMode"
+  ).value =
+    "Cash";
+
+  document.getElementById(
+    "donationReference"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationDescription"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationFormTitle"
+  ).textContent =
+    "Add Donation";
+
+  document.getElementById(
+    "donationSaveButton"
+  ).textContent =
+    "Save Donation";
+
+  document.getElementById(
+    "donationCancelButton"
+  ).style.display =
+    "none";
+
+}
+
+/* =========================
+   PUBLISH / HIDE
+========================= */
+
+async function toggleDonationPublish(
+  id,
+  publish
+){
+
+  const actionText =
+    publish
+      ? "Publish"
+      : "Hide";
+
+  if(
+    !confirm(
+      "Ehi donation ku " +
+      actionText +
+      " karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .update({
+        is_published:
+          publish
+      })
+      .eq(
+        "id",
+        id
+      );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    publish
+      ? "Donation published successfully."
+      : "Donation hidden successfully."
+  );
+
+  await loadDonations();
+
+}
+
+/* =========================
+   DELETE DONATION
+========================= */
+
+async function deleteDonation(id){
+
+  if(
+    !confirm(
+      "Ehi donation record ku permanently delete karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Donation deleted successfully."
+  );
+
+  await loadDonations();
+
+  await loadDashboardSummary();
+
+}
+
+/* =========================
+   DONATION MESSAGE
+========================= */
+
+function showDonationMessage(
+  message,
+  success
+){
+
+  const box =
+    document.getElementById(
+      "donationMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    success
+      ? "message success-msg"
+      : "message error-msg";
+
+}
+
+/* =========================
+   FINANCIAL YEAR
+========================= */
+
+function getFinancialYear(
+  dateValue
+){
+
+  const date =
+    new Date(
+      dateValue +
+      "T00:00:00"
+    );
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth() + 1;
+
+  if(month >= 4){
+
+    return (
+      year +
+      "-" +
+      String(
+        year + 1
+      ).slice(-2)
+    );
+
+  }
+
+  return (
+    year - 1 +
+    "-" +
+    String(year).slice(-2)
+  );
+
+}
 
 /* =========================
    LOGOUT
@@ -2769,7 +3670,6 @@ async function logout(){
     "index.html";
 
 }
-
 
 /* =========================
    HELPERS
@@ -2792,16 +3692,13 @@ function setText(
 
 }
 
-
 function formatDate(value){
 
   if(!value)
     return "—";
 
-
   const date =
     new Date(value);
-
 
   return date.toLocaleDateString(
     "en-IN",
@@ -2814,6 +3711,19 @@ function formatDate(value){
 
 }
 
+function formatAmount(value){
+
+  return Number(
+    value || 0
+  ).toLocaleString(
+    "en-IN",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+
+}
 
 function escapeHtml(value){
 
@@ -2843,7 +3753,6 @@ function escapeHtml(value){
 
 }
 
-
 function escapeAttr(value){
 
   return escapeHtml(
@@ -2851,7 +3760,6 @@ function escapeAttr(value){
   );
 
 }
-
 
 /* =========================
    MODAL OUTSIDE CLICK
