@@ -2347,17 +2347,42 @@ async function downloadMemberIdCard(id){
 
   try{
 
+    /* Use the same Super Admin member data path / public verification RPC.
+       Do NOT query public.members directly here. */
+    const memberRow =
+      members.find(
+        member =>
+          String(member.id || member.user_id || "") === String(id)
+      );
+
+    const memberId =
+      memberRow?.member_id || "";
+
+    if(!memberId){
+
+      throw new Error(
+        "Member ID not found."
+      );
+
+    }
+
     const {
-      data:member,
+      data,
       error
     } =
-      await supabaseClient
-        .from("members")
-        .select("*")
-        .eq("id", id)
-        .maybeSingle();
+      await supabaseClient.rpc(
+        "verify_member",
+        {
+          p_member_id:memberId
+        }
+      );
 
     if(error) throw error;
+
+    const member =
+      Array.isArray(data)
+        ? data[0]
+        : data;
 
     if(!member){
 
@@ -2367,17 +2392,11 @@ async function downloadMemberIdCard(id){
 
     }
 
-    const memberId =
-      member.member_id || "N/A";
-
     const name =
-      member.full_name || "N/A";
+      member.name || "N/A";
 
     const mobile =
-      member.mobile || "N/A";
-
-    const village =
-      member.village || "N/A";
+      member.phone || "N/A";
 
     const blood =
       member.blood_group || "N/A";
@@ -2386,7 +2405,7 @@ async function downloadMemberIdCard(id){
       member.designation || "Member";
 
     const status =
-      member.member_status === "inactive"
+      member.is_active === false
         ? "Deactive"
         : "Active";
 
@@ -2394,7 +2413,7 @@ async function downloadMemberIdCard(id){
       member.profile_photo_url || "";
 
     const qrData =
-      `${location.origin}/member-profile.html?member_id=${encodeURIComponent(memberId)}`;
+      `${location.origin}/member-profile.html?member_id=${encodeURIComponent(member.member_id)}`;
 
     const qrUrl =
       "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
@@ -2540,17 +2559,13 @@ async function downloadMemberIdCard(id){
 
           <div class="id">
             Member ID:
-            ${escapeHtml(memberId)}
+            ${escapeHtml(member.member_id)}
           </div>
 
           <div class="info">
 
             <b>Mobile:</b>
             ${escapeHtml(mobile)}
-            <br>
-
-            <b>Village:</b>
-            ${escapeHtml(village)}
             <br>
 
             <b>Blood Group:</b>
