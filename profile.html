@@ -141,8 +141,9 @@
     }
 
     .id-card{
-      width:540px;
-      max-width:none;
+      width:500px;
+      max-width:100%;
+      box-sizing:border-box;
       background:white;
       border:2px solid #8f2f10;
       border-radius:18px;
@@ -194,20 +195,20 @@
     }
 
     .id-body{
-      padding:20px;
+      padding:18px;
     }
 
     .member-top{
       display:flex;
-      gap:20px;
+      gap:16px;
       align-items:flex-start;
       min-width:0;
     }
 
     .member-photo{
-      width:135px;
-      height:155px;
-      flex:0 0 135px;
+      width:125px;
+      height:145px;
+      flex:0 0 125px;
       object-fit:cover;
       border:2px solid #9f3511;
       border-radius:10px;
@@ -221,24 +222,24 @@
     }
 
     .member-name{
-      font-size:24px;
+      font-size:22px;
       font-weight:800;
       color:#8f2f10;
       margin-bottom:4px;
     }
 
     .designation{
-      font-size:16px;
+      font-size:14px;
       font-weight:bold;
       margin-bottom:12px;
     }
 
     .info-row{
       display:grid;
-      grid-template-columns:95px minmax(0,1fr);
-      column-gap:8px;
-      margin:7px 0;
-      font-size:15px;
+      grid-template-columns:92px minmax(0,1fr);
+      column-gap:7px;
+      margin:6px 0;
+      font-size:14px;
       min-width:0;
     }
 
@@ -341,8 +342,16 @@
       }
 
       .id-card{
-        width:540px;
-        max-width:none;
+        width:calc(100vw - 20px);
+        max-width:500px;
+      }
+
+      .id-body{
+        padding:14px;
+      }
+
+      .member-top{
+        gap:12px;
       }
 
       .id-header{
@@ -363,13 +372,20 @@
       }
 
       .member-photo{
-        width:135px;
-        height:155px;
-        flex:0 0 135px;
+        width:105px;
+        height:125px;
+        flex:0 0 105px;
       }
 
       .member-name{
-        font-size:24px;
+        font-size:18px;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+
+      .designation{
+        overflow-wrap:anywhere;
+        word-break:break-word;
       }
     }
 
@@ -389,8 +405,9 @@
         left:50%;
         top:20px;
         transform:translateX(-50%);
-        width:540px;
+        width:500px;
         max-width:none;
+        box-sizing:border-box;
         box-shadow:none;
       }
 
@@ -1086,16 +1103,49 @@ async function downloadIdCard(){
   const card =
     document.getElementById("digitalIdCard");
 
+  let clone = null;
+  let holder = null;
+
   try{
 
+    /*
+      Always render the downloaded card in a fixed desktop-style
+      canvas, even when the browser is in mobile mode.
+      This prevents the mobile viewport from clipping the right side.
+    */
+    holder = document.createElement("div");
+    holder.style.position = "fixed";
+    holder.style.left = "-10000px";
+    holder.style.top = "0";
+    holder.style.width = "500px";
+    holder.style.zIndex = "-1";
+    holder.style.background = "#ffffff";
+    holder.style.overflow = "visible";
+
+    clone = card.cloneNode(true);
+    clone.style.width = "500px";
+    clone.style.maxWidth = "500px";
+    clone.style.boxSizing = "border-box";
+    clone.style.overflow = "hidden";
+    clone.style.margin = "0";
+    clone.style.boxShadow = "none";
+
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+
+    await new Promise(resolve => requestAnimationFrame(resolve));
+
     const canvas =
-      await html2canvas(card,{
+      await html2canvas(clone,{
         scale:3,
+        width:500,
+        windowWidth:520,
         useCORS:true,
         backgroundColor:"#ffffff",
-        logging:false
+        logging:false,
+        scrollX:0,
+        scrollY:0
       });
-
 
     const link =
       document.createElement("a");
@@ -1112,7 +1162,6 @@ async function downloadIdCard(){
 
     link.click();
 
-
   }catch(error){
 
     alert(
@@ -1120,6 +1169,12 @@ async function downloadIdCard(){
     );
 
     console.error(error);
+
+  }finally{
+
+    if(holder){
+      holder.remove();
+    }
   }
 }
 
