@@ -2347,42 +2347,15 @@ async function downloadMemberIdCard(id){
 
   try{
 
-    /* Use the same Super Admin member data path / public verification RPC.
-       Do NOT query public.members directly here. */
-    const memberRow =
-      members.find(
-        member =>
-          String(member.id || member.user_id || "") === String(id)
-      );
-
-    const memberId =
-      memberRow?.member_id || "";
-
-    if(!memberId){
-
-      throw new Error(
-        "Member ID not found."
-      );
-
-    }
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.rpc(
-        "verify_member",
-        {
-          p_member_id:memberId
-        }
-      );
-
-    if(error) throw error;
+    /* The Super Admin page already has the complete member data
+       from get_all_members_for_super_admin(). Use that same data.
+       No extra table/RPC is needed here. */
 
     const member =
-      Array.isArray(data)
-        ? data[0]
-        : data;
+      members.find(
+        item =>
+          String(item.id || item.user_id || "") === String(id)
+      );
 
     if(!member){
 
@@ -2392,11 +2365,14 @@ async function downloadMemberIdCard(id){
 
     }
 
+    const memberId =
+      member.member_id || "N/A";
+
     const name =
-      member.name || "N/A";
+      member.full_name || "N/A";
 
     const mobile =
-      member.phone || "N/A";
+      member.mobile || "N/A";
 
     const blood =
       member.blood_group || "N/A";
@@ -2405,15 +2381,15 @@ async function downloadMemberIdCard(id){
       member.designation || "Member";
 
     const status =
-      member.is_active === false
-        ? "Deactive"
-        : "Active";
+      member.member_status === "active"
+        ? "Active"
+        : "Deactive";
 
     const photo =
       member.profile_photo_url || "";
 
     const qrData =
-      `${location.origin}/member-profile.html?member_id=${encodeURIComponent(member.member_id)}`;
+      `${location.origin}/member-profile.html?member_id=${encodeURIComponent(memberId)}`;
 
     const qrUrl =
       "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
@@ -2438,6 +2414,7 @@ async function downloadMemberIdCard(id){
       <!doctype html>
       <html>
       <head>
+
         <meta charset="utf-8">
 
         <title>
@@ -2547,9 +2524,10 @@ async function downloadMemberIdCard(id){
 
           ${
             photo
-              ? `<img class="photo"
-                    src="${escapeAttr(photo)}"
-                    alt="Photo">`
+              ? `<img
+                   class="photo"
+                   src="${escapeAttr(photo)}"
+                   alt="Photo">`
               : `<div class="photo"></div>`
           }
 
@@ -2559,7 +2537,7 @@ async function downloadMemberIdCard(id){
 
           <div class="id">
             Member ID:
-            ${escapeHtml(member.member_id)}
+            ${escapeHtml(memberId)}
           </div>
 
           <div class="info">
