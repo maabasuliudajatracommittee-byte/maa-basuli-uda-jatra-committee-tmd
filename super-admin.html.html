@@ -1,0 +1,3799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Super Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:Arial,Helvetica,sans-serif;
+    }
+
+    body{
+      background:#f4f6f8;
+      color:#1f2937;
+    }
+
+    header{
+      background:linear-gradient(135deg,#7c2d12,#9a3412);
+      color:white;
+      padding:20px;
+    }
+
+    header h1{
+      font-size:23px;
+      margin-bottom:5px;
+    }
+
+    header p{
+      font-size:13px;
+      opacity:.9;
+    }
+
+    .container{
+      max-width:1300px;
+      margin:auto;
+      padding:20px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:20px;
+    }
+
+    .topbar h2{
+      font-size:23px;
+      margin-bottom:5px;
+    }
+
+    .account{
+      color:#64748b;
+      font-size:13px;
+    }
+
+    button{
+      border:0;
+      border-radius:8px;
+      padding:10px 15px;
+      cursor:pointer;
+      font-weight:bold;
+    }
+
+    button:disabled{
+      cursor:not-allowed;
+      opacity:.6;
+    }
+
+    .logout{
+      background:#dc2626;
+      color:white;
+    }
+
+    .refresh{
+      background:#2563eb;
+      color:white;
+      margin-right:6px;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-bottom:20px;
+    }
+
+    .stat{
+      background:white;
+      border-radius:12px;
+      padding:18px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+      border-left:4px solid #7c2d12;
+    }
+
+    .stat small{
+      color:#64748b;
+      font-size:12px;
+    }
+
+    .stat strong{
+      display:block;
+      font-size:28px;
+      margin-top:8px;
+    }
+
+    .stat .sub{
+      margin-top:5px;
+      font-size:11px;
+      color:#94a3b8;
+    }
+
+    .stat.green-border{border-left-color:#15803d}
+    .stat.blue-border{border-left-color:#2563eb}
+    .stat.orange-border{border-left-color:#d97706}
+    .stat.purple-border{border-left-color:#7e22ce}
+    .stat.red-border{border-left-color:#dc2626}
+
+    .alerts{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
+      margin-bottom:20px;
+    }
+
+    .alert-card{
+      border-radius:12px;
+      padding:18px;
+      background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+    }
+
+    .alert-card.warning-alert{
+      border-left:5px solid #d97706;
+    }
+
+    .alert-card.danger-alert{
+      border-left:5px solid #dc2626;
+    }
+
+    .alert-icon{
+      font-size:30px;
+    }
+
+    .alert-text{
+      flex:1;
+    }
+
+    .alert-text strong{
+      display:block;
+      font-size:18px;
+      margin-bottom:5px;
+    }
+
+    .alert-text span{
+      font-size:12px;
+      color:#64748b;
+    }
+
+    .alert-button{
+      background:#7c2d12;
+      color:white;
+      white-space:nowrap;
+    }
+
+    .card{
+      background:white;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .card h3{
+      margin-bottom:7px;
+    }
+
+    .card-subtitle{
+      color:#64748b;
+      font-size:13px;
+      margin-bottom:15px;
+    }
+
+    .control-section{
+      background:white;
+      border-radius:12px;
+      padding:20px;
+      margin-bottom:20px;
+      box-shadow:0 2px 8px rgba(0,0,0,.08);
+    }
+
+    .control-section h3{
+      margin-bottom:6px;
+      font-size:19px;
+    }
+
+    .control-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .control-card{
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:16px;
+      background:#fff;
+      transition:.2s;
+    }
+
+    .control-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 5px 15px rgba(0,0,0,.08);
+    }
+
+    .control-icon{
+      font-size:28px;
+      margin-bottom:9px;
+    }
+
+    .control-card h4{
+      margin-bottom:6px;
+      font-size:15px;
+    }
+
+    .control-card p{
+      color:#64748b;
+      font-size:12px;
+      line-height:1.5;
+      min-height:38px;
+      margin-bottom:12px;
+    }
+
+    .control-card button{
+      width:100%;
+      font-size:12px;
+    }
+
+    .ready{background:#7c2d12;color:white}
+    .setup{background:#64748b;color:white}
+    .green{background:#15803d;color:white}
+    .blue{background:#2563eb;color:white}
+    .purple{background:#7e22ce;color:white}
+    .orange{background:#d97706;color:white}
+    .teal{background:#0f766e;color:white}
+
+    .admin-form{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    input,
+    select,
+    textarea{
+      border:1px solid #d1d5db;
+      border-radius:8px;
+      padding:11px;
+      font-size:14px;
+      background:white;
+    }
+
+    textarea{
+      width:100%;
+      min-height:90px;
+      resize:vertical;
+    }
+
+    .admin-form input{
+      flex:1;
+      min-width:250px;
+    }
+
+    .primary{background:#7c2d12;color:white}
+    .success{background:#15803d;color:white}
+    .danger{background:#dc2626;color:white}
+    .warning{background:#d97706;color:white}
+    .secondary{background:#475569;color:white}
+
+    .message{
+      margin-top:12px;
+      padding:10px;
+      border-radius:8px;
+      display:none;
+    }
+
+    .message.success-msg{
+      display:block;
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .message.error-msg{
+      display:block;
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:900px;
+    }
+
+    th,
+    td{
+      padding:11px;
+      border-bottom:1px solid #e5e7eb;
+      text-align:left;
+      font-size:13px;
+    }
+
+    th{
+      background:#f8fafc;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:20px;
+      font-size:11px;
+      font-weight:bold;
+    }
+
+    .badge-active,
+    .badge-approved,
+    .badge-published{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .badge-inactive,
+    .badge-rejected,
+    .badge-hidden{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .badge-pending{
+      background:#fef3c7;
+      color:#92400e;
+    }
+
+    .photo{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      object-fit:cover;
+      background:#e5e7eb;
+    }
+
+    .actions{
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+    }
+
+    .actions button{
+      padding:7px 9px;
+      font-size:11px;
+    }
+
+    .empty{
+      text-align:center;
+      padding:25px;
+      color:#6b7280;
+    }
+
+    .loading{
+      text-align:center;
+      padding:25px;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.6);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:1000;
+    }
+
+    .modal-box{
+      background:white;
+      width:100%;
+      max-width:600px;
+      max-height:90vh;
+      overflow:auto;
+      border-radius:14px;
+      padding:20px;
+    }
+
+    .modal-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:15px;
+    }
+
+    .close{
+      background:#e5e7eb;
+    }
+
+    .member-detail{
+      display:grid;
+      grid-template-columns:120px 1fr;
+      gap:10px;
+      font-size:14px;
+    }
+
+    .member-detail img{
+      width:110px;
+      height:110px;
+      object-fit:cover;
+      border-radius:10px;
+      grid-row:span 6;
+    }
+
+    .system-note{
+      background:#fff7ed;
+      border:1px solid #fed7aa;
+      color:#9a3412;
+      padding:12px;
+      border-radius:10px;
+      font-size:13px;
+      margin-top:15px;
+    }
+
+    .last-updated{
+      color:#94a3b8;
+      font-size:11px;
+      margin-top:7px;
+    }
+
+    .donation-summary{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin:15px 0;
+    }
+
+    .donation-box{
+      background:#f8fafc;
+      border-radius:10px;
+      padding:15px;
+      border-left:4px solid #7e22ce;
+    }
+
+    .donation-box small{
+      color:#64748b;
+    }
+
+    .donation-box strong{
+      display:block;
+      font-size:22px;
+      margin-top:5px;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .form-group{
+      display:flex;
+      flex-direction:column;
+      gap:5px;
+    }
+
+    .form-group label{
+      font-size:12px;
+      font-weight:bold;
+      color:#475569;
+    }
+
+    .form-group.full{
+      grid-column:1/-1;
+    }
+
+    .donation-form-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    @media(max-width:1050px){
+      .control-grid{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .stats{
+        grid-template-columns:repeat(3,1fr);
+      }
+    }
+
+    @media(max-width:800px){
+      .stats{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .control-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .alerts{
+        grid-template-columns:1fr;
+      }
+
+      .donation-summary{
+        grid-template-columns:1fr;
+      }
+
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:500px){
+      .stats{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .control-grid{
+        grid-template-columns:1fr;
+      }
+
+      .container{
+        padding:12px;
+      }
+
+      .card,
+      .control-section{
+        padding:14px;
+      }
+
+      .member-detail{
+        grid-template-columns:1fr;
+      }
+
+      .member-detail img{
+        grid-row:auto;
+      }
+
+      .alert-card{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+
+      .alert-button{
+        width:100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Maa Basuli Uda Jatra Committee</h1>
+  <p>Super Admin Control Panel</p>
+</header>
+
+<div class="container">
+
+  <div class="topbar">
+
+    <div>
+      <h2>👑 Super Admin Dashboard</h2>
+      <p id="adminEmail" class="account">
+        Checking account...
+      </p>
+    </div>
+
+    <div>
+      <button
+        class="refresh"
+        onclick="refreshDashboard()">
+        🔄 Refresh
+      </button>
+
+      <button
+        class="logout"
+        onclick="logout()">
+        Logout
+      </button>
+    </div>
+
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <small>Total Members</small>
+      <strong id="totalMembers">0</strong>
+      <div class="sub">All registered members</div>
+    </div>
+
+    <div class="stat orange-border">
+      <small>Pending Approval</small>
+      <strong id="pendingMembers">0</strong>
+      <div class="sub">Awaiting Super Admin action</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Approved Members</small>
+      <strong id="approvedMembers">0</strong>
+      <div class="sub">Approved accounts</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Active Members</small>
+      <strong id="activeMembers">0</strong>
+      <div class="sub">Currently active</div>
+    </div>
+
+    <div class="stat red-border">
+      <small>Inactive Members</small>
+      <strong id="inactiveMembers">0</strong>
+      <div class="sub">Currently inactive</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Admin Accounts</small>
+      <strong id="adminCount">0</strong>
+      <div class="sub">Admin role users</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Published Notices</small>
+      <strong id="noticeCount">0</strong>
+      <div class="sub">Public notices</div>
+    </div>
+
+    <div class="stat purple-border">
+      <small>Published Events</small>
+      <strong id="eventCount">0</strong>
+      <div class="sub">Public events</div>
+    </div>
+
+    <div class="stat purple-border">
+      <small>Gallery Albums</small>
+      <strong id="galleryAlbumCount">0</strong>
+      <div class="sub">Total albums</div>
+    </div>
+
+    <div class="stat">
+      <small>Gallery Photos</small>
+      <strong id="galleryPhotoCount">0</strong>
+      <div class="sub">Total photos</div>
+    </div>
+
+    <div class="stat orange-border">
+      <small>Total Complaints</small>
+      <strong id="complaintCount">0</strong>
+      <div class="sub">All complaints</div>
+    </div>
+
+    <div class="stat red-border">
+      <small>Pending Complaints</small>
+      <strong id="pendingComplaintCount">0</strong>
+      <div class="sub">Need attention</div>
+    </div>
+
+    <div class="stat orange-border">
+      <small>Under Review</small>
+      <strong id="reviewComplaintCount">0</strong>
+      <div class="sub">Complaints under review</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Resolved Complaints</small>
+      <strong id="resolvedComplaintCount">0</strong>
+      <div class="sub">Resolved complaints</div>
+    </div>
+
+    <div class="stat blue-border">
+      <small>Fee Records</small>
+      <strong id="feePaymentCount">0</strong>
+      <div class="sub">Payment records</div>
+    </div>
+
+    <div class="stat green-border">
+      <small>Fund Transactions</small>
+      <strong id="fundTransactionCount">0</strong>
+      <div class="sub">Fund records</div>
+    </div>
+
+  </div>
+
+  <div class="alerts">
+
+    <div class="alert-card warning-alert">
+
+      <div class="alert-icon">
+        👤
+      </div>
+
+      <div class="alert-text">
+        <strong>
+          <span id="pendingMemberAlert">0</span>
+          Member Approval Pending
+        </strong>
+
+        <span>
+          New member applications are waiting for approval.
+        </span>
+      </div>
+
+      <button
+        class="alert-button"
+        onclick="openPendingMembers()">
+        Review
+      </button>
+
+    </div>
+
+    <div class="alert-card danger-alert">
+
+      <div class="alert-icon">
+        📝
+      </div>
+
+      <div class="alert-text">
+        <strong>
+          <span id="pendingComplaintAlert">0</span>
+          Complaint Pending
+        </strong>
+
+        <span>
+          Complaints requiring administrative attention.
+        </span>
+      </div>
+
+      <button
+        class="alert-button"
+        onclick="openPage('complaint-manager.html')">
+        Review
+      </button>
+
+    </div>
+
+  </div>
+
+  <div class="control-section">
+
+    <h3>👑 Super Admin Full Control Center</h3>
+
+    <p class="card-subtitle">
+      Website ra samasta management system ku ehi panel ru control karantu.
+    </p>
+
+    <div class="control-grid">
+
+      <div class="control-card">
+
+        <div class="control-icon">👥</div>
+
+        <h4>Member Management</h4>
+
+        <p>
+          Member approval, status, designation, profile and Member ID manage karantu.
+        </p>
+
+        <button
+          class="ready"
+          onclick="scrollToSection('memberManagement')">
+          Open Member Management
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">👨‍💼</div>
+
+        <h4>Admin Management</h4>
+
+        <p>
+          Admin create, view and remove admin role manage karantu.
+        </p>
+
+        <button
+          class="ready"
+          onclick="scrollToSection('adminManagement')">
+          Open Admin Management
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">📢</div>
+
+        <h4>Notice Management</h4>
+
+        <p>
+          Notice add, edit, publish, unpublish and PDF upload karantu.
+        </p>
+
+        <button
+          class="green"
+          onclick="openPage('notice-manager.html')">
+          Open Notice Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🎉</div>
+
+        <h4>Event Management</h4>
+
+        <p>
+          Programme, event date, location and event details manage karantu.
+        </p>
+
+        <button
+          class="blue"
+          onclick="openPage('event-manager.html')">
+          Open Event Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🖼️</div>
+
+        <h4>Gallery Management</h4>
+
+        <p>
+          Album, cover photo, photos publish and delete manage karantu.
+        </p>
+
+        <button
+          class="purple"
+          onclick="openPage('gallery-manager.html')">
+          Open Gallery Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">📝</div>
+
+        <h4>Complaint Management</h4>
+
+        <p>
+          Complaint dekha, status change and official remark manage karantu.
+        </p>
+
+        <button
+          class="orange"
+          onclick="openPage('complaint-manager.html')">
+          Open Complaint Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">💰</div>
+
+        <h4>Fund Management</h4>
+
+        <p>
+          Collection, expense, savings and year-wise fund management.
+        </p>
+
+        <button
+          class="teal"
+          onclick="openPage('fund-manager.html')">
+          Open Fund Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">💳</div>
+
+        <h4>Member Fee Management</h4>
+
+        <p>
+          Year-wise fee, paid/unpaid status and member fee records.
+        </p>
+
+        <button
+          class="teal"
+          onclick="openPage('member-fee-manager.html')">
+          Open Fee Manager
+        </button>
+
+      </div>
+
+      <!-- DONATION MANAGEMENT - NOW LIVE -->
+
+      <div class="control-card">
+
+        <div class="control-icon">💸</div>
+
+        <h4>Donation Management</h4>
+
+        <p>
+          Donation record add, edit, publish/hide and delete manage karantu.
+        </p>
+
+        <button
+          class="purple"
+          onclick="scrollToSection('donationManagement')">
+          Open Donation Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🎪</div>
+
+        <h4>Jatra Management</h4>
+
+        <p>
+          Jatra year-wise page, date, programme and details manage karantu.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('jatra-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🙏</div>
+
+        <h4>Bhakta List</h4>
+
+        <p>
+          Year-wise Bhakta list add, edit and manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('bhakta-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🌐</div>
+
+        <h4>Website Management</h4>
+
+        <p>
+          Website content, pages and important information manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('website-settings.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">🏠</div>
+
+        <h4>Homepage Management</h4>
+
+        <p>
+          Homepage banner, welcome section and featured content manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('homepage-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">📄</div>
+
+        <h4>Documents</h4>
+
+        <p>
+          Committee documents, official PDFs and downloadable files manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('documents-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">📞</div>
+
+        <h4>Contact Information</h4>
+
+        <p>
+          Official email, phone, address and contact information manage kariba.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('contact-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">📋</div>
+
+        <h4>Audit Log</h4>
+
+        <p>
+          Admin and Super Admin actions ra secure activity history.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('audit-logs.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+      <div class="control-card">
+
+        <div class="control-icon">💾</div>
+
+        <h4>Backup & System</h4>
+
+        <p>
+          Database backup, system settings and security controls.
+        </p>
+
+        <button
+          class="setup"
+          onclick="openPage('backup-manager.html')">
+          Open Manager
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="system-note">
+
+      <strong>System Status:</strong>
+      All management buttons are connected to the respective
+      manager pages. Fund, Member Fee and Donation management are live.
+
+    </div>
+
+    <div class="last-updated">
+      Dashboard data is loaded directly from Supabase.
+    </div>
+
+  </div>
+
+  <!-- DONATION MANAGEMENT -->
+
+  <div class="card" id="donationManagement">
+
+    <h3>💸 Donation Management</h3>
+
+    <p class="card-subtitle">
+      Donation records existing fund_transactions table re manage karantu.
+      Donation transaction type automatic bhabare use heba.
+    </p>
+
+    <div class="donation-summary">
+
+      <div class="donation-box">
+        <small>Total Donation Records</small>
+        <strong id="donationRecordCount">0</strong>
+      </div>
+
+      <div class="donation-box">
+        <small>Published Donations</small>
+        <strong id="publishedDonationCount">0</strong>
+      </div>
+
+      <div class="donation-box">
+        <small>Total Donation Amount</small>
+        <strong id="donationTotalAmount">₹0</strong>
+      </div>
+
+    </div>
+
+    <div
+      class="card"
+      style="background:#fafafa;border:1px solid #e5e7eb;box-shadow:none;">
+
+      <h3 id="donationFormTitle">
+        Add Donation
+      </h3>
+
+      <input
+        type="hidden"
+        id="donationEditId"
+        value=""
+      >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>Donation Date</label>
+
+          <input
+            type="date"
+            id="donationDate"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Amount</label>
+
+          <input
+            type="number"
+            id="donationAmount"
+            min="0"
+            step="0.01"
+            placeholder="Enter donation amount"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Donor / Donation Title</label>
+
+          <input
+            type="text"
+            id="donationTitle"
+            placeholder="Donor name / donation title"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Category</label>
+
+          <input
+            type="text"
+            id="donationCategory"
+            placeholder="Example: Uda Jatra Donation"
+          >
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Payment Mode</label>
+
+          <select id="donationPaymentMode">
+
+            <option value="Cash">
+              Cash
+            </option>
+
+            <option value="UPI">
+              UPI
+            </option>
+
+            <option value="Bank Transfer">
+              Bank Transfer
+            </option>
+
+            <option value="Cheque">
+              Cheque
+            </option>
+
+            <option value="Other">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>Reference / Receipt No.</label>
+
+          <input
+            type="text"
+            id="donationReference"
+            placeholder="Reference / receipt number"
+          >
+
+        </div>
+
+        <div class="form-group full">
+
+          <label>Description</label>
+
+          <textarea
+            id="donationDescription"
+            placeholder="Donation details..."
+          ></textarea>
+
+        </div>
+
+      </div>
+
+      <div class="donation-form-actions">
+
+        <button
+          class="purple"
+          id="donationSaveButton"
+          onclick="saveDonation()">
+          Save Donation
+        </button>
+
+        <button
+          class="secondary"
+          id="donationCancelButton"
+          onclick="cancelDonationEdit()"
+          style="display:none;">
+          Cancel Edit
+        </button>
+
+      </div>
+
+      <div
+        id="donationMessage"
+        class="message">
+      </div>
+
+    </div>
+
+    <div
+      style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+
+      <input
+        type="search"
+        id="donationSearch"
+        placeholder="Search donation..."
+        oninput="renderDonations()"
+        style="flex:1;min-width:250px;"
+      >
+
+      <button
+        class="refresh"
+        onclick="loadDonations()">
+        🔄 Refresh Donations
+      </button>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Date</th>
+            <th>Title / Donor</th>
+            <th>Category</th>
+            <th>Payment Mode</th>
+            <th>Reference</th>
+            <th>Amount</th>
+            <th>Visibility</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="donationTableBody">
+
+          <tr>
+            <td
+              colspan="8"
+              class="loading">
+              Loading Donations...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- ADMIN MANAGEMENT -->
+
+  <div class="card" id="adminManagement">
+
+    <h3>Admin Management</h3>
+
+    <p style="color:#64748b;font-size:13px;margin-bottom:12px;">
+      Existing Supabase Authentication user ra email enter kari Admin role assign karantu.
+    </p>
+
+    <div class="admin-form">
+
+      <input
+        type="email"
+        id="adminEmailInput"
+        placeholder="Enter existing user email"
+      >
+
+      <button
+        class="primary"
+        onclick="makeAdmin()">
+        Make Admin
+      </button>
+
+    </div>
+
+    <div id="adminMessage" class="message"></div>
+
+    <div style="margin-top:20px;" class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="adminsTableBody">
+
+          <tr>
+            <td
+              colspan="4"
+              class="loading">
+              Loading Admins...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  <!-- MEMBER MANAGEMENT -->
+
+  <div
+    class="card"
+    id="memberManagement">
+
+    <h3>Member Management</h3>
+
+    <div
+      style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+
+      <input
+        type="search"
+        id="memberSearch"
+        placeholder="Search member name / ID / mobile / village..."
+        oninput="renderMembers()"
+        style="flex:1;min-width:250px;"
+      >
+
+      <select
+        id="statusFilter"
+        onchange="renderMembers()">
+
+        <option value="all">
+          All Status
+        </option>
+
+        <option value="pending">
+          Pending
+        </option>
+
+        <option value="active">
+          Active
+        </option>
+
+        <option value="inactive">
+          Inactive
+        </option>
+
+        <option value="rejected">
+          Rejected
+        </option>
+
+      </select>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Photo</th>
+            <th>Member ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Designation</th>
+            <th>Approval</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="membersTableBody">
+
+          <tr>
+            <td
+              colspan="9"
+              class="loading">
+              Loading Members...
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MEMBER VIEW MODAL -->
+
+<div
+  class="modal"
+  id="memberModal">
+
+  <div class="modal-box">
+
+    <div class="modal-head">
+
+      <h3>
+        Member Details
+      </h3>
+
+      <button
+        class="close"
+        onclick="closeMemberModal()">
+        Close
+      </button>
+
+    </div>
+
+    <div id="memberDetails"></div>
+
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let members = [];
+let dashboardSummary = null;
+let donations = [];
+
+/* =========================
+   START
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+    if(!session){
+
+      window.location.href =
+        "auth.html";
+
+      return;
+    }
+
+    document.getElementById(
+      "adminEmail"
+    ).textContent =
+      session.user.email || "";
+
+    await checkSuperAdmin();
+
+  }
+);
+
+/* =========================
+   CHECK SUPER ADMIN
+========================= */
+
+async function checkSuperAdmin(){
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    window.location.href =
+      "auth.html";
+
+    return;
+  }
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq(
+        "user_id",
+        user.id
+      )
+      .maybeSingle();
+
+  if(error){
+
+    alert(
+      "Unable to verify account role."
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+  if(
+    !data ||
+    data.role !== "super_admin"
+  ){
+
+    alert(
+      "Access denied. Super Admin only."
+    );
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
+  await refreshDashboard();
+
+  await loadDonations();
+
+}
+
+/* =========================
+   REFRESH DASHBOARD
+========================= */
+
+async function refreshDashboard(){
+
+  await Promise.all([
+    loadDashboardSummary(),
+    loadMembers(),
+    loadAdmins()
+  ]);
+
+  await loadDonations();
+
+}
+
+/* =========================
+   DASHBOARD SUMMARY
+========================= */
+
+async function loadDashboardSummary(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "get_super_admin_dashboard_summary"
+    );
+
+  if(error){
+
+    console.error(
+      "Dashboard summary error:",
+      error
+    );
+
+    return;
+  }
+
+  dashboardSummary =
+    data || {};
+
+  renderDashboardSummary();
+
+}
+
+/* =========================
+   RENDER SUMMARY
+========================= */
+
+function renderDashboardSummary(){
+
+  const s =
+    dashboardSummary || {};
+
+  setText(
+    "totalMembers",
+    s.members || 0
+  );
+
+  setText(
+    "pendingMembers",
+    s.pending_members || 0
+  );
+
+  setText(
+    "approvedMembers",
+    s.approved_members || 0
+  );
+
+  setText(
+    "activeMembers",
+    s.active_members || 0
+  );
+
+  setText(
+    "inactiveMembers",
+    s.inactive_members || 0
+  );
+
+  setText(
+    "adminCount",
+    s.admins || 0
+  );
+
+  setText(
+    "noticeCount",
+    s.published_notices || 0
+  );
+
+  setText(
+    "eventCount",
+    s.published_events || 0
+  );
+
+  setText(
+    "galleryAlbumCount",
+    s.gallery_albums || 0
+  );
+
+  setText(
+    "galleryPhotoCount",
+    s.gallery_photos || 0
+  );
+
+  setText(
+    "complaintCount",
+    s.complaints || 0
+  );
+
+  setText(
+    "pendingComplaintCount",
+    s.pending_complaints || 0
+  );
+
+  setText(
+    "reviewComplaintCount",
+    s.under_review_complaints || 0
+  );
+
+  setText(
+    "resolvedComplaintCount",
+    s.resolved_complaints || 0
+  );
+
+  setText(
+    "feePaymentCount",
+    s.fee_payments || 0
+  );
+
+  setText(
+    "fundTransactionCount",
+    s.fund_transactions || 0
+  );
+
+  setText(
+    "pendingMemberAlert",
+    s.pending_members || 0
+  );
+
+  setText(
+    "pendingComplaintAlert",
+    s.pending_complaints || 0
+  );
+
+}
+
+/* =========================
+   OPEN PAGE
+========================= */
+
+function openPage(page){
+
+  const allowedPages = [
+    "notice-manager.html",
+    "event-manager.html",
+    "gallery-manager.html",
+    "complaint-manager.html",
+    "fund-manager.html",
+    "member-fee-manager.html",
+    "jatra-manager.html",
+    "bhakta-manager.html",
+    "website-settings.html",
+    "homepage-manager.html",
+    "documents-manager.html",
+    "contact-manager.html",
+    "audit-logs.html",
+    "backup-manager.html"
+  ];
+
+  if(!allowedPages.includes(page)){
+    alert("Invalid management page.");
+    return;
+  }
+
+  window.location.href = page;
+
+}
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollToSection(id){
+
+  const element =
+    document.getElementById(id);
+
+  if(!element) return;
+
+  element.scrollIntoView({
+    behavior:"smooth",
+    block:"start"
+  });
+
+}
+
+/* =========================
+   PENDING MEMBERS
+========================= */
+
+function openPendingMembers(){
+
+  const filter =
+    document.getElementById(
+      "statusFilter"
+    );
+
+  filter.value =
+    "pending";
+
+  renderMembers();
+
+  scrollToSection(
+    "memberManagement"
+  );
+
+}
+
+/* =========================
+   SETUP REQUIRED
+========================= */
+
+/* =========================
+   LOAD MEMBERS
+========================= */
+
+async function loadMembers(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "get_all_members_for_super_admin"
+    );
+
+  if(error){
+
+    document.getElementById(
+      "membersTableBody"
+    ).innerHTML =
+      `
+      <tr>
+        <td
+          colspan="9"
+          class="empty">
+          Error loading members:
+          ${escapeHtml(error.message)}
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  members =
+    data || [];
+
+  renderMembers();
+
+}
+
+/* =========================
+   RENDER MEMBERS
+========================= */
+
+function renderMembers(){
+
+  const tbody =
+    document.getElementById(
+      "membersTableBody"
+    );
+
+  const search =
+    document.getElementById(
+      "memberSearch"
+    )
+      .value
+      .trim()
+      .toLowerCase();
+
+  const filter =
+    document.getElementById(
+      "statusFilter"
+    )
+      .value;
+
+  const list =
+    members.filter(
+      member => {
+
+        const searchable = [
+
+          member.full_name,
+          member.member_id,
+          member.email,
+          member.mobile,
+          member.village,
+          member.designation
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+        const matchesSearch =
+          !search ||
+          searchable.includes(search);
+
+        let matchesFilter =
+          true;
+
+        if(
+          filter === "pending"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+            "pending";
+
+        }
+
+        if(
+          filter === "active"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+              "approved" &&
+            member.member_status ===
+              "active";
+
+        }
+
+        if(
+          filter === "inactive"
+        ){
+
+          matchesFilter =
+            member.member_status ===
+            "inactive";
+
+        }
+
+        if(
+          filter === "rejected"
+        ){
+
+          matchesFilter =
+            member.approval_status ===
+            "rejected";
+
+        }
+
+        return (
+          matchesSearch &&
+          matchesFilter
+        );
+
+      }
+    );
+
+  if(
+    list.length === 0
+  ){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="9"
+          class="empty">
+          No members found.
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    list.map(
+      member => {
+
+        const photo =
+          member.profile_photo_url
+
+            ? `
+              <img
+                class="photo"
+                src="${escapeAttr(
+                  member.profile_photo_url
+                )}"
+                alt="Photo">
+              `
+
+            : `
+              <div class="photo"></div>
+              `;
+
+        let approvalBadge =
+          "";
+
+        if(
+          member.approval_status ===
+          "pending"
+        ){
+
+          approvalBadge =
+            `
+            <span
+              class="badge badge-pending">
+              Pending
+            </span>
+            `;
+
+        }
+        else if(
+          member.approval_status ===
+          "approved"
+        ){
+
+          approvalBadge =
+            `
+            <span
+              class="badge badge-approved">
+              Approved
+            </span>
+            `;
+
+        }
+        else{
+
+          approvalBadge =
+            `
+            <span
+              class="badge badge-rejected">
+              Rejected
+            </span>
+            `;
+
+        }
+
+        const statusBadge =
+          member.member_status ===
+          "active"
+
+            ? `
+              <span
+                class="badge badge-active">
+                Active
+              </span>
+              `
+
+            : `
+              <span
+                class="badge badge-inactive">
+                Inactive
+              </span>
+              `;
+
+        let actions =
+          `
+          <button
+            class="secondary"
+            onclick="viewMember('${member.id}')">
+            View
+          </button>
+          `;
+
+        if(
+          member.approval_status ===
+          "pending"
+        ){
+
+          actions +=
+            `
+            <button
+              class="success"
+              onclick="approveMember('${member.id}')">
+              Approve
+            </button>
+
+            <button
+              class="danger"
+              onclick="rejectMember('${member.id}')">
+              Reject
+            </button>
+            `;
+
+        }
+
+        if(
+          member.approval_status ===
+            "approved" &&
+          member.member_status ===
+            "active"
+        ){
+
+          actions +=
+            `
+            <button
+              class="warning"
+              onclick="deactivateMember('${member.id}')">
+              Deactivate
+            </button>
+            `;
+
+        }
+
+        if(
+          member.approval_status ===
+            "approved" &&
+          member.member_status ===
+            "inactive"
+        ){
+
+          actions +=
+            `
+            <button
+              class="success"
+              onclick="activateMember('${member.id}')">
+              Activate
+            </button>
+            `;
+
+        }
+
+        return `
+          <tr>
+
+            <td>
+              ${photo}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                member.member_id ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                member.full_name ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                member.email ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                member.mobile ||
+                "—"
+              )}
+            </td>
+
+            <td>
+
+              <select
+                onchange="changeDesignation(
+                  '${member.id}',
+                  this.value
+                )">
+
+                ${designationOptions(
+                  member.designation
+                )}
+
+              </select>
+
+            </td>
+
+            <td>
+              ${approvalBadge}
+            </td>
+
+            <td>
+              ${statusBadge}
+            </td>
+
+            <td>
+              <div class="actions">
+                ${actions}
+              </div>
+            </td>
+
+          </tr>
+        `;
+
+      }
+    ).join("");
+
+}
+
+/* =========================
+   DESIGNATION
+========================= */
+
+function designationOptions(
+  current
+){
+
+  const list = [
+
+    "Member",
+    "Core Committee Member",
+    "Secretary",
+    "Vice Secretary",
+    "President",
+    "Vice President",
+    "Treasurer"
+
+  ];
+
+  return list.map(
+    item => {
+
+      const selected =
+        item === current
+          ? "selected"
+          : "";
+
+      return `
+        <option
+          value="${escapeAttr(item)}"
+          ${selected}>
+          ${escapeHtml(item)}
+        </option>
+      `;
+
+    }
+  ).join("");
+
+}
+
+/* =========================
+   APPROVE
+========================= */
+
+async function approveMember(id){
+
+  if(
+    !confirm(
+      "Ehi member ku approve karibe?"
+    )
+  ) return;
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "approve_member",
+      {
+        target_user_id:id
+      }
+    );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Member approved successfully.\n" +
+    "Member ID: " +
+    data
+  );
+
+  await refreshDashboard();
+
+}
+
+/* =========================
+   REJECT
+========================= */
+
+async function rejectMember(id){
+
+  if(
+    !confirm(
+      "Ehi member ku reject karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "reject_member",
+      {
+        target_user_id:id
+      }
+    );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Member rejected."
+  );
+
+  await refreshDashboard();
+
+}
+
+/* =========================
+   ACTIVATE
+========================= */
+
+async function activateMember(id){
+
+  if(
+    !confirm(
+      "Member ku Active karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "activate_member",
+      {
+        target_user_id:id
+      }
+    );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Member activated."
+  );
+
+  await refreshDashboard();
+
+}
+
+/* =========================
+   DEACTIVATE
+========================= */
+
+async function deactivateMember(id){
+
+  if(
+    !confirm(
+      "Member ku Deactive karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "deactivate_member",
+      {
+        target_user_id:id
+      }
+    );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Member deactivated."
+  );
+
+  await refreshDashboard();
+
+}
+
+/* =========================
+   DESIGNATION CHANGE
+========================= */
+
+async function changeDesignation(
+  id,
+  designation
+){
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "update_member_designation",
+      {
+        target_user_id:id,
+        new_designation:designation
+      }
+    );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    await loadMembers();
+
+    return;
+  }
+
+  await loadMembers();
+
+}
+
+/* =========================
+   VIEW MEMBER
+========================= */
+
+function viewMember(id){
+
+  const member =
+    members.find(
+      m => m.id === id
+    );
+
+  if(!member) return;
+
+  const photo =
+    member.profile_photo_url
+
+      ? `
+        <img
+          src="${escapeAttr(
+            member.profile_photo_url
+          )}"
+          alt="Member Photo">
+        `
+
+      : `
+        <img
+          src=""
+          alt="No Photo"
+          style="background:#eee;">
+        `;
+
+  document.getElementById(
+    "memberDetails"
+  ).innerHTML =
+    `
+    <div class="member-detail">
+
+      ${photo}
+
+      <strong>Member ID</strong>
+      <span>
+        ${escapeHtml(
+          member.member_id ||
+          "—"
+        )}
+      </span>
+
+      <strong>Name</strong>
+      <span>
+        ${escapeHtml(
+          member.full_name ||
+          "—"
+        )}
+      </span>
+
+      <strong>Email</strong>
+      <span>
+        ${escapeHtml(
+          member.email ||
+          "—"
+        )}
+      </span>
+
+      <strong>Mobile</strong>
+      <span>
+        ${escapeHtml(
+          member.mobile ||
+          "—"
+        )}
+      </span>
+
+      <strong>Village</strong>
+      <span>
+        ${escapeHtml(
+          member.village ||
+          "—"
+        )}
+      </span>
+
+      <strong>Address</strong>
+      <span>
+        ${escapeHtml(
+          member.address ||
+          "—"
+        )}
+      </span>
+
+      <strong>Blood Group</strong>
+      <span>
+        ${escapeHtml(
+          member.blood_group ||
+          "—"
+        )}
+      </span>
+
+      <strong>Designation</strong>
+      <span>
+        ${escapeHtml(
+          member.designation ||
+          "—"
+        )}
+      </span>
+
+      <strong>Approval Status</strong>
+      <span>
+        ${escapeHtml(
+          member.approval_status ||
+          "—"
+        )}
+      </span>
+
+      <strong>Member Status</strong>
+      <span>
+        ${escapeHtml(
+          member.member_status ||
+          "—"
+        )}
+      </span>
+
+    </div>
+    `;
+
+  document.getElementById(
+    "memberModal"
+  ).style.display =
+    "flex";
+
+}
+
+function closeMemberModal(){
+
+  document.getElementById(
+    "memberModal"
+  ).style.display =
+    "none";
+
+}
+
+/* =========================
+   MAKE ADMIN
+========================= */
+
+async function makeAdmin(){
+
+  const input =
+    document.getElementById(
+      "adminEmailInput"
+    );
+
+  const email =
+    input.value.trim();
+
+  if(!email){
+
+    showAdminMessage(
+      "Please enter an email address.",
+      false
+    );
+
+    return;
+  }
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "find_user_and_make_admin",
+      {
+        target_email:email
+      }
+    );
+
+  if(error){
+
+    showAdminMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  showAdminMessage(
+    "Admin role successfully assigned.",
+    true
+  );
+
+  input.value =
+    "";
+
+  await refreshDashboard();
+
+}
+
+/* =========================
+   ADMIN MESSAGE
+========================= */
+
+function showAdminMessage(
+  message,
+  success
+){
+
+  const box =
+    document.getElementById(
+      "adminMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    success
+      ? "message success-msg"
+      : "message error-msg";
+
+}
+
+/* =========================
+   LOAD ADMINS
+========================= */
+
+async function loadAdmins(){
+
+  const tbody =
+    document.getElementById(
+      "adminsTableBody"
+    );
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.rpc(
+      "get_all_admins_for_super_admin"
+    );
+
+  if(error){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="4"
+          class="empty">
+          ${escapeHtml(
+            error.message
+          )}
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  if(
+    !data ||
+    data.length === 0
+  ){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="4"
+          class="empty">
+          No Admin accounts found.
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    data.map(
+      admin => `
+        <tr>
+
+          <td>
+            ${escapeHtml(
+              admin.email ||
+              "—"
+            )}
+          </td>
+
+          <td>
+
+            <span
+              class="badge badge-approved">
+              Admin
+            </span>
+
+          </td>
+
+          <td>
+            ${formatDate(
+              admin.created_at
+            )}
+          </td>
+
+          <td>
+
+            <button
+              class="danger"
+              onclick="removeAdmin(
+                '${admin.user_id}'
+              )">
+              Remove Admin
+            </button>
+
+          </td>
+
+        </tr>
+      `
+    ).join("");
+
+}
+
+/* =========================
+   REMOVE ADMIN
+========================= */
+
+async function removeAdmin(id){
+
+  if(
+    !confirm(
+      "Ehi user ra Admin role remove kari Member role karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient.rpc(
+      "remove_admin_role",
+      {
+        target_user_id:id
+      }
+    );
+
+  if(error){
+
+    showAdminMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  showAdminMessage(
+    "Admin role removed successfully.",
+    true
+  );
+
+  await refreshDashboard();
+
+}
+
+/* =====================================================
+   DONATION MANAGEMENT
+   Uses existing fund_transactions table
+   transaction_type = Donation
+===================================================== */
+
+/* =========================
+   LOAD DONATIONS
+========================= */
+
+async function loadDonations(){
+
+  const tbody =
+    document.getElementById(
+      "donationTableBody"
+    );
+
+  if(!tbody) return;
+
+  tbody.innerHTML =
+    `
+    <tr>
+      <td
+        colspan="8"
+        class="loading">
+        Loading Donations...
+      </td>
+    </tr>
+    `;
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .select(`
+        id,
+        financial_year,
+        transaction_type,
+        transaction_date,
+        amount,
+        category,
+        description,
+        reference_no,
+        is_published,
+        created_by,
+        created_at,
+        updated_at,
+        title,
+        payment_mode
+      `)
+      .eq(
+        "transaction_type",
+        "Donation"
+      )
+      .order(
+        "transaction_date",
+        {
+          ascending:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+  if(error){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="8"
+          class="empty">
+          Error loading donations:
+          ${escapeHtml(error.message)}
+        </td>
+      </tr>
+      `;
+
+    showDonationMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  donations =
+    data || [];
+
+  renderDonations();
+
+}
+
+/* =========================
+   RENDER DONATIONS
+========================= */
+
+function renderDonations(){
+
+  const tbody =
+    document.getElementById(
+      "donationTableBody"
+    );
+
+  if(!tbody) return;
+
+  const searchElement =
+    document.getElementById(
+      "donationSearch"
+    );
+
+  const search =
+    searchElement
+      ? searchElement.value
+          .trim()
+          .toLowerCase()
+      : "";
+
+  const list =
+    donations.filter(
+      item => {
+
+        const searchable = [
+
+          item.title,
+          item.category,
+          item.description,
+          item.reference_no,
+          item.payment_mode,
+          item.financial_year
+
+        ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+        return (
+          !search ||
+          searchable.includes(search)
+        );
+
+      }
+    );
+
+  updateDonationSummary();
+
+  if(
+    list.length === 0
+  ){
+
+    tbody.innerHTML =
+      `
+      <tr>
+        <td
+          colspan="8"
+          class="empty">
+          No donation records found.
+        </td>
+      </tr>
+      `;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    list.map(
+      item => {
+
+        const visibility =
+          item.is_published
+
+            ? `
+              <span
+                class="badge badge-published">
+                Published
+              </span>
+              `
+
+            : `
+              <span
+                class="badge badge-hidden">
+                Hidden
+              </span>
+              `;
+
+        const publishButton =
+          item.is_published
+
+            ? `
+              <button
+                class="warning"
+                onclick="toggleDonationPublish(
+                  '${item.id}',
+                  false
+                )">
+                Hide
+              </button>
+              `
+
+            : `
+              <button
+                class="success"
+                onclick="toggleDonationPublish(
+                  '${item.id}',
+                  true
+                )">
+                Publish
+              </button>
+              `;
+
+        return `
+          <tr>
+
+            <td>
+              ${formatDate(
+                item.transaction_date
+              )}
+            </td>
+
+            <td>
+              <strong>
+                ${escapeHtml(
+                  item.title ||
+                  "Donation"
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.category ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.payment_mode ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              ${escapeHtml(
+                item.reference_no ||
+                "—"
+              )}
+            </td>
+
+            <td>
+              <strong>
+                ₹${formatAmount(
+                  item.amount
+                )}
+              </strong>
+            </td>
+
+            <td>
+              ${visibility}
+            </td>
+
+            <td>
+
+              <div class="actions">
+
+                <button
+                  class="secondary"
+                  onclick="editDonation(
+                    '${item.id}'
+                  )">
+                  Edit
+                </button>
+
+                ${publishButton}
+
+                <button
+                  class="danger"
+                  onclick="deleteDonation(
+                    '${item.id}'
+                  )">
+                  Delete
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+        `;
+
+      }
+    ).join("");
+
+}
+
+/* =========================
+   DONATION SUMMARY
+========================= */
+
+function updateDonationSummary(){
+
+  const totalRecords =
+    donations.length;
+
+  const publishedRecords =
+    donations.filter(
+      item => item.is_published
+    ).length;
+
+  const totalAmount =
+    donations.reduce(
+      (sum,item) =>
+        sum +
+        Number(
+          item.amount || 0
+        ),
+      0
+    );
+
+  setText(
+    "donationRecordCount",
+    totalRecords
+  );
+
+  setText(
+    "publishedDonationCount",
+    publishedRecords
+  );
+
+  setText(
+    "donationTotalAmount",
+    "₹" +
+    formatAmount(
+      totalAmount
+    )
+  );
+
+}
+
+/* =========================
+   SAVE DONATION
+========================= */
+
+async function saveDonation(){
+
+  const editId =
+    document.getElementById(
+      "donationEditId"
+    ).value.trim();
+
+  const donationDate =
+    document.getElementById(
+      "donationDate"
+    ).value;
+
+  const amount =
+    Number(
+      document.getElementById(
+        "donationAmount"
+      ).value
+    );
+
+  const title =
+    document.getElementById(
+      "donationTitle"
+    ).value.trim();
+
+  const category =
+    document.getElementById(
+      "donationCategory"
+    ).value.trim();
+
+  const paymentMode =
+    document.getElementById(
+      "donationPaymentMode"
+    ).value;
+
+  const referenceNo =
+    document.getElementById(
+      "donationReference"
+    ).value.trim();
+
+  const description =
+    document.getElementById(
+      "donationDescription"
+    ).value.trim();
+
+  if(!donationDate){
+
+    showDonationMessage(
+      "Please select donation date.",
+      false
+    );
+
+    return;
+  }
+
+  if(
+    !amount ||
+    amount <= 0
+  ){
+
+    showDonationMessage(
+      "Please enter a valid donation amount.",
+      false
+    );
+
+    return;
+  }
+
+  if(!title){
+
+    showDonationMessage(
+      "Please enter donor / donation title.",
+      false
+    );
+
+    return;
+  }
+
+  const {
+    data:{
+      user
+    }
+  } =
+    await supabaseClient.auth.getUser();
+
+  if(!user){
+
+    showDonationMessage(
+      "Session expired. Please login again.",
+      false
+    );
+
+    return;
+  }
+
+  let error = null;
+
+  if(editId){
+
+    const result =
+      await supabaseClient
+        .from("fund_transactions")
+        .update({
+          transaction_date:
+            donationDate,
+          amount:
+            amount,
+          category:
+            category || null,
+          description:
+            description || null,
+          reference_no:
+            referenceNo || null,
+          title:
+            title,
+          payment_mode:
+            paymentMode
+        })
+        .eq(
+          "id",
+          editId
+        );
+
+    error =
+      result.error;
+
+  }
+  else{
+
+    const financialYear =
+      getFinancialYear(
+        donationDate
+      );
+
+    const result =
+      await supabaseClient
+        .from("fund_transactions")
+        .insert({
+          financial_year:
+            financialYear,
+
+          transaction_type:
+            "Donation",
+
+          transaction_date:
+            donationDate,
+
+          amount:
+            amount,
+
+          category:
+            category || null,
+
+          description:
+            description || null,
+
+          reference_no:
+            referenceNo || null,
+
+          title:
+            title,
+
+          payment_mode:
+            paymentMode,
+
+          created_by:
+            user.id,
+
+          is_published:
+            false
+        });
+
+    error =
+      result.error;
+
+  }
+
+  if(error){
+
+    showDonationMessage(
+      error.message,
+      false
+    );
+
+    return;
+  }
+
+  showDonationMessage(
+    editId
+      ? "Donation updated successfully."
+      : "Donation saved successfully. It is currently Hidden until published.",
+    true
+  );
+
+  cancelDonationEdit();
+
+  await loadDonations();
+
+  await loadDashboardSummary();
+
+}
+
+/* =========================
+   EDIT DONATION
+========================= */
+
+function editDonation(id){
+
+  const item =
+    donations.find(
+      donation =>
+        donation.id === id
+    );
+
+  if(!item) return;
+
+  document.getElementById(
+    "donationEditId"
+  ).value =
+    item.id || "";
+
+  document.getElementById(
+    "donationDate"
+  ).value =
+    item.transaction_date || "";
+
+  document.getElementById(
+    "donationAmount"
+  ).value =
+    item.amount ?? "";
+
+  document.getElementById(
+    "donationTitle"
+  ).value =
+    item.title || "";
+
+  document.getElementById(
+    "donationCategory"
+  ).value =
+    item.category || "";
+
+  document.getElementById(
+    "donationPaymentMode"
+  ).value =
+    item.payment_mode || "Cash";
+
+  document.getElementById(
+    "donationReference"
+  ).value =
+    item.reference_no || "";
+
+  document.getElementById(
+    "donationDescription"
+  ).value =
+    item.description || "";
+
+  document.getElementById(
+    "donationFormTitle"
+  ).textContent =
+    "Edit Donation";
+
+  document.getElementById(
+    "donationSaveButton"
+  ).textContent =
+    "Update Donation";
+
+  document.getElementById(
+    "donationCancelButton"
+  ).style.display =
+    "inline-block";
+
+  scrollToSection(
+    "donationManagement"
+  );
+
+}
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelDonationEdit(){
+
+  document.getElementById(
+    "donationEditId"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationDate"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationAmount"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationTitle"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationCategory"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationPaymentMode"
+  ).value =
+    "Cash";
+
+  document.getElementById(
+    "donationReference"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationDescription"
+  ).value =
+    "";
+
+  document.getElementById(
+    "donationFormTitle"
+  ).textContent =
+    "Add Donation";
+
+  document.getElementById(
+    "donationSaveButton"
+  ).textContent =
+    "Save Donation";
+
+  document.getElementById(
+    "donationCancelButton"
+  ).style.display =
+    "none";
+
+}
+
+/* =========================
+   PUBLISH / HIDE
+========================= */
+
+async function toggleDonationPublish(
+  id,
+  publish
+){
+
+  const actionText =
+    publish
+      ? "Publish"
+      : "Hide";
+
+  if(
+    !confirm(
+      "Ehi donation ku " +
+      actionText +
+      " karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .update({
+        is_published:
+          publish
+      })
+      .eq(
+        "id",
+        id
+      );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    publish
+      ? "Donation published successfully."
+      : "Donation hidden successfully."
+  );
+
+  await loadDonations();
+
+}
+
+/* =========================
+   DELETE DONATION
+========================= */
+
+async function deleteDonation(id){
+
+  if(
+    !confirm(
+      "Ehi donation record ku permanently delete karibe?"
+    )
+  ) return;
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("fund_transactions")
+      .delete()
+      .eq(
+        "id",
+        id
+      );
+
+  if(error){
+
+    alert(
+      error.message
+    );
+
+    return;
+  }
+
+  alert(
+    "Donation deleted successfully."
+  );
+
+  await loadDonations();
+
+  await loadDashboardSummary();
+
+}
+
+/* =========================
+   DONATION MESSAGE
+========================= */
+
+function showDonationMessage(
+  message,
+  success
+){
+
+  const box =
+    document.getElementById(
+      "donationMessage"
+    );
+
+  box.textContent =
+    message;
+
+  box.className =
+    success
+      ? "message success-msg"
+      : "message error-msg";
+
+}
+
+/* =========================
+   FINANCIAL YEAR
+========================= */
+
+function getFinancialYear(
+  dateValue
+){
+
+  const date =
+    new Date(
+      dateValue +
+      "T00:00:00"
+    );
+
+  const year =
+    date.getFullYear();
+
+  const month =
+    date.getMonth() + 1;
+
+  if(month >= 4){
+
+    return (
+      year +
+      "-" +
+      String(
+        year + 1
+      ).slice(-2)
+    );
+
+  }
+
+  return (
+    year - 1 +
+    "-" +
+    String(year).slice(-2)
+  );
+
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+
+}
+
+/* =========================
+   HELPERS
+========================= */
+
+function setText(
+  id,
+  value
+){
+
+  const element =
+    document.getElementById(id);
+
+  if(element){
+
+    element.textContent =
+      value ?? 0;
+
+  }
+
+}
+
+function formatDate(value){
+
+  if(!value)
+    return "—";
+
+  const date =
+    new Date(value);
+
+  return date.toLocaleDateString(
+    "en-IN",
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
+
+}
+
+function formatAmount(value){
+
+  return Number(
+    value || 0
+  ).toLocaleString(
+    "en-IN",
+    {
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    }
+  );
+
+}
+
+function escapeHtml(value){
+
+  return String(
+    value ?? ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
+}
+
+function escapeAttr(value){
+
+  return escapeHtml(
+    value
+  );
+
+}
+
+/* =========================
+   MODAL OUTSIDE CLICK
+========================= */
+
+document.getElementById(
+  "memberModal"
+).addEventListener(
+  "click",
+  function(event){
+
+    if(
+      event.target === this
+    ){
+
+      closeMemberModal();
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>
