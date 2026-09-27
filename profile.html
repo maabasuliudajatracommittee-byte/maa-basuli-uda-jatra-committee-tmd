@@ -230,14 +230,32 @@
     }
 
     .info-row{
-      display:flex;
+      display:grid;
+      grid-template-columns:82px minmax(0,1fr);
+      column-gap:6px;
       margin:6px 0;
       font-size:13px;
+      min-width:0;
     }
 
     .info-label{
-      width:82px;
+      width:auto;
+      min-width:0;
       font-weight:bold;
+    }
+
+    .info-row > div:last-child{
+      min-width:0;
+      max-width:100%;
+      overflow-wrap:anywhere;
+      word-break:break-word;
+      white-space:normal;
+    }
+
+    .member-info{
+      flex:1 1 auto;
+      min-width:0;
+      max-width:100%;
     }
 
     .status{
@@ -348,10 +366,26 @@
       .member-photo{
         width:95px;
         height:120px;
+        flex:0 0 95px;
+      }
+
+      .member-top{
+        min-width:0;
       }
 
       .member-name{
         font-size:18px;
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+
+      .designation{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+
+      .id-body{
+        overflow:visible;
       }
     }
 
