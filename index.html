@@ -998,7 +998,7 @@ footer a{
       <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
 
       <span class="phone" id="topPhone">
-        📞 +91 94390 12345
+        📞 +91 7978583565
       </span>
 
       <span id="topEmail">
@@ -1058,7 +1058,7 @@ footer a{
     <div class="brand-text">
 
       <div class="odia-title">
-        ମା' ବାସୁଳୀ ଉଦା ଯାତ୍ରା କମିଟି
+        ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି
       </div>
 
       <h1>
@@ -1184,11 +1184,11 @@ footer a{
     <div class="hero-text">
 
       <div class="hero-odia">
-        ମା' ବାସୁଳୀ
+        ମା ବାସୁଳୀ
       </div>
 
       <div class="hero-odia-yellow">
-        ଉଦା ଯାତ୍ରା କମିଟି
+        ଉଡ଼ା ଯାତ୍ରା କମିଟି
       </div>
 
       <h2>
@@ -1200,8 +1200,8 @@ footer a{
       </div>
 
       <p class="hero-description">
-        ଆମର ପରମ୍ପରା, ଆମର ସଂସ୍କୃତି, ଆମର ମା' ବାସୁଳୀ
-        ଏବଂ ଉଦା ଯାତ୍ରା ପାଇଁ ଆମର ସଙ୍କଳ୍ପ।
+        ଆମର ପରମ୍ପରା, ଆମର ସଂସ୍କୃତି, ଆମର ମା ବାସୁଳୀ
+        ଏବଂ ଉଡ଼ା ଯାତ୍ରା ପାଇଁ ଆମର ସଙ୍କଳ୍ପ।
       </p>
 
 
@@ -1644,7 +1644,7 @@ footer a{
         </p>
 
         <p style="margin-top:10px;">
-          ଜୟ ମା' ବାସୁଳୀ 🙏
+          ଜୟ ମା ବାସୁଳୀ 🙏
         </p>
 
 
@@ -1769,203 +1769,98 @@ const supabaseClient =
 
 
 /* =====================================
-   FALLBACK IMAGES
+   HOMEPAGE SETTINGS / MEDIA
 ===================================== */
 
-const FALLBACK_LOGO =
-  "https://ynymqntcawobcfccoekb.supabase.co/storage/v1/object/public/site-media/website/logo/";
+const DEFAULT_PHONE = "7978583565";
+const DEFAULT_EMAIL = "maabasuliudajatracommittee@gmail.com";
 
-const FALLBACK_MAA =
-  "https://ynymqntcawobcfccoekb.supabase.co/storage/v1/object/public/site-media/website/maa-basuli/";
+function setImage(id, url){
+  const el = document.getElementById(id);
+  if(!el || !url) return;
+  const clean = String(url).trim();
+  if(!clean) return;
+  el.src = clean;
+}
 
-const FALLBACK_TEMPLE =
-  "https://ynymqntcawobcfccoekb.supabase.co/storage/v1/object/public/site-media/website/temple/";
+function firstValue(data, keys){
+  for(const key of keys){
+    if(data && data[key] != null && String(data[key]).trim() !== ""){
+      return String(data[key]).trim();
+    }
+  }
+  return "";
+}
 
-const FALLBACK_GROUP =
-  "https://ynymqntcawobcfccoekb.supabase.co/storage/v1/object/public/site-media/website/group/";
+function applyHomepageSettings(data){
+  if(!data) return;
 
+  // Images: support the current column names and the alternate names
+  // used by the Homepage Manager.
+  setImage("siteLogo", firstValue(data,[
+    "logo_url","logo","site_logo_url"
+  ]));
 
-/* =====================================
-   LOAD WEBSITE SETTINGS
-===================================== */
+  const maaUrl = firstValue(data,[
+    "maa_basuli_url","maa_basuli_photo_url","maa_basuli_photo"
+  ]);
+  setImage("headerMaa", maaUrl);
+  setImage("aboutMaaPhoto", maaUrl);
+
+  setImage("headerTemple", firstValue(data,[
+    "temple_url","temple_photo_url","temple_photo"
+  ]));
+
+  setImage("heroGroupPhoto", firstValue(data,[
+    "group_photo_url","group_photo","committee_group_photo_url"
+  ]));
+
+  const phone = DEFAULT_PHONE;
+  const email = firstValue(data,["email","contact_email","official_email"]) || DEFAULT_EMAIL;
+
+  const phoneEl = document.getElementById("topPhone");
+  if(phoneEl) phoneEl.textContent = "📞 " + (phone || DEFAULT_PHONE);
+
+  const emailEl = document.getElementById("topEmail");
+  if(emailEl) emailEl.textContent = "✉️ " + (email || DEFAULT_EMAIL);
+
+  setSocialLink("youtubeTop", firstValue(data,["youtube_url","youtube","hero_youtube_url","video_url"]));
+  setSocialLink("instagramTop", firstValue(data,["instagram_url","instagram"]));
+  setSocialLink("twitterTop", firstValue(data,["twitter_url","twitter","x_url","x"]));
+  setSocialLink("facebookTop", firstValue(data,["facebook_url","facebook"]));
+  setSocialLink("youtubeFooter", firstValue(data,["youtube_url","youtube"]));
+  setSocialLink("instagramFooter", firstValue(data,["instagram_url","instagram"]));
+  setSocialLink("twitterFooter", firstValue(data,["twitter_url","twitter","x_url","x"]));
+  setSocialLink("facebookFooter", firstValue(data,["facebook_url","facebook"]));
+}
 
 async function loadWebsiteSettings(){
-
   try{
+    // Keep the public homepage independent from a possibly stale created_at
+    // ordering. First try the current table directly.
+    let result = await supabaseClient
+      .from("website_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
 
-    const { data, error } =
-      await supabaseClient
-        .from("website_settings")
-        .select("*")
-        .order("created_at", {
-          ascending:false
-        })
-        .limit(1)
-        .maybeSingle();
-
-    if(error){
-
-      console.error(
-        "Website settings error:",
-        error
-      );
-
+    if(result.error){
+      console.error("Website settings error:", result.error);
       finishLoading();
       return;
-
     }
 
-    if(!data){
-
-      finishLoading();
-      return;
-
+    if(result.data){
+      applyHomepageSettings(result.data);
+    }else{
+      console.warn("No public website_settings row was returned.");
     }
-
-
-    /* ================================
-       LOGO
-    ================================= */
-
-    if(data.logo_url){
-
-      document
-        .getElementById("siteLogo")
-        .src = data.logo_url;
-
-    }
-
-
-    /* ================================
-       MAA BASULI
-    ================================= */
-
-    if(data.maa_basuli_url){
-
-      document
-        .getElementById("headerMaa")
-        .src = data.maa_basuli_url;
-
-      document
-        .getElementById("aboutMaaPhoto")
-        .src = data.maa_basuli_url;
-
-    }
-
-
-    /* ================================
-       TEMPLE
-    ================================= */
-
-    if(data.temple_url){
-
-      document
-        .getElementById("headerTemple")
-        .src = data.temple_url;
-
-    }
-
-
-    /* ================================
-       GROUP PHOTO
-    ================================= */
-
-    if(data.group_photo_url){
-
-      document
-        .getElementById("heroGroupPhoto")
-        .src = data.group_photo_url;
-
-    }
-
-
-    /* ================================
-       PHONE
-    ================================= */
-
-    if(data.phone){
-
-      document
-        .getElementById("topPhone")
-        .textContent =
-          "📞 " + data.phone;
-
-    }
-
-
-    /* ================================
-       EMAIL
-    ================================= */
-
-    if(data.email){
-
-      document
-        .getElementById("topEmail")
-        .textContent =
-          "✉️ " + data.email;
-
-    }
-
-
-    /* ================================
-       SOCIAL LINKS
-    ================================= */
-
-    setSocialLink(
-      "youtubeTop",
-      data.youtube_url
-    );
-
-    setSocialLink(
-      "instagramTop",
-      data.instagram_url
-    );
-
-    setSocialLink(
-      "twitterTop",
-      data.twitter_url
-    );
-
-    setSocialLink(
-      "facebookTop",
-      data.facebook_url
-    );
-
-
-    setSocialLink(
-      "youtubeFooter",
-      data.youtube_url
-    );
-
-    setSocialLink(
-      "instagramFooter",
-      data.instagram_url
-    );
-
-    setSocialLink(
-      "twitterFooter",
-      data.twitter_url
-    );
-
-    setSocialLink(
-      "facebookFooter",
-      data.facebook_url
-    );
-
-
   }catch(error){
-
-    console.error(
-      "Settings load failed:",
-      error
-    );
-
+    console.error("Settings load failed:", error);
   }
 
   finishLoading();
-
 }
-
 
 /* =====================================
    SOCIAL HELPER
