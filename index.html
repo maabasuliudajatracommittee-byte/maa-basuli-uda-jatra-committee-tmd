@@ -3,1849 +3,380 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Maa Basuli Uda Jatra Committee</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#fff;
-  color:#222;
-  line-height:1.5;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-img{
-  max-width:100%;
-  display:block;
-}
-
-.container{
-  width:min(1400px,94%);
-  margin:auto;
-}
-
-/* =========================
-   TOP CONTACT BAR
-========================= */
-
-.topbar{
-  background:#8b0000;
-  color:#fff;
-  min-height:44px;
-  display:flex;
-  align-items:center;
-}
-
-.topbar-inner{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:15px;
-}
-
-.contact-left{
-  display:flex;
-  align-items:center;
-  gap:25px;
-  flex-wrap:wrap;
-  font-size:14px;
-}
-
-.contact-left span{
-  white-space:nowrap;
-}
-
-.contact-left .phone{
-  color:#ffd34d;
-}
-
-.social-top{
-  display:flex;
-  align-items:center;
-  gap:9px;
-}
-
-.social-top a{
-  width:29px;
-  height:29px;
-  border-radius:6px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#fff;
-  color:#8b0000;
-  font-size:16px;
-  font-weight:bold;
-  transition:.2s;
-}
-
-.social-top a:hover{
-  transform:translateY(-2px);
-}
-
-/* =========================
-   BRAND HEADER
-========================= */
-
-.brand-header{
-  background:#fff;
-  border-bottom:1px solid #ddd;
-  position:relative;
-  overflow:hidden;
-}
-
-.brand-inner{
-  min-height:150px;
-  display:flex;
-  align-items:center;
-  position:relative;
-  z-index:2;
-}
-
-.brand-logo{
-  width:145px;
-  height:145px;
-  object-fit:contain;
-  flex-shrink:0;
-  margin-right:20px;
-}
-
-.brand-text{
-  padding:10px 0;
-  z-index:3;
-}
-
-.brand-text .odia-title{
-  color:#a41414;
-  font-size:39px;
-  font-weight:800;
-  line-height:1.1;
-  margin-bottom:8px;
-}
-
-.brand-text h1{
-  color:#111;
-  font-size:31px;
-  line-height:1.15;
-  margin-bottom:3px;
-}
-
-.brand-text p{
-  font-size:19px;
-  color:#555;
-}
-
-/* Header image collage */
-
-.header-visual{
-  position:absolute;
-  right:0;
-  top:0;
-  width:52%;
-  height:100%;
-  overflow:hidden;
-  z-index:1;
-}
-
-.header-visual:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      #fff 0%,
-      rgba(255,255,255,.88) 7%,
-      rgba(255,255,255,.25) 28%,
-      rgba(255,255,255,0) 45%
-    );
-  z-index:3;
-}
-
-.header-ma{
-  position:absolute;
-  right:27%;
-  top:-15px;
-  width:48%;
-  height:190px;
-  object-fit:cover;
-  object-position:center;
-  z-index:1;
-  border-radius:50%;
-  filter:saturate(1.08);
-}
-
-.header-temple{
-  position:absolute;
-  right:0;
-  top:0;
-  width:48%;
-  height:150px;
-  object-fit:cover;
-  object-position:center;
-  z-index:2;
-  opacity:.9;
-  mask-image:linear-gradient(to right,transparent 0%,black 25%);
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,black 25%);
-}
-
-/* =========================
-   NAVIGATION
-========================= */
-
-.main-nav{
-  background:#fff;
-  border-bottom:1px solid #ddd;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  position:relative;
-  z-index:20;
-}
-
-.nav-inner{
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  min-height:62px;
-}
-
-.nav-links{
-  display:flex;
-  align-items:center;
-  gap:3px;
-  flex-wrap:wrap;
-  justify-content:flex-end;
-}
-
-.nav-links a{
-  display:flex;
-  align-items:center;
-  gap:7px;
-  padding:13px 15px;
-  border-radius:8px;
-  font-size:14px;
-  font-weight:700;
-  white-space:nowrap;
-  transition:.2s;
-}
-
-.nav-links a:hover{
-  background:#f7e7e7;
-  color:#8b0000;
-}
-
-.nav-links a.active{
-  background:#8b0000;
-  color:#fff;
-}
-
-.menu-button{
-  display:none;
-  border:0;
-  background:#8b0000;
-  color:#fff;
-  padding:10px 14px;
-  border-radius:7px;
-  font-size:21px;
-  cursor:pointer;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-  min-height:520px;
-  position:relative;
-  overflow:hidden;
-  background:#3b2118;
-  color:#fff;
-  display:flex;
-  align-items:center;
-}
-
-.hero-bg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-}
-
-.hero-overlay{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.82) 0%,
-      rgba(0,0,0,.62) 35%,
-      rgba(0,0,0,.22) 68%,
-      rgba(0,0,0,.28) 100%
-    );
-}
-
-.hero-content{
-  position:relative;
-  z-index:3;
-  width:min(1400px,94%);
-  margin:auto;
-  padding:65px 0 75px;
-}
-
-.hero-text{
-  width:min(620px,100%);
-}
-
-.hero-odia{
-  font-size:48px;
-  font-weight:900;
-  line-height:1.05;
-  color:#fff;
-  text-shadow:2px 2px 5px rgba(0,0,0,.7);
-  margin-bottom:2px;
-}
-
-.hero-odia-yellow{
-  font-size:45px;
-  font-weight:900;
-  line-height:1.05;
-  color:#ffc400;
-  text-shadow:2px 2px 5px rgba(0,0,0,.8);
-  margin-bottom:15px;
-}
-
-.hero-text h2{
-  font-size:28px;
-  margin-bottom:2px;
-}
-
-.hero-location{
-  font-size:20px;
-  font-weight:700;
-  margin-bottom:17px;
-}
-
-.hero-description{
-  font-size:18px;
-  max-width:590px;
-  color:#f7f7f7;
-  margin-bottom:24px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:13px;
-  flex-wrap:wrap;
-}
-
-.hero-btn{
-  display:inline-flex;
-  align-items:center;
-  gap:9px;
-  padding:14px 27px;
-  border-radius:28px;
-  font-size:16px;
-  font-weight:800;
-  transition:.2s;
-}
-
-.hero-btn:hover{
-  transform:translateY(-2px);
-}
-
-.hero-btn-primary{
-  background:#a80f0f;
-  border:2px solid #e5b42f;
-  color:#fff;
-}
-
-.hero-btn-light{
-  background:#fff;
-  color:#8b0000;
-  border:2px solid #fff;
-}
-
-.slider-arrow{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  z-index:5;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  border:0;
-  background:rgba(0,0,0,.6);
-  color:#fff;
-  font-size:28px;
-  cursor:pointer;
-}
-
-.slider-left{
-  left:25px;
-}
-
-.slider-right{
-  right:25px;
-}
-
-.slider-dots{
-  position:absolute;
-  bottom:18px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:10px;
-  z-index:5;
-}
-
-.slider-dots span{
-  width:11px;
-  height:11px;
-  background:#fff;
-  border-radius:50%;
-  border:1px solid rgba(0,0,0,.3);
-}
-
-.slider-dots span.active{
-  background:#a80f0f;
-}
-
-/* =========================
-   QUICK CARDS
-========================= */
-
-.quick-section{
-  background:#fff;
-  padding:30px 0 35px;
-}
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:18px;
-}
-
-.quick-card{
-  min-height:95px;
-  border-radius:15px;
-  padding:17px;
-  display:flex;
-  align-items:center;
-  gap:14px;
-  position:relative;
-  transition:.2s;
-}
-
-.quick-card:hover{
-  transform:translateY(-3px);
-}
-
-.quick-card:nth-child(1){
-  background:#fff0f0;
-}
-
-.quick-card:nth-child(2){
-  background:#edf5ff;
-}
-
-.quick-card:nth-child(3){
-  background:#eefaf1;
-}
-
-.quick-card:nth-child(4){
-  background:#fff7e8;
-}
-
-.quick-card:nth-child(5){
-  background:#f4f0ff;
-}
-
-.quick-icon{
-  width:54px;
-  height:54px;
-  border-radius:13px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:27px;
-  flex-shrink:0;
-  background:rgba(255,255,255,.65);
-}
-
-.quick-card h3{
-  font-size:15px;
-  margin-bottom:3px;
-}
-
-.quick-card p{
-  color:#666;
-  font-size:13px;
-}
-
-.quick-arrow{
-  margin-left:auto;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  flex-shrink:0;
-}
-
-/* =========================
-   COMMON SECTIONS
-========================= */
-
-.section{
-  padding:65px 0;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:35px;
-}
-
-.section-title h2{
-  color:#8b0000;
-  font-size:32px;
-}
-
-.section-title p{
-  color:#777;
-  margin-top:5px;
-}
-
-.cards-3{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:22px;
-}
-
-.info-card{
-  background:#fff;
-  border-radius:15px;
-  padding:28px;
-  box-shadow:0 4px 18px rgba(0,0,0,.08);
-  border:1px solid #eee;
-}
-
-.info-icon{
-  font-size:37px;
-  margin-bottom:12px;
-}
-
-.info-card h3{
-  color:#8b0000;
-  margin-bottom:8px;
-}
-
-.info-card p{
-  color:#666;
-  font-size:15px;
-}
-
-.info-link{
-  display:inline-block;
-  margin-top:15px;
-  color:#9d1111;
-  font-weight:bold;
-}
-
-/* =========================
-   ABOUT STRIP
-========================= */
-
-.about-strip{
-  background:#fff8ed;
-}
-
-.about-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-  align-items:center;
-}
-
-.about-image-box{
-  height:330px;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 6px 22px rgba(0,0,0,.12);
-}
-
-.about-image-box img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-
-.about-content h2{
-  color:#8b0000;
-  font-size:32px;
-  margin-bottom:12px;
-}
-
-.about-content p{
-  color:#555;
-  font-size:16px;
-  margin-bottom:12px;
-}
-
-/* =========================
-   JATRA
-========================= */
-
-.jatra-section{
-  background:#fafafa;
-}
-
-.jatra-box{
-  background:#fff;
-  border-left:6px solid #d99a00;
-  border-radius:15px;
-  padding:30px;
-  box-shadow:0 4px 18px rgba(0,0,0,.07);
-}
-
-.jatra-box h3{
-  color:#8b0000;
-  font-size:24px;
-  margin-bottom:10px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-  background:#241313;
-  color:#fff;
-  padding:50px 0 20px;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:30px;
-}
-
-footer h3{
-  color:#ffd15c;
-  margin-bottom:14px;
-}
-
-footer p,
-footer a{
-  color:#ddd;
-  font-size:14px;
-}
-
-footer a{
-  display:block;
-  margin:7px 0;
-}
-
-.footer-social{
-  display:flex;
-  gap:9px;
-  margin-top:15px;
-}
-
-.footer-social a{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:#fff;
-  color:#8b0000;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-}
-
-.copyright{
-  margin-top:35px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.15);
-  text-align:center;
-  color:#aaa;
-  font-size:13px;
-}
-
-/* =========================
-   LOADING
-========================= */
-
-.loading-screen{
-  position:fixed;
-  inset:0;
-  background:#fff;
-  z-index:9999;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition:.3s;
-}
-
-.loading-screen.hide{
-  opacity:0;
-  visibility:hidden;
-}
-
-.loader{
-  width:42px;
-  height:42px;
-  border:4px solid #eee;
-  border-top-color:#8b0000;
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg);}
-}
-
-/* =========================
-   MOBILE
-========================= */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#222;line-height:1.5}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.container{width:min(1400px,94%);margin:auto}
+
+.topbar{background:#8b0000;color:#fff;min-height:44px;display:flex;align-items:center}
+.topbar-inner{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.contact-left{display:flex;align-items:center;gap:25px;flex-wrap:wrap;font-size:14px}
+.contact-left span{white-space:nowrap}.contact-left .phone{color:#ffd34d}
+.social-top{display:flex;align-items:center;gap:9px}
+.social-top a{width:29px;height:29px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:#fff;color:#8b0000;font-size:16px;font-weight:bold;transition:.2s}
+.social-top a:hover{transform:translateY(-2px)}
+
+.brand-header{background:#fff;border-bottom:1px solid #ddd;position:relative;overflow:hidden}
+.brand-inner{min-height:150px;display:flex;align-items:center;position:relative;z-index:2}
+.brand-logo{width:145px;height:145px;object-fit:contain;flex-shrink:0;margin-right:20px}
+.brand-text{padding:10px 0;z-index:3}
+.brand-text .odia-title{color:#a41414;font-size:39px;font-weight:800;line-height:1.1;margin-bottom:8px}
+.brand-text h1{color:#111;font-size:31px;line-height:1.15;margin-bottom:3px}
+.brand-text p{font-size:19px;color:#555}
+
+.header-visual{position:absolute;right:0;top:0;width:52%;height:100%;overflow:hidden;z-index:1}
+.header-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#fff 0%,rgba(255,255,255,.88) 7%,rgba(255,255,255,.25) 28%,rgba(255,255,255,0) 45%);z-index:3}
+.header-ma{position:absolute;right:27%;top:-15px;width:48%;height:190px;object-fit:cover;object-position:center;z-index:1;border-radius:50%;filter:saturate(1.08)}
+.header-temple{position:absolute;right:0;top:0;width:48%;height:150px;object-fit:cover;object-position:center;z-index:2;opacity:.9;mask-image:linear-gradient(to right,transparent 0%,black 25%);-webkit-mask-image:linear-gradient(to right,transparent 0%,black 25%)}
+
+.main-nav{background:#fff;border-bottom:1px solid #ddd;box-shadow:0 2px 8px rgba(0,0,0,.06);position:relative;z-index:20}
+.nav-inner{display:flex;justify-content:flex-end;align-items:center;min-height:62px}
+.nav-links{display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{display:flex;align-items:center;gap:7px;padding:13px 15px;border-radius:8px;font-size:14px;font-weight:700;white-space:nowrap;transition:.2s}
+.nav-links a:hover{background:#f7e7e7;color:#8b0000}
+.nav-links a.active{background:#8b0000;color:#fff}
+.menu-button{display:none;border:0;background:#8b0000;color:#fff;padding:10px 14px;border-radius:7px;font-size:21px;cursor:pointer}
+
+.hero{min-height:520px;position:relative;overflow:hidden;background:#3b2118;color:#fff;display:flex;align-items:center}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.62) 35%,rgba(0,0,0,.22) 68%,rgba(0,0,0,.28) 100%)}
+.hero-content{position:relative;z-index:3;width:min(1400px,94%);margin:auto;padding:65px 0 75px}
+.hero-text{width:min(620px,100%)}
+.hero-odia{font-size:48px;font-weight:900;line-height:1.05;color:#fff;text-shadow:2px 2px 5px rgba(0,0,0,.7);margin-bottom:2px}
+.hero-odia-yellow{font-size:45px;font-weight:900;line-height:1.05;color:#ffc400;text-shadow:2px 2px 5px rgba(0,0,0,.8);margin-bottom:15px}
+.hero-text h2{font-size:28px;margin-bottom:2px}
+.hero-location{font-size:20px;font-weight:700;margin-bottom:17px}
+.hero-description{font-size:18px;max-width:590px;color:#f7f7f7;margin-bottom:24px}
+.hero-buttons{display:flex;gap:13px;flex-wrap:wrap}
+.hero-btn{display:inline-flex;align-items:center;gap:9px;padding:14px 27px;border-radius:28px;font-size:16px;font-weight:800;transition:.2s}
+.hero-btn:hover{transform:translateY(-2px)}
+.hero-btn-primary{background:#a80f0f;border:2px solid #e5b42f;color:#fff}
+.hero-btn-light{background:#fff;color:#8b0000;border:2px solid #fff}
+.slider-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:48px;height:48px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:28px;cursor:pointer}
+.slider-left{left:25px}.slider-right{right:25px}
+.slider-dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5}
+.slider-dots span{width:11px;height:11px;background:#fff;border-radius:50%;border:1px solid rgba(0,0,0,.3)}
+.slider-dots span.active{background:#a80f0f}
+
+.quick-section{background:#fff;padding:30px 0 35px}
+.quick-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+.quick-card{min-height:95px;border-radius:15px;padding:17px;display:flex;align-items:center;gap:14px;position:relative;transition:.2s}
+.quick-card:hover{transform:translateY(-3px)}
+.quick-card:nth-child(1){background:#fff0f0}.quick-card:nth-child(2){background:#edf5ff}.quick-card:nth-child(3){background:#eefaf1}.quick-card:nth-child(4){background:#fff7e8}.quick-card:nth-child(5){background:#f4f0ff}
+.quick-icon{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:27px;flex-shrink:0;background:rgba(255,255,255,.65)}
+.quick-card h3{font-size:15px;margin-bottom:3px}.quick-card p{color:#666;font-size:13px}
+.quick-arrow{margin-left:auto;width:36px;height:36px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+
+.section{padding:65px 0}
+.section-title{text-align:center;margin-bottom:35px}.section-title h2{color:#8b0000;font-size:32px}.section-title p{color:#777;margin-top:5px}
+.cards-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.info-card{background:#fff;border-radius:15px;padding:28px;box-shadow:0 4px 18px rgba(0,0,0,.08);border:1px solid #eee}
+.info-icon{font-size:37px;margin-bottom:12px}.info-card h3{color:#8b0000;margin-bottom:8px}.info-card p{color:#666;font-size:15px}
+.info-link{display:inline-block;margin-top:15px;color:#9d1111;font-weight:bold}
+
+.about-strip{background:#fff8ed}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.about-image-box{height:330px;border-radius:18px;overflow:hidden;box-shadow:0 6px 22px rgba(0,0,0,.12)}
+.about-image-box img{width:100%;height:100%;object-fit:cover}
+.about-content h2{color:#8b0000;font-size:32px;margin-bottom:12px}.about-content p{color:#555;font-size:16px;margin-bottom:12px}
+
+.jatra-section{background:#fafafa}.jatra-box{background:#fff;border-left:6px solid #d99a00;border-radius:15px;padding:30px;box-shadow:0 4px 18px rgba(0,0,0,.07)}
+.jatra-box h3{color:#8b0000;font-size:24px;margin-bottom:10px}
+
+footer{background:#241313;color:#fff;padding:50px 0 20px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}
+footer h3{color:#ffd15c;margin-bottom:14px}footer p,footer a{color:#ddd;font-size:14px}
+footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-top:15px}
+.footer-social a{width:36px;height:36px;border-radius:50%;background:#fff;color:#8b0000;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.copyright{margin-top:35px;padding-top:18px;border-top:1px solid rgba(255,255,255,.15);text-align:center;color:#aaa;font-size:13px}
+
+.loading-screen{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;transition:.3s}
+.loading-screen.hide{opacity:0;visibility:hidden}
+.loader{width:42px;height:42px;border:4px solid #eee;border-top-color:#8b0000;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:1100px){
-
-  .brand-text .odia-title{
-    font-size:31px;
-  }
-
-  .brand-text h1{
-    font-size:25px;
-  }
-
-  .nav-links a{
-    padding:11px 9px;
-    font-size:13px;
-  }
-
-  .quick-grid{
-    grid-template-columns:repeat(3,1fr);
-  }
+.brand-text .odia-title{font-size:31px}.brand-text h1{font-size:25px}.nav-links a{padding:11px 9px;font-size:13px}.quick-grid{grid-template-columns:repeat(3,1fr)}
 }
-
 @media(max-width:850px){
-
-  .topbar-inner{
-    justify-content:center;
-  }
-
-  .contact-left{
-    justify-content:center;
-  }
-
-  .social-top{
-    display:none;
-  }
-
-  .brand-inner{
-    min-height:105px;
-  }
-
-  .brand-logo{
-    width:85px;
-    height:85px;
-    margin-right:12px;
-  }
-
-  .brand-text .odia-title{
-    font-size:23px;
-  }
-
-  .brand-text h1{
-    font-size:19px;
-  }
-
-  .brand-text p{
-    font-size:13px;
-  }
-
-  .header-visual{
-    width:55%;
-    opacity:.65;
-  }
-
-  .nav-inner{
-    justify-content:space-between;
-    min-height:58px;
-  }
-
-  .menu-button{
-    display:block;
-  }
-
-  .nav-links{
-    display:none;
-    position:absolute;
-    top:58px;
-    left:0;
-    right:0;
-    background:#fff;
-    box-shadow:0 5px 15px rgba(0,0,0,.15);
-    padding:10px;
-    flex-direction:column;
-    align-items:stretch;
-  }
-
-  .nav-links.show{
-    display:flex;
-  }
-
-  .nav-links a{
-    padding:13px;
-  }
-
-  .hero{
-    min-height:570px;
-  }
-
-  .hero-odia{
-    font-size:38px;
-  }
-
-  .hero-odia-yellow{
-    font-size:35px;
-  }
-
-  .hero-text h2{
-    font-size:24px;
-  }
-
-  .quick-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .about-grid{
-    grid-template-columns:1fr;
-  }
-
-  .cards-3{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
-  }
+.topbar-inner{justify-content:center}.contact-left{justify-content:center}.social-top{display:none}
+.brand-inner{min-height:105px}.brand-logo{width:85px;height:85px;margin-right:12px}.brand-text .odia-title{font-size:23px}.brand-text h1{font-size:19px}.brand-text p{font-size:13px}
+.header-visual{width:55%;opacity:.65}.nav-inner{justify-content:space-between;min-height:58px}.menu-button{display:block}
+.nav-links{display:none;position:absolute;top:58px;left:0;right:0;background:#fff;box-shadow:0 5px 15px rgba(0,0,0,.15);padding:10px;flex-direction:column;align-items:stretch}
+.nav-links.show{display:flex}.nav-links a{padding:13px}.hero{min-height:570px}.hero-odia{font-size:38px}.hero-odia-yellow{font-size:35px}.hero-text h2{font-size:24px}.quick-grid{grid-template-columns:repeat(2,1fr)}
+.about-grid{grid-template-columns:1fr}.cards-3{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}
 }
-
 @media(max-width:600px){
-
-  .topbar{
-    min-height:36px;
-  }
-
-  .contact-left{
-    gap:8px 15px;
-    font-size:11px;
-  }
-
-  .contact-left span:nth-child(2){
-    display:none;
-  }
-
-  .brand-inner{
-    min-height:88px;
-  }
-
-  .brand-logo{
-    width:65px;
-    height:65px;
-    margin-right:9px;
-  }
-
-  .brand-text .odia-title{
-    font-size:17px;
-  }
-
-  .brand-text h1{
-    font-size:15px;
-  }
-
-  .brand-text p{
-    font-size:10px;
-  }
-
-  .header-visual{
-    width:52%;
-    opacity:.35;
-  }
-
-  .hero{
-    min-height:570px;
-  }
-
-  .hero-content{
-    padding:50px 0 70px;
-  }
-
-  .hero-odia{
-    font-size:31px;
-  }
-
-  .hero-odia-yellow{
-    font-size:29px;
-  }
-
-  .hero-text h2{
-    font-size:21px;
-  }
-
-  .hero-location{
-    font-size:16px;
-  }
-
-  .hero-description{
-    font-size:15px;
-  }
-
-  .hero-btn{
-    padding:12px 19px;
-    font-size:14px;
-  }
-
-  .slider-arrow{
-    width:40px;
-    height:40px;
-    font-size:22px;
-  }
-
-  .slider-left{
-    left:10px;
-  }
-
-  .slider-right{
-    right:10px;
-  }
-
-  .quick-section{
-    padding:18px 0;
-  }
-
-  .quick-grid{
-    grid-template-columns:1fr;
-  }
-
-  .quick-card{
-    min-height:82px;
-  }
-
-  .cards-3{
-    grid-template-columns:1fr;
-  }
-
-  .section{
-    padding:45px 0;
-  }
-
-  .section-title h2{
-    font-size:26px;
-  }
-
-  .about-image-box{
-    height:250px;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
+.topbar{min-height:36px}.contact-left{gap:8px 15px;font-size:11px}.contact-left span:nth-child(2){display:none}
+.brand-inner{min-height:88px}.brand-logo{width:65px;height:65px;margin-right:9px}.brand-text .odia-title{font-size:17px}.brand-text h1{font-size:15px}.brand-text p{font-size:10px}
+.header-visual{width:52%;opacity:.35}.hero{min-height:570px}.hero-content{padding:50px 0 70px}.hero-odia{font-size:31px}.hero-odia-yellow{font-size:29px}.hero-text h2{font-size:21px}.hero-location{font-size:16px}.hero-description{font-size:15px}
+.hero-btn{padding:12px 19px;font-size:14px}.slider-arrow{width:40px;height:40px;font-size:22px}.slider-left{left:10px}.slider-right{right:10px}
+.quick-section{padding:18px 0}.quick-grid{grid-template-columns:1fr}.quick-card{min-height:82px}.cards-3{grid-template-columns:1fr}.section{padding:45px 0}.section-title h2{font-size:26px}.about-image-box{height:250px}.footer-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 
 <body>
-
-<!-- LOADING -->
-<div class="loading-screen" id="loadingScreen">
-  <div class="loader"></div>
-</div>
-
-
-<!-- =========================
-     TOP BAR
-========================= -->
+<div class="loading-screen" id="loadingScreen"><div class="loader"></div></div>
 
 <div class="topbar">
   <div class="container topbar-inner">
-
     <div class="contact-left">
-
       <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
-
-      <span class="phone" id="topPhone">
-        📞 +91 7978583565
-      </span>
-
-      <span id="topEmail">
-        ✉️ maabasuliudajatracommittee@gmail.com
-      </span>
-
+      <span class="phone" id="topPhone">📞 +91 7978583565</span>
+      <span id="topEmail">✉️ maabasuliudajatracommittee@gmail.com</span>
     </div>
-
     <div class="social-top">
-
-      <a id="youtubeTop"
-         href="https://www.youtube.com/@jaymaabasuli"
-         target="_blank"
-         title="YouTube">▶</a>
-
-      <a id="instagramTop"
-         href="https://www.instagram.com/jaymaabasuli"
-         target="_blank"
-         title="Instagram">◎</a>
-
-      <a id="twitterTop"
-         href="https://x.com/JayMaaBasuli"
-         target="_blank"
-         title="X">𝕏</a>
-
-      <a id="facebookTop"
-         href="#"
-         target="_blank"
-         title="Facebook">f</a>
-
-      <a id="whatsappTop"
-         href="#"
-         target="_blank"
-         title="WhatsApp Group">◉</a>
-
+      <a id="youtubeTop" href="https://www.youtube.com/@jaymaabasuli" target="_blank" title="YouTube">▶</a>
+      <a id="instagramTop" href="https://www.instagram.com/jaymaabasuli" target="_blank" title="Instagram">◎</a>
+      <a id="twitterTop" href="https://x.com/JayMaaBasuli" target="_blank" title="X">𝕏</a>
+      <a id="facebookTop" href="#" target="_blank" title="Facebook">f</a>
+      <a id="whatsappTop" href="#" target="_blank" title="WhatsApp Group">◉</a>
     </div>
-
   </div>
 </div>
-
-
-<!-- =========================
-     BRAND HEADER
-========================= -->
 
 <div class="brand-header">
-
   <div class="container brand-inner">
-
-    <img
-      id="siteLogo"
-      class="brand-logo"
-      src=""
-      alt="Maa Basuli Uda Jatra Committee Logo"
-    >
-
+    <img id="siteLogo" class="brand-logo" src="" alt="Maa Basuli Uda Jatra Committee Logo">
     <div class="brand-text">
-
-      <div class="odia-title">
-        ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି
-      </div>
-
-      <h1>
-        Maa Basuli Uda Jatra Committee
-      </h1>
-
-      <p>
-        Thakurmunda, Mayurbhanj, Odisha
-      </p>
-
+      <div class="odia-title">ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</div>
+      <h1>Maa Basuli Uda Jatra Committee</h1>
+      <p>Thakurmunda, Mayurbhanj, Odisha</p>
     </div>
-
   </div>
-
-
   <div class="header-visual">
-
-    <img
-      id="headerMaa"
-      class="header-ma"
-      src=""
-      alt="Maa Basuli"
-    >
-
-    <img
-      id="headerTemple"
-      class="header-temple"
-      src=""
-      alt="Maa Basuli Temple"
-    >
-
+    <img id="headerMaa" class="header-ma" src="" alt="Maa Basuli">
+    <img id="headerTemple" class="header-temple" src="" alt="Maa Basuli Temple">
   </div>
-
 </div>
-
-
-<!-- =========================
-     NAVIGATION
-========================= -->
 
 <div class="main-nav">
-
   <div class="container nav-inner">
-
-    <button
-      class="menu-button"
-      onclick="toggleMenu()">
-      ☰
-    </button>
-
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
     <nav class="nav-links" id="mainNav">
-
-      <a href="index.html" class="active">
-        🏠 Home
-      </a>
-
-      <a href="about.html">
-        ⓘ About
-      </a>
-
-      <a href="jatra.html">
-        🏛️ Committee
-      </a>
-
-      <a href="members.html">
-        👥 Members
-      </a>
-
-      <a href="events.html">
-        📅 Events
-      </a>
-
-      <a href="gallery.html">
-        🖼️ Gallery
-      </a>
-
-      <a href="notices.html">
-        📄 Notices
-      </a>
-
-      <a href="complaint.html">
-        📢 Complaints
-      </a>
-
-      <a href="contact.html">
-        📞 Contact
-      </a>
-
+      <a href="index.html" class="active">🏠 Home</a>
+      <a href="about.html">ⓘ About</a>
+      <a href="jatra.html">🏛️ Committee</a>
+      <a href="members.html">👥 Members</a>
+      <a href="events.html">📅 Events</a>
+      <a href="gallery.html">🖼️ Gallery</a>
+      <a href="notices.html">📄 Notices</a>
+      <a href="complaint.html">📢 Complaints</a>
+      <a href="contact.html">📞 Contact</a>
     </nav>
-
   </div>
-
 </div>
 
-
-<!-- =========================
-     HERO
-========================= -->
-
 <section class="hero">
-
-  <img
-    id="heroGroupPhoto"
-    class="hero-bg"
-    src=""
-    alt="Maa Basuli Uda Jatra Committee Group Photo"
-  >
-
+  <img id="heroGroupPhoto" class="hero-bg" src="" alt="Maa Basuli Uda Jatra Committee Group Photo">
   <div class="hero-overlay"></div>
-
-
-  <button class="slider-arrow slider-left">
-    ‹
-  </button>
-
-  <button class="slider-arrow slider-right">
-    ›
-  </button>
-
+  <button class="slider-arrow slider-left" aria-label="Previous">‹</button>
+  <button class="slider-arrow slider-right" aria-label="Next">›</button>
 
   <div class="hero-content">
-
     <div class="hero-text">
-
-      <div class="hero-odia">
-        ମା ବାସୁଳୀ
-      </div>
-
-      <div class="hero-odia-yellow">
-        ଉଡ଼ା ଯାତ୍ରା କମିଟି
-      </div>
-
-      <h2>
-        Maa Basuli Uda Jatra Committee
-      </h2>
-
-      <div class="hero-location">
-        Thakurmunda, Mayurbhanj, Odisha
-      </div>
-
-      <p class="hero-description">
-        ଆମର ପରମ୍ପରା, ଆମର ସଂସ୍କୃତି, ଆମର ମା ବାସୁଳୀ
-        ଏବଂ ଉଡ଼ା ଯାତ୍ରା ପାଇଁ ଆମର ସଙ୍କଳ୍ପ।
-      </p>
-
-
+      <div class="hero-odia">ମା ବାସୁଳୀ</div>
+      <div class="hero-odia-yellow">ଉଡ଼ା ଯାତ୍ରା କମିଟି</div>
+      <h2>Maa Basuli Uda Jatra Committee</h2>
+      <div class="hero-location">Thakurmunda, Mayurbhanj, Odisha</div>
+      <p class="hero-description">ଆମର ପରମ୍ପରା, ଆମର ସଂସ୍କୃତି, ଆମର ମା ବାସୁଳୀ ଏବଂ ଉଡ଼ା ଯାତ୍ରା ପାଇଁ ଆମର ସଙ୍କଳ୍ପ।</p>
       <div class="hero-buttons">
-
-        <a
-          href="about.html"
-          class="hero-btn hero-btn-primary">
-          🏛️ About Committee →
-        </a>
-
-        <a
-          href="https://www.youtube.com/@jaymaabasuli"
-          target="_blank"
-          class="hero-btn hero-btn-light">
-          ▶ Watch Video
-        </a>
-
+        <a href="about.html" class="hero-btn hero-btn-primary">🏛️ About Committee →</a>
+        <a id="heroVideoLink" href="https://www.youtube.com/@jaymaabasuli" target="_blank" class="hero-btn hero-btn-light">▶ Watch Video</a>
       </div>
-
     </div>
-
   </div>
-
-
-  <div class="slider-dots">
-
-    <span class="active"></span>
-    <span></span>
-    <span></span>
-
-  </div>
-
+  <div class="slider-dots"><span class="active"></span><span></span><span></span></div>
 </section>
-
-
-<!-- =========================
-     QUICK SERVICES
-========================= -->
 
 <section class="quick-section">
-
   <div class="container">
-
     <div class="quick-grid">
-
-
-      <a href="members.html" class="quick-card">
-
-        <div class="quick-icon">
-          👥
-        </div>
-
-        <div>
-          <h3>Committee Members</h3>
-          <p>Meet Our Team</p>
-        </div>
-
-        <div class="quick-arrow">
-          →
-        </div>
-
-      </a>
-
-
-      <a href="events.html" class="quick-card">
-
-        <div class="quick-icon">
-          📅
-        </div>
-
-        <div>
-          <h3>Upcoming Events</h3>
-          <p>Stay Updated</p>
-        </div>
-
-        <div class="quick-arrow">
-          →
-        </div>
-
-      </a>
-
-
-      <a href="gallery.html" class="quick-card">
-
-        <div class="quick-icon">
-          🖼️
-        </div>
-
-        <div>
-          <h3>Photo Gallery</h3>
-          <p>Memories & Moments</p>
-        </div>
-
-        <div class="quick-arrow">
-          →
-        </div>
-
-      </a>
-
-
-      <a href="notices.html" class="quick-card">
-
-        <div class="quick-icon">
-          📄
-        </div>
-
-        <div>
-          <h3>Notices & Updates</h3>
-          <p>Latest Information</p>
-        </div>
-
-        <div class="quick-arrow">
-          →
-        </div>
-
-      </a>
-
-
-      <a href="complaint.html" class="quick-card">
-
-        <div class="quick-icon">
-          📢
-        </div>
-
-        <div>
-          <h3>File a Complaint</h3>
-          <p>Let Us Know</p>
-        </div>
-
-        <div class="quick-arrow">
-          →
-        </div>
-
-      </a>
-
+      <a href="members.html" class="quick-card"><div class="quick-icon">👥</div><div><h3>Committee Members</h3><p>Meet Our Team</p></div><div class="quick-arrow">→</div></a>
+      <a href="events.html" class="quick-card"><div class="quick-icon">📅</div><div><h3>Upcoming Events</h3><p>Stay Updated</p></div><div class="quick-arrow">→</div></a>
+      <a href="gallery.html" class="quick-card"><div class="quick-icon">🖼️</div><div><h3>Photo Gallery</h3><p>Memories & Moments</p></div><div class="quick-arrow">→</div></a>
+      <a href="notices.html" class="quick-card"><div class="quick-icon">📄</div><div><h3>Notices & Updates</h3><p>Latest Information</p></div><div class="quick-arrow">→</div></a>
+      <a href="complaint.html" class="quick-card"><div class="quick-icon">📢</div><div><h3>File a Complaint</h3><p>Let Us Know</p></div><div class="quick-arrow">→</div></a>
     </div>
-
   </div>
-
 </section>
-
-
-<!-- =========================
-     ABOUT
-========================= -->
 
 <section class="section about-strip">
-
   <div class="container">
-
     <div class="about-grid">
-
-      <div class="about-image-box">
-
-        <img
-          id="aboutMaaPhoto"
-          src=""
-          alt="Maa Basuli"
-        >
-
-      </div>
-
-
+      <div class="about-image-box"><img id="aboutMaaPhoto" src="" alt="Maa Basuli"></div>
       <div class="about-content">
-
-        <h2>
-          Maa Basuli Uda Jatra Committee
-        </h2>
-
-        <p>
-          Maa Basuli Uda Jatra Committee, Thakurmunda,
-          Mayurbhanj, Odisha is dedicated to preserving
-          our religious tradition, cultural heritage and
-          community activities.
-        </p>
-
-        <p>
-          Through this official website, members and
-          devotees can access Uda Jatra information,
-          events, notices, gallery, committee information
-          and community services.
-        </p>
-
-        <a
-          href="about.html"
-          class="hero-btn hero-btn-primary">
-          Read More →
-        </a>
-
+        <h2>Maa Basuli Uda Jatra Committee</h2>
+        <p id="aboutDescription1">Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha is dedicated to preserving our religious tradition, cultural heritage and community activities.</p>
+        <p id="aboutDescription2">Through this official website, members and devotees can access Uda Jatra information, events, notices, gallery, committee information and community services.</p>
+        <a href="about.html" class="hero-btn hero-btn-primary">Read More →</a>
       </div>
-
     </div>
-
   </div>
-
 </section>
-
-
-<!-- =========================
-     UDA JATRA
-========================= -->
 
 <section class="section jatra-section">
-
   <div class="container">
-
-    <div class="section-title">
-
-      <h2>
-        🌺 Maa Basuli Uda Jatra
-      </h2>
-
-      <p>
-        Tradition • Culture • Devotion • Community
-      </p>
-
-    </div>
-
-
+    <div class="section-title"><h2>🌺 Maa Basuli Uda Jatra</h2><p>Tradition • Culture • Devotion • Community</p></div>
     <div class="jatra-box">
-
-      <h3>
-        🌺 Official Uda Jatra Information
-      </h3>
-
-      <p>
-        Explore the history, rituals, programmes,
-        cultural activities, Meena Bazar and important
-        information related to Maa Basuli Uda Jatra.
-      </p>
-
-      <a
-        href="jatra.html"
-        class="info-link">
-        Explore Uda Jatra →
-      </a>
-
+      <h3>🌺 Official Uda Jatra Information</h3>
+      <p>Explore the history, rituals, programmes, cultural activities, Meena Bazar and important information related to Maa Basuli Uda Jatra.</p>
+      <a href="jatra.html" class="info-link">Explore Uda Jatra →</a>
     </div>
-
   </div>
-
 </section>
-
-
-<!-- =========================
-     SERVICES
-========================= -->
 
 <section class="section">
-
   <div class="container">
-
-    <div class="section-title">
-
-      <h2>
-        Committee Services
-      </h2>
-
-      <p>
-        Official information and online services
-      </p>
-
-    </div>
-
-
+    <div class="section-title"><h2>Committee Services</h2><p>Official information and online services</p></div>
     <div class="cards-3">
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          👥
-        </div>
-
-        <h3>
-          Committee Members
-        </h3>
-
-        <p>
-          View approved committee members,
-          designations and official member information.
-        </p>
-
-        <a
-          href="members.html"
-          class="info-link">
-          View Members →
-        </a>
-
-      </div>
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          📅
-        </div>
-
-        <h3>
-          Events & Programmes
-        </h3>
-
-        <p>
-          View cultural programmes, religious events
-          and committee activities.
-        </p>
-
-        <a
-          href="events.html"
-          class="info-link">
-          View Events →
-        </a>
-
-      </div>
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          💰
-        </div>
-
-        <h3>
-          Fund & Donation
-        </h3>
-
-        <p>
-          Access official fund, donation and
-          member fee information.
-        </p>
-
-        <a
-          href="fund.html"
-          class="info-link">
-          Open Fund →
-        </a>
-
-      </div>
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          📢
-        </div>
-
-        <h3>
-          Notices
-        </h3>
-
-        <p>
-          Read official committee notices and
-          important announcements.
-        </p>
-
-        <a
-          href="notices.html"
-          class="info-link">
-          View Notices →
-        </a>
-
-      </div>
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          🖼️
-        </div>
-
-        <h3>
-          Photo Gallery
-        </h3>
-
-        <p>
-          Explore photographs from Uda Jatra,
-          events and committee activities.
-        </p>
-
-        <a
-          href="gallery.html"
-          class="info-link">
-          Open Gallery →
-        </a>
-
-      </div>
-
-
-      <div class="info-card">
-
-        <div class="info-icon">
-          📝
-        </div>
-
-        <h3>
-          Complaint Box
-        </h3>
-
-        <p>
-          Submit your complaint or suggestion
-          directly to the committee.
-        </p>
-
-        <a
-          href="complaint.html"
-          class="info-link">
-          Submit Complaint →
-        </a>
-
-      </div>
-
+      <div class="info-card"><div class="info-icon">👥</div><h3>Committee Members</h3><p>View approved committee members, designations and official member information.</p><a href="members.html" class="info-link">View Members →</a></div>
+      <div class="info-card"><div class="info-icon">📅</div><h3>Events & Programmes</h3><p>View cultural programmes, religious events and committee activities.</p><a href="events.html" class="info-link">View Events →</a></div>
+      <div class="info-card"><div class="info-icon">💰</div><h3>Fund & Donation</h3><p>Access official fund, donation and member fee information.</p><a href="fund.html" class="info-link">Open Fund →</a></div>
+      <div class="info-card"><div class="info-icon">📢</div><h3>Notices</h3><p>Read official committee notices and important announcements.</p><a href="notices.html" class="info-link">View Notices →</a></div>
+      <div class="info-card"><div class="info-icon">🖼️</div><h3>Photo Gallery</h3><p>Explore photographs from Uda Jatra, events and committee activities.</p><a href="gallery.html" class="info-link">Open Gallery →</a></div>
+      <div class="info-card"><div class="info-icon">📝</div><h3>Complaint Box</h3><p>Submit your complaint or suggestion directly to the committee.</p><a href="complaint.html" class="info-link">Submit Complaint →</a></div>
     </div>
-
   </div>
-
 </section>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
-
 <footer>
-
   <div class="container">
-
     <div class="footer-grid">
-
-
       <div>
-
-        <h3>
-          Maa Basuli Uda Jatra Committee
-        </h3>
-
-        <p>
-          Official website of Maa Basuli Uda Jatra
-          Committee, Thakurmunda, Mayurbhanj, Odisha.
-        </p>
-
-        <p style="margin-top:10px;">
-          ଜୟ ମା ବାସୁଳୀ 🙏
-        </p>
-
-
+        <h3 id="footerCommitteeTitle">Maa Basuli Uda Jatra Committee</h3>
+        <p>Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.</p>
+        <p style="margin-top:10px;">ଜୟ ମା ବାସୁଳୀ 🙏</p>
         <div class="footer-social">
-
-          <a
-            id="youtubeFooter"
-            href="https://www.youtube.com/@jaymaabasuli"
-            target="_blank">
-            ▶
-          </a>
-
-          <a
-            id="instagramFooter"
-            href="https://www.instagram.com/jaymaabasuli"
-            target="_blank">
-            ◎
-          </a>
-
-          <a
-            id="twitterFooter"
-            href="https://x.com/JayMaaBasuli"
-            target="_blank">
-            𝕏
-          </a>
-
-          <a
-            id="facebookFooter"
-            href="#"
-            target="_blank">
-            f
-          </a>
-
-          <a
-            id="whatsappFooter"
-            href="#"
-            target="_blank">
-            ◉
-          </a>
-
+          <a id="youtubeFooter" href="https://www.youtube.com/@jaymaabasuli" target="_blank">▶</a>
+          <a id="instagramFooter" href="https://www.instagram.com/jaymaabasuli" target="_blank">◎</a>
+          <a id="twitterFooter" href="https://x.com/JayMaaBasuli" target="_blank">𝕏</a>
+          <a id="facebookFooter" href="#" target="_blank">f</a>
+          <a id="whatsappFooter" href="#" target="_blank">◉</a>
         </div>
-
       </div>
-
-
-      <div>
-
-        <h3>
-          Quick Links
-        </h3>
-
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="jatra.html">Uda Jatra</a>
-        <a href="members.html">Members</a>
-        <a href="events.html">Events</a>
-        <a href="gallery.html">Gallery</a>
-
-      </div>
-
-
-      <div>
-
-        <h3>
-          Information
-        </h3>
-
-        <a href="notices.html">Notices</a>
-        <a href="fund.html">Fund & Donation</a>
-        <a href="member-fee.html">Member Fee</a>
-        <a href="documents.html">Documents</a>
-        <a href="contact.html">Contact</a>
-
-      </div>
-
-
-      <div>
-
-        <h3>
-          Committee
-        </h3>
-
-        <a href="complaint.html">Complaint Box</a>
-        <a href="auth.html">Member Login</a>
-        <a href="auth.html">Admin Login</a>
-        <a href="auth.html">Super Admin</a>
-
-      </div>
-
+      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="about.html">About</a><a href="jatra.html">Uda Jatra</a><a href="members.html">Members</a><a href="events.html">Events</a><a href="gallery.html">Gallery</a></div>
+      <div><h3>Information</h3><a href="notices.html">Notices</a><a href="fund.html">Fund & Donation</a><a href="member-fee.html">Member Fee</a><a href="documents.html">Documents</a><a href="contact.html">Contact</a></div>
+      <div><h3>Committee</h3><a href="complaint.html">Complaint Box</a><a href="auth.html">Member Login</a><a href="auth.html">Admin Login</a><a href="auth.html">Super Admin</a></div>
     </div>
-
-
-    <div class="copyright">
-
-      © 2026 Maa Basuli Uda Jatra Committee.
-      All Rights Reserved.
-
-    </div>
-
+    <div class="copyright">© 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.</div>
   </div>
-
 </footer>
 
-
 <script>
+const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-/* =====================================
-   SUPABASE
-===================================== */
+const DEFAULT_PHONE="7978583565";
+const DEFAULT_EMAIL="maabasuliudajatracommittee@gmail.com";
 
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-/* =====================================
-   HOMEPAGE SETTINGS / MEDIA
-===================================== */
-
-const DEFAULT_PHONE = "7978583565";
-const DEFAULT_EMAIL = "maabasuliudajatracommittee@gmail.com";
-
-function setImage(id, url){
-  const el = document.getElementById(id);
-  if(!el || !url) return;
-  const clean = String(url).trim();
-  if(!clean) return;
-  el.src = clean;
+function setImage(id,url){
+  const el=document.getElementById(id);
+  if(!el||!url)return;
+  const clean=String(url).trim();
+  if(clean)el.src=clean;
 }
 
-function firstValue(data, keys){
+function firstValue(data,keys){
   for(const key of keys){
-    if(data && data[key] != null && String(data[key]).trim() !== ""){
-      return String(data[key]).trim();
-    }
+    if(data&&data[key]!=null&&String(data[key]).trim()!=="")return String(data[key]).trim();
   }
   return "";
 }
 
+function setSocialLink(id,url){
+  const element=document.getElementById(id);
+  if(element&&url&&url.trim()!=="")element.href=url.trim();
+}
+
 function applyHomepageSettings(data){
-  if(!data) return;
+  if(!data)return;
 
-  // Images: support the current column names and the alternate names
-  // used by the Homepage Manager.
-  setImage("siteLogo", firstValue(data,[
-    "logo_url","logo","site_logo_url"
-  ]));
+  setImage("siteLogo",firstValue(data,["logo_url","logo","site_logo_url"]));
 
-  const maaUrl = firstValue(data,[
-    "maa_basuli_url","maa_basuli_photo_url","maa_basuli_photo"
-  ]);
-  setImage("headerMaa", maaUrl);
-  setImage("aboutMaaPhoto", maaUrl);
+  const maaUrl=firstValue(data,["maa_basuli_url","maa_basuli_photo_url","maa_basuli_photo"]);
+  setImage("headerMaa",maaUrl);
+  setImage("aboutMaaPhoto",maaUrl);
 
-  setImage("headerTemple", firstValue(data,[
-    "temple_url","temple_photo_url","temple_photo"
-  ]));
+  setImage("headerTemple",firstValue(data,["temple_url","temple_photo_url","temple_photo"]));
+  setImage("heroGroupPhoto",firstValue(data,["group_photo_url","group_photo","committee_group_photo_url"]));
 
-  setImage("heroGroupPhoto", firstValue(data,[
-    "group_photo_url","group_photo","committee_group_photo_url"
-  ]));
+  const websiteTitle=firstValue(data,["site_title","website_title","title","name"]);
+  const phone=firstValue(data,["phone","mobile","contact_phone"])||DEFAULT_PHONE;
+  const email=firstValue(data,["email","contact_email","official_email"])||DEFAULT_EMAIL;
+  const heroTitle=firstValue(data,["hero_title","homepage_title","banner_title"]);
+  const heroSubtitle=firstValue(data,["hero_subtitle","homepage_subtitle","banner_subtitle"]);
+  const description=firstValue(data,["description","welcome_text","homepage_description","about_text"]);
+  const youtube=firstValue(data,["youtube_url","youtube","hero_youtube_url","video_url"]);
 
-  const phone = DEFAULT_PHONE;
-  const email = firstValue(data,["email","contact_email","official_email"]) || DEFAULT_EMAIL;
+  if(websiteTitle){
+    document.title=websiteTitle;
+    const brandTitle=document.querySelector(".brand-text h1");
+    if(brandTitle)brandTitle.textContent=websiteTitle;
+    const heroEnglishTitle=document.querySelector(".hero-text h2");
+    if(heroEnglishTitle)heroEnglishTitle.textContent=websiteTitle;
+    const aboutTitle=document.querySelector(".about-content h2");
+    if(aboutTitle)aboutTitle.textContent=websiteTitle;
+    const footerTitle=document.getElementById("footerCommitteeTitle");
+    if(footerTitle)footerTitle.textContent=websiteTitle;
+  }
 
-  const phoneEl = document.getElementById("topPhone");
-  if(phoneEl) phoneEl.textContent = "📞 " + (phone || DEFAULT_PHONE);
+  const phoneEl=document.getElementById("topPhone");
+  if(phoneEl)phoneEl.textContent="📞 "+phone;
 
-  const emailEl = document.getElementById("topEmail");
-  if(emailEl) emailEl.textContent = "✉️ " + (email || DEFAULT_EMAIL);
+  const emailEl=document.getElementById("topEmail");
+  if(emailEl)emailEl.textContent="✉️ "+email;
 
-  setSocialLink("youtubeTop", firstValue(data,["youtube_url","youtube","hero_youtube_url","video_url"]));
-  setSocialLink("instagramTop", firstValue(data,["instagram_url","instagram"]));
-  setSocialLink("twitterTop", firstValue(data,["twitter_url","twitter","x_url","x"]));
-  setSocialLink("facebookTop", firstValue(data,["facebook_url","facebook"]));
-  setSocialLink("youtubeFooter", firstValue(data,["youtube_url","youtube"]));
-  setSocialLink("instagramFooter", firstValue(data,["instagram_url","instagram"]));
-  setSocialLink("twitterFooter", firstValue(data,["twitter_url","twitter","x_url","x"]));
-  setSocialLink("facebookFooter", firstValue(data,["facebook_url","facebook"]));
+  if(heroTitle){
+    const heroOdia=document.querySelector(".hero-odia");
+    if(heroOdia)heroOdia.textContent=heroTitle;
+  }
+
+  if(heroSubtitle){
+    const heroOdiaYellow=document.querySelector(".hero-odia-yellow");
+    if(heroOdiaYellow)heroOdiaYellow.textContent=heroSubtitle;
+  }
+
+  if(description){
+    const heroDescription=document.querySelector(".hero-description");
+    if(heroDescription)heroDescription.textContent=description;
+    const aboutDescription1=document.getElementById("aboutDescription1");
+    if(aboutDescription1)aboutDescription1.textContent=description;
+  }
+
+  if(youtube){
+    setSocialLink("youtubeTop",youtube);
+    setSocialLink("youtubeFooter",youtube);
+    const heroVideo=document.getElementById("heroVideoLink");
+    if(heroVideo)heroVideo.href=youtube;
+  }
+
+  setSocialLink("instagramTop",firstValue(data,["instagram_url","instagram"]));
+  setSocialLink("twitterTop",firstValue(data,["twitter_url","twitter","x_url","x"]));
+  setSocialLink("facebookTop",firstValue(data,["facebook_url","facebook"]));
+  setSocialLink("instagramFooter",firstValue(data,["instagram_url","instagram"]));
+  setSocialLink("twitterFooter",firstValue(data,["twitter_url","twitter","x_url","x"]));
+  setSocialLink("facebookFooter",firstValue(data,["facebook_url","facebook"]));
 }
 
 async function loadWebsiteSettings(){
   try{
-    // Keep the public homepage independent from a possibly stale created_at
-    // ordering. First try the current table directly.
-    let result = await supabaseClient
+    const result=await supabaseClient
       .from("website_settings")
       .select("*")
       .limit(1)
       .maybeSingle();
 
     if(result.error){
-      console.error("Website settings error:", result.error);
+      console.error("Website settings error:",result.error);
       finishLoading();
       return;
     }
@@ -1856,99 +387,28 @@ async function loadWebsiteSettings(){
       console.warn("No public website_settings row was returned.");
     }
   }catch(error){
-    console.error("Settings load failed:", error);
+    console.error("Settings load failed:",error);
   }
 
   finishLoading();
 }
 
-/* =====================================
-   SOCIAL HELPER
-===================================== */
-
-function setSocialLink(
-  id,
-  url
-){
-
-  const element =
-    document.getElementById(id);
-
-  if(
-    element &&
-    url &&
-    url.trim() !== ""
-  ){
-
-    element.href = url;
-
-  }
-
-}
-
-
-/* =====================================
-   LOADING
-===================================== */
-
 function finishLoading(){
-
-  setTimeout(() => {
-
-    const loader =
-      document.getElementById(
-        "loadingScreen"
-      );
-
-    if(loader){
-
-      loader.classList.add("hide");
-
-    }
-
+  setTimeout(()=>{
+    const loader=document.getElementById("loadingScreen");
+    if(loader)loader.classList.add("hide");
   },300);
-
 }
-
-
-/* =====================================
-   MOBILE MENU
-===================================== */
 
 function toggleMenu(){
-
-  document
-    .getElementById("mainNav")
-    .classList
-    .toggle("show");
-
+  document.getElementById("mainNav").classList.toggle("show");
 }
 
-
-/* =====================================
-   HERO IMAGE FALLBACK
-===================================== */
-
-document
-  .getElementById("heroGroupPhoto")
-  .addEventListener(
-    "error",
-    function(){
-
-      this.style.background =
-        "#3b2118";
-
-    }
-  );
-
-
-/* =====================================
-   START
-===================================== */
+document.getElementById("heroGroupPhoto").addEventListener("error",function(){
+  this.style.background="#3b2118";
+});
 
 loadWebsiteSettings();
-
 </script>
-
 </body>
 </html>
