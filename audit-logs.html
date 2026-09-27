@@ -3,771 +3,1040 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Audit Logs - Maa Basuli Uda Jatra Committee</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f5f7fb;
-    color:#222;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f7fb;
+  color:#222;
 }
+
 header{
-    background:#7b1e1e;
-    color:#fff;
-    padding:16px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:10px;
+  background:#7b1e1e;
+  color:#fff;
+  padding:16px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
 }
-header h1{margin:0;font-size:21px}
-header small{opacity:.9}
+
+header h1{
+  margin:0;
+  font-size:21px;
+}
+
+header p{
+  margin:5px 0 0;
+  font-size:13px;
+  opacity:.9;
+}
+
 .top-actions{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
+
 button{
-    border:0;
-    padding:10px 15px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:600;
+  border:0;
+  border-radius:7px;
+  padding:9px 13px;
+  cursor:pointer;
+  font-weight:600;
 }
-.btn-light{background:#fff;color:#7b1e1e}
-.btn-danger{background:#dc3545;color:#fff}
-.btn-secondary{background:#6c757d;color:#fff}
+
+.btn-light{
+  background:#fff;
+  color:#7b1e1e;
+}
+
+.btn-primary{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+.btn-secondary{
+  background:#6c757d;
+  color:#fff;
+}
+
+.btn-danger{
+  background:#dc3545;
+  color:#fff;
+}
 
 .container{
-    max-width:1250px;
-    margin:25px auto;
-    padding:0 15px;
-}
-
-.card{
-    background:#fff;
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:20px;
-    box-shadow:0 3px 15px rgba(0,0,0,.08);
-}
-
-.card h2{
-    margin-top:0;
-    color:#7b1e1e;
-    font-size:20px;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.stat{
-    background:#fff;
-    padding:18px;
-    border-radius:10px;
-    box-shadow:0 3px 12px rgba(0,0,0,.07);
-}
-
-.stat h3{
-    margin:0 0 8px;
-    font-size:14px;
-    color:#666;
-}
-
-.stat strong{
-    font-size:27px;
-    color:#7b1e1e;
-}
-
-.filters{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:10px;
-    margin-bottom:18px;
-}
-
-input,select{
-    width:100%;
-    padding:11px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:14px;
-}
-
-.table-wrap{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:1100px;
-}
-
-th,td{
-    padding:11px;
-    border-bottom:1px solid #eee;
-    text-align:left;
-    vertical-align:top;
-}
-
-th{
-    background:#f3f3f3;
-    color:#555;
-}
-
-.badge{
-    display:inline-block;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:12px;
-    font-weight:700;
-}
-
-.badge-blue{
-    background:#cfe2ff;
-    color:#084298;
-}
-
-.badge-green{
-    background:#d1e7dd;
-    color:#0f5132;
-}
-
-.badge-yellow{
-    background:#fff3cd;
-    color:#664d03;
-}
-
-.badge-red{
-    background:#f8d7da;
-    color:#842029;
+  max-width:1450px;
+  margin:22px auto;
+  padding:0 16px;
 }
 
 .message{
-    padding:12px;
-    border-radius:7px;
-    margin-bottom:15px;
-    display:none;
+  display:none;
+  padding:12px 15px;
+  border-radius:8px;
+  margin-bottom:15px;
+  font-weight:600;
 }
 
-.success{
-    background:#d1e7dd;
-    color:#0f5132;
+.message.success{
+  display:block;
+  background:#d1e7dd;
+  color:#0f5132;
 }
 
-.error{
-    background:#f8d7da;
-    color:#842029;
+.message.error{
+  display:block;
+  background:#f8d7da;
+  color:#842029;
 }
 
-#loading{
-    text-align:center;
-    padding:20px;
-    color:#777;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:14px;
+  margin-bottom:20px;
 }
 
-.hidden{
-    display:none!important;
+.stat-card{
+  background:#fff;
+  border-radius:10px;
+  padding:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
 }
 
-.description{
-    max-width:350px;
-    white-space:normal;
-    word-break:break-word;
+.stat-card h3{
+  margin:0 0 8px;
+  font-size:14px;
+  color:#666;
 }
 
-@media(max-width:900px){
-    .stats{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .filters{
-        grid-template-columns:1fr 1fr;
-    }
+.stat-card strong{
+  font-size:26px;
+  color:#7b1e1e;
 }
 
-@media(max-width:550px){
-    .stats{
-        grid-template-columns:1fr;
-    }
+.card{
+  background:#fff;
+  border-radius:10px;
+  padding:20px;
+  box-shadow:0 2px 10px rgba(0,0,0,.07);
+  margin-bottom:20px;
+}
 
-    .filters{
-        grid-template-columns:1fr;
-    }
+.card h2{
+  margin:0 0 16px;
+  color:#7b1e1e;
+  font-size:20px;
+}
 
-    header h1{
-        font-size:17px;
-    }
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
+}
+
+.toolbar input,
+.toolbar select{
+  padding:10px 11px;
+  border:1px solid #ccd2da;
+  border-radius:7px;
+  font-size:14px;
+  outline:none;
+}
+
+.toolbar input{
+  min-width:280px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:1250px;
+}
+
+th,
+td{
+  border-bottom:1px solid #e5e7eb;
+  padding:11px 9px;
+  text-align:left;
+  vertical-align:top;
+  font-size:13px;
+}
+
+th{
+  background:#f1f3f5;
+  color:#333;
+  white-space:nowrap;
+}
+
+.badge{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:700;
+}
+
+.badge-action{
+  background:#e7f1ff;
+  color:#084298;
+}
+
+.badge-module{
+  background:#fff3cd;
+  color:#664d03;
+}
+
+.empty{
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:#666;
+}
+
+.info-box{
+  background:#f8f9fa;
+  border-left:4px solid #7b1e1e;
+  padding:12px 15px;
+  margin-bottom:15px;
+  color:#555;
+  font-size:13px;
+  line-height:1.6;
+}
+
+@media(max-width:700px){
+
+  .toolbar input{
+    min-width:100%;
+  }
+
+  header{
+    align-items:flex-start;
+  }
 }
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
 
 <header>
-    <div>
-        <h1>📝 Audit Logs</h1>
-        <small>Maa Basuli Uda Jatra Committee</small>
-    </div>
 
-    <div class="top-actions">
-        <button class="btn-light" onclick="goDashboard()">Dashboard</button>
-        <button class="btn-light" onclick="loadLogs()">Refresh</button>
-        <button class="btn-danger" onclick="logout()">Logout</button>
-    </div>
+  <div>
+    <h1>Audit Logs</h1>
+    <p>Maa Basuli Uda Jatra Committee</p>
+  </div>
+
+  <div class="top-actions">
+
+    <button
+      class="btn-light"
+      onclick="goDashboard()">
+      Dashboard
+    </button>
+
+    <button
+      class="btn-light"
+      onclick="loadLogs()">
+      Refresh
+    </button>
+
+    <button
+      class="btn-light"
+      onclick="logout()">
+      Logout
+    </button>
+
+  </div>
+
 </header>
+
 
 <div class="container">
 
-    <div id="messageBox" class="message"></div>
+  <div id="messageBox" class="message"></div>
 
-    <div class="stats">
 
-        <div class="stat">
-            <h3>Total Logs</h3>
-            <strong id="totalCount">0</strong>
-        </div>
+  <div class="stats">
 
-        <div class="stat">
-            <h3>Today</h3>
-            <strong id="todayCount">0</strong>
-        </div>
+    <div class="stat-card">
+      <h3>Total Audit Logs</h3>
+      <strong id="totalCount">0</strong>
+    </div>
 
-        <div class="stat">
-            <h3>Modules</h3>
-            <strong id="moduleCount">0</strong>
-        </div>
+    <div class="stat-card">
+      <h3>Today</h3>
+      <strong id="todayCount">0</strong>
+    </div>
 
-        <div class="stat">
-            <h3>Actions</h3>
-            <strong id="actionCount">0</strong>
-        </div>
+    <div class="stat-card">
+      <h3>Modules</h3>
+      <strong id="moduleCount">0</strong>
+    </div>
+
+    <div class="stat-card">
+      <h3>Actions</h3>
+      <strong id="actionCount">0</strong>
+    </div>
+
+  </div>
+
+
+  <div class="card">
+
+    <h2>System Audit Trail</h2>
+
+    <div class="info-box">
+      Audit Logs record important administrative activities performed
+      in the Maa Basuli Uda Jatra Committee system.
+    </div>
+
+
+    <div class="toolbar">
+
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="Search action, module, description..."
+        oninput="renderLogs()"
+      >
+
+      <select
+        id="moduleFilter"
+        onchange="renderLogs()">
+
+        <option value="">
+          All Modules
+        </option>
+
+      </select>
+
+
+      <select
+        id="actionFilter"
+        onchange="renderLogs()">
+
+        <option value="">
+          All Actions
+        </option>
+
+      </select>
 
     </div>
 
-    <div class="card">
 
-        <h2>🔎 Audit Log Records</h2>
+    <div id="tableContainer">
 
-        <div class="filters">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search action, module, description..."
-                oninput="renderLogs()"
-            >
-
-            <select
-                id="moduleFilter"
-                onchange="renderLogs()"
-            >
-                <option value="">All Modules</option>
-            </select>
-
-            <select
-                id="actionFilter"
-                onchange="renderLogs()"
-            >
-                <option value="">All Actions</option>
-            </select>
-
-            <input
-                type="date"
-                id="dateFilter"
-                onchange="renderLogs()"
-            >
-
-        </div>
-
-        <div id="loading">
-            Loading audit logs...
-        </div>
-
-        <div class="table-wrap">
-
-            <table id="logsTable" class="hidden">
-
-                <thead>
-                    <tr>
-                        <th>Sl.</th>
-                        <th>Date & Time</th>
-                        <th>User ID</th>
-                        <th>Action</th>
-                        <th>Module</th>
-                        <th>Record ID</th>
-                        <th>Description</th>
-                        <th>IP Address</th>
-                        <th>User Agent</th>
-                    </tr>
-                </thead>
-
-                <tbody id="logsBody"></tbody>
-
-            </table>
-
-        </div>
+      <div class="loading">
+        Loading audit logs...
+      </div>
 
     </div>
+
+  </div>
 
 </div>
 
 
-<script>
-const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
-const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-const supabaseClient = window.supabase.createClient(
+<script>
+
+const SUPABASE_URL =
+  "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpU_t--2_Nov";
+
+
+const supabaseClient =
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
-);
+  );
 
-let currentAccessToken = null;
 
-async function getSessionUser(){
-    const { data, error } = await supabaseClient.auth.getSession();
+let logs = [];
 
-    if(error || !data.session){
-        location.href = "auth.html";
-        return null;
-    }
 
-    currentAccessToken = data.session.access_token;
-    return data.session.user;
-}
+/* =========================
+   MESSAGE
+========================= */
 
-function apiHeaders(){
-    return {
-        "apikey": SUPABASE_KEY,
-        "Authorization": "Bearer " + currentAccessToken,
-        "Content-Type": "application/json"
-    };
-}
+function showMessage(
+  text,
+  type = "success"
+){
 
-function goDashboard(){
-    location.href="super-admin.html";
-}
-
-async function logout(){
-    try{
-        await supabaseClient.auth.signOut();
-    }catch(e){}
-    currentAccessToken = null;
-    location.href="auth.html";
-}
-
-</script>
-function showMessage(text,type="success"){
-
-    const box=
-        document.getElementById("messageBox");
-
-    box.textContent=text;
-
-    box.className=
-        "message "+type;
-
-    box.style.display="block";
-
-    setTimeout(()=>{
-        box.style.display="none";
-    },4000);
-}
-
-function goDashboard(){
-
-    location.href="super-admin.html";
-}
-
-async function logout(){
-
-    const token=
-        getSupabaseAccessToken();
-
-    try{
-
-        if(token){
-
-            await fetch(
-                SUPABASE_URL+"/auth/v1/logout",
-                {
-                    method:"POST",
-                    headers:apiHeaders()
-                }
-            );
-
-        }
-
-    }catch(e){}
-
-    clearLegacyAuth();
-
-    localStorage.removeItem(
-        "supabase_refresh_token"
+  const box =
+    document.getElementById(
+      "messageBox"
     );
 
-    location.href="auth.html";
+  box.textContent = text;
+
+  box.className =
+    "message " + type;
+
+
+  setTimeout(() => {
+
+    box.className =
+      "message";
+
+    box.textContent =
+      "";
+
+  },4000);
 }
+
+
+/* =========================
+   SESSION
+========================= */
+
+async function checkSession(){
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if(error){
+
+    console.error(error);
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+  }
+
+
+  if(!data.session){
+
+    window.location.href =
+      "auth.html";
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/* =========================
+   LOAD LOGS
+========================= */
 
 async function loadLogs(){
 
-    document
-        .getElementById("loading")
-        .classList
-        .remove("hidden");
-
-    document
-        .getElementById("logsTable")
-        .classList
-        .add("hidden");
-
-    const res=await fetch(
-        SUPABASE_URL+
-        "/rest/v1/audit_logs"+
-        "?select=*"+
-        "&order=created_at.desc",
-        {
-            headers:apiHeaders()
-        }
+  const container =
+    document.getElementById(
+      "tableContainer"
     );
 
-    if(!res.ok){
 
-        const err=await res.text();
+  container.innerHTML =
+    '<div class="loading">Loading audit logs...</div>';
 
-        console.error(err);
 
-        document.getElementById("loading").textContent=
-            "Unable to load audit logs.";
+  try{
 
-        showMessage(
-            "Audit logs load failed.",
-            "error"
-        );
+    const response =
+      await fetch(
 
-        return;
+        SUPABASE_URL +
+        "/rest/v1/audit_logs" +
+        "?select=*" +
+        "&order=created_at.desc",
+
+        {
+
+          headers:{
+            "apikey":
+              SUPABASE_KEY,
+
+            "Authorization":
+              "Bearer " +
+              SUPABASE_KEY
+          }
+
+        }
+
+      );
+
+
+    if(!response.ok){
+
+      const errorText =
+        await response.text();
+
+
+      console.error(
+        errorText
+      );
+
+
+      container.innerHTML =
+        '<div class="empty">Unable to load audit logs.</div>';
+
+
+      showMessage(
+        "Load failed: " +
+        errorText,
+        "error"
+      );
+
+
+      return;
     }
 
-    logs=await res.json();
+
+    logs =
+      await response.json();
+
 
     updateStats();
+
     populateFilters();
+
     renderLogs();
 
-    document
-        .getElementById("loading")
-        .classList
-        .add("hidden");
 
-    document
-        .getElementById("logsTable")
-        .classList
-        .remove("hidden");
+  }catch(error){
+
+    console.error(error);
+
+
+    container.innerHTML =
+      '<div class="empty">Connection error.</div>';
+
+
+    showMessage(
+      "Connection error while loading audit logs.",
+      "error"
+    );
+
+  }
+
 }
+
+
+/* =========================
+   STATS
+========================= */
 
 function updateStats(){
 
-    document.getElementById("totalCount")
-        .textContent=logs.length;
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    logs.length;
 
-    const today=
-        new Date()
-        .toISOString()
-        .slice(0,10);
 
-    const todayLogs=
-        logs.filter(log=>
-            String(log.created_at||"")
-            .startsWith(today)
-        );
+  const today =
+    new Date()
+      .toISOString()
+      .slice(0,10);
 
-    document.getElementById("todayCount")
-        .textContent=todayLogs.length;
 
-    const modules=
-        new Set(
-            logs
-            .map(x=>x.module)
-            .filter(Boolean)
-        );
+  const todayLogs =
+    logs.filter(item => {
 
-    const actions=
-        new Set(
-            logs
-            .map(x=>x.action)
-            .filter(Boolean)
-        );
+      if(!item.created_at){
+        return false;
+      }
 
-    document.getElementById("moduleCount")
-        .textContent=modules.size;
+      return item.created_at
+        .slice(0,10) === today;
 
-    document.getElementById("actionCount")
-        .textContent=actions.size;
+    });
+
+
+  document.getElementById(
+    "todayCount"
+  ).textContent =
+    todayLogs.length;
+
+
+  const modules =
+    new Set(
+
+      logs
+        .map(item =>
+          item.module
+        )
+        .filter(Boolean)
+
+    );
+
+
+  document.getElementById(
+    "moduleCount"
+  ).textContent =
+    modules.size;
+
+
+  const actions =
+    new Set(
+
+      logs
+        .map(item =>
+          item.action
+        )
+        .filter(Boolean)
+
+    );
+
+
+  document.getElementById(
+    "actionCount"
+  ).textContent =
+    actions.size;
+
 }
+
+
+/* =========================
+   FILTER OPTIONS
+========================= */
 
 function populateFilters(){
 
-    const moduleSelect=
-        document.getElementById("moduleFilter");
+  const moduleFilter =
+    document.getElementById(
+      "moduleFilter"
+    );
 
-    const actionSelect=
-        document.getElementById("actionFilter");
 
-    const currentModule=
-        moduleSelect.value;
+  const actionFilter =
+    document.getElementById(
+      "actionFilter"
+    );
 
-    const currentAction=
-        actionSelect.value;
 
-    const modules=[
-        ...new Set(
-            logs
-            .map(x=>x.module)
-            .filter(Boolean)
-        )
-    ].sort();
+  const selectedModule =
+    moduleFilter.value;
 
-    const actions=[
-        ...new Set(
-            logs
-            .map(x=>x.action)
-            .filter(Boolean)
-        )
-    ].sort();
 
-    moduleSelect.innerHTML=
-        `<option value="">All Modules</option>`;
+  const selectedAction =
+    actionFilter.value;
 
-    modules.forEach(module=>{
 
-        const option=
-            document.createElement("option");
+  const modules =
+    [
+      ...new Set(
 
-        option.value=module;
-        option.textContent=module;
+        logs
+          .map(item =>
+            item.module
+          )
+          .filter(Boolean)
 
-        moduleSelect.appendChild(option);
+      )
+    ]
+    .sort();
 
-    });
 
-    actionSelect.innerHTML=
-        `<option value="">All Actions</option>`;
+  const actions =
+    [
+      ...new Set(
 
-    actions.forEach(action=>{
+        logs
+          .map(item =>
+            item.action
+          )
+          .filter(Boolean)
 
-        const option=
-            document.createElement("option");
+      )
+    ]
+    .sort();
 
-        option.value=action;
-        option.textContent=action;
 
-        actionSelect.appendChild(option);
+  moduleFilter.innerHTML =
+    '<option value="">All Modules</option>';
 
-    });
 
-    moduleSelect.value=currentModule;
-    actionSelect.value=currentAction;
+  modules.forEach(module => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      module;
+
+    option.textContent =
+      module;
+
+    moduleFilter.appendChild(
+      option
+    );
+
+  });
+
+
+  actionFilter.innerHTML =
+    '<option value="">All Actions</option>';
+
+
+  actions.forEach(action => {
+
+    const option =
+      document.createElement(
+        "option"
+      );
+
+    option.value =
+      action;
+
+    option.textContent =
+      action;
+
+    actionFilter.appendChild(
+      option
+    );
+
+  });
+
+
+  moduleFilter.value =
+    selectedModule;
+
+
+  actionFilter.value =
+    selectedAction;
+
 }
+
+
+/* =========================
+   RENDER LOGS
+========================= */
 
 function renderLogs(){
 
-    const search=
-        document
-        .getElementById("searchInput")
-        .value
-        .trim()
-        .toLowerCase();
+  const container =
+    document.getElementById(
+      "tableContainer"
+    );
 
-    const moduleFilter=
-        document
-        .getElementById("moduleFilter")
-        .value;
 
-    const actionFilter=
-        document
-        .getElementById("actionFilter")
-        .value;
+  const search =
+    document.getElementById(
+      "searchBox"
+    )
+    .value
+    .trim()
+    .toLowerCase();
 
-    const dateFilter=
-        document
-        .getElementById("dateFilter")
-        .value;
 
-    const filtered=
-        logs.filter(log=>{
+  const module =
+    document.getElementById(
+      "moduleFilter"
+    )
+    .value;
 
-            const text=(
-                (log.action||"")+" "+
-                (log.module||"")+" "+
-                (log.description||"")+" "+
-                (log.user_id||"")+" "+
-                (log.record_id||"")+" "+
-                (log.ip_address||"")+" "+
-                (log.user_agent||"")
-            ).toLowerCase();
 
-            if(
-                search &&
-                !text.includes(search)
-            ){
-                return false;
-            }
+  const action =
+    document.getElementById(
+      "actionFilter"
+    )
+    .value;
 
-            if(
-                moduleFilter &&
-                log.module!==moduleFilter
-            ){
-                return false;
-            }
 
-            if(
-                actionFilter &&
-                log.action!==actionFilter
-            ){
-                return false;
-            }
+  const filtered =
+    logs.filter(item => {
 
-            if(
-                dateFilter &&
-                !String(log.created_at||"")
-                .startsWith(dateFilter)
-            ){
-                return false;
-            }
 
-            return true;
+      const searchable = (
 
-        });
+        (item.action || "") +
+        " " +
+        (item.module || "") +
+        " " +
+        (item.description || "") +
+        " " +
+        (item.ip_address || "") +
+        " " +
+        (item.user_agent || "")
 
-    const body=
-        document.getElementById("logsBody");
+      ).toLowerCase();
 
-    body.innerHTML="";
 
-    if(filtered.length===0){
+      const searchMatch =
+        !search ||
+        searchable.includes(
+          search
+        );
 
-        body.innerHTML=`
-            <tr>
-                <td
-                    colspan="9"
-                    style="text-align:center;padding:25px"
-                >
-                    No audit logs found.
-                </td>
-            </tr>
-        `;
 
-        return;
-    }
+      const moduleMatch =
+        !module ||
+        item.module === module;
 
-    filtered.forEach((log,index)=>{
 
-        const tr=
-            document.createElement("tr");
+      const actionMatch =
+        !action ||
+        item.action === action;
 
-        tr.innerHTML=`
 
-            <td>${index+1}</td>
-
-            <td>
-                ${formatDate(log.created_at)}
-            </td>
-
-            <td>
-                <small>
-                    ${escapeHtml(log.user_id||"-")}
-                </small>
-            </td>
-
-            <td>
-                <span class="badge badge-blue">
-                    ${escapeHtml(log.action||"-")}
-                </span>
-            </td>
-
-            <td>
-                ${
-                    log.module
-                    ? `<span class="badge badge-green">
-                        ${escapeHtml(log.module)}
-                       </span>`
-                    : "-"
-                }
-            </td>
-
-            <td>
-                <small>
-                    ${escapeHtml(log.record_id||"-")}
-                </small>
-            </td>
-
-            <td class="description">
-                ${escapeHtml(log.description||"-")}
-            </td>
-
-            <td>
-                ${escapeHtml(log.ip_address||"-")}
-            </td>
-
-            <td class="description">
-                ${escapeHtml(log.user_agent||"-")}
-            </td>
-
-        `;
-
-        body.appendChild(tr);
+      return (
+        searchMatch &&
+        moduleMatch &&
+        actionMatch
+      );
 
     });
+
+
+  if(filtered.length === 0){
+
+    container.innerHTML =
+      '<div class="empty">No audit logs found.</div>';
+
+    return;
+  }
+
+
+  let html = `
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Date & Time</th>
+            <th>Action</th>
+            <th>Module</th>
+            <th>User ID</th>
+            <th>Record ID</th>
+            <th>Description</th>
+            <th>IP Address</th>
+            <th>User Agent</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+  `;
+
+
+  filtered.forEach(item => {
+
+
+    const date =
+      item.created_at
+        ? new Date(
+            item.created_at
+          ).toLocaleString(
+            "en-IN"
+          )
+        : "-";
+
+
+    html += `
+
+      <tr>
+
+        <td>
+          ${escapeHtml(date)}
+        </td>
+
+
+        <td>
+
+          <span class="badge badge-action">
+            ${escapeHtml(
+              item.action || "-"
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+
+          <span class="badge badge-module">
+            ${escapeHtml(
+              item.module || "-"
+            )}
+          </span>
+
+        </td>
+
+
+        <td>
+          ${escapeHtml(
+            item.user_id || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${escapeHtml(
+            item.record_id || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${escapeHtml(
+            item.description || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${escapeHtml(
+            item.ip_address || "-"
+          )}
+        </td>
+
+
+        <td>
+          ${escapeHtml(
+            item.user_agent || "-"
+          )}
+        </td>
+
+      </tr>
+
+    `;
+
+  });
+
+
+  html += `
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+
+
+  container.innerHTML =
+    html;
+
 }
 
-function formatDate(value){
 
-    if(!value)return "-";
-
-    const date=new Date(value);
-
-    return date.toLocaleString(
-        "en-IN",
-        {
-            day:"2-digit",
-            month:"2-digit",
-            year:"numeric",
-            hour:"2-digit",
-            minute:"2-digit"
-        }
-    );
-}
+/* =========================
+   HTML ESCAPE
+========================= */
 
 function escapeHtml(value){
 
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
-async function init(){
 
-    currentUser=
-        await getSessionUser();
+/* =========================
+   DASHBOARD
+========================= */
 
-    if(!currentUser)return;
+function goDashboard(){
+
+  window.location.href =
+    "super-admin.html";
+
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+async function logout(){
+
+  await supabaseClient
+    .auth
+    .signOut();
+
+
+  window.location.href =
+    "auth.html";
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+(async function(){
+
+  const loggedIn =
+    await checkSession();
+
+
+  if(loggedIn){
 
     await loadLogs();
-}
 
-init();
+  }
+
+})();
 
 </script>
 
