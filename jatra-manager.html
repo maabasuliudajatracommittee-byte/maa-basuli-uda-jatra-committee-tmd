@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jatra Management | Maa Basuli Uda Jatra Committee</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f5f6f8;
+      color:#222;
+    }
+
+    header{
+      background:#9d3100;
+      color:white;
+      padding:18px 25px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    header h1{
+      margin:0;
+      font-size:25px;
+    }
+
+    header p{
+      margin:5px 0 0;
+      opacity:.9;
+    }
+
+    .top-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    button{
+      border:0;
+      border-radius:8px;
+      padding:11px 17px;
+      cursor:pointer;
+      font-weight:700;
+      font-size:14px;
+    }
+
+    .btn-white{
+      background:white;
+      color:#8d2c00;
+    }
+
+    .btn-primary{
+      background:#9d3100;
+      color:white;
+    }
+
+    .btn-blue{
+      background:#2563eb;
+      color:white;
+    }
+
+    .btn-green{
+      background:#15803d;
+      color:white;
+    }
+
+    .btn-red{
+      background:#dc2626;
+      color:white;
+    }
+
+    .btn-gray{
+      background:#64748b;
+      color:white;
+    }
+
+    .container{
+      max-width:1250px;
+      margin:25px auto;
+      padding:0 18px;
+    }
+
+    .page-title{
+      margin-bottom:20px;
+    }
+
+    .page-title h2{
+      color:#8d2c00;
+      margin:0 0 6px;
+      font-size:30px;
+    }
+
+    .page-title p{
+      margin:0;
+      color:#64748b;
+    }
+
+    .message{
+      padding:14px 16px;
+      border-radius:9px;
+      margin-bottom:18px;
+      display:none;
+      font-weight:600;
+    }
+
+    .success{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .error{
+      background:#fee2e2;
+      color:#991b1b;
+    }
+
+    .card{
+      background:white;
+      border-radius:14px;
+      padding:22px;
+      margin-bottom:22px;
+      box-shadow:0 3px 14px rgba(0,0,0,.08);
+    }
+
+    .card h3{
+      color:#8d2c00;
+      margin-top:0;
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:16px;
+    }
+
+    .full{
+      grid-column:1/-1;
+    }
+
+    label{
+      display:block;
+      font-weight:700;
+      margin-bottom:7px;
+    }
+
+    input,
+    textarea,
+    select{
+      width:100%;
+      padding:12px;
+      border:1px solid #cbd5e1;
+      border-radius:8px;
+      font-size:15px;
+      background:white;
+    }
+
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+
+    .form-actions{
+      margin-top:18px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .summary{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:15px;
+      margin-bottom:22px;
+    }
+
+    .summary-box{
+      background:white;
+      padding:20px;
+      border-radius:12px;
+      box-shadow:0 3px 12px rgba(0,0,0,.07);
+    }
+
+    .summary-box span{
+      display:block;
+      color:#64748b;
+      margin-bottom:8px;
+    }
+
+    .summary-box strong{
+      font-size:28px;
+      color:#8d2c00;
+    }
+
+    .table-wrap{
+      overflow-x:auto;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      min-width:950px;
+    }
+
+    th{
+      background:#fff3e8;
+      color:#8d2c00;
+      text-align:left;
+      padding:13px 10px;
+    }
+
+    td{
+      padding:13px 10px;
+      border-bottom:1px solid #e2e8f0;
+      vertical-align:top;
+    }
+
+    .badge{
+      display:inline-block;
+      padding:5px 10px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    .published{
+      background:#dcfce7;
+      color:#166534;
+    }
+
+    .hidden{
+      background:#e2e8f0;
+      color:#475569;
+    }
+
+    .actions{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .actions button{
+      padding:8px 11px;
+      font-size:12px;
+    }
+
+    footer{
+      background:#24100a;
+      color:white;
+      padding:25px;
+      margin-top:40px;
+      text-align:center;
+    }
+
+    @media(max-width:800px){
+      .form-grid{
+        grid-template-columns:1fr;
+      }
+
+      .summary{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media(max-width:500px){
+      .summary{
+        grid-template-columns:1fr;
+      }
+
+      header h1{
+        font-size:20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <h1>🌺 Maa Basuli Uda Jatra Committee</h1>
+    <p>Jatra Management</p>
+  </div>
+
+  <div class="top-actions">
+    <button class="btn-white" onclick="goSuperAdmin()">← Super Admin</button>
+    <button class="btn-white" onclick="loadAll()">↻ Refresh</button>
+    <button class="btn-white" onclick="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page-title">
+    <h2>Jatra Management</h2>
+    <p>Year-wise Jatra programme, date and details manage karantu.</p>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <div class="summary">
+    <div class="summary-box">
+      <span>Total Jatra Records</span>
+      <strong id="totalCount">0</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>Published</span>
+      <strong id="publishedCount">0</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>Hidden</span>
+      <strong id="hiddenCount">0</strong>
+    </div>
+
+    <div class="summary-box">
+      <span>Financial Years</span>
+      <strong id="yearCount">0</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 id="formTitle">➕ Add Jatra Programme</h3>
+
+    <form id="jatraForm">
+
+      <div class="form-grid">
+
+        <div>
+          <label>Financial Year *</label>
+          <input
+            type="text"
+            id="financialYear"
+            placeholder="Example: 2027-28"
+            required
+          >
+        </div>
+
+        <div>
+          <label>Jatra Date</label>
+          <input type="date" id="jatraDate">
+        </div>
+
+        <div class="full">
+          <label>Programme Title *</label>
+          <input
+            type="text"
+            id="programmeTitle"
+            placeholder="Example: Maa Basuli Uda Jatra 2027"
+            required
+          >
+        </div>
+
+        <div>
+          <label>Location</label>
+          <input
+            type="text"
+            id="location"
+            placeholder="Example: Maa Basuli Temple, Thakurmunda"
+          >
+        </div>
+
+        <div>
+          <label>Public Status</label>
+          <select id="isPublished">
+            <option value="false">Hidden</option>
+            <option value="true">Published</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label>Description</label>
+          <textarea
+            id="description"
+            placeholder="Jatra programme details..."
+          ></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="saveBtn">
+          Save Jatra
+        </button>
+
+        <button
+          type="button"
+          class="btn-gray"
+          onclick="clearForm()"
+        >
+          Clear
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="card">
+    <h3>📋 Jatra Programme List</h3>
+
+    <div class="table-wrap">
+
+      <table>
+        <thead>
+          <tr>
+            <th>Financial Year</th>
+            <th>Date</th>
+            <th>Programme</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="jatraTableBody">
+          <tr>
+            <td colspan="7">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda<br>
+  Official Email: maabasuliudajatracommittee@gmail.com
+</footer>
+
+
+<script>
+
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+let currentUser = null;
+let editingId = null;
+
+
+/* ---------------- MESSAGE ---------------- */
+
+function showMessage(text, type = "success") {
+
+  const box = document.getElementById("message");
+
+  box.textContent = text;
+
+  box.className =
+    "message " +
+    (type === "error" ? "error" : "success");
+
+  box.style.display = "block";
+
+  setTimeout(() => {
+    box.style.display = "none";
+  }, 3500);
+}
+
+
+/* ---------------- AUTH ---------------- */
+
+async function checkAuth() {
+
+  const {
+    data: { session }
+  } = await supabaseClient.auth.getSession();
+
+  if (!session) {
+    window.location.href = "auth.html";
+    return false;
+  }
+
+  currentUser = session.user;
+
+  return true;
+}
+
+
+/* ---------------- LOAD ---------------- */
+
+async function loadAll() {
+
+  const ok = await checkAuth();
+
+  if (!ok) return;
+
+  const { data, error } = await supabaseClient
+    .from("jatra_events")
+    .select("*")
+    .order("financial_year", { ascending: false })
+    .order("jatra_date", { ascending: true });
+
+  if (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Jatra records load heiparilani: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  renderTable(data || []);
+
+  updateSummary(data || []);
+}
+
+
+/* ---------------- SUMMARY ---------------- */
+
+function updateSummary(rows) {
+
+  document.getElementById("totalCount").textContent =
+    rows.length;
+
+  const published =
+    rows.filter(x => x.is_published === true).length;
+
+  document.getElementById("publishedCount").textContent =
+    published;
+
+  document.getElementById("hiddenCount").textContent =
+    rows.length - published;
+
+  const years =
+    new Set(
+      rows
+        .map(x => x.financial_year)
+        .filter(Boolean)
+    );
+
+  document.getElementById("yearCount").textContent =
+    years.size;
+}
+
+
+/* ---------------- TABLE ---------------- */
+
+function renderTable(rows) {
+
+  const tbody =
+    document.getElementById("jatraTableBody");
+
+  if (!rows.length) {
+
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="7">
+          No Jatra records found.
+        </td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  tbody.innerHTML =
+    rows.map(row => {
+
+      const date =
+        row.jatra_date
+          ? formatDate(row.jatra_date)
+          : "-";
+
+      const status =
+        row.is_published
+          ? `<span class="badge published">Published</span>`
+          : `<span class="badge hidden">Hidden</span>`;
+
+      const description =
+        row.description
+          ? escapeHtml(row.description)
+          : "-";
+
+      return `
+        <tr>
+
+          <td>
+            <strong>
+              ${escapeHtml(row.financial_year || "-")}
+            </strong>
+          </td>
+
+          <td>
+            ${date}
+          </td>
+
+          <td>
+            <strong>
+              ${escapeHtml(row.programme_title || "-")}
+            </strong>
+          </td>
+
+          <td>
+            ${escapeHtml(row.location || "-")}
+          </td>
+
+          <td>
+            ${description}
+          </td>
+
+          <td>
+            ${status}
+          </td>
+
+          <td>
+
+            <div class="actions">
+
+              <button
+                class="btn-blue"
+                onclick="editJatra('${row.id}')"
+              >
+                Edit
+              </button>
+
+              <button
+                class="${row.is_published ? "btn-gray" : "btn-green"}"
+                onclick="togglePublish(
+                  '${row.id}',
+                  ${row.is_published}
+                )"
+              >
+                ${row.is_published ? "Hide" : "Publish"}
+              </button>
+
+              <button
+                class="btn-red"
+                onclick="deleteJatra('${row.id}')"
+              >
+                Delete
+              </button>
+
+            </div>
+
+          </td>
+
+        </tr>
+      `;
+
+    }).join("");
+}
+
+
+/* ---------------- EDIT ---------------- */
+
+async function editJatra(id) {
+
+  const { data, error } =
+    await supabaseClient
+      .from("jatra_events")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+  if (error) {
+
+    showMessage(
+      "Record load heiparilani: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  editingId = id;
+
+  document.getElementById("financialYear").value =
+    data.financial_year || "";
+
+  document.getElementById("jatraDate").value =
+    data.jatra_date || "";
+
+  document.getElementById("programmeTitle").value =
+    data.programme_title || "";
+
+  document.getElementById("location").value =
+    data.location || "";
+
+  document.getElementById("description").value =
+    data.description || "";
+
+  document.getElementById("isPublished").value =
+    String(data.is_published);
+
+  document.getElementById("formTitle").textContent =
+    "✏️ Edit Jatra Programme";
+
+  document.getElementById("saveBtn").textContent =
+    "Update Jatra";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+
+/* ---------------- SAVE / UPDATE ---------------- */
+
+document
+  .getElementById("jatraForm")
+  .addEventListener("submit", async function(e) {
+
+    e.preventDefault();
+
+    const financialYear =
+      document
+        .getElementById("financialYear")
+        .value.trim();
+
+    const jatraDate =
+      document
+        .getElementById("jatraDate")
+        .value || null;
+
+    const programmeTitle =
+      document
+        .getElementById("programmeTitle")
+        .value.trim();
+
+    const location =
+      document
+        .getElementById("location")
+        .value.trim();
+
+    const description =
+      document
+        .getElementById("description")
+        .value.trim();
+
+    const isPublished =
+      document
+        .getElementById("isPublished")
+        .value === "true";
+
+    if (!financialYear || !programmeTitle) {
+
+      showMessage(
+        "Financial Year and Programme Title required.",
+        "error"
+      );
+
+      return;
+    }
+
+    const payload = {
+
+      financial_year: financialYear,
+
+      jatra_date: jatraDate,
+
+      programme_title: programmeTitle,
+
+      description: description || null,
+
+      location: location || null,
+
+      is_published: isPublished,
+
+      updated_at: new Date().toISOString()
+
+    };
+
+
+    let error;
+
+
+    if (editingId) {
+
+      const result =
+        await supabaseClient
+          .from("jatra_events")
+          .update(payload)
+          .eq("id", editingId);
+
+      error = result.error;
+
+    } else {
+
+      payload.created_by =
+        currentUser ? currentUser.id : null;
+
+      const result =
+        await supabaseClient
+          .from("jatra_events")
+          .insert(payload);
+
+      error = result.error;
+    }
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Save failed: " + error.message,
+        "error"
+      );
+
+      return;
+    }
+
+
+    showMessage(
+      editingId
+        ? "Jatra record updated successfully."
+        : "Jatra record saved successfully."
+    );
+
+    clearForm();
+
+    loadAll();
+
+  });
+
+
+/* ---------------- CLEAR ---------------- */
+
+function clearForm() {
+
+  editingId = null;
+
+  document
+    .getElementById("jatraForm")
+    .reset();
+
+  document
+    .getElementById("isPublished")
+    .value = "false";
+
+  document
+    .getElementById("formTitle")
+    .textContent =
+      "➕ Add Jatra Programme";
+
+  document
+    .getElementById("saveBtn")
+    .textContent =
+      "Save Jatra";
+}
+
+
+/* ---------------- PUBLISH / HIDE ---------------- */
+
+async function togglePublish(id, currentStatus) {
+
+  const newStatus = !currentStatus;
+
+  const { error } =
+    await supabaseClient
+      .from("jatra_events")
+      .update({
+        is_published: newStatus,
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", id);
+
+  if (error) {
+
+    showMessage(
+      "Status update failed: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    newStatus
+      ? "Jatra published successfully."
+      : "Jatra hidden successfully."
+  );
+
+  loadAll();
+}
+
+
+/* ---------------- DELETE ---------------- */
+
+async function deleteJatra(id) {
+
+  const confirmDelete =
+    confirm(
+      "Ei Jatra record ku delete karibaku chahuchhanti ki?"
+    );
+
+  if (!confirmDelete) return;
+
+
+  const { error } =
+    await supabaseClient
+      .from("jatra_events")
+      .delete()
+      .eq("id", id);
+
+
+  if (error) {
+
+    showMessage(
+      "Delete failed: " + error.message,
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    "Jatra record deleted successfully."
+  );
+
+  loadAll();
+}
+
+
+/* ---------------- HELPERS ---------------- */
+
+function formatDate(dateString) {
+
+  if (!dateString) return "-";
+
+  const d =
+    new Date(dateString + "T00:00:00");
+
+  return d.toLocaleDateString("en-IN", {
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric"
+  });
+}
+
+
+function escapeHtml(value) {
+
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+/* ---------------- NAVIGATION ---------------- */
+
+function goSuperAdmin() {
+
+  window.location.href =
+    "super-admin.html";
+}
+
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href =
+    "index.html";
+}
+
+
+/* ---------------- START ---------------- */
+
+loadAll();
+
+</script>
+
+</body>
+</html>
