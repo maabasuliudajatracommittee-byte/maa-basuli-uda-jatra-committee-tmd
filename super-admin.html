@@ -2633,7 +2633,134 @@ body{
   color:#666;
 }
 
+@media (max-width:700px){
+
+  body{
+    padding:10px;
+  }
+
+  .id-card{
+    width:100%;
+    min-height:auto;
+    border-radius:18px;
+  }
+
+  .header{
+    height:auto;
+    min-height:155px;
+    padding:18px 16px;
+    gap:14px;
+  }
+
+  .logo{
+    width:105px;
+    height:105px;
+    border-width:3px;
+  }
+
+  .header-text{
+    padding-right:0;
+    min-width:0;
+  }
+
+  .odia-title{
+    font-size:22px;
+    line-height:1.2;
+  }
+
+  .eng-title{
+    font-size:17px;
+    line-height:1.25;
+  }
+
+  .location{
+    font-size:14px;
+  }
+
+  .main{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:22px;
+    padding:24px 18px 20px;
+  }
+
+  .photo-wrap{
+    width:100%;
+  }
+
+  .member-photo{
+    width:190px;
+    height:220px;
+  }
+
+  .details{
+    width:100%;
+    min-width:0;
+  }
+
+  .member-name{
+    font-size:30px;
+    line-height:1.15;
+    margin-bottom:12px;
+    overflow-wrap:anywhere;
+  }
+
+  .designation{
+    font-size:20px;
+    line-height:1.25;
+    margin-bottom:16px;
+    overflow-wrap:anywhere;
+  }
+
+  .data-row{
+    display:grid;
+    grid-template-columns:105px minmax(0,1fr);
+    gap:7px;
+    width:100%;
+    font-size:16px;
+    line-height:1.4;
+    margin:8px 0;
+  }
+
+  .data-row > div:last-child{
+    min-width:0;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+
+  .status{
+    margin-top:12px;
+    padding:7px 18px;
+    font-size:16px;
+  }
+
+  .qr-section{
+    grid-column:1;
+    padding-top:8px;
+  }
+
+  .qr{
+    width:180px;
+    height:180px;
+  }
+
+  .qr-text{
+    font-size:14px;
+  }
+
+  .footer{
+    padding:14px 10px 16px;
+    font-size:14px;
+  }
+
+}
+
 @media print{
+
+  @page{
+    size:A4 portrait;
+    margin:8mm;
+  }
 
   body{
     background:#fff;
@@ -2646,15 +2773,108 @@ body{
 
   .id-card{
     width:100%;
-    max-width:none;
+    max-width:100%;
+    min-height:auto;
+    margin:0;
+    border-radius:12px;
     box-shadow:none;
+    overflow:hidden;
   }
 
   .header{
-    print-color-adjust:exact;
-    -webkit-print-color-adjust:exact;
+    height:auto;
+    min-height:135px;
+    padding:16px 20px;
   }
 
+  .logo{
+    width:90px;
+    height:90px;
+    border-width:3px;
+  }
+
+  .header-text{
+    padding-right:0;
+    min-width:0;
+  }
+
+  .odia-title{
+    font-size:24px;
+    line-height:1.15;
+  }
+
+  .eng-title{
+    font-size:18px;
+  }
+
+  .location{
+    font-size:14px;
+  }
+
+  .main{
+    grid-template-columns:230px minmax(0,1fr);
+    column-gap:22px;
+    padding:24px 22px 16px;
+  }
+
+  .member-photo{
+    width:210px;
+    height:245px;
+  }
+
+  .details{
+    min-width:0;
+  }
+
+  .member-name{
+    font-size:30px;
+    line-height:1.1;
+    margin-bottom:12px;
+    overflow-wrap:anywhere;
+  }
+
+  .designation{
+    font-size:18px;
+    line-height:1.25;
+    margin-bottom:14px;
+    overflow-wrap:anywhere;
+  }
+
+  .data-row{
+    grid-template-columns:95px minmax(0,1fr);
+    gap:6px;
+    font-size:15px;
+    line-height:1.35;
+    margin:7px 0;
+  }
+
+  .data-row > div:last-child{
+    min-width:0;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+
+  .status{
+    margin-top:10px;
+    padding:6px 15px;
+    font-size:14px;
+  }
+
+  .qr{
+    width:165px;
+    height:165px;
+  }
+
+  .qr-text{
+    font-size:13px;
+  }
+
+  .footer{
+    padding:12px 10px 14px;
+    font-size:13px;
+  }
+
+  .header,
   .active,
   .inactive{
     print-color-adjust:exact;
