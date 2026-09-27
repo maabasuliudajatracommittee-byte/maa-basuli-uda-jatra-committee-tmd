@@ -500,6 +500,9 @@
               <label>Member ID</label>
               <input id="memberId" type="text" readonly>
 
+              <label>Member Since</label>
+              <input id="memberSince" type="text" readonly>
+
               <label>Designation</label>
               <input id="designation" type="text" readonly>
 
@@ -590,6 +593,11 @@
                   <div class="info-row">
                     <div class="info-label">Mobile:</div>
                     <div id="cardMobile"></div>
+                  </div>
+
+                  <div class="info-row">
+                    <div class="info-label">Member Since:</div>
+                    <div id="cardMemberSince"></div>
                   </div>
 
                   <div class="info-row">
@@ -842,10 +850,25 @@ function populateProfile(p){
 
     document.getElementById("memberStatus").value =
       p.member_status || "inactive";
+
+    document.getElementById("memberSince").value =
+      p.member_since || "";
   }else{
     approvalDetails.style.display = "none";
-    pendingNotice.style.display = "block";
     digitalIdSection.style.display = "none";
+
+    const approvalStatus =
+      String(p.approval_status || "pending").toLowerCase();
+
+    if(approvalStatus === "rejected"){
+      pendingNotice.textContent =
+        "Your membership application has been rejected by Admin/Super Admin. Member ID and ID Card are not available.";
+    }else{
+      pendingNotice.textContent =
+        "Your profile is pending Admin/Super Admin approval. Member ID, Designation and ID Card will be available after approval.";
+    }
+
+    pendingNotice.style.display = "block";
   }
 
   const photo =
@@ -875,6 +898,9 @@ function updateIdCard(p, photo){
 
   document.getElementById("cardMobile").textContent =
     p.mobile || "-";
+
+  document.getElementById("cardMemberSince").textContent =
+    p.member_since || "-";
 
   document.getElementById("cardVillage").textContent =
     p.village || "-";
