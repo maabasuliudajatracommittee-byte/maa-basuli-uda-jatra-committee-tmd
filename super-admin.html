@@ -2096,6 +2096,12 @@ function renderMembers(){
             onclick="resetUserPassword('${member.id}', '${member.email || ""}')">
             🔑 Reset Password
           </button>
+
+          <button
+            class="success"
+            onclick="downloadMemberIdCard('${member.id}')">
+            🪪 ID Card
+          </button>
           `;
 
         if(
@@ -2226,6 +2232,375 @@ function renderMembers(){
 
       }
     ).join("");
+
+}
+
+
+/* =========================
+   RESET USER PASSWORD
+========================= */
+
+async function resetUserPassword(
+  targetUserId,
+  email
+){
+
+  const newPassword =
+    prompt(
+      "New password for " +
+      (email || "this user") +
+      ":\n\nMinimum 6 characters"
+    );
+
+  if(newPassword === null) return;
+
+  if(newPassword.length < 6){
+
+    alert(
+      "Password must be at least 6 characters."
+    );
+
+    return;
+  }
+
+  if(
+    !confirm(
+      "Reset password for " +
+      (email || "this user") +
+      "?"
+    )
+  ) return;
+
+  try{
+
+    const {
+      data:{
+        session
+      }
+    } =
+      await supabaseClient.auth.getSession();
+
+    if(!session){
+
+      alert(
+        "Super Admin session expired. Please login again."
+      );
+
+      return;
+    }
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.functions.invoke(
+        "reset-user-password",
+        {
+          body:{
+            target_user_id:targetUserId,
+            new_password:newPassword
+          }
+        }
+      );
+
+    if(error) throw error;
+
+    if(
+      !data ||
+      data.success !== true
+    ){
+
+      throw new Error(
+        data?.error ||
+        "Password reset failed."
+      );
+
+    }
+
+    alert(
+      "Password reset successfully."
+    );
+
+  }
+  catch(error){
+
+    console.error(
+      "Password reset error:",
+      error
+    );
+
+    alert(
+      "Password reset failed: " +
+      (error?.message || "Unknown error")
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ID CARD
+========================= */
+
+async function downloadMemberIdCard(id){
+
+  try{
+
+    const {
+      data:member,
+      error
+    } =
+      await supabaseClient
+        .from("members")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+    if(error) throw error;
+
+    if(!member){
+
+      throw new Error(
+        "Member record not found."
+      );
+
+    }
+
+    const memberId =
+      member.member_id || "N/A";
+
+    const name =
+      member.full_name || "N/A";
+
+    const mobile =
+      member.mobile || "N/A";
+
+    const village =
+      member.village || "N/A";
+
+    const blood =
+      member.blood_group || "N/A";
+
+    const designation =
+      member.designation || "Member";
+
+    const status =
+      member.member_status === "inactive"
+        ? "Deactive"
+        : "Active";
+
+    const photo =
+      member.profile_photo_url || "";
+
+    const qrData =
+      `${location.origin}/member-profile.html?member_id=${encodeURIComponent(memberId)}`;
+
+    const qrUrl =
+      "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" +
+      encodeURIComponent(qrData);
+
+    const w =
+      window.open(
+        "",
+        "_blank"
+      );
+
+    if(!w){
+
+      alert(
+        "Please allow pop-ups for this website."
+      );
+
+      return;
+    }
+
+    w.document.write(`
+      <!doctype html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+
+        <title>
+          ID Card - ${escapeHtml(name)}
+        </title>
+
+        <style>
+
+          body{
+            font-family:Arial,sans-serif;
+            background:#f2f2f2;
+            margin:0;
+            padding:30px;
+          }
+
+          .card{
+            width:360px;
+            margin:auto;
+            background:#fff;
+            border:2px solid #111;
+            border-radius:16px;
+            padding:18px;
+            box-sizing:border-box;
+            text-align:center;
+          }
+
+          .title{
+            font-size:18px;
+            font-weight:700;
+            margin-bottom:12px;
+          }
+
+          .photo{
+            width:100px;
+            height:100px;
+            object-fit:cover;
+            border-radius:10px;
+            border:2px solid #333;
+          }
+
+          .name{
+            font-size:20px;
+            font-weight:700;
+            margin:10px 0 4px;
+          }
+
+          .id{
+            font-weight:700;
+            margin-bottom:12px;
+          }
+
+          .info{
+            text-align:left;
+            font-size:13px;
+            line-height:1.7;
+          }
+
+          .qr{
+            width:130px;
+            height:130px;
+            margin:12px auto;
+          }
+
+          .status{
+            font-weight:700;
+            margin-top:6px;
+          }
+
+          button{
+            padding:10px 16px;
+            border:0;
+            border-radius:8px;
+            background:#111;
+            color:#fff;
+            cursor:pointer;
+          }
+
+          @media print{
+
+            body{
+              background:#fff;
+              padding:0;
+            }
+
+            button{
+              display:none;
+            }
+
+            .card{
+              margin:0;
+            }
+
+          }
+
+        </style>
+
+      </head>
+
+      <body>
+
+        <div class="card">
+
+          <div class="title">
+            ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି<br>
+            ଠାକୁରମୁଣ୍ଡା
+          </div>
+
+          ${
+            photo
+              ? `<img class="photo"
+                    src="${escapeAttr(photo)}"
+                    alt="Photo">`
+              : `<div class="photo"></div>`
+          }
+
+          <div class="name">
+            ${escapeHtml(name)}
+          </div>
+
+          <div class="id">
+            Member ID:
+            ${escapeHtml(memberId)}
+          </div>
+
+          <div class="info">
+
+            <b>Mobile:</b>
+            ${escapeHtml(mobile)}
+            <br>
+
+            <b>Village:</b>
+            ${escapeHtml(village)}
+            <br>
+
+            <b>Blood Group:</b>
+            ${escapeHtml(blood)}
+            <br>
+
+            <b>Designation:</b>
+            ${escapeHtml(designation)}
+
+          </div>
+
+          <img
+            class="qr"
+            src="${qrUrl}"
+            alt="QR Code">
+
+          <div class="status">
+            Status:
+            ${escapeHtml(status)}
+          </div>
+
+          <br>
+
+          <button
+            onclick="window.print()">
+            Download / Print ID Card
+          </button>
+
+        </div>
+
+      </body>
+      </html>
+    `);
+
+    w.document.close();
+
+  }
+  catch(error){
+
+    console.error(
+      "ID card error:",
+      error
+    );
+
+    alert(
+      "ID Card failed: " +
+      (error?.message || "Unknown error")
+    );
+
+  }
 
 }
 
@@ -2603,90 +2978,6 @@ function closeMemberModal(){
 }
 
 /* =========================
-   RESET USER PASSWORD
-   Super Admin only
-========================= */
-
-async function resetUserPassword(userId, email){
-
-  const newPassword = prompt(
-    "Enter new password for " + (email || "this user") + ":\n\nMinimum 6 characters."
-  );
-
-  if(newPassword === null) return;
-
-  if(newPassword.length < 6){
-
-    alert("Password minimum 6 characters heba darkar.");
-    return;
-  }
-
-  const confirmPassword = prompt(
-    "Confirm new password:"
-  );
-
-  if(confirmPassword === null) return;
-
-  if(newPassword !== confirmPassword){
-
-    alert("Password duita match karuni.");
-    return;
-  }
-
-  if(!confirm(
-    "" + (email || "User") + " ra password reset karibe?"
-  )) return;
-
-  const {
-    data:{session}
-  } = await supabaseClient.auth.getSession();
-
-  if(!session){
-
-    alert("Login session milila nahi. Punithare login karantu.");
-    return;
-  }
-
-  try{
-
-    const response = await fetch(
-      SUPABASE_URL + "/functions/v1/reset-user-password",
-      {
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json",
-          "Authorization":"Bearer " + session.access_token
-        },
-        body:JSON.stringify({
-          target_user_id:userId,
-          new_password:newPassword
-        })
-      }
-    );
-
-    const result = await response.json().catch(() => ({}));
-
-    if(!response.ok){
-
-      alert(
-        "Password reset failed: " +
-        (result.error || "Unknown error")
-      );
-      return;
-    }
-
-    alert("✅ Password successfully reset hela.");
-
-  }catch(error){
-
-    console.error(error);
-    alert("Password reset failed. Edge Function deploy heichi ki check karantu.");
-
-  }
-
-}
-
-/* =========================
    MAKE ADMIN
 ========================= */
 
@@ -2857,12 +3148,6 @@ async function loadAdmins(){
                 '${admin.user_id}'
               )">
               Remove Admin
-            </button>
-
-            <button
-              class="warning"
-              onclick="resetUserPassword('${admin.user_id}', '${admin.email || ""}')">
-              🔑 Reset Password
             </button>
 
           </td>
