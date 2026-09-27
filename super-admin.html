@@ -256,6 +256,7 @@
     .purple{background:#7e22ce;color:white}
     .orange{background:#d97706;color:white}
     .teal{background:#0f766e;color:white}
+    .red{background:#b91c1c;color:white}
 
     .admin-form{
       display:flex;
@@ -948,9 +949,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Jatra Management')">
-          Setup Required
+          class="red"
+          onclick="openPage('jatra-manager.html')">
+          Open Jatra Manager
         </button>
 
       </div>
@@ -966,9 +967,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Bhakta List Management')">
-          Setup Required
+          class="orange"
+          onclick="openPage('bhakta-manager.html')">
+          Open Bhakta Manager
         </button>
 
       </div>
@@ -984,9 +985,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Website Management CMS')">
-          Setup Required
+          class="blue"
+          onclick="openPage('website-settings.html')">
+          Open Website Settings
         </button>
 
       </div>
@@ -1002,9 +1003,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Homepage Management')">
-          Setup Required
+          class="green"
+          onclick="openPage('homepage-manager.html')">
+          Open Homepage Manager
         </button>
 
       </div>
@@ -1020,9 +1021,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Document Management')">
-          Setup Required
+          class="purple"
+          onclick="openPage('documents-manager.html')">
+          Open Documents Manager
         </button>
 
       </div>
@@ -1038,9 +1039,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Contact Management')">
-          Setup Required
+          class="teal"
+          onclick="openPage('contact-manager.html')">
+          Open Contact Manager
         </button>
 
       </div>
@@ -1056,9 +1057,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Audit Log')">
-          Setup Required
+          class="secondary"
+          onclick="openPage('audit-logs.html')">
+          Open Audit Logs
         </button>
 
       </div>
@@ -1074,9 +1075,9 @@
         </p>
 
         <button
-          class="setup"
-          onclick="setupRequired('Backup & System Settings')">
-          Setup Required
+          class="primary"
+          onclick="openPage('backup-manager.html')">
+          Open Backup Manager
         </button>
 
       </div>
@@ -1086,8 +1087,8 @@
     <div class="system-note">
 
       <strong>System Status:</strong>
-      Green/Blue/Purple/Orange buttons are connected to the existing
-      management pages. Fund, Member Fee and Donation management are now live.
+      All management modules are connected. Setup Required controls have been removed.
+      This dashboard is restricted to the Super Admin role.
 
     </div>
 
@@ -1777,8 +1778,29 @@ function renderDashboardSummary(){
 
 function openPage(page){
 
-  window.location.href =
-    page;
+  const allowedPages = [
+    "notice-manager.html",
+    "event-manager.html",
+    "gallery-manager.html",
+    "complaint-manager.html",
+    "fund-manager.html",
+    "member-fee-manager.html",
+    "jatra-manager.html",
+    "bhakta-manager.html",
+    "website-settings.html",
+    "homepage-manager.html",
+    "documents-manager.html",
+    "contact-manager.html",
+    "audit-logs.html",
+    "backup-manager.html"
+  ];
+
+  if(!allowedPages.includes(page)){
+    alert("Invalid management page.");
+    return;
+  }
+
+  window.location.href = page;
 
 }
 
@@ -1818,20 +1840,6 @@ function openPendingMembers(){
 
   scrollToSection(
     "memberManagement"
-  );
-
-}
-
-/* =========================
-   SETUP REQUIRED
-========================= */
-
-function setupRequired(feature){
-
-  alert(
-    feature +
-    " ra database/backend system ebe build heba baki achhi.\n\n" +
-    "Ehi button ebe reserved control rakha jaichi."
   );
 
 }
