@@ -1,1568 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Admin Dashboard | Maa Basuli Uda Jatra Committee</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #1f2937;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .header {
-      background: linear-gradient(135deg, #7c2d12, #b45309);
-      color: white;
-      padding: 18px 22px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-inner {
-      max-width: 1400px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .brand h1 {
-      font-size: 21px;
-      margin-bottom: 4px;
-    }
-
-    .brand p {
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .header-btn {
-      border: none;
-      background: white;
-      color: #7c2d12;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .header-btn:hover {
-      background: #fef3c7;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    .container {
-      max-width: 1400px;
-      margin: 28px auto;
-      padding: 0 18px;
-    }
-
-    .welcome {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      margin-bottom: 22px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-    }
-
-    .welcome h2 {
-      color: #7c2d12;
-      margin-bottom: 7px;
-    }
-
-    .welcome p {
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-    .role-badge {
-      display: inline-block;
-      margin-top: 12px;
-      background: #fef3c7;
-      color: #92400e;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    /* =========================
-       STATS
-    ========================= */
-
-    .section-title {
-      margin-bottom: 15px;
-      color: #374151;
-      font-size: 20px;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 15px;
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      border-left: 5px solid #6b7280;
-    }
-
-    .stat-card.complaints {
-      border-left-color: #dc2626;
-    }
-
-    .stat-card.notices {
-      border-left-color: #2563eb;
-    }
-
-    .stat-card.events {
-      border-left-color: #16a34a;
-    }
-
-    .stat-card.albums {
-      border-left-color: #9333ea;
-    }
-
-    .stat-card.members {
-      border-left-color: #d97706;
-    }
-
-    .stat-title {
-      font-size: 13px;
-      color: #6b7280;
-      margin-bottom: 9px;
-    }
-
-    .stat-number {
-      font-size: 30px;
-      font-weight: bold;
-      color: #111827;
-    }
-
-    .stat-loading {
-      color: #9ca3af;
-    }
-
-    /* =========================
-       MANAGEMENT GRID
-    ========================= */
-
-    .management-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-      margin-bottom: 30px;
-    }
-
-    .management-card {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .management-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 18px rgba(0,0,0,0.10);
-    }
-
-    .management-icon {
-      font-size: 30px;
-      margin-bottom: 12px;
-    }
-
-    .management-card h3 {
-      margin-bottom: 7px;
-      color: #374151;
-    }
-
-    .management-card p {
-      color: #6b7280;
-      font-size: 13px;
-      line-height: 1.5;
-      min-height: 40px;
-    }
-
-    .manage-btn {
-      display: inline-block;
-      margin-top: 15px;
-      text-decoration: none;
-      background: #7c2d12;
-      color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .manage-btn:hover {
-      background: #9a3412;
-    }
-
-    .manage-btn.complaint {
-      background: #dc2626;
-    }
-
-    .manage-btn.complaint:hover {
-      background: #b91c1c;
-    }
-
-    .manage-btn.blue {
-      background: #2563eb;
-    }
-
-    .manage-btn.green {
-      background: #16a34a;
-    }
-
-    .manage-btn.purple {
-      background: #9333ea;
-    }
-
-    .manage-btn.orange {
-      background: #d97706;
-    }
-
-    /* =========================
-       QUICK LINKS
-    ========================= */
-
-    .quick-links {
-      background: white;
-      border-radius: 14px;
-      padding: 22px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.07);
-      margin-bottom: 30px;
-    }
-
-    .quick-links h3 {
-      margin-bottom: 15px;
-      color: #374151;
-    }
-
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .quick-btn {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      padding: 12px;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      color: #374151;
-      font-size: 13px;
-      font-weight: bold;
-      background: #fafafa;
-    }
-
-    .quick-btn:hover {
-      background: #fff7ed;
-      border-color: #fed7aa;
-    }
-
-    /* =========================
-       LOADING / ACCESS
-    ========================= */
-
-    .page-loading {
-      max-width: 600px;
-      margin: 100px auto;
-      text-align: center;
-      color: #6b7280;
-    }
-
-    .spinner {
-      width: 38px;
-      height: 38px;
-      border: 4px solid #e5e7eb;
-      border-top-color: #b45309;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 15px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .access-denied {
-      max-width: 600px;
-      margin: 100px auto;
-      background: white;
-      padding: 40px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-    }
-
-    .access-denied h2 {
-      color: #991b1b;
-      margin-bottom: 10px;
-    }
-
-    .access-denied p {
-      color: #6b7280;
-      margin-bottom: 20px;
-    }
-
-    .access-denied button {
-      border: none;
-      background: #7c2d12;
-      color: white;
-      padding: 11px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* =========================
-       TOAST
-    ========================= */
-
-    .toast {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      min-width: 280px;
-      max-width: 420px;
-      background: #111827;
-      color: white;
-      padding: 14px 17px;
-      border-radius: 9px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.25);
-      display: none;
-      z-index: 2000;
-      font-size: 14px;
-    }
-
-    .toast.show {
-      display: block;
-    }
-
-    .toast.error {
-      background: #991b1b;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 1100px) {
-
-      .stats-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .management-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .quick-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 700px) {
-
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .header-actions {
-        width: 100%;
-      }
-
-      .header-btn {
-        flex: 1;
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .management-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .quick-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 430px) {
-
-      .container {
-        padding: 0 10px;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .quick-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .welcome {
-        padding: 17px;
-      }
-
-      .management-card {
-        padding: 18px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Control Panel - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f6f7fb;color:#222}
+header{background:linear-gradient(135deg,#7b1e2b,#a52a3b);color:#fff;padding:22px 16px;text-align:center}
+header h1{margin:0;font-size:25px}
+header p{margin:7px 0 0;opacity:.9}
+.container{max-width:1100px;margin:auto;padding:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.badge{background:#fff;border-radius:20px;padding:8px 14px;box-shadow:0 2px 8px #0001;font-weight:bold}
+button,.card a{border:0;border-radius:10px;padding:11px 15px;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
+.logout{background:#fff;color:#8b2030}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 16px #00000012;border:1px solid #eee}
+.icon{font-size:34px}
+.card h3{margin:10px 0 6px}
+.card p{color:#666;min-height:42px;line-height:1.45}
+.open{background:#8b2030;color:#fff;width:100%;text-align:center}
+.member{margin-top:20px}
+.member-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.member-list{margin-top:12px}
+.member-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid #eee;border-radius:12px;margin-bottom:9px;background:#fafafa}
+.member-info strong{display:block}
+.member-info small{color:#666}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.approve{background:#198754;color:#fff}.reject{background:#dc3545;color:#fff}
+#loading,#message{padding:15px;border-radius:10px;margin-top:12px}
+#message{display:none;background:#fff3cd}
+.hidden{display:none}
+footer{text-align:center;color:#777;padding:25px}
+@media(max-width:600px){.member-row{align-items:flex-start;flex-direction:column}.actions{width:100%}.actions button{flex:1}}
+</style>
 </head>
-
-
 <body>
 
-  <!-- =========================================
-       LOADING SCREEN
-  ========================================== -->
+<header>
+  <h1>🛡️ Admin Control Panel</h1>
+  <p>ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା</p>
+</header>
 
-  <div id="pageLoading" class="page-loading">
-
-    <div class="spinner"></div>
-
-    <h3>Checking Admin Access...</h3>
-
-    <p>Please wait...</p>
-
+<div class="container">
+  <div class="top">
+    <div class="badge">👨‍💼 Admin Access</div>
+    <button class="logout" onclick="logout()">Logout</button>
   </div>
 
+  <div class="grid">
+    <div class="card">
+      <div class="icon">📝</div>
+      <h3>Complaint Management</h3>
+      <p>Complaint dekha, status change ebam official remark manage karantu.</p>
+      <a class="open" href="complaint-manager.html">Open Complaint Manager</a>
+    </div>
 
-  <!-- =========================================
-       ACCESS DENIED
-  ========================================== -->
+    <div class="card">
+      <div class="icon">📢</div>
+      <h3>Notice Management</h3>
+      <p>Notice add, edit, publish, unpublish ebam PDF upload karantu.</p>
+      <a class="open" href="notice-manager.html">Open Notice Manager</a>
+    </div>
 
-  <div id="accessDenied" class="access-denied" style="display:none;">
+    <div class="card">
+      <div class="icon">🎉</div>
+      <h3>Event Management</h3>
+      <p>Programme, event date, location ebam details manage karantu.</p>
+      <a class="open" href="event-manager.html">Open Event Manager</a>
+    </div>
 
-    <h2>🔒 Access Denied</h2>
+    <div class="card">
+      <div class="icon">🖼️</div>
+      <h3>Gallery Management</h3>
+      <p>Album, cover photo, photos publish ebam delete manage karantu.</p>
+      <a class="open" href="gallery-manager.html">Open Gallery Manager</a>
+    </div>
 
-    <p>
-      Only Admin or Super Admin can access this dashboard.
-    </p>
+    <div class="card">
+      <div class="icon">💰</div>
+      <h3>Fund Management</h3>
+      <p>Collection, expense, savings ebam year-wise fund records manage karantu.</p>
+      <a class="open" href="fund-manager.html">Open Fund Manager</a>
+    </div>
 
-    <button onclick="goLogin()">
-      Go to Login
-    </button>
-
+    <div class="card">
+      <div class="icon">💳</div>
+      <h3>Member Fee Management</h3>
+      <p>Year-wise fee, paid/unpaid status ebam member fee records manage karantu.</p>
+      <a class="open" href="member-fee-manager.html">Open Fee Manager</a>
+    </div>
   </div>
 
-
-  <!-- =========================================
-       ADMIN APP
-  ========================================== -->
-
-  <div id="adminApp" style="display:none;">
-
-    <!-- HEADER -->
-
-    <header class="header">
-
-      <div class="header-inner">
-
-        <div class="brand">
-
-          <h1>
-            🌺 Maa Basuli Uda Jatra Committee
-          </h1>
-
-          <p>
-            Admin Management Dashboard
-          </p>
-
-        </div>
-
-
-        <div class="header-actions">
-
-          <button
-            class="header-btn"
-            onclick="openWebsite()"
-          >
-            🌐 Website
-          </button>
-
-          <button
-            class="header-btn"
-            onclick="refreshDashboard()"
-          >
-            ↻ Refresh
-          </button>
-
-          <button
-            class="header-btn"
-            onclick="logout()"
-          >
-            Logout
-          </button>
-
-        </div>
-
+  <section class="card member">
+    <div class="member-head">
+      <div>
+        <h3>👤 Member Approval / Reject</h3>
+        <p style="margin:4px 0;color:#666">Admin kebala pending member ku Approve ba Reject kariparibe.</p>
       </div>
-
-    </header>
-
-
-    <!-- MAIN -->
-
-    <main class="container">
-
-
-      <!-- WELCOME -->
-
-      <section class="welcome">
-
-        <h2>
-          Welcome to Admin Dashboard
-        </h2>
-
-        <p id="welcomeText">
-          Manage committee website content and public services from here.
-        </p>
-
-        <span
-          class="role-badge"
-          id="roleBadge"
-        >
-          Checking Role...
-        </span>
-
-      </section>
-
-
-      <!-- =====================================
-           LIVE STATISTICS
-      ====================================== -->
-
-      <h2 class="section-title">
-        📊 Live Dashboard
-      </h2>
-
-
-      <section class="stats-grid">
-
-
-        <!-- COMPLAINTS -->
-
-        <div class="stat-card complaints">
-
-          <div class="stat-title">
-            Complaints
-          </div>
-
-          <div
-            class="stat-number"
-            id="complaintCount"
-          >
-            <span class="stat-loading">...</span>
-          </div>
-
-        </div>
-
-
-        <!-- NOTICES -->
-
-        <div class="stat-card notices">
-
-          <div class="stat-title">
-            Published Notices
-          </div>
-
-          <div
-            class="stat-number"
-            id="noticeCount"
-          >
-            <span class="stat-loading">...</span>
-          </div>
-
-        </div>
-
-
-        <!-- EVENTS -->
-
-        <div class="stat-card events">
-
-          <div class="stat-title">
-            Published Events
-          </div>
-
-          <div
-            class="stat-number"
-            id="eventCount"
-          >
-            <span class="stat-loading">...</span>
-          </div>
-
-        </div>
-
-
-        <!-- GALLERY -->
-
-        <div class="stat-card albums">
-
-          <div class="stat-title">
-            Published Albums
-          </div>
-
-          <div
-            class="stat-number"
-            id="albumCount"
-          >
-            <span class="stat-loading">...</span>
-          </div>
-
-        </div>
-
-
-        <!-- MEMBERS -->
-
-        <div class="stat-card members">
-
-          <div class="stat-title">
-            Approved Members
-          </div>
-
-          <div
-            class="stat-number"
-            id="memberCount"
-          >
-            <span class="stat-loading">...</span>
-          </div>
-
-        </div>
-
-
-      </section>
-
-
-      <!-- =====================================
-           MANAGEMENT
-      ====================================== -->
-
-      <h2 class="section-title">
-        ⚙️ Management
-      </h2>
-
-
-      <section class="management-grid">
-
-
-        <!-- COMPLAINT -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            📢
-          </div>
-
-          <h3>
-            Complaint Management
-          </h3>
-
-          <p>
-            View public complaints, review them and update complaint status and admin remarks.
-          </p>
-
-          <a
-            href="complaint-manager.html"
-            class="manage-btn complaint"
-          >
-            Manage Complaints
-          </a>
-
-        </div>
-
-
-        <!-- NOTICE -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            📄
-          </div>
-
-          <h3>
-            Notice Management
-          </h3>
-
-          <p>
-            Add, edit, publish, unpublish and delete official notices and PDF documents.
-          </p>
-
-          <a
-            href="notice-manager.html"
-            class="manage-btn blue"
-          >
-            Manage Notices
-          </a>
-
-        </div>
-
-
-        <!-- EVENTS -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            📅
-          </div>
-
-          <h3>
-            Event Management
-          </h3>
-
-          <p>
-            Manage committee events, programmes, dates, locations and descriptions.
-          </p>
-
-          <a
-            href="event-manager.html"
-            class="manage-btn green"
-          >
-            Manage Events
-          </a>
-
-        </div>
-
-
-        <!-- GALLERY -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            🖼️
-          </div>
-
-          <h3>
-            Gallery Management
-          </h3>
-
-          <p>
-            Create albums, upload photos, publish or hide photos and manage gallery content.
-          </p>
-
-          <a
-            href="gallery-manager.html"
-            class="manage-btn purple"
-          >
-            Manage Gallery
-          </a>
-
-        </div>
-
-
-        <!-- MEMBERS -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            👥
-          </div>
-
-          <h3>
-            Member Management
-          </h3>
-
-          <p>
-            Manage member approval, Member ID, designation, active status and administrators.
-          </p>
-
-          <a
-            href="super-admin.html"
-            class="manage-btn orange"
-            id="memberManagerLink"
-          >
-            Member Management
-          </a>
-
-        </div>
-
-
-        <!-- WEBSITE -->
-
-        <div class="management-card">
-
-          <div class="management-icon">
-            🌐
-          </div>
-
-          <h3>
-            Website
-          </h3>
-
-          <p>
-            Open the public Maa Basuli Uda Jatra Committee website.
-          </p>
-
-          <a
-            href="index.html"
-            class="manage-btn"
-          >
-            Open Website
-          </a>
-
-        </div>
-
-
-      </section>
-
-
-      <!-- =====================================
-           QUICK LINKS
-      ====================================== -->
-
-      <section class="quick-links">
-
-        <h3>
-          🔗 Quick Links
-        </h3>
-
-
-        <div class="quick-grid">
-
-          <a
-            href="notices.html"
-            class="quick-btn"
-          >
-            Public Notices
-          </a>
-
-          <a
-            href="events.html"
-            class="quick-btn"
-          >
-            Public Events
-          </a>
-
-          <a
-            href="gallery.html"
-            class="quick-btn"
-          >
-            Public Gallery
-          </a>
-
-          <a
-            href="members.html"
-            class="quick-btn"
-          >
-            Public Members
-          </a>
-
-          <a
-            href="complaint.html"
-            class="quick-btn"
-          >
-            Public Complaint Box
-          </a>
-
-          <a
-            href="member-fee.html"
-            class="quick-btn"
-          >
-            Member Fee
-          </a>
-
-          <a
-            href="fund.html"
-            class="quick-btn"
-          >
-            Fund
-          </a>
-
-          <a
-            href="contact.html"
-            class="quick-btn"
-          >
-            Contact
-          </a>
-
-        </div>
-
-      </section>
-
-
-    </main>
-
-  </div>
-
-
-  <!-- TOAST -->
-
-  <div id="toast" class="toast"></div>
-
-
-  <!-- =========================================
-       JAVASCRIPT
-  ========================================== -->
-
-  <script>
-
-    /* =========================================
-       SUPABASE CONFIG
-    ========================================== */
-
-    const SUPABASE_URL =
-      "https://ynymqntcawobcfccoekb.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-
-    /* =========================================
-       PAGE INITIALIZATION
-    ========================================== */
-
-    document.addEventListener(
-      "DOMContentLoaded",
-      initializeDashboard
-    );
-
-
-    async function initializeDashboard() {
-
-      try {
-
-        const {
-          data: {
-            session
-          },
-          error: sessionError
-        } =
-          await supabaseClient.auth.getSession();
-
-
-        if (sessionError) {
-          throw sessionError;
-        }
-
-
-        /* LOGIN CHECK */
-
-        if (!session) {
-
-          window.location.href =
-            "auth.html?redirect=admin.html";
-
-          return;
-        }
-
-
-        /* ROLE CHECK */
-
-        const {
-          data: role,
-          error: roleError
-        } =
-          await supabaseClient.rpc(
-            "get_my_role"
-          );
-
-
-        if (roleError) {
-          throw roleError;
-        }
-
-
-        /* ONLY ADMIN / SUPER ADMIN */
-
-        if (
-          role !== "admin" &&
-          role !== "super_admin"
-        ) {
-
-          showAccessDenied();
-
-          return;
-        }
-
-
-        /* SHOW APP */
-
-        document.getElementById(
-          "pageLoading"
-        ).style.display = "none";
-
-
-        document.getElementById(
-          "adminApp"
-        ).style.display = "block";
-
-
-        /* ROLE */
-
-        document.getElementById(
-          "roleBadge"
-        ).textContent =
-          role === "super_admin"
-            ? "SUPER ADMIN"
-            : "ADMIN";
-
-
-        /* LOAD DASHBOARD */
-
-        await loadDashboardData();
-
-
-        /* SUPER ADMIN MEMBER MANAGEMENT */
-
-        const memberLink =
-          document.getElementById(
-            "memberManagerLink"
-          );
-
-
-        if (
-          role === "super_admin"
-        ) {
-
-          memberLink.style.display =
-            "inline-block";
-
-        } else {
-
-          memberLink.style.display =
-            "none";
-
-        }
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Dashboard initialization error:",
-          error
-        );
-
-
-        document.getElementById(
-          "pageLoading"
-        ).style.display = "none";
-
-
-        showToast(
-          error.message ||
-          "Unable to load dashboard.",
-          "error"
-        );
-
-      }
-
-    }
-
-
-    /* =========================================
-       LOAD ALL DASHBOARD DATA
-    ========================================== */
-
-    async function loadDashboardData() {
-
-      await Promise.all([
-        loadComplaintCount(),
-        loadNoticeCount(),
-        loadEventCount(),
-        loadAlbumCount(),
-        loadMemberCount()
-      ]);
-
-    }
-
-
-    /* =========================================
-       COMPLAINT COUNT
-    ========================================== */
-
-    async function loadComplaintCount() {
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "get_all_complaints_for_admin"
-          );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        const complaints =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        document.getElementById(
-          "complaintCount"
-        ).textContent =
-          complaints.length;
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Complaint count error:",
-          error
-        );
-
-
-        document.getElementById(
-          "complaintCount"
-        ).textContent =
-          "—";
-
-      }
-
-    }
-
-
-    /* =========================================
-       NOTICE COUNT
-    ========================================== */
-
-    async function loadNoticeCount() {
-
-      try {
-
-        const {
-          count,
-          error
-        } =
-          await supabaseClient
-            .from("notices")
-            .select(
-              "id",
-              {
-                count: "exact",
-                head: true
-              }
-            )
-            .eq(
-              "is_published",
-              true
-            );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        document.getElementById(
-          "noticeCount"
-        ).textContent =
-          count ?? 0;
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Notice count error:",
-          error
-        );
-
-
-        document.getElementById(
-          "noticeCount"
-        ).textContent =
-          "—";
-
-      }
-
-    }
-
-
-    /* =========================================
-       EVENT COUNT
-    ========================================== */
-
-    async function loadEventCount() {
-
-      try {
-
-        const {
-          count,
-          error
-        } =
-          await supabaseClient
-            .from("events")
-            .select(
-              "id",
-              {
-                count: "exact",
-                head: true
-              }
-            )
-            .eq(
-              "is_published",
-              true
-            );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        document.getElementById(
-          "eventCount"
-        ).textContent =
-          count ?? 0;
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Event count error:",
-          error
-        );
-
-
-        document.getElementById(
-          "eventCount"
-        ).textContent =
-          "—";
-
-      }
-
-    }
-
-
-    /* =========================================
-       GALLERY ALBUM COUNT
-    ========================================== */
-
-    async function loadAlbumCount() {
-
-      try {
-
-        const {
-          count,
-          error
-        } =
-          await supabaseClient
-            .from("gallery_albums")
-            .select(
-              "id",
-              {
-                count: "exact",
-                head: true
-              }
-            )
-            .eq(
-              "is_published",
-              true
-            );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        document.getElementById(
-          "albumCount"
-        ).textContent =
-          count ?? 0;
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Album count error:",
-          error
-        );
-
-
-        document.getElementById(
-          "albumCount"
-        ).textContent =
-          "—";
-
-      }
-
-    }
-
-
-    /* =========================================
-       MEMBER COUNT
-    ========================================== */
-
-    async function loadMemberCount() {
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.rpc(
-            "get_public_members"
-          );
-
-
-        if (error) {
-          throw error;
-        }
-
-
-        const members =
-          Array.isArray(data)
-            ? data
-            : [];
-
-
-        document.getElementById(
-          "memberCount"
-        ).textContent =
-          members.length;
-
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Member count error:",
-          error
-        );
-
-
-        document.getElementById(
-          "memberCount"
-        ).textContent =
-          "—";
-
-      }
-
-    }
-
-
-    /* =========================================
-       REFRESH
-    ========================================== */
-
-    async function refreshDashboard() {
-
-      showToast(
-        "Refreshing dashboard..."
-      );
-
-
-      await loadDashboardData();
-
-
-      showToast(
-        "Dashboard refreshed successfully."
-      );
-
-    }
-
-
-    /* =========================================
-       ACCESS DENIED
-    ========================================== */
-
-    function showAccessDenied() {
-
-      document.getElementById(
-        "pageLoading"
-      ).style.display =
-        "none";
-
-
-      document.getElementById(
-        "accessDenied"
-      ).style.display =
-        "block";
-
-    }
-
-
-    /* =========================================
-       LOGOUT
-    ========================================== */
-
-    async function logout() {
-
-      try {
-
-        await supabaseClient.auth.signOut();
-
-      }
-
-      catch (error) {
-
-        console.error(
-          "Logout error:",
-          error
-        );
-
-      }
-
-
-      window.location.href =
-        "auth.html";
-
-    }
-
-
-    /* =========================================
-       LOGIN
-    ========================================== */
-
-    function goLogin() {
-
-      window.location.href =
-        "auth.html";
-
-    }
-
-
-    /* =========================================
-       OPEN WEBSITE
-    ========================================== */
-
-    function openWebsite() {
-
-      window.location.href =
-        "index.html";
-
-    }
-
-
-    /* =========================================
-       TOAST
-    ========================================== */
-
-    let toastTimer;
-
-
-    function showToast(
-      message,
-      type = ""
-    ) {
-
-      const toast =
-        document.getElementById(
-          "toast"
-        );
-
-
-      toast.textContent =
-        message;
-
-
-      toast.className =
-        "toast show " +
-        type;
-
-
-      clearTimeout(
-        toastTimer
-      );
-
-
-      toastTimer =
-        setTimeout(
-          function() {
-
-            toast.className =
-              "toast";
-
-          },
-          3000
-        );
-
-    }
-
-
-    /* =========================================
-       AUTH STATE CHANGE
-    ========================================== */
-
-    supabaseClient.auth.onAuthStateChange(
-      function(
-        event,
-        session
-      ) {
-
-        if (
-          event === "SIGNED_OUT"
-        ) {
-
-          window.location.href =
-            "auth.html";
-
-        }
-
-      }
-    );
-
-  </script>
-
+      <button class="open" style="width:auto" onclick="loadPendingMembers()">🔄 Refresh</button>
+    </div>
+    <div id="message"></div>
+    <div id="loading">Loading pending members...</div>
+    <div id="memberList" class="member-list"></div>
+  </section>
+</div>
+
+<footer>
+  © Maa Basuli Uda Jatra Committee, Thakurmunda
+</footer>
+
+<script>
+const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+async function requireAdmin(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session){location.href="auth.html";return null;}
+  const {data:roles,error}=await supabaseClient.from("user_roles").select("role").eq("user_id",session.user.id);
+  if(error){alert(error.message);return null;}
+  const ok=(roles||[]).some(r=>r.role==="admin"||r.role==="super_admin");
+  if(!ok){alert("Access denied.");location.href="index.html";return null;}
+  return session;
+}
+
+async function loadPendingMembers(){
+  const loading=document.getElementById("loading"),list=document.getElementById("memberList"),msg=document.getElementById("message");
+  loading.style.display="block"; list.innerHTML=""; msg.style.display="none";
+  const {data,error}=await supabaseClient.from("member_profiles")
+    .select("id,full_name,email,mobile,village,blood_group,approval_status,created_at")
+    .eq("approval_status","pending")
+    .order("created_at",{ascending:true});
+  loading.style.display="none";
+  if(error){msg.textContent=error.message;msg.style.display="block";return;}
+  if(!data||!data.length){list.innerHTML='<div style="padding:15px;color:#666">No pending member application.</div>';return;}
+  list.innerHTML=data.map(m=>`
+    <div class="member-row">
+      <div class="member-info">
+        <strong>${esc(m.full_name||"Name not added")}</strong>
+        <small>Email: ${esc(m.email||"-")}<br>Mobile: ${esc(m.mobile||"-")}<br>Village: ${esc(m.village||"-")}</small>
+      </div>
+      <div class="actions">
+        <button class="approve" onclick="approveMember('${m.id}')">Approve</button>
+        <button class="reject" onclick="rejectMember('${m.id}')">Reject</button>
+      </div>
+    </div>`).join("");
+}
+
+async function approveMember(id){
+  if(!confirm("Ehi member ku approve karibe?"))return;
+  const {error}=await supabaseClient.rpc("approve_member",{target_user_id:id});
+  if(error){alert(error.message);return;}
+  alert("Member approved successfully.");
+  loadPendingMembers();
+}
+async function rejectMember(id){
+  if(!confirm("Ehi member ku reject karibe?"))return;
+  const {error}=await supabaseClient.rpc("reject_member",{target_user_id:id});
+  if(error){alert(error.message);return;}
+  alert("Member rejected successfully.");
+  loadPendingMembers();
+}
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+async function logout(){await supabaseClient.auth.signOut();location.href="auth.html";}
+requireAdmin().then(s=>{if(s)loadPendingMembers();});
+</script>
 </body>
 </html>
