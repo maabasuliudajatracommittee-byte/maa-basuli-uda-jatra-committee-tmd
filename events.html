@@ -21,24 +21,46 @@ body{
   color:#1f2937;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
+
 .header{
   background:linear-gradient(135deg,#7c2d12,#b45309);
   color:white;
-  padding:18px 24px;
+  padding:12px 18px 10px;
 }
 
 .header-inner{
-  width:min(1200px,94%);
+  width:min(1250px,96%);
   margin:auto;
+}
+
+.brand-row{
   display:flex;
-  justify-content:space-between;
   align-items:center;
+  justify-content:space-between;
   gap:15px;
+}
+
+.brand-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.site-logo{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.85);
+  background:#fff;
+  display:none;
 }
 
 .logo-title h1{
   font-size:21px;
+  line-height:1.25;
 }
 
 .logo-title p{
@@ -47,16 +69,48 @@ body{
   margin-top:4px;
 }
 
+.brand-photos{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.brand-photo{
+  width:52px;
+  height:52px;
+  object-fit:cover;
+  border-radius:9px;
+  border:2px solid rgba(255,255,255,.85);
+  background:#fff;
+  display:none;
+}
+
+#language-switcher{
+  display:flex;
+  align-items:center;
+}
+
+#maa-language-switcher{
+  position:static !important;
+  display:inline-flex !important;
+}
+
+/* ================= NAV ================= */
+
 .nav{
   display:flex;
   flex-wrap:wrap;
-  gap:8px;
+  justify-content:center;
+  gap:6px;
+  margin-top:11px;
+  padding-top:9px;
+  border-top:1px solid rgba(255,255,255,.20);
 }
 
 .nav a{
   color:white;
   text-decoration:none;
-  padding:8px 11px;
+  padding:7px 11px;
   border-radius:7px;
   font-size:13px;
 }
@@ -66,18 +120,19 @@ body{
   background:rgba(255,255,255,.18);
 }
 
-/* HERO */
+/* ================= HERO ================= */
+
 .hero{
   background:white;
-  padding:45px 20px;
+  padding:34px 20px;
   text-align:center;
   border-bottom:1px solid #e5e7eb;
 }
 
 .hero h2{
   color:#7c2d12;
-  font-size:34px;
-  margin-bottom:10px;
+  font-size:32px;
+  margin-bottom:9px;
 }
 
 .hero p{
@@ -87,7 +142,8 @@ body{
   line-height:1.6;
 }
 
-/* MAIN */
+/* ================= MAIN ================= */
+
 .container{
   width:min(1100px,94%);
   margin:25px auto 50px;
@@ -103,7 +159,8 @@ body{
   font-weight:600;
 }
 
-/* FILTERS */
+/* ================= FILTERS ================= */
+
 .filters{
   background:white;
   padding:18px;
@@ -130,7 +187,8 @@ select:focus{
   border-color:#b45309;
 }
 
-/* EVENTS */
+/* ================= EVENTS ================= */
+
 .event-list{
   display:grid;
   gap:16px;
@@ -206,7 +264,8 @@ select:focus{
   font-size:13px;
 }
 
-/* STATES */
+/* ================= STATES ================= */
+
 .loading,
 .empty,
 .error{
@@ -236,7 +295,8 @@ select:focus{
   word-break:break-word;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
+
 .footer{
   background:#111827;
   color:#d1d5db;
@@ -250,12 +310,18 @@ select:focus{
   text-decoration:none;
 }
 
-/* MOBILE */
-@media(max-width:800px){
+/* ================= MOBILE ================= */
 
-  .header-inner{
-    flex-direction:column;
-    align-items:flex-start;
+@media(max-width:900px){
+
+  .brand-row{
+    flex-wrap:wrap;
+  }
+
+  .brand-photos{
+    order:3;
+    width:100%;
+    justify-content:center;
   }
 
   .filters{
@@ -265,24 +331,55 @@ select:focus{
   .event-details{
     grid-template-columns:1fr;
   }
-
-  .hero h2{
-    font-size:28px;
-  }
 }
 
 @media(max-width:600px){
 
-  .event-top{
-    flex-direction:column;
+  .header{
+    padding:11px 12px;
+  }
+
+  .brand-left{
+    width:100%;
+  }
+
+  .site-logo{
+    width:50px;
+    height:50px;
+  }
+
+  .logo-title h1{
+    font-size:17px;
+  }
+
+  .logo-title p{
+    font-size:12px;
+  }
+
+  .brand-photo{
+    width:48px;
+    height:48px;
   }
 
   .nav{
-    width:100%;
+    justify-content:flex-start;
   }
 
   .nav a{
     font-size:12px;
+    padding:7px 9px;
+  }
+
+  .hero{
+    padding:28px 16px;
+  }
+
+  .hero h2{
+    font-size:27px;
+  }
+
+  .event-top{
+    flex-direction:column;
   }
 }
 </style>
@@ -290,25 +387,121 @@ select:focus{
 
 <body>
 
-<!-- HEADER -->
 <header class="header">
 
   <div class="header-inner">
 
-    <div class="logo-title">
-      <h1>Maa Basuli Uda Jatra Committee</h1>
-      <p>Thakurmunda, Mayurbhanj, Odisha</p>
+    <div class="brand-row">
+
+      <div class="brand-left">
+
+        <img
+          id="siteLogo"
+          class="site-logo"
+          alt="Maa Basuli Uda Jatra Committee Logo"
+        >
+
+        <div class="logo-title">
+
+          <h1 id="siteName"
+              data-lang-en="Maa Basuli Uda Jatra Committee"
+              data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+              data-lang-hi="माँ बासुली उड़ा यात्रा समिति">
+            Maa Basuli Uda Jatra Committee
+          </h1>
+
+          <p id="siteAddress"
+             data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
+             data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
+             data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा">
+            Thakurmunda, Mayurbhanj, Odisha
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="brand-photos">
+
+        <img
+          id="maaBasuliPhoto"
+          class="brand-photo"
+          alt="Maa Basuli"
+        >
+
+        <img
+          id="templePhoto"
+          class="brand-photo"
+          alt="Maa Basuli Temple"
+        >
+
+        <div id="language-switcher"></div>
+
+      </div>
+
     </div>
 
+
     <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="jatra.html">Jatra</a>
-      <a href="notices.html">Notices</a>
-      <a href="events.html" class="active">Events</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="members.html">Members</a>
-      <a href="contact.html">Contact</a>
+
+      <a href="index.html"
+         data-lang-en="Home"
+         data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
+         data-lang-hi="मुख्य पृष्ठ">
+        Home
+      </a>
+
+      <a href="about.html"
+         data-lang-en="About"
+         data-lang-or="ଆମ ବିଷୟରେ"
+         data-lang-hi="हमारे बारे में">
+        About
+      </a>
+
+      <a href="jatra.html"
+         data-lang-en="Jatra"
+         data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+         data-lang-hi="उड़ा यात्रा">
+        Jatra
+      </a>
+
+      <a href="notices.html"
+         data-lang-en="Notices"
+         data-lang-or="ବିଜ୍ଞପ୍ତି"
+         data-lang-hi="सूचनाएँ">
+        Notices
+      </a>
+
+      <a href="events.html"
+         class="active"
+         data-lang-en="Events"
+         data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+         data-lang-hi="कार्यक्रम">
+        Events
+      </a>
+
+      <a href="gallery.html"
+         data-lang-en="Gallery"
+         data-lang-or="ଗ୍ୟାଲେରୀ"
+         data-lang-hi="गैलरी">
+        Gallery
+      </a>
+
+      <a href="members.html"
+         data-lang-en="Members"
+         data-lang-or="ସଦସ୍ୟ"
+         data-lang-hi="सदस्य">
+        Members
+      </a>
+
+      <a href="contact.html"
+         data-lang-en="Contact"
+         data-lang-or="ଯୋଗାଯୋଗ"
+         data-lang-hi="संपर्क">
+        Contact
+      </a>
+
     </nav>
 
   </div>
@@ -316,67 +509,114 @@ select:focus{
 </header>
 
 
-<!-- HERO -->
 <section class="hero">
 
-  <h2>Events & Programmes</h2>
+  <h2
+    data-lang-en="Events & Programmes"
+    data-lang-or="କାର୍ଯ୍ୟକ୍ରମ ଓ ଇଭେଣ୍ଟ"
+    data-lang-hi="कार्यक्रम और आयोजन">
+    Events & Programmes
+  </h2>
 
-  <p>
-    Maa Basuli Uda Jatra Committee ra official events,
-    Jatra programmes ebam cultural programmes ethare dekhiparibe.
+  <p
+    data-lang-en="You can view the official events, Jatra programmes and cultural programmes of Maa Basuli Uda Jatra Committee here."
+    data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଅଧିକୃତ ଇଭେଣ୍ଟ, ଉଡ଼ା ଯାତ୍ରା କାର୍ଯ୍ୟକ୍ରମ ଏବଂ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ ଏଠାରେ ଦେଖିପାରିବେ।"
+    data-lang-hi="माँ बासुली उड़ा यात्रा समिति के आधिकारिक आयोजन, उड़ा यात्रा कार्यक्रम और सांस्कृतिक कार्यक्रम यहाँ देख सकते हैं।">
+    You can view the official events, Jatra programmes and cultural programmes of Maa Basuli Uda Jatra Committee here.
   </p>
 
 </section>
 
 
-<!-- MAIN -->
 <main class="container">
 
-  <div class="info-bar">
+  <div class="info-bar"
+       data-lang-en="📅 Official published events and programmes"
+       data-lang-or="📅 ପ୍ରକାଶିତ ଅଧିକୃତ ଇଭେଣ୍ଟ ଓ କାର୍ଯ୍ୟକ୍ରମ"
+       data-lang-hi="📅 प्रकाशित आधिकारिक आयोजन और कार्यक्रम">
     📅 Official published events and programmes
   </div>
 
 
-  <!-- FILTERS -->
   <section class="filters">
 
     <input
       type="search"
       id="searchInput"
       placeholder="Search event or programme..."
+      data-placeholder-en="Search event or programme..."
+      data-placeholder-or="ଇଭେଣ୍ଟ କିମ୍ବା କାର୍ଯ୍ୟକ୍ରମ ଖୋଜନ୍ତୁ..."
+      data-placeholder-hi="आयोजन या कार्यक्रम खोजें..."
     >
 
     <select id="yearFilter">
-      <option value="all">All Years</option>
+
+      <option
+        value="all"
+        data-lang-en="All Years"
+        data-lang-or="ସମସ୍ତ ବର୍ଷ"
+        data-lang-hi="सभी वर्ष">
+        All Years
+      </option>
+
     </select>
+
 
     <select id="typeFilter">
 
-      <option value="all">
+      <option
+        value="all"
+        data-lang-en="All Types"
+        data-lang-or="ସମସ୍ତ ପ୍ରକାର"
+        data-lang-hi="सभी प्रकार">
         All Types
       </option>
 
-      <option value="Jatra">
+      <option
+        value="Jatra"
+        data-lang-en="Jatra"
+        data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+        data-lang-hi="उड़ा यात्रा">
         Jatra
       </option>
 
-      <option value="Programme">
+      <option
+        value="Programme"
+        data-lang-en="Programme"
+        data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+        data-lang-hi="कार्यक्रम">
         Programme
       </option>
 
-      <option value="Cultural">
+      <option
+        value="Cultural"
+        data-lang-en="Cultural"
+        data-lang-or="ସାଂସ୍କୃତିକ"
+        data-lang-hi="सांस्कृतिक">
         Cultural
       </option>
 
-      <option value="Meeting">
+      <option
+        value="Meeting"
+        data-lang-en="Meeting"
+        data-lang-or="ବୈଠକ"
+        data-lang-hi="बैठक">
         Meeting
       </option>
 
-      <option value="Committee">
+      <option
+        value="Committee"
+        data-lang-en="Committee"
+        data-lang-or="କମିଟି"
+        data-lang-hi="समिति">
         Committee
       </option>
 
-      <option value="Other">
+      <option
+        value="Other"
+        data-lang-en="Other"
+        data-lang-or="ଅନ୍ୟାନ୍ୟ"
+        data-lang-hi="अन्य">
         Other
       </option>
 
@@ -385,11 +625,13 @@ select:focus{
   </section>
 
 
-  <!-- EVENT LIST -->
   <section id="eventList" class="event-list">
 
-    <div class="loading">
-      Events load heuchhi...
+    <div class="loading"
+         data-lang-en="Loading events..."
+         data-lang-or="ଇଭେଣ୍ଟ ଲୋଡ୍ ହେଉଛି..."
+         data-lang-hi="आयोजन लोड हो रहे हैं...">
+      Loading events...
     </div>
 
   </section>
@@ -397,16 +639,20 @@ select:focus{
 </main>
 
 
-<!-- FOOTER -->
 <footer class="footer">
 
   <p>
-    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
+    © 2026 <span id="footerSiteName">Maa Basuli Uda Jatra Committee</span>, Thakurmunda
   </p>
 
   <p style="margin-top:8px;">
 
-    Official Email:
+    <span
+      data-lang-en="Official Email:"
+      data-lang-or="ଅଧିକୃତ ଇମେଲ୍:"
+      data-lang-hi="आधिकारिक ईमेल:">
+      Official Email:
+    </span>
 
     <a href="mailto:maabasuliudajatracommittee@gmail.com">
       maabasuliudajatracommittee@gmail.com
@@ -421,7 +667,6 @@ select:focus{
 
 /* =====================================================
    SUPABASE CONNECTION
-   SAME WORKING KEY AS AUTH.HTML
 ===================================================== */
 
 const SUPABASE_URL =
@@ -429,7 +674,6 @@ const SUPABASE_URL =
 
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -444,8 +688,165 @@ const supabaseClient =
     }
   );
 
-
 let allEvents = [];
+
+
+/* =====================================================
+   LOAD WEBSITE BRANDING
+===================================================== */
+
+async function loadWebsiteBranding(){
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("website_settings")
+      .select("site_name,logo_url,address")
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(!error && data){
+
+      const siteName =
+        data.site_name ||
+        "Maa Basuli Uda Jatra Committee";
+
+      const address =
+        data.address ||
+        "Thakurmunda, Mayurbhanj, Odisha";
+
+      document.getElementById("siteName").textContent =
+        siteName;
+
+      document.getElementById("footerSiteName").textContent =
+        siteName;
+
+      document.getElementById("siteAddress").textContent =
+        address;
+
+      if(data.logo_url){
+
+        const logo =
+          document.getElementById("siteLogo");
+
+        logo.src = data.logo_url;
+        logo.style.display = "block";
+
+      }
+
+      document.title =
+        "Events & Programmes | " + siteName;
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Website branding error:",
+      error
+    );
+
+  }
+
+
+  try{
+
+    const {
+      data
+    } = await supabaseClient
+      .from("website_settings")
+      .select(
+        "maa_basuli_url,temple_url,group_photo_url"
+      )
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(data){
+
+      if(data.maa_basuli_url){
+
+        const img =
+          document.getElementById("maaBasuliPhoto");
+
+        img.src = data.maa_basuli_url;
+        img.style.display = "block";
+
+      }
+
+      if(data.temple_url){
+
+        const img =
+          document.getElementById("templePhoto");
+
+        img.src = data.temple_url;
+        img.style.display = "block";
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Optional branding images not available."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LANGUAGE
+===================================================== */
+
+function getCurrentSiteLanguage(){
+
+  return localStorage.getItem(
+    "maaBasuliLanguage"
+  ) || "en";
+
+}
+
+
+function translateText(en,or,hi){
+
+  const lang =
+    getCurrentSiteLanguage();
+
+  if(lang === "or"){
+    return or;
+  }
+
+  if(lang === "hi"){
+    return hi;
+  }
+
+  return en;
+
+}
+
+
+function applyCurrentPageLanguage(){
+
+  const lang =
+    getCurrentSiteLanguage();
+
+  if(
+    typeof window.setSiteLanguage ===
+    "function"
+  ){
+
+    window.setSiteLanguage(lang);
+
+  }
+
+}
 
 
 /* =====================================================
@@ -457,18 +858,20 @@ async function loadEvents(){
   const list =
     document.getElementById("eventList");
 
-
   list.innerHTML = `
-    <div class="loading">
-      Events load heuchhi...
+    <div class="loading"
+         data-lang-en="Loading events..."
+         data-lang-or="ଇଭେଣ୍ଟ ଲୋଡ୍ ହେଉଛି..."
+         data-lang-hi="आयोजन लोड हो रहे हैं...">
+      Loading events...
     </div>
   `;
 
+  applyCurrentPageLanguage();
 
   console.log(
     "Maa Basuli Events: Connecting to Supabase..."
   );
-
 
   try{
 
@@ -503,8 +906,6 @@ async function loadEvents(){
     );
 
 
-    /* ERROR */
-
     if(error){
 
       console.error(
@@ -517,8 +918,11 @@ async function loadEvents(){
 
         <div class="error">
 
-          <strong>
-            Events load karibare problem hela.
+          <strong
+            data-lang-en="There was a problem loading events."
+            data-lang-or="ଇଭେଣ୍ଟ ଲୋଡ୍ କରିବାରେ ସମସ୍ୟା ହେଲା।"
+            data-lang-hi="आयोजन लोड करने में समस्या हुई।">
+            There was a problem loading events.
           </strong>
 
           <small>
@@ -534,11 +938,11 @@ async function loadEvents(){
 
       `;
 
+      applyCurrentPageLanguage();
+
       return;
     }
 
-
-    /* SUCCESS */
 
     allEvents =
       data || [];
@@ -551,7 +955,6 @@ async function loadEvents(){
 
 
     populateYears();
-
     renderEvents();
 
   }
@@ -568,8 +971,11 @@ async function loadEvents(){
 
       <div class="error">
 
-        <strong>
-          Events load karibare problem hela.
+        <strong
+          data-lang-en="There was a problem loading events."
+          data-lang-or="ଇଭେଣ୍ଟ ଲୋଡ୍ କରିବାରେ ସମସ୍ୟା ହେଲା।"
+          data-lang-hi="आयोजन लोड करने में समस्या हुई।">
+          There was a problem loading events.
         </strong>
 
         <small>
@@ -582,6 +988,8 @@ async function loadEvents(){
       </div>
 
     `;
+
+    applyCurrentPageLanguage();
 
   }
 
@@ -599,7 +1007,6 @@ function populateYears(){
       "yearFilter"
     );
 
-
   const years = [
 
     ...new Set(
@@ -611,7 +1018,6 @@ function populateYears(){
           if(!event.event_date){
             return null;
           }
-
 
           return new Date(
             event.event_date +
@@ -631,7 +1037,11 @@ function populateYears(){
 
   yearFilter.innerHTML = `
 
-    <option value="all">
+    <option
+      value="all"
+      data-lang-en="All Years"
+      data-lang-or="ସମସ୍ତ ବର୍ଷ"
+      data-lang-hi="सभी वर्ष">
       All Years
     </option>
 
@@ -646,6 +1056,77 @@ function populateYears(){
     }
 
   `;
+
+  applyCurrentPageLanguage();
+
+}
+
+
+/* =====================================================
+   EVENT TYPE TRANSLATION
+===================================================== */
+
+function getTranslatedEventType(type){
+
+  const translations = {
+
+    Jatra:{
+      en:"Jatra",
+      or:"ଉଡ଼ା ଯାତ୍ରା",
+      hi:"उड़ा यात्रा"
+    },
+
+    Programme:{
+      en:"Programme",
+      or:"କାର୍ଯ୍ୟକ୍ରମ",
+      hi:"कार्यक्रम"
+    },
+
+    Cultural:{
+      en:"Cultural",
+      or:"ସାଂସ୍କୃତିକ",
+      hi:"सांस्कृतिक"
+    },
+
+    Meeting:{
+      en:"Meeting",
+      or:"ବୈଠକ",
+      hi:"बैठक"
+    },
+
+    Committee:{
+      en:"Committee",
+      or:"କମିଟି",
+      hi:"समिति"
+    },
+
+    Other:{
+      en:"Other",
+      or:"ଅନ୍ୟାନ୍ୟ",
+      hi:"अन्य"
+    },
+
+    Event:{
+      en:"Event",
+      or:"ଇଭେଣ୍ଟ",
+      hi:"आयोजन"
+    }
+
+  };
+
+
+  const item =
+    translations[type];
+
+  if(!item){
+    return type;
+  }
+
+  return translateText(
+    item.en,
+    item.or,
+    item.hi
+  );
 
 }
 
@@ -690,7 +1171,6 @@ function renderEvents(){
 
   const filtered =
     allEvents.filter(event => {
-
 
       const text = `
 
@@ -743,39 +1223,42 @@ function renderEvents(){
     });
 
 
-  /* NO EVENTS */
-
   if(!filtered.length){
 
     list.innerHTML = `
 
       <div class="empty">
 
-        <h3 style="margin-bottom:8px;">
+        <h3
+          style="margin-bottom:8px;"
+          data-lang-en="No Events Found"
+          data-lang-or="କୌଣସି ଇଭେଣ୍ଟ ମିଳିଲା ନାହିଁ"
+          data-lang-hi="कोई आयोजन नहीं मिला">
           No Events Found
         </h3>
 
-        <p>
-          Ehi search/filter re ebe konasi
-          published event milila nahi.
+        <p
+          data-lang-en="No published event was found for this search/filter."
+          data-lang-or="ଏହି ସର୍ଚ୍ଚ/ଫିଲ୍ଟର ପାଇଁ କୌଣସି ପ୍ରକାଶିତ ଇଭେଣ୍ଟ ମିଳିଲା ନାହିଁ।"
+          data-lang-hi="इस खोज/फ़िल्टर के लिए कोई प्रकाशित आयोजन नहीं मिला।">
+          No published event was found for this search/filter.
         </p>
 
       </div>
 
     `;
 
+    applyCurrentPageLanguage();
+
     return;
   }
 
-
-  /* EVENTS */
 
   list.innerHTML =
 
     filtered
 
       .map(event => {
-
 
         const date =
           event.event_date
@@ -792,7 +1275,17 @@ function renderEvents(){
                 }
               )
 
-            : "Date to be announced";
+            : translateText(
+                "Date to be announced",
+                "ତାରିଖ ପରେ ଘୋଷଣା କରାଯିବ",
+                "तिथि बाद में घोषित की जाएगी"
+              );
+
+
+        const translatedType =
+          getTranslatedEventType(
+            event.event_type || "Event"
+          );
 
 
         return `
@@ -817,12 +1310,9 @@ function renderEvents(){
 
 
               <span class="badge">
-
                 ${escapeHtml(
-                  event.event_type ||
-                  "Event"
+                  translatedType
                 )}
-
               </span>
 
             </div>
@@ -830,7 +1320,6 @@ function renderEvents(){
 
             ${
               event.description
-
                 ? `
 
                   <div class="description">
@@ -842,7 +1331,6 @@ function renderEvents(){
                   </div>
 
                 `
-
                 : ""
             }
 
@@ -852,12 +1340,15 @@ function renderEvents(){
 
               <div class="detail-box">
 
-                <strong>
+                <strong
+                  data-lang-en="📅 Date"
+                  data-lang-or="📅 ତାରିଖ"
+                  data-lang-hi="📅 तिथि">
                   📅 Date
                 </strong>
 
                 <span>
-                  ${date}
+                  ${escapeHtml(date)}
                 </span>
 
               </div>
@@ -865,19 +1356,24 @@ function renderEvents(){
 
               <div class="detail-box">
 
-                <strong>
+                <strong
+                  data-lang-en="📍 Location"
+                  data-lang-or="📍 ସ୍ଥାନ"
+                  data-lang-hi="📍 स्थान">
                   📍 Location
                 </strong>
 
                 <span>
-
                   ${
                     escapeHtml(
                       event.location ||
-                      "Thakurmunda"
+                      translateText(
+                        "Thakurmunda",
+                        "ଠାକୁରମୁଣ୍ଡା",
+                        "ठाकुरमुंडा"
+                      )
                     )
                   }
-
                 </span>
 
               </div>
@@ -885,19 +1381,19 @@ function renderEvents(){
 
               <div class="detail-box">
 
-                <strong>
+                <strong
+                  data-lang-en="🏷️ Type"
+                  data-lang-or="🏷️ ପ୍ରକାର"
+                  data-lang-hi="🏷️ प्रकार">
                   🏷️ Type
                 </strong>
 
                 <span>
-
                   ${
                     escapeHtml(
-                      event.event_type ||
-                      "Event"
+                      translatedType
                     )
                   }
-
                 </span>
 
               </div>
@@ -912,6 +1408,9 @@ function renderEvents(){
       })
 
       .join("");
+
+
+  applyCurrentPageLanguage();
 
 }
 
@@ -959,6 +1458,27 @@ document
 
 
 /* =====================================================
+   LANGUAGE CHANGE SUPPORT
+===================================================== */
+
+window.addEventListener(
+  "storage",
+  function(event){
+
+    if(
+      event.key === "maaBasuliLanguage"
+    ){
+
+      populateYears();
+      renderEvents();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
    HTML SECURITY
 ===================================================== */
 
@@ -1000,9 +1520,14 @@ function escapeHtml(value){
    START
 ===================================================== */
 
+loadWebsiteBranding();
 loadEvents();
 
 </script>
+
+
+<!-- COMMON WEBSITE LANGUAGE SYSTEM -->
+<script src="language.js"></script>
 
 </body>
 </html>
