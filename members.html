@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Our Members | Maa Basuli Uda Jatra Committee</title>
+<title>Members | Maa Basuli Uda Jatra Committee</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -17,36 +17,18 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f7f8fc;
-  color:#1f2937;
+  background:#fffaf5;
+  color:#333;
   line-height:1.6;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-.container{
-  width:min(1150px,94%);
-  margin:auto;
 }
 
 /* ================= HEADER ================= */
 
 .header{
   background:linear-gradient(135deg,#7c2d12,#b45309);
-  color:white;
+  color:#fff;
   padding:12px 18px 10px;
-  box-shadow:0 3px 15px rgba(0,0,0,.15);
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-
-.header-inner{
-  width:min(1250px,96%);
-  margin:auto;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
 }
 
 .brand-row{
@@ -68,43 +50,9 @@ a{
   height:58px;
   object-fit:cover;
   border-radius:50%;
-  border:3px solid rgba(255,255,255,.85);
+  border:3px solid rgba(255,255,255,.9);
   background:#fff;
   display:none;
-}
-
-.logo-fallback{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:#f4c542;
-  color:#6b1f12;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:25px;
-  flex:0 0 58px;
-}
-
-.logo-title{
-  min-width:0;
-}
-
-.logo-title h1{
-  font-size:21px;
-  line-height:1.25;
-}
-
-.logo-title p{
-  font-size:13px;
-  opacity:.9;
-  margin-top:4px;
-}
-
-.brand-photos{
-  display:flex;
-  align-items:center;
-  gap:8px;
 }
 
 .brand-photo{
@@ -112,121 +60,162 @@ a{
   height:52px;
   object-fit:cover;
   border-radius:9px;
-  border:2px solid rgba(255,255,255,.85);
+  border:2px solid rgba(255,255,255,.9);
   background:#fff;
   display:none;
+}
+
+.brand-title{
+  min-width:0;
+}
+
+.brand-title h1{
+  font-size:20px;
+  line-height:1.2;
+  margin-bottom:3px;
+}
+
+.brand-title p{
+  font-size:12px;
+  opacity:.9;
 }
 
 #language-switcher{
   display:flex;
   align-items:center;
+  flex-shrink:0;
 }
 
 #maa-language-switcher{
   position:static !important;
   display:inline-flex !important;
+  align-items:center;
+  gap:4px;
+  padding:4px;
+  border-radius:9px;
+  background:#fff;
+  border:1px solid #ddd;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+  z-index:999999;
+}
+
+#maa-language-switcher button{
+  border:0;
+  background:transparent;
+  color:#333;
+  cursor:pointer;
+  font-weight:800;
+  font-size:13px;
+  line-height:1;
+  padding:9px 10px;
+  border-radius:7px;
+  transition:.2s;
+}
+
+#maa-language-switcher button.active{
+  background:#8b0000;
+  color:#fff;
+}
+
+#maa-language-switcher button:hover{
+  background:#f1e5e5;
+}
+
+#maa-language-switcher button.active:hover{
+  background:#a41414;
 }
 
 /* ================= NAV ================= */
 
 .nav{
   display:flex;
+  gap:7px;
   flex-wrap:wrap;
-  justify-content:center;
-  gap:6px;
-  margin-top:11px;
-  padding-top:9px;
-  border-top:1px solid rgba(255,255,255,.20);
+  margin-top:12px;
 }
 
 .nav a{
-  color:white;
+  color:#fff;
   text-decoration:none;
-  padding:7px 10px;
-  border-radius:7px;
-  font-size:12px;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:13px;
+  font-weight:700;
+  background:rgba(255,255,255,.10);
 }
 
 .nav a:hover,
 .nav a.active{
-  background:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.22);
 }
 
 /* ================= HERO ================= */
 
 .hero{
-  background:
-    linear-gradient(rgba(72,17,10,.82),rgba(72,17,10,.82)),
-    linear-gradient(135deg,#7c2d12,#b45309);
-  color:#fff;
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);
+  padding:28px 18px;
   text-align:center;
-  padding:42px 20px;
+  border-bottom:1px solid #f3d4b0;
 }
 
 .hero h2{
-  font-size:32px;
-  margin-bottom:8px;
-}
-
-.hero p{
-  font-size:14px;
-  opacity:.95;
-}
-
-/* ================= MAIN ================= */
-
-.main{
-  padding:35px 0 55px;
-}
-
-/* ================= INTRO ================= */
-
-.intro{
-  max-width:850px;
-  margin:0 auto 25px;
-  background:#fff;
-  padding:22px;
-  border-radius:14px;
-  box-shadow:0 5px 22px rgba(0,0,0,.07);
-  text-align:center;
-}
-
-.intro h3{
   color:#7c2d12;
+  font-size:30px;
   margin-bottom:7px;
 }
 
-.intro p{
-  color:#777;
-  font-size:13px;
+.hero p{
+  color:#6b4f3a;
+  font-size:15px;
 }
 
-/* ================= CONTROLS ================= */
+/* ================= CONTAINER ================= */
 
-.controls{
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  margin-bottom:22px;
+.container{
+  width:min(1100px,94%);
+  margin:25px auto;
 }
 
-.search{
-  flex:1;
-  min-width:230px;
+/* ================= INFO ================= */
+
+.intro{
+  background:#fff;
+  border:1px solid #ead8c8;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
 }
 
-.search input{
+.intro h3{
+  color:#8b0000;
+  margin-bottom:6px;
+  font-size:20px;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+  background:#fff;
+  padding:16px;
+  border:1px solid #ead8c8;
+  border-radius:12px;
+  margin-bottom:18px;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.search-box input{
   width:100%;
   padding:12px 14px;
-  border:1px solid #ddd;
+  border:1px solid #d9c3b0;
   border-radius:8px;
-  background:#fff;
+  font-size:15px;
   outline:none;
-  font-size:14px;
 }
 
-.search input:focus{
+.search-box input:focus{
   border-color:#b45309;
+  box-shadow:0 0 0 3px rgba(180,83,9,.10);
 }
 
 /* ================= STATS ================= */
@@ -234,48 +223,100 @@ a{
 .stats{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:25px;
+  gap:14px;
+  margin-bottom:20px;
 }
 
 .stat{
   background:#fff;
-  padding:17px;
+  border:1px solid #ead8c8;
   border-radius:12px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
+  padding:18px;
   text-align:center;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
 }
 
-.stat strong{
-  display:block;
-  color:#7c2d12;
-  font-size:24px;
+.stat-number{
+  font-size:28px;
+  font-weight:800;
+  color:#8b0000;
 }
 
-.stat span{
-  color:#777;
+.stat-label{
+  font-size:13px;
+  color:#6b5b50;
+  margin-top:3px;
+}
+
+/* ================= TABLE ================= */
+
+.table-wrap{
+  background:#fff;
+  border:1px solid #ead8c8;
+  border-radius:12px;
+  overflow-x:auto;
+  box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:700px;
+}
+
+thead{
+  background:#7c2d12;
+  color:#fff;
+}
+
+th,
+td{
+  padding:12px 14px;
+  text-align:left;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+tbody tr:hover{
+  background:#fffaf5;
+}
+
+.designation{
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:20px;
+  background:#fff0df;
+  color:#8b0000;
   font-size:12px;
+  font-weight:700;
+}
+
+.status{
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:20px;
+  background:#e9f8ed;
+  color:#187a32;
+  font-size:12px;
+  font-weight:700;
 }
 
 /* ================= LOADING ================= */
 
 .loading{
-  background:#fff;
-  padding:40px 20px;
-  border-radius:15px;
   text-align:center;
-  box-shadow:0 4px 18px rgba(0,0,0,.06);
-  margin-bottom:20px;
+  padding:35px 15px;
+  color:#777;
 }
 
 .spinner{
-  width:38px;
-  height:38px;
-  border:4px solid #eee;
-  border-top-color:#7c2d12;
+  width:35px;
+  height:35px;
+  border:4px solid #ead8c8;
+  border-top-color:#8b0000;
   border-radius:50%;
   animation:spin 1s linear infinite;
-  margin:0 auto 12px;
+  margin:0 auto 10px;
 }
 
 @keyframes spin{
@@ -284,267 +325,129 @@ a{
   }
 }
 
-/* ================= ERROR ================= */
-
-.error-box{
-  display:none;
-  background:#fff0f0;
-  border:1px solid #efcaca;
-  color:#9b2525;
-  padding:18px;
-  border-radius:10px;
-  margin-bottom:20px;
-  font-size:13px;
-}
-
-.error-box.show{
-  display:block;
-}
-
-/* ================= MEMBER TABLE ================= */
-
-.member-table-wrap{
-  background:#fff;
-  border-radius:12px;
-  box-shadow:0 4px 18px rgba(0,0,0,.07);
-  overflow-x:auto;
-}
-
-.member-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:760px;
-  font-size:13px;
-}
-
-.member-table th{
-  background:#7c2d12;
-  color:#fff;
-  padding:12px 10px;
-  text-align:left;
-  font-size:12px;
-  white-space:nowrap;
-}
-
-.member-table td{
-  padding:11px 10px;
-  border-bottom:1px solid #e8e8e8;
-  vertical-align:middle;
-}
-
-.member-table tbody tr:nth-child(even){
-  background:#fafafa;
-}
-
-.member-table tbody tr:hover{
-  background:#fff7ed;
-}
-
-.member-table .sl{
-  width:65px;
-  text-align:center;
-  font-weight:bold;
-  color:#7c2d12;
-}
-
-.member-table .name{
-  min-width:220px;
-  font-weight:bold;
-  color:#7c2d12;
-}
-
-.member-table .designation{
-  color:#a06a00;
-  font-weight:bold;
-  white-space:nowrap;
-}
-
-.member-table .since{
-  white-space:nowrap;
-}
-
-.member-table .mobile{
-  white-space:nowrap;
-  font-weight:bold;
-}
-
-@media(max-width:650px){
-  .member-table{
-    min-width:680px;
-  }
-
-  .member-table th,
-  .member-table td{
-    padding:9px 8px;
-    font-size:12px;
-  }
-}
-
 /* ================= EMPTY ================= */
 
 .empty{
   display:none;
-  background:#fff;
-  padding:45px 20px;
-  border-radius:15px;
   text-align:center;
-  box-shadow:0 4px 18px rgba(0,0,0,.06);
-  margin-top:20px;
-}
-
-.empty.show{
-  display:block;
-}
-
-.empty-icon{
-  font-size:42px;
-  margin-bottom:8px;
-}
-
-.empty h3{
-  color:#7c2d12;
-  margin-bottom:5px;
-}
-
-.empty p{
+  padding:35px 15px;
   color:#777;
-  font-size:13px;
 }
 
-/* ================= INFO ================= */
+/* ================= PUBLIC INFO ================= */
 
 .info-box{
-  margin-top:25px;
-  padding:19px;
-  background:#fff;
-  border-left:5px solid #7c2d12;
-  border-radius:9px;
-  box-shadow:0 3px 14px rgba(0,0,0,.05);
+  margin-top:20px;
+  background:#fff7ed;
+  border:1px solid #f1d2ad;
+  border-radius:12px;
+  padding:18px;
 }
 
 .info-box h3{
-  color:#7c2d12;
-  font-size:16px;
-  margin-bottom:5px;
-}
-
-.info-box p{
-  color:#666;
-  font-size:12px;
+  color:#8b0000;
+  margin-bottom:6px;
 }
 
 /* ================= FOOTER ================= */
 
-footer{
-  background:#111827;
+.footer{
+  margin-top:35px;
+  background:#3f1d0f;
   color:#fff;
-  padding:32px 0 17px;
+  padding:28px 18px;
 }
 
 .footer-grid{
+  width:min(1100px,94%);
+  margin:auto;
   display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
 }
 
-footer h3{
-  color:#fed7aa;
-  margin-bottom:9px;
+.footer h3{
+  font-size:16px;
+  margin-bottom:8px;
 }
 
-footer p,
-footer a{
-  color:#ddd;
+.footer p,
+.footer a{
   font-size:13px;
+  color:#eaded5;
 }
 
-footer a{
+.footer a{
+  text-decoration:none;
   display:block;
-  margin:4px 0;
+  margin:3px 0;
+}
+
+.footer a:hover{
+  color:#fff;
 }
 
 .copyright{
+  width:min(1100px,94%);
+  margin:22px auto 0;
+  padding-top:15px;
   border-top:1px solid rgba(255,255,255,.15);
-  margin-top:25px;
-  padding-top:14px;
   text-align:center;
-  color:#aaa;
   font-size:12px;
+  color:#d8c8bd;
 }
 
 /* ================= MOBILE ================= */
 
-@media(max-width:900px){
+@media(max-width:750px){
 
   .brand-row{
-    flex-wrap:wrap;
+    align-items:flex-start;
   }
 
-  .brand-photos{
-    order:3;
-    width:100%;
-    justify-content:center;
+  .brand-title h1{
+    font-size:16px;
   }
 
-  .footer-grid{
-    grid-template-columns:1fr 1fr;
+  .brand-title p{
+    font-size:11px;
   }
 
-}
-
-@media(max-width:650px){
-
-  .header{
-    padding:11px 12px;
-  }
-
-  .brand-left{
-    width:100%;
-  }
-
-  .site-logo,
-  .logo-fallback{
-    width:50px;
-    height:50px;
-    flex-basis:50px;
-  }
-
-  .logo-title h1{
-    font-size:17px;
-  }
-
-  .logo-title p{
-    font-size:12px;
-  }
-
-  .brand-photo{
+  .site-logo{
     width:48px;
     height:48px;
   }
 
+  .brand-photo{
+    width:44px;
+    height:44px;
+  }
+
+  #maa-language-switcher{
+    gap:2px;
+    padding:3px;
+  }
+
+  #maa-language-switcher button{
+    font-size:11px;
+    padding:8px 7px;
+  }
+
   .nav{
-    justify-content:flex-start;
+    margin-top:10px;
   }
 
   .nav a{
-    font-size:11px;
-    padding:7px 8px;
+    font-size:12px;
+    padding:5px 8px;
   }
 
   .hero{
-    padding:32px 16px;
+    padding:22px 14px;
   }
 
   .hero h2{
-    font-size:28px;
-  }
-
-  .controls{
-    display:block;
-  }
-
-  .search{
-    width:100%;
+    font-size:25px;
   }
 
   .stats{
@@ -554,7 +457,30 @@ footer a{
   .footer-grid{
     grid-template-columns:1fr;
   }
+}
 
+@media(max-width:480px){
+
+  .brand-row{
+    flex-direction:column;
+  }
+
+  #language-switcher{
+    width:100%;
+  }
+
+  #maa-language-switcher{
+    width:100%;
+    justify-content:center;
+  }
+
+  #maa-language-switcher button{
+    flex:1;
+  }
+
+  .brand-left{
+    width:100%;
+  }
 }
 </style>
 </head>
@@ -565,559 +491,552 @@ footer a{
 
 <header class="header">
 
-  <div class="header-inner">
+  <div class="brand-row">
 
-    <div class="brand-row">
+    <div class="brand-left">
 
-      <div class="brand-left">
+      <img
+        id="siteLogo"
+        class="site-logo"
+        src=""
+        alt="Maa Basuli Uda Jatra Committee"
+      >
 
-        <a href="index.html"
-           style="display:flex;align-items:center;gap:12px;min-width:0;">
+      <img
+        id="maaBasuliPhoto"
+        class="brand-photo"
+        src=""
+        alt="Maa Basuli"
+      >
 
-          <img
-            id="siteLogo"
-            class="site-logo"
-            alt="Maa Basuli Uda Jatra Committee Logo"
-          >
+      <div class="brand-title">
 
-          <div
-            id="logoFallback"
-            class="logo-fallback">
-            🙏
-          </div>
-
-          <div class="logo-title">
-
-            <h1 id="siteName"
-                data-lang-en="Maa Basuli Uda Jatra Committee"
-                data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-                data-lang-hi="माँ बासुली उड़ा यात्रा समिति">
-              Maa Basuli Uda Jatra Committee
-            </h1>
-
-            <p id="siteAddress"
-               data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
-               data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
-               data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा">
-              Thakurmunda, Mayurbhanj, Odisha
-            </p>
-
-          </div>
-
-        </a>
-
-      </div>
-
-      <div class="brand-photos">
-
-        <img
-          id="maaBasuliPhoto"
-          class="brand-photo"
-          alt="Maa Basuli"
+        <h1
+          data-lang-en="Maa Basuli Uda Jatra Committee"
+          data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+          data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
         >
+          Maa Basuli Uda Jatra Committee
+        </h1>
 
-        <img
-          id="templePhoto"
-          class="brand-photo"
-          alt="Maa Basuli Temple"
+        <p
+          id="siteAddress"
+          data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
+          data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
+          data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
         >
-
-        <div id="language-switcher"></div>
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
 
       </div>
 
     </div>
 
-    <nav class="nav">
+    <!-- STATIC LANGUAGE SWITCHER -->
+    <div id="language-switcher">
 
-      <a href="index.html"
-         data-lang-en="Home"
-         data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
-         data-lang-hi="मुख्य पृष्ठ">
-        Home
-      </a>
+      <div id="maa-language-switcher">
 
-      <a href="about.html"
-         data-lang-en="About"
-         data-lang-or="ଆମ ବିଷୟରେ"
-         data-lang-hi="हमारे बारे में">
-        About
-      </a>
+        <button
+          type="button"
+          data-site-lang="en"
+          onclick="setSiteLanguage('en')"
+        >
+          🇬🇧 English
+        </button>
 
-      <a href="jatra.html"
-         data-lang-en="Jatra"
-         data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
-         data-lang-hi="उड़ा यात्रा">
-        Jatra
-      </a>
+        <button
+          type="button"
+          data-site-lang="or"
+          onclick="setSiteLanguage('or')"
+        >
+          ଓଡ଼ିଆ
+        </button>
 
-      <a href="notices.html"
-         data-lang-en="Notices"
-         data-lang-or="ବିଜ୍ଞପ୍ତି"
-         data-lang-hi="सूचनाएँ">
-        Notices
-      </a>
+        <button
+          type="button"
+          data-site-lang="hi"
+          onclick="setSiteLanguage('hi')"
+        >
+          हिन्दी
+        </button>
 
-      <a href="events.html"
-         data-lang-en="Events"
-         data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-         data-lang-hi="कार्यक्रम">
-        Events
-      </a>
+      </div>
 
-      <a href="gallery.html"
-         data-lang-en="Gallery"
-         data-lang-or="ଗ୍ୟାଲେରୀ"
-         data-lang-hi="गैलरी">
-        Gallery
-      </a>
-
-      <a href="members.html"
-         class="active"
-         data-lang-en="Members"
-         data-lang-or="ସଦସ୍ୟ"
-         data-lang-hi="सदस्य">
-        Members
-      </a>
-
-      <a href="fund.html"
-         data-lang-en="Fund"
-         data-lang-or="ଫଣ୍ଡ"
-         data-lang-hi="फंड">
-        Fund
-      </a>
-
-      <a href="member-fee.html"
-         data-lang-en="Member Fee"
-         data-lang-or="ସଦସ୍ୟ ଫି"
-         data-lang-hi="सदस्य शुल्क">
-        Member Fee
-      </a>
-
-      <a href="bhakta-list.html"
-         data-lang-en="Bhakta List"
-         data-lang-or="ଭକ୍ତ ତାଲିକା"
-         data-lang-hi="भक्त सूची">
-        Bhakta List
-      </a>
-
-      <a href="complaint.html"
-         data-lang-en="Complaint"
-         data-lang-or="ଅଭିଯୋଗ"
-         data-lang-hi="शिकायत">
-        Complaint
-      </a>
-
-      <a href="contact.html"
-         data-lang-en="Contact"
-         data-lang-or="ଯୋଗାଯୋଗ"
-         data-lang-hi="संपर्क">
-        Contact
-      </a>
-
-      <a href="search.html"
-         data-lang-en="Search"
-         data-lang-or="ସନ୍ଧାନ"
-         data-lang-hi="खोजें">
-        Search
-      </a>
-
-      <a href="auth.html"
-         data-lang-en="Login"
-         data-lang-or="ଲଗଇନ୍"
-         data-lang-hi="लॉगिन">
-        Login
-      </a>
-
-    </nav>
+    </div>
 
   </div>
 
+  <nav class="nav">
+
+    <a
+      href="index.html"
+      data-lang-en="Home"
+      data-lang-or="ହୋମ୍"
+      data-lang-hi="होम"
+    >
+      Home
+    </a>
+
+    <a
+      href="about.html"
+      data-lang-en="About"
+      data-lang-or="ଆମ ବିଷୟରେ"
+      data-lang-hi="हमारे बारे में"
+    >
+      About
+    </a>
+
+    <a
+      href="jatra.html"
+      data-lang-en="Jatra"
+      data-lang-or="ଯାତ୍ରା"
+      data-lang-hi="यात्रा"
+    >
+      Jatra
+    </a>
+
+    <a
+      href="events.html"
+      data-lang-en="Events"
+      data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+      data-lang-hi="कार्यक्रम"
+    >
+      Events
+    </a>
+
+    <a
+      href="gallery.html"
+      data-lang-en="Gallery"
+      data-lang-or="ଗ୍ୟାଲେରୀ"
+      data-lang-hi="गैलरी"
+    >
+      Gallery
+    </a>
+
+    <a
+      href="members.html"
+      class="active"
+      data-lang-en="Members"
+      data-lang-or="ସଦସ୍ୟ"
+      data-lang-hi="सदस्य"
+    >
+      Members
+    </a>
+
+    <a
+      href="notices.html"
+      data-lang-en="Notices"
+      data-lang-or="ନୋଟିସ୍"
+      data-lang-hi="सूचना"
+    >
+      Notices
+    </a>
+
+  </nav>
+
 </header>
+
 
 <!-- ================= HERO ================= -->
 
 <section class="hero">
 
-  <div class="container">
+  <h2
+    data-lang-en="Our Members"
+    data-lang-or="ଆମ ସଦସ୍ୟମାନେ"
+    data-lang-hi="हमारे सदस्य"
+  >
+    Our Members
+  </h2>
 
-    <h2
-      data-lang-en="Our Members"
-      data-lang-or="ଆମ ସଦସ୍ୟ"
-      data-lang-hi="हमारे सदस्य">
-      Our Members
-    </h2>
+  <p
+    data-lang-en="Official members of Maa Basuli Uda Jatra Committee"
+    data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଅଧିକୃତ ସଦସ୍ୟମାନେ"
+    data-lang-hi="माँ बासुली उड़ा यात्रा समिति के आधिकारिक सदस्य"
+  >
+    Official members of Maa Basuli Uda Jatra Committee
+  </p>
+
+</section>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="container">
+
+  <section class="intro">
+
+    <h3
+      data-lang-en="Committee Members"
+      data-lang-or="କମିଟି ସଦସ୍ୟ"
+      data-lang-hi="समिति सदस्य"
+    >
+      Committee Members
+    </h3>
 
     <p
-      data-lang-en="Verified Members of Maa Basuli Uda Jatra Committee"
-      data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଯାଞ୍ଚ ହୋଇଥିବା ସଦସ୍ୟ"
-      data-lang-hi="माँ बासुली उड़ा यात्रा समिति के सत्यापित सदस्य">
-      Verified Members of Maa Basuli Uda Jatra Committee
+      data-lang-en="View the publicly available member information of Maa Basuli Uda Jatra Committee."
+      data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ସାର୍ବଜନୀନ ଭାବେ ଉପଲବ୍ଧ ସଦସ୍ୟ ସୂଚନା ଦେଖନ୍ତୁ।"
+      data-lang-hi="माँ बासुली उड़ा यात्रा समिति की सार्वजनिक रूप से उपलब्ध सदस्य जानकारी देखें।"
+    >
+      View the publicly available member information of Maa Basuli Uda Jatra Committee.
+    </p>
+
+  </section>
+
+
+  <!-- SEARCH -->
+
+  <section class="search-box">
+
+    <input
+      type="search"
+      id="searchInput"
+      data-placeholder-en="Search member by name, designation or mobile..."
+      data-placeholder-or="ନାମ, ପଦବୀ କିମ୍ବା ମୋବାଇଲ୍ ଦ୍ୱାରା ସଦସ୍ୟ ଖୋଜନ୍ତୁ..."
+      data-placeholder-hi="नाम, पद या मोबाइल से सदस्य खोजें..."
+      placeholder="Search member by name, designation or mobile..."
+    >
+
+  </section>
+
+
+  <!-- STATS -->
+
+  <section class="stats">
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="totalMembers"
+      >
+        0
+      </div>
+
+      <div
+        class="stat-label"
+        data-lang-en="Total Members"
+        data-lang-or="ମୋଟ ସଦସ୍ୟ"
+        data-lang-hi="कुल सदस्य"
+      >
+        Total Members
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="visibleMembers"
+      >
+        0
+      </div>
+
+      <div
+        class="stat-label"
+        data-lang-en="Visible Members"
+        data-lang-or="ଦୃଶ୍ୟମାନ ସଦସ୍ୟ"
+        data-lang-hi="दिखाई देने वाले सदस्य"
+      >
+        Visible Members
+      </div>
+
+    </div>
+
+
+    <div class="stat">
+
+      <div
+        class="stat-number"
+        id="approvedMembers"
+      >
+        0
+      </div>
+
+      <div
+        class="stat-label"
+        data-lang-en="Active Members"
+        data-lang-or="ସକ୍ରିୟ ସଦସ୍ୟ"
+        data-lang-hi="सक्रिय सदस्य"
+      >
+        Active Members
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- LOADING -->
+
+  <div
+    class="loading"
+    id="loading"
+  >
+
+    <div class="spinner"></div>
+
+    <p
+      data-lang-en="Loading members..."
+      data-lang-or="ସଦସ୍ୟମାନଙ୍କୁ ଲୋଡ୍ କରାଯାଉଛି..."
+      data-lang-hi="सदस्यों को लोड किया जा रहा है..."
+    >
+      Loading members...
     </p>
 
   </div>
 
-</section>
 
-<!-- ================= MAIN ================= -->
+  <!-- TABLE -->
 
-<main class="main">
+  <div
+    class="table-wrap"
+    id="tableWrap"
+    style="display:none;"
+  >
 
-  <div class="container">
+    <table>
 
-    <div class="intro">
+      <thead>
+
+        <tr>
+
+          <th
+            data-lang-en="Name"
+            data-lang-or="ନାମ"
+            data-lang-hi="नाम"
+          >
+            Name
+          </th>
+
+          <th
+            data-lang-en="Designation"
+            data-lang-or="ପଦବୀ"
+            data-lang-hi="पद"
+          >
+            Designation
+          </th>
+
+          <th
+            data-lang-en="Mobile"
+            data-lang-or="ମୋବାଇଲ୍"
+            data-lang-hi="मोबाइल"
+          >
+            Mobile
+          </th>
+
+          <th
+            data-lang-en="Member Since"
+            data-lang-or="ସଦସ୍ୟ ହେବା ତାରିଖ"
+            data-lang-hi="सदस्य बने"
+          >
+            Member Since
+          </th>
+
+          <th
+            data-lang-en="Status"
+            data-lang-or="ସ୍ଥିତି"
+            data-lang-hi="स्थिति"
+          >
+            Status
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody id="membersBody"></tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- EMPTY -->
+
+  <div
+    class="empty"
+    id="emptyState"
+  >
+
+    <h3
+      data-lang-en="No Members Found"
+      data-lang-or="କୌଣସି ସଦସ୍ୟ ମିଳିଲେ ନାହିଁ"
+      data-lang-hi="कोई सदस्य नहीं मिला"
+    >
+      No Members Found
+    </h3>
+
+    <p
+      data-lang-en="No member information is currently available."
+      data-lang-or="ବର୍ତ୍ତମାନ କୌଣସି ସଦସ୍ୟ ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ।"
+      data-lang-hi="वर्तमान में कोई सदस्य जानकारी उपलब्ध नहीं है।"
+    >
+      No member information is currently available.
+    </p>
+
+  </div>
+
+
+  <!-- PUBLIC INFORMATION -->
+
+  <section class="info-box">
+
+    <h3
+      data-lang-en="Public Information"
+      data-lang-or="ସାର୍ବଜନୀନ ସୂଚନା"
+      data-lang-hi="सार्वजनिक जानकारी"
+    >
+      Public Information
+    </h3>
+
+    <p
+      data-lang-en="Only information approved for public display by the committee is shown here."
+      data-lang-or="କମିଟି ଦ୍ୱାରା ସାର୍ବଜନୀନ ପ୍ରଦର୍ଶନ ପାଇଁ ଅନୁମୋଦିତ ସୂଚନା ଏଠାରେ ପ୍ରଦର୍ଶିତ ହେଉଛି।"
+      data-lang-hi="समिति द्वारा सार्वजनिक प्रदर्शन के लिए स्वीकृत जानकारी ही यहाँ दिखाई जाती है।"
+    >
+      Only information approved for public display by the committee is shown here.
+    </p>
+
+  </section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="footer">
+
+  <div class="footer-grid">
+
+    <div>
 
       <h3
-        data-lang-en="🙏 Our Members"
-        data-lang-or="🙏 ଆମ ସଦସ୍ୟ"
-        data-lang-hi="🙏 हमारे सदस्य">
-        🙏 Our Members
+        data-lang-en="Maa Basuli Uda Jatra Committee"
+        data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+        data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
+      >
+        Maa Basuli Uda Jatra Committee
       </h3>
 
       <p
-        data-lang-en="This public directory displays only committee members whose membership has been approved and activated by the authorized administration."
-        data-lang-or="ଏହି ସାର୍ବଜନୀନ ତାଲିକାରେ କେବଳ ଅଧିକୃତ ପ୍ରଶାସନ ଦ୍ୱାରା ଅନୁମୋଦିତ ଏବଂ ସକ୍ରିୟ କରାଯାଇଥିବା କମିଟି ସଦସ୍ୟମାନଙ୍କୁ ଦର୍ଶାଯାଏ।"
-        data-lang-hi="इस सार्वजनिक सूची में केवल अधिकृत प्रशासन द्वारा अनुमोदित और सक्रिय किए गए समिति सदस्यों को दिखाया जाता है।">
-        This public directory displays only committee members whose membership has been approved and activated by the authorized administration.
+        data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
+        data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
+        data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
+      >
+        Thakurmunda, Mayurbhanj, Odisha
       </p>
 
     </div>
 
-    <div
-      id="errorBox"
-      class="error-box"
-      data-lang-en="Unable to load member information. Please try again later."
-      data-lang-or="ସଦସ୍ୟ ସୂଚନା ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ। ଦୟାକରି ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।"
-      data-lang-hi="सदस्य जानकारी लोड नहीं हो सकी। कृपया बाद में पुनः प्रयास करें।">
-      Unable to load member information. Please try again later.
-    </div>
 
-    <div class="controls">
-
-      <div class="search">
-
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="Search member name, designation or mobile..."
-          data-placeholder-en="Search member name, designation or mobile..."
-          data-placeholder-or="ସଦସ୍ୟଙ୍କ ନାମ, ପଦବୀ କିମ୍ବା ମୋବାଇଲ୍ ଖୋଜନ୍ତୁ..."
-          data-placeholder-hi="सदस्य का नाम, पद या मोबाइल खोजें..."
-          autocomplete="off"
-        >
-
-      </div>
-
-    </div>
-
-    <div class="stats">
-
-      <div class="stat">
-
-        <strong id="totalMembers">0</strong>
-
-        <span
-          data-lang-en="Total Active Members"
-          data-lang-or="ମୋଟ ସକ୍ରିୟ ସଦସ୍ୟ"
-          data-lang-hi="कुल सक्रिय सदस्य">
-          Total Active Members
-        </span>
-
-      </div>
-
-      <div class="stat">
-
-        <strong id="visibleMembers">0</strong>
-
-        <span
-          data-lang-en="Members Shown"
-          data-lang-or="ଦେଖାଯାଉଥିବା ସଦସ୍ୟ"
-          data-lang-hi="दिखाए गए सदस्य">
-          Members Shown
-        </span>
-
-      </div>
-
-      <div class="stat">
-
-        <strong>✓</strong>
-
-        <span
-          data-lang-en="Approved & Active"
-          data-lang-or="ଅନୁମୋଦିତ ଓ ସକ୍ରିୟ"
-          data-lang-hi="अनुमोदित और सक्रिय">
-          Approved & Active
-        </span>
-
-      </div>
-
-    </div>
-
-    <div id="loading" class="loading">
-
-      <div class="spinner"></div>
-
-      <p
-        data-lang-en="Loading approved members..."
-        data-lang-or="ଅନୁମୋଦିତ ସଦସ୍ୟମାନଙ୍କୁ ଲୋଡ୍ କରାଯାଉଛି..."
-        data-lang-hi="अनुमोदित सदस्यों को लोड किया जा रहा है...">
-        Loading approved members...
-      </p>
-
-    </div>
-
-    <div class="member-table-wrap">
-
-      <table class="member-table">
-
-        <thead>
-
-          <tr>
-
-            <th class="sl"
-                data-lang-en="Sl. No."
-                data-lang-or="କ୍ରମିକ ନଂ."
-                data-lang-hi="क्रमांक">
-              Sl. No.
-            </th>
-
-            <th
-              data-lang-en="Member Name"
-              data-lang-or="ସଦସ୍ୟଙ୍କ ନାମ"
-              data-lang-hi="सदस्य का नाम">
-              Member Name
-            </th>
-
-            <th
-              data-lang-en="Designation"
-              data-lang-or="ପଦବୀ"
-              data-lang-hi="पद">
-              Designation
-            </th>
-
-            <th
-              data-lang-en="Member Since"
-              data-lang-or="ସଦସ୍ୟ ହେବା ତାରିଖ"
-              data-lang-hi="सदस्य बनने की तिथि">
-              Member Since
-            </th>
-
-            <th
-              data-lang-en="Mobile Number"
-              data-lang-or="ମୋବାଇଲ୍ ନମ୍ବର"
-              data-lang-hi="मोबाइल नंबर">
-              Mobile Number
-            </th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="memberTableBody"></tbody>
-
-      </table>
-
-    </div>
-
-    <div id="emptyState" class="empty">
-
-      <div class="empty-icon">
-        🔎
-      </div>
+    <div>
 
       <h3
-        data-lang-en="No Members Found"
-        data-lang-or="କୌଣସି ସଦସ୍ୟ ମିଳିଲେ ନାହିଁ"
-        data-lang-hi="कोई सदस्य नहीं मिला">
-        No Members Found
+        data-lang-en="Quick Links"
+        data-lang-or="ତୁରନ୍ତ ଲିଙ୍କ୍"
+        data-lang-hi="त्वरित लिंक"
+      >
+        Quick Links
       </h3>
 
-      <p
-        data-lang-en="No approved and active member matches your search."
-        data-lang-or="ଆପଣଙ୍କ ସନ୍ଧାନ ସହିତ କୌଣସି ଅନୁମୋଦିତ ଓ ସକ୍ରିୟ ସଦସ୍ୟ ମେଳ ଖାଇଲେ ନାହିଁ।"
-        data-lang-hi="आपकी खोज से कोई अनुमोदित और सक्रिय सदस्य मेल नहीं खाता।">
-        No approved and active member matches your search.
-      </p>
+      <a
+        href="index.html"
+        data-lang-en="Home"
+        data-lang-or="ହୋମ୍"
+        data-lang-hi="होम"
+      >
+        Home
+      </a>
+
+      <a
+        href="about.html"
+        data-lang-en="About"
+        data-lang-or="ଆମ ବିଷୟରେ"
+        data-lang-hi="हमारे बारे में"
+      >
+        About
+      </a>
+
+      <a
+        href="events.html"
+        data-lang-en="Events"
+        data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+        data-lang-hi="कार्यक्रम"
+      >
+        Events
+      </a>
+
+      <a
+        href="gallery.html"
+        data-lang-en="Gallery"
+        data-lang-or="ଗ୍ୟାଲେରୀ"
+        data-lang-hi="गैलरी"
+      >
+        Gallery
+      </a>
 
     </div>
 
-    <div class="info-box">
+
+    <div>
 
       <h3
-        data-lang-en="🔐 Public Member Information"
-        data-lang-or="🔐 ସାର୍ବଜନୀନ ସଦସ୍ୟ ସୂଚନା"
-        data-lang-hi="🔐 सार्वजनिक सदस्य जानकारी">
-        🔐 Public Member Information
+        data-lang-en="Services"
+        data-lang-or="ସେବା"
+        data-lang-hi="सेवाएँ"
+      >
+        Services
       </h3>
 
-      <p
-        data-lang-en="Only committee-approved public information is displayed on this page. Login credentials, passwords, private addresses, email addresses and other sensitive information are not exposed through the public member directory."
-        data-lang-or="ଏହି ପୃଷ୍ଠାରେ କେବଳ କମିଟି ଦ୍ୱାରା ଅନୁମୋଦିତ ସାର୍ବଜନୀନ ସୂଚନା ଦର୍ଶାଯାଏ। ଲଗଇନ୍ ତଥ୍ୟ, ପାସୱାର୍ଡ, ବ୍ୟକ୍ତିଗତ ଠିକଣା, ଇମେଲ୍ ଏବଂ ଅନ୍ୟାନ୍ୟ ସମ୍ବେଦନଶୀଳ ସୂଚନା ସାର୍ବଜନୀନ ସଦସ୍ୟ ତାଲିକାରେ ପ୍ରକାଶ କରାଯାଏ ନାହିଁ।"
-        data-lang-hi="इस पृष्ठ पर केवल समिति द्वारा अनुमोदित सार्वजनिक जानकारी दिखाई जाती है। लॉगिन विवरण, पासवर्ड, निजी पता, ईमेल और अन्य संवेदनशील जानकारी सार्वजनिक सदस्य सूची में प्रदर्शित नहीं की जाती है।">
-        Only committee-approved public information is displayed on this page. Login credentials, passwords, private addresses, email addresses and other sensitive information are not exposed through the public member directory.
-      </p>
+      <a
+        href="members.html"
+        data-lang-en="Members"
+        data-lang-or="ସଦସ୍ୟ"
+        data-lang-hi="सदस्य"
+      >
+        Members
+      </a>
+
+      <a
+        href="notices.html"
+        data-lang-en="Notices"
+        data-lang-or="ନୋଟିସ୍"
+        data-lang-hi="सूचना"
+      >
+        Notices
+      </a>
+
+      <a
+        href="jatra.html"
+        data-lang-en="Uda Jatra"
+        data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+        data-lang-hi="उड़ा यात्रा"
+      >
+        Uda Jatra
+      </a>
 
     </div>
 
   </div>
 
-</main>
 
-<!-- ================= FOOTER ================= -->
+  <div class="copyright">
 
-<footer>
-
-  <div class="container">
-
-    <div class="footer-grid">
-
-      <div>
-
-        <h3
-          data-lang-en="Maa Basuli Uda Jatra Committee"
-          data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-          data-lang-hi="माँ बासुली उड़ा यात्रा समिति">
-          Maa Basuli Uda Jatra Committee
-        </h3>
-
-        <p
-          data-lang-en="Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha."
-          data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶାର ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଅଧିକୃତ ୱେବସାଇଟ୍।"
-          data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा की माँ बासुली उड़ा यात्रा समिति की आधिकारिक वेबसाइट।">
-          Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.
-        </p>
-
-        <p
-          style="margin-top:9px;"
-          data-lang-en="Jai Maa Basuli 🙏"
-          data-lang-or="ଜୟ ମା' ବାସୁଳୀ 🙏"
-          data-lang-hi="जय माँ बासुली 🙏">
-          Jai Maa Basuli 🙏
-        </p>
-
-      </div>
-
-      <div>
-
-        <h3
-          data-lang-en="Quick Links"
-          data-lang-or="ଦ୍ରୁତ ଲିଙ୍କ୍"
-          data-lang-hi="त्वरित लिंक">
-          Quick Links
-        </h3>
-
-        <a href="index.html"
-           data-lang-en="Home"
-           data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
-           data-lang-hi="मुख्य पृष्ठ">
-          Home
-        </a>
-
-        <a href="jatra.html"
-           data-lang-en="Uda Jatra"
-           data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
-           data-lang-hi="उड़ा यात्रा">
-          Uda Jatra
-        </a>
-
-        <a href="notices.html"
-           data-lang-en="Notices"
-           data-lang-or="ବିଜ୍ଞପ୍ତି"
-           data-lang-hi="सूचनाएँ">
-          Notices
-        </a>
-
-        <a href="events.html"
-           data-lang-en="Events"
-           data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-           data-lang-hi="कार्यक्रम">
-          Events
-        </a>
-
-        <a href="gallery.html"
-           data-lang-en="Gallery"
-           data-lang-or="ଗ୍ୟାଲେରୀ"
-           data-lang-hi="गैलरी">
-          Gallery
-        </a>
-
-      </div>
-
-      <div>
-
-        <h3
-          data-lang-en="Services"
-          data-lang-or="ସେବା"
-          data-lang-hi="सेवाएँ">
-          Services
-        </h3>
-
-        <a href="members.html"
-           data-lang-en="Our Members"
-           data-lang-or="ଆମ ସଦସ୍ୟ"
-           data-lang-hi="हमारे सदस्य">
-          Our Members
-        </a>
-
-        <a href="member-fee.html"
-           data-lang-en="Member Fee"
-           data-lang-or="ସଦସ୍ୟ ଫି"
-           data-lang-hi="सदस्य शुल्क">
-          Member Fee
-        </a>
-
-        <a href="bhakta-list.html"
-           data-lang-en="Bhakta List"
-           data-lang-or="ଭକ୍ତ ତାଲିକା"
-           data-lang-hi="भक्त सूची">
-          Bhakta List
-        </a>
-
-        <a href="fund.html"
-           data-lang-en="Fund & Donation"
-           data-lang-or="ଫଣ୍ଡ ଓ ଦାନ"
-           data-lang-hi="फंड और दान">
-          Fund & Donation
-        </a>
-
-        <a href="complaint.html"
-           data-lang-en="Complaint Box"
-           data-lang-or="ଅଭିଯୋଗ ବକ୍ସ"
-           data-lang-hi="शिकायत बॉक्स">
-          Complaint Box
-        </a>
-
-        <a href="contact.html"
-           data-lang-en="Contact"
-           data-lang-or="ଯୋଗାଯୋଗ"
-           data-lang-hi="संपर्क">
-          Contact
-        </a>
-
-      </div>
-
-    </div>
-
-    <div class="copyright">
-
-      <span
-        data-lang-en="© 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved."
-        data-lang-or="© 2026 ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି। ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।"
-        data-lang-hi="© 2026 माँ बासुली उड़ा यात्रा समिति। सर्वाधिकार सुरक्षित।">
-        © 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.
-      </span>
-
-    </div>
+    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
 
   </div>
 
 </footer>
 
-<script>
 
-/* =====================================================
-   SUPABASE CONFIGURATION
-===================================================== */
+<!-- ================= SUPABASE + PAGE SCRIPT ================= -->
+
+<script>
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
@@ -1131,420 +1050,454 @@ const supabaseClient =
     SUPABASE_PUBLISHABLE_KEY
   );
 
-/* =====================================================
-   DATA
-===================================================== */
 
 let allMembers = [];
 
-/* =====================================================
-   LOAD WEBSITE BRANDING
-===================================================== */
+
+/* ================= BRANDING ================= */
 
 async function loadWebsiteBranding(){
 
   try{
 
-    const {
-      data,
-      error
-    } = await supabaseClient
-      .from("website_settings")
-      .select("site_name,logo_url,address")
-      .order("created_at",{ascending:false})
-      .limit(1)
-      .maybeSingle();
+    const result =
+      await supabaseClient
+        .from("website_settings")
+        .select("site_name,logo_url,address")
+        .limit(1)
+        .maybeSingle();
 
-    if(!error && data){
+    if(result.error){
+      console.warn(
+        "Branding error:",
+        result.error.message
+      );
+    }
 
-      const siteName =
-        data.site_name ||
-        "Maa Basuli Uda Jatra Committee";
+    const data = result.data;
 
-      const address =
-        data.address ||
-        "Thakurmunda, Mayurbhanj, Odisha";
+    if(data){
 
-      document.getElementById("siteName").textContent =
-        siteName;
+      if(data.site_name){
 
-      document.getElementById("siteAddress").textContent =
-        address;
+        document.title =
+          data.site_name + " | Members";
+
+      }
+
+      if(data.address){
+
+        document.getElementById(
+          "siteAddress"
+        ).textContent = data.address;
+
+      }
 
       if(data.logo_url){
 
         const logo =
           document.getElementById("siteLogo");
 
-        const fallback =
-          document.getElementById("logoFallback");
-
         logo.src = data.logo_url;
         logo.style.display = "block";
-        fallback.style.display = "none";
 
       }
-
-      document.title =
-        "Our Members | " + siteName;
 
     }
 
   }catch(error){
 
-    console.error(
-      "Website branding error:",
+    console.warn(
+      "Branding load failed:",
       error
     );
 
   }
 
+
+  /* OPTIONAL PHOTOS */
+
   try{
 
-    const {
-      data
-    } = await supabaseClient
-      .from("website_settings")
-      .select(
-        "maa_basuli_url,temple_url,group_photo_url"
-      )
-      .order("created_at",{ascending:false})
-      .limit(1)
-      .maybeSingle();
+    const photoResult =
+      await supabaseClient
+        .from("website_settings")
+        .select(
+          "maa_basuli_url,temple_url,group_photo_url"
+        )
+        .limit(1)
+        .maybeSingle();
 
-    if(data){
+    if(
+      photoResult.data &&
+      photoResult.data.maa_basuli_url
+    ){
 
-      if(data.maa_basuli_url){
+      const photo =
+        document.getElementById(
+          "maaBasuliPhoto"
+        );
 
-        const img =
-          document.getElementById("maaBasuliPhoto");
+      photo.src =
+        photoResult.data.maa_basuli_url;
 
-        img.src = data.maa_basuli_url;
-        img.style.display = "block";
-
-      }
-
-      if(data.temple_url){
-
-        const img =
-          document.getElementById("templePhoto");
-
-        img.src = data.temple_url;
-        img.style.display = "block";
-
-      }
+      photo.style.display = "block";
 
     }
 
   }catch(error){
 
-    console.log(
-      "Optional branding images not available."
+    console.warn(
+      "Optional photo fields unavailable:",
+      error
     );
 
   }
 
 }
 
-/* =====================================================
-   LANGUAGE SUPPORT
-===================================================== */
 
-function applyCurrentPageLanguage(){
+/* ================= ESCAPE HTML ================= */
 
-  const lang =
+function escapeHtml(value){
+
+  if(value === null || value === undefined){
+    return "";
+  }
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* ================= DATE FORMAT ================= */
+
+function formatDate(value){
+
+  if(!value){
+    return "-";
+  }
+
+  const date =
+    new Date(value);
+
+  if(isNaN(date.getTime())){
+    return escapeHtml(value);
+  }
+
+  const currentLang =
     localStorage.getItem(
       "maaBasuliLanguage"
     ) || "en";
 
-  if(
-    typeof window.setSiteLanguage ===
-    "function"
-  ){
+  const locale =
+    currentLang === "or"
+      ? "or-IN"
+      : currentLang === "hi"
+        ? "hi-IN"
+        : "en-IN";
 
-    window.setSiteLanguage(lang);
-
-  }
+  return date.toLocaleDateString(
+    locale,
+    {
+      day:"2-digit",
+      month:"short",
+      year:"numeric"
+    }
+  );
 
 }
 
-window.addEventListener(
-  "storage",
-  function(event){
 
-    if(
-      event.key === "maaBasuliLanguage"
-    ){
-
-      applyCurrentPageLanguage();
-
-    }
-
-  }
-);
-
-/* =====================================================
-   LOAD PUBLIC MEMBERS
-===================================================== */
+/* ================= LOAD MEMBERS ================= */
 
 async function loadMembers(){
 
   const loading =
-    document.getElementById("loading");
+    document.getElementById(
+      "loading"
+    );
 
-  const errorBox =
-    document.getElementById("errorBox");
+  const tableWrap =
+    document.getElementById(
+      "tableWrap"
+    );
+
+  const emptyState =
+    document.getElementById(
+      "emptyState"
+    );
 
   try{
 
-    errorBox.classList.remove("show");
+    loading.style.display = "block";
+    tableWrap.style.display = "none";
+    emptyState.style.display = "none";
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .rpc("get_public_members");
-
-    if(error){
-
-      console.error(
-        "Member loading error:",
-        error
+    const result =
+      await supabaseClient.rpc(
+        "get_public_members"
       );
 
-      throw error;
+    if(result.error){
+
+      throw result.error;
 
     }
 
     allMembers =
-      Array.isArray(data)
-        ? data
+      Array.isArray(result.data)
+        ? result.data
         : [];
 
     renderMembers();
 
   }catch(error){
 
-    console.error(error);
-
-    errorBox.classList.add("show");
+    console.error(
+      "Member loading error:",
+      error
+    );
 
     allMembers = [];
 
-    renderMembers();
+    document.getElementById(
+      "membersBody"
+    ).innerHTML = "";
 
-  }finally{
+    loading.innerHTML = `
+      <p
+        data-lang-en="Unable to load members."
+        data-lang-or="ସଦସ୍ୟ ସୂଚନା ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
+        data-lang-hi="सदस्यों को लोड नहीं किया जा सका।"
+      >
+        Unable to load members.
+      </p>
+    `;
 
-    loading.style.display =
-      "none";
+    if(
+      typeof setSiteLanguage ===
+      "function"
+    ){
+
+      const lang =
+        localStorage.getItem(
+          "maaBasuliLanguage"
+        ) || "en";
+
+      setSiteLanguage(lang);
+
+    }
 
   }
 
 }
 
-/* =====================================================
-   RENDER MEMBERS
-===================================================== */
+
+/* ================= RENDER MEMBERS ================= */
 
 function renderMembers(){
 
-  const tbody =
-    document.getElementById(
-      "memberTableBody"
-    );
-
-  const empty =
-    document.getElementById(
-      "emptyState"
-    );
-
   const search =
-    document
-      .getElementById(
+    (
+      document.getElementById(
         "searchInput"
-      )
-      .value
-      .trim()
-      .toLowerCase();
+      ).value || ""
+    )
+    .trim()
+    .toLowerCase();
+
 
   const filtered =
-    allMembers.filter(
-      member => {
+    allMembers.filter(function(member){
 
-        const searchable =
-          [
-            member.full_name,
-            member.designation,
-            member.mobile,
-            member.member_since
-          ]
-            .filter(Boolean)
-            .join(" ")
-            .toLowerCase();
+      const name =
+        String(
+          member.full_name || ""
+        ).toLowerCase();
 
-        return (
-          !search ||
-          searchable.includes(search)
-        );
+      const designation =
+        String(
+          member.designation || ""
+        ).toLowerCase();
 
-      }
-    );
-
-  tbody.innerHTML = "";
-
-  if(filtered.length === 0){
-
-    empty.classList.add("show");
-
-  }else{
-
-    empty.classList.remove("show");
-
-  }
-
-  filtered.forEach(
-    (member,index) => {
-
-      const tr =
-        document.createElement(
-          "tr"
-        );
-
-      const currentLang =
-        localStorage.getItem(
-          "maaBasuliLanguage"
-        ) || "en";
-
-      const locale =
-        currentLang === "or"
-          ? "or-IN"
-          : currentLang === "hi"
-            ? "hi-IN"
-            : "en-IN";
+      const mobile =
+        String(
+          member.mobile || ""
+        ).toLowerCase();
 
       const memberSince =
-        member.member_since
-          ? new Date(
-              member.member_since +
-              "T00:00:00"
-            ).toLocaleDateString(
-              locale
-            )
-          : "—";
+        String(
+          member.member_since || ""
+        ).toLowerCase();
 
-      tr.innerHTML = `
-
-        <td class="sl">
-          ${index + 1}
-        </td>
-
-        <td class="name">
-          ${escapeHtml(
-            member.full_name ||
-            "Member"
-          )}
-        </td>
-
-        <td class="designation">
-          ${escapeHtml(
-            member.designation ||
-            "—"
-          )}
-        </td>
-
-        <td class="since">
-          ${escapeHtml(
-            memberSince
-          )}
-        </td>
-
-        <td class="mobile">
-          ${escapeHtml(
-            member.mobile ||
-            "—"
-          )}
-        </td>
-
-      `;
-
-      tbody.appendChild(
-        tr
+      return (
+        name.includes(search) ||
+        designation.includes(search) ||
+        mobile.includes(search) ||
+        memberSince.includes(search)
       );
 
-    }
-  );
+    });
+
 
   document.getElementById(
     "totalMembers"
   ).textContent =
     allMembers.length;
 
+
   document.getElementById(
     "visibleMembers"
   ).textContent =
     filtered.length;
 
+
+  const activeCount =
+    allMembers.filter(function(member){
+
+      return (
+        member.status === "active" ||
+        member.status === "Active" ||
+        member.active === true ||
+        member.is_active === true ||
+        member.approved === true
+      );
+
+    }).length;
+
+
+  document.getElementById(
+    "approvedMembers"
+  ).textContent =
+    activeCount;
+
+
+  const body =
+    document.getElementById(
+      "membersBody"
+    );
+
+
+  body.innerHTML = "";
+
+
+  if(filtered.length === 0){
+
+    document.getElementById(
+      "tableWrap"
+    ).style.display = "none";
+
+    document.getElementById(
+      "loading"
+    ).style.display = "none";
+
+    document.getElementById(
+      "emptyState"
+    ).style.display = "block";
+
+    return;
+
+  }
+
+
+  filtered.forEach(function(member){
+
+    const row =
+      document.createElement("tr");
+
+
+    const name =
+      escapeHtml(
+        member.full_name || "-"
+      );
+
+    const designation =
+      escapeHtml(
+        member.designation || "-"
+      );
+
+    const mobile =
+      escapeHtml(
+        member.mobile || "-"
+      );
+
+    const memberSince =
+      formatDate(
+        member.member_since
+      );
+
+
+    row.innerHTML = `
+
+      <td>
+        <strong>${name}</strong>
+      </td>
+
+      <td>
+        <span class="designation">
+          ${designation}
+        </span>
+      </td>
+
+      <td>
+        ${mobile}
+      </td>
+
+      <td>
+        ${memberSince}
+      </td>
+
+      <td>
+        <span class="status">
+          Active
+        </span>
+      </td>
+
+    `;
+
+
+    body.appendChild(row);
+
+  });
+
+
+  document.getElementById(
+    "loading"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "emptyState"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "tableWrap"
+  ).style.display = "block";
+
 }
 
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
 
-function escapeHtml(value){
-
-  return String(
-    value ?? ""
-  )
-
-  .replace(
-    /&/g,
-    "&amp;"
-  )
-
-  .replace(
-    /</g,
-    "&lt;"
-  )
-
-  .replace(
-    />/g,
-    "&gt;"
-  )
-
-  .replace(
-    /"/g,
-    "&quot;"
-  )
-
-  .replace(
-    /'/g,
-    "&#039;"
-  );
-
-}
-
-/* =====================================================
-   SEARCH
-===================================================== */
+/* ================= SEARCH ================= */
 
 document
-  .getElementById(
-    "searchInput"
-  )
+  .getElementById("searchInput")
   .addEventListener(
     "input",
     renderMembers
   );
 
-/* =====================================================
-   LANGUAGE CHANGE → REFRESH MEMBER DATE
-===================================================== */
+
+/* ================= LANGUAGE CHANGE ================= */
 
 document
-  .getElementById(
-    "language-switcher"
-  )
+  .getElementById("language-switcher")
   .addEventListener(
     "click",
     function(){
@@ -1561,16 +1514,18 @@ document
     }
   );
 
-/* =====================================================
-   START
-===================================================== */
+
+/* ================= INIT ================= */
 
 loadWebsiteBranding();
+
 loadMembers();
 
 </script>
 
-<!-- COMMON WEBSITE LANGUAGE SYSTEM -->
+
+<!-- ================= COMMON LANGUAGE ================= -->
+
 <script src="language.js"></script>
 
 </body>
