@@ -118,6 +118,85 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
 .loader{width:42px;height:42px;border:4px solid #eee;border-top-color:#8b0000;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+
+/* ===== HOMEPAGE CONTINUOUS NOTICE / AD TICKER ===== */
+.notice-adbar{
+  background:#8b0000;
+  color:#fff;
+  border-bottom:3px solid #e0aa22;
+  overflow:hidden;
+  position:relative;
+  z-index:15;
+  box-shadow:0 3px 10px rgba(0,0,0,.12);
+}
+.notice-ad-inner{
+  width:min(1400px,94%);
+  margin:auto;
+  display:flex;
+  align-items:center;
+  min-height:48px;
+}
+.notice-ad-label{
+  flex:0 0 auto;
+  background:#e0aa22;
+  color:#5a0000;
+  font-weight:900;
+  padding:9px 15px;
+  margin-right:0;
+  white-space:nowrap;
+  z-index:2;
+}
+.notice-ad-window{
+  flex:1;
+  min-width:0;
+  overflow:hidden;
+  position:relative;
+}
+.notice-ad-track{
+  display:flex;
+  width:max-content;
+  min-width:100%;
+  will-change:transform;
+  animation:noticeAdScroll 28s linear infinite;
+}
+.notice-ad-item{
+  display:inline-flex;
+  align-items:center;
+  white-space:nowrap;
+  padding:0 42px;
+  min-height:48px;
+  font-size:15px;
+  font-weight:700;
+}
+.notice-ad-item::before{
+  content:"📢";
+  margin-right:9px;
+}
+.notice-ad-item a{
+  color:#fff;
+  text-decoration:none;
+}
+.notice-ad-item a:hover{
+  color:#ffd34d;
+}
+.notice-ad-empty{
+  padding:0 20px;
+  min-height:48px;
+  display:flex;
+  align-items:center;
+  font-size:14px;
+}
+@keyframes noticeAdScroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+.notice-adbar:hover .notice-ad-track{
+  animation-play-state:paused;
+}
+@media(prefers-reduced-motion:reduce){
+  .notice-ad-track{animation:none}
+}
+
 @media(max-width:1100px){
 .brand-text .odia-title{font-size:31px}.brand-text h1{font-size:25px}.nav-links a{padding:11px 9px;font-size:13px}.quick-grid{grid-template-columns:repeat(3,1fr)}
 }
@@ -129,6 +208,13 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
 .nav-links.show{display:flex}.nav-links a{padding:13px}.hero{min-height:570px}.hero-odia{font-size:38px}.hero-odia-yellow{font-size:35px}.hero-text h2{font-size:24px}.quick-grid{grid-template-columns:repeat(2,1fr)}
 .about-grid{grid-template-columns:1fr}.cards-3{grid-template-columns:1fr 1fr}.footer-grid{grid-template-columns:1fr 1fr}
 }
+
+@media(max-width:600px){
+  .notice-ad-inner{width:100%}
+  .notice-ad-label{font-size:12px;padding:9px 10px}
+  .notice-ad-item{font-size:13px;padding:0 28px}
+}
+
 @media(max-width:600px){
   .top-login{padding:9px 13px;font-size:13px;margin-left:auto}
 
@@ -193,6 +279,18 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
     <a href="auth.html" class="top-login" title="Member Login">🔐 Login</a>
   </div>
 </div>
+
+<!-- CONTINUOUS NOTICE / ADVERTISEMENT TICKER -->
+<section class="notice-adbar" aria-label="Latest official notices">
+  <div class="notice-ad-inner">
+    <div class="notice-ad-label">📢 Latest Notice</div>
+    <div class="notice-ad-window">
+      <div class="notice-ad-track" id="noticeAdTrack">
+        <div class="notice-ad-empty">Notices load heuchhi...</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="hero">
   <img id="heroGroupPhoto" class="hero-bg" src="" alt="Maa Basuli Uda Jatra Committee Group Photo">
@@ -428,6 +526,72 @@ document.getElementById("heroGroupPhoto").addEventListener("error",function(){
   this.style.background="#3b2118";
 });
 
+
+/* ===== CONTINUOUS HOMEPAGE NOTICE / ADVERTISEMENT ===== */
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+async function loadHomepageNotices(){
+  const track = document.getElementById("noticeAdTrack");
+  if(!track) return;
+
+  try{
+    const {data, error} = await supabaseClient
+      .from("notices")
+      .select("id,title,notice_date,notice_type,description,pdf_url")
+      .eq("is_published", true)
+      .order("notice_date", {ascending:false})
+      .order("created_at", {ascending:false})
+      .limit(10);
+
+    if(error){
+      console.error("Homepage notices error:", error);
+      track.innerHTML =
+        '<div class="notice-ad-empty">📢 Latest official notices — View Notices</div>';
+      return;
+    }
+
+    const notices = data || [];
+
+    if(!notices.length){
+      track.innerHTML =
+        '<div class="notice-ad-empty">📢 Maa Basuli Uda Jatra Committee — Latest official notices will appear here.</div>';
+      return;
+    }
+
+    const items = notices.map(n => {
+      const title = escapeHtml(n.title || "Official Notice");
+      const type = n.notice_type ? " • " + escapeHtml(n.notice_type) : "";
+      const date = n.notice_date
+        ? " • " + escapeHtml(new Date(n.notice_date + "T00:00:00").toLocaleDateString("en-IN"))
+        : "";
+      const href = n.pdf_url ? String(n.pdf_url).trim() : "notices.html";
+
+      return `<div class="notice-ad-item">
+        <a href="${escapeHtml(href)}" target="${n.pdf_url ? "_blank" : "_self"}">
+          ${title}${type}${date}
+        </a>
+      </div>`;
+    }).join("");
+
+    // Duplicate the content so the animation can loop continuously without a gap.
+    track.innerHTML = items + items;
+
+  }catch(err){
+    console.error("Homepage notices load failed:", err);
+    track.innerHTML =
+      '<div class="notice-ad-empty">📢 Latest official notices — View Notices</div>';
+  }
+}
+
+loadHomepageNotices();
+setInterval(loadHomepageNotices, 60000);
 loadWebsiteSettings();
 </script>
 </body>
