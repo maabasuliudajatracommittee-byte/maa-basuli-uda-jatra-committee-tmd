@@ -1,527 +1,685 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Gallery | Maa Basuli Uda Jatra Committee</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f7f7f7;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(135deg, #7b1e00, #a63d00);
-      color: white;
-      padding: 18px 20px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.15);
-    }
-
-    .header-inner {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand h1 {
-      font-size: 23px;
-      margin-bottom: 4px;
-    }
-
-    .brand p {
-      font-size: 13px;
-      opacity: 0.9;
-    }
-
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: flex-end;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 11px;
-      border-radius: 7px;
-      font-size: 13px;
-    }
-
-    nav a:hover,
-    nav a.active {
-      background: rgba(255,255,255,0.18);
-    }
-
-    .hero {
-      background:
-        linear-gradient(rgba(60,20,0,0.65), rgba(60,20,0,0.65)),
-        url("maa-basuli-logo.png.jpeg") center/cover;
-      min-height: 280px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    .hero h2 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      font-size: 17px;
-      max-width: 700px;
-      margin: auto;
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
-
-    .section-title {
-      color: #7b1e00;
-      font-size: 30px;
-      margin-bottom: 8px;
-      text-align: center;
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: #777;
-      margin-bottom: 28px;
-    }
-
-    /* FILTERS */
-
-    .filters {
-      background: white;
-      padding: 18px;
-      border-radius: 14px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-
-    .filters input,
-    .filters select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      outline: none;
-      font-size: 14px;
-    }
-
-    .filters input:focus,
-    .filters select:focus {
-      border-color: #a63d00;
-    }
-
-    /* STATUS */
-
-    .status {
-      text-align: center;
-      padding: 25px;
-      color: #777;
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #a00000;
-      border: 1px solid #e2b5b5;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .empty {
-      background: white;
-      padding: 45px 20px;
-      text-align: center;
-      border-radius: 14px;
-      color: #777;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.05);
-    }
-
-    /* ALBUM GRID */
-
-    .album-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 22px;
-    }
-
-    .album-card {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-      cursor: pointer;
-      transition: 0.25s;
-    }
-
-    .album-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 28px rgba(0,0,0,0.13);
-    }
-
-    .album-cover {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-      background: #eee;
-    }
-
-    .album-cover-placeholder {
-      width: 100%;
-      height: 220px;
-      background: linear-gradient(135deg, #eee, #ddd);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #777;
-      font-size: 45px;
-    }
-
-    .album-info {
-      padding: 18px;
-    }
-
-    .album-info h3 {
-      color: #7b1e00;
-      margin-bottom: 8px;
-      font-size: 20px;
-    }
-
-    .album-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-
-    .badge {
-      background: #fff0e6;
-      color: #8a2d00;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: bold;
-    }
-
-    .album-description {
-      color: #666;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    /* ALBUM VIEW */
-
-    .album-view {
-      display: none;
-    }
-
-    .album-view-header {
-      background: white;
-      padding: 22px;
-      border-radius: 14px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.06);
-    }
-
-    .back-btn {
-      display: inline-block;
-      border: none;
-      background: #7b1e00;
-      color: white;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .back-btn:hover {
-      background: #a63d00;
-    }
-
-    .album-view-header h2 {
-      color: #7b1e00;
-      margin-bottom: 8px;
-    }
-
-    .album-view-header p {
-      color: #666;
-      line-height: 1.5;
-    }
-
-    /* PHOTO GRID */
-
-    .photo-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
-
-    .photo-card {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.07);
-      cursor: pointer;
-    }
-
-    .photo-card img {
-      width: 100%;
-      height: 210px;
-      object-fit: cover;
-      display: block;
-      transition: 0.25s;
-    }
-
-    .photo-card:hover img {
-      transform: scale(1.04);
-    }
-
-    .photo-title {
-      padding: 10px 12px;
-      font-size: 13px;
-      color: #555;
-    }
-
-    /* PHOTO MODAL */
-
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.90);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      padding: 25px;
-    }
-
-    .modal-content {
-      max-width: 95vw;
-      max-height: 92vh;
-      text-align: center;
-    }
-
-    .modal-content img {
-      max-width: 95vw;
-      max-height: 75vh;
-      object-fit: contain;
-      border-radius: 8px;
-      display: block;
-      margin: auto;
-    }
-
-    .modal-title {
-      color: white;
-      margin-top: 12px;
-      font-size: 15px;
-      line-height: 1.4;
-    }
-
-    .modal-close {
-      position: fixed;
-      top: 18px;
-      right: 25px;
-      color: white;
-      font-size: 38px;
-      cursor: pointer;
-      line-height: 1;
-      z-index: 10000;
-    }
-
-    .download-btn {
-      display: inline-block;
-      margin-top: 15px;
-      padding: 11px 20px;
-      background: white;
-      color: #7b1e00;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    .download-btn:hover {
-      background: #ffe8dc;
-      transform: translateY(-1px);
-    }
-
-    footer {
-      margin-top: 50px;
-      background: #21120d;
-      color: white;
-      text-align: center;
-      padding: 28px 15px;
-    }
-
-    footer p {
-      margin: 5px 0;
-      font-size: 13px;
-      opacity: 0.85;
-    }
-
-    @media (max-width: 1000px) {
-
-      .album-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .photo-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-    }
-
-    @media (max-width: 700px) {
-
-      .header-inner {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      nav {
-        justify-content: center;
-      }
-
-      .hero h2 {
-        font-size: 30px;
-      }
-
-      .filters {
-        grid-template-columns: 1fr;
-      }
-
-      .album-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .photo-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .modal {
-        padding: 15px;
-      }
-
-      .modal-content img {
-        max-height: 65vh;
-      }
-
-    }
-
-    @media (max-width: 450px) {
-
-      .photo-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .photo-card img {
-        height: 240px;
-      }
-
-      .modal-content img {
-        max-height: 60vh;
-      }
-
-      .download-btn {
-        width: 100%;
-        max-width: 240px;
-      }
-
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Gallery | Maa Basuli Uda Jatra Committee</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f8fc;
+  color:#1f2937;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+  background:linear-gradient(135deg,#7c2d12,#b45309);
+  color:white;
+  padding:12px 18px 10px;
+  box-shadow:0 3px 15px rgba(0,0,0,.15);
+}
+
+.header-inner{
+  width:min(1250px,96%);
+  margin:auto;
+}
+
+.brand-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.brand-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+
+.site-logo{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.85);
+  background:#fff;
+  display:none;
+}
+
+.logo-title h1{
+  font-size:21px;
+  line-height:1.25;
+}
+
+.logo-title p{
+  font-size:13px;
+  opacity:.9;
+  margin-top:4px;
+}
+
+.brand-photos{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.brand-photo{
+  width:52px;
+  height:52px;
+  object-fit:cover;
+  border-radius:9px;
+  border:2px solid rgba(255,255,255,.85);
+  background:#fff;
+  display:none;
+}
+
+#language-switcher{
+  display:flex;
+  align-items:center;
+}
+
+#maa-language-switcher{
+  position:static !important;
+  display:inline-flex !important;
+}
+
+/* ================= NAV ================= */
+
+.nav{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:6px;
+  margin-top:11px;
+  padding-top:9px;
+  border-top:1px solid rgba(255,255,255,.20);
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+  padding:7px 11px;
+  border-radius:7px;
+  font-size:13px;
+}
+
+.nav a:hover,
+.nav a.active{
+  background:rgba(255,255,255,.18);
+}
+
+/* ================= HERO ================= */
+
+.hero{
+  background:
+    linear-gradient(rgba(60,20,0,.68),rgba(60,20,0,.68)),
+    url("maa-basuli-logo.png.jpeg") center/cover;
+  min-height:240px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  color:white;
+  padding:35px 20px;
+}
+
+.hero h2{
+  font-size:38px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:16px;
+  max-width:760px;
+  margin:auto;
+  line-height:1.6;
+}
+
+/* ================= MAIN ================= */
+
+.container{
+  width:min(1200px,94%);
+  margin:30px auto 50px;
+}
+
+.section-title{
+  color:#7c2d12;
+  font-size:29px;
+  margin-bottom:8px;
+  text-align:center;
+}
+
+.section-subtitle{
+  text-align:center;
+  color:#6b7280;
+  margin-bottom:25px;
+}
+
+/* ================= FILTERS ================= */
+
+.filters{
+  background:white;
+  padding:18px;
+  border-radius:13px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.filters input,
+.filters select{
+  width:100%;
+  padding:12px;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  outline:none;
+  font-size:14px;
+}
+
+.filters input:focus,
+.filters select:focus{
+  border-color:#b45309;
+}
+
+/* ================= STATUS ================= */
+
+.status{
+  text-align:center;
+  padding:25px;
+  color:#6b7280;
+}
+
+.error{
+  background:#fff0f0;
+  color:#a00000;
+  border:1px solid #e2b5b5;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.empty{
+  background:white;
+  padding:45px 20px;
+  text-align:center;
+  border-radius:14px;
+  color:#777;
+  box-shadow:0 4px 18px rgba(0,0,0,.05);
+}
+
+/* ================= ALBUM GRID ================= */
+
+.album-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:22px;
+}
+
+.album-card{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 5px 20px rgba(0,0,0,.08);
+  cursor:pointer;
+  transition:.25s;
+}
+
+.album-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 10px 28px rgba(0,0,0,.13);
+}
+
+.album-cover{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  display:block;
+  background:#eee;
+}
+
+.album-cover-placeholder{
+  width:100%;
+  height:220px;
+  background:linear-gradient(135deg,#eee,#ddd);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#777;
+  font-size:45px;
+}
+
+.album-info{
+  padding:18px;
+}
+
+.album-info h3{
+  color:#7c2d12;
+  margin-bottom:8px;
+  font-size:20px;
+}
+
+.album-meta{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:10px;
+}
+
+.badge{
+  background:#ffedd5;
+  color:#9a3412;
+  padding:5px 9px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:bold;
+}
+
+.album-description{
+  color:#666;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* ================= ALBUM VIEW ================= */
+
+.album-view{
+  display:none;
+}
+
+.album-view-header{
+  background:white;
+  padding:22px;
+  border-radius:14px;
+  margin-bottom:20px;
+  box-shadow:0 4px 18px rgba(0,0,0,.06);
+}
+
+.back-btn{
+  display:inline-block;
+  border:none;
+  background:#7c2d12;
+  color:white;
+  padding:10px 16px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.back-btn:hover{
+  background:#a63d00;
+}
+
+.album-view-header h2{
+  color:#7c2d12;
+  margin-bottom:8px;
+}
+
+.album-view-header p{
+  color:#666;
+  line-height:1.5;
+}
+
+/* ================= PHOTO GRID ================= */
+
+.photo-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+
+.photo-card{
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+  cursor:pointer;
+}
+
+.photo-card img{
+  width:100%;
+  height:210px;
+  object-fit:cover;
+  display:block;
+  transition:.25s;
+}
+
+.photo-card:hover img{
+  transform:scale(1.04);
+}
+
+.photo-title{
+  padding:10px 12px;
+  font-size:13px;
+  color:#555;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.90);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+
+.modal-content{
+  max-width:95vw;
+  max-height:92vh;
+  text-align:center;
+}
+
+.modal-content img{
+  max-width:95vw;
+  max-height:75vh;
+  object-fit:contain;
+  border-radius:8px;
+  display:block;
+  margin:auto;
+}
+
+.modal-title{
+  color:white;
+  margin-top:12px;
+  font-size:15px;
+  line-height:1.4;
+}
+
+.modal-close{
+  position:fixed;
+  top:18px;
+  right:25px;
+  color:white;
+  font-size:38px;
+  cursor:pointer;
+  line-height:1;
+  z-index:10000;
+}
+
+.download-btn{
+  display:inline-block;
+  margin-top:15px;
+  padding:11px 20px;
+  background:white;
+  color:#7c2d12;
+  text-decoration:none;
+  border-radius:8px;
+  font-weight:bold;
+  font-size:14px;
+  transition:.2s;
+}
+
+.download-btn:hover{
+  background:#ffe8dc;
+  transform:translateY(-1px);
+}
+
+/* ================= FOOTER ================= */
+
+.footer{
+  background:#111827;
+  color:#d1d5db;
+  text-align:center;
+  padding:28px 15px;
+  font-size:13px;
+}
+
+.footer a{
+  color:#fed7aa;
+  text-decoration:none;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:1000px){
+
+  .album-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .photo-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+@media(max-width:900px){
+
+  .brand-row{
+    flex-wrap:wrap;
+  }
+
+  .brand-photos{
+    order:3;
+    width:100%;
+    justify-content:center;
+  }
+
+  .filters{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:700px){
+
+  .header{
+    padding:11px 12px;
+  }
+
+  .brand-left{
+    width:100%;
+  }
+
+  .site-logo{
+    width:50px;
+    height:50px;
+  }
+
+  .logo-title h1{
+    font-size:17px;
+  }
+
+  .logo-title p{
+    font-size:12px;
+  }
+
+  .brand-photo{
+    width:48px;
+    height:48px;
+  }
+
+  .nav{
+    justify-content:flex-start;
+  }
+
+  .nav a{
+    font-size:12px;
+    padding:7px 9px;
+  }
+
+  .hero{
+    min-height:220px;
+    padding:28px 16px;
+  }
+
+  .hero h2{
+    font-size:30px;
+  }
+
+  .album-grid{
+    grid-template-columns:1fr;
+  }
+
+  .photo-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .modal{
+    padding:15px;
+  }
+
+  .modal-content img{
+    max-height:65vh;
+  }
+}
+
+@media(max-width:450px){
+
+  .photo-grid{
+    grid-template-columns:1fr;
+  }
+
+  .photo-card img{
+    height:240px;
+  }
+
+  .modal-content img{
+    max-height:60vh;
+  }
+
+  .download-btn{
+    width:100%;
+    max-width:240px;
+  }
+}
+</style>
 </head>
 
 <body>
 
+<!-- ================= HEADER ================= -->
 
-<!-- =========================================================
-     HEADER
-========================================================= -->
-
-<header>
+<header class="header">
 
   <div class="header-inner">
 
-    <div class="brand">
+    <div class="brand-row">
 
-      <h1>
-        Maa Basuli Uda Jatra Committee
-      </h1>
+      <div class="brand-left">
 
-      <p>
-        Thakurmunda, Mayurbhanj, Odisha
-      </p>
+        <img
+          id="siteLogo"
+          class="site-logo"
+          alt="Maa Basuli Uda Jatra Committee Logo"
+        >
+
+        <div class="logo-title">
+
+          <h1 id="siteName"
+              data-lang-en="Maa Basuli Uda Jatra Committee"
+              data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+              data-lang-hi="माँ बासुली उड़ा यात्रा समिति">
+            Maa Basuli Uda Jatra Committee
+          </h1>
+
+          <p id="siteAddress"
+             data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
+             data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
+             data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा">
+            Thakurmunda, Mayurbhanj, Odisha
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="brand-photos">
+
+        <img
+          id="maaBasuliPhoto"
+          class="brand-photo"
+          alt="Maa Basuli"
+        >
+
+        <img
+          id="templePhoto"
+          class="brand-photo"
+          alt="Maa Basuli Temple"
+        >
+
+        <div id="language-switcher"></div>
+
+      </div>
 
     </div>
 
+    <!-- ================= NAV ================= -->
 
-    <nav>
+    <nav class="nav">
 
-      <a href="index.html">
+      <a href="index.html"
+         data-lang-en="Home"
+         data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
+         data-lang-hi="मुख्य पृष्ठ">
         Home
       </a>
 
-      <a href="about.html">
+      <a href="about.html"
+         data-lang-en="About"
+         data-lang-or="ଆମ ବିଷୟରେ"
+         data-lang-hi="हमारे बारे में">
         About
       </a>
 
-      <a href="jatra.html">
-        Uda Jatra
+      <a href="jatra.html"
+         data-lang-en="Jatra"
+         data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+         data-lang-hi="उड़ा यात्रा">
+        Jatra
       </a>
 
-      <a href="notices.html">
+      <a href="notices.html"
+         data-lang-en="Notices"
+         data-lang-or="ବିଜ୍ଞପ୍ତି"
+         data-lang-hi="सूचनाएँ">
         Notices
       </a>
 
-      <a href="events.html">
+      <a href="events.html"
+         data-lang-en="Events"
+         data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+         data-lang-hi="कार्यक्रम">
         Events
       </a>
 
-      <a href="gallery.html" class="active">
+      <a href="gallery.html"
+         class="active"
+         data-lang-en="Gallery"
+         data-lang-or="ଗ୍ୟାଲେରୀ"
+         data-lang-hi="गैलरी">
         Gallery
       </a>
 
-      <a href="members.html">
+      <a href="members.html"
+         data-lang-en="Members"
+         data-lang-or="ସଦସ୍ୟ"
+         data-lang-hi="सदस्य">
         Members
       </a>
 
-      <a href="contact.html">
+      <a href="contact.html"
+         data-lang-en="Contact"
+         data-lang-or="ଯୋଗାଯୋଗ"
+         data-lang-hi="संपर्क">
         Contact
       </a>
 
@@ -532,21 +690,24 @@
 </header>
 
 
-<!-- =========================================================
-     HERO
-========================================================= -->
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
   <div>
 
-    <h2>
+    <h2
+      data-lang-en="Photo Gallery"
+      data-lang-or="ଫଟୋ ଗ୍ୟାଲେରୀ"
+      data-lang-hi="फोटो गैलरी">
       Photo Gallery
     </h2>
 
-    <p>
-      Maa Basuli Uda Jatra, Temple, Cultural Programme
-      ebam Committee ra official photographs.
+    <p
+      data-lang-en="Official photographs of Maa Basuli Uda Jatra, Temple, Cultural Programmes and Committee activities."
+      data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା, ମନ୍ଦିର, ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ ଓ କମିଟି କାର୍ଯ୍ୟକଳାପର ଅଧିକୃତ ଫଟୋଗୁଡ଼ିକ।"
+      data-lang-hi="माँ बासुली उड़ा यात्रा, मंदिर, सांस्कृतिक कार्यक्रम और समिति की गतिविधियों के आधिकारिक फोटो।">
+      Official photographs of Maa Basuli Uda Jatra, Temple, Cultural Programmes and Committee activities.
     </p>
 
   </div>
@@ -554,27 +715,29 @@
 </section>
 
 
-<!-- =========================================================
-     MAIN
-========================================================= -->
+<!-- ================= MAIN ================= -->
 
 <main class="container">
 
-
   <div id="errorBox"></div>
 
-
-  <!-- =======================================================
-       ALBUM LIST
-  ======================================================== -->
+  <!-- ================= ALBUM LIST ================= -->
 
   <section id="albumSection">
 
-    <h2 class="section-title">
+    <h2
+      class="section-title"
+      data-lang-en="Gallery Albums"
+      data-lang-or="ଗ୍ୟାଲେରୀ ଆଲବମ୍"
+      data-lang-hi="गैलरी एल्बम">
       Gallery Albums
     </h2>
 
-    <p class="section-subtitle">
+    <p
+      class="section-subtitle"
+      data-lang-en="Browse our latest Jatra, Temple and Cultural Programme photographs."
+      data-lang-or="ଆମର ସାମ୍ପ୍ରତିକ ଯାତ୍ରା, ମନ୍ଦିର ଓ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମର ଫଟୋଗୁଡ଼ିକ ଦେଖନ୍ତୁ।"
+      data-lang-hi="हमारी नवीनतम यात्रा, मंदिर और सांस्कृतिक कार्यक्रमों की तस्वीरें देखें।">
       Browse our latest Jatra, Temple and Cultural Programme photographs.
     </p>
 
@@ -587,12 +750,18 @@
         type="search"
         id="searchInput"
         placeholder="Search album..."
+        data-placeholder-en="Search album..."
+        data-placeholder-or="ଆଲବମ୍ ଖୋଜନ୍ତୁ..."
+        data-placeholder-hi="एल्बम खोजें..."
       >
-
 
       <select id="yearFilter">
 
-        <option value="">
+        <option
+          value=""
+          data-lang-en="All Years"
+          data-lang-or="ସମସ୍ତ ବର୍ଷ"
+          data-lang-hi="ସମସ୍ତ ବର୍ଷ">
           All Years
         </option>
 
@@ -601,31 +770,59 @@
 
       <select id="categoryFilter">
 
-        <option value="">
+        <option
+          value=""
+          data-lang-en="All Categories"
+          data-lang-or="ସମସ୍ତ ବର୍ଗ"
+          data-lang-hi="सभी श्रेणियाँ">
           All Categories
         </option>
 
-        <option value="Jatra">
+        <option
+          value="Jatra"
+          data-lang-en="Jatra"
+          data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+          data-lang-hi="उड़ा यात्रा">
           Jatra
         </option>
 
-        <option value="Cultural">
+        <option
+          value="Cultural"
+          data-lang-en="Cultural"
+          data-lang-or="ସାଂସ୍କୃତିକ"
+          data-lang-hi="सांस्कृतिक">
           Cultural
         </option>
 
-        <option value="Temple">
+        <option
+          value="Temple"
+          data-lang-en="Temple"
+          data-lang-or="ମନ୍ଦିର"
+          data-lang-hi="मंदिर">
           Temple
         </option>
 
-        <option value="Committee">
+        <option
+          value="Committee"
+          data-lang-en="Committee"
+          data-lang-or="କମିଟି"
+          data-lang-hi="समिति">
           Committee
         </option>
 
-        <option value="Programme">
+        <option
+          value="Programme"
+          data-lang-en="Programme"
+          data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+          data-lang-hi="कार्यक्रम">
           Programme
         </option>
 
-        <option value="Other">
+        <option
+          value="Other"
+          data-lang-en="Other"
+          data-lang-or="ଅନ୍ୟାନ୍ୟ"
+          data-lang-hi="अन्य">
           Other
         </option>
 
@@ -637,34 +834,35 @@
     <div
       id="albumStatus"
       class="status"
-    >
+      data-lang-en="Loading Gallery..."
+      data-lang-or="ଗ୍ୟାଲେରୀ ଲୋଡ୍ ହେଉଛି..."
+      data-lang-hi="गैलरी लोड हो रही है...">
       Loading Gallery...
     </div>
 
 
     <div
       id="albumGrid"
-      class="album-grid"
-    ></div>
+      class="album-grid">
+    </div>
 
   </section>
 
 
-  <!-- =======================================================
-       ALBUM PHOTO VIEW
-  ======================================================== -->
+  <!-- ================= ALBUM PHOTO VIEW ================= -->
 
   <section
     id="albumView"
-    class="album-view"
-  >
+    class="album-view">
 
     <div class="album-view-header">
 
       <button
         class="back-btn"
         onclick="showAlbums()"
-      >
+        data-lang-en="← Back to Albums"
+        data-lang-or="← ଆଲବମ୍‌କୁ ଫେରନ୍ତୁ"
+        data-lang-hi="← एल्बम पर वापस जाएँ">
         ← Back to Albums
       </button>
 
@@ -677,8 +875,8 @@
       <div
         id="viewAlbumMeta"
         class="album-meta"
-        style="margin-top:12px;"
-      ></div>
+        style="margin-top:12px;">
+      </div>
 
     </div>
 
@@ -686,44 +884,40 @@
     <div
       id="photoStatus"
       class="status"
-    >
+      data-lang-en="Loading Photos..."
+      data-lang-or="ଫଟୋ ଲୋଡ୍ ହେଉଛି..."
+      data-lang-hi="फोटो लोड हो रहे हैं...">
       Loading Photos...
     </div>
 
 
     <div
       id="photoGrid"
-      class="photo-grid"
-    ></div>
+      class="photo-grid">
+    </div>
 
   </section>
-
 
 </main>
 
 
-<!-- =========================================================
-     PHOTO MODAL
-========================================================= -->
+<!-- ================= PHOTO MODAL ================= -->
 
 <div
   id="photoModal"
   class="modal"
-  onclick="closePhotoModal()"
->
+  onclick="closePhotoModal()">
 
   <span
     class="modal-close"
-    onclick="closePhotoModal()"
-  >
+    onclick="closePhotoModal()">
     ×
   </span>
 
 
   <div
     class="modal-content"
-    onclick="event.stopPropagation()"
-  >
+    onclick="event.stopPropagation()">
 
     <img
       id="modalImage"
@@ -734,8 +928,8 @@
 
     <div
       id="modalTitle"
-      class="modal-title"
-    ></div>
+      class="modal-title">
+    </div>
 
 
     <a
@@ -744,7 +938,9 @@
       href="#"
       download
       target="_blank"
-    >
+      data-lang-en="⬇️ Download Photo"
+      data-lang-or="⬇️ ଫଟୋ ଡାଉନଲୋଡ୍ କରନ୍ତୁ"
+      data-lang-hi="⬇️ फोटो डाउनलोड करें">
       ⬇️ Download Photo
     </a>
 
@@ -753,18 +949,28 @@
 </div>
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
+<!-- ================= FOOTER ================= -->
 
-<footer>
+<footer class="footer">
 
   <p>
     © <span id="currentYear"></span>
-    Maa Basuli Uda Jatra Committee, Thakurmunda
+    <span id="footerSiteName">
+      Maa Basuli Uda Jatra Committee
+    </span>,
+    <span
+      data-lang-en="Thakurmunda"
+      data-lang-or="ଠାକୁରମୁଣ୍ଡା"
+      data-lang-hi="ठाकुरमुंडा">
+      Thakurmunda
+    </span>
   </p>
 
-  <p>
+  <p
+    style="margin-top:8px;"
+    data-lang-en="Official Committee Website"
+    data-lang-or="ଅଧିକୃତ କମିଟି ୱେବସାଇଟ୍"
+    data-lang-hi="अधिकृत समिति वेबसाइट">
     Official Committee Website
   </p>
 
@@ -773,9 +979,9 @@
 
 <script>
 
-/* =========================================================
+/* =====================================================
    SUPABASE CONFIG
-========================================================= */
+===================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
@@ -791,54 +997,223 @@ const supabaseClient =
   );
 
 
-/* =========================================================
+/* =====================================================
    GLOBAL DATA
-========================================================= */
+===================================================== */
 
 let albums = [];
-
 let currentAlbum = null;
 
 
-/* =========================================================
+/* =====================================================
    HTML ESCAPE
-========================================================= */
+===================================================== */
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
-  if (
+  if(
     value === null ||
     value === undefined
-  ) {
+  ){
     return "";
   }
 
   return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================================================
-   LOAD ALBUMS
-========================================================= */
+/* =====================================================
+   WEBSITE BRANDING
+===================================================== */
 
-async function loadAlbums() {
+async function loadWebsiteBranding(){
+
+  try{
+
+    const {
+      data,
+      error
+    } = await supabaseClient
+      .from("website_settings")
+      .select("site_name,logo_url,address")
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(!error && data){
+
+      const siteName =
+        data.site_name ||
+        "Maa Basuli Uda Jatra Committee";
+
+      const address =
+        data.address ||
+        "Thakurmunda, Mayurbhanj, Odisha";
+
+      document.getElementById(
+        "siteName"
+      ).textContent =
+        siteName;
+
+      document.getElementById(
+        "footerSiteName"
+      ).textContent =
+        siteName;
+
+      document.getElementById(
+        "siteAddress"
+      ).textContent =
+        address;
+
+      if(data.logo_url){
+
+        const logo =
+          document.getElementById(
+            "siteLogo"
+          );
+
+        logo.src =
+          data.logo_url;
+
+        logo.style.display =
+          "block";
+
+      }
+
+      document.title =
+        "Gallery | " +
+        siteName;
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Website branding error:",
+      error
+    );
+
+  }
+
+
+  try{
+
+    const {
+      data
+    } = await supabaseClient
+      .from("website_settings")
+      .select(
+        "maa_basuli_url,temple_url,group_photo_url"
+      )
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(data){
+
+      if(data.maa_basuli_url){
+
+        const img =
+          document.getElementById(
+            "maaBasuliPhoto"
+          );
+
+        img.src =
+          data.maa_basuli_url;
+
+        img.style.display =
+          "block";
+
+      }
+
+      if(data.temple_url){
+
+        const img =
+          document.getElementById(
+            "templePhoto"
+          );
+
+        img.src =
+          data.temple_url;
+
+        img.style.display =
+          "block";
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Optional branding images not available."
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LANGUAGE HELPERS
+===================================================== */
+
+function getCurrentSiteLanguage(){
+
+  return localStorage.getItem(
+    "maaBasuliLanguage"
+  ) || "en";
+
+}
+
+
+function applyCurrentPageLanguage(){
+
+  const lang =
+    getCurrentSiteLanguage();
+
+  if(
+    typeof window.setSiteLanguage ===
+    "function"
+  ){
+
+    window.setSiteLanguage(lang);
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD ALBUMS
+===================================================== */
+
+async function loadAlbums(){
 
   const status =
     document.getElementById(
       "albumStatus"
     );
 
-  status.textContent =
-    "Loading Gallery...";
+  status.innerHTML = `
+    <span
+      data-lang-en="Loading Gallery..."
+      data-lang-or="ଗ୍ୟାଲେରୀ ଲୋଡ୍ ହେଉଛି..."
+      data-lang-hi="गैलरी लोड हो रही है...">
+      Loading Gallery...
+    </span>
+  `;
+
+  applyCurrentPageLanguage();
 
 
-  try {
+  try{
 
     const {
       data,
@@ -855,35 +1230,44 @@ async function loadAlbums() {
         is_published,
         created_at
       `)
-      .eq("is_published", true)
-      .order("year", {
-        ascending: false
-      })
-      .order("created_at", {
-        ascending: false
-      });
+      .eq(
+        "is_published",
+        true
+      )
+      .order(
+        "year",
+        {
+          ascending:false
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
 
 
-    if (error) {
+    if(error){
       throw error;
     }
 
 
-    albums = data || [];
+    albums =
+      data || [];
 
 
     populateYearFilter();
-
     renderAlbums();
 
+  }
 
-  } catch (error) {
+  catch(error){
 
     console.error(
       "Gallery album error:",
       error
     );
-
 
     document.getElementById(
       "albumGrid"
@@ -891,22 +1275,38 @@ async function loadAlbums() {
 
 
     status.innerHTML = `
+
       <div class="error">
-        Gallery load heiparilani.<br><br>
-        ${escapeHtml(error.message)}
+
+        <strong
+          data-lang-en="Gallery could not be loaded."
+          data-lang-or="ଗ୍ୟାଲେରୀ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
+          data-lang-hi="गैलरी लोड नहीं हो सकी।">
+          Gallery could not be loaded.
+        </strong>
+
+        <br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>
+
     `;
+
+    applyCurrentPageLanguage();
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    YEAR FILTER
-========================================================= */
+===================================================== */
 
-function populateYearFilter() {
+function populateYearFilter(){
 
   const select =
     document.getElementById(
@@ -917,22 +1317,32 @@ function populateYearFilter() {
   const years = [
     ...new Set(
       albums
-        .map(album => album.year)
-        .filter(year => year)
+        .map(
+          album => album.year
+        )
+        .filter(
+          year => year
+        )
     )
   ];
 
 
   years.sort(
-    (a, b) =>
-      Number(b) - Number(a)
+    (a,b) =>
+      Number(b)-Number(a)
   );
 
 
   select.innerHTML = `
-    <option value="">
+
+    <option
+      value=""
+      data-lang-en="All Years"
+      data-lang-or="ସମସ୍ତ ବର୍ଷ"
+      data-lang-hi="सभी वर्ष">
       All Years
     </option>
+
   `;
 
 
@@ -943,22 +1353,101 @@ function populateYearFilter() {
         "option"
       );
 
-    option.value = year;
+    option.value =
+      year;
 
-    option.textContent = year;
+    option.textContent =
+      year;
 
-    select.appendChild(option);
+    select.appendChild(
+      option
+    );
 
   });
+
+
+  applyCurrentPageLanguage();
 
 }
 
 
-/* =========================================================
-   RENDER ALBUMS
-========================================================= */
+/* =====================================================
+   CATEGORY TRANSLATION
+===================================================== */
 
-function renderAlbums() {
+function getTranslatedCategory(category){
+
+  const translations = {
+
+    Jatra:{
+      en:"Jatra",
+      or:"ଉଡ଼ା ଯାତ୍ରା",
+      hi:"उड़ा यात्रा"
+    },
+
+    Cultural:{
+      en:"Cultural",
+      or:"ସାଂସ୍କୃତିକ",
+      hi:"सांस्कृतिक"
+    },
+
+    Temple:{
+      en:"Temple",
+      or:"ମନ୍ଦିର",
+      hi:"मंदिर"
+    },
+
+    Committee:{
+      en:"Committee",
+      or:"କମିଟି",
+      hi:"समिति"
+    },
+
+    Programme:{
+      en:"Programme",
+      or:"କାର୍ଯ୍ୟକ୍ରମ",
+      hi:"कार्यक्रम"
+    },
+
+    Other:{
+      en:"Other",
+      or:"ଅନ୍ୟାନ୍ୟ",
+      hi:"अन्य"
+    }
+
+  };
+
+
+  const item =
+    translations[category];
+
+  if(!item){
+    return category || "";
+  }
+
+
+  const lang =
+    getCurrentSiteLanguage();
+
+
+  if(lang === "or"){
+    return item.or;
+  }
+
+  if(lang === "hi"){
+    return item.hi;
+  }
+
+  return item.en;
+
+}
+
+
+/* =====================================================
+   RENDER ALBUMS
+===================================================== */
+
+function renderAlbums(){
 
   const grid =
     document.getElementById(
@@ -996,13 +1485,17 @@ function renderAlbums() {
 
       const matchesSearch =
         !search ||
+
         String(
-          album.album_name || ""
+          album.album_name ||
+          ""
         )
           .toLowerCase()
           .includes(search) ||
+
         String(
-          album.description || ""
+          album.description ||
+          ""
         )
           .toLowerCase()
           .includes(search);
@@ -1010,14 +1503,16 @@ function renderAlbums() {
 
       const matchesYear =
         !year ||
-        String(album.year) ===
-          String(year);
+        String(
+          album.year
+        ) ===
+        String(year);
 
 
       const matchesCategory =
         !category ||
         album.category ===
-          category;
+        category;
 
 
       return (
@@ -1032,25 +1527,35 @@ function renderAlbums() {
   grid.innerHTML = "";
 
 
-  if (!filtered.length) {
+  if(!filtered.length){
 
     status.style.display =
       "block";
 
-
     status.innerHTML = `
+
       <div class="empty">
 
-        <h3 style="margin-bottom:8px;">
+        <h3
+          style="margin-bottom:8px;"
+          data-lang-en="No Gallery Albums Found"
+          data-lang-or="କୌଣସି ଗ୍ୟାଲେରୀ ଆଲବମ୍ ମିଳିଲା ନାହିଁ"
+          data-lang-hi="कोई गैलरी एल्बम नहीं मिला">
           No Gallery Albums Found
         </h3>
 
-        <p>
-          Ei filter re ebe kona album available nahin.
+        <p
+          data-lang-en="No album is currently available for this filter."
+          data-lang-or="ଏହି ଫିଲ୍ଟର ପାଇଁ ବର୍ତ୍ତମାନ କୌଣସି ଆଲବମ୍ ଉପଲବ୍ଧ ନାହିଁ।"
+          data-lang-hi="इस फ़िल्टर के लिए अभी कोई एल्बम उपलब्ध नहीं है।">
+          No album is currently available for this filter.
         </p>
 
       </div>
+
     `;
+
+    applyCurrentPageLanguage();
 
     return;
 
@@ -1068,14 +1573,15 @@ function renderAlbums() {
         "div"
       );
 
-
     card.className =
       "album-card";
 
 
     const cover =
       album.cover_photo_url
+
         ? `
+
           <img
             class="album-cover"
             src="${escapeHtml(
@@ -1086,11 +1592,17 @@ function renderAlbums() {
             )}"
             loading="lazy"
           >
+
         `
+
         : `
-          <div class="album-cover-placeholder">
+
+          <div
+            class="album-cover-placeholder"
+            aria-label="Gallery placeholder">
             🖼️
           </div>
+
         `;
 
 
@@ -1117,7 +1629,9 @@ function renderAlbums() {
 
           <span class="badge">
             ${escapeHtml(
-              album.category
+              getTranslatedCategory(
+                album.category
+              )
             )}
           </span>
 
@@ -1129,7 +1643,13 @@ function renderAlbums() {
           ${
             escapeHtml(
               album.description ||
-              "View album photos"
+              (
+                getCurrentSiteLanguage() === "or"
+                  ? "ଆଲବମ୍ ଫଟୋଗୁଡ଼ିକ ଦେଖନ୍ତୁ"
+                  : getCurrentSiteLanguage() === "hi"
+                    ? "एल्बम की तस्वीरें देखें"
+                    : "View album photos"
+              )
             )
           }
 
@@ -1146,20 +1666,23 @@ function renderAlbums() {
     );
 
 
-    grid.appendChild(card);
+    grid.appendChild(
+      card
+    );
 
   });
 
 }
 
 
-/* =========================================================
+/* =====================================================
    OPEN ALBUM
-========================================================= */
+===================================================== */
 
-async function openAlbum(album) {
+async function openAlbum(album){
 
-  currentAlbum = album;
+  currentAlbum =
+    album;
 
 
   document.getElementById(
@@ -1183,7 +1706,8 @@ async function openAlbum(album) {
   document.getElementById(
     "viewAlbumDescription"
   ).textContent =
-    album.description || "";
+    album.description ||
+    "";
 
 
   document.getElementById(
@@ -1198,7 +1722,9 @@ async function openAlbum(album) {
 
     <span class="badge">
       ${escapeHtml(
-        album.category
+        getTranslatedCategory(
+          album.category
+        )
       )}
     </span>
 
@@ -1206,8 +1732,8 @@ async function openAlbum(album) {
 
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 
 
@@ -1218,19 +1744,18 @@ async function openAlbum(album) {
 }
 
 
-/* =========================================================
+/* =====================================================
    LOAD PHOTOS
-========================================================= */
+===================================================== */
 
 async function loadPhotos(
   albumId
-) {
+){
 
   const status =
     document.getElementById(
       "photoStatus"
     );
-
 
   const grid =
     document.getElementById(
@@ -1238,18 +1763,25 @@ async function loadPhotos(
     );
 
 
-  status.style.display =
-    "block";
+  status.innerHTML = `
+
+    <span
+      data-lang-en="Loading Photos..."
+      data-lang-or="ଫଟୋ ଲୋଡ୍ ହେଉଛି..."
+      data-lang-hi="फोटो लोड हो रहे हैं...">
+      Loading Photos...
+    </span>
+
+  `;
+
+  applyCurrentPageLanguage();
 
 
-  status.textContent =
-    "Loading Photos...";
+  grid.innerHTML =
+    "";
 
 
-  grid.innerHTML = "";
-
-
-  try {
+  try{
 
     const {
       data,
@@ -1265,17 +1797,29 @@ async function loadPhotos(
         is_published,
         created_at
       `)
-      .eq("album_id", albumId)
-      .eq("is_published", true)
-      .order("display_order", {
-        ascending: true
-      })
-      .order("created_at", {
-        ascending: true
-      });
+      .eq(
+        "album_id",
+        albumId
+      )
+      .eq(
+        "is_published",
+        true
+      )
+      .order(
+        "display_order",
+        {
+          ascending:true
+        }
+      )
+      .order(
+        "created_at",
+        {
+          ascending:true
+        }
+      );
 
 
-    if (error) {
+    if(error){
       throw error;
     }
 
@@ -1284,21 +1828,32 @@ async function loadPhotos(
       data || [];
 
 
-    if (!photos.length) {
+    if(!photos.length){
 
       status.innerHTML = `
+
         <div class="empty">
 
-          <h3 style="margin-bottom:8px;">
+          <h3
+            style="margin-bottom:8px;"
+            data-lang-en="No Photos Yet"
+            data-lang-or="ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଫଟୋ ନାହିଁ"
+            data-lang-hi="अभी तक कोई फोटो नहीं है">
             No Photos Yet
           </h3>
 
-          <p>
-            Ehi album re ebe photo upload heini.
+          <p
+            data-lang-en="No photo has been uploaded to this album yet."
+            data-lang-or="ଏହି ଆଲବମ୍‌ରେ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଫଟୋ ଅପଲୋଡ୍ ହୋଇନାହିଁ।"
+            data-lang-hi="इस एल्बम में अभी तक कोई फोटो अपलोड नहीं किया गया है।">
+            No photo has been uploaded to this album yet.
           </p>
 
         </div>
+
       `;
+
+      applyCurrentPageLanguage();
 
       return;
 
@@ -1338,7 +1893,13 @@ async function loadPhotos(
 
           ${escapeHtml(
             photo.photo_title ||
-            "Maa Basuli Uda Jatra"
+            (
+              getCurrentSiteLanguage() === "or"
+                ? "ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା"
+                : getCurrentSiteLanguage() === "hi"
+                  ? "माँ बासुली उड़ा यात्रा"
+                  : "Maa Basuli Uda Jatra"
+            )
           )}
 
         </div>
@@ -1352,12 +1913,15 @@ async function loadPhotos(
       );
 
 
-      grid.appendChild(card);
+      grid.appendChild(
+        card
+      );
 
     });
 
+  }
 
-  } catch (error) {
+  catch(error){
 
     console.error(
       "Gallery photo error:",
@@ -1366,27 +1930,38 @@ async function loadPhotos(
 
 
     status.innerHTML = `
+
       <div class="error">
 
-        Photos load heiparilani.<br><br>
+        <strong
+          data-lang-en="Photos could not be loaded."
+          data-lang-or="ଫଟୋ ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
+          data-lang-hi="फोटो लोड नहीं हो सके।">
+          Photos could not be loaded.
+        </strong>
+
+        <br><br>
 
         ${escapeHtml(
           error.message
         )}
 
       </div>
+
     `;
+
+    applyCurrentPageLanguage();
 
   }
 
 }
 
 
-/* =========================================================
+/* =====================================================
    BACK TO ALBUMS
-========================================================= */
+===================================================== */
 
-function showAlbums() {
+function showAlbums(){
 
   document.getElementById(
     "albumView"
@@ -1401,30 +1976,28 @@ function showAlbums() {
 
 
   window.scrollTo({
-    top: 0,
-    behavior: "smooth"
+    top:0,
+    behavior:"smooth"
   });
 
 }
 
 
-/* =========================================================
+/* =====================================================
    OPEN PHOTO MODAL
-========================================================= */
+===================================================== */
 
-function openPhotoModal(photo) {
+function openPhotoModal(photo){
 
   const image =
     document.getElementById(
       "modalImage"
     );
 
-
   const title =
     document.getElementById(
       "modalTitle"
     );
-
 
   const downloadBtn =
     document.getElementById(
@@ -1438,16 +2011,18 @@ function openPhotoModal(photo) {
 
   title.textContent =
     photo.photo_title ||
-    "Maa Basuli Uda Jatra";
+    (
+      getCurrentSiteLanguage() === "or"
+        ? "ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା"
+        : getCurrentSiteLanguage() === "hi"
+          ? "माँ बासुली उड़ा यात्रा"
+          : "Maa Basuli Uda Jatra"
+    );
 
 
   downloadBtn.href =
     photo.photo_url;
 
-
-  /*
-    Download filename
-  */
 
   const cleanTitle =
     (
@@ -1461,7 +2036,8 @@ function openPhotoModal(photo) {
 
 
   downloadBtn.download =
-    cleanTitle + ".jpg";
+    cleanTitle +
+    ".jpg";
 
 
   document.getElementById(
@@ -1472,11 +2048,11 @@ function openPhotoModal(photo) {
 }
 
 
-/* =========================================================
+/* =====================================================
    CLOSE PHOTO MODAL
-========================================================= */
+===================================================== */
 
-function closePhotoModal() {
+function closePhotoModal(){
 
   document.getElementById(
     "photoModal"
@@ -1486,14 +2062,15 @@ function closePhotoModal() {
 
   document.getElementById(
     "modalImage"
-  ).src = "";
+  ).src =
+    "";
 
 }
 
 
-/* =========================================================
+/* =====================================================
    FILTER EVENTS
-========================================================= */
+===================================================== */
 
 document
   .getElementById(
@@ -1525,19 +2102,45 @@ document
   );
 
 
-/* =========================================================
-   ESC KEY
-========================================================= */
+/* =====================================================
+   LANGUAGE CHANGE SUPPORT
+===================================================== */
 
-document.addEventListener(
-  "keydown",
-  function(event) {
+window.addEventListener(
+  "storage",
+  function(event){
 
-    if (
-      event.key === "Escape"
-    ) {
+    if(
+      event.key ===
+      "maaBasuliLanguage"
+    ){
 
-      closePhotoModal();
+      populateYearFilter();
+      renderAlbums();
+
+      if(currentAlbum){
+
+        document.getElementById(
+          "viewAlbumMeta"
+        ).innerHTML = `
+
+          <span class="badge">
+            ${escapeHtml(
+              currentAlbum.year
+            )}
+          </span>
+
+          <span class="badge">
+            ${escapeHtml(
+              getTranslatedCategory(
+                currentAlbum.category
+              )
+            )}
+          </span>
+
+        `;
+
+      }
 
     }
 
@@ -1545,9 +2148,9 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    CURRENT YEAR
-========================================================= */
+===================================================== */
 
 document.getElementById(
   "currentYear"
@@ -1555,13 +2158,18 @@ document.getElementById(
   new Date().getFullYear();
 
 
-/* =========================================================
+/* =====================================================
    START
-========================================================= */
+===================================================== */
 
+loadWebsiteBranding();
 loadAlbums();
 
 </script>
+
+
+<!-- COMMON WEBSITE LANGUAGE SYSTEM -->
+<script src="language.js"></script>
 
 </body>
 </html>
