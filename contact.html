@@ -499,6 +499,69 @@ footer a{
     grid-template-columns:1fr;
   }
 }
+
+
+/* COMMITTEE OFFICE BEARERS */
+.office-bearers{
+  padding:55px 0;
+  background:#fffaf4;
+}
+.office-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-top:28px;
+}
+.office-card{
+  background:#fff;
+  border:1px solid #ead7c4;
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 5px 16px rgba(90,35,15,.08);
+}
+.office-photo{
+  width:105px;
+  height:105px;
+  border-radius:50%;
+  object-fit:cover;
+  border:4px solid #f0c36a;
+  background:#f5eee6;
+  margin:0 auto 12px;
+  display:block;
+}
+.office-card h3{
+  margin:6px 0 5px;
+  color:#6b1f1f;
+  font-size:18px;
+}
+.office-card .office-designation{
+  display:inline-block;
+  font-weight:700;
+  color:#a34b17;
+  margin-bottom:10px;
+}
+.office-card .office-mobile{
+  margin:0;
+  color:#333;
+  font-weight:600;
+}
+.office-card .office-mobile a{
+  color:#333;
+  text-decoration:none;
+}
+.office-empty{
+  text-align:center;
+  color:#777;
+  padding:20px;
+}
+@media(max-width:950px){
+  .office-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:650px){
+  .office-grid{grid-template-columns:1fr;}
+}
+
 </style>
 </head>
 
@@ -672,6 +735,7 @@ footer a{
             </h4>
 
             <a
+              id="officialEmail"
               href="mailto:maabasuliudajatracommittee@gmail.com"
             >
               maabasuliudajatracommittee@gmail.com
@@ -694,9 +758,8 @@ footer a{
               Official Phone
             </h4>
 
-            <p>
-              Official contact number will be published
-              by the Super Admin.
+            <p id="officialPhone">
+              Official contact number will be published by the Super Admin.
             </p>
 
           </div>
@@ -836,6 +899,28 @@ footer a{
 
       </div>
 
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+<!-- COMMITTEE OFFICE BEARERS -->
+
+<section class="office-bearers" id="officeBearersSection">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Committee Office Bearers</h2>
+      <p>Approved and active committee office bearers</p>
+    </div>
+
+    <div id="officeBearersGrid" class="office-grid">
+      <div class="office-empty">Loading office bearers...</div>
     </div>
 
   </div>
@@ -1144,6 +1229,13 @@ footer a{
 
 <script>
 
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
 /* MOBILE MENU */
 
 function toggleMenu(){
@@ -1155,6 +1247,120 @@ function toggleMenu(){
 
 }
 
+
+
+/* =====================================================
+   DYNAMIC OFFICIAL CONTACT + OFFICE BEARERS
+   ===================================================== */
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function firstValue(data, keys){
+  for(const key of keys){
+    if(data && data[key] != null && String(data[key]).trim() !== ""){
+      return String(data[key]).trim();
+    }
+  }
+  return "";
+}
+
+async function loadOfficialContact(){
+  try{
+    const {data, error} = await supabaseClient
+      .from("website_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
+
+    if(error || !data) return;
+
+    const phone = firstValue(data,["phone","mobile","contact_phone"]);
+    const email = firstValue(data,["email","contact_email","official_email"]);
+
+    const phoneEl = document.getElementById("officialPhone");
+    if(phoneEl && phone){
+      phoneEl.innerHTML = `<a href="tel:${escapeHtml(phone)}">📞 +91 ${escapeHtml(phone)}</a>`;
+    }
+
+    const emailEl = document.getElementById("officialEmail");
+    if(emailEl && email){
+      emailEl.textContent = email;
+      emailEl.href = "mailto:" + email;
+    }
+  }catch(err){
+    console.warn("Official contact load failed", err);
+  }
+}
+
+async function loadOfficeBearers(){
+  const grid = document.getElementById("officeBearersGrid");
+  if(!grid) return;
+
+  try{
+    const {data, error} = await supabaseClient.rpc("get_public_members");
+
+    if(error){
+      console.warn("Office bearer load failed", error);
+      grid.innerHTML = "";
+      return;
+    }
+
+    const members = Array.isArray(data) ? data : [];
+    const roles = [
+      "President",
+      "Secretary",
+      "Vice Secretary",
+      "Treasurer"
+    ];
+
+    const officeBearers = roles.map(role =>
+      members.find(m =>
+        String(m.designation || "").trim().toLowerCase() === role.toLowerCase()
+      )
+    ).filter(Boolean);
+
+    if(officeBearers.length === 0){
+      grid.innerHTML = "";
+      return;
+    }
+
+    grid.innerHTML = officeBearers.map(member => {
+      const photo = firstValue(member,[
+        "profile_photo_url",
+        "photo_url",
+        "profile_photo"
+      ]);
+
+      const safePhoto = photo || "https://via.placeholder.com/210?text=Photo";
+      const name = escapeHtml(member.full_name || member.name || "");
+      const designation = escapeHtml(member.designation || "");
+      const mobile = escapeHtml(member.mobile || member.phone || "");
+
+      return `
+        <div class="office-card">
+          <img class="office-photo" src="${safePhoto}" alt="${name}">
+          <h3>${name}</h3>
+          <div class="office-designation">${designation}</div>
+          ${mobile ? `<p class="office-mobile">📱 <a href="tel:${mobile}">${mobile}</a></p>` : ""}
+        </div>
+      `;
+    }).join("");
+
+  }catch(err){
+    console.warn("Office bearer load failed", err);
+    grid.innerHTML = "";
+  }
+}
+
+loadOfficialContact();
+loadOfficeBearers();
 
 /* CONTACT FORM — TEMPORARY FRONTEND MODE */
 
