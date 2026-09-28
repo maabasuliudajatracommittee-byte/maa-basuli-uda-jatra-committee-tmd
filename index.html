@@ -172,6 +172,7 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
   content:"📢";
   margin-right:9px;
 }
+.notice-ad-item a{display:inline-flex;align-items:center;min-height:48px;cursor:pointer;pointer-events:auto}
 .notice-ad-item a{
   color:#fff;
   text-decoration:none;
@@ -574,7 +575,12 @@ async function loadHomepageNotices(){
       const href = n.pdf_url ? String(n.pdf_url).trim() : "notices.html";
 
       return `<div class="notice-ad-item">
-        <a href="${escapeHtml(href)}" target="${n.pdf_url ? "_blank" : "_self"}">
+        <a
+          href="${escapeHtml(href)}"
+          target="${n.pdf_url ? "_blank" : "_self"}"
+          rel="noopener noreferrer"
+          onclick="event.stopPropagation();"
+        >
           ${title}${type}${date}
         </a>
       </div>`;
