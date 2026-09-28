@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -11,11 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4"></script>
 
 <style>
-
-/* =========================================================
-   GLOBAL
-========================================================= */
-
 *{
   box-sizing:border-box;
   margin:0;
@@ -26,52 +20,123 @@ body{
   font-family:Arial,Helvetica,sans-serif;
   background:#f6f7f9;
   color:#333;
+  line-height:1.6;
 }
 
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
-/* =========================================================
+.container{
+  width:min(1000px,92%);
+  margin:auto;
+}
+
+/* =====================================================
    HEADER
-========================================================= */
+   ===================================================== */
 
 header{
-  background:linear-gradient(135deg,#7b1e00,#a63d00);
+  background:linear-gradient(135deg,#7c2d12,#b45309);
   color:#fff;
-  padding:18px 20px;
-  box-shadow:0 3px 15px rgba(0,0,0,.15);
+  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
 .header-inner{
-  max-width:1200px;
-  margin:auto;
+  min-height:76px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  gap:20px;
+  justify-content:space-between;
+  gap:14px;
 }
 
-.brand h1{
-  font-size:23px;
-  margin-bottom:5px;
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
 }
 
-.brand p{
-  font-size:13px;
-  opacity:.9;
+.site-logo{
+  width:54px;
+  height:54px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.9);
+  background:#fff;
+  display:none;
+  flex-shrink:0;
+}
+
+.brand-photo{
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:9px;
+  border:2px solid rgba(255,255,255,.9);
+  background:#fff;
+  display:none;
+  flex-shrink:0;
+}
+
+.logo-fallback{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  flex-shrink:0;
+}
+
+.brand-text h1{
+  font-size:17px;
+  line-height:1.2;
+  color:#fff;
+}
+
+.brand-text p{
+  font-size:11px;
+  color:#ffe9cf;
+  margin-top:2px;
+}
+
+.header-right{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+#language-switcher{
+  display:flex;
+  align-items:center;
+}
+
+#maa-language-switcher{
+  position:static !important;
+  display:inline-flex !important;
 }
 
 nav{
   display:flex;
+  gap:3px;
   flex-wrap:wrap;
-  gap:7px;
   justify-content:flex-end;
 }
 
 nav a{
-  color:#fff;
-  text-decoration:none;
-  padding:8px 11px;
+  padding:7px 8px;
   border-radius:7px;
-  font-size:13px;
+  font-size:11px;
+  font-weight:bold;
+  color:#fff;
 }
 
 nav a:hover,
@@ -79,654 +144,498 @@ nav a.active{
   background:rgba(255,255,255,.18);
 }
 
+.menu-btn{
+  display:none;
+  border:0;
+  background:rgba(255,255,255,.15);
+  color:#fff;
+  padding:8px 11px;
+  border-radius:7px;
+  font-size:19px;
+  cursor:pointer;
+}
 
-/* =========================================================
+/* =====================================================
    HERO
-========================================================= */
+   ===================================================== */
 
 .hero{
   background:
-    linear-gradient(
-      rgba(60,20,0,.68),
-      rgba(60,20,0,.68)
-    ),
-    url("maa-basuli-logo.png.jpeg") center/cover;
-
-  min-height:270px;
-
+    linear-gradient(rgba(75,18,10,.84),rgba(75,18,10,.84)),
+    linear-gradient(135deg,#7b1e1e,#b45309);
+  min-height:245px;
   display:flex;
   align-items:center;
   justify-content:center;
-
   text-align:center;
   color:#fff;
-
-  padding:40px 20px;
+  padding:42px 20px;
 }
 
 .hero h2{
-  font-size:42px;
-  margin-bottom:12px;
+  font-size:38px;
+  margin-bottom:10px;
 }
 
 .hero p{
-  max-width:700px;
+  max-width:720px;
   margin:auto;
-  font-size:17px;
-  line-height:1.6;
+  font-size:15px;
+  line-height:1.7;
 }
 
-
-/* =========================================================
+/* =====================================================
    MAIN
-========================================================= */
+   ===================================================== */
 
-.container{
-  max-width:900px;
-  margin:40px auto;
-  padding:0 20px;
+.main-container{
+  width:min(900px,92%);
+  margin:42px auto 60px;
 }
 
 .page-title{
   text-align:center;
-  color:#7b1e00;
+  color:#7b1e1e;
   font-size:30px;
-  margin-bottom:8px;
+  margin-bottom:7px;
 }
 
 .page-subtitle{
   text-align:center;
   color:#777;
-  margin-bottom:30px;
+  margin-bottom:28px;
   line-height:1.6;
+  font-size:14px;
 }
 
-
-/* =========================================================
-   INFO BOX
-========================================================= */
+/* INFO */
 
 .info-box{
   background:#fff8ed;
   border:1px solid #f0d3a5;
   color:#684313;
-
   border-radius:12px;
-
   padding:16px 18px;
-
   margin-bottom:20px;
-
   line-height:1.6;
-
   font-size:14px;
 }
 
 .info-box strong{
-  color:#7b1e00;
+  color:#7b1e1e;
 }
 
-
-/* =========================================================
-   CHECK STATUS BOX
-========================================================= */
+/* STATUS CHECK */
 
 .status-check-box{
-
-  background:#ffffff;
-
-  border:2px solid #7b1e00;
-
+  background:#fff;
+  border:2px solid #7b1e1e;
   border-radius:14px;
-
   padding:22px 18px;
-
   margin-bottom:25px;
-
   text-align:center;
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,.07);
+  box-shadow:0 5px 20px rgba(0,0,0,.07);
 }
 
 .status-check-box h3{
-
-  color:#7b1e00;
-
+  color:#7b1e1e;
   font-size:21px;
-
   margin-bottom:8px;
 }
 
 .status-check-box p{
-
   color:#666;
-
   font-size:14px;
-
   line-height:1.6;
-
   margin-bottom:16px;
 }
 
 .status-btn{
-
   display:inline-block;
-
-  background:#7b1e00;
-
+  background:#7b1e1e;
   color:#fff;
-
-  text-decoration:none;
-
   padding:12px 24px;
-
   border-radius:8px;
-
   font-size:15px;
-
   font-weight:bold;
-
   transition:.2s;
 }
 
 .status-btn:hover{
-
-  background:#a63d00;
-
+  background:#a41414;
   transform:translateY(-1px);
-
-  box-shadow:
-    0 5px 15px rgba(123,30,0,.2);
+  box-shadow:0 5px 15px rgba(123,30,30,.2);
 }
 
-
-/* =========================================================
-   FORM CARD
-========================================================= */
+/* FORM */
 
 .form-card{
-
   background:#fff;
-
   border-radius:16px;
-
   padding:30px;
-
-  box-shadow:
-    0 5px 25px rgba(0,0,0,.08);
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
 }
 
 .form-card h3{
-
-  color:#7b1e00;
-
+  color:#7b1e1e;
   font-size:22px;
-
   margin-bottom:22px;
 }
 
-
-/* =========================================================
-   FORM GROUP
-========================================================= */
-
 .form-group{
-
   margin-bottom:20px;
 }
 
 .form-group label{
-
   display:block;
-
   font-weight:bold;
-
   margin-bottom:8px;
-
   color:#444;
-
   font-size:14px;
 }
 
 .required{
-
   color:#c00000;
 }
 
 .form-group input,
 .form-group textarea{
-
   width:100%;
-
   padding:13px 14px;
-
   border:1px solid #d7d7d7;
-
   border-radius:9px;
-
   outline:none;
-
   font-family:inherit;
-
   font-size:15px;
-
   transition:.2s;
 }
 
 .form-group input:focus,
 .form-group textarea:focus{
-
   border-color:#a63d00;
-
-  box-shadow:
-    0 0 0 3px rgba(166,61,0,.08);
+  box-shadow:0 0 0 3px rgba(166,61,0,.08);
 }
 
 .form-group textarea{
-
   min-height:150px;
-
   resize:vertical;
-
   line-height:1.6;
 }
 
 .char-count{
-
   text-align:right;
-
   color:#888;
-
   font-size:12px;
-
   margin-top:5px;
 }
 
-
-/* =========================================================
-   ERROR
-========================================================= */
+/* ERROR */
 
 .error-box{
-
   display:none;
-
   background:#fff0f0;
-
   color:#a00000;
-
   border:1px solid #e1b5b5;
-
   padding:14px 16px;
-
   border-radius:9px;
-
   margin-bottom:20px;
-
   line-height:1.5;
-
   font-size:14px;
 }
 
-
-/* =========================================================
-   SUBMIT BUTTON
-========================================================= */
+/* SUBMIT */
 
 .submit-btn{
-
   width:100%;
-
   border:none;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7b1e00,
-      #a63d00
-    );
-
+  background:linear-gradient(135deg,#7b1e1e,#a63d00);
   color:#fff;
-
   padding:14px 20px;
-
   border-radius:9px;
-
   font-size:16px;
-
   font-weight:bold;
-
   cursor:pointer;
-
   transition:.2s;
 }
 
 .submit-btn:hover{
-
   transform:translateY(-1px);
-
-  box-shadow:
-    0 5px 15px rgba(123,30,0,.2);
+  box-shadow:0 5px 15px rgba(123,30,30,.2);
 }
 
 .submit-btn:disabled{
-
   opacity:.65;
-
   cursor:not-allowed;
-
   transform:none;
-
   box-shadow:none;
 }
 
-
-/* =========================================================
-   SUCCESS CARD
-========================================================= */
+/* SUCCESS */
 
 .success-card{
-
   display:none;
-
   background:#fff;
-
   border-radius:16px;
-
   padding:35px 25px;
-
-  box-shadow:
-    0 5px 25px rgba(0,0,0,.08);
-
+  box-shadow:0 5px 25px rgba(0,0,0,.08);
   text-align:center;
 }
 
 .success-icon{
-
   width:75px;
-
   height:75px;
-
   margin:0 auto 18px;
-
   border-radius:50%;
-
   background:#e8f7ed;
-
   color:#15803d;
-
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
   font-size:38px;
-
   font-weight:bold;
 }
 
 .success-card h3{
-
   color:#15803d;
-
   font-size:25px;
-
   margin-bottom:10px;
 }
 
 .success-card p{
-
   color:#666;
-
   line-height:1.6;
-
   margin-bottom:20px;
 }
 
-
-/* =========================================================
-   REFERENCE BOX
-========================================================= */
+/* REFERENCE */
 
 .reference-box{
-
   background:#fff7ed;
-
   border:2px dashed #d47b32;
-
   border-radius:12px;
-
   padding:22px 18px;
-
   margin:20px auto;
-
   max-width:550px;
 }
 
 .reference-label{
-
   font-size:13px;
-
   color:#777;
-
   margin-bottom:10px;
-
   text-transform:uppercase;
-
   letter-spacing:.6px;
-
   font-weight:bold;
 }
 
 .reference-number{
-
   font-size:30px;
-
   font-weight:bold;
-
-  color:#7b1e00;
-
+  color:#7b1e1e;
   letter-spacing:1.5px;
-
   word-break:break-word;
-
   padding:8px;
 }
 
-
-/* =========================================================
-   COPY BUTTON
-========================================================= */
-
 .copy-btn{
-
   margin-top:12px;
-
   background:#fff;
-
-  color:#7b1e00;
-
-  border:1px solid #7b1e00;
-
+  color:#7b1e1e;
+  border:1px solid #7b1e1e;
   padding:10px 17px;
-
   border-radius:7px;
-
   cursor:pointer;
-
   font-weight:bold;
 }
 
 .copy-btn:hover{
-
   background:#fff3eb;
 }
 
-
-/* =========================================================
-   SUCCESS STATUS BUTTON
-========================================================= */
-
 .success-status-btn{
-
   display:inline-block;
-
   margin-top:12px;
-
-  background:#7b1e00;
-
+  background:#7b1e1e;
   color:#fff;
-
   border:none;
-
   padding:12px 20px;
-
   border-radius:8px;
-
   text-decoration:none;
-
   font-weight:bold;
-
   cursor:pointer;
-
   transition:.2s;
 }
 
 .success-status-btn:hover{
-
-  background:#a63d00;
-
+  background:#a41414;
   transform:translateY(-1px);
 }
 
-
-/* =========================================================
-   NEW COMPLAINT BUTTON
-========================================================= */
-
 .new-btn{
-
   display:inline-block;
-
   border:none;
-
-  background:#7b1e00;
-
+  background:#7b1e1e;
   color:#fff;
-
   padding:12px 20px;
-
   border-radius:8px;
-
   font-weight:bold;
-
   cursor:pointer;
-
   margin-top:5px;
 }
 
 .new-btn:hover{
-
-  background:#a63d00;
+  background:#a41414;
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
+/* FOOTER */
 
 footer{
-
   margin-top:50px;
-
-  background:#21120d;
-
+  background:#241313;
   color:#fff;
-
-  text-align:center;
-
-  padding:28px 15px;
+  padding:38px 0 18px;
 }
 
-footer p{
+.footer-grid{
+  width:min(1100px,92%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
 
-  margin:5px 0;
+footer h3{
+  color:#ffd36b;
+  margin-bottom:9px;
+}
 
+footer p,
+footer a{
+  color:#ddd;
   font-size:13px;
-
-  opacity:.85;
 }
 
+footer a{
+  display:block;
+  margin:4px 0;
+}
 
-/* =========================================================
-   MOBILE
-========================================================= */
+.copyright{
+  width:min(1100px,92%);
+  margin:25px auto 0;
+  border-top:1px solid rgba(255,255,255,.15);
+  padding-top:14px;
+  text-align:center;
+  color:#aaa;
+  font-size:12px;
+}
 
-@media(max-width:800px){
+/* MOBILE */
 
-  .header-inner{
-
-    flex-direction:column;
-
-    align-items:center;
-  }
+@media(max-width:1100px){
 
   nav{
+    display:none;
+    position:absolute;
+    top:76px;
+    left:0;
+    right:0;
+    background:#fff;
+    padding:12px;
+    flex-direction:column;
+    box-shadow:0 5px 15px rgba(0,0,0,.12);
+  }
 
-    justify-content:center;
+  nav.show{
+    display:flex;
+  }
+
+  nav a{
+    color:#7b1e1e;
+    padding:10px 12px;
+  }
+
+  nav a:hover,
+  nav a.active{
+    background:#f5e8e8;
+  }
+
+  .menu-btn{
+    display:block;
+  }
+
+  .header-right{
+    margin-left:auto;
+  }
+}
+
+@media(max-width:700px){
+
+  .header-inner{
+    min-height:70px;
+  }
+
+  .site-logo{
+    width:48px;
+    height:48px;
+  }
+
+  .brand-photo{
+    width:42px;
+    height:42px;
+  }
+
+  .logo-fallback{
+    width:44px;
+    height:44px;
+    font-size:21px;
+  }
+
+  .brand-text h1{
+    font-size:14px;
+  }
+
+  .brand-text p{
+    font-size:9px;
+  }
+
+  .hero{
+    min-height:220px;
+    padding:38px 18px;
   }
 
   .hero h2{
-
-    font-size:32px;
-  }
-
-}
-
-
-@media(max-width:600px){
-
-  .container{
-
-    padding:0 14px;
+    font-size:31px;
   }
 
   .form-card{
-
     padding:22px 18px;
   }
 
   .page-title{
-
     font-size:25px;
   }
 
   .reference-number{
-
     font-size:23px;
   }
 
   .success-card{
-
     padding:28px 18px;
   }
 
   .status-check-box{
-
     padding:20px 14px;
   }
 
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
 }
-
 </style>
 
 </head>
 
-
 <body>
-
 
 <!-- =====================================================
      HEADER
@@ -734,71 +643,228 @@ footer p{
 
 <header>
 
-<div class="header-inner">
+  <div class="container header-inner">
 
+    <a href="index.html" class="brand">
 
-<div class="brand">
+      <img
+        id="siteLogo"
+        class="site-logo"
+        src=""
+        alt="Maa Basuli Uda Jatra Committee"
+      >
 
-<h1>
-Maa Basuli Uda Jatra Committee
-</h1>
+      <img
+        id="maaBasuliPhoto"
+        class="brand-photo"
+        src=""
+        alt="Maa Basuli"
+      >
 
-<p>
-Thakurmunda, Mayurbhanj, Odisha
-</p>
+      <div id="logoFallback" class="logo-fallback">
+        🙏
+      </div>
 
-</div>
+      <div class="brand-text">
 
+        <h1
+          data-lang-en="Maa Basuli Uda Jatra Committee"
+          data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+          data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
+        >
+          Maa Basuli Uda Jatra Committee
+        </h1>
 
-<nav>
+        <p
+          data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
+          data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
+          data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
+        >
+          Thakurmunda, Mayurbhanj, Odisha
+        </p>
 
-<a href="index.html">
-Home
-</a>
+      </div>
 
-<a href="about.html">
-About
-</a>
+    </a>
 
-<a href="jatra.html">
-Uda Jatra
-</a>
+    <div class="header-right">
 
-<a href="notices.html">
-Notices
-</a>
+      <div id="language-switcher">
 
-<a href="events.html">
-Events
-</a>
+        <div id="maa-language-switcher">
 
-<a href="gallery.html">
-Gallery
-</a>
+          <button
+            type="button"
+            data-site-lang="en"
+            onclick="setSiteLanguage('en')"
+          >
+            🇬🇧 English
+          </button>
 
-<a href="members.html">
-Members
-</a>
+          <button
+            type="button"
+            data-site-lang="or"
+            onclick="setSiteLanguage('or')"
+          >
+            ଓଡ଼ିଆ
+          </button>
 
-<a
-  href="complaint.html"
-  class="active"
->
-Complaint
-</a>
+          <button
+            type="button"
+            data-site-lang="hi"
+            onclick="setSiteLanguage('hi')"
+          >
+            हिन्दी
+          </button>
 
-<a href="contact.html">
-Contact
-</a>
+        </div>
 
-</nav>
+      </div>
 
+      <button
+        class="menu-btn"
+        onclick="toggleMenu()"
+        aria-label="Menu"
+      >
+        ☰
+      </button>
 
-</div>
+    </div>
+
+    <nav id="mainNav">
+
+      <a
+        href="index.html"
+        data-lang-en="Home"
+        data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
+        data-lang-hi="होम"
+      >
+        Home
+      </a>
+
+      <a
+        href="about.html"
+        data-lang-en="About"
+        data-lang-or="ଆମ ବିଷୟରେ"
+        data-lang-hi="हमारे बारे में"
+      >
+        About
+      </a>
+
+      <a
+        href="jatra.html"
+        data-lang-en="Uda Jatra"
+        data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+        data-lang-hi="उड़ा यात्रा"
+      >
+        Uda Jatra
+      </a>
+
+      <a
+        href="notices.html"
+        data-lang-en="Notices"
+        data-lang-or="ବିଜ୍ଞପ୍ତି"
+        data-lang-hi="सूचनाएँ"
+      >
+        Notices
+      </a>
+
+      <a
+        href="events.html"
+        data-lang-en="Events"
+        data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+        data-lang-hi="कार्यक्रम"
+      >
+        Events
+      </a>
+
+      <a
+        href="gallery.html"
+        data-lang-en="Gallery"
+        data-lang-or="ଗ୍ୟାଲେରୀ"
+        data-lang-hi="गैलरी"
+      >
+        Gallery
+      </a>
+
+      <a
+        href="members.html"
+        data-lang-en="Our Members"
+        data-lang-or="ଆମ ସଦସ୍ୟ"
+        data-lang-hi="हमारे सदस्य"
+      >
+        Our Members
+      </a>
+
+      <a
+        href="fund.html"
+        data-lang-en="Fund"
+        data-lang-or="ଫଣ୍ଡ"
+        data-lang-hi="फंड"
+      >
+        Fund
+      </a>
+
+      <a
+        href="member-fee.html"
+        data-lang-en="Member Fee"
+        data-lang-or="ସଦସ୍ୟ ଫି"
+        data-lang-hi="सदस्य शुल्क"
+      >
+        Member Fee
+      </a>
+
+      <a
+        href="bhakta-list.html"
+        data-lang-en="Bhakta List"
+        data-lang-or="ଭକ୍ତ ତାଲିକା"
+        data-lang-hi="भक्त सूची"
+      >
+        Bhakta List
+      </a>
+
+      <a
+        href="complaint.html"
+        class="active"
+        data-lang-en="Complaint"
+        data-lang-or="ଅଭିଯୋଗ"
+        data-lang-hi="शिकायत"
+      >
+        Complaint
+      </a>
+
+      <a
+        href="contact.html"
+        data-lang-en="Contact"
+        data-lang-or="ଯୋଗାଯୋଗ"
+        data-lang-hi="संपर्क"
+      >
+        Contact
+      </a>
+
+      <a
+        href="search.html"
+        data-lang-en="Search"
+        data-lang-or="ସନ୍ଧାନ"
+        data-lang-hi="खोजें"
+      >
+        Search
+      </a>
+
+      <a
+        href="auth.html"
+        data-lang-en="Login"
+        data-lang-or="ଲଗଇନ୍"
+        data-lang-hi="लॉगिन"
+      >
+        Login
+      </a>
+
+    </nav>
+
+  </div>
 
 </header>
-
-
 
 <!-- =====================================================
      HERO
@@ -806,457 +872,474 @@ Contact
 
 <section class="hero">
 
-<div>
+  <div>
 
-<h2>
-Complaint Box
-</h2>
+    <h2
+      data-lang-en="Complaint Box"
+      data-lang-or="ଅଭିଯୋଗ ବକ୍ସ"
+      data-lang-hi="शिकायत बॉक्स"
+    >
+      Complaint Box
+    </h2>
 
-<p>
+    <p
+      data-lang-en="Submit your complaint, suggestion or grievance regarding the Maa Basuli Uda Jatra Committee."
+      data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ସମ୍ବନ୍ଧରେ ଆପଣଙ୍କ ଅଭିଯୋଗ, ପରାମର୍ଶ କିମ୍ବା ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ।"
+      data-lang-hi="माँ बासुली उड़ा यात्रा समिति के संबंध में अपनी शिकायत, सुझाव या शिकायत दर्ज करें।"
+    >
+      Submit your complaint, suggestion or grievance regarding the Maa Basuli Uda Jatra Committee.
+    </p>
 
-Maa Basuli Uda Jatra Committee sambandhare
-apananka complaint, suggestion ba grievance submit karantu.
-
-</p>
-
-</div>
+  </div>
 
 </section>
-
-
 
 <!-- =====================================================
      MAIN
 ===================================================== -->
 
-<main class="container">
-
-
-<h2 class="page-title">
-Submit Your Complaint
-</h2>
-
-
-<p class="page-subtitle">
-
-Apananka complaint Committee dwara review kara jiba.
-
-Complaint submit pare apananku eka Complaint Number miliba.
-
-</p>
-
-
-
-<!-- =====================================================
-     INFORMATION
-===================================================== -->
-
-<div class="info-box">
-
-<strong>
-Important:
-</strong>
-
-Apananka mobile number ebam anya personal details
-public website re display heba nahin.
-
-Complaint submit pare milithiba
-<strong>
-Complaint Number
-</strong>
-future follow-up pain surakshita rakhnthu.
-
-</div>
-
-
-
-<!-- =====================================================
-     CHECK STATUS
-===================================================== -->
-
-<div class="status-check-box">
-
-<h3>
-🔎 Already Submitted a Complaint?
-</h3>
-
-
-<p>
-
-Complaint submit karithile,
-apananka Complaint Number use kari
-current status check karantu.
-
-</p>
-
-
-<a
-  href="complaint-status.html"
-  class="status-btn"
->
-🔍 Check Complaint Status
-</a>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     FORM CARD
-===================================================== -->
-
-<div
-  id="formCard"
-  class="form-card"
->
-
-
-<h3>
-Complaint Details
-</h3>
-
-
-<div
-  id="errorBox"
-  class="error-box"
->
-</div>
-
-
-
-<form
-  id="complaintForm"
->
-
-
-<!-- NAME -->
-
-<div class="form-group">
-
-<label for="name">
-
-Full Name
-
-<span class="required">
-*
-</span>
-
-</label>
-
-
-<input
-
-type="text"
-
-id="name"
-
-placeholder="Enter your full name"
-
-maxlength="100"
-
-required
-
-autocomplete="name"
-
->
-
-</div>
-
-
-
-<!-- MOBILE -->
-
-<div class="form-group">
-
-<label for="mobile">
-
-Mobile Number
-
-<span class="required">
-*
-</span>
-
-</label>
-
-
-<input
-
-type="tel"
-
-id="mobile"
-
-placeholder="Enter 10 digit mobile number"
-
-maxlength="10"
-
-inputmode="numeric"
-
-required
-
-autocomplete="tel"
-
->
-
-</div>
-
-
-
-<!-- ADDRESS -->
-
-<div class="form-group">
-
-<label for="address">
-
-Address
-
-<span class="required">
-*
-</span>
-
-</label>
-
-
-<textarea
-
-id="address"
-
-placeholder="Enter your village, GP, block and other address details"
-
-maxlength="500"
-
-required
-
-></textarea>
-
-</div>
-
-
-
-<!-- COMPLAINT -->
-
-<div class="form-group">
-
-<label for="complaintText">
-
-Complaint / Grievance
-
-<span class="required">
-*
-</span>
-
-</label>
-
-
-<textarea
-
-id="complaintText"
-
-placeholder="Write your complaint or grievance in detail..."
-
-maxlength="3000"
-
-required
-
-></textarea>
-
-
-<div
-  id="charCount"
-  class="char-count"
->
-0 / 3000
-</div>
-
-
-</div>
-
-
-
-<!-- SUBMIT -->
-
-<button
-
-type="submit"
-
-id="submitBtn"
-
-class="submit-btn"
-
->
-
-Submit Complaint
-
-</button>
-
-
-</form>
-
-
-</div>
-
-
-
-<!-- =====================================================
-     SUCCESS CARD
-===================================================== -->
-
-<div
-  id="successCard"
-  class="success-card"
->
-
-
-<div class="success-icon">
-✓
-</div>
-
-
-<h3>
-
-Complaint Submitted Successfully
-
-</h3>
-
-
-<p>
-
-Apananka complaint successfully receive heichi.
-
-Committee review pare appropriate action neba.
-
-</p>
-
-
-
-<!-- REFERENCE -->
-
-<div class="reference-box">
-
-
-<div class="reference-label">
-
-Your Complaint Number
-
-</div>
-
-
-<div
-  id="referenceNumber"
-  class="reference-number"
->
--
-</div>
-
-
-
-<!-- COPY -->
-
-<button
-
-type="button"
-
-id="copyBtn"
-
-class="copy-btn"
-
->
-
-📋 Copy Complaint Number
-
-</button>
-
-
-
-<br>
-
-
-
-<!-- CHECK STATUS -->
-
-<a
-
-id="checkStatusBtn"
-
-href="complaint-status.html"
-
-class="success-status-btn"
-
->
-
-🔎 Check Complaint Status
-
-</a>
-
-
-</div>
-
-
-
-<p>
-
-<strong>
-Important:
-</strong>
-
-<br>
-
-Ei Complaint Number ku future follow-up pain
-save kari rakhnthu.
-
-</p>
-
-
-
-<!-- NEW COMPLAINT -->
-
-<button
-
-type="button"
-
-class="new-btn"
-
-id="newComplaintBtn"
-
->
-
-Submit Another Complaint
-
-</button>
-
-
-</div>
-
+<main class="main-container">
+
+  <h2
+    class="page-title"
+    data-lang-en="Submit Your Complaint"
+    data-lang-or="ଆପଣଙ୍କ ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ"
+    data-lang-hi="अपनी शिकायत दर्ज करें"
+  >
+    Submit Your Complaint
+  </h2>
+
+  <p
+    class="page-subtitle"
+    data-lang-en="Your complaint will be reviewed by the Committee. After submission, you will receive a Complaint Number."
+    data-lang-or="ଆପଣଙ୍କ ଅଭିଯୋଗ କମିଟି ଦ୍ୱାରା ସମୀକ୍ଷା କରାଯିବ। ଦାଖଲ ପରେ ଆପଣଙ୍କୁ ଏକ ଅଭିଯୋଗ ନମ୍ବର ମିଳିବ।"
+    data-lang-hi="आपकी शिकायत समिति द्वारा समीक्षा की जाएगी। शिकायत जमा करने के बाद आपको एक शिकायत नंबर मिलेगा।"
+  >
+    Your complaint will be reviewed by the Committee. After submission, you will receive a Complaint Number.
+  </p>
+
+  <div class="info-box">
+
+    <strong
+      data-lang-en="Important:"
+      data-lang-or="ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ:"
+      data-lang-hi="महत्वपूर्ण:"
+    >
+      Important:
+    </strong>
+
+    <span
+      data-lang-en=" Your mobile number and other personal details will not be displayed publicly. Please keep your Complaint Number safe for future follow-up."
+      data-lang-or=" ଆପଣଙ୍କ ମୋବାଇଲ୍ ନମ୍ବର ଏବଂ ଅନ୍ୟ ବ୍ୟକ୍ତିଗତ ତଥ୍ୟ ସାର୍ବଜନୀନ ଭାବେ ପ୍ରଦର୍ଶିତ ହେବ ନାହିଁ। ଭବିଷ୍ୟତ ଫଲୋ-ଅପ୍ ପାଇଁ ଅଭିଯୋଗ ନମ୍ବରକୁ ସୁରକ୍ଷିତ ରଖନ୍ତୁ।"
+      data-lang-hi=" आपका मोबाइल नंबर और अन्य व्यक्तिगत विवरण सार्वजनिक रूप से प्रदर्शित नहीं किए जाएंगे। भविष्य के फॉलो-अप के लिए अपना शिकायत नंबर सुरक्षित रखें।"
+    >
+      Your mobile number and other personal details will not be displayed publicly. Please keep your Complaint Number safe for future follow-up.
+    </span>
+
+  </div>
+
+  <div class="status-check-box">
+
+    <h3
+      data-lang-en="🔎 Already Submitted a Complaint?"
+      data-lang-or="🔎 ପୂର୍ବରୁ ଅଭିଯୋଗ ଦାଖଲ କରିଛନ୍ତି?"
+      data-lang-hi="🔎 क्या आपने पहले ही शिकायत दर्ज की है?"
+    >
+      🔎 Already Submitted a Complaint?
+    </h3>
+
+    <p
+      data-lang-en="If you have already submitted a complaint, use your Complaint Number to check the current status."
+      data-lang-or="ଯଦି ଆପଣ ପୂର୍ବରୁ ଅଭିଯୋଗ ଦାଖଲ କରିଛନ୍ତି, ତେବେ ଅଭିଯୋଗ ନମ୍ବର ବ୍ୟବହାର କରି ବର୍ତ୍ତମାନ ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ।"
+      data-lang-hi="यदि आपने पहले ही शिकायत दर्ज की है, तो शिकायत नंबर का उपयोग करके वर्तमान स्थिति जाँचें।"
+    >
+      If you have already submitted a complaint, use your Complaint Number to check the current status.
+    </p>
+
+    <a
+      href="complaint-status.html"
+      class="status-btn"
+      data-lang-en="🔍 Check Complaint Status"
+      data-lang-or="🔍 ଅଭିଯୋଗ ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ"
+      data-lang-hi="🔍 शिकायत स्थिति जाँचें"
+    >
+      🔍 Check Complaint Status
+    </a>
+
+  </div>
+
+  <div id="formCard" class="form-card">
+
+    <h3
+      data-lang-en="Complaint Details"
+      data-lang-or="ଅଭିଯୋଗ ବିବରଣୀ"
+      data-lang-hi="शिकायत विवरण"
+    >
+      Complaint Details
+    </h3>
+
+    <div id="errorBox" class="error-box"></div>
+
+    <form id="complaintForm">
+
+      <div class="form-group">
+
+        <label
+          for="name"
+          data-lang-en="Full Name"
+          data-lang-or="ପୂର୍ଣ୍ଣ ନାମ"
+          data-lang-hi="पूरा नाम"
+        >
+          Full Name <span class="required">*</span>
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          data-placeholder-en="Enter your full name"
+          data-placeholder-or="ଆପଣଙ୍କ ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ"
+          data-placeholder-hi="अपना पूरा नाम दर्ज करें"
+          placeholder="Enter your full name"
+          maxlength="100"
+          required
+          autocomplete="name"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label
+          for="mobile"
+          data-lang-en="Mobile Number"
+          data-lang-or="ମୋବାଇଲ୍ ନମ୍ବର"
+          data-lang-hi="मोबाइल नंबर"
+        >
+          Mobile Number <span class="required">*</span>
+        </label>
+
+        <input
+          type="tel"
+          id="mobile"
+          data-placeholder-en="Enter 10 digit mobile number"
+          data-placeholder-or="୧୦ ଅଙ୍କର ମୋବାଇଲ୍ ନମ୍ବର ଲେଖନ୍ତୁ"
+          data-placeholder-hi="10 अंकों का मोबाइल नंबर दर्ज करें"
+          placeholder="Enter 10 digit mobile number"
+          maxlength="10"
+          inputmode="numeric"
+          required
+          autocomplete="tel"
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label
+          for="address"
+          data-lang-en="Address"
+          data-lang-or="ଠିକଣା"
+          data-lang-hi="पता"
+        >
+          Address <span class="required">*</span>
+        </label>
+
+        <textarea
+          id="address"
+          data-placeholder-en="Enter your village, GP, block and other address details"
+          data-placeholder-or="ଆପଣଙ୍କ ଗ୍ରାମ, ଗ୍ରାମ ପଞ୍ଚାୟତ, ବ୍ଲକ୍ ଏବଂ ଅନ୍ୟାନ୍ୟ ଠିକଣା ବିବରଣୀ ଲେଖନ୍ତୁ"
+          data-placeholder-hi="अपना गाँव, ग्राम पंचायत, ब्लॉक और अन्य पता विवरण दर्ज करें"
+          placeholder="Enter your village, GP, block and other address details"
+          maxlength="500"
+          required
+        ></textarea>
+
+      </div>
+
+      <div class="form-group">
+
+        <label
+          for="complaintText"
+          data-lang-en="Complaint / Grievance"
+          data-lang-or="ଅଭିଯୋଗ / ଅଭିଯୋଗ ବିବରଣୀ"
+          data-lang-hi="शिकायत / शिकायत विवरण"
+        >
+          Complaint / Grievance <span class="required">*</span>
+        </label>
+
+        <textarea
+          id="complaintText"
+          data-placeholder-en="Write your complaint or grievance in detail..."
+          data-placeholder-or="ଆପଣଙ୍କ ଅଭିଯୋଗ ବା ସମସ୍ୟାର ବିବରଣୀ ଲେଖନ୍ତୁ..."
+          data-placeholder-hi="अपनी शिकायत या समस्या का विवरण लिखें..."
+          placeholder="Write your complaint or grievance in detail..."
+          maxlength="3000"
+          required
+        ></textarea>
+
+        <div id="charCount" class="char-count">
+          0 / 3000
+        </div>
+
+      </div>
+
+      <button
+        type="submit"
+        id="submitBtn"
+        class="submit-btn"
+        data-lang-en="Submit Complaint"
+        data-lang-or="ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ"
+        data-lang-hi="शिकायत दर्ज करें"
+      >
+        Submit Complaint
+      </button>
+
+    </form>
+
+  </div>
+
+  <div id="successCard" class="success-card">
+
+    <div class="success-icon">✓</div>
+
+    <h3
+      data-lang-en="Complaint Submitted Successfully"
+      data-lang-or="ଅଭିଯୋଗ ସଫଳତାର ସହ ଦାଖଲ ହୋଇଛି"
+      data-lang-hi="शिकायत सफलतापूर्वक दर्ज हो गई"
+    >
+      Complaint Submitted Successfully
+    </h3>
+
+    <p
+      data-lang-en="Your complaint has been successfully received. The Committee will review it and take appropriate action."
+      data-lang-or="ଆପଣଙ୍କ ଅଭିଯୋଗ ସଫଳତାର ସହ ଗ୍ରହଣ କରାଯାଇଛି। କମିଟି ଏହାକୁ ସମୀକ୍ଷା କରି ଉପଯୁକ୍ତ ପଦକ୍ଷେପ ନେବ।"
+      data-lang-hi="आपकी शिकायत सफलतापूर्वक प्राप्त हो गई है। समिति इसकी समीक्षा कर उचित कार्रवाई करेगी।"
+    >
+      Your complaint has been successfully received. The Committee will review it and take appropriate action.
+    </p>
+
+    <div class="reference-box">
+
+      <div
+        class="reference-label"
+        data-lang-en="Your Complaint Number"
+        data-lang-or="ଆପଣଙ୍କ ଅଭିଯୋଗ ନମ୍ବର"
+        data-lang-hi="आपका शिकायत नंबर"
+      >
+        Your Complaint Number
+      </div>
+
+      <div
+        id="referenceNumber"
+        class="reference-number"
+      >
+        -
+      </div>
+
+      <button
+        type="button"
+        id="copyBtn"
+        class="copy-btn"
+        data-lang-en="📋 Copy Complaint Number"
+        data-lang-or="📋 ଅଭିଯୋଗ ନମ୍ବର କପି କରନ୍ତୁ"
+        data-lang-hi="📋 शिकायत नंबर कॉपी करें"
+      >
+        📋 Copy Complaint Number
+      </button>
+
+      <br>
+
+      <a
+        id="checkStatusBtn"
+        href="complaint-status.html"
+        class="success-status-btn"
+        data-lang-en="🔎 Check Complaint Status"
+        data-lang-or="🔎 ଅଭିଯୋଗ ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ"
+        data-lang-hi="🔎 शिकायत स्थिति जाँचें"
+      >
+        🔎 Check Complaint Status
+      </a>
+
+    </div>
+
+    <p
+      data-lang-en="Important: Please save your Complaint Number for future follow-up."
+      data-lang-or="ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ: ଭବିଷ୍ୟତ ଫଲୋ-ଅପ୍ ପାଇଁ ଅଭିଯୋଗ ନମ୍ବରକୁ ସୁରକ୍ଷିତ ରଖନ୍ତୁ।"
+      data-lang-hi="महत्वपूर्ण: भविष्य के फॉलो-अप के लिए अपना शिकायत नंबर सुरक्षित रखें।"
+    >
+      <strong>Important:</strong><br>
+      Please save your Complaint Number for future follow-up.
+    </p>
+
+    <button
+      type="button"
+      class="new-btn"
+      id="newComplaintBtn"
+      data-lang-en="Submit Another Complaint"
+      data-lang-or="ଆଉ ଏକ ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ"
+      data-lang-hi="एक और शिकायत दर्ज करें"
+    >
+      Submit Another Complaint
+    </button>
+
+  </div>
 
 </main>
 
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+<!-- FOOTER -->
 
 <footer>
 
-<p>
+  <div class="footer-grid">
 
-©
-<span id="currentYear"></span>
+    <div>
 
-Maa Basuli Uda Jatra Committee, Thakurmunda
+      <h3
+        data-lang-en="Maa Basuli Uda Jatra Committee"
+        data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
+        data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
+      >
+        Maa Basuli Uda Jatra Committee
+      </h3>
 
-</p>
+      <p
+        data-lang-en="Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha."
+        data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶାର ଅଧିକୃତ ୱେବସାଇଟ୍।"
+        data-lang-hi="माँ बासुली उड़ा यात्रा समिति, ठाकुरमुंडा, मयूरभंज, ओडिशा की आधिकारिक वेबसाइट।"
+      >
+        Official website of Maa Basuli Uda Jatra Committee,
+        Thakurmunda, Mayurbhanj, Odisha.
+      </p>
 
+      <p style="margin-top:9px;">
+        ଜୟ ମା' ବାସୁଳୀ 🙏
+      </p>
 
-<p>
+    </div>
 
-Official Committee Website
+    <div>
 
-</p>
+      <h3
+        data-lang-en="Quick Links"
+        data-lang-or="ଦ୍ରୁତ ଲିଙ୍କ୍"
+        data-lang-hi="त्वरित लिंक"
+      >
+        Quick Links
+      </h3>
+
+      <a href="index.html"
+         data-lang-en="Home"
+         data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
+         data-lang-hi="होम">
+        Home
+      </a>
+
+      <a href="jatra.html"
+         data-lang-en="Uda Jatra"
+         data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
+         data-lang-hi="उड़ा यात्रा">
+        Uda Jatra
+      </a>
+
+      <a href="notices.html"
+         data-lang-en="Notices"
+         data-lang-or="ବିଜ୍ଞପ୍ତି"
+         data-lang-hi="सूचनाएँ">
+        Notices
+      </a>
+
+      <a href="events.html"
+         data-lang-en="Events"
+         data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+         data-lang-hi="कार्यक्रम">
+        Events
+      </a>
+
+      <a href="gallery.html"
+         data-lang-en="Gallery"
+         data-lang-or="ଗ୍ୟାଲେରୀ"
+         data-lang-hi="गैलरी">
+        Gallery
+      </a>
+
+    </div>
+
+    <div>
+
+      <h3
+        data-lang-en="Services"
+        data-lang-or="ସେବା"
+        data-lang-hi="सेवाएँ"
+      >
+        Services
+      </h3>
+
+      <a href="members.html"
+         data-lang-en="Our Members"
+         data-lang-or="ଆମ ସଦସ୍ୟ"
+         data-lang-hi="हमारे सदस्य">
+        Our Members
+      </a>
+
+      <a href="member-fee.html"
+         data-lang-en="Member Fee"
+         data-lang-or="ସଦସ୍ୟ ଫି"
+         data-lang-hi="सदस्य शुल्क">
+        Member Fee
+      </a>
+
+      <a href="bhakta-list.html"
+         data-lang-en="Bhakta List"
+         data-lang-or="ଭକ୍ତ ତାଲିକା"
+         data-lang-hi="भक्त सूची">
+        Bhakta List
+      </a>
+
+      <a href="fund.html"
+         data-lang-en="Fund & Donation"
+         data-lang-or="ଫଣ୍ଡ ଏବଂ ଦାନ"
+         data-lang-hi="फंड और दान">
+        Fund & Donation
+      </a>
+
+      <a href="complaint.html"
+         data-lang-en="Complaint Box"
+         data-lang-or="ଅଭିଯୋଗ ବକ୍ସ"
+         data-lang-hi="शिकायत बॉक्स">
+        Complaint Box
+      </a>
+
+      <a href="contact.html"
+         data-lang-en="Contact"
+         data-lang-or="ଯୋଗାଯୋଗ"
+         data-lang-hi="संपर्क">
+        Contact
+      </a>
+
+      <a href="search.html"
+         data-lang-en="Search"
+         data-lang-or="ସନ୍ଧାନ"
+         data-lang-hi="खोजें">
+        Search
+      </a>
+
+    </div>
+
+  </div>
+
+  <div class="copyright">
+    © <span id="currentYear"></span>
+    Maa Basuli Uda Jatra Committee.
+    <span
+      data-lang-en="All Rights Reserved."
+      data-lang-or="ସମସ୍ତ ଅଧିକାର ସଂରକ୍ଷିତ।"
+      data-lang-hi="सर्वाधिकार सुरक्षित।"
+    >
+      All Rights Reserved.
+    </span>
+  </div>
 
 </footer>
-
-
 
 <!-- =====================================================
      JAVASCRIPT
@@ -1264,18 +1347,15 @@ Official Committee Website
 
 <script>
 
-
-/* =========================================================
+/* =====================================================
    SUPABASE CONFIG
-========================================================= */
+===================================================== */
 
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
-
 const SUPABASE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
 
 const supabaseClient =
   window.supabase.createClient(
@@ -1283,93 +1363,208 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
+/* =====================================================
+   MOBILE MENU
+===================================================== */
 
+function toggleMenu(){
 
-/* =========================================================
+  document
+    .getElementById("mainNav")
+    .classList
+    .toggle("show");
+
+}
+
+/* =====================================================
+   WEBSITE BRANDING
+===================================================== */
+
+async function loadWebsiteBranding(){
+
+  try{
+
+    const { data, error } =
+      await supabaseClient
+        .from("website_settings")
+        .select("site_name,logo_url,address")
+        .limit(1)
+        .maybeSingle();
+
+    if(error) throw error;
+
+    if(data){
+
+      const siteLogo =
+        document.getElementById("siteLogo");
+
+      const fallback =
+        document.getElementById("logoFallback");
+
+      const brandTitle =
+        document.querySelector(".brand-text h1");
+
+      const brandAddress =
+        document.querySelector(".brand-text p");
+
+      if(data.logo_url){
+
+        siteLogo.src =
+          data.logo_url;
+
+        siteLogo.style.display =
+          "block";
+
+        if(fallback){
+          fallback.style.display =
+            "none";
+        }
+
+      }
+
+      if(
+        brandTitle &&
+        data.site_name
+      ){
+
+        brandTitle.textContent =
+          data.site_name;
+
+      }
+
+      if(
+        brandAddress &&
+        data.address
+      ){
+
+        brandAddress.textContent =
+          data.address;
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.error(
+      "Website branding error:",
+      error
+    );
+
+  }
+
+  try{
+
+    const { data } =
+      await supabaseClient
+        .from("website_settings")
+        .select("maa_basuli_url")
+        .limit(1)
+        .maybeSingle();
+
+    if(
+      data &&
+      data.maa_basuli_url
+    ){
+
+      const maaPhoto =
+        document.getElementById(
+          "maaBasuliPhoto"
+        );
+
+      if(maaPhoto){
+
+        maaPhoto.src =
+          data.maa_basuli_url;
+
+        maaPhoto.style.display =
+          "block";
+
+      }
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Maa Basuli photo not available."
+    );
+
+  }
+
+}
+
+/* =====================================================
    ELEMENTS
-========================================================= */
+===================================================== */
 
 const complaintForm =
   document.getElementById(
     "complaintForm"
   );
 
-
 const submitBtn =
   document.getElementById(
     "submitBtn"
   );
-
 
 const errorBox =
   document.getElementById(
     "errorBox"
   );
 
-
 const formCard =
   document.getElementById(
     "formCard"
   );
-
 
 const successCard =
   document.getElementById(
     "successCard"
   );
 
-
 const referenceNumber =
   document.getElementById(
     "referenceNumber"
   );
-
 
 const copyBtn =
   document.getElementById(
     "copyBtn"
   );
 
-
 const newComplaintBtn =
   document.getElementById(
     "newComplaintBtn"
   );
-
 
 const complaintText =
   document.getElementById(
     "complaintText"
   );
 
-
 const charCount =
   document.getElementById(
     "charCount"
   );
-
 
 const checkStatusBtn =
   document.getElementById(
     "checkStatusBtn"
   );
 
-
-
-/* =========================================================
+/* =====================================================
    YEAR
-========================================================= */
+===================================================== */
 
 document.getElementById(
   "currentYear"
 ).textContent =
   new Date().getFullYear();
 
-
-
-/* =========================================================
+/* =====================================================
    CHARACTER COUNTER
-========================================================= */
+===================================================== */
 
 complaintText.addEventListener(
   "input",
@@ -1382,11 +1577,9 @@ complaintText.addEventListener(
   }
 );
 
-
-
-/* =========================================================
+/* =====================================================
    MOBILE VALIDATION
-========================================================= */
+===================================================== */
 
 function validateMobile(
   mobile
@@ -1398,11 +1591,43 @@ function validateMobile(
 
 }
 
+/* =====================================================
+   LANGUAGE-AWARE TEXT
+===================================================== */
 
+function getCurrentLanguage(){
 
-/* =========================================================
+  return (
+    localStorage.getItem(
+      "maaBasuliLanguage"
+    ) || "en"
+  );
+
+}
+
+function getText(
+  en,
+  or,
+  hi
+){
+
+  const lang =
+    getCurrentLanguage();
+
+  if(lang === "or"){
+    return or;
+  }
+
+  if(lang === "hi"){
+    return hi;
+  }
+
+  return en;
+}
+
+/* =====================================================
    SHOW ERROR
-========================================================= */
+===================================================== */
 
 function showError(
   message
@@ -1414,7 +1639,6 @@ function showError(
   errorBox.style.display =
     "block";
 
-
   errorBox.scrollIntoView({
     behavior:"smooth",
     block:"center"
@@ -1422,11 +1646,9 @@ function showError(
 
 }
 
-
-
-/* =========================================================
+/* =====================================================
    HIDE ERROR
-========================================================= */
+===================================================== */
 
 function hideError(){
 
@@ -1438,11 +1660,9 @@ function hideError(){
 
 }
 
-
-
-/* =========================================================
+/* =====================================================
    COMPLAINT SUBMIT
-========================================================= */
+===================================================== */
 
 complaintForm.addEventListener(
   "submit",
@@ -1450,12 +1670,7 @@ complaintForm.addEventListener(
 
     event.preventDefault();
 
-
     hideError();
-
-
-
-    /* GET VALUES */
 
     const name =
       document
@@ -1463,13 +1678,11 @@ complaintForm.addEventListener(
         .value
         .trim();
 
-
     const mobile =
       document
         .getElementById("mobile")
         .value
         .trim();
-
 
     const address =
       document
@@ -1477,30 +1690,26 @@ complaintForm.addEventListener(
         .value
         .trim();
 
-
     const complaint =
       complaintText
         .value
         .trim();
 
-
-
-    /* =====================================================
-       VALIDATION
-    ===================================================== */
-
+    /* VALIDATION */
 
     if(!name){
 
       showError(
-        "Please enter your full name."
+        getText(
+          "Please enter your full name.",
+          "ଦୟାକରି ଆପଣଙ୍କ ପୂର୍ଣ୍ଣ ନାମ ଲେଖନ୍ତୁ।",
+          "कृपया अपना पूरा नाम दर्ज करें।"
+        )
       );
 
       return;
 
     }
-
-
 
     if(
       !validateMobile(
@@ -1509,76 +1718,68 @@ complaintForm.addEventListener(
     ){
 
       showError(
-        "Please enter a valid 10 digit Indian mobile number."
+        getText(
+          "Please enter a valid 10 digit Indian mobile number.",
+          "ଦୟାକରି ଏକ ବୈଧ ୧୦ ଅଙ୍କର ଭାରତୀୟ ମୋବାଇଲ୍ ନମ୍ବର ଲେଖନ୍ତୁ।",
+          "कृपया एक मान्य 10 अंकों का भारतीय मोबाइल नंबर दर्ज करें।"
+        )
       );
 
       return;
 
     }
-
-
 
     if(!address){
 
       showError(
-        "Please enter your address."
+        getText(
+          "Please enter your address.",
+          "ଦୟାକରି ଆପଣଙ୍କ ଠିକଣା ଲେଖନ୍ତୁ।",
+          "कृपया अपना पता दर्ज करें।"
+        )
       );
 
       return;
 
     }
-
-
 
     if(
       complaint.length < 10
     ){
 
       showError(
-        "Complaint details should contain at least 10 characters."
+        getText(
+          "Complaint details should contain at least 10 characters.",
+          "ଅଭିଯୋଗ ବିବରଣୀରେ ଅତି କମରେ ୧୦ଟି ଅକ୍ଷର ରହିବା ଆବଶ୍ୟକ।",
+          "शिकायत विवरण में कम से कम 10 अक्षर होने चाहिए।"
+        )
       );
 
       return;
 
     }
 
-
-
-    /* =====================================================
-       LOADING
-    ===================================================== */
+    /* LOADING */
 
     submitBtn.disabled =
       true;
 
-
     submitBtn.textContent =
-      "Submitting Complaint...";
-
-
+      getText(
+        "Submitting Complaint...",
+        "ଅଭିଯୋଗ ଦାଖଲ ହେଉଛି...",
+        "शिकायत दर्ज की जा रही है..."
+      );
 
     try{
-
-
-      /* ===================================================
-         SECURE RPC
-
-         NO DIRECT INSERT
-
-         Only secure RPC is used.
-      =================================================== */
-
 
       const {
         data,
         error
       } =
       await supabaseClient.rpc(
-
         "submit_public_complaint",
-
         {
-
           p_name:
             name,
 
@@ -1590,12 +1791,8 @@ complaintForm.addEventListener(
 
           p_complaint_text:
             complaint
-
         }
-
       );
-
-
 
       console.log(
         "Complaint RPC response:",
@@ -1605,12 +1802,6 @@ complaintForm.addEventListener(
         }
       );
 
-
-
-      /* ===================================================
-         RPC ERROR
-      =================================================== */
-
       if(error){
 
         console.error(
@@ -1618,68 +1809,38 @@ complaintForm.addEventListener(
           error
         );
 
-
         throw new Error(
-
           error.message ||
-
-          "Complaint submission failed."
-
+          getText(
+            "Complaint submission failed.",
+            "ଅଭିଯୋଗ ଦାଖଲ ବିଫଳ ହେଲା।",
+            "शिकायत दर्ज नहीं हो सकी।"
+          )
         );
 
       }
 
-
-
-      /* ===================================================
-         CHECK REFERENCE
-      =================================================== */
-
       if(
-
         data === null ||
-
         data === undefined ||
-
         String(data).trim() === ""
-
       ){
 
         throw new Error(
-
-          "Complaint submission completed, but Complaint Number was not returned."
-
+          getText(
+            "Complaint submission completed, but Complaint Number was not returned.",
+            "ଅଭିଯୋଗ ଦାଖଲ ହୋଇଛି, କିନ୍ତୁ ଅଭିଯୋଗ ନମ୍ବର ମିଳିଲା ନାହିଁ।",
+            "शिकायत दर्ज हो गई, लेकिन शिकायत नंबर प्राप्त नहीं हुआ।"
+          )
         );
 
       }
-
-
-
-      /* ===================================================
-         GENERATED NUMBER
-      =================================================== */
 
       const generatedComplaintNumber =
         String(data).trim();
 
-
-
-      /* ===================================================
-         SHOW NUMBER
-      =================================================== */
-
       referenceNumber.textContent =
         generatedComplaintNumber;
-
-
-
-      /* ===================================================
-         CREATE STATUS LINK
-
-         Example:
-
-         complaint-status.html?ref=MB-CMP-00005
-      =================================================== */
 
       checkStatusBtn.href =
         "complaint-status.html?ref=" +
@@ -1687,96 +1848,62 @@ complaintForm.addEventListener(
           generatedComplaintNumber
         );
 
-
-
-      /* ===================================================
-         HIDE FORM
-      =================================================== */
-
       formCard.style.display =
         "none";
-
-
-      /* ===================================================
-         SHOW SUCCESS
-      =================================================== */
 
       successCard.style.display =
         "block";
 
-
-
-      /* ===================================================
-         RESET FORM
-      =================================================== */
-
       complaintForm.reset();
-
 
       charCount.textContent =
         "0 / 3000";
 
-
-
-      /* ===================================================
-         SCROLL TOP
-      =================================================== */
-
       window.scrollTo({
-
         top:0,
-
         behavior:"smooth"
-
       });
 
-
     }
-
 
     catch(error){
 
-
       console.error(
-
         "Complaint submission failed:",
-
         error
-
       );
 
-
       showError(
-
         error.message ||
-
-        "Complaint submit heiparilani. Please try again."
-
+        getText(
+          "Complaint could not be submitted. Please try again.",
+          "ଅଭିଯୋଗ ଦାଖଲ ହୋଇପାରିଲା ନାହିଁ। ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
+          "शिकायत दर्ज नहीं हो सकी। कृपया पुनः प्रयास करें।"
+        )
       );
 
     }
 
-
     finally{
-
 
       submitBtn.disabled =
         false;
 
-
       submitBtn.textContent =
-        "Submit Complaint";
+        getText(
+          "Submit Complaint",
+          "ଅଭିଯୋଗ ଦାଖଲ କରନ୍ତୁ",
+          "शिकायत दर्ज करें"
+        );
 
     }
 
   }
 );
 
-
-
-/* =========================================================
+/* =====================================================
    COPY COMPLAINT NUMBER
-========================================================= */
+===================================================== */
 
 copyBtn.addEventListener(
   "click",
@@ -1787,60 +1914,53 @@ copyBtn.addEventListener(
         .textContent
         .trim();
 
-
-
     if(
-
       !reference ||
-
       reference === "-"
-
     ){
 
       return;
 
     }
 
-
-
     try{
-
 
       await navigator.clipboard.writeText(
         reference
       );
 
-
       copyBtn.textContent =
-        "✓ Copied";
-
+        getText(
+          "✓ Copied",
+          "✓ କପି ହୋଇଛି",
+          "✓ कॉपी हो गया"
+        );
 
       setTimeout(
-
         function(){
 
           copyBtn.textContent =
-            "📋 Copy Complaint Number";
+            getText(
+              "📋 Copy Complaint Number",
+              "📋 ଅଭିଯୋଗ ନମ୍ବର କପି କରନ୍ତୁ",
+              "📋 शिकायत नंबर कॉपी करें"
+            );
 
         },
-
         2000
-
       );
-
 
     }
 
-
     catch(error){
 
-
       window.prompt(
-
-        "Copy your Complaint Number:",
-
+        getText(
+          "Copy your Complaint Number:",
+          "ଆପଣଙ୍କ ଅଭିଯୋଗ ନମ୍ବର କପି କରନ୍ତୁ:",
+          "अपना शिकायत नंबर कॉपी करें:"
+        ),
         reference
-
       );
 
     }
@@ -1848,60 +1968,95 @@ copyBtn.addEventListener(
   }
 );
 
-
-
-/* =========================================================
+/* =====================================================
    SUBMIT ANOTHER COMPLAINT
-========================================================= */
+===================================================== */
 
 newComplaintBtn.addEventListener(
   "click",
   function(){
 
-
     successCard.style.display =
       "none";
-
 
     formCard.style.display =
       "block";
 
-
     hideError();
 
-
     complaintForm.reset();
-
 
     charCount.textContent =
       "0 / 3000";
 
-
     referenceNumber.textContent =
       "-";
-
-
-    /* RESET STATUS LINK */
 
     checkStatusBtn.href =
       "complaint-status.html";
 
-
     window.scrollTo({
-
       top:0,
-
       behavior:"smooth"
-
     });
 
   }
 );
 
+/* =====================================================
+   LANGUAGE CHANGE SUPPORT
+===================================================== */
+
+document.addEventListener(
+  "click",
+  function(event){
+
+    if(
+      event.target &&
+      event.target.matches(
+        "[data-site-lang]"
+      )
+    ){
+
+      setTimeout(
+        function(){
+
+          if(
+            typeof window.setSiteLanguage ===
+            "function"
+          ){
+
+            window.setSiteLanguage(
+              getCurrentLanguage()
+            );
+
+          }
+
+        },
+        30
+      );
+
+    }
+
+  }
+);
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    loadWebsiteBranding();
+
+  }
+);
 
 </script>
 
+<script src="language.js"></script>
 
 </body>
-
 </html>
