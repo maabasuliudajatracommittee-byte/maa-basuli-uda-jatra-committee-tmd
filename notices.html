@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Notices | Maa Basuli Uda Jatra Committee</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -17,482 +17,510 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f7f8fc;
-  color:#1f2937;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
 }
 
-/* ================= HEADER ================= */
-
-.header{
-  background:linear-gradient(135deg,#7c2d12,#b45309);
-  color:white;
-  padding:12px 18px 10px;
-}
-
-.header-inner{
-  width:min(1250px,96%);
-  margin:auto;
-}
-
-.brand-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.brand-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-}
-
-.site-logo{
-  width:58px;
-  height:58px;
-  object-fit:cover;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.85);
-  background:#fff;
-  display:none;
-}
-
-.logo-title h1{
-  font-size:21px;
-  line-height:1.25;
-}
-
-.logo-title p{
-  font-size:13px;
-  opacity:.9;
-  margin-top:4px;
-}
-
-.brand-photos{
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-
-.brand-photo{
-  width:52px;
-  height:52px;
-  object-fit:cover;
-  border-radius:9px;
-  border:2px solid rgba(255,255,255,.85);
-  background:#fff;
-  display:none;
-}
-
-#language-switcher{
-  display:flex;
-  align-items:center;
-}
-
-#maa-language-switcher{
-  position:static !important;
-  display:inline-flex !important;
-}
-
-/* ================= NAV ================= */
-
-.nav{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:6px;
-  margin-top:11px;
-  padding-top:9px;
-  border-top:1px solid rgba(255,255,255,.20);
-}
-
-.nav a{
-  color:white;
+a{
   text-decoration:none;
-  padding:7px 11px;
-  border-radius:7px;
-  font-size:13px;
+  color:inherit;
 }
-
-.nav a:hover,
-.nav a.active{
-  background:rgba(255,255,255,.18);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  background:white;
-  padding:34px 20px;
-  text-align:center;
-  border-bottom:1px solid #e5e7eb;
-}
-
-.hero h2{
-  color:#7c2d12;
-  font-size:32px;
-  margin-bottom:9px;
-}
-
-.hero p{
-  color:#6b7280;
-  max-width:750px;
-  margin:auto;
-  line-height:1.6;
-}
-
-/* ================= CONTENT ================= */
 
 .container{
-  width:min(1100px,94%);
-  margin:25px auto 50px;
+  width:min(1150px,92%);
+  margin:auto;
 }
 
-.notice-bar{
-  background:#fff7ed;
-  border-left:5px solid #ea580c;
-  padding:14px 16px;
-  border-radius:8px;
-  margin-bottom:20px;
-  color:#9a3412;
-  font-weight:600;
-}
-
-.filters{
-  background:white;
-  padding:18px;
-  border-radius:12px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-  display:grid;
-  grid-template-columns:1fr 200px 200px;
-  gap:12px;
-  margin-bottom:22px;
-}
-
-input,
-select{
-  width:100%;
-  padding:12px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:14px;
-  outline:none;
-}
-
-input:focus,
-select:focus{
-  border-color:#b45309;
-}
-
-.notice-list{
-  display:grid;
-  gap:15px;
-}
-
-.notice-card{
-  background:white;
-  border-radius:13px;
-  padding:20px;
-  box-shadow:0 3px 15px rgba(0,0,0,.06);
-  border:1px solid #eee;
-}
-
-.notice-top{
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:flex-start;
-}
-
-.notice-card h3{
-  color:#7c2d12;
-  font-size:19px;
-  margin-bottom:7px;
-}
-
-.meta{
-  color:#6b7280;
+.topbar{
+  background:#7b1e1e;
+  color:white;
+  padding:8px 0;
   font-size:13px;
 }
 
-.badge{
-  display:inline-block;
-  background:#ffedd5;
-  color:#9a3412;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:bold;
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 18px;
+}
+
+.topbar-inner span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
   white-space:nowrap;
 }
 
-.description{
-  margin-top:13px;
-  color:#4b5563;
-  line-height:1.65;
-  white-space:pre-wrap;
+header{
+  background:#fff;
+  box-shadow:0 3px 14px rgba(0,0,0,.10);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
-.actions{
-  margin-top:15px;
+.header-inner{
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
 }
 
-.pdf-btn{
-  display:inline-block;
-  background:#7c2d12;
-  color:white;
-  text-decoration:none;
-  padding:9px 14px;
-  border-radius:7px;
+.logo{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:14px;
+  min-height:78px;
+  padding:10px 0 8px;
+}
+
+.logo-icon{
+  width:64px;
+  height:64px;
+  min-width:64px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:25px;
+  line-height:1.2;
+  font-weight:800;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:14px;
+  margin-top:3px;
+}
+
+#siteLogo{display:none;}
+
+#logoFallback{display:flex;}
+
+.main-nav-wrap{
+  width:100%;
+  border-top:1px solid #f0e1dc;
+  background:#fff;
+}
+
+/* MASTER NAVIGATION - ALWAYS VISIBLE */
+.main-nav-wrap,
+nav,
+nav a{
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:8px 0 10px;
+  width:100%;
+}
+
+nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border-radius:8px;
   font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  color:#222;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+
+nav a:hover,
+nav a.active{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+nav a:hover{transform:translateY(-1px);}
+
+.menu-btn{display:none;}
+
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
+    url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:white;
+  padding:85px 0;
+  text-align:center;
+}
+
+.page-hero h2{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+.page-hero p{
+  font-size:17px;
+  opacity:.95;
+}
+
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+  align-items:center;
+}
+
+.content-card{
+  background:white;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.content-card h2{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
+
+.content-card p{
+  color:#555;
+  margin-bottom:14px;
+}
+
+.image-card{
+  background:white;
+  padding:12px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.image-card img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.values{
+  background:#fff8ed;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.card-icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.card h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#666;
+  font-size:14px;
+}
+
+.highlight{
+  background:#7b1e1e;
+  color:white;
+}
+
+.highlight .section-title h2,
+.highlight .section-title p{
+  color:white;
+}
+
+.highlight-box{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.highlight-box p{
+  color:#eee;
+  font-size:16px;
+}
+
+.back{
+  text-align:center;
+  padding:35px 0;
+}
+
+.btn{
+  display:inline-block;
+  background:#7b1e1e;
+  color:white;
+  padding:11px 18px;
+  border-radius:8px;
   font-weight:bold;
 }
 
-.pdf-btn:hover{
-  background:#5f210f;
+footer{
+  background:#241313;
+  color:white;
+  padding:40px 0 20px;
 }
 
-.loading,
-.empty,
-.error{
-  background:white;
-  border-radius:12px;
-  padding:35px 20px;
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
   text-align:center;
-}
-
-.loading{
-  color:#6b7280;
-}
-
-.empty{
-  color:#6b7280;
-}
-
-.error{
-  color:#991b1b;
-  background:#fee2e2;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-  background:#111827;
-  color:#d1d5db;
-  text-align:center;
-  padding:28px 15px;
+  color:#aaa;
   font-size:13px;
 }
 
-.footer a{
-  color:#fed7aa;
-  text-decoration:none;
-}
-
-/* ================= MOBILE ================= */
-
 @media(max-width:900px){
 
-  .brand-row{
+  /* Keep every master navigation button visible on every page */
+  nav{
+    display:flex !important;
+    position:static;
+    flex-direction:row;
     flex-wrap:wrap;
-  }
-
-  .brand-photos{
-    order:3;
-    width:100%;
     justify-content:center;
+    background:white;
+    padding:8px 0 10px;
+    box-shadow:none;
   }
 
-  .filters{
+  nav.show{
+    display:flex !important;
+  }
+
+  .menu-btn{
+    display:none !important;
+  }
+
+  .header-inner{
+    position:relative;
+  }
+
+  .about-grid{
     grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
   }
 }
 
 @media(max-width:600px){
 
-  .header{
-    padding:11px 12px;
+  .logo-text h1{
+    font-size:16px;
   }
 
-  .brand-left{
-    width:100%;
+  .page-hero{
+    padding:65px 0;
   }
 
-  .site-logo{
-    width:50px;
-    height:50px;
+  .page-hero h2{
+    font-size:32px;
   }
 
-  .logo-title h1{
-    font-size:17px;
+  .grid{
+    grid-template-columns:1fr;
   }
 
-  .logo-title p{
-    font-size:12px;
+  .footer-grid{
+    grid-template-columns:1fr;
   }
 
-  .brand-photo{
-    width:48px;
-    height:48px;
-  }
-
-  .nav{
-    justify-content:flex-start;
-  }
-
-  .nav a{
-    font-size:12px;
-    padding:7px 9px;
-  }
-
-  .hero{
-    padding:28px 16px;
-  }
-
-  .hero h2{
-    font-size:27px;
-  }
-
-  .notice-top{
-    flex-direction:column;
+  .image-card img{
+    height:280px;
   }
 }
+
+
+@media(max-width:900px){
+  .header-inner{min-height:auto;}
+  .logo{min-height:72px;}
+  .logo-icon{width:58px;height:58px;min-width:58px;}
+  .logo-text h1{font-size:21px;}
+  .logo-text p{font-size:13px;}
+  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
+  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
+}
+
+@media(max-width:600px){
+  .topbar{font-size:11px;}
+  .topbar-inner{justify-content:center;text-align:center;}
+  .logo{gap:10px;padding:9px 0;}
+  .logo-icon{width:52px;height:52px;min-width:52px;}
+  .logo-text h1{font-size:18px;}
+  .logo-text p{font-size:11px;}
+  nav{gap:5px;}
+  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
+}
+
+
+/* ================= NOTICES PAGE CONTENT ================= */
+.notice-container{width:min(1100px,92%);margin:0 auto;padding:55px 0;}
+.notice-bar{background:#fff8ed;border-left:5px solid #7b1e1e;padding:14px 16px;border-radius:8px;margin-bottom:20px;color:#7b1e1e;font-weight:700;}
+.filters{background:white;padding:18px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr 200px 200px;gap:12px;margin-bottom:22px;}
+.filters input,.filters select{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;}
+.filters input:focus,.filters select:focus{border-color:#7b1e1e;}
+.notice-list{display:grid;gap:15px;}
+.notice-card{background:white;border-radius:14px;padding:20px;box-shadow:0 4px 15px rgba(0,0,0,.06);border:1px solid #eee;}
+.notice-top{display:flex;justify-content:space-between;gap:15px;align-items:flex-start;}
+.notice-card h3{color:#7b1e1e;font-size:19px;margin-bottom:7px;}
+.meta{color:#777;font-size:13px;}
+.badge{display:inline-block;background:#fff8ed;color:#7b1e1e;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold;white-space:nowrap;}
+.description{margin-top:13px;color:#555;line-height:1.7;white-space:pre-wrap;}
+.actions{margin-top:15px;}
+.pdf-btn{display:inline-block;background:#7b1e1e;color:white;text-decoration:none;padding:9px 14px;border-radius:7px;font-size:13px;font-weight:bold;}
+.pdf-btn:hover{background:#5f1717;}
+.loading,.empty,.error{background:white;border-radius:12px;padding:35px 20px;text-align:center;}
+.loading,.empty{color:#777;}
+.error{color:#991b1b;background:#fee2e2;}
+@media(max-width:900px){.filters{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.filters{grid-template-columns:1fr;}.notice-container{padding:40px 0;}.notice-top{flex-direction:column;}}
+
 </style>
 </head>
 
 <body>
 
-<header class="header">
+<!-- TOP BAR -->
 
-  <div class="header-inner">
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 Jai Maa Basuli</span>
+    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>✉️ maabasuliudajatracommittee@gmail.com</span>
+    <span>📞 7978583565</span>
+  </div>
+</div>
 
-    <div class="brand-row">
 
-      <div class="brand-left">
+<!-- HEADER -->
+<header>
 
-        <img
-          id="siteLogo"
-          class="site-logo"
-          alt="Maa Basuli Uda Jatra Committee Logo"
-        >
+  <div class="container header-inner">
 
-        <div class="logo-title">
-          <h1 id="siteName"
-              data-lang-en="Maa Basuli Uda Jatra Committee"
-              data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-              data-lang-hi="माँ बासुली उड़ा यात्रा समिति">
-            Maa Basuli Uda Jatra Committee
-          </h1>
+    <a href="index.html" class="logo">
 
-          <p id="siteAddress"
-             data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
-             data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
-             data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा">
-            Thakurmunda, Mayurbhanj, Odisha
-          </p>
-        </div>
+      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
+      <div id="logoFallback" class="logo-icon">🙏</div>
 
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
 
-      <div class="brand-photos">
+    </a>
 
-        <img
-          id="maaBasuliPhoto"
-          class="brand-photo"
-          alt="Maa Basuli"
-        >
+    <div class="main-nav-wrap">
+      <nav id="mainNav" aria-label="Main Navigation">
 
-        <img
-          id="templePhoto"
-          class="brand-photo"
-          alt="Maa Basuli Temple"
-        >
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html" class="active">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html">Contact</a>
+        <a href="search.html">Search</a>
+        <a href="auth.html">Login</a>
 
-        <div id="language-switcher"></div>
-
-      </div>
-
+      </nav>
     </div>
-
-    <nav class="nav">
-
-      <a href="index.html"
-         data-lang-en="Home"
-         data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
-         data-lang-hi="मुख्य पृष्ठ">Home</a>
-
-      <a href="about.html"
-         data-lang-en="About"
-         data-lang-or="ଆମ ବିଷୟରେ"
-         data-lang-hi="हमारे बारे में">About</a>
-
-      <a href="jatra.html"
-         data-lang-en="Jatra"
-         data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
-         data-lang-hi="उड़ा यात्रा">Jatra</a>
-
-      <a href="notices.html"
-         class="active"
-         data-lang-en="Notices"
-         data-lang-or="ବିଜ୍ଞପ୍ତି"
-         data-lang-hi="सूचनाएँ">Notices</a>
-
-      <a href="events.html"
-         data-lang-en="Events"
-         data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-         data-lang-hi="कार्यक्रम">Events</a>
-
-      <a href="gallery.html"
-         data-lang-en="Gallery"
-         data-lang-or="ଗ୍ୟାଲେରୀ"
-         data-lang-hi="गैलरी">Gallery</a>
-
-      <a href="members.html"
-         data-lang-en="Members"
-         data-lang-or="ସଦସ୍ୟ"
-         data-lang-hi="सदस्य">Members</a>
-
-      <a href="contact.html"
-         data-lang-en="Contact"
-         data-lang-or="ଯୋଗାଯୋଗ"
-         data-lang-hi="संपर्क">Contact</a>
-
-    </nav>
 
   </div>
 
 </header>
 
 
-<section class="hero">
-
-  <h2
-    data-lang-en="Official Notices"
-    data-lang-or="ଅଧିକୃତ ବିଜ୍ଞପ୍ତି"
-    data-lang-hi="आधिकारिक सूचनाएँ">
-    Official Notices
-  </h2>
-
-  <p
-    data-lang-en="You can view official notices, announcements and important documents of Maa Basuli Uda Jatra Committee here."
-    data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଅଧିକୃତ ବିଜ୍ଞପ୍ତି, ଘୋଷଣା ଏବଂ ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଦଲିଲ ଏଠାରେ ଦେଖିପାରିବେ।"
-    data-lang-hi="माँ बासुली उड़ा यात्रा समिति की आधिकारिक सूचनाएँ, घोषणाएँ और महत्वपूर्ण दस्तावेज यहाँ देख सकते हैं।">
-    You can view official notices, announcements and important documents of Maa Basuli Uda Jatra Committee here.
-  </p>
-
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <h2>Official Notices</h2>
+    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+  </div>
 </section>
 
+<!-- ================= CONTENT ================= -->
 
-<main class="container">
+<main class="notice-container">
 
-  <div class="notice-bar"
-       data-lang-en="📢 Latest official notices published by the Committee"
-       data-lang-or="📢 କମିଟି ଦ୍ୱାରା ପ୍ରକାଶିତ ସର୍ବଶେଷ ଅଧିକୃତ ବିଜ୍ଞପ୍ତି"
-       data-lang-hi="📢 समिति द्वारा प्रकाशित नवीनतम आधिकारिक सूचनाएँ">
+  <div class="notice-bar">
     📢 Latest official notices published by the Committee
   </div>
-
 
   <section class="filters">
 
@@ -500,101 +528,30 @@ select:focus{
       type="search"
       id="searchInput"
       placeholder="Search notice..."
-      data-placeholder-en="Search notice..."
-      data-placeholder-or="ବିଜ୍ଞପ୍ତି ଖୋଜନ୍ତୁ..."
-      data-placeholder-hi="सूचना खोजें..."
     >
 
     <select id="yearFilter">
-
-      <option
-        value="all"
-        data-lang-en="All Years"
-        data-lang-or="ସମସ୍ତ ବର୍ଷ"
-        data-lang-hi="सभी वर्ष">
-        All Years
-      </option>
-
+      <option value="all">All Years</option>
     </select>
-
 
     <select id="typeFilter">
 
-      <option
-        value="all"
-        data-lang-en="All Types"
-        data-lang-or="ସମସ୍ତ ପ୍ରକାର"
-        data-lang-hi="सभी प्रकार">
-        All Types
-      </option>
-
-      <option
-        value="General"
-        data-lang-en="General"
-        data-lang-or="ସାଧାରଣ"
-        data-lang-hi="सामान्य">
-        General
-      </option>
-
-      <option
-        value="Jatra"
-        data-lang-en="Jatra"
-        data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
-        data-lang-hi="उड़ा यात्रा">
-        Jatra
-      </option>
-
-      <option
-        value="Programme"
-        data-lang-en="Programme"
-        data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-        data-lang-hi="कार्यक्रम">
-        Programme
-      </option>
-
-      <option
-        value="Meeting"
-        data-lang-en="Meeting"
-        data-lang-or="ବୈଠକ"
-        data-lang-hi="बैठक">
-        Meeting
-      </option>
-
-      <option
-        value="Important"
-        data-lang-en="Important"
-        data-lang-or="ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ"
-        data-lang-hi="महत्वपूर्ण">
-        Important
-      </option>
-
-      <option
-        value="Tender"
-        data-lang-en="Tender"
-        data-lang-or="ଟେଣ୍ଡର"
-        data-lang-hi="निविदा">
-        Tender
-      </option>
-
-      <option
-        value="Other"
-        data-lang-en="Other"
-        data-lang-or="ଅନ୍ୟାନ୍ୟ"
-        data-lang-hi="अन्य">
-        Other
-      </option>
+      <option value="all">All Types</option>
+      <option value="General">General</option>
+      <option value="Jatra">Uda Jatra</option>
+      <option value="Programme">Programme</option>
+      <option value="Meeting">Meeting</option>
+      <option value="Important">Important</option>
+      <option value="Tender">Tender</option>
+      <option value="Other">Other</option>
 
     </select>
 
   </section>
 
-
   <section id="noticeList" class="notice-list">
 
-    <div class="loading"
-         data-lang-en="Loading notices..."
-         data-lang-or="ବିଜ୍ଞପ୍ତି ଲୋଡ୍ ହେଉଛି..."
-         data-lang-hi="सूचनाएँ लोड हो रही हैं...">
+    <div class="loading">
       Loading notices...
     </div>
 
@@ -602,29 +559,73 @@ select:focus{
 
 </main>
 
+<!-- FOOTER -->
 
-<footer class="footer">
+<footer>
 
-  <p>
-    © 2026 <span id="footerSiteName">Maa Basuli Uda Jatra Committee</span>, Thakurmunda
-  </p>
+  <div class="container">
 
-  <p style="margin-top:8px;">
+    <div class="footer-grid">
 
-    <span
-      data-lang-en="Official Email:"
-      data-lang-or="ଅଧିକୃତ ଇମେଲ୍:"
-      data-lang-hi="आधिकारिक ईमेल:">
-      Official Email:
-    </span>
+      <div>
 
-    <a href="mailto:maabasuliudajatracommittee@gmail.com">
-      maabasuliudajatracommittee@gmail.com
-    </a>
+        <h3>Maa Basuli Uda Jatra Committee</h3>
 
-  </p>
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:10px;">
+          Jai Maa Basuli 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>Quick Links</h3>
+
+        <a href="index.html">Home</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Our Members</a>
+
+      </div>
+
+
+      <div>
+
+        <h3>Services</h3>
+
+        <a href="fund.html">Fund & Donation</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="complaint.html">Complaint Box</a>
+        <a href="contact.html">Contact</a>
+        <a href="auth.html">Login</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
 
 </footer>
+
+
+
+
 
 
 <script>
@@ -649,167 +650,41 @@ let allNotices = [];
 
 
 /* =====================================
-   LOAD WEBSITE BRANDING
+   LOAD WEBSITE BRANDING + PHOTOS
 ===================================== */
-
 async function loadWebsiteBranding(){
-
   try{
-
-    const {
-      data,
-      error
-    } = await supabaseClient
-      .from("website_settings")
-      .select("site_name,logo_url,address")
-      .order("created_at",{ascending:false})
-      .limit(1)
-      .maybeSingle();
-
-    if(!error && data){
-
-      const siteName =
-        data.site_name ||
-        "Maa Basuli Uda Jatra Committee";
-
-      const address =
-        data.address ||
-        "Thakurmunda, Mayurbhanj, Odisha";
-
-      document.getElementById("siteName").textContent =
-        siteName;
-
-      document.getElementById("footerSiteName").textContent =
-        siteName;
-
-      document.getElementById("siteAddress").textContent =
-        address;
-
-      if(data.logo_url){
-
-        const logo =
-          document.getElementById("siteLogo");
-
-        logo.src = data.logo_url;
-        logo.style.display = "block";
-
+    const {data,error}=await supabaseClient.from("website_settings").select("*").order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(error || !data) return;
+    function firstValue(obj,keys){
+      for(const key of keys){
+        const value=obj ? obj[key] : null;
+        if(value!==null && value!==undefined && String(value).trim()!=="") return String(value).trim();
       }
-
-      document.title =
-        "Notices | " + siteName;
-
+      return "";
     }
-
-  }catch(error){
-
-    console.error(
-      "Website branding error:",
-      error
-    );
-
-  }
-
-
-  /* Optional Maa Basuli + Temple images.
-     These are loaded separately so that if
-     these columns are not available, the
-     main website branding still works. */
-
-  try{
-
-    const {
-      data
-    } = await supabaseClient
-      .from("website_settings")
-      .select(
-        "maa_basuli_url,temple_url,group_photo_url"
-      )
-      .order("created_at",{ascending:false})
-      .limit(1)
-      .maybeSingle();
-
-    if(data){
-
-      if(data.maa_basuli_url){
-
-        const img =
-          document.getElementById("maaBasuliPhoto");
-
-        img.src = data.maa_basuli_url;
-        img.style.display = "block";
-
-      }
-
-      if(data.temple_url){
-
-        const img =
-          document.getElementById("templePhoto");
-
-        img.src = data.temple_url;
-        img.style.display = "block";
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.log(
-      "Optional branding images not available."
-    );
-
-  }
-
+    const siteName=firstValue(data,["site_name","site_title","website_title","title","name"]) || "Maa Basuli Uda Jatra Committee";
+    const address=firstValue(data,["address"]) || "Thakurmunda, Mayurbhanj, Odisha";
+    const logoUrl=firstValue(data,["logo_url","logo","site_logo_url"]);
+    const maaUrl=firstValue(data,["maa_basuli_url","maa_basuli_photo_url","maa_basuli_photo"]);
+    const templeUrl=firstValue(data,["temple_url","temple_photo_url","temple_photo"]);
+    const groupPhotoUrl=firstValue(data,["group_photo_url","group_photo","committee_group_photo_url"]);
+    const logo=document.getElementById("siteLogo");
+    const fallback=document.getElementById("logoFallback");
+    if(logoUrl && logo){ logo.src=logoUrl; logo.style.display="flex"; logo.onerror=()=>{logo.style.display="none";if(fallback)fallback.style.display="flex";}; if(fallback)fallback.style.display="none"; }
+    const logoText=document.querySelector(".logo-text h1");
+    const logoLocation=document.querySelector(".logo-text p");
+    const topLocation=document.querySelector(".topbar-inner span:nth-child(2)");
+    if(logoText) logoText.textContent=siteName;
+    if(logoLocation) logoLocation.textContent=address;
+    if(topLocation) topLocation.textContent="📍 "+address;
+    document.title="Notices | "+siteName;
+    const hero=document.querySelector(".page-hero");
+    if(groupPhotoUrl && hero){ hero.style.backgroundImage='linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("'+groupPhotoUrl.replace(/"/g,'\"')+'")'; }
+    // Keep the Maa Basuli/Temple URLs available for the same site-wide branding system.
+    window.websiteBrandingPhotos={maaBasuliUrl,templeUrl,groupPhotoUrl};
+  }catch(error){ console.error("Website branding error:",error); }
 }
-
-
-/* =====================================
-   CURRENT LANGUAGE
-===================================== */
-
-function getCurrentSiteLanguage(){
-
-  return localStorage.getItem(
-    "maaBasuliLanguage"
-  ) || "en";
-
-}
-
-
-function translateText(en,or,hi){
-
-  const lang =
-    getCurrentSiteLanguage();
-
-  if(lang === "or"){
-    return or;
-  }
-
-  if(lang === "hi"){
-    return hi;
-  }
-
-  return en;
-
-}
-
-
-function applyCurrentPageLanguage(){
-
-  const lang =
-    getCurrentSiteLanguage();
-
-  if(
-    typeof window.setSiteLanguage ===
-    "function"
-  ){
-
-    window.setSiteLanguage(lang);
-
-  }
-
-}
-
 
 /* =====================================
    LOAD PUBLIC NOTICES
@@ -821,15 +696,10 @@ async function loadNotices(){
     document.getElementById("noticeList");
 
   list.innerHTML = `
-    <div class="loading"
-         data-lang-en="Loading notices..."
-         data-lang-or="ବିଜ୍ଞପ୍ତି ଲୋଡ୍ ହେଉଛି..."
-         data-lang-hi="सूचनाएँ लोड हो रही हैं...">
+    <div class="loading">
       Loading notices...
     </div>
   `;
-
-  applyCurrentPageLanguage();
 
   const {
     data,
@@ -838,7 +708,7 @@ async function loadNotices(){
     await supabaseClient
       .from("notices")
       .select(
-        "id,title,notice_date,notice_type,description,pdf_url"
+        "id,title,notice_date,notice_type,description,pdf_url,created_at"
       )
       .eq("is_published",true)
       .order(
@@ -856,15 +726,10 @@ async function loadNotices(){
     console.error(error);
 
     list.innerHTML = `
-      <div class="error"
-           data-lang-en="There was a problem loading notices. Please try again later."
-           data-lang-or="ବିଜ୍ଞପ୍ତି ଲୋଡ୍ କରିବାରେ ସମସ୍ୟା ହେଲା। ଦୟାକରି ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।"
-           data-lang-hi="सूचनाएँ लोड करने में समस्या हुई। कृपया बाद में फिर प्रयास करें।">
+      <div class="error">
         There was a problem loading notices. Please try again later.
       </div>
     `;
-
-    applyCurrentPageLanguage();
 
     return;
   }
@@ -911,13 +776,7 @@ function populateYears(){
 
 
   yearFilter.innerHTML = `
-    <option
-      value="all"
-      data-lang-en="All Years"
-      data-lang-or="ସମସ୍ତ ବର୍ଷ"
-      data-lang-hi="सभी वर्ष">
-      All Years
-    </option>
+    <option value="all">All Years</option>
 
     ${
       years.map(year => `
@@ -927,8 +786,6 @@ function populateYears(){
       `).join("")
     }
   `;
-
-  applyCurrentPageLanguage();
 
 }
 
@@ -1002,24 +859,16 @@ function renderNotices(){
     list.innerHTML = `
       <div class="empty">
 
-        <h3 style="margin-bottom:8px;"
-            data-lang-en="No Notices Found"
-            data-lang-or="କୌଣସି ବିଜ୍ଞପ୍ତି ମିଳିଲା ନାହିଁ"
-            data-lang-hi="कोई सूचना नहीं मिली">
+        <h3 style="margin-bottom:8px;">
           No Notices Found
         </h3>
 
-        <p
-          data-lang-en="No published notice was found for this search/filter."
-          data-lang-or="ଏହି ସର୍ଚ୍ଚ/ଫିଲ୍ଟର ପାଇଁ କୌଣସି ପ୍ରକାଶିତ ବିଜ୍ଞପ୍ତି ମିଳିଲା ନାହିଁ।"
-          data-lang-hi="इस खोज/फ़िल्टर के लिए कोई प्रकाशित सूचना नहीं मिली।">
+        <p>
           No published notice was found for this search/filter.
         </p>
 
       </div>
     `;
-
-    applyCurrentPageLanguage();
 
     return;
   }
@@ -1059,7 +908,7 @@ function renderNotices(){
                 📅 ${date}
                 &nbsp; • &nbsp;
                 ${escapeHtml(
-                  getTranslatedNoticeType(
+                  getNoticeTypeLabel(
                     notice.notice_type || "General"
                   )
                 )}
@@ -1068,11 +917,7 @@ function renderNotices(){
             </div>
 
             <span class="badge">
-              ${translateText(
-                "Official Notice",
-                "ଅଧିକୃତ ବିଜ୍ଞପ୍ତି",
-                "आधिकारिक सूचना"
-              )}
+              Official Notice
             </span>
 
           </div>
@@ -1104,11 +949,7 @@ function renderNotices(){
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    📄 ${translateText(
-                      "View / Download PDF",
-                      "PDF ଦେଖନ୍ତୁ / ଡାଉନଲୋଡ୍ କରନ୍ତୁ",
-                      "PDF देखें / डाउनलोड करें"
-                    )}
+                    📄 View / Download PDF
                   </a>
 
                 </div>
@@ -1126,71 +967,24 @@ function renderNotices(){
 
 
 /* =====================================
-   NOTICE TYPE TRANSLATION
+   NOTICE TYPE LABEL
 ===================================== */
 
-function getTranslatedNoticeType(type){
+function getNoticeTypeLabel(type){
 
-  const translations = {
+  const labels = {
 
-    General:{
-      en:"General",
-      or:"ସାଧାରଣ",
-      hi:"सामान्य"
-    },
-
-    Jatra:{
-      en:"Jatra",
-      or:"ଉଡ଼ା ଯାତ୍ରା",
-      hi:"उड़ा यात्रा"
-    },
-
-    Programme:{
-      en:"Programme",
-      or:"କାର୍ଯ୍ୟକ୍ରମ",
-      hi:"कार्यक्रम"
-    },
-
-    Meeting:{
-      en:"Meeting",
-      or:"ବୈଠକ",
-      hi:"बैठक"
-    },
-
-    Important:{
-      en:"Important",
-      or:"ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ",
-      hi:"महत्वपूर्ण"
-    },
-
-    Tender:{
-      en:"Tender",
-      or:"ଟେଣ୍ଡର",
-      hi:"निविदा"
-    },
-
-    Other:{
-      en:"Other",
-      or:"ଅନ୍ୟାନ୍ୟ",
-      hi:"अन्य"
-    }
+    General:"General",
+    Jatra:"Uda Jatra",
+    Programme:"Programme",
+    Meeting:"Meeting",
+    Important:"Important",
+    Tender:"Tender",
+    Other:"Other"
 
   };
 
-
-  const item =
-    translations[type];
-
-  if(!item){
-    return type;
-  }
-
-
-  return translateText(
-    item.en,
-    item.or,
-    item.hi
-  );
+  return labels[type] || type;
 
 }
 
@@ -1221,27 +1015,6 @@ document
     "change",
     renderNotices
   );
-
-
-/* =====================================
-   LANGUAGE CHANGE SUPPORT
-===================================== */
-
-window.addEventListener(
-  "storage",
-  function(event){
-
-    if(
-      event.key === "maaBasuliLanguage"
-    ){
-
-      populateYears();
-      renderNotices();
-
-    }
-
-  }
-);
 
 
 /* =====================================
@@ -1279,10 +1052,6 @@ loadWebsiteBranding();
 loadNotices();
 
 </script>
-
-
-<!-- COMMON WEBSITE LANGUAGE SYSTEM -->
-<script src="language.js"></script>
 
 </body>
 </html>
