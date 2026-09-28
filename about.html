@@ -802,7 +802,7 @@ async function loadAboutWebsiteSettings(){
   try{
     const { data, error } = await aboutSupabase
       .from("website_settings")
-      .select("site_name,logo_url,address,temple_url,maa_basuli_url,group_photo_url")
+      .select("*")
       .order("created_at", { ascending:false })
       .limit(1)
       .maybeSingle();
@@ -830,33 +830,84 @@ async function loadAboutWebsiteSettings(){
       if(logoLocation) logoLocation.textContent = data.address;
     }
 
-    if(data.logo_url){
+    function firstValue(obj, keys){
+      for(const key of keys){
+        const value = obj ? obj[key] : null;
+        if(value !== null && value !== undefined && String(value).trim() !== ""){
+          return String(value).trim();
+        }
+      }
+      return "";
+    }
+
+    const logoUrl = firstValue(data, [
+      "logo_url",
+      "logo",
+      "site_logo_url"
+    ]);
+
+    const maaBasuliUrl = firstValue(data, [
+      "maa_basuli_url",
+      "maa_basuli_photo_url",
+      "maa_basuli_photo"
+    ]);
+
+    const groupPhotoUrl = firstValue(data, [
+      "group_photo_url",
+      "group_photo",
+      "committee_group_photo_url"
+    ]);
+
+    const templeUrl = firstValue(data, [
+      "temple_url",
+      "temple_photo_url",
+      "temple_photo"
+    ]);
+
+    if(logoUrl){
       const logo = document.getElementById("siteLogo");
       const fallback = document.getElementById("logoFallback");
+
       if(logo){
-        logo.src = data.logo_url;
+        logo.src = logoUrl;
         logo.style.display = "block";
+        logo.onerror = function(){
+          logo.style.display = "none";
+          if(fallback) fallback.style.display = "flex";
+        };
       }
+
       if(fallback) fallback.style.display = "none";
     }
 
     const aboutImage = document.querySelector(".image-card img");
+
     if(aboutImage){
-      if(data.maa_basuli_url){
-        aboutImage.src = data.maa_basuli_url;
+      if(maaBasuliUrl){
+        aboutImage.src = maaBasuliUrl;
         aboutImage.alt = "Maa Basuli";
-      }else if(data.temple_url){
-        aboutImage.src = data.temple_url;
+      }else if(templeUrl){
+        aboutImage.src = templeUrl;
         aboutImage.alt = "Maa Basuli Temple";
       }
+
+      aboutImage.onerror = function(){
+        if(templeUrl && aboutImage.src !== templeUrl){
+          aboutImage.src = templeUrl;
+          aboutImage.alt = "Maa Basuli Temple";
+        }
+      };
     }
 
-    if(data.group_photo_url){
+    if(groupPhotoUrl){
       const hero = document.querySelector(".page-hero");
+
       if(hero){
+        const safeGroupPhotoUrl = groupPhotoUrl.replace(/"/g, '\\"');
+
         hero.style.backgroundImage =
           'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' +
-          data.group_photo_url.replace(/"/g, '\"') +
+          safeGroupPhotoUrl +
           '")';
       }
     }
