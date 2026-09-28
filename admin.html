@@ -240,6 +240,54 @@ footer{text-align:center;color:#7b8492;padding:26px 15px}
     </div>
 
     <div class="stat">
+      <div class="stat-label">Published Notices</div>
+      <div class="stat-number" id="publishedNotices">—</div>
+      <div class="stat-note">Public notices</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Published Events</div>
+      <div class="stat-number" id="publishedEvents">—</div>
+      <div class="stat-note">Public events</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Gallery Albums</div>
+      <div class="stat-number" id="galleryAlbums">—</div>
+      <div class="stat-note">Total albums</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Gallery Photos</div>
+      <div class="stat-number" id="galleryPhotos">—</div>
+      <div class="stat-note">Total photos</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Total Complaints</div>
+      <div class="stat-number" id="totalComplaints">—</div>
+      <div class="stat-note">All complaints</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Pending Complaints</div>
+      <div class="stat-number" id="pendingComplaints">—</div>
+      <div class="stat-note">Need attention</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Under Review</div>
+      <div class="stat-number" id="underReview">—</div>
+      <div class="stat-note">Complaints under review</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Resolved Complaints</div>
+      <div class="stat-number" id="resolvedComplaints">—</div>
+      <div class="stat-note">Resolved complaints</div>
+    </div>
+
+    <div class="stat">
       <div class="stat-label">Fee Records</div>
       <div class="stat-number" id="feeRecords">—</div>
       <div class="stat-note">Payment records</div>
@@ -382,6 +430,14 @@ async function loadDashboardStats(){
     active,
     inactive,
     admins,
+    notices,
+    events,
+    albums,
+    photos,
+    complaints,
+    pendingComplaints,
+    underReview,
+    resolvedComplaints,
     fees,
     funds
   ]=await Promise.all([
@@ -391,6 +447,14 @@ async function loadDashboardStats(){
     getCount("member_profiles","member_status","active"),
     getCount("member_profiles","member_status","inactive"),
     getCount("user_roles","role","admin"),
+    getCount("notices","is_published",true),
+    getCount("events","is_published",true),
+    getCount("gallery_albums"),
+    getCount("gallery_photos"),
+    getCount("complaints"),
+    getCount("complaints","status","pending"),
+    getCount("complaints","status","under_review"),
+    getCount("complaints","status","resolved"),
     getCount("member_fee_payments"),
     getCount("fund_transactions")
   ]);
@@ -401,6 +465,14 @@ async function loadDashboardStats(){
   document.getElementById("activeMembers").textContent=active===null?"—":active;
   document.getElementById("inactiveMembers").textContent=inactive===null?"—":inactive;
   document.getElementById("adminAccounts").textContent=admins===null?"—":admins;
+  document.getElementById("publishedNotices").textContent=notices===null?"—":notices;
+  document.getElementById("publishedEvents").textContent=events===null?"—":events;
+  document.getElementById("galleryAlbums").textContent=albums===null?"—":albums;
+  document.getElementById("galleryPhotos").textContent=photos===null?"—":photos;
+  document.getElementById("totalComplaints").textContent=complaints===null?"—":complaints;
+  document.getElementById("pendingComplaints").textContent=pendingComplaints===null?"—":pendingComplaints;
+  document.getElementById("underReview").textContent=underReview===null?"—":underReview;
+  document.getElementById("resolvedComplaints").textContent=resolvedComplaints===null?"—":resolvedComplaints;
   document.getElementById("feeRecords").textContent=fees===null?"—":fees;
   document.getElementById("fundTransactions").textContent=funds===null?"—":funds;
 }
