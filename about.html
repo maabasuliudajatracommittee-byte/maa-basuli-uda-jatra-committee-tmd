@@ -39,9 +39,17 @@ a{
 
 .topbar-inner{
   display:flex;
+  align-items:center;
   justify-content:space-between;
   flex-wrap:wrap;
-  gap:10px;
+  gap:8px 18px;
+}
+
+.topbar-inner span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
 }
 
 header{
@@ -105,6 +113,14 @@ header{
   width:100%;
   border-top:1px solid #f0e1dc;
   background:#fff;
+}
+
+/* MASTER NAVIGATION - ALWAYS VISIBLE */
+.main-nav-wrap,
+nav,
+nav a{
+  visibility:visible !important;
+  opacity:1 !important;
 }
 
 nav{
@@ -323,24 +339,24 @@ footer a{
 
 @media(max-width:900px){
 
+  /* Keep every master navigation button visible on every page */
   nav{
-    display:none;
-    position:absolute;
-    top:75px;
-    left:0;
-    right:0;
+    display:flex !important;
+    position:static;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
     background:white;
-    padding:12px;
-    flex-direction:column;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
+    padding:8px 0 10px;
+    box-shadow:none;
   }
 
   nav.show{
-    display:flex;
+    display:flex !important;
   }
 
   .menu-btn{
-    display:block;
+    display:none !important;
   }
 
   .header-inner{
@@ -415,7 +431,9 @@ footer a{
 <div class="topbar">
   <div class="container topbar-inner">
     <span>🙏 Jai Maa Basuli</span>
-    <span>Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>✉️ maabasuliudajatracommittee@gmail.com</span>
+    <span>📞 7978583565</span>
   </div>
 </div>
 
@@ -765,7 +783,7 @@ async function loadAboutWebsiteSettings(){
     if(data.address){
       const location = document.querySelector(".topbar-inner span:nth-child(2)");
       const logoLocation = document.querySelector(".logo-text p");
-      if(location) location.textContent = data.address;
+      if(location) location.textContent = "📍 " + data.address;
       if(logoLocation) logoLocation.textContent = data.address;
     }
 
@@ -840,6 +858,9 @@ async function loadAboutWebsiteSettings(){
     console.error("About settings loading failed:", error);
   }
 }
+
+/* Load saved website branding and photos */
+loadAboutWebsiteSettings();
 
 </script>
 
