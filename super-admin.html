@@ -792,6 +792,26 @@
 
       </div>
 
+
+
+      <div class="control-card">
+
+        <div class="control-icon">📧</div>
+
+        <h4>Member Email Messages</h4>
+
+        <p>
+          Active members ku important message, notice, PDF, image ba document email karantu.
+        </p>
+
+        <button
+          class="blue"
+          onclick="scrollToSection('memberEmailMessaging')">
+          Open Email Messaging
+        </button>
+
+      </div>
+
       <div class="control-card">
 
         <div class="control-icon">👨‍💼</div>
@@ -1478,6 +1498,71 @@
 
 </div>
 
+
+
+<!-- MEMBER EMAIL MESSAGING -->
+
+<div class="card" id="memberEmailMessaging" style="margin-top:20px;">
+
+  <h3>📧 Member Email Messaging</h3>
+
+  <p class="card-subtitle">
+    Active members ku important official message ba document individual email re pathantu.
+  </p>
+
+  <div style="display:grid;gap:14px;">
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Send To</label>
+      <select id="broadcastRecipientMode" onchange="updateBroadcastRecipientUI()" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;">
+        <option value="all">All Active Members</option>
+        <option value="selected">Selected Members</option>
+        <option value="one">One Member</option>
+      </select>
+    </div>
+
+    <div id="broadcastSelectedWrap" style="display:none;">
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Select Members</label>
+      <select id="broadcastSelectedMembers" multiple size="6" style="width:100%;padding:8px;border:1px solid #ddd;border-radius:8px;"></select>
+      <small style="display:block;margin-top:6px;color:#666;">Mobile re multiple member select pain Ctrl/Shift available hele use karantu.</small>
+    </div>
+
+    <div id="broadcastOneWrap" style="display:none;">
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Select Member</label>
+      <select id="broadcastOneMember" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;"></select>
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Subject</label>
+      <input id="broadcastSubject" type="text" maxlength="200" placeholder="Email subject" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Message</label>
+      <textarea id="broadcastMessage" rows="8" maxlength="30000" placeholder="Official message lekhnantu..." style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;resize:vertical;"></textarea>
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Attachment (Optional)</label>
+      <input id="broadcastAttachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx,.xls,.xlsx" onchange="uploadBroadcastAttachment()" style="width:100%;padding:8px;box-sizing:border-box;">
+      <div id="broadcastAttachmentStatus" style="margin-top:8px;font-size:13px;color:#666;"></div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="primary" type="button" onclick="sendBroadcastEmail()">
+        📧 Send Email
+      </button>
+      <button class="secondary" type="button" onclick="clearBroadcastEmailForm()">
+        Clear
+      </button>
+    </div>
+
+    <div id="broadcastEmailResult" style="display:none;padding:12px;border-radius:8px;"></div>
+
+  </div>
+
+</div>
+
 <!-- MEMBER VIEW MODAL -->
 
 <div
@@ -1630,48 +1715,13 @@ async function checkSuperAdmin(){
 
 async function refreshDashboard(){
 
-  const refreshBtn =
-    document.querySelector('button.refresh');
+  await Promise.all([
+    loadDashboardSummary(),
+    loadMembers(),
+    loadAdmins()
+  ]);
 
-  if(refreshBtn){
-    refreshBtn.disabled = true;
-    refreshBtn.textContent = "⏳ Refreshing...";
-  }
-
-  try{
-
-    try{
-      await loadDashboardSummary();
-    }catch(error){
-      console.error("Dashboard summary refresh error:", error);
-    }
-
-    try{
-      await loadMembers();
-    }catch(error){
-      console.error("Members refresh error:", error);
-    }
-
-    try{
-      await loadAdmins();
-    }catch(error){
-      console.error("Admins refresh error:", error);
-    }
-
-    try{
-      await loadDonations();
-    }catch(error){
-      console.error("Donations refresh error:", error);
-    }
-
-  }finally{
-
-    if(refreshBtn){
-      refreshBtn.disabled = false;
-      refreshBtn.textContent = "🔄 Refresh";
-    }
-
-  }
+  await loadDonations();
 
 }
 
@@ -1916,6 +1966,7 @@ async function loadMembers(){
     data || [];
 
   renderMembers();
+  populateBroadcastMemberSelectors();
 
 }
 
@@ -2170,13 +2221,7 @@ function renderMembers(){
         ){
 
           actions +=
-            `
-            <button
-              class="secondary"
-              onclick="sendWelcomeEmail('${member.id}')">
-              📧 Welcome Email
-            </button>
-            `;
+            `            `;
 
         }
 
@@ -3131,6 +3176,262 @@ function designationOptions(
     }
   ).join("");
 
+}
+
+
+/* =========================
+   MEMBER BROADCAST EMAIL
+========================= */
+
+let broadcastAttachmentUrl = "";
+let broadcastAttachmentName = "";
+
+function updateBroadcastRecipientUI(){
+
+  const mode =
+    document.getElementById("broadcastRecipientMode")?.value || "all";
+
+  const selectedWrap =
+    document.getElementById("broadcastSelectedWrap");
+
+  const oneWrap =
+    document.getElementById("broadcastOneWrap");
+
+  if(selectedWrap) {
+    selectedWrap.style.display = mode === "selected" ? "block" : "none";
+  }
+
+  if(oneWrap) {
+    oneWrap.style.display = mode === "one" ? "block" : "none";
+  }
+
+  populateBroadcastMemberSelectors();
+}
+
+function populateBroadcastMemberSelectors(){
+
+  const activeMembers = (members || []).filter(member =>
+    member.approval_status === "approved" &&
+    member.member_status === "active" &&
+    member.member_id
+  );
+
+  const selectedSelect =
+    document.getElementById("broadcastSelectedMembers");
+
+  const oneSelect =
+    document.getElementById("broadcastOneMember");
+
+  const options = activeMembers.map(member => `
+    <option value="${escapeAttr(member.id)}">
+      ${escapeHtml(member.member_id || "")} - ${escapeHtml(member.full_name || "Member")} - ${escapeHtml(member.designation || "Member")}
+    </option>
+  `).join("");
+
+  if(selectedSelect) selectedSelect.innerHTML = options;
+
+  if(oneSelect){
+    oneSelect.innerHTML =
+      `<option value="">Select Member</option>` + options;
+  }
+}
+
+async function uploadBroadcastAttachment(){
+
+  const input = document.getElementById("broadcastAttachment");
+  const status = document.getElementById("broadcastAttachmentStatus");
+
+  broadcastAttachmentUrl = "";
+  broadcastAttachmentName = "";
+
+  if(!input || !input.files || !input.files[0]){
+    if(status) status.textContent = "";
+    return;
+  }
+
+  const file = input.files[0];
+
+  if(file.size > 10 * 1024 * 1024){
+    input.value = "";
+    if(status) status.textContent = "❌ Maximum attachment size is 10 MB.";
+    return;
+  }
+
+  try{
+    if(status) status.textContent = "⏳ Uploading attachment...";
+
+    const safeName =
+      file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+    const path =
+      `member-messages/${Date.now()}-${safeName}`;
+
+    const { error: uploadError } =
+      await supabaseClient.storage
+        .from("site-media")
+        .upload(path, file, {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: file.type || "application/octet-stream"
+        });
+
+    if(uploadError) throw uploadError;
+
+    const { data } =
+      supabaseClient.storage
+        .from("site-media")
+        .getPublicUrl(path);
+
+    broadcastAttachmentUrl = data?.publicUrl || "";
+    broadcastAttachmentName = file.name;
+
+    if(!broadcastAttachmentUrl){
+      throw new Error("Could not create attachment URL.");
+    }
+
+    if(status){
+      status.textContent = `✅ ${file.name} ready to attach.`;
+    }
+  }catch(error){
+    console.error("Broadcast attachment upload error:", error);
+    input.value = "";
+    if(status){
+      status.textContent = "❌ Attachment upload failed: " + (error?.message || "Unknown error");
+    }
+  }
+}
+
+async function sendBroadcastEmail(){
+
+  const mode =
+    document.getElementById("broadcastRecipientMode")?.value || "all";
+
+  const subject =
+    document.getElementById("broadcastSubject")?.value.trim() || "";
+
+  const message =
+    document.getElementById("broadcastMessage")?.value.trim() || "";
+
+  if(!subject){
+    alert("Email subject dia.");
+    return;
+  }
+
+  if(!message){
+    alert("Email message dia.");
+    return;
+  }
+
+  let memberIds = [];
+  let memberId = "";
+
+  if(mode === "selected"){
+    memberIds = [...document.getElementById("broadcastSelectedMembers").selectedOptions]
+      .map(option => option.value)
+      .filter(Boolean);
+
+    if(!memberIds.length){
+      alert("At least one member select karantu.");
+      return;
+    }
+  }
+
+  if(mode === "one"){
+    memberId =
+      document.getElementById("broadcastOneMember")?.value || "";
+
+    if(!memberId){
+      alert("One member select karantu.");
+      return;
+    }
+  }
+
+  const targetText =
+    mode === "all"
+      ? "ALL ACTIVE MEMBERS"
+      : mode === "selected"
+        ? `${memberIds.length} SELECTED MEMBER(S)`
+        : "ONE MEMBER";
+
+  if(!confirm(`Email ${targetText} ku send karibe?`)) return;
+
+  const resultBox = document.getElementById("broadcastEmailResult");
+
+  if(resultBox){
+    resultBox.style.display = "block";
+    resultBox.style.background = "#fff8e1";
+    resultBox.style.color = "#7a5a00";
+    resultBox.textContent = "⏳ Email sending... Please wait.";
+  }
+
+  try{
+    const { data, error } =
+      await supabaseClient.functions.invoke(
+        "member-broadcast-email",
+        {
+          body: {
+            recipient_mode: mode,
+            member_ids: memberIds,
+            member_id: memberId,
+            subject,
+            message,
+            attachment_url: broadcastAttachmentUrl,
+            attachment_name: broadcastAttachmentName
+          }
+        }
+      );
+
+    if(error) throw error;
+
+    if(!data?.ok && !data?.partial){
+      throw new Error(data?.message || "Email could not be sent.");
+    }
+
+    if(resultBox){
+      resultBox.style.background = data.partial ? "#fff3cd" : "#e8f5e9";
+      resultBox.style.color = data.partial ? "#856404" : "#1b5e20";
+      resultBox.innerHTML = data.partial
+        ? `⚠️ ${escapeHtml(data.message || "Some emails failed.")}`
+        : `✅ ${escapeHtml(data.message || "Email sent successfully.")}`;
+    }
+
+    if(!data.partial){
+      document.getElementById("broadcastSubject").value = "";
+      document.getElementById("broadcastMessage").value = "";
+      document.getElementById("broadcastAttachment").value = "";
+      document.getElementById("broadcastAttachmentStatus").textContent = "";
+      broadcastAttachmentUrl = "";
+      broadcastAttachmentName = "";
+    }
+  }catch(error){
+    console.error("Broadcast email error:", error);
+    if(resultBox){
+      resultBox.style.display = "block";
+      resultBox.style.background = "#ffebee";
+      resultBox.style.color = "#b71c1c";
+      resultBox.textContent = "❌ Email send hela nahi: " + (error?.message || "Unknown error");
+    }
+  }
+}
+
+function clearBroadcastEmailForm(){
+
+  document.getElementById("broadcastSubject").value = "";
+  document.getElementById("broadcastMessage").value = "";
+  document.getElementById("broadcastAttachment").value = "";
+  document.getElementById("broadcastAttachmentStatus").textContent = "";
+  document.getElementById("broadcastEmailResult").style.display = "none";
+
+  broadcastAttachmentUrl = "";
+  broadcastAttachmentName = "";
+
+  const selected = document.getElementById("broadcastSelectedMembers");
+  if(selected){
+    [...selected.options].forEach(option => option.selected = false);
+  }
+
+  const one = document.getElementById("broadcastOneMember");
+  if(one) one.value = "";
 }
 
 /* =========================
