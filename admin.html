@@ -3,106 +3,306 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Control Panel - Maa Basuli Uda Jatra Committee</title>
+<title>Admin Dashboard - Maa Basuli Uda Jatra Committee</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f6f7fb;color:#222}
-header{background:linear-gradient(135deg,#7b1e2b,#a52a3b);color:#fff;padding:22px 16px;text-align:center}
-header h1{margin:0;font-size:25px}
-header p{margin:7px 0 0;opacity:.9}
-.container{max-width:1100px;margin:auto;padding:18px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
-.badge{background:#fff;border-radius:20px;padding:8px 14px;box-shadow:0 2px 8px #0001;font-weight:bold}
-button,.card a{border:0;border-radius:10px;padding:11px 15px;font-weight:bold;cursor:pointer;text-decoration:none;display:inline-block}
-.logout{background:#fff;color:#8b2030}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
-.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 16px #00000012;border:1px solid #eee}
-.icon{font-size:34px}
-.card h3{margin:10px 0 6px}
-.card p{color:#666;min-height:42px;line-height:1.45}
-.open{background:#8b2030;color:#fff;width:100%;text-align:center}
-.id-card-open{background:#16833b;color:#fff}
-.member{margin-top:20px}
-.member-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.member-list{margin-top:12px}
-.member-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;border:1px solid #eee;border-radius:12px;margin-bottom:9px;background:#fafafa}
-.member-info strong{display:block}
-.member-info small{color:#666}
-.actions{display:flex;gap:7px;flex-wrap:wrap}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f5f8;
+  color:#172033;
+}
+header{
+  background:linear-gradient(135deg,#7b1e2b,#a52a3b);
+  color:#fff;
+  padding:22px 22px 24px;
+}
+.header-inner{max-width:1360px;margin:auto}
+header h1{margin:0;font-size:27px}
+header p{margin:7px 0 0;opacity:.92;font-size:15px}
+.container{max-width:1360px;margin:auto;padding:24px 20px 35px}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:20px;
+}
+.page-title h2{margin:0;font-size:28px}
+.page-title p{margin:5px 0 0;color:#687386}
+.top-actions{display:flex;gap:10px;flex-wrap:wrap}
+button,.card a{
+  border:0;
+  border-radius:10px;
+  padding:11px 15px;
+  font-weight:700;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+.refresh{background:#2563eb;color:#fff}
+.logout{background:#dc2626;color:#fff}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+.stat{
+  background:#fff;
+  border-radius:15px;
+  padding:20px 22px;
+  box-shadow:0 3px 13px #0000000d;
+  border-left:4px solid #7b1e2b;
+  min-height:116px;
+}
+.stat:nth-child(2){border-left-color:#f59e0b}
+.stat:nth-child(3){border-left-color:#16a34a}
+.stat:nth-child(4){border-left-color:#16a34a}
+.stat:nth-child(5){border-left-color:#dc2626}
+.stat:nth-child(6){border-left-color:#2563eb}
+.stat:nth-child(7){border-left-color:#7c3aed}
+.stat:nth-child(8){border-left-color:#0f766e}
+.stat-label{color:#637083;font-size:14px}
+.stat-number{font-size:30px;font-weight:800;margin-top:10px;color:#111827}
+.stat-note{font-size:12px;color:#94a3b8;margin-top:4px}
+
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:28px 0 14px;
+}
+.section-title h3{margin:0;font-size:21px}
+.section-title span{color:#7b1e2b;font-size:13px;font-weight:700}
+
+.modules{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
+.card{
+  background:#fff;
+  border-radius:15px;
+  padding:19px;
+  box-shadow:0 3px 13px #0000000d;
+  border:1px solid #edf0f4;
+}
+.module-icon{font-size:32px}
+.card h3{margin:10px 0 7px;font-size:18px}
+.card p{
+  color:#687386;
+  line-height:1.5;
+  min-height:62px;
+  margin:0 0 15px;
+  font-size:14px;
+}
+.open{
+  background:#8b2030;
+  color:#fff;
+  width:100%;
+  text-align:center;
+}
+.id-card-open{background:#16833b}
+.card-blue .open{background:#2563eb}
+.card-green .open{background:#16833b}
+.card-purple .open{background:#7c3aed}
+.card-orange .open{background:#c56a08}
+
+.member{
+  margin-top:24px;
+  padding:22px;
+}
+.member-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.member-head h3{margin:0;font-size:21px}
+.member-head p{margin:5px 0 0;color:#687386;font-size:14px}
+.member-refresh{background:#2563eb;color:#fff}
+.member-list{margin-top:16px}
+.member-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  padding:15px;
+  border:1px solid #e8ebf0;
+  border-radius:12px;
+  margin-bottom:9px;
+  background:#fafbfc;
+}
+.member-info strong{display:block;font-size:15px;margin-bottom:5px}
+.member-info small{color:#687386;line-height:1.55}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
 .approve{background:#198754;color:#fff}
 .reject{background:#dc3545;color:#fff}
-#loading,#message{padding:15px;border-radius:10px;margin-top:12px}
-#message{display:none;background:#fff3cd}
+#loading,#message{
+  padding:14px;
+  border-radius:10px;
+  margin-top:12px;
+}
+#loading{background:#f8fafc;color:#64748b}
+#message{display:none;background:#fff3cd;color:#7a5b00}
+.quick{
+  margin-top:24px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.quick .card{padding:18px}
+.quick h3{margin:0 0 8px}
+.quick p{min-height:auto;margin-bottom:12px}
+footer{text-align:center;color:#7b8492;padding:26px 15px}
 .hidden{display:none}
-footer{text-align:center;color:#777;padding:25px}
-@media(max-width:600px){
+
+@media(max-width:1050px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .modules{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:650px){
+  .container{padding:18px 12px 28px}
+  header{padding:18px 15px}
+  header h1{font-size:22px}
+  .page-title h2{font-size:23px}
+  .grid,.modules,.quick{grid-template-columns:1fr}
   .member-row{align-items:flex-start;flex-direction:column}
   .actions{width:100%}
   .actions button{flex:1}
+  .top-actions{width:100%}
+  .top-actions button{flex:1}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🛡️ Admin Control Panel</h1>
-  <p>ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା</p>
+  <div class="header-inner">
+    <h1>🛡️ Maa Basuli Uda Jatra Committee</h1>
+    <p>ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା</p>
+  </div>
 </header>
 
 <div class="container">
 
   <div class="top">
-    <div class="badge">👨‍💼 Admin Access</div>
-    <button class="logout" onclick="logout()">Logout</button>
+    <div class="page-title">
+      <h2>👨‍💼 Admin Dashboard</h2>
+      <p id="adminEmail">Admin Control Panel</p>
+    </div>
+    <div class="top-actions">
+      <button class="refresh" onclick="refreshDashboard()">↻ Refresh</button>
+      <button class="logout" onclick="logout()">Logout</button>
+    </div>
   </div>
 
+  <!-- Dashboard summary cards -->
   <div class="grid">
+    <div class="stat">
+      <div class="stat-label">Total Members</div>
+      <div class="stat-number" id="totalMembers">—</div>
+      <div class="stat-note">All registered members</div>
+    </div>
 
-    <div class="card">
-      <div class="icon">🪪</div>
+    <div class="stat">
+      <div class="stat-label">Pending Approval</div>
+      <div class="stat-number" id="pendingMembers">—</div>
+      <div class="stat-note">Awaiting Admin action</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Approved Members</div>
+      <div class="stat-number" id="approvedMembers">—</div>
+      <div class="stat-note">Approved accounts</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Active Members</div>
+      <div class="stat-number" id="activeMembers">—</div>
+      <div class="stat-note">Currently active</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Inactive Members</div>
+      <div class="stat-number" id="inactiveMembers">—</div>
+      <div class="stat-note">Currently inactive</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Admin Accounts</div>
+      <div class="stat-number" id="adminAccounts">—</div>
+      <div class="stat-note">Admin role users</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Fee Records</div>
+      <div class="stat-number" id="feeRecords">—</div>
+      <div class="stat-note">Payment records</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Fund Transactions</div>
+      <div class="stat-number" id="fundTransactions">—</div>
+      <div class="stat-note">Fund records</div>
+    </div>
+  </div>
+
+  <div class="section-title">
+    <h3>⚙️ Management Modules</h3>
+    <span>ADMIN ACCESS</span>
+  </div>
+
+  <div class="modules">
+
+    <div class="card card-green">
+      <div class="module-icon">🪪</div>
       <h3>My Digital ID Card</h3>
       <p>Nijara Member Profile, Digital ID Card dekhaantu, Download ebam Print karantu.</p>
       <a class="open id-card-open" href="profile.html">🪪 Open My ID Card</a>
     </div>
 
     <div class="card">
-      <div class="icon">📝</div>
+      <div class="module-icon">📝</div>
       <h3>Complaint Management</h3>
       <p>Complaint dekha, status change ebam official remark manage karantu.</p>
       <a class="open" href="complaint-manager.html">Open Complaint Manager</a>
     </div>
 
-    <div class="card">
-      <div class="icon">📢</div>
+    <div class="card card-blue">
+      <div class="module-icon">📢</div>
       <h3>Notice Management</h3>
       <p>Notice add, edit, publish, unpublish ebam PDF upload karantu.</p>
       <a class="open" href="notice-manager.html">Open Notice Manager</a>
     </div>
 
-    <div class="card">
-      <div class="icon">🎉</div>
+    <div class="card card-purple">
+      <div class="module-icon">🎉</div>
       <h3>Event Management</h3>
       <p>Programme, event date, location ebam details manage karantu.</p>
       <a class="open" href="event-manager.html">Open Event Manager</a>
     </div>
 
-    <div class="card">
-      <div class="icon">🖼️</div>
+    <div class="card card-purple">
+      <div class="module-icon">🖼️</div>
       <h3>Gallery Management</h3>
       <p>Album, cover photo, photos publish ebam delete manage karantu.</p>
       <a class="open" href="gallery-manager.html">Open Gallery Manager</a>
     </div>
 
-    <div class="card">
-      <div class="icon">💰</div>
+    <div class="card card-green">
+      <div class="module-icon">💰</div>
       <h3>Fund Management</h3>
       <p>Collection, expense, savings ebam year-wise fund records manage karantu.</p>
       <a class="open" href="fund-manager.html">Open Fund Manager</a>
     </div>
 
-    <div class="card">
-      <div class="icon">💳</div>
+    <div class="card card-orange">
+      <div class="module-icon">💳</div>
       <h3>Member Fee Management</h3>
       <p>Year-wise fee, paid/unpaid status ebam member fee records manage karantu.</p>
       <a class="open" href="member-fee-manager.html">Open Fee Manager</a>
@@ -114,9 +314,9 @@ footer{text-align:center;color:#777;padding:25px}
     <div class="member-head">
       <div>
         <h3>👤 Member Approval / Reject</h3>
-        <p style="margin:4px 0;color:#666">Admin kebala pending member ku Approve ba Reject kariparibe.</p>
+        <p>Admin kebala pending member ku Approve ba Reject kariparibe.</p>
       </div>
-      <button class="open" style="width:auto" onclick="loadPendingMembers()">🔄 Refresh</button>
+      <button class="member-refresh" onclick="loadPendingMembers()">↻ Refresh</button>
     </div>
 
     <div id="message"></div>
@@ -163,7 +363,46 @@ async function requireAdmin(){
     return null;
   }
 
+  document.getElementById("adminEmail").textContent=session.user.email||"Admin Access";
   return session;
+}
+
+async function getCount(table, filterColumn, filterValue){
+  let q=supabaseClient.from(table).select("*",{count:"exact",head:true});
+  if(filterColumn) q=q.eq(filterColumn,filterValue);
+  const {count,error}=await q;
+  return error ? null : (count||0);
+}
+
+async function loadDashboardStats(){
+  const [
+    total,
+    pending,
+    approved,
+    active,
+    inactive,
+    admins,
+    fees,
+    funds
+  ]=await Promise.all([
+    getCount("member_profiles"),
+    getCount("member_profiles","approval_status","pending"),
+    getCount("member_profiles","approval_status","approved"),
+    getCount("member_profiles","member_status","active"),
+    getCount("member_profiles","member_status","inactive"),
+    getCount("user_roles","role","admin"),
+    getCount("member_fee_payments"),
+    getCount("fund_transactions")
+  ]);
+
+  document.getElementById("totalMembers").textContent=total===null?"—":total;
+  document.getElementById("pendingMembers").textContent=pending===null?"—":pending;
+  document.getElementById("approvedMembers").textContent=approved===null?"—":approved;
+  document.getElementById("activeMembers").textContent=active===null?"—":active;
+  document.getElementById("inactiveMembers").textContent=inactive===null?"—":inactive;
+  document.getElementById("adminAccounts").textContent=admins===null?"—":admins;
+  document.getElementById("feeRecords").textContent=fees===null?"—":fees;
+  document.getElementById("fundTransactions").textContent=funds===null?"—":funds;
 }
 
 async function loadPendingMembers(){
@@ -227,7 +466,8 @@ async function approveMember(id){
   }
 
   alert("Member approved successfully.");
-  loadPendingMembers();
+  await loadPendingMembers();
+  await loadDashboardStats();
 }
 
 async function rejectMember(id){
@@ -244,7 +484,22 @@ async function rejectMember(id){
   }
 
   alert("Member rejected successfully.");
-  loadPendingMembers();
+  await loadPendingMembers();
+  await loadDashboardStats();
+}
+
+async function refreshDashboard(){
+  const btn=document.querySelector(".refresh");
+  btn.textContent="↻ Refreshing...";
+  btn.disabled=true;
+
+  await Promise.all([
+    loadDashboardStats(),
+    loadPendingMembers()
+  ]);
+
+  btn.textContent="↻ Refresh";
+  btn.disabled=false;
 }
 
 function esc(v){
@@ -266,7 +521,10 @@ async function logout(){
 }
 
 requireAdmin().then(s=>{
-  if(s)loadPendingMembers();
+  if(s){
+    loadDashboardStats();
+    loadPendingMembers();
+  }
 });
 </script>
 
