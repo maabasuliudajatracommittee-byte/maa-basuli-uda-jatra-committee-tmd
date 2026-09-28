@@ -503,8 +503,9 @@ footer a{
 
     <a href="index.html" class="logo">
 
-      <div class="logo-icon">
-        🙏
+      <div class="logo-icon" style="overflow:hidden; background:#f4c542;">
+        <img id="siteLogo" src="" alt="Maa Basuli Logo" style="width:100%;height:100%;object-fit:cover;display:none;">
+        <span id="logoFallback">🙏</span>
       </div>
 
       <div class="logo-text">
@@ -888,6 +889,30 @@ function toggleMenu(){
 /* =====================================================
    LOAD PUBLIC MEMBERS
    ===================================================== */
+
+async function loadSiteLogo(){
+  try{
+    const {data, error} = await supabaseClient
+      .from("website_settings")
+      .select("logo_url")
+      .limit(1)
+      .maybeSingle();
+
+    if(!error && data?.logo_url){
+      const img = document.getElementById("siteLogo");
+      const fallback = document.getElementById("logoFallback");
+      if(img){
+        img.src = data.logo_url;
+        img.style.display = "block";
+      }
+      if(fallback) fallback.style.display = "none";
+    }
+  }catch(err){
+    console.warn("Logo load failed", err);
+  }
+}
+
+loadSiteLogo();
 
 async function loadMembers(){
 
