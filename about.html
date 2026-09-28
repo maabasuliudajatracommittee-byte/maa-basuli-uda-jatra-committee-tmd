@@ -359,57 +359,92 @@ footer a{
   }
 }
 
-/* ===== WEBSITE BRANDING + LANGUAGE ===== */
+/* ===== WEBSITE BRANDING ===== */
+
+.page-hero{
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+}
+
+/* ===== LARGER PROFESSIONAL HEADER ===== */
+.header-inner{
+  min-height:100px;
+}
+
+.logo{
+  gap:16px;
+}
+
 .logo-icon{
-  object-fit:cover;
-  border:2px solid #f4c542;
-  background:#fff8ed;
+  width:72px;
+  height:72px;
+  font-size:34px;
 }
-#siteLogo{
-  display:none;
+
+.logo-text h1{
+  font-size:25px;
 }
-#maa-language-switcher{
-  display:inline-flex;
-  align-items:center;
-  gap:3px;
-  margin-left:8px;
-  padding:3px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  white-space:nowrap;
+
+.logo-text p{
+  font-size:14px;
 }
-#maa-language-switcher button{
-  border:0;
-  background:transparent;
-  color:#333;
-  cursor:pointer;
-  font-weight:700;
-  font-size:12px;
-  padding:7px 9px;
-  border-radius:6px;
+
+nav{
+  gap:5px;
 }
-#maa-language-switcher button.active{
-  background:#7b1e1e;
-  color:#fff;
+
+nav a{
+  padding:11px 14px;
+  font-size:14px;
 }
-#maa-language-switcher button:hover{
-  background:#f5e8e8;
+
+.menu-btn{
+  padding:10px 14px;
+  font-size:22px;
 }
+
+.btn{
+  padding:13px 22px;
+  font-size:16px;
+}
+
 @media(max-width:900px){
-  #maa-language-switcher{
-    margin-left:auto;
+  nav{
+    top:100px;
   }
-  #maa-language-switcher button{
-    padding:6px 7px;
-    font-size:11px;
+
+  .header-inner{
+    min-height:90px;
+  }
+
+  .logo-icon{
+    width:64px;
+    height:64px;
+  }
+
+  .logo-text h1{
+    font-size:21px;
   }
 }
+
 @media(max-width:600px){
-  #maa-language-switcher button{
-    padding:6px;
-    font-size:10px;
+  .header-inner{
+    min-height:82px;
+  }
+
+  .logo-icon{
+    width:56px;
+    height:56px;
+    font-size:28px;
+  }
+
+  .logo-text h1{
+    font-size:17px;
+  }
+
+  .logo-text p{
+    font-size:12px;
   }
 }
 
@@ -422,7 +457,7 @@ footer a{
 
 <div class="topbar">
   <div class="container topbar-inner">
-    <span>🙏 जय माँ बसुली</span>
+    <span>🙏 Jai Maa Basuli</span>
     <span>Thakurmunda, Mayurbhanj, Odisha</span>
   </div>
 </div>
@@ -473,13 +508,6 @@ footer a{
       <a href="auth.html">Login</a>
 
     </nav>
-
-    <div id="maa-language-switcher" aria-label="Website Language">
-      <button type="button" data-site-lang="en" onclick="setSiteLanguage('en')">🇬🇧 English</button>
-      <button type="button" data-site-lang="or" onclick="setSiteLanguage('or')">ଓଡ଼ିଆ</button>
-      <button type="button" data-site-lang="hi" onclick="setSiteLanguage('hi')">हिन्दी</button>
-    </div>
-
   </div>
 
 </header>
@@ -691,7 +719,7 @@ footer a{
         </p>
 
         <p style="margin-top:10px;">
-          ଜୟ ମା' ବାସୁଳୀ 🙏
+          Jai Maa Basuli 🙏
         </p>
 
       </div>
@@ -756,7 +784,7 @@ function toggleMenu(){
 <script>
 /* =====================================================
    Maa Basuli Uda Jatra Committee
-   ABOUT PAGE - BRANDING + LANGUAGE
+   ABOUT PAGE - BRANDING
    Original page structure/functionality preserved
    ===================================================== */
 
@@ -774,7 +802,7 @@ async function loadAboutWebsiteSettings(){
   try{
     const { data, error } = await aboutSupabase
       .from("website_settings")
-      .select("site_name,logo_url,address,temple_url")
+      .select("site_name,logo_url,address,temple_url,maa_basuli_url,group_photo_url")
       .order("created_at", { ascending:false })
       .limit(1)
       .maybeSingle();
@@ -812,144 +840,30 @@ async function loadAboutWebsiteSettings(){
       if(fallback) fallback.style.display = "none";
     }
 
-    if(data.temple_url){
-      const temple = document.querySelector(".image-card img");
-      if(temple){
-        temple.src = data.temple_url;
-        temple.alt = "Maa Basuli Temple";
+    const aboutImage = document.querySelector(".image-card img");
+    if(aboutImage){
+      if(data.maa_basuli_url){
+        aboutImage.src = data.maa_basuli_url;
+        aboutImage.alt = "Maa Basuli";
+      }else if(data.temple_url){
+        aboutImage.src = data.temple_url;
+        aboutImage.alt = "Maa Basuli Temple";
+      }
+    }
+
+    if(data.group_photo_url){
+      const hero = document.querySelector(".page-hero");
+      if(hero){
+        hero.style.backgroundImage =
+          'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' +
+          data.group_photo_url.replace(/"/g, '\"') +
+          '")';
       }
     }
   }catch(error){
     console.error("About settings loading failed:", error);
   }
 }
-
-/* LANGUAGE SYSTEM */
-(function(){
-  const KEY = "maaBasuliLanguage";
-
-  const T = {
-    en: {
-      "🙏 जय माँ बसुली":"🙏 जय माँ बसुली",
-      "Thakurmunda, Mayurbhanj, Odisha":"Thakurmunda, Mayurbhanj, Odisha",
-      "Home":"Home","About":"About","Uda Jatra":"Uda Jatra","Notices":"Notices",
-      "Events":"Events","Gallery":"Gallery","Our Members":"Our Members","Fund":"Fund",
-      "Complaint":"Complaint","Contact":"Contact","Login":"Login",
-      "About Us":"About Us",
-      "Maa Basuli Uda Jatra Committee, Thakurmunda":"Maa Basuli Uda Jatra Committee, Thakurmunda",
-      "About Maa Basuli Uda Jatra Committee":"About Maa Basuli Uda Jatra Committee",
-      "Our Purpose":"Our Purpose",
-      "Tradition, devotion and community service":"Tradition, devotion and community service",
-      "Religious Tradition":"Religious Tradition",
-      "Cultural Heritage":"Cultural Heritage",
-      "Community Participation":"Community Participation",
-      "Official Digital Platform":"Official Digital Platform",
-      "One place for Maa Basuli Committee information":"One place for Maa Basuli Committee information",
-      "← Back to Home":"← Back to Home",
-      "Quick Links":"Quick Links","Services":"Services",
-      "Fund & Donation":"Fund & Donation","Member Fee":"Member Fee",
-      "Complaint Box":"Complaint Box"
-    },
-    or: {
-      "🙏 जय माँ बसुली":"🙏 ଜୟ ମା' ବାସୁଳୀ",
-      "Thakurmunda, Mayurbhanj, Odisha":"ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା",
-      "Home":"ମୁଖ୍ୟ ପୃଷ୍ଠା","About":"ଆମ ବିଷୟରେ","Uda Jatra":"ଉଡ଼ା ଯାତ୍ରା",
-      "Notices":"ବିଜ୍ଞପ୍ତି","Events":"କାର୍ଯ୍ୟକ୍ରମ","Gallery":"ଫଟୋ ଗ୍ୟାଲେରୀ",
-      "Our Members":"ଆମ ସଦସ୍ୟ","Fund":"ଫଣ୍ଡ","Complaint":"ଅଭିଯୋଗ",
-      "Contact":"ଯୋଗାଯୋଗ","Login":"ଲଗଇନ୍",
-      "About Us":"ଆମ ବିଷୟରେ",
-      "Maa Basuli Uda Jatra Committee, Thakurmunda":"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା",
-      "About Maa Basuli Uda Jatra Committee":"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ବିଷୟରେ",
-      "Our Purpose":"ଆମର ଉଦ୍ଦେଶ୍ୟ",
-      "Tradition, devotion and community service":"ପରମ୍ପରା, ଭକ୍ତି ଓ ସାମୁଦାୟିକ ସେବା",
-      "Religious Tradition":"ଧାର୍ମିକ ପରମ୍ପରା",
-      "Cultural Heritage":"ସାଂସ୍କୃତିକ ଐତିହ୍ୟ",
-      "Community Participation":"ସାମୁଦାୟିକ ଅଂଶଗ୍ରହଣ",
-      "Official Digital Platform":"ସରକାରୀ ଡିଜିଟାଲ୍ ମଞ୍ଚ",
-      "One place for Maa Basuli Committee information":"ମା' ବାସୁଳୀ କମିଟି ସୂଚନାର ଏକ ସ୍ଥାନ",
-      "← Back to Home":"← ମୁଖ୍ୟ ପୃଷ୍ଠାକୁ ଫେରନ୍ତୁ",
-      "Quick Links":"ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଲିଙ୍କ୍","Services":"ସେବା",
-      "Fund & Donation":"ଫଣ୍ଡ ଓ ଦାନ","Member Fee":"ସଦସ୍ୟ ଫି",
-      "Complaint Box":"ଅଭିଯୋଗ ବକ୍ସ"
-    },
-    hi: {
-      "🙏 जय माँ बसुली":"🙏 जय माँ बासुली",
-      "Thakurmunda, Mayurbhanj, Odisha":"ठाकुरमुंडा, मयूरभंज, ओडिशा",
-      "Home":"मुख्य पृष्ठ","About":"हमारे बारे में","Uda Jatra":"उदय यात्रा",
-      "Notices":"सूचनाएँ","Events":"कार्यक्रम","Gallery":"फोटो गैलरी",
-      "Our Members":"हमारे सदस्य","Fund":"फंड","Complaint":"शिकायत",
-      "Contact":"संपर्क","Login":"लॉगिन",
-      "About Us":"हमारे बारे में",
-      "Maa Basuli Uda Jatra Committee, Thakurmunda":"माँ बासुली उदय यात्रा समिति, ठाकुरमुंडा",
-      "About Maa Basuli Uda Jatra Committee":"माँ बासुली उदय यात्रा समिति के बारे में",
-      "Our Purpose":"हमारा उद्देश्य",
-      "Tradition, devotion and community service":"परंपरा, भक्ति और सामुदायिक सेवा",
-      "Religious Tradition":"धार्मिक परंपरा",
-      "Cultural Heritage":"सांस्कृतिक विरासत",
-      "Community Participation":"सामुदायिक भागीदारी",
-      "Official Digital Platform":"आधिकारिक डिजिटल मंच",
-      "One place for Maa Basuli Committee information":"माँ बासुली समिति की जानकारी के लिए एक स्थान",
-      "← Back to Home":"← मुख्य पृष्ठ पर वापस जाएँ",
-      "Quick Links":"त्वरित लिंक","Services":"सेवाएँ",
-      "Fund & Donation":"फंड और दान","Member Fee":"सदस्य शुल्क",
-      "Complaint Box":"शिकायत बॉक्स"
-    }
-  };
-
-  function translateElement(el, lang){
-    const original = el.getAttribute("data-original-text") || el.textContent.trim();
-    if(!el.getAttribute("data-original-text")){
-      el.setAttribute("data-original-text", original);
-    }
-    const key = el.getAttribute("data-original-text");
-    if(T[lang] && T[lang][key] !== undefined){
-      el.textContent = T[lang][key];
-    }
-  }
-
-  function applyLanguage(lang){
-    if(!T[lang]) lang = "en";
-    localStorage.setItem(KEY, lang);
-    document.documentElement.lang = lang;
-
-    document.querySelectorAll("#maa-language-switcher button").forEach(function(btn){
-      const active = btn.getAttribute("data-site-lang") === lang;
-      btn.classList.toggle("active", active);
-      btn.setAttribute("aria-pressed", active ? "true" : "false");
-    });
-
-    const selectors = [
-      ".topbar-inner span",
-      "nav a",
-      ".page-hero h2",
-      ".page-hero p",
-      ".content-card h2",
-      ".content-card p",
-      ".section-title h2",
-      ".section-title p",
-      ".card h3",
-      ".card p",
-      ".highlight-box p",
-      ".btn",
-      "footer h3",
-      "footer p",
-      "footer a"
-    ];
-
-    selectors.forEach(function(selector){
-      document.querySelectorAll(selector).forEach(function(el){
-        translateElement(el, lang);
-      });
-    });
-  }
-
-  window.setSiteLanguage = applyLanguage;
-
-  document.addEventListener("DOMContentLoaded", function(){
-    applyLanguage(localStorage.getItem(KEY) || "en");
-    loadAboutWebsiteSettings();
-  });
-})();
 </script>
 
 </body>
