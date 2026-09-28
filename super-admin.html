@@ -2090,6 +2090,21 @@ function renderMembers(){
             onclick="viewMember('${member.id}')">
             View
           </button>
+
+          <button
+            class="warning"
+            onclick="resetUserPassword(
+              '${member.id}',
+              '${escapeAttr(member.email || "")}'
+            )">
+            🔑 Reset Password
+          </button>
+
+          <button
+            class="success"
+            onclick="downloadMemberIdCard('${member.id}')">
+            🪪 ID Card
+          </button>
           `;
 
         if(
