@@ -463,15 +463,15 @@
       }
 
       const {
-        data: profileRow,
-        error: profileError
-      } = await supabaseClient
-        .from("member_profiles")
-        .select("email")
-        .eq("mobile", mobile)
-        .maybeSingle();
+        data: lookupEmail,
+        error: lookupError
+      } = await supabaseClient.rpc(
+        "get_login_email_by_mobile",
+        { p_mobile: mobile }
+      );
 
-      if(profileError || !profileRow?.email){
+      if(lookupError || !lookupEmail){
+        console.error(lookupError);
         showMessage(
           "Ehi mobile number ra account milila nahi.",
           "error"
@@ -479,7 +479,7 @@
         return;
       }
 
-      loginEmail = profileRow.email;
+      loginEmail = lookupEmail;
     }
 
     const {
