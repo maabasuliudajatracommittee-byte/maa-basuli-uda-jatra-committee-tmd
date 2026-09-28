@@ -119,6 +119,73 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
 @keyframes spin{to{transform:rotate(360deg)}}
 
 
+
+/* ===== LIVE UDA JATRA COUNTDOWN ===== */
+.countdown-section{
+  background:linear-gradient(135deg,#fff8e8,#fff,#fff3e8);
+  padding:22px 0;
+  border-top:1px solid #ead7b0;
+  border-bottom:1px solid #ead7b0;
+}
+.countdown-box{
+  max-width:1050px;
+  margin:auto;
+  background:#8b0000;
+  color:#fff;
+  border-radius:18px;
+  padding:20px 18px;
+  text-align:center;
+  box-shadow:0 5px 20px rgba(0,0,0,.12);
+}
+.countdown-title{
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:13px;
+}
+.countdown-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.countdown-item{
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,215,100,.5);
+  border-radius:12px;
+  padding:10px 6px;
+}
+.countdown-number{
+  display:block;
+  color:#ffd34d;
+  font-size:32px;
+  line-height:1;
+  font-weight:900;
+}
+.countdown-label{
+  display:block;
+  margin-top:5px;
+  font-size:12px;
+  font-weight:700;
+}
+.countdown-date{
+  margin-top:12px;
+  font-size:13px;
+  color:#ffe9a3;
+}
+.countdown-finished{
+  font-size:25px;
+  font-weight:900;
+  color:#ffd34d;
+}
+@media(max-width:600px){
+  .countdown-section{padding:16px 0}
+  .countdown-box{padding:16px 10px;border-radius:14px}
+  .countdown-title{font-size:19px}
+  .countdown-grid{gap:6px}
+  .countdown-number{font-size:25px}
+  .countdown-label{font-size:10px}
+  .countdown-date{font-size:11px}
+}
+
 /* ===== HOMEPAGE CONTINUOUS NOTICE / AD TICKER ===== */
 .notice-adbar{
   background:#8b0000;
@@ -290,6 +357,22 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
       <div class="notice-ad-track" id="noticeAdTrack">
         <div class="notice-ad-empty">Notices load heuchhi...</div>
       </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="countdown-section" aria-label="Uda Jatra Countdown">
+  <div class="container">
+    <div class="countdown-box">
+      <div class="countdown-title">🪔 ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରାକୁ ଆଉ</div>
+      <div class="countdown-grid" id="countdownGrid">
+        <div class="countdown-item"><span class="countdown-number" id="countDays">0</span><span class="countdown-label">ଦିନ</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="countHours">0</span><span class="countdown-label">ଘଣ୍ଟା</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="countMinutes">0</span><span class="countdown-label">ମିନିଟ୍</span></div>
+        <div class="countdown-item"><span class="countdown-number" id="countSeconds">0</span><span class="countdown-label">ସେକେଣ୍ଡ</span></div>
+      </div>
+      <div class="countdown-date">14 April 2027 • 6:00 PM • Odisha Time (IST)</div>
     </div>
   </div>
 </section>
@@ -528,6 +611,40 @@ document.getElementById("heroGroupPhoto").addEventListener("error",function(){
   this.style.background="#3b2118";
 });
 
+
+
+/* ===== LIVE UDA JATRA COUNTDOWN =====
+   Target: 14 April 2027, 18:00:00 IST
+*/
+const UDA_JATRA_TARGET = new Date("2027-04-14T18:00:00+05:30").getTime();
+
+function updateUdaJatraCountdown(){
+  let remaining = UDA_JATRA_TARGET - Date.now();
+
+  if(remaining <= 0){
+    const grid = document.getElementById("countdownGrid");
+    if(grid){
+      grid.innerHTML =
+        '<div class="countdown-finished" style="grid-column:1/-1;">🙏 ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା ଆରମ୍ଭ ହୋଇଛି</div>';
+    }
+    return;
+  }
+
+  const days = Math.floor(remaining / 86400000);
+  remaining %= 86400000;
+  const hours = Math.floor(remaining / 3600000);
+  remaining %= 3600000;
+  const minutes = Math.floor(remaining / 60000);
+  const seconds = Math.floor((remaining % 60000) / 1000);
+
+  document.getElementById("countDays").textContent = days;
+  document.getElementById("countHours").textContent = String(hours).padStart(2,"0");
+  document.getElementById("countMinutes").textContent = String(minutes).padStart(2,"0");
+  document.getElementById("countSeconds").textContent = String(seconds).padStart(2,"0");
+}
+
+updateUdaJatraCountdown();
+setInterval(updateUdaJatraCountdown,1000);
 
 /* ===== CONTINUOUS HOMEPAGE NOTICE / ADVERTISEMENT ===== */
 function openNoticesPage(){
