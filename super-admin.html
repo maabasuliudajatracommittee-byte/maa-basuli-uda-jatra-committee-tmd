@@ -3233,8 +3233,10 @@ async function rejectMember(id){
     )
   ) return;
 
+  // First mark the member as rejected so the rejection email
+  // service can still read the member details.
   const {
-    error
+    error: rejectError
   } =
     await supabaseClient.rpc(
       "reject_member",
@@ -3243,28 +3245,54 @@ async function rejectMember(id){
       }
     );
 
-  if(error){
+  if(rejectError){
 
     alert(
-      error.message
+      rejectError.message
     );
 
     return;
   }
 
+  // Send rejection email before permanently deleting the account.
   const emailResult =
     await sendMemberNotification(
       id,
       "reject"
     );
 
+  // Permanently delete rejected member profile + Auth account.
+  const {
+    data: deleteData,
+    error: deleteError
+  } =
+    await supabaseClient.functions.invoke(
+      "delete-rejected-member",
+      {
+        body: {
+          target_user_id:id
+        }
+      }
+    );
+
+  if(deleteError || (deleteData && deleteData.error)){
+
+    alert(
+      "Member rejected, but permanent deletion hela nahi.\n\n" +
+      (deleteError?.message || deleteData?.error || "Unknown error")
+    );
+
+    await refreshDashboard();
+    return;
+  }
+
   if(emailResult.ok){
     alert(
-      "Member rejected.\n\n📧 Rejection Email sent successfully."
+      "Member rejected and permanently deleted.\n\n📧 Rejection Email sent successfully."
     );
   }else{
     alert(
-      "Member rejected.\n\n⚠️ Rejection Email send hela nahi.\n" +
+      "Member rejected and permanently deleted.\n\n⚠️ Rejection Email send hela nahi.\n" +
       emailResult.message
     );
   }
@@ -3272,7 +3300,6 @@ async function rejectMember(id){
   await refreshDashboard();
 
 }
-
 
 /* =========================
    ACTIVATE
