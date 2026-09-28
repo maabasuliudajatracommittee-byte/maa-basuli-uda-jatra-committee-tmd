@@ -397,8 +397,8 @@ footer{
       <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
     </div>
 
-    <a href="super-admin.html" class="back-btn">
-      ← Super Admin
+    <a href="admin.html" class="back-btn" id="backDashboard">
+      ← Dashboard
     </a>
 
   </div>
@@ -688,7 +688,7 @@ footer{
         </h2>
 
         <div class="small">
-          Payment information is controlled by Super Admin.
+          Payment information is controlled by Admin / Super Admin.
         </div>
       </div>
 
@@ -1006,61 +1006,52 @@ async function checkAccess(){
   hideMessage();
 
   const {
-    data:{
-      session
-    }
-  } =
-    await supabaseClient.auth.getSession();
+    data:{session},
+    error:sessionError
+  } = await supabaseClient.auth.getSession();
 
+  if(sessionError){
+    console.error(sessionError);
+    showMessage("Session check karibare problem hela.","error");
+    return false;
+  }
 
   if(!session){
-
     window.location.replace("auth.html");
-
     return false;
   }
-
 
   const {
-    data,
-    error
-  } =
-    await supabaseClient.rpc(
-      "get_my_role"
-    );
+    data:roles,
+    error:roleError
+  } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id",session.user.id);
 
-
-  if(error){
-
-    console.error(error);
-
-    showMessage(
-      "Role check karibare problem hela.",
-      "error"
-    );
-
+  if(roleError){
+    console.error(roleError);
+    showMessage("Role check karibare problem hela: " + roleError.message,"error");
     return false;
   }
 
+  const isAdmin = (roles || []).some(r =>
+    r.role === "admin" || r.role === "super_admin"
+  );
 
-  if(data !== "super_admin"){
-
-    showMessage(
-      "Ei page kebala Super Admin pain.",
-      "error"
-    );
-
+  if(!isAdmin){
+    showMessage("Access denied. Admin / Super Admin only.","error");
     setTimeout(() => {
-
-      window.location.replace(
-        "auth.html"
-      );
-
+      window.location.replace("auth.html");
     },1500);
-
     return false;
   }
 
+  const back = document.getElementById("backDashboard");
+  if(back){
+    back.href = "admin.html";
+    back.textContent = "← Dashboard";
+  }
 
   return true;
 
