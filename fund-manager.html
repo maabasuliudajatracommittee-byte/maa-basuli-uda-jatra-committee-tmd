@@ -3,858 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Fund Management | Maa Basuli Uda Jatra Committee</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:Arial,Helvetica,sans-serif;
-}
-
+*{box-sizing:border-box}
 body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
   background:#f4f6f8;
-  color:#1f2937;
+  color:#222;
 }
-
-header{
-  background:#7c2d12;
-  color:white;
+.header{
+  background:linear-gradient(135deg,#7b1fa2,#4a148c);
+  color:#fff;
   padding:18px 20px;
-}
-
-header h1{
-  font-size:22px;
-  margin-bottom:5px;
-}
-
-header p{
-  font-size:13px;
-  opacity:.9;
-}
-
-.container{
-  max-width:1250px;
-  margin:auto;
-  padding:20px;
-}
-
-.topbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
+  gap:15px;
 }
-
-.topbar h2{
-  font-size:22px;
+.header h1{margin:0;font-size:22px}
+.header small{opacity:.9}
+.container{max-width:1200px;margin:20px auto;padding:0 15px}
+.card{
+  background:#fff;
+  border-radius:12px;
+  padding:18px;
+  margin-bottom:18px;
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
 }
-
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+.summary{
+  padding:18px;
+  border-radius:10px;
+  background:#fafafa;
+  border:1px solid #eee;
+}
+.summary h3{margin:0 0 8px;font-size:14px;color:#666}
+.summary strong{font-size:24px}
+.income strong{color:#16803c}
+.expense strong{color:#c62828}
+.balance strong{color:#1565c0}
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+input,select,textarea{
+  width:100%;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:7px;
+  font-size:14px;
+}
+textarea{min-height:80px;resize:vertical}
+.full{grid-column:1/-1}
 button{
   border:0;
-  border-radius:8px;
+  border-radius:7px;
   padding:10px 15px;
   cursor:pointer;
   font-weight:bold;
 }
-
-button:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-.back{
-  background:#475569;
-  color:white;
-}
-
-.logout{
-  background:#dc2626;
-  color:white;
-}
-
-.card{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.card h3{
+.primary{background:#6a1b9a;color:#fff}
+.secondary{background:#e0e0e0;color:#222}
+.success{background:#2e7d32;color:#fff}
+.warning{background:#ef6c00;color:#fff}
+.danger{background:#c62828;color:#fff}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
   margin-bottom:15px;
 }
-
-.year-bar{
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-
-.year-bar label{
-  font-weight:bold;
-}
-
-select,
-input,
-textarea{
-  width:100%;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  padding:11px;
-  font-size:14px;
-}
-
-select:focus,
-input:focus,
-textarea:focus{
-  outline:none;
-  border-color:#7c2d12;
-}
-
-.year-bar select{
-  width:auto;
-  min-width:140px;
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-.summary{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.summary-box{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-}
-
-.summary-box small{
-  color:#64748b;
-}
-
-.summary-box strong{
-  display:block;
-  margin-top:8px;
-  font-size:26px;
-}
-
-.collection strong{
-  color:#15803d;
-}
-
-.expense strong{
-  color:#dc2626;
-}
-
-.balance strong{
-  color:#7c2d12;
-}
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.form-group.full{
-  grid-column:1/-1;
-}
-
-.form-group label{
-  font-size:13px;
-  font-weight:bold;
-}
-
-.type-buttons{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-}
-
-.type-btn{
-  border:2px solid #d1d5db;
-  background:#fff;
-  color:#374151;
-  min-height:45px;
-}
-
-.type-btn.active-collection{
-  background:#15803d;
-  color:white;
-  border-color:#15803d;
-}
-
-.type-btn.active-expense{
-  background:#dc2626;
-  color:white;
-  border-color:#dc2626;
-}
-
-.type-btn.active-donation{
-  background:#2563eb;
-  color:white;
-  border-color:#2563eb;
-}
-
-.type-btn.active-member-fee{
-  background:#7c3aed;
-  color:white;
-  border-color:#7c3aed;
-}
-
-.type-btn.active-income{
-  background:#0891b2;
-  color:white;
-  border-color:#0891b2;
-}
-
-.type-btn.active-savings{
-  background:#d97706;
-  color:white;
-  border-color:#d97706;
-}
-
-.form-actions{
-  display:flex;
-  gap:10px;
-  margin-top:15px;
-  flex-wrap:wrap;
-}
-
-.primary{
-  background:#7c2d12;
-  color:white;
-}
-
-.secondary{
-  background:#475569;
-  color:white;
-}
-
-.success{
-  background:#15803d;
-  color:white;
-}
-
-.danger{
-  background:#dc2626;
-  color:white;
-}
-
-.warning{
-  background:#d97706;
-  color:white;
-}
-
-.message{
-  margin-top:12px;
-  padding:10px;
-  border-radius:8px;
-  display:none;
-}
-
-.message.success-msg{
-  display:block;
-  background:#dcfce7;
-  color:#166534;
-}
-
-.message.error-msg{
-  display:block;
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.table-wrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:1200px;
-}
-
-th,
-td{
-  padding:11px;
-  border-bottom:1px solid #e5e7eb;
+.toolbar input,.toolbar select{max-width:250px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{
+  padding:10px 8px;
+  border-bottom:1px solid #eee;
   text-align:left;
   font-size:13px;
   vertical-align:top;
 }
-
-th{
-  background:#f8fafc;
-}
-
+th{background:#f7f7f7}
 .badge{
   display:inline-block;
-  padding:5px 9px;
+  padding:4px 8px;
   border-radius:20px;
   font-size:11px;
   font-weight:bold;
-  white-space:nowrap;
 }
-
-.badge-collection{
-  background:#dcfce7;
-  color:#166534;
+.published{background:#dff4e5;color:#18733a}
+.hidden{background:#ffe3e3;color:#a51d1d}
+.type-income{color:#18733a;font-weight:bold}
+.type-expense{color:#c62828;font-weight:bold}
+.type-savings{color:#1565c0;font-weight:bold}
+.empty{text-align:center;padding:25px;color:#777}
+.note{
+  background:#fff8e1;
+  border-left:4px solid #ffb300;
+  padding:12px;
+  border-radius:5px;
+  margin-bottom:15px;
 }
-
-.badge-expense{
-  background:#fee2e2;
-  color:#991b1b;
-}
-
-.badge-donation{
-  background:#dbeafe;
-  color:#1d4ed8;
-}
-
-.badge-member-fee{
-  background:#ede9fe;
-  color:#6d28d9;
-}
-
-.badge-other-income{
-  background:#cffafe;
-  color:#0e7490;
-}
-
-.badge-savings{
-  background:#fef3c7;
-  color:#92400e;
-}
-
-.badge-published{
-  background:#dcfce7;
-  color:#166534;
-}
-
-.badge-hidden{
-  background:#e5e7eb;
-  color:#475569;
-}
-
-.actions{
-  display:flex;
-  gap:6px;
-  flex-wrap:wrap;
-}
-
-.actions button{
-  padding:7px 9px;
-  font-size:11px;
-}
-
-.empty{
-  text-align:center;
-  padding:25px;
-  color:#6b7280;
-}
-
-.loading{
-  text-align:center;
-  padding:25px;
-}
-
-.editing{
-  border:2px solid #d97706;
-}
-
-.transaction-title{
-  font-weight:bold;
-  margin-bottom:4px;
-}
-
-.transaction-description{
-  color:#64748b;
-  line-height:1.4;
-}
-
-.amount-income{
-  color:#15803d;
-  font-weight:bold;
-}
-
-.amount-expense{
-  color:#dc2626;
-  font-weight:bold;
-}
-
-.amount-savings{
-  color:#d97706;
-  font-weight:bold;
-}
-
-@media(max-width:900px){
-
-  .type-buttons{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
+.loading{opacity:.6;pointer-events:none}
 @media(max-width:800px){
-
-  .summary{
-    grid-template-columns:1fr;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-}
-
-@media(max-width:500px){
-
-  .container{
-    padding:12px;
-  }
-
-  .card{
-    padding:14px;
-  }
-
-  .type-buttons{
-    grid-template-columns:1fr;
-  }
-
-  .year-bar select{
-    width:100%;
-  }
+  .grid,.form-grid{grid-template-columns:1fr}
+  .header{align-items:flex-start;flex-direction:column}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Maa Basuli Uda Jatra Committee</h1>
-  <p>Fund Management — Super Admin</p>
+<header class="header">
+  <div>
+    <h1>Fund Management</h1>
+    <small>Maa Basuli Uda Jatra Committee</small>
+  </div>
+  <div class="actions">
+    <button class="secondary" onclick="goBack()">← Back</button>
+    <button class="danger" onclick="logout()">Logout</button>
+  </div>
 </header>
 
-<div class="container">
+<main class="container">
 
-  <div class="topbar">
-
-    <div>
-      <h2>Fund Management</h2>
-      <p id="adminEmail">Checking account...</p>
-    </div>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;">
-
-      <button class="back" onclick="goBack()">
-        ← Dashboard
-      </button>
-
-      <button class="logout" onclick="logout()">
-        Logout
-      </button>
-
-    </div>
-
+  <div class="note">
+    <b>Fund Management:</b> Admin and Super Admin can manage fund transactions.
   </div>
 
-
-  <!-- YEAR -->
-
-  <div class="card">
-
-    <div class="year-bar">
-
-      <label for="yearSelect">
-        Financial Year:
-      </label>
-
-      <select id="yearSelect" onchange="loadFundData()">
-      </select>
-
-      <button class="secondary" onclick="loadFundData()">
-        ↻ Refresh
-      </button>
-
+  <section class="card">
+    <div class="toolbar">
+      <div>
+        <label>Financial Year</label>
+        <select id="financialYear" onchange="loadFundData()"></select>
+      </div>
+      <div style="align-self:end">
+        <button class="primary" onclick="newTransaction()">+ Add Transaction</button>
+      </div>
     </div>
 
-  </div>
-
-
-  <!-- SUMMARY -->
-
-  <div class="summary">
-
-    <div class="summary-box collection">
-
-      <small>
-        Total Collection / Income
-      </small>
-
-      <strong id="totalCollection">
-        ₹0.00
-      </strong>
-
+    <div class="grid">
+      <div class="summary income">
+        <h3>Total Collection / Income</h3>
+        <strong id="totalIncome">₹0.00</strong>
+      </div>
+      <div class="summary expense">
+        <h3>Total Expense</h3>
+        <strong id="totalExpense">₹0.00</strong>
+      </div>
+      <div class="summary balance">
+        <h3>Available Balance / Savings</h3>
+        <strong id="availableBalance">₹0.00</strong>
+      </div>
     </div>
+  </section>
 
-    <div class="summary-box expense">
-
-      <small>
-        Total Expense
-      </small>
-
-      <strong id="totalExpense">
-        ₹0.00
-      </strong>
-
-    </div>
-
-    <div class="summary-box balance">
-
-      <small>
-        Available Balance / Savings
-      </small>
-
-      <strong id="totalSavings">
-        ₹0.00
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <!-- ADD / EDIT TRANSACTION -->
-
-  <div class="card" id="formCard">
-
-    <h3 id="formTitle">
-      Add Fund Transaction
-    </h3>
+  <section class="card" id="formCard">
+    <h2 id="formTitle" style="margin-top:0">Add Fund Transaction</h2>
 
     <div class="form-grid">
-
-      <!-- TRANSACTION TYPE -->
-
-      <div class="form-group full">
-
-        <label>
-          Transaction Type
-        </label>
-
-        <div class="type-buttons">
-
-          <button
-            type="button"
-            id="collectionBtn"
-            class="type-btn active-collection"
-            onclick="setTransactionType('Collection')">
-            💰 Collection
-          </button>
-
-          <button
-            type="button"
-            id="donationBtn"
-            class="type-btn"
-            onclick="setTransactionType('Donation')">
-            🎁 Donation
-          </button>
-
-          <button
-            type="button"
-            id="memberFeeBtn"
-            class="type-btn"
-            onclick="setTransactionType('Member Fee')">
-            👥 Member Fee
-          </button>
-
-          <button
-            type="button"
-            id="otherIncomeBtn"
-            class="type-btn"
-            onclick="setTransactionType('Other Income')">
-            ➕ Other Income
-          </button>
-
-          <button
-            type="button"
-            id="expenseBtn"
-            class="type-btn"
-            onclick="setTransactionType('Expense')">
-            💸 Expense
-          </button>
-
-          <button
-            type="button"
-            id="savingsBtn"
-            class="type-btn"
-            onclick="setTransactionType('Savings')">
-            🏦 Savings
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- DATE -->
-
-      <div class="form-group">
-
-        <label for="transactionDate">
-          Date
-        </label>
-
-        <input
-          type="date"
-          id="transactionDate">
-
-      </div>
-
-
-      <!-- AMOUNT -->
-
-      <div class="form-group">
-
-        <label for="amount">
-          Amount (₹)
-        </label>
-
-        <input
-          type="number"
-          id="amount"
-          min="0.01"
-          step="0.01"
-          placeholder="Enter amount">
-
-      </div>
-
-
-      <!-- TITLE -->
-
-      <div class="form-group">
-
-        <label for="title">
-          Title / Particular
-        </label>
-
-        <input
-          type="text"
-          id="title"
-          placeholder="e.g. Jatra Donation, Decoration Expense">
-
-      </div>
-
-
-      <!-- CATEGORY -->
-
-      <div class="form-group">
-
-        <label for="category">
-          Category
-        </label>
-
-        <input
-          type="text"
-          id="category"
-          placeholder="e.g. Donation, Decoration, Programme">
-
-      </div>
-
-
-      <!-- PAYMENT MODE -->
-
-      <div class="form-group">
-
-        <label for="paymentMode">
-          Payment Mode
-        </label>
-
-        <select id="paymentMode">
-
-          <option value="">
-            Select Payment Mode
-          </option>
-
-          <option value="Cash">
-            Cash
-          </option>
-
-          <option value="UPI">
-            UPI
-          </option>
-
-          <option value="Bank Transfer">
-            Bank Transfer
-          </option>
-
-          <option value="Cheque">
-            Cheque
-          </option>
-
-          <option value="Other">
-            Other
-          </option>
-
+      <div>
+        <label>Transaction Type *</label>
+        <select id="transactionType">
+          <option value="Collection">Collection</option>
+          <option value="Donation">Donation</option>
+          <option value="Member Fee">Member Fee</option>
+          <option value="Other Income">Other Income</option>
+          <option value="Expense">Expense</option>
+          <option value="Savings">Savings</option>
         </select>
-
       </div>
 
-
-      <!-- REFERENCE -->
-
-      <div class="form-group">
-
-        <label for="referenceNo">
-          Reference / Voucher No.
-        </label>
-
-        <input
-          type="text"
-          id="referenceNo"
-          placeholder="Optional reference / voucher number">
-
+      <div>
+        <label>Date *</label>
+        <input type="date" id="transactionDate">
       </div>
 
-
-      <!-- DESCRIPTION -->
-
-      <div class="form-group full">
-
-        <label for="description">
-          Description
-        </label>
-
-        <textarea
-          id="description"
-          placeholder="Enter complete transaction details"></textarea>
-
+      <div>
+        <label>Amount *</label>
+        <input type="number" id="amount" min="0" step="0.01" placeholder="Enter amount">
       </div>
 
+      <div>
+        <label>Title / Particular *</label>
+        <input type="text" id="title" placeholder="Enter title or particular">
+      </div>
+
+      <div>
+        <label>Category</label>
+        <input type="text" id="category" placeholder="e.g. Donation, Decoration">
+      </div>
+
+      <div>
+        <label>Payment Mode</label>
+        <select id="paymentMode">
+          <option value="">Select</option>
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Cheque">Cheque</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Reference / Voucher No.</label>
+        <input type="text" id="referenceNo" placeholder="Reference / Voucher No.">
+      </div>
+
+      <div class="full">
+        <label>Description</label>
+        <textarea id="description" placeholder="Enter description"></textarea>
+      </div>
     </div>
 
-
-    <div class="form-actions">
-
-      <button
-        class="primary"
-        id="saveBtn"
-        onclick="saveTransaction()">
-
-        Save Transaction
-
-      </button>
-
-      <button
-        class="secondary"
-        id="cancelEditBtn"
-        onclick="cancelEdit()"
-        style="display:none;">
-
-        Cancel Edit
-
-      </button>
-
+    <div class="actions">
+      <button class="primary" onclick="saveTransaction()">Save Transaction</button>
+      <button class="secondary" onclick="resetForm()">Clear</button>
     </div>
+  </section>
 
-    <div id="formMessage" class="message"></div>
+  <section class="card">
+    <h2 style="margin-top:0">Fund Transactions</h2>
 
-  </div>
-
-
-  <!-- TRANSACTIONS -->
-
-  <div class="card">
-
-    <h3>
-      Fund Transactions
-    </h3>
-
-    <div
-      style="
-        display:flex;
-        gap:10px;
-        flex-wrap:wrap;
-        margin-bottom:15px;
-      "
-    >
-
-      <input
-        type="search"
-        id="transactionSearch"
-        placeholder="Search title / category / description / reference..."
-        oninput="renderTransactions()"
-        style="flex:1;min-width:250px;">
-
-      <select
-        id="typeFilter"
-        onchange="renderTransactions()"
-        style="width:auto;min-width:180px;">
-
-        <option value="all">
-          All Types
-        </option>
-
-        <option value="Collection">
-          Collection
-        </option>
-
-        <option value="Donation">
-          Donation
-        </option>
-
-        <option value="Member Fee">
-          Member Fee
-        </option>
-
-        <option value="Other Income">
-          Other Income
-        </option>
-
-        <option value="Expense">
-          Expense
-        </option>
-
-        <option value="Savings">
-          Savings
-        </option>
-
+    <div class="toolbar">
+      <input type="text" id="searchInput" placeholder="Search title, category, reference..." oninput="renderTable()">
+      <select id="typeFilter" onchange="renderTable()">
+        <option value="">All Types</option>
+        <option value="Collection">Collection</option>
+        <option value="Donation">Donation</option>
+        <option value="Member Fee">Member Fee</option>
+        <option value="Other Income">Other Income</option>
+        <option value="Expense">Expense</option>
+        <option value="Savings">Savings</option>
       </select>
-
     </div>
-
 
     <div class="table-wrap">
-
       <table>
-
         <thead>
-
           <tr>
-
             <th>Date</th>
             <th>Type</th>
             <th>Title / Category</th>
@@ -864,1489 +268,398 @@ th{
             <th>Amount</th>
             <th>Visibility</th>
             <th>Action</th>
-
           </tr>
-
         </thead>
-
-        <tbody id="transactionsBody">
-
-          <tr>
-
-            <td colspan="9" class="loading">
-              Loading transactions...
-            </td>
-
-          </tr>
-
+        <tbody id="transactionBody">
+          <tr><td colspan="9" class="empty">Loading...</td></tr>
         </tbody>
-
       </table>
-
     </div>
+  </section>
 
-  </div>
-
-</div>
-
+</main>
 
 <script>
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
+let currentUser = null;
+let currentRole = null;
 let transactions = [];
-
-let transactionType = "Collection";
-
 let editingId = null;
 
+document.addEventListener("DOMContentLoaded", async () => {
+  setDefaultDate();
+  buildFinancialYears();
+  await checkAdminAccess();
+});
 
-/* =====================================
-   START
-===================================== */
+function setDefaultDate(){
+  document.getElementById("transactionDate").value =
+    new Date().toISOString().split("T")[0];
+}
 
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
+function buildFinancialYears(){
+  const select = document.getElementById("financialYear");
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
 
-    setDefaultDate();
+  const currentFYStart = currentMonth >= 4 ? currentYear : currentYear - 1;
 
-    populateYears();
+  for(let i=0;i<8;i++){
+    const start = currentFYStart - i;
+    const end = start + 1;
+    const option = document.createElement("option");
+    option.value = `${start}-${end}`;
+    option.textContent = `${start}-${end}`;
+    select.appendChild(option);
+  }
+}
 
-    const {
-      data: {
-        session
-      }
-    } = await supabaseClient.auth.getSession();
+async function checkAdminAccess(){
+  try{
+    const {data:{session},error:sessionError} =
+      await supabaseClient.auth.getSession();
 
-
-    if(!session){
-
-      window.location.href =
-        "auth.html";
-
+    if(sessionError || !session){
+      alert("Please login first.");
+      window.location.href="index.html";
       return;
     }
 
+    currentUser = session.user;
 
-    document.getElementById(
-      "adminEmail"
-    ).textContent =
-      session.user.email || "";
+    const {data,error} = await supabaseClient
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", currentUser.id)
+      .maybeSingle();
 
-
-    await checkSuperAdmin();
-
-  }
-);
-
-
-/* =====================================
-   CHECK SUPER ADMIN
-===================================== */
-
-async function checkSuperAdmin(){
-
-  const {
-    data: {
-      user
-    }
-  } = await supabaseClient.auth.getUser();
-
-
-  if(!user){
-
-    window.location.href =
-      "auth.html";
-
-    return;
-  }
-
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-
-  if(error){
-
-    alert(
-      "Unable to verify account role."
-    );
-
-    window.location.href =
-      "index.html";
-
-    return;
-  }
-
-
-  if(
-    !data ||
-    data.role !== "super_admin"
-  ){
-
-    alert(
-      "Access denied. Super Admin only."
-    );
-
-    window.location.href =
-      "index.html";
-
-    return;
-  }
-
-
-  await loadFundData();
-
-}
-
-
-/* =====================================
-   FINANCIAL YEAR LIST
-===================================== */
-
-function populateYears(){
-
-  const select =
-    document.getElementById(
-      "yearSelect"
-    );
-
-
-  const currentYear =
-    new Date().getFullYear();
-
-
-  select.innerHTML = "";
-
-
-  for(
-    let year = currentYear + 2;
-    year >= 2020;
-    year--
-  ){
-
-    const startYear =
-      year;
-
-    const endYear =
-      year + 1;
-
-
-    const financialYear =
-      `${startYear}-${String(endYear).slice(-2)}`;
-
-
-    const option =
-      document.createElement("option");
-
-
-    option.value =
-      financialYear;
-
-
-    option.textContent =
-      financialYear;
-
-
-    const month =
-      new Date().getMonth() + 1;
-
-
-    const currentFinancialYear =
-      month >= 4
-        ? `${currentYear}-${String(currentYear + 1).slice(-2)}`
-        : `${currentYear - 1}-${String(currentYear).slice(-2)}`;
-
-
-    if(
-      financialYear ===
-      currentFinancialYear
-    ){
-
-      option.selected =
-        true;
-
+    if(error){
+      console.error(error);
+      alert("Unable to verify user role.");
+      window.location.href="index.html";
+      return;
     }
 
+    currentRole = data?.role || null;
 
-    select.appendChild(option);
+    // FIX: Both Admin and Super Admin are allowed.
+    if(currentRole !== "super_admin" && currentRole !== "admin"){
+      alert("Access denied. Admin only.");
+      window.location.href="index.html";
+      return;
+    }
 
+    await loadFundData();
+
+  }catch(error){
+    console.error(error);
+    alert("Something went wrong while checking access.");
+    window.location.href="index.html";
   }
-
 }
-
-
-/* =====================================
-   DEFAULT DATE
-===================================== */
-
-function setDefaultDate(){
-
-  const now =
-    new Date();
-
-
-  const year =
-    now.getFullYear();
-
-
-  const month =
-    String(
-      now.getMonth() + 1
-    ).padStart(2,"0");
-
-
-  const day =
-    String(
-      now.getDate()
-    ).padStart(2,"0");
-
-
-  document.getElementById(
-    "transactionDate"
-  ).value =
-    `${year}-${month}-${day}`;
-
-}
-
-
-/* =====================================
-   LOAD FUND DATA
-===================================== */
 
 async function loadFundData(){
+  const year = document.getElementById("financialYear").value;
+  if(!year) return;
 
-  const year =
-    document.getElementById(
-      "yearSelect"
-    ).value;
+  document.getElementById("transactionBody").innerHTML =
+    '<tr><td colspan="9" class="empty">Loading...</td></tr>';
 
-
-  document.getElementById(
-    "transactionsBody"
-  ).innerHTML = `
-    <tr>
-      <td colspan="9" class="loading">
-        Loading transactions...
-      </td>
-    </tr>
-  `;
-
-
-  const {
-    data,
-    error
-  } = await supabaseClient
+  const {data,error} = await supabaseClient
     .from("fund_transactions")
     .select("*")
     .eq("financial_year", year)
-    .order(
-      "transaction_date",
-      {
-        ascending:false
-      }
-    )
-    .order(
-      "created_at",
-      {
-        ascending:false
-      }
-    );
-
+    .order("transaction_date", {ascending:false})
+    .order("created_at", {ascending:false});
 
   if(error){
-
-    document.getElementById(
-      "transactionsBody"
-    ).innerHTML = `
-      <tr>
-        <td colspan="9" class="empty">
-          Error loading fund records:
-          ${escapeHtml(error.message)}
-        </td>
-      </tr>
-    `;
-
+    console.error(error);
+    transactions = [];
+    document.getElementById("transactionBody").innerHTML =
+      `<tr><td colspan="9" class="empty">Unable to load fund transactions.<br>${escapeHtml(error.message)}</td></tr>`;
+    calculateSummary();
     return;
   }
 
-
-  transactions =
-    data || [];
-
-
+  transactions = data || [];
   calculateSummary();
-
-  renderTransactions();
-
+  renderTable();
 }
-
-
-/* =====================================
-   CALCULATE SUMMARY
-===================================== */
 
 function calculateSummary(){
+  let income = 0;
+  let expense = 0;
+  let savings = 0;
 
-  let income =
-    0;
+  transactions.forEach(t=>{
+    const amount = Number(t.amount) || 0;
 
-  let expense =
-    0;
-
-  let savings =
-    0;
-
-
-  transactions.forEach(
-    item => {
-
-      const amount =
-        Number(item.amount) || 0;
-
-
-      if(
-        [
-          "Collection",
-          "Donation",
-          "Member Fee",
-          "Other Income"
-        ].includes(
-          item.transaction_type
-        )
-      ){
-
-        income += amount;
-
-      }
-
-
-      if(
-        item.transaction_type ===
-        "Expense"
-      ){
-
-        expense += amount;
-
-      }
-
-
-      if(
-        item.transaction_type ===
-        "Savings"
-      ){
-
-        savings += amount;
-
-      }
-
+    if(["Collection","Donation","Member Fee","Other Income"].includes(t.transaction_type)){
+      income += amount;
+    }else if(t.transaction_type === "Expense"){
+      expense += amount;
+    }else if(t.transaction_type === "Savings"){
+      savings += amount;
     }
-  );
+  });
 
-
-  const availableBalance =
-    income - expense - savings;
-
-
-  document.getElementById(
-    "totalCollection"
-  ).textContent =
-    formatCurrency(
-      income
-    );
-
-
-  document.getElementById(
-    "totalExpense"
-  ).textContent =
-    formatCurrency(
-      expense
-    );
-
-
-  document.getElementById(
-    "totalSavings"
-  ).textContent =
-    formatCurrency(
-      availableBalance
-    );
-
+  document.getElementById("totalIncome").textContent = money(income);
+  document.getElementById("totalExpense").textContent = money(expense);
+  document.getElementById("availableBalance").textContent =
+    money(income - expense - savings);
 }
 
+function renderTable(){
+  const body = document.getElementById("transactionBody");
+  const search = document.getElementById("searchInput").value.trim().toLowerCase();
+  const type = document.getElementById("typeFilter").value;
 
-/* =====================================
-   RENDER TRANSACTIONS
-===================================== */
+  let list = transactions.filter(t=>{
+    const matchesType = !type || t.transaction_type === type;
 
-function renderTransactions(){
+    const haystack = [
+      t.title,
+      t.category,
+      t.reference_no,
+      t.description,
+      t.payment_mode,
+      t.transaction_type
+    ].join(" ").toLowerCase();
 
-  const tbody =
-    document.getElementById(
-      "transactionsBody"
-    );
+    return matchesType && (!search || haystack.includes(search));
+  });
 
+  if(!list.length){
+    body.innerHTML =
+      '<tr><td colspan="9" class="empty">No transactions found.</td></tr>';
+    return;
+  }
 
-  const search =
-    document.getElementById(
-      "transactionSearch"
-    )
-    .value
-    .trim()
-    .toLowerCase();
+  body.innerHTML = list.map(t=>{
+    const typeClass =
+      t.transaction_type === "Expense"
+        ? "type-expense"
+        : t.transaction_type === "Savings"
+        ? "type-savings"
+        : "type-income";
 
-
-  const typeFilter =
-    document.getElementById(
-      "typeFilter"
-    ).value;
-
-
-  const list =
-    transactions.filter(
-      item => {
-
-        const searchable = [
-
-          item.title,
-
-          item.category,
-
-          item.description,
-
-          item.reference_no,
-
-          item.payment_mode
-
-        ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
-
-
-        const matchesSearch =
-          !search ||
-          searchable.includes(
-            search
-          );
-
-
-        const matchesType =
-          typeFilter === "all" ||
-          item.transaction_type ===
-          typeFilter;
-
-
-        return (
-          matchesSearch &&
-          matchesType
-        );
-
-      }
-    );
-
-
-  if(
-    list.length === 0
-  ){
-
-    tbody.innerHTML = `
+    return `
       <tr>
-        <td colspan="9" class="empty">
-          No fund transactions found
-          for ${escapeHtml(
-            document.getElementById("yearSelect").value
-          )}.
+        <td>${escapeHtml(formatDate(t.transaction_date))}</td>
+        <td class="${typeClass}">${escapeHtml(t.transaction_type || "")}</td>
+        <td>
+          <b>${escapeHtml(t.title || "")}</b><br>
+          <small>${escapeHtml(t.category || "")}</small>
+        </td>
+        <td>${escapeHtml(t.payment_mode || "-")}</td>
+        <td>${escapeHtml(t.description || "-")}</td>
+        <td>${escapeHtml(t.reference_no || "-")}</td>
+        <td><b>${money(Number(t.amount)||0)}</b></td>
+        <td>
+          ${
+            t.is_published
+              ? '<span class="badge published">Published</span>'
+              : '<span class="badge hidden">Hidden</span>'
+          }
+        </td>
+        <td>
+          <div class="actions">
+            <button class="secondary" onclick="editTransaction('${t.id}')">Edit</button>
+            <button class="warning" onclick="togglePublished('${t.id}',${!!t.is_published})">
+              ${t.is_published ? "Hide" : "Publish"}
+            </button>
+            <button class="danger" onclick="deleteTransaction('${t.id}')">Delete</button>
+          </div>
         </td>
       </tr>
     `;
-
-    return;
-  }
-
-
-  tbody.innerHTML =
-    list.map(
-      item => {
-
-        const typeBadge =
-          getTypeBadge(
-            item.transaction_type
-          );
-
-
-        const visibility =
-          item.is_published
-
-          ? `
-            <span class="badge badge-published">
-              Published
-            </span>
-          `
-
-          : `
-            <span class="badge badge-hidden">
-              Hidden
-            </span>
-          `;
-
-
-        const amount =
-          formatCurrency(
-            Number(item.amount)
-          );
-
-
-        const amountClass =
-          item.transaction_type === "Expense"
-            ? "amount-expense"
-            : item.transaction_type === "Savings"
-              ? "amount-savings"
-              : "amount-income";
-
-
-        const title =
-          item.title ||
-          item.category ||
-          "—";
-
-
-        const category =
-          item.category
-            ? `
-              <div style="color:#64748b;font-size:12px;margin-top:3px;">
-                ${escapeHtml(item.category)}
-              </div>
-            `
-            : "";
-
-
-        const description =
-          item.description ||
-          "—";
-
-
-        const reference =
-          item.reference_no
-            ? escapeHtml(item.reference_no)
-            : "—";
-
-
-        return `
-
-          <tr>
-
-            <td>
-              ${formatDate(
-                item.transaction_date
-              )}
-            </td>
-
-
-            <td>
-              ${typeBadge}
-            </td>
-
-
-            <td>
-
-              <div class="transaction-title">
-                ${escapeHtml(title)}
-              </div>
-
-              ${category}
-
-            </td>
-
-
-            <td>
-              ${escapeHtml(
-                item.payment_mode || "—"
-              )}
-            </td>
-
-
-            <td>
-
-              <div class="transaction-description">
-                ${escapeHtml(description)}
-              </div>
-
-            </td>
-
-
-            <td>
-              ${reference}
-            </td>
-
-
-            <td>
-
-              <strong class="${amountClass}">
-                ${amount}
-              </strong>
-
-            </td>
-
-
-            <td>
-              ${visibility}
-            </td>
-
-
-            <td>
-
-              <div class="actions">
-
-                <button
-                  class="secondary"
-                  onclick="editTransaction('${item.id}')">
-
-                  Edit
-
-                </button>
-
-
-                <button
-                  class="warning"
-                  onclick="togglePublish(
-                    '${item.id}',
-                    ${item.is_published}
-                  )">
-
-                  ${
-                    item.is_published
-                      ? "Hide"
-                      : "Publish"
-                  }
-
-                </button>
-
-
-                <button
-                  class="danger"
-                  onclick="deleteTransaction('${item.id}')">
-
-                  Delete
-
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-
-        `;
-
-      }
-    ).join("");
-
+  }).join("");
 }
 
-
-/* =====================================
-   TYPE BADGE
-===================================== */
-
-function getTypeBadge(type){
-
-  const classes = {
-
-    "Collection":
-      "badge badge-collection",
-
-    "Donation":
-      "badge badge-donation",
-
-    "Member Fee":
-      "badge badge-member-fee",
-
-    "Other Income":
-      "badge badge-other-income",
-
-    "Expense":
-      "badge badge-expense",
-
-    "Savings":
-      "badge badge-savings"
-
-  };
-
-
-  return `
-    <span class="${classes[type] || "badge badge-hidden"}">
-      ${escapeHtml(type || "Unknown")}
-    </span>
-  `;
-
+function newTransaction(){
+  editingId = null;
+  document.getElementById("formTitle").textContent = "Add Fund Transaction";
+  resetForm();
+  document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
 }
 
-
-/* =====================================
-   SET TRANSACTION TYPE
-===================================== */
-
-function setTransactionType(type){
-
-  transactionType =
-    type;
-
-
-  const ids = [
-
-    "collectionBtn",
-    "donationBtn",
-    "memberFeeBtn",
-    "otherIncomeBtn",
-    "expenseBtn",
-    "savingsBtn"
-
-  ];
-
-
-  ids.forEach(
-    id => {
-
-      document.getElementById(
-        id
-      ).className =
-        "type-btn";
-
-    }
-  );
-
-
-  const activeClasses = {
-
-    "Collection":
-      "type-btn active-collection",
-
-    "Donation":
-      "type-btn active-donation",
-
-    "Member Fee":
-      "type-btn active-member-fee",
-
-    "Other Income":
-      "type-btn active-income",
-
-    "Expense":
-      "type-btn active-expense",
-
-    "Savings":
-      "type-btn active-savings"
-
-  };
-
-
-  const buttonMap = {
-
-    "Collection":
-      "collectionBtn",
-
-    "Donation":
-      "donationBtn",
-
-    "Member Fee":
-      "memberFeeBtn",
-
-    "Other Income":
-      "otherIncomeBtn",
-
-    "Expense":
-      "expenseBtn",
-
-    "Savings":
-      "savingsBtn"
-
-  };
-
-
-  document.getElementById(
-    buttonMap[type]
-  ).className =
-    activeClasses[type];
-
+function resetForm(){
+  editingId = null;
+  document.getElementById("transactionType").value = "Collection";
+  setDefaultDate();
+  document.getElementById("amount").value = "";
+  document.getElementById("title").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("paymentMode").value = "";
+  document.getElementById("referenceNo").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("formTitle").textContent = "Add Fund Transaction";
 }
-
-
-/* =====================================
-   SAVE / UPDATE
-===================================== */
-
-async function saveTransaction(){
-
-  const year =
-    document.getElementById(
-      "yearSelect"
-    ).value;
-
-
-  const date =
-    document.getElementById(
-      "transactionDate"
-    ).value;
-
-
-  const amount =
-    Number(
-      document.getElementById(
-        "amount"
-      ).value
-    );
-
-
-  const title =
-    document.getElementById(
-      "title"
-    ).value.trim();
-
-
-  const category =
-    document.getElementById(
-      "category"
-    ).value.trim();
-
-
-  const paymentMode =
-    document.getElementById(
-      "paymentMode"
-    ).value;
-
-
-  const referenceNo =
-    document.getElementById(
-      "referenceNo"
-    ).value.trim();
-
-
-  const description =
-    document.getElementById(
-      "description"
-    ).value.trim();
-
-
-  if(!date){
-
-    showFormMessage(
-      "Please select transaction date.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(!amount || amount <= 0){
-
-    showFormMessage(
-      "Please enter a valid amount.",
-      false
-    );
-
-    return;
-  }
-
-
-  if(!title){
-
-    showFormMessage(
-      "Please enter Title / Particular.",
-      false
-    );
-
-    return;
-  }
-
-
-  const {
-    data: {
-      user
-    }
-  } =
-    await supabaseClient.auth.getUser();
-
-
-  if(!user){
-
-    alert(
-      "Session expired. Please login again."
-    );
-
-    window.location.href =
-      "auth.html";
-
-    return;
-  }
-
-
-  const payload = {
-
-    financial_year:
-      year,
-
-    transaction_type:
-      transactionType,
-
-    transaction_date:
-      date,
-
-    amount:
-      amount,
-
-    category:
-      category || null,
-
-    description:
-      description || null,
-
-    reference_no:
-      referenceNo || null,
-
-    is_published:
-      editingId
-        ? undefined
-        : false,
-
-    title:
-      title,
-
-    payment_mode:
-      paymentMode || null
-
-  };
-
-
-  /* Remove undefined field */
-
-  if(payload.is_published === undefined){
-    delete payload.is_published;
-  }
-
-
-  let result;
-
-
-  if(editingId){
-
-    result =
-      await supabaseClient
-        .from(
-          "fund_transactions"
-        )
-        .update(
-          payload
-        )
-        .eq(
-          "id",
-          editingId
-        );
-
-  }else{
-
-    payload.created_by =
-      user.id;
-
-
-    result =
-      await supabaseClient
-        .from(
-          "fund_transactions"
-        )
-        .insert(
-          payload
-        );
-
-  }
-
-
-  if(result.error){
-
-    showFormMessage(
-      result.error.message,
-      false
-    );
-
-    return;
-  }
-
-
-  showFormMessage(
-    editingId
-      ? "Fund transaction updated successfully."
-      : "Fund transaction added successfully.",
-    true
-  );
-
-
-  cancelEdit();
-
-
-  await loadFundData();
-
-}
-
-
-/* =====================================
-   EDIT
-===================================== */
 
 function editTransaction(id){
+  const t = transactions.find(x=>x.id===id);
+  if(!t) return;
 
-  const item =
-    transactions.find(
-      row =>
-        row.id === id
-    );
+  editingId = id;
 
+  document.getElementById("formTitle").textContent = "Edit Fund Transaction";
+  document.getElementById("transactionType").value = t.transaction_type || "Collection";
+  document.getElementById("transactionDate").value = t.transaction_date || "";
+  document.getElementById("amount").value = t.amount ?? "";
+  document.getElementById("title").value = t.title || "";
+  document.getElementById("category").value = t.category || "";
+  document.getElementById("paymentMode").value = t.payment_mode || "";
+  document.getElementById("referenceNo").value = t.reference_no || "";
+  document.getElementById("description").value = t.description || "";
 
-  if(!item)
+  document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
+}
+
+async function saveTransaction(){
+  const year = document.getElementById("financialYear").value;
+  const transactionType = document.getElementById("transactionType").value;
+  const transactionDate = document.getElementById("transactionDate").value;
+  const amount = Number(document.getElementById("amount").value);
+  const title = document.getElementById("title").value.trim();
+  const category = document.getElementById("category").value.trim();
+  const paymentMode = document.getElementById("paymentMode").value;
+  const referenceNo = document.getElementById("referenceNo").value.trim();
+  const description = document.getElementById("description").value.trim();
+
+  if(!transactionDate){
+    alert("Please select transaction date.");
     return;
+  }
 
+  if(!amount || amount <= 0){
+    alert("Please enter a valid amount.");
+    return;
+  }
 
-  editingId =
-    id;
+  if(!title){
+    alert("Please enter Title / Particular.");
+    return;
+  }
 
+  const payload = {
+    financial_year: year,
+    transaction_type: transactionType,
+    transaction_date: transactionDate,
+    amount: amount,
+    title: title,
+    category: category || null,
+    payment_mode: paymentMode || null,
+    reference_no: referenceNo || null,
+    description: description || null
+  };
 
-  document.getElementById(
-    "formTitle"
-  ).textContent =
-    "Edit Fund Transaction";
+  try{
+    if(editingId){
+      const {error} = await supabaseClient
+        .from("fund_transactions")
+        .update(payload)
+        .eq("id", editingId);
 
+      if(error) throw error;
 
-  document.getElementById(
-    "yearSelect"
-  ).value =
-    item.financial_year;
+      alert("Transaction updated successfully.");
+    }else{
+      payload.created_by = currentUser.id;
+      payload.is_published = false;
 
+      const {error} = await supabaseClient
+        .from("fund_transactions")
+        .insert(payload);
 
-  setTransactionType(
-    item.transaction_type
-  );
+      if(error) throw error;
 
+      alert("Transaction added successfully.");
+    }
 
-  document.getElementById(
-    "transactionDate"
-  ).value =
-    item.transaction_date ||
-    "";
+    resetForm();
+    await loadFundData();
 
+  }catch(error){
+    console.error(error);
+    alert("Save failed: " + error.message);
+  }
+}
 
-  document.getElementById(
-    "amount"
-  ).value =
-    item.amount ||
-    "";
+async function togglePublished(id,currentStatus){
+  const newStatus = !currentStatus;
 
+  const {error} = await supabaseClient
+    .from("fund_transactions")
+    .update({is_published:newStatus})
+    .eq("id",id);
 
-  document.getElementById(
-    "title"
-  ).value =
-    item.title ||
-    "";
+  if(error){
+    alert("Update failed: " + error.message);
+    return;
+  }
 
+  await loadFundData();
+}
 
-  document.getElementById(
-    "category"
-  ).value =
-    item.category ||
-    "";
+async function deleteTransaction(id){
+  if(!confirm("Are you sure you want to delete this transaction?")) return;
 
+  const {error} = await supabaseClient
+    .from("fund_transactions")
+    .delete()
+    .eq("id",id);
 
-  document.getElementById(
-    "paymentMode"
-  ).value =
-    item.payment_mode ||
-    "";
+  if(error){
+    alert("Delete failed: " + error.message);
+    return;
+  }
 
+  await loadFundData();
+}
 
-  document.getElementById(
-    "referenceNo"
-  ).value =
-    item.reference_no ||
-    "";
+function formatDate(value){
+  if(!value) return "-";
+  const d = new Date(value + "T00:00:00");
+  return d.toLocaleDateString("en-IN");
+}
 
-
-  document.getElementById(
-    "description"
-  ).value =
-    item.description ||
-    "";
-
-
-  document.getElementById(
-    "saveBtn"
-  ).textContent =
-    "Update Transaction";
-
-
-  document.getElementById(
-    "cancelEditBtn"
-  ).style.display =
-    "inline-block";
-
-
-  document.getElementById(
-    "formCard"
-  ).classList.add(
-    "editing"
-  );
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+function money(value){
+  return Number(value || 0).toLocaleString("en-IN",{
+    style:"currency",
+    currency:"INR",
+    minimumFractionDigits:2
   });
-
 }
 
-
-/* =====================================
-   CANCEL EDIT
-===================================== */
-
-function cancelEdit(){
-
-  editingId =
-    null;
-
-
-  document.getElementById(
-    "formTitle"
-  ).textContent =
-    "Add Fund Transaction";
-
-
-  document.getElementById(
-    "saveBtn"
-  ).textContent =
-    "Save Transaction";
-
-
-  document.getElementById(
-    "cancelEditBtn"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "formCard"
-  ).classList.remove(
-    "editing"
-  );
-
-
-  document.getElementById(
-    "amount"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "title"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "category"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "paymentMode"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "referenceNo"
-  ).value =
-    "";
-
-
-  document.getElementById(
-    "description"
-  ).value =
-    "";
-
-
-  setDefaultDate();
-
-
-  setTransactionType(
-    "Collection"
-  );
-
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
-
-
-/* =====================================
-   PUBLISH / HIDE
-===================================== */
-
-async function togglePublish(
-  id,
-  currentStatus
-){
-
-  const action =
-    currentStatus
-      ? "hide"
-      : "publish";
-
-
-  if(
-    !confirm(
-      `Ei fund record ku ${action} karibe?`
-    )
-  ){
-
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from(
-        "fund_transactions"
-      )
-      .update({
-        is_published:
-          !currentStatus
-      })
-      .eq(
-        "id",
-        id
-      );
-
-
-  if(error){
-
-    alert(
-      error.message
-    );
-
-    return;
-  }
-
-
-  await loadFundData();
-
-}
-
-
-/* =====================================
-   DELETE
-===================================== */
-
-async function deleteTransaction(
-  id
-){
-
-  if(
-    !confirm(
-      "Ehi fund transaction permanently delete karibe?"
-    )
-  ){
-
-    return;
-  }
-
-
-  const {
-    error
-  } =
-    await supabaseClient
-      .from(
-        "fund_transactions"
-      )
-      .delete()
-      .eq(
-        "id",
-        id
-      );
-
-
-  if(error){
-
-    alert(
-      error.message
-    );
-
-    return;
-  }
-
-
-  await loadFundData();
-
-}
-
-
-/* =====================================
-   MESSAGE
-===================================== */
-
-function showFormMessage(
-  message,
-  success
-){
-
-  const box =
-    document.getElementById(
-      "formMessage"
-    );
-
-
-  box.textContent =
-    message;
-
-
-  box.className =
-    success
-      ? "message success-msg"
-      : "message error-msg";
-
-}
-
-
-/* =====================================
-   FORMAT CURRENCY
-===================================== */
-
-function formatCurrency(
-  amount
-){
-
-  return new Intl.NumberFormat(
-    "en-IN",
-    {
-      style:"currency",
-      currency:"INR",
-      minimumFractionDigits:2
-    }
-  ).format(
-    Number(amount) || 0
-  );
-
-}
-
-
-/* =====================================
-   FORMAT DATE
-===================================== */
-
-function formatDate(
-  value
-){
-
-  if(!value){
-
-    return "—";
-
-  }
-
-
-  const date =
-    new Date(
-      value + "T00:00:00"
-    );
-
-
-  return date.toLocaleDateString(
-    "en-IN",
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
-
-}
-
-
-/* =====================================
-   ESCAPE HTML
-===================================== */
-
-function escapeHtml(
-  value
-){
-
-  return String(
-    value ?? ""
-  )
-  .replaceAll(
-    "&",
-    "&amp;"
-  )
-  .replaceAll(
-    "<",
-    "&lt;"
-  )
-  .replaceAll(
-    ">",
-    "&gt;"
-  )
-  .replaceAll(
-    '"',
-    "&quot;"
-  )
-  .replaceAll(
-    "'",
-    "&#039;"
-  );
-
-}
-
-
-/* =====================================
-   LOGOUT
-===================================== */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  window.location.href =
-    "index.html";
-
-}
-
-
-/* =====================================
-   BACK
-===================================== */
 
 function goBack(){
-
-  window.location.href =
-    "super-admin.html";
-
+  if(currentRole === "super_admin"){
+    window.location.href="super-admin.html";
+  }else{
+    window.location.href="admin.html";
+  }
 }
 
+async function logout(){
+  await supabaseClient.auth.signOut();
+  window.location.href="index.html";
+}
 </script>
 
 </body>
