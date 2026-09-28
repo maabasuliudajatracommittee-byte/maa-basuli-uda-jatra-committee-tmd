@@ -45,77 +45,101 @@ a{
 }
 
 header{
-  background:white;
-  box-shadow:0 2px 12px rgba(0,0,0,.08);
+  background:#fff;
+  box-shadow:0 3px 14px rgba(0,0,0,.10);
   position:sticky;
   top:0;
   z-index:50;
 }
 
 .header-inner{
-  min-height:75px;
+  min-height:110px;
   display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
 }
 
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
+  justify-content:flex-start;
+  gap:14px;
+  min-height:78px;
+  padding:10px 0 8px;
 }
 
 .logo-icon{
-  width:50px;
-  height:50px;
+  width:64px;
+  height:64px;
+  min-width:64px;
   border-radius:50%;
   background:#f4c542;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:26px;
+  font-size:30px;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
 }
 
 .logo-text h1{
   color:#7b1e1e;
-  font-size:19px;
+  font-size:25px;
+  line-height:1.2;
+  font-weight:800;
 }
 
 .logo-text p{
   color:#777;
-  font-size:12px;
+  font-size:14px;
+  margin-top:3px;
+}
+
+#siteLogo{display:none;}
+
+#logoFallback{display:flex;}
+
+.main-nav-wrap{
+  width:100%;
+  border-top:1px solid #f0e1dc;
+  background:#fff;
 }
 
 nav{
   display:flex;
-  gap:3px;
+  align-items:center;
+  justify-content:center;
   flex-wrap:wrap;
-  justify-content:flex-end;
+  gap:7px;
+  padding:8px 0 10px;
+  width:100%;
 }
 
 nav a{
-  padding:8px 10px;
-  border-radius:7px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border-radius:8px;
   font-size:13px;
-  font-weight:bold;
+  font-weight:700;
+  white-space:nowrap;
+  color:#222;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
 }
 
 nav a:hover,
 nav a.active{
-  background:#f5e8e8;
-  color:#7b1e1e;
+  background:#7b1e1e;
+  color:#fff;
 }
 
-.menu-btn{
-  display:none;
-  border:0;
-  background:#7b1e1e;
-  color:white;
-  padding:9px 12px;
-  border-radius:7px;
-  font-size:20px;
-}
+nav a:hover{transform:translateY(-1px);}
+
+.menu-btn{display:none;}
 
 .page-hero{
   background:
@@ -359,93 +383,26 @@ footer a{
   }
 }
 
-/* ===== WEBSITE BRANDING ===== */
-
-.page-hero{
-  background-position:center;
-  background-size:cover;
-  background-repeat:no-repeat;
-}
-
-/* ===== LARGER PROFESSIONAL HEADER ===== */
-.header-inner{
-  min-height:100px;
-}
-
-.logo{
-  gap:16px;
-}
-
-.logo-icon{
-  width:72px;
-  height:72px;
-  font-size:34px;
-}
-
-.logo-text h1{
-  font-size:25px;
-}
-
-.logo-text p{
-  font-size:14px;
-}
-
-nav{
-  gap:5px;
-}
-
-nav a{
-  padding:11px 14px;
-  font-size:14px;
-}
-
-.menu-btn{
-  padding:10px 14px;
-  font-size:22px;
-}
-
-.btn{
-  padding:13px 22px;
-  font-size:16px;
-}
 
 @media(max-width:900px){
-  nav{
-    top:100px;
-  }
-
-  .header-inner{
-    min-height:90px;
-  }
-
-  .logo-icon{
-    width:64px;
-    height:64px;
-  }
-
-  .logo-text h1{
-    font-size:21px;
-  }
+  .header-inner{min-height:auto;}
+  .logo{min-height:72px;}
+  .logo-icon{width:58px;height:58px;min-width:58px;}
+  .logo-text h1{font-size:21px;}
+  .logo-text p{font-size:13px;}
+  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
+  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
 }
 
 @media(max-width:600px){
-  .header-inner{
-    min-height:82px;
-  }
-
-  .logo-icon{
-    width:56px;
-    height:56px;
-    font-size:28px;
-  }
-
-  .logo-text h1{
-    font-size:17px;
-  }
-
-  .logo-text p{
-    font-size:12px;
-  }
+  .topbar{font-size:11px;}
+  .topbar-inner{justify-content:center;text-align:center;}
+  .logo{gap:10px;padding:9px 0;}
+  .logo-icon{width:52px;height:52px;min-width:52px;}
+  .logo-text h1{font-size:18px;}
+  .logo-text p{font-size:11px;}
+  nav{gap:5px;}
+  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
 }
 
 </style>
@@ -464,7 +421,6 @@ nav a{
 
 
 <!-- HEADER -->
-
 <header>
 
   <div class="container header-inner">
@@ -472,7 +428,7 @@ nav a{
     <a href="index.html" class="logo">
 
       <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
-      <div id="logoFallback" class="logo-icon" style="display:flex;">🙏</div>
+      <div id="logoFallback" class="logo-icon">🙏</div>
 
       <div class="logo-text">
         <h1>Maa Basuli Uda Jatra Committee</h1>
@@ -481,33 +437,27 @@ nav a{
 
     </a>
 
-    <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <div class="main-nav-wrap">
+      <nav id="mainNav" aria-label="Main Navigation">
 
-    <nav id="mainNav">
+        <a href="index.html">Home</a>
+        <a href="about.html" class="active">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html">Contact</a>
+        <a href="search.html">Search</a>
+        <a href="auth.html">Login</a>
 
-      <a href="index.html">Home</a>
+      </nav>
+    </div>
 
-      <a href="about.html" class="active">About</a>
-
-      <a href="jatra.html">Uda Jatra</a>
-
-      <a href="notices.html">Notices</a>
-
-      <a href="events.html">Events</a>
-
-      <a href="gallery.html">Gallery</a>
-
-      <a href="members.html">Our Members</a>
-
-      <a href="fund.html">Fund</a>
-
-      <a href="complaint.html">Complaint</a>
-
-      <a href="contact.html">Contact</a>
-
-      <a href="auth.html">Login</a>
-
-    </nav>
   </div>
 
 </header>
@@ -766,25 +716,14 @@ nav a{
 </footer>
 
 
-<script>
 
-function toggleMenu(){
-
-  document
-    .getElementById("mainNav")
-    .classList
-    .toggle("show");
-
-}
-
-</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =====================================================
    Maa Basuli Uda Jatra Committee
-   ABOUT PAGE - BRANDING
+   ABOUT PAGE - BRANDING + LANGUAGE
    Original page structure/functionality preserved
    ===================================================== */
 
@@ -841,33 +780,24 @@ async function loadAboutWebsiteSettings(){
     }
 
     const logoUrl = firstValue(data, [
-      "logo_url",
-      "logo",
-      "site_logo_url"
+      "logo_url", "logo", "site_logo_url"
     ]);
 
     const maaBasuliUrl = firstValue(data, [
-      "maa_basuli_url",
-      "maa_basuli_photo_url",
-      "maa_basuli_photo"
+      "maa_basuli_url", "maa_basuli_photo_url", "maa_basuli_photo"
     ]);
 
     const groupPhotoUrl = firstValue(data, [
-      "group_photo_url",
-      "group_photo",
-      "committee_group_photo_url"
+      "group_photo_url", "group_photo", "committee_group_photo_url"
     ]);
 
     const templeUrl = firstValue(data, [
-      "temple_url",
-      "temple_photo_url",
-      "temple_photo"
+      "temple_url", "temple_photo_url", "temple_photo"
     ]);
 
     if(logoUrl){
       const logo = document.getElementById("siteLogo");
       const fallback = document.getElementById("logoFallback");
-
       if(logo){
         logo.src = logoUrl;
         logo.style.display = "block";
@@ -876,12 +806,10 @@ async function loadAboutWebsiteSettings(){
           if(fallback) fallback.style.display = "flex";
         };
       }
-
       if(fallback) fallback.style.display = "none";
     }
 
     const aboutImage = document.querySelector(".image-card img");
-
     if(aboutImage){
       if(maaBasuliUrl){
         aboutImage.src = maaBasuliUrl;
@@ -890,7 +818,6 @@ async function loadAboutWebsiteSettings(){
         aboutImage.src = templeUrl;
         aboutImage.alt = "Maa Basuli Temple";
       }
-
       aboutImage.onerror = function(){
         if(templeUrl && aboutImage.src !== templeUrl){
           aboutImage.src = templeUrl;
@@ -901,13 +828,11 @@ async function loadAboutWebsiteSettings(){
 
     if(groupPhotoUrl){
       const hero = document.querySelector(".page-hero");
-
       if(hero){
-        const safeGroupPhotoUrl = groupPhotoUrl.replace(/"/g, '\\"');
-
+        const safeUrl = groupPhotoUrl.replace(/"/g, '\\"');
         hero.style.backgroundImage =
           'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' +
-          safeGroupPhotoUrl +
+          safeUrl +
           '")';
       }
     }
@@ -915,6 +840,7 @@ async function loadAboutWebsiteSettings(){
     console.error("About settings loading failed:", error);
   }
 }
+
 </script>
 
 </body>
