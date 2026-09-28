@@ -596,6 +596,11 @@
                   </div>
 
                   <div class="info-row">
+                    <div class="info-label">Date of Birth:</div>
+                    <div id="cardDateOfBirth"></div>
+                  </div>
+
+                  <div class="info-row">
                     <div class="info-label">Member Since:</div>
                     <div id="cardMemberSince"></div>
                   </div>
@@ -898,6 +903,13 @@ function updateIdCard(p, photo){
 
   document.getElementById("cardMobile").textContent =
     p.mobile || "-";
+
+  const dobText = p.date_of_birth
+    ? String(p.date_of_birth).split("-").reverse().join("/")
+    : "-";
+
+  document.getElementById("cardDateOfBirth").textContent =
+    dobText;
 
   document.getElementById("cardMemberSince").textContent =
     p.member_since || "-";
