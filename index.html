@@ -148,6 +148,7 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
 }
 .notice-ad-window{
   flex:1;
+  cursor:pointer;
   min-width:0;
   overflow:hidden;
   position:relative;
@@ -285,7 +286,7 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
 <section class="notice-adbar" aria-label="Latest official notices">
   <div class="notice-ad-inner">
     <div class="notice-ad-label">📢 Latest Notice</div>
-    <div class="notice-ad-window">
+    <div class="notice-ad-window" onclick="openNoticesPage()">
       <div class="notice-ad-track" id="noticeAdTrack">
         <div class="notice-ad-empty">Notices load heuchhi...</div>
       </div>
@@ -529,6 +530,10 @@ document.getElementById("heroGroupPhoto").addEventListener("error",function(){
 
 
 /* ===== CONTINUOUS HOMEPAGE NOTICE / ADVERTISEMENT ===== */
+function openNoticesPage(){
+  window.location.href="notices.html";
+}
+
 function escapeHtml(value){
   return String(value ?? "")
     .replace(/&/g,"&amp;")
@@ -574,12 +579,11 @@ async function loadHomepageNotices(){
         : "";
       const href = n.pdf_url ? String(n.pdf_url).trim() : "notices.html";
 
-      return `<div class="notice-ad-item">
+      return `<div class="notice-ad-item" onclick="event.stopPropagation();">
         <a
           href="${escapeHtml(href)}"
           target="${n.pdf_url ? "_blank" : "_self"}"
           rel="noopener noreferrer"
-          onclick="event.stopPropagation();"
         >
           ${title}${type}${date}
         </a>
