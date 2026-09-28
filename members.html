@@ -73,6 +73,19 @@ a{
   display:none;
 }
 
+.logo-fallback{
+  width:58px;
+  height:58px;
+  border-radius:50%;
+  background:#f4c542;
+  color:#6b1f12;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  flex:0 0 58px;
+}
+
 .logo-title{
   min-width:0;
 }
@@ -489,9 +502,11 @@ footer a{
     width:100%;
   }
 
-  .site-logo{
+  .site-logo,
+  .logo-fallback{
     width:50px;
     height:50px;
+    flex-basis:50px;
   }
 
   .logo-title h1{
@@ -556,13 +571,20 @@ footer a{
 
       <div class="brand-left">
 
-        <a href="index.html" style="display:flex;align-items:center;gap:12px;min-width:0;">
+        <a href="index.html"
+           style="display:flex;align-items:center;gap:12px;min-width:0;">
 
           <img
             id="siteLogo"
             class="site-logo"
             alt="Maa Basuli Uda Jatra Committee Logo"
           >
+
+          <div
+            id="logoFallback"
+            class="logo-fallback">
+            🙏
+          </div>
 
           <div class="logo-title">
 
@@ -586,7 +608,6 @@ footer a{
 
       </div>
 
-
       <div class="brand-photos">
 
         <img
@@ -606,7 +627,6 @@ footer a{
       </div>
 
     </div>
-
 
     <nav class="nav">
 
@@ -715,7 +735,6 @@ footer a{
 
 </header>
 
-
 <!-- ================= HERO ================= -->
 
 <section class="hero">
@@ -739,7 +758,6 @@ footer a{
   </div>
 
 </section>
-
 
 <!-- ================= MAIN ================= -->
 
@@ -765,7 +783,6 @@ footer a{
 
     </div>
 
-
     <div
       id="errorBox"
       class="error-box"
@@ -774,7 +791,6 @@ footer a{
       data-lang-hi="सदस्य जानकारी लोड नहीं हो सकी। कृपया बाद में पुनः प्रयास करें।">
       Unable to load member information. Please try again later.
     </div>
-
 
     <div class="controls">
 
@@ -794,14 +810,11 @@ footer a{
 
     </div>
 
-
     <div class="stats">
 
       <div class="stat">
 
-        <strong id="totalMembers">
-          0
-        </strong>
+        <strong id="totalMembers">0</strong>
 
         <span
           data-lang-en="Total Active Members"
@@ -812,12 +825,9 @@ footer a{
 
       </div>
 
-
       <div class="stat">
 
-        <strong id="visibleMembers">
-          0
-        </strong>
+        <strong id="visibleMembers">0</strong>
 
         <span
           data-lang-en="Members Shown"
@@ -828,12 +838,9 @@ footer a{
 
       </div>
 
-
       <div class="stat">
 
-        <strong>
-          ✓
-        </strong>
+        <strong>✓</strong>
 
         <span
           data-lang-en="Approved & Active"
@@ -846,10 +853,7 @@ footer a{
 
     </div>
 
-
-    <div
-      id="loading"
-      class="loading">
+    <div id="loading" class="loading">
 
       <div class="spinner"></div>
 
@@ -861,7 +865,6 @@ footer a{
       </p>
 
     </div>
-
 
     <div class="member-table-wrap">
 
@@ -916,10 +919,7 @@ footer a{
 
     </div>
 
-
-    <div
-      id="emptyState"
-      class="empty">
+    <div id="emptyState" class="empty">
 
       <div class="empty-icon">
         🔎
@@ -940,7 +940,6 @@ footer a{
       </p>
 
     </div>
-
 
     <div class="info-box">
 
@@ -963,7 +962,6 @@ footer a{
   </div>
 
 </main>
-
 
 <!-- ================= FOOTER ================= -->
 
@@ -989,15 +987,15 @@ footer a{
           Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.
         </p>
 
-        <p style="margin-top:9px;"
-           data-lang-en="Jai Maa Basuli 🙏"
-           data-lang-or="ଜୟ ମା' ବାସୁଳୀ 🙏"
-           data-lang-hi="जय माँ बासुली 🙏">
-          ଜୟ ମା' ବାସୁଳୀ 🙏
+        <p
+          style="margin-top:9px;"
+          data-lang-en="Jai Maa Basuli 🙏"
+          data-lang-or="ଜୟ ମା' ବାସୁଳୀ 🙏"
+          data-lang-hi="जय माँ बासुली 🙏">
+          Jai Maa Basuli 🙏
         </p>
 
       </div>
-
 
       <div>
 
@@ -1044,7 +1042,6 @@ footer a{
         </a>
 
       </div>
-
 
       <div>
 
@@ -1101,7 +1098,6 @@ footer a{
 
     </div>
 
-
     <div class="copyright">
 
       <span
@@ -1117,7 +1113,6 @@ footer a{
 
 </footer>
 
-
 <script>
 
 /* =====================================================
@@ -1130,20 +1125,17 @@ const SUPABASE_URL =
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-
 const supabaseClient =
   window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
-
 /* =====================================================
    DATA
 ===================================================== */
 
 let allMembers = [];
-
 
 /* =====================================================
    LOAD WEBSITE BRANDING
@@ -1184,8 +1176,12 @@ async function loadWebsiteBranding(){
         const logo =
           document.getElementById("siteLogo");
 
+        const fallback =
+          document.getElementById("logoFallback");
+
         logo.src = data.logo_url;
         logo.style.display = "block";
+        fallback.style.display = "none";
 
       }
 
@@ -1202,7 +1198,6 @@ async function loadWebsiteBranding(){
     );
 
   }
-
 
   try{
 
@@ -1251,7 +1246,6 @@ async function loadWebsiteBranding(){
 
 }
 
-
 /* =====================================================
    LANGUAGE SUPPORT
 ===================================================== */
@@ -1274,7 +1268,6 @@ function applyCurrentPageLanguage(){
 
 }
 
-
 window.addEventListener(
   "storage",
   function(event){
@@ -1289,7 +1282,6 @@ window.addEventListener(
 
   }
 );
-
 
 /* =====================================================
    LOAD PUBLIC MEMBERS
@@ -1314,7 +1306,6 @@ async function loadMembers(){
       await supabaseClient
         .rpc("get_public_members");
 
-
     if(error){
 
       console.error(
@@ -1326,20 +1317,16 @@ async function loadMembers(){
 
     }
 
-
     allMembers =
       Array.isArray(data)
         ? data
         : [];
 
-
     renderMembers();
 
   }catch(error){
 
-    console.error(
-      error
-    );
+    console.error(error);
 
     errorBox.classList.add("show");
 
@@ -1355,7 +1342,6 @@ async function loadMembers(){
   }
 
 }
-
 
 /* =====================================================
    RENDER MEMBERS
@@ -1382,7 +1368,6 @@ function renderMembers(){
       .trim()
       .toLowerCase();
 
-
   const filtered =
     allMembers.filter(
       member => {
@@ -1406,9 +1391,7 @@ function renderMembers(){
       }
     );
 
-
   tbody.innerHTML = "";
-
 
   if(filtered.length === 0){
 
@@ -1420,7 +1403,6 @@ function renderMembers(){
 
   }
 
-
   filtered.forEach(
     (member,index) => {
 
@@ -1429,6 +1411,17 @@ function renderMembers(){
           "tr"
         );
 
+      const currentLang =
+        localStorage.getItem(
+          "maaBasuliLanguage"
+        ) || "en";
+
+      const locale =
+        currentLang === "or"
+          ? "or-IN"
+          : currentLang === "hi"
+            ? "hi-IN"
+            : "en-IN";
 
       const memberSince =
         member.member_since
@@ -1436,10 +1429,9 @@ function renderMembers(){
               member.member_since +
               "T00:00:00"
             ).toLocaleDateString(
-              "en-IN"
+              locale
             )
           : "—";
-
 
       tr.innerHTML = `
 
@@ -1476,7 +1468,6 @@ function renderMembers(){
 
       `;
 
-
       tbody.appendChild(
         tr
       );
@@ -1484,12 +1475,10 @@ function renderMembers(){
     }
   );
 
-
   document.getElementById(
     "totalMembers"
   ).textContent =
     allMembers.length;
-
 
   document.getElementById(
     "visibleMembers"
@@ -1497,7 +1486,6 @@ function renderMembers(){
     filtered.length;
 
 }
-
 
 /* =====================================================
    ESCAPE HTML
@@ -1536,7 +1524,6 @@ function escapeHtml(value){
 
 }
 
-
 /* =====================================================
    SEARCH
 ===================================================== */
@@ -1550,6 +1537,29 @@ document
     renderMembers
   );
 
+/* =====================================================
+   LANGUAGE CHANGE → REFRESH MEMBER DATE
+===================================================== */
+
+document
+  .getElementById(
+    "language-switcher"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      setTimeout(
+        function(){
+
+          renderMembers();
+
+        },
+        30
+      );
+
+    }
+  );
 
 /* =====================================================
    START
@@ -1559,7 +1569,6 @@ loadWebsiteBranding();
 loadMembers();
 
 </script>
-
 
 <!-- COMMON WEBSITE LANGUAGE SYSTEM -->
 <script src="language.js"></script>
