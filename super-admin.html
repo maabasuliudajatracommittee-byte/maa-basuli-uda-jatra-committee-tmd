@@ -1630,13 +1630,48 @@ async function checkSuperAdmin(){
 
 async function refreshDashboard(){
 
-  await Promise.all([
-    loadDashboardSummary(),
-    loadMembers(),
-    loadAdmins()
-  ]);
+  const refreshBtn =
+    document.querySelector('button.refresh');
 
-  await loadDonations();
+  if(refreshBtn){
+    refreshBtn.disabled = true;
+    refreshBtn.textContent = "⏳ Refreshing...";
+  }
+
+  try{
+
+    try{
+      await loadDashboardSummary();
+    }catch(error){
+      console.error("Dashboard summary refresh error:", error);
+    }
+
+    try{
+      await loadMembers();
+    }catch(error){
+      console.error("Members refresh error:", error);
+    }
+
+    try{
+      await loadAdmins();
+    }catch(error){
+      console.error("Admins refresh error:", error);
+    }
+
+    try{
+      await loadDonations();
+    }catch(error){
+      console.error("Donations refresh error:", error);
+    }
+
+  }finally{
+
+    if(refreshBtn){
+      refreshBtn.disabled = false;
+      refreshBtn.textContent = "🔄 Refresh";
+    }
+
+  }
 
 }
 
