@@ -9,446 +9,727 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f5f7fa;
-      color: #1f2937;
-      min-height: 100vh;
+    body{
+      font-family:Arial,Helvetica,sans-serif;
+      background:#f5f7fa;
+      color:#1f2937;
+      min-height:100vh;
     }
 
     /* =========================
        HEADER
     ========================= */
 
-    header {
-      background: linear-gradient(135deg, #7c2d12, #b45309);
-      color: white;
-      padding: 18px 20px;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+    header{
+      background:linear-gradient(135deg,#7c2d12,#b45309);
+      color:white;
+      padding:12px 18px 10px;
+      box-shadow:0 3px 12px rgba(0,0,0,.15);
     }
 
-    .header-inner {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+    .header-inner{
+      max-width:1100px;
+      margin:auto;
     }
 
-    .brand h1 {
-      font-size: 21px;
-      margin-bottom: 4px;
+    .brand-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
     }
 
-    .brand p {
-      font-size: 13px;
-      opacity: 0.9;
+    .brand-left{
+      display:flex;
+      align-items:center;
+      gap:11px;
+      min-width:0;
     }
 
-    .home-btn {
-      display: inline-block;
-      text-decoration: none;
-      background: white;
-      color: #7c2d12;
-      padding: 10px 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      font-size: 13px;
+    .site-logo{
+      width:58px;
+      height:58px;
+      object-fit:cover;
+      border-radius:50%;
+      border:3px solid rgba(255,255,255,.9);
+      background:#fff;
+      display:none;
+      flex-shrink:0;
     }
 
-    .home-btn:hover {
-      background: #fef3c7;
+    .brand-photo{
+      width:52px;
+      height:52px;
+      object-fit:cover;
+      border-radius:9px;
+      border:2px solid rgba(255,255,255,.9);
+      background:#fff;
+      display:none;
+      flex-shrink:0;
+    }
+
+    .brand h1{
+      font-size:20px;
+      line-height:1.25;
+      margin-bottom:3px;
+    }
+
+    .brand p{
+      font-size:12px;
+      opacity:.9;
+      line-height:1.4;
+    }
+
+    .header-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-shrink:0;
+    }
+
+    #language-switcher{
+      display:flex;
+      align-items:center;
+    }
+
+    #maa-language-switcher{
+      position:static !important;
+      display:inline-flex !important;
+      align-items:center;
+      gap:4px;
+      padding:4px;
+      border-radius:9px;
+      background:#fff;
+      border:1px solid #ddd;
+      box-shadow:0 2px 8px rgba(0,0,0,.10);
+    }
+
+    #maa-language-switcher button{
+      border:0;
+      background:transparent;
+      color:#333;
+      cursor:pointer;
+      font-weight:800;
+      font-size:12px;
+      line-height:1;
+      padding:8px 9px;
+      border-radius:7px;
+    }
+
+    #maa-language-switcher button.active{
+      background:#8b0000;
+      color:#fff;
+    }
+
+    .home-btn{
+      display:inline-block;
+      text-decoration:none;
+      background:#fff;
+      color:#7c2d12;
+      padding:9px 13px;
+      border-radius:8px;
+      font-weight:bold;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .home-btn:hover{
+      background:#fef3c7;
+    }
+
+    .nav-row{
+      margin-top:10px;
+      display:flex;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+      gap:7px;
+    }
+
+    .nav-row a{
+      color:#fff;
+      text-decoration:none;
+      font-size:12px;
+      padding:6px 8px;
+      border-radius:6px;
+      background:rgba(255,255,255,.10);
+    }
+
+    .nav-row a:hover{
+      background:rgba(255,255,255,.20);
     }
 
     /* =========================
        MAIN
     ========================= */
 
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 18px;
+    .container{
+      max-width:900px;
+      margin:34px auto;
+      padding:0 18px;
     }
 
-    .hero {
-      text-align: center;
-      margin-bottom: 25px;
+    .hero{
+      text-align:center;
+      margin-bottom:23px;
     }
 
-    .hero-icon {
-      font-size: 48px;
-      margin-bottom: 10px;
+    .hero-icon{
+      font-size:42px;
+      margin-bottom:7px;
     }
 
-    .hero h2 {
-      color: #7c2d12;
-      font-size: 30px;
-      margin-bottom: 10px;
+    .hero h2{
+      color:#7c2d12;
+      font-size:29px;
+      margin-bottom:8px;
     }
 
-    .hero p {
-      color: #6b7280;
-      line-height: 1.6;
-      max-width: 650px;
-      margin: auto;
+    .hero p{
+      color:#6b7280;
+      line-height:1.6;
+      max-width:650px;
+      margin:auto;
+      font-size:14px;
     }
 
     /* =========================
        SEARCH CARD
     ========================= */
 
-    .search-card {
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
-      margin-bottom: 25px;
+    .search-card{
+      background:#fff;
+      border-radius:16px;
+      padding:27px;
+      box-shadow:0 4px 18px rgba(0,0,0,.08);
+      margin-bottom:23px;
     }
 
-    .search-card h3 {
-      color: #374151;
-      margin-bottom: 8px;
+    .search-card h3{
+      color:#374151;
+      margin-bottom:7px;
+      font-size:19px;
     }
 
-    .search-card p {
-      color: #6b7280;
-      font-size: 14px;
-      margin-bottom: 20px;
+    .search-card p{
+      color:#6b7280;
+      font-size:14px;
+      margin-bottom:18px;
     }
 
-    .input-group {
-      display: flex;
-      gap: 10px;
+    .input-group{
+      display:flex;
+      gap:10px;
     }
 
-    .input-group input {
-      flex: 1;
-      min-width: 0;
-      padding: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      font-size: 15px;
-      outline: none;
+    .input-group input{
+      flex:1;
+      min-width:0;
+      padding:14px;
+      border:1px solid #d1d5db;
+      border-radius:9px;
+      font-size:15px;
+      outline:none;
     }
 
-    .input-group input:focus {
-      border-color: #b45309;
-      box-shadow: 0 0 0 3px rgba(180,83,9,0.10);
+    .input-group input:focus{
+      border-color:#b45309;
+      box-shadow:0 0 0 3px rgba(180,83,9,.10);
     }
 
-    .check-btn {
-      border: none;
-      background: #7c2d12;
-      color: white;
-      padding: 0 22px;
-      border-radius: 9px;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 14px;
-      white-space: nowrap;
+    .check-btn{
+      border:none;
+      background:#7c2d12;
+      color:#fff;
+      padding:0 22px;
+      border-radius:9px;
+      font-weight:bold;
+      cursor:pointer;
+      font-size:14px;
+      white-space:nowrap;
     }
 
-    .check-btn:hover {
-      background: #9a3412;
+    .check-btn:hover{
+      background:#9a3412;
     }
 
-    .check-btn:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
+    .check-btn:disabled{
+      opacity:.65;
+      cursor:not-allowed;
     }
 
     /* =========================
        RESULT
     ========================= */
 
-    .result-card {
-      display: none;
-      background: white;
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    .result-card{
+      display:none;
+      background:#fff;
+      border-radius:16px;
+      padding:27px;
+      box-shadow:0 4px 18px rgba(0,0,0,.08);
     }
 
-    .result-card.show {
-      display: block;
+    .result-card.show{
+      display:block;
     }
 
-    .result-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 22px;
-      padding-bottom: 17px;
-      border-bottom: 1px solid #e5e7eb;
+    .result-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      margin-bottom:21px;
+      padding-bottom:16px;
+      border-bottom:1px solid #e5e7eb;
     }
 
-    .result-header h3 {
-      color: #374151;
+    .result-header h3{
+      color:#374151;
     }
 
-    .reference-number {
-      color: #7c2d12;
-      font-weight: bold;
-      font-size: 15px;
+    .reference-number{
+      color:#7c2d12;
+      font-weight:bold;
+      font-size:15px;
     }
 
     /* =========================
        STATUS
     ========================= */
 
-    .status-box {
-      padding: 22px;
-      border-radius: 12px;
-      text-align: center;
-      margin-bottom: 22px;
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
+    .status-box{
+      padding:21px;
+      border-radius:12px;
+      text-align:center;
+      margin-bottom:21px;
+      background:#f9fafb;
+      border:1px solid #e5e7eb;
     }
 
-    .status-label {
-      font-size: 12px;
-      color: #6b7280;
-      text-transform: uppercase;
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      margin-bottom: 9px;
+    .status-label{
+      font-size:12px;
+      color:#6b7280;
+      text-transform:uppercase;
+      font-weight:bold;
+      letter-spacing:.5px;
+      margin-bottom:8px;
     }
 
-    .status-value {
-      display: inline-block;
-      padding: 9px 18px;
-      border-radius: 25px;
-      font-size: 15px;
-      font-weight: bold;
+    .status-value{
+      display:inline-block;
+      padding:9px 18px;
+      border-radius:25px;
+      font-size:15px;
+      font-weight:bold;
     }
 
-    .status-pending {
-      background: #fef3c7;
-      color: #92400e;
+    .status-pending{
+      background:#fef3c7;
+      color:#92400e;
     }
 
-    .status-review {
-      background: #dbeafe;
-      color: #1d4ed8;
+    .status-review{
+      background:#dbeafe;
+      color:#1d4ed8;
     }
 
-    .status-resolved {
-      background: #dcfce7;
-      color: #166534;
+    .status-resolved{
+      background:#dcfce7;
+      color:#166534;
     }
 
-    .status-rejected {
-      background: #fee2e2;
-      color: #991b1b;
+    .status-rejected{
+      background:#fee2e2;
+      color:#991b1b;
     }
 
-    .status-unknown {
-      background: #e5e7eb;
-      color: #374151;
+    .status-unknown{
+      background:#e5e7eb;
+      color:#374151;
     }
 
     /* =========================
        DETAILS GRID
     ========================= */
 
-    .details-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
+    .details-grid{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:15px;
     }
 
-    .detail-box {
-      background: #f9fafb;
-      border-radius: 10px;
-      padding: 16px;
-      border: 1px solid #e5e7eb;
+    .detail-box{
+      background:#f9fafb;
+      border-radius:10px;
+      padding:16px;
+      border:1px solid #e5e7eb;
     }
 
-    .detail-box.full {
-      grid-column: 1 / -1;
+    .detail-box.full{
+      grid-column:1 / -1;
     }
 
-    .detail-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      color: #6b7280;
-      font-weight: bold;
-      margin-bottom: 7px;
+    .detail-label{
+      font-size:11px;
+      text-transform:uppercase;
+      color:#6b7280;
+      font-weight:bold;
+      margin-bottom:7px;
     }
 
-    .detail-value {
-      color: #111827;
-      font-size: 14px;
-      line-height: 1.5;
-      word-break: break-word;
+    .detail-value{
+      color:#111827;
+      font-size:14px;
+      line-height:1.5;
+      word-break:break-word;
     }
 
-    .remark-box {
-      background: #fff7ed;
-      border-color: #fed7aa;
+    .remark-box{
+      background:#fff7ed;
+      border-color:#fed7aa;
     }
 
-    .remark-box .detail-label {
-      color: #9a3412;
+    .remark-box .detail-label{
+      color:#9a3412;
     }
 
     /* =========================
-       NOT FOUND
+       MESSAGE
     ========================= */
 
-    .message {
-      display: none;
-      margin-top: 18px;
-      padding: 13px 15px;
-      border-radius: 9px;
-      font-size: 14px;
+    .message{
+      display:none;
+      margin-top:18px;
+      padding:13px 15px;
+      border-radius:9px;
+      font-size:14px;
+      line-height:1.5;
     }
 
-    .message.show {
-      display: block;
+    .message.show{
+      display:block;
     }
 
-    .message.error {
-      background: #fee2e2;
-      color: #991b1b;
-      border: 1px solid #fecaca;
+    .message.error{
+      background:#fee2e2;
+      color:#991b1b;
+      border:1px solid #fecaca;
     }
 
-    .message.info {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
+    .message.info{
+      background:#eff6ff;
+      color:#1d4ed8;
+      border:1px solid #bfdbfe;
     }
 
     /* =========================
        SECURITY NOTE
     ========================= */
 
-    .security-note {
-      margin-top: 22px;
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      color: #166534;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 13px;
-      line-height: 1.5;
+    .security-note{
+      margin-top:21px;
+      background:#f0fdf4;
+      border:1px solid #bbf7d0;
+      color:#166534;
+      padding:15px;
+      border-radius:10px;
+      font-size:13px;
+      line-height:1.5;
     }
 
     /* =========================
        FOOTER
     ========================= */
 
-    footer {
-      text-align: center;
-      padding: 30px 15px;
-      color: #6b7280;
-      font-size: 13px;
+    footer{
+      text-align:center;
+      padding:28px 15px;
+      color:#6b7280;
+      font-size:13px;
     }
 
     /* =========================
        RESPONSIVE
     ========================= */
 
-    @media (max-width: 650px) {
+    @media(max-width:800px){
 
-      .header-inner {
-        flex-direction: column;
-        align-items: flex-start;
+      .brand-row{
+        align-items:flex-start;
       }
 
-      .home-btn {
-        width: 100%;
-        text-align: center;
+      .header-right{
+        flex-direction:column;
+        align-items:flex-end;
       }
 
-      .container {
-        margin-top: 25px;
-      }
-
-      .hero h2 {
-        font-size: 25px;
-      }
-
-      .search-card,
-      .result-card {
-        padding: 20px;
-      }
-
-      .input-group {
-        flex-direction: column;
-      }
-
-      .check-btn {
-        height: 48px;
-      }
-
-      .details-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-box.full {
-        grid-column: auto;
-      }
-
-      .result-header {
-        flex-direction: column;
-        align-items: flex-start;
+      .nav-row{
+        justify-content:center;
       }
     }
 
+    @media(max-width:650px){
+
+      header{
+        padding:12px;
+      }
+
+      .brand-row{
+        flex-direction:column;
+      }
+
+      .header-right{
+        width:100%;
+        flex-direction:row;
+        justify-content:space-between;
+        align-items:center;
+      }
+
+      .brand h1{
+        font-size:18px;
+      }
+
+      .home-btn{
+        padding:9px 11px;
+      }
+
+      .nav-row{
+        justify-content:flex-start;
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding-bottom:3px;
+      }
+
+      .nav-row a{
+        white-space:nowrap;
+      }
+
+      .container{
+        margin-top:25px;
+      }
+
+      .hero h2{
+        font-size:25px;
+      }
+
+      .search-card,
+      .result-card{
+        padding:20px;
+      }
+
+      .input-group{
+        flex-direction:column;
+      }
+
+      .check-btn{
+        height:48px;
+      }
+
+      .details-grid{
+        grid-template-columns:1fr;
+      }
+
+      .detail-box.full{
+        grid-column:auto;
+      }
+
+      .result-header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      #maa-language-switcher button{
+        font-size:11px;
+        padding:8px 7px;
+      }
+    }
   </style>
 </head>
 
-
 <body>
 
-  <!-- =========================================
+  <!-- =========================
        HEADER
-  ========================================== -->
+  ========================= -->
 
   <header>
 
     <div class="header-inner">
 
-      <div class="brand">
+      <div class="brand-row">
 
-        <h1>
-          🌺 Maa Basuli Uda Jatra Committee
-        </h1>
+        <div class="brand-left">
 
-        <p>
-          Public Complaint Status Service
-        </p>
+          <img
+            id="siteLogo"
+            class="site-logo"
+            alt="Maa Basuli Uda Jatra Committee"
+          >
+
+          <img
+            id="maaBasuliPhoto"
+            class="brand-photo"
+            alt="Maa Basuli"
+          >
+
+          <div class="brand">
+
+            <h1 id="siteName">
+              🌺 Maa Basuli Uda Jatra Committee
+            </h1>
+
+            <p id="siteAddress">
+              Public Complaint Status Service
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="header-right">
+
+          <div id="language-switcher">
+
+            <div id="maa-language-switcher">
+
+              <button
+                type="button"
+                data-site-lang="en"
+                onclick="setSiteLanguage('en')"
+              >
+                🇬🇧 English
+              </button>
+
+              <button
+                type="button"
+                data-site-lang="or"
+                onclick="setSiteLanguage('or')"
+              >
+                ଓଡ଼ିଆ
+              </button>
+
+              <button
+                type="button"
+                data-site-lang="hi"
+                onclick="setSiteLanguage('hi')"
+              >
+                हिन्दी
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <a
+            href="index.html"
+            class="home-btn"
+          >
+            <span
+              data-lang-en="← Back to Website"
+              data-lang-or="← ୱେବସାଇଟ୍‌କୁ ଫେରନ୍ତୁ"
+              data-lang-hi="← वेबसाइट पर वापस जाएँ"
+            >
+              ← Back to Website
+            </span>
+          </a>
+
+        </div>
 
       </div>
 
-      <a
-        href="index.html"
-        class="home-btn"
-      >
-        ← Back to Website
-      </a>
+
+      <nav class="nav-row">
+
+        <a href="index.html"
+           data-lang-en="Home"
+           data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
+           data-lang-hi="होम">
+          Home
+        </a>
+
+        <a href="about.html"
+           data-lang-en="About"
+           data-lang-or="ଆମ ବିଷୟରେ"
+           data-lang-hi="हमारे बारे में">
+          About
+        </a>
+
+        <a href="jatra.html"
+           data-lang-en="Uda Jatra"
+           data-lang-or="ଉଡା ଯାତ୍ରା"
+           data-lang-hi="उड़ा जात्रा">
+          Uda Jatra
+        </a>
+
+        <a href="notices.html"
+           data-lang-en="Notices"
+           data-lang-or="ନୋଟିସ୍"
+           data-lang-hi="सूचनाएँ">
+          Notices
+        </a>
+
+        <a href="events.html"
+           data-lang-en="Events"
+           data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
+           data-lang-hi="कार्यक्रम">
+          Events
+        </a>
+
+        <a href="gallery.html"
+           data-lang-en="Gallery"
+           data-lang-or="ଗ୍ୟାଲେରୀ"
+           data-lang-hi="गैलरी">
+          Gallery
+        </a>
+
+        <a href="members.html"
+           data-lang-en="Members"
+           data-lang-or="ସଦସ୍ୟ"
+           data-lang-hi="सदस्य">
+          Members
+        </a>
+
+        <a href="complaint.html"
+           data-lang-en="Complaint"
+           data-lang-or="ଅଭିଯୋଗ"
+           data-lang-hi="शिकायत">
+          Complaint
+        </a>
+
+        <a href="complaint-status.html"
+           data-lang-en="Complaint Status"
+           data-lang-or="ଅଭିଯୋଗ ସ୍ଥିତି"
+           data-lang-hi="शिकायत स्थिति">
+          Complaint Status
+        </a>
+
+        <a href="contact.html"
+           data-lang-en="Contact"
+           data-lang-or="ଯୋଗାଯୋଗ"
+           data-lang-hi="संपर्क">
+          Contact
+        </a>
+
+      </nav>
 
     </div>
 
   </header>
 
 
-  <!-- =========================================
+  <!-- =========================
        MAIN
-  ========================================== -->
+  ========================= -->
 
   <main class="container">
-
 
     <!-- HERO -->
 
@@ -458,11 +739,19 @@
         🔎
       </div>
 
-      <h2>
+      <h2
+        data-lang-en="Check Complaint Status"
+        data-lang-or="ଅଭିଯୋଗର ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ"
+        data-lang-hi="शिकायत की स्थिति जाँचें"
+      >
         Check Complaint Status
       </h2>
 
-      <p>
+      <p
+        data-lang-en="Enter your Complaint Number to check the current status of your submitted complaint."
+        data-lang-or="ଆପଣ ଦାଖଲ କରିଥିବା ଅଭିଯୋଗର ବର୍ତ୍ତମାନ ସ୍ଥିତି ଜାଣିବା ପାଇଁ ଆପଣଙ୍କ ଅଭିଯୋଗ ନମ୍ବର ଦିଅନ୍ତୁ।"
+        data-lang-hi="अपनी जमा की गई शिकायत की वर्तमान स्थिति देखने के लिए अपना शिकायत नंबर दर्ज करें।"
+      >
         Enter your Complaint Number to check the current status
         of your submitted complaint.
       </p>
@@ -470,20 +759,25 @@
     </section>
 
 
-    <!-- =========================================
-         SEARCH
-    ========================================== -->
+    <!-- SEARCH -->
 
     <section class="search-card">
 
-      <h3>
+      <h3
+        data-lang-en="Complaint Number"
+        data-lang-or="ଅଭିଯୋଗ ନମ୍ବର"
+        data-lang-hi="शिकायत नंबर"
+      >
         Complaint Number
       </h3>
 
-      <p>
+      <p
+        data-lang-en="Example: MB-CMP-00006"
+        data-lang-or="ଉଦାହରଣ: MB-CMP-00006"
+        data-lang-hi="उदाहरण: MB-CMP-00006"
+      >
         Example: MB-CMP-00006
       </p>
-
 
       <div class="input-group">
 
@@ -491,6 +785,9 @@
           type="text"
           id="referenceInput"
           placeholder="Enter Complaint Number"
+          data-placeholder-en="Enter Complaint Number"
+          data-placeholder-or="ଅଭିଯୋଗ ନମ୍ବର ଦିଅନ୍ତୁ"
+          data-placeholder-hi="शिकायत नंबर दर्ज करें"
           autocomplete="off"
           maxlength="50"
         >
@@ -499,12 +796,14 @@
           type="button"
           id="checkButton"
           class="check-btn"
+          data-lang-en="Check Status"
+          data-lang-or="ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ"
+          data-lang-hi="स्थिति जाँचें"
         >
           Check Status
         </button>
 
       </div>
-
 
       <div
         id="message"
@@ -514,9 +813,7 @@
     </section>
 
 
-    <!-- =========================================
-         RESULT
-    ========================================== -->
+    <!-- RESULT -->
 
     <section
       id="resultCard"
@@ -525,15 +822,18 @@
 
       <div class="result-header">
 
-        <h3>
+        <h3
+          data-lang-en="Complaint Status"
+          data-lang-or="ଅଭିଯୋଗ ସ୍ଥିତି"
+          data-lang-hi="शिकायत स्थिति"
+        >
           Complaint Status
         </h3>
 
         <div
           id="resultReference"
           class="reference-number"
-        >
-        </div>
+        ></div>
 
       </div>
 
@@ -542,7 +842,12 @@
 
       <div class="status-box">
 
-        <div class="status-label">
+        <div
+          class="status-label"
+          data-lang-en="Current Status"
+          data-lang-or="ବର୍ତ୍ତମାନ ସ୍ଥିତି"
+          data-lang-hi="वर्तमान स्थिति"
+        >
           Current Status
         </div>
 
@@ -560,10 +865,14 @@
 
       <div class="details-grid">
 
-
         <div class="detail-box">
 
-          <div class="detail-label">
+          <div
+            class="detail-label"
+            data-lang-en="Complaint Number"
+            data-lang-or="ଅଭିଯୋଗ ନମ୍ବର"
+            data-lang-hi="शिकायत नंबर"
+          >
             Complaint Number
           </div>
 
@@ -579,7 +888,12 @@
 
         <div class="detail-box">
 
-          <div class="detail-label">
+          <div
+            class="detail-label"
+            data-lang-en="Complaint Date"
+            data-lang-or="ଅଭିଯୋଗ ତାରିଖ"
+            data-lang-hi="शिकायत की तारीख"
+          >
             Complaint Date
           </div>
 
@@ -595,7 +909,12 @@
 
         <div class="detail-box">
 
-          <div class="detail-label">
+          <div
+            class="detail-label"
+            data-lang-en="Last Updated"
+            data-lang-or="ଶେଷ ଅଦ୍ୟତନ"
+            data-lang-hi="अंतिम अपडेट"
+          >
             Last Updated
           </div>
 
@@ -614,7 +933,12 @@
           class="detail-box remark-box"
         >
 
-          <div class="detail-label">
+          <div
+            class="detail-label"
+            data-lang-en="Official Response"
+            data-lang-or="ଅଧିକାରିକ ଉତ୍ତର"
+            data-lang-hi="आधिकारिक उत्तर"
+          >
             Official Response
           </div>
 
@@ -627,7 +951,6 @@
 
         </div>
 
-
       </div>
 
 
@@ -635,10 +958,25 @@
 
       <div class="security-note">
 
-        🔐 <strong>Privacy Notice:</strong>
-        For privacy and security, personal information such as
-        name, mobile number, address and complaint details are
-        not displayed on this public status page.
+        🔐
+
+        <strong
+          data-lang-en="Privacy Notice:"
+          data-lang-or="ଗୋପନୀୟତା ସୂଚନା:"
+          data-lang-hi="गोपनीयता सूचना:"
+        >
+          Privacy Notice:
+        </strong>
+
+        <span
+          data-lang-en="For privacy and security, personal information such as name, mobile number, address and complaint details are not displayed on this public status page."
+          data-lang-or="ଗୋପନୀୟତା ଓ ସୁରକ୍ଷା ପାଇଁ ଏହି ସାର୍ବଜନୀନ ସ୍ଥିତି ପୃଷ୍ଠାରେ ନାମ, ମୋବାଇଲ୍ ନମ୍ବର, ଠିକଣା ଏବଂ ଅଭିଯୋଗର ବିବରଣୀ ପରି ବ୍ୟକ୍ତିଗତ ତଥ୍ୟ ଦେଖାଯାଏ ନାହିଁ।"
+          data-lang-hi="गोपनीयता और सुरक्षा के लिए इस सार्वजनिक स्थिति पृष्ठ पर नाम, मोबाइल नंबर, पता और शिकायत का विवरण जैसी व्यक्तिगत जानकारी प्रदर्शित नहीं की जाती है।"
+        >
+          For privacy and security, personal information such as
+          name, mobile number, address and complaint details are
+          not displayed on this public status page.
+        </span>
 
       </div>
 
@@ -647,19 +985,27 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
   <footer>
 
-    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda,
-    Mayurbhanj, Odisha.
+    © <span id="currentYear">2026</span>
+    <span
+      data-lang-en=" Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha."
+      data-lang-or=" ମା' ବାସୁଳୀ ଉଡା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା।"
+      data-lang-hi=" माँ बासुली उड़ा जात्रा समिति, ठाकुरमुंडा, मयूरभंज, ओडिशा।"
+    >
+      Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.
+    </span>
 
   </footer>
 
 
-  <!-- =========================================
+  <!-- =========================
        JAVASCRIPT
-  ========================================== -->
+  ========================= -->
 
   <script>
 
@@ -673,12 +1019,120 @@
     const SUPABASE_KEY =
       "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
-
     const supabaseClient =
       window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
       );
+
+
+    /* =========================================
+       WEBSITE BRANDING
+    ========================================== */
+
+    async function loadWebsiteBranding(){
+
+      try{
+
+        const { data, error } =
+          await supabaseClient
+            .from("website_settings")
+            .select("site_name,logo_url,address")
+            .maybeSingle();
+
+        if(!error && data){
+
+          if(data.site_name){
+
+            document.getElementById("siteName").textContent =
+              data.site_name;
+
+          }
+
+          if(data.address){
+
+            document.getElementById("siteAddress").textContent =
+              data.address;
+
+          }
+
+          if(data.logo_url){
+
+            const logo =
+              document.getElementById("siteLogo");
+
+            logo.src =
+              data.logo_url;
+
+            logo.style.display =
+              "block";
+
+          }
+
+        }
+
+      }catch(error){
+
+        console.log(
+          "Website branding load skipped:",
+          error
+        );
+
+      }
+
+
+      /* Optional Maa Basuli photo */
+
+      try{
+
+        const { data, error } =
+          await supabaseClient
+            .from("website_settings")
+            .select("maa_basuli_url,temple_url,group_photo_url")
+            .maybeSingle();
+
+        if(
+          !error &&
+          data
+        ){
+
+          const photo =
+            document.getElementById(
+              "maaBasuliPhoto"
+            );
+
+          if(data.maa_basuli_url){
+
+            photo.src =
+              data.maa_basuli_url;
+
+            photo.style.display =
+              "block";
+
+          }
+
+          else if(data.temple_url){
+
+            photo.src =
+              data.temple_url;
+
+            photo.style.display =
+              "block";
+
+          }
+
+        }
+
+      }catch(error){
+
+        console.log(
+          "Optional branding image skipped:",
+          error
+        );
+
+      }
+
+    }
 
 
     /* =========================================
@@ -707,6 +1161,124 @@
 
 
     /* =========================================
+       LANGUAGE-AWARE MESSAGES
+    ========================================== */
+
+    function getSiteLanguage(){
+
+      const lang =
+        localStorage.getItem(
+          "maaBasuliLanguage"
+        );
+
+      if(
+        ["en","or","hi"].includes(lang)
+      ){
+
+        return lang;
+
+      }
+
+      return "en";
+
+    }
+
+
+    const uiMessages = {
+
+      empty:{
+
+        en:
+          "Please enter your Complaint Number.",
+
+        or:
+          "ଦୟାକରି ଆପଣଙ୍କ ଅଭିଯୋଗ ନମ୍ବର ଦିଅନ୍ତୁ।",
+
+        hi:
+          "कृपया अपना शिकायत नंबर दर्ज करें।"
+
+      },
+
+      invalid:{
+
+        en:
+          "Please enter a valid Complaint Number, for example MB-CMP-00006.",
+
+        or:
+          "ଦୟାକରି ଏକ ବୈଧ ଅଭିଯୋଗ ନମ୍ବର ଦିଅନ୍ତୁ, ଉଦାହରଣ MB-CMP-00006।",
+
+        hi:
+          "कृपया एक मान्य शिकायत नंबर दर्ज करें, उदाहरण MB-CMP-00006।"
+
+      },
+
+      checking:{
+
+        en:"Checking...",
+
+        or:"ଯାଞ୍ଚ ଚାଲିଛି...",
+
+        hi:"जाँच की जा रही है..."
+
+      },
+
+      notFound:{
+
+        en:
+          "No complaint was found with this Complaint Number. Please check the number and try again.",
+
+        or:
+          "ଏହି ଅଭିଯୋଗ ନମ୍ବରରେ କୌଣସି ଅଭିଯୋଗ ମିଳିଲା ନାହିଁ। ନମ୍ବରଟି ଯାଞ୍ଚ କରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
+
+        hi:
+          "इस शिकायत नंबर से कोई शिकायत नहीं मिली। कृपया नंबर जाँचकर फिर प्रयास करें।"
+
+      },
+
+      unable:{
+
+        en:
+          "Unable to check complaint status right now. Please try again later.",
+
+        or:
+          "ବର୍ତ୍ତମାନ ଅଭିଯୋଗର ସ୍ଥିତି ଯାଞ୍ଚ କରିହେଉନାହିଁ। ଦୟାକରି ପରେ ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।",
+
+        hi:
+          "अभी शिकायत की स्थिति जाँच नहीं हो पा रही है। कृपया बाद में फिर प्रयास करें।"
+
+      },
+
+      noResponse:{
+
+        en:
+          "No official response has been added yet.",
+
+        or:
+          "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଅଧିକାରିକ ଉତ୍ତର ଯୋଡ଼ାଯାଇନାହିଁ।",
+
+        hi:
+          "अभी तक कोई आधिकारिक उत्तर नहीं जोड़ा गया है।"
+
+      }
+
+    };
+
+
+    function uiMessage(key){
+
+      const lang =
+        getSiteLanguage();
+
+      return (
+        uiMessages[key]?.[lang] ||
+        uiMessages[key]?.en ||
+        ""
+      );
+
+    }
+
+
+    /* =========================================
        CHECK BUTTON
     ========================================== */
 
@@ -720,9 +1292,9 @@
 
     referenceInput.addEventListener(
       "keydown",
-      function(event) {
+      function(event){
 
-        if (event.key === "Enter") {
+        if(event.key === "Enter"){
 
           event.preventDefault();
 
@@ -738,7 +1310,7 @@
        CHECK STATUS
     ========================================== */
 
-    async function checkComplaintStatus() {
+    async function checkComplaintStatus(){
 
       clearMessage();
 
@@ -755,31 +1327,35 @@
 
       /* VALIDATION */
 
-      if (!reference) {
+      if(!reference){
 
         showMessage(
-          "Please enter your Complaint Number.",
+          uiMessage("empty"),
           "error"
         );
 
         referenceInput.focus();
 
         return;
+
       }
 
 
-      if (
-        !reference.startsWith("MB-CMP-")
-      ) {
+      if(
+        !reference.startsWith(
+          "MB-CMP-"
+        )
+      ){
 
         showMessage(
-          "Please enter a valid Complaint Number, for example MB-CMP-00006.",
+          uiMessage("invalid"),
           "error"
         );
 
         referenceInput.focus();
 
         return;
+
       }
 
 
@@ -788,10 +1364,10 @@
       checkButton.disabled = true;
 
       checkButton.textContent =
-        "Checking...";
+        uiMessage("checking");
 
 
-      try {
+      try{
 
         const {
           data,
@@ -800,12 +1376,13 @@
           await supabaseClient.rpc(
             "get_public_complaint_status",
             {
-              p_reference_no: reference
+              p_reference_no:
+                reference
             }
           );
 
 
-        if (error) {
+        if(error){
 
           throw error;
 
@@ -814,18 +1391,19 @@
 
         /* NOT FOUND */
 
-        if (
+        if(
           !data ||
           !Array.isArray(data) ||
           data.length === 0
-        ) {
+        ){
 
           showMessage(
-            "No complaint was found with this Complaint Number. Please check the number and try again.",
+            uiMessage("notFound"),
             "error"
           );
 
           return;
+
         }
 
 
@@ -841,7 +1419,7 @@
 
       }
 
-      catch (error) {
+      catch(error){
 
         console.error(
           "Complaint status error:",
@@ -850,18 +1428,32 @@
 
 
         showMessage(
-          "Unable to check complaint status right now. Please try again later.",
+          uiMessage("unable"),
           "error"
         );
 
       }
 
-      finally {
+      finally{
 
         checkButton.disabled = false;
 
+        const lang =
+          getSiteLanguage();
+
+        const buttonText = {
+
+          en:"Check Status",
+
+          or:"ସ୍ଥିତି ଯାଞ୍ଚ କରନ୍ତୁ",
+
+          hi:"स्थिति जाँचें"
+
+        };
+
         checkButton.textContent =
-          "Check Status";
+          buttonText[lang] ||
+          buttonText.en;
 
       }
 
@@ -874,7 +1466,7 @@
 
     function displayComplaintStatus(
       complaint
-    ) {
+    ){
 
       const status =
         complaint.status ||
@@ -944,18 +1536,18 @@
         );
 
 
-      if (
+      if(
         remark &&
         String(remark).trim()
-      ) {
+      ){
 
         remarkElement.textContent =
           remark;
 
-      } else {
+      }else{
 
         remarkElement.textContent =
-          "No official response has been added yet.";
+          uiMessage("noResponse");
 
       }
 
@@ -968,8 +1560,8 @@
 
 
       resultCard.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+        behavior:"smooth",
+        block:"start"
       });
 
     }
@@ -981,13 +1573,13 @@
 
     function getStatusClass(
       status
-    ) {
+    ){
 
-      switch (
+      switch(
         String(status)
           .trim()
           .toLowerCase()
-      ) {
+      ){
 
         case "pending":
 
@@ -1024,10 +1616,12 @@
 
     function formatDate(
       value
-    ) {
+    ){
 
-      if (!value) {
+      if(!value){
+
         return "-";
+
       }
 
 
@@ -1035,11 +1629,11 @@
         new Date(value);
 
 
-      if (
+      if(
         Number.isNaN(
           date.getTime()
         )
-      ) {
+      ){
 
         return "-";
 
@@ -1049,11 +1643,11 @@
       return date.toLocaleString(
         "en-IN",
         {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit"
+          day:"2-digit",
+          month:"2-digit",
+          year:"numeric",
+          hour:"2-digit",
+          minute:"2-digit"
         }
       );
 
@@ -1067,7 +1661,7 @@
     function showMessage(
       text,
       type
-    ) {
+    ){
 
       message.textContent =
         text;
@@ -1079,7 +1673,7 @@
     }
 
 
-    function clearMessage() {
+    function clearMessage(){
 
       message.textContent =
         "";
@@ -1090,7 +1684,29 @@
     }
 
 
+    /* =========================================
+       PAGE INIT
+    ========================================== */
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      function(){
+
+        document.getElementById(
+          "currentYear"
+        ).textContent =
+          new Date().getFullYear();
+
+        loadWebsiteBranding();
+
+      }
+    );
+
   </script>
+
+
+  <!-- COMMON WEBSITE LANGUAGE SYSTEM -->
+  <script src="language.js"></script>
 
 </body>
 </html>
