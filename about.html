@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About Us | Maa Basuli Uda Jatra Committee</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>About Us | Maa Basuli Uda Jatra Committee</title>
 
 <style>
 *{
@@ -31,7 +30,6 @@ a{
   margin:auto;
 }
 
-/* TOP BAR */
 .topbar{
   background:#7b1e1e;
   color:white;
@@ -46,7 +44,6 @@ a{
   gap:10px;
 }
 
-/* HEADER */
 header{
   background:white;
   box-shadow:0 2px 12px rgba(0,0,0,.08);
@@ -70,21 +67,14 @@ header{
 }
 
 .logo-icon{
-  width:52px;
-  height:52px;
+  width:50px;
+  height:50px;
   border-radius:50%;
-  object-fit:cover;
-  border:2px solid #f4c542;
-  background:#fff8ed;
-  padding:3px;
-}
-
-.logo-icon.fallback{
+  background:#f4c542;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:25px;
-  padding:0;
+  font-size:26px;
 }
 
 .logo-text h1{
@@ -125,59 +115,8 @@ nav a.active{
   padding:9px 12px;
   border-radius:7px;
   font-size:20px;
-  cursor:pointer;
 }
 
-/* LANGUAGE */
-#maa-language-switcher{
-  display:inline-flex;
-  align-items:center;
-  gap:3px;
-  margin-left:8px;
-  padding:3px;
-  border:1px solid #ddd;
-  border-radius:8px;
-  background:#fff;
-  box-shadow:0 2px 8px rgba(0,0,0,.06);
-  white-space:nowrap;
-}
-
-#maa-language-switcher button{
-  border:0;
-  background:transparent;
-  color:#333;
-  cursor:pointer;
-  font-weight:700;
-  font-size:12px;
-  padding:7px 9px;
-  border-radius:6px;
-}
-
-#maa-language-switcher button.active{
-  background:#7b1e1e;
-  color:#fff;
-}
-
-#maa-language-switcher button:hover{
-  background:#f5e8e8;
-}
-
-#maa-language-switcher button.active:hover{
-  background:#7b1e1e;
-}
-
-@media(max-width:900px){
-  #maa-language-switcher{
-    margin-left:auto;
-  }
-
-  #maa-language-switcher button{
-    padding:6px 7px;
-    font-size:11px;
-  }
-}
-
-/* PAGE HERO */
 .page-hero{
   background:
     linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
@@ -198,7 +137,6 @@ nav a.active{
   opacity:.95;
 }
 
-/* GENERAL */
 section{
   padding:55px 0;
 }
@@ -217,7 +155,6 @@ section{
   color:#777;
 }
 
-/* ABOUT */
 .about-grid{
   display:grid;
   grid-template-columns:1.2fr .8fr;
@@ -256,7 +193,6 @@ section{
   border-radius:10px;
 }
 
-/* VALUES */
 .values{
   background:#fff8ed;
 }
@@ -289,7 +225,6 @@ section{
   font-size:14px;
 }
 
-/* HIGHLIGHT */
 .highlight{
   background:#7b1e1e;
   color:white;
@@ -311,7 +246,6 @@ section{
   font-size:16px;
 }
 
-/* BACK */
 .back{
   text-align:center;
   padding:35px 0;
@@ -326,7 +260,6 @@ section{
   font-weight:bold;
 }
 
-/* FOOTER */
 footer{
   background:#241313;
   color:white;
@@ -364,7 +297,6 @@ footer a{
   font-size:13px;
 }
 
-/* MOBILE */
 @media(max-width:900px){
 
   nav{
@@ -406,11 +338,6 @@ footer a{
     font-size:16px;
   }
 
-  .logo-icon{
-    width:46px;
-    height:46px;
-  }
-
   .page-hero{
     padding:65px 0;
   }
@@ -430,57 +357,121 @@ footer a{
   .image-card img{
     height:280px;
   }
+}
 
+/* ===== WEBSITE BRANDING + LANGUAGE ===== */
+.logo-icon{
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
+}
+#siteLogo{
+  display:none;
+}
+#maa-language-switcher{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  margin-left:8px;
+  padding:3px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  white-space:nowrap;
+}
+#maa-language-switcher button{
+  border:0;
+  background:transparent;
+  color:#333;
+  cursor:pointer;
+  font-weight:700;
+  font-size:12px;
+  padding:7px 9px;
+  border-radius:6px;
+}
+#maa-language-switcher button.active{
+  background:#7b1e1e;
+  color:#fff;
+}
+#maa-language-switcher button:hover{
+  background:#f5e8e8;
+}
+@media(max-width:900px){
+  #maa-language-switcher{
+    margin-left:auto;
+  }
   #maa-language-switcher button{
-    padding:6px 6px;
+    padding:6px 7px;
+    font-size:11px;
+  }
+}
+@media(max-width:600px){
+  #maa-language-switcher button{
+    padding:6px;
     font-size:10px;
   }
 }
+
 </style>
 </head>
 
 <body>
 
 <!-- TOP BAR -->
+
 <div class="topbar">
   <div class="container topbar-inner">
-    <span data-i18n="top_jai">🙏 जय माँ बसुली</span>
-    <span id="topLocation">Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>🙏 जय माँ बसुली</span>
+    <span>Thakurmunda, Mayurbhanj, Odisha</span>
   </div>
 </div>
 
+
 <!-- HEADER -->
+
 <header>
+
   <div class="container header-inner">
 
     <a href="index.html" class="logo">
-      <img
-        id="siteLogo"
-        class="logo-icon"
-        src=""
-        alt="Maa Basuli Uda Jatra Committee Logo"
-      >
+
+      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
+      <div id="logoFallback" class="logo-icon" style="display:flex;">🙏</div>
 
       <div class="logo-text">
-        <h1 id="siteName" data-i18n="site_name">Maa Basuli Uda Jatra Committee</h1>
-        <p data-i18n="location">Thakurmunda, Mayurbhanj, Odisha</p>
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
+
     </a>
 
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
     <nav id="mainNav">
-      <a href="index.html" data-i18n="home">Home</a>
-      <a href="about.html" class="active" data-i18n="about">About</a>
-      <a href="jatra.html" data-i18n="jatra">Uda Jatra</a>
-      <a href="notices.html" data-i18n="notices">Notices</a>
-      <a href="events.html" data-i18n="events">Events</a>
-      <a href="gallery.html" data-i18n="gallery">Gallery</a>
-      <a href="members.html" data-i18n="members">Our Members</a>
-      <a href="fund.html" data-i18n="fund">Fund</a>
-      <a href="complaint.html" data-i18n="complaint">Complaint</a>
-      <a href="contact.html" data-i18n="contact">Contact</a>
-      <a href="auth.html" data-i18n="login">Login</a>
+
+      <a href="index.html">Home</a>
+
+      <a href="about.html" class="active">About</a>
+
+      <a href="jatra.html">Uda Jatra</a>
+
+      <a href="notices.html">Notices</a>
+
+      <a href="events.html">Events</a>
+
+      <a href="gallery.html">Gallery</a>
+
+      <a href="members.html">Our Members</a>
+
+      <a href="fund.html">Fund</a>
+
+      <a href="complaint.html">Complaint</a>
+
+      <a href="contact.html">Contact</a>
+
+      <a href="auth.html">Login</a>
+
     </nav>
 
     <div id="maa-language-switcher" aria-label="Website Language">
@@ -490,108 +481,166 @@ footer a{
     </div>
 
   </div>
+
 </header>
 
+
 <!-- PAGE HERO -->
+
 <section class="page-hero">
+
   <div class="container">
-    <h2 data-i18n="hero_title">About Us</h2>
-    <p data-i18n="hero_subtitle">Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+
+    <h2>About Us</h2>
+
+    <p>
+      Maa Basuli Uda Jatra Committee, Thakurmunda
+    </p>
+
   </div>
+
 </section>
 
+
 <!-- ABOUT -->
+
 <section>
+
   <div class="container">
+
     <div class="about-grid">
 
       <div class="content-card">
-        <h2 data-i18n="about_title">About Maa Basuli Uda Jatra Committee</h2>
 
-        <p data-i18n="about_p1">
+        <h2>About Maa Basuli Uda Jatra Committee</h2>
+
+        <p>
           Maa Basuli Uda Jatra Committee is associated with the
           traditional religious and cultural activities of Maa Basuli
           at Thakurmunda, Mayurbhanj, Odisha.
         </p>
 
-        <p data-i18n="about_p2">
+        <p>
           The committee works to support the organisation and
           coordination of religious celebrations, cultural programmes,
           community activities and the annual Maa Basuli Uda Jatra.
         </p>
 
-        <p data-i18n="about_p3">
+        <p>
           This official website is being developed as a central
           information platform where devotees, members and the public
           can access committee information, notices, events, gallery,
           member services and Jatra updates.
         </p>
+
       </div>
 
+
       <div class="image-card">
-        <img id="aboutTempleImage" src="" alt="Maa Basuli Temple">
+
+        <img
+          src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=1000&q=85"
+          alt="Temple"
+        >
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
+
 <!-- OUR PURPOSE -->
+
 <section class="values">
+
   <div class="container">
 
     <div class="section-title">
-      <h2 data-i18n="purpose_title">Our Purpose</h2>
-      <p data-i18n="purpose_subtitle">Tradition, devotion and community service</p>
+
+      <h2>Our Purpose</h2>
+
+      <p>
+        Tradition, devotion and community service
+      </p>
+
     </div>
+
 
     <div class="grid">
 
       <div class="card">
+
         <div class="card-icon">🙏</div>
-        <h3 data-i18n="religious_title">Religious Tradition</h3>
-        <p data-i18n="religious_text">
+
+        <h3>Religious Tradition</h3>
+
+        <p>
           Supporting the preservation and continuation of
           traditional religious practices and celebrations
           associated with Maa Basuli.
         </p>
+
       </div>
 
+
       <div class="card">
+
         <div class="card-icon">🎭</div>
-        <h3 data-i18n="culture_title">Cultural Heritage</h3>
-        <p data-i18n="culture_text">
+
+        <h3>Cultural Heritage</h3>
+
+        <p>
           Promoting local cultural programmes and helping
           preserve the heritage and traditions connected
           with Uda Jatra.
         </p>
+
       </div>
 
+
       <div class="card">
+
         <div class="card-icon">🤝</div>
-        <h3 data-i18n="community_title">Community Participation</h3>
-        <p data-i18n="community_text">
+
+        <h3>Community Participation</h3>
+
+        <p>
           Encouraging devotees, committee members and the
           local community to participate in organised
           activities.
         </p>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
+
 <!-- WEBSITE PURPOSE -->
+
 <section class="highlight">
+
   <div class="container">
 
     <div class="section-title">
-      <h2 data-i18n="digital_title">Official Digital Platform</h2>
-      <p data-i18n="digital_subtitle">One place for Maa Basuli Committee information</p>
+
+      <h2>Official Digital Platform</h2>
+
+      <p>
+        One place for Maa Basuli Committee information
+      </p>
+
     </div>
 
     <div class="highlight-box">
-      <p data-i18n="digital_p1">
+
+      <p>
         The official website will provide access to Jatra
         information, official notices, events, photographs,
         approved member information, member services, fund
@@ -600,31 +649,43 @@ footer a{
 
       <br>
 
-      <p data-i18n="digital_p2">
+      <p>
         As the website develops, authorised committee
         administrators will manage the relevant information
         through the secure management system.
       </p>
+
     </div>
 
   </div>
+
 </section>
 
+
 <!-- LINKS -->
+
 <div class="back">
-  <a href="index.html" class="btn" data-i18n="back_home">← Back to Home</a>
+
+  <a href="index.html" class="btn">
+    ← Back to Home
+  </a>
+
 </div>
 
+
 <!-- FOOTER -->
+
 <footer>
+
   <div class="container">
 
     <div class="footer-grid">
 
       <div>
-        <h3 id="footerSiteName" data-i18n="site_name">Maa Basuli Uda Jatra Committee</h3>
 
-        <p data-i18n="footer_about">
+        <h3>Maa Basuli Uda Jatra Committee</h3>
+
+        <p>
           Official website of Maa Basuli Uda Jatra Committee,
           Thakurmunda, Mayurbhanj, Odisha.
         </p>
@@ -632,227 +693,262 @@ footer a{
         <p style="margin-top:10px;">
           ଜୟ ମା' ବାସୁଳୀ 🙏
         </p>
+
       </div>
 
-      <div>
-        <h3 data-i18n="quick_links">Quick Links</h3>
-        <a href="index.html" data-i18n="home">Home</a>
-        <a href="about.html">About</a>
-        <a href="jatra.html" data-i18n="jatra">Uda Jatra</a>
-        <a href="notices.html" data-i18n="notices">Notices</a>
-        <a href="events.html" data-i18n="events">Events</a>
-        <a href="gallery.html" data-i18n="gallery">Gallery</a>
-        <a href="members.html" data-i18n="members">Our Members</a>
-      </div>
 
       <div>
-        <h3 data-i18n="services">Services</h3>
-        <a href="fund.html" data-i18n="fund_donation">Fund & Donation</a>
-        <a href="member-fee.html" data-i18n="member_fee">Member Fee</a>
-        <a href="complaint.html" data-i18n="complaint_box">Complaint Box</a>
-        <a href="contact.html" data-i18n="contact">Contact</a>
-        <a href="auth.html" data-i18n="login">Login</a>
+
+        <h3>Quick Links</h3>
+
+        <a href="index.html">Home</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Our Members</a>
+
+      </div>
+
+
+      <div>
+
+        <h3>Services</h3>
+
+        <a href="fund.html">Fund & Donation</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="complaint.html">Complaint Box</a>
+        <a href="contact.html">Contact</a>
+        <a href="auth.html">Login</a>
+
       </div>
 
     </div>
 
+
     <div class="copyright">
+
       © 2026 Maa Basuli Uda Jatra Committee.
       All Rights Reserved.
+
     </div>
 
   </div>
+
 </footer>
 
+
 <script>
-/* SUPABASE */
-const SUPABASE_URL =
-  "https://ynymqntcawobcfccoekb.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-/* MOBILE MENU */
 function toggleMenu(){
+
   document
     .getElementById("mainNav")
     .classList
     .toggle("show");
+
 }
 
-/* LOAD WEBSITE SETTINGS */
-async function loadWebsiteSettings(){
+</script>
 
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* =====================================================
+   Maa Basuli Uda Jatra Committee
+   ABOUT PAGE - BRANDING + LANGUAGE
+   Original page structure/functionality preserved
+   ===================================================== */
+
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+
+const aboutSupabase =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+/* WEBSITE SETTINGS */
+async function loadAboutWebsiteSettings(){
   try{
-
-    const { data, error } =
-      await supabaseClient
-        .from("website_settings")
-        .select(`
-          site_name,
-          logo_url,
-          temple_url,
-          address
-        `)
-        .order("created_at", { ascending:false })
-        .limit(1)
-        .maybeSingle();
+    const { data, error } = await aboutSupabase
+      .from("website_settings")
+      .select("site_name,logo_url,address,temple_url")
+      .order("created_at", { ascending:false })
+      .limit(1)
+      .maybeSingle();
 
     if(error){
-      console.error(
-        "Website settings error:",
-        error
-      );
+      console.error("About page settings error:", error);
       return;
     }
 
     if(!data) return;
 
-    /* SITE NAME */
     if(data.site_name){
-
-      document.getElementById("siteName").textContent =
-        data.site_name;
-
-      document.getElementById("footerSiteName").textContent =
-        data.site_name;
-
-      document.title =
-        "About Us | " + data.site_name;
+      const name = String(data.site_name).trim();
+      const logoText = document.querySelector(".logo-text h1");
+      const footerTitle = document.querySelector("footer h3");
+      if(logoText) logoText.textContent = name;
+      if(footerTitle) footerTitle.textContent = name;
+      document.title = "About Us | " + name;
     }
 
-    /* LOGO */
-    if(data.logo_url){
-
-      const logo =
-        document.getElementById("siteLogo");
-
-      logo.src = data.logo_url;
-      logo.classList.remove("fallback");
-    }
-
-    /* TEMPLE IMAGE */
-    if(data.temple_url){
-
-      document.getElementById("aboutTempleImage").src =
-        data.temple_url;
-    }
-
-    /* ADDRESS */
     if(data.address){
-
-      document.getElementById("topLocation").textContent =
-        data.address;
+      const location = document.querySelector(".topbar-inner span:nth-child(2)");
+      const logoLocation = document.querySelector(".logo-text p");
+      if(location) location.textContent = data.address;
+      if(logoLocation) logoLocation.textContent = data.address;
     }
 
+    if(data.logo_url){
+      const logo = document.getElementById("siteLogo");
+      const fallback = document.getElementById("logoFallback");
+      if(logo){
+        logo.src = data.logo_url;
+        logo.style.display = "block";
+      }
+      if(fallback) fallback.style.display = "none";
+    }
+
+    if(data.temple_url){
+      const temple = document.querySelector(".image-card img");
+      if(temple){
+        temple.src = data.temple_url;
+        temple.alt = "Maa Basuli Temple";
+      }
+    }
   }catch(error){
-
-    console.error(
-      "Settings loading failed:",
-      error
-    );
-
+    console.error("About settings loading failed:", error);
   }
-
 }
 
-/* START */
-loadWebsiteSettings();
-</script>
-
-<script>
-/* MANUAL WEBSITE LANGUAGE SYSTEM - ABOUT PAGE */
+/* LANGUAGE SYSTEM */
 (function(){
   const KEY = "maaBasuliLanguage";
 
-  const translations = {
+  const T = {
     en: {
-      top_jai:"🙏 जय माँ बसुली", location:"Thakurmunda, Mayurbhanj, Odisha",
-      site_name:"Maa Basuli Uda Jatra Committee", home:"Home", about:"About", jatra:"Uda Jatra",
-      notices:"Notices", events:"Events", gallery:"Gallery", members:"Our Members", fund:"Fund",
-      complaint:"Complaint", contact:"Contact", login:"Login", hero_title:"About Us",
-      hero_subtitle:"Maa Basuli Uda Jatra Committee, Thakurmunda",
-      about_title:"About Maa Basuli Uda Jatra Committee",
-      about_p1:"Maa Basuli Uda Jatra Committee is associated with the traditional religious and cultural activities of Maa Basuli at Thakurmunda, Mayurbhanj, Odisha.",
-      about_p2:"The committee works to support the organisation and coordination of religious celebrations, cultural programmes, community activities and the annual Maa Basuli Uda Jatra.",
-      about_p3:"This official website is being developed as a central information platform where devotees, members and the public can access committee information, notices, events, gallery, member services and Jatra updates.",
-      purpose_title:"Our Purpose", purpose_subtitle:"Tradition, devotion and community service",
-      religious_title:"Religious Tradition", religious_text:"Supporting the preservation and continuation of traditional religious practices and celebrations associated with Maa Basuli.",
-      culture_title:"Cultural Heritage", culture_text:"Promoting local cultural programmes and helping preserve the heritage and traditions connected with Uda Jatra.",
-      community_title:"Community Participation", community_text:"Encouraging devotees, committee members and the local community to participate in organised activities.",
-      digital_title:"Official Digital Platform", digital_subtitle:"One place for Maa Basuli Committee information",
-      digital_p1:"The official website will provide access to Jatra information, official notices, events, photographs, approved member information, member services, fund information, complaints and other committee updates.",
-      digital_p2:"As the website develops, authorised committee administrators will manage the relevant information through the secure management system.",
-      back_home:"← Back to Home", footer_about:"Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.",
-      quick_links:"Quick Links", services:"Services", fund_donation:"Fund & Donation", member_fee:"Member Fee", complaint_box:"Complaint Box"
+      "🙏 जय माँ बसुली":"🙏 जय माँ बसुली",
+      "Thakurmunda, Mayurbhanj, Odisha":"Thakurmunda, Mayurbhanj, Odisha",
+      "Home":"Home","About":"About","Uda Jatra":"Uda Jatra","Notices":"Notices",
+      "Events":"Events","Gallery":"Gallery","Our Members":"Our Members","Fund":"Fund",
+      "Complaint":"Complaint","Contact":"Contact","Login":"Login",
+      "About Us":"About Us",
+      "Maa Basuli Uda Jatra Committee, Thakurmunda":"Maa Basuli Uda Jatra Committee, Thakurmunda",
+      "About Maa Basuli Uda Jatra Committee":"About Maa Basuli Uda Jatra Committee",
+      "Our Purpose":"Our Purpose",
+      "Tradition, devotion and community service":"Tradition, devotion and community service",
+      "Religious Tradition":"Religious Tradition",
+      "Cultural Heritage":"Cultural Heritage",
+      "Community Participation":"Community Participation",
+      "Official Digital Platform":"Official Digital Platform",
+      "One place for Maa Basuli Committee information":"One place for Maa Basuli Committee information",
+      "← Back to Home":"← Back to Home",
+      "Quick Links":"Quick Links","Services":"Services",
+      "Fund & Donation":"Fund & Donation","Member Fee":"Member Fee",
+      "Complaint Box":"Complaint Box"
     },
     or: {
-      top_jai:"🙏 ଜୟ ମା' ବାସୁଳୀ", location:"ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା",
-      site_name:"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି", home:"ମୁଖ୍ୟ ପୃଷ୍ଠା", about:"ଆମ ବିଷୟରେ", jatra:"ଉଡ଼ା ଯାତ୍ରା",
-      notices:"ବିଜ୍ଞପ୍ତି", events:"କାର୍ଯ୍ୟକ୍ରମ", gallery:"ଫଟୋ ଗ୍ୟାଲେରୀ", members:"ଆମ ସଦସ୍ୟ", fund:"ଫଣ୍ଡ",
-      complaint:"ଅଭିଯୋଗ", contact:"ଯୋଗାଯୋଗ", login:"ଲଗଇନ୍", hero_title:"ଆମ ବିଷୟରେ",
-      hero_subtitle:"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା",
-      about_title:"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ବିଷୟରେ",
-      about_p1:"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ମୟୂରଭଞ୍ଜ ଜିଲ୍ଲାର ଠାକୁରମୁଣ୍ଡାରେ ମା' ବାସୁଳୀଙ୍କ ସହ ଜଡ଼ିତ ପାରମ୍ପରିକ ଧାର୍ମିକ ଓ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକଳାପ ସହିତ ସମ୍ପୃକ୍ତ।",
-      about_p2:"କମିଟି ଧାର୍ମିକ ଉତ୍ସବ, ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମ, ସାମୁଦାୟିକ କାର୍ଯ୍ୟକଳାପ ଏବଂ ପ୍ରତିବର୍ଷ ଆୟୋଜିତ ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରାର ସୁଚାରୁ ଆୟୋଜନ ଓ ସମନ୍ୱୟରେ ସହଯୋଗ କରେ।",
-      about_p3:"ଏହି ସରକାରୀ ୱେବସାଇଟ୍‌କୁ ଏକ କେନ୍ଦ୍ରୀୟ ସୂଚନା ମଞ୍ଚ ଭାବେ ବିକଶିତ କରାଯାଉଛି, ଯେଉଁଠାରେ ଭକ୍ତ, ସଦସ୍ୟ ଓ ସାଧାରଣ ଲୋକ କମିଟି ସୂଚନା, ବିଜ୍ଞପ୍ତି, କାର୍ଯ୍ୟକ୍ରମ, ଫଟୋ ଗ୍ୟାଲେରୀ, ସଦସ୍ୟ ସେବା ଓ ଯାତ୍ରା ସମ୍ବନ୍ଧୀୟ ଅଦ୍ୟତନ ପାଇପାରିବେ।",
-      purpose_title:"ଆମର ଉଦ୍ଦେଶ୍ୟ", purpose_subtitle:"ପରମ୍ପରା, ଭକ୍ତି ଓ ସାମୁଦାୟିକ ସେବା",
-      religious_title:"ଧାର୍ମିକ ପରମ୍ପରା", religious_text:"ମା' ବାସୁଳୀଙ୍କ ସହ ଜଡ଼ିତ ପାରମ୍ପରିକ ଧାର୍ମିକ ପ୍ରଥା ଓ ଉତ୍ସବଗୁଡ଼ିକର ସୁରକ୍ଷା ଏବଂ ନିରନ୍ତରତା ପାଇଁ ସହଯୋଗ କରିବା।",
-      culture_title:"ସାଂସ୍କୃତିକ ଐତିହ୍ୟ", culture_text:"ସ୍ଥାନୀୟ ସାଂସ୍କୃତିକ କାର୍ଯ୍ୟକ୍ରମକୁ ପ୍ରୋତ୍ସାହନ ଦେବା ଏବଂ ଉଡ଼ା ଯାତ୍ରା ସହ ଜଡ଼ିତ ଐତିହ୍ୟ ଓ ପରମ୍ପରାକୁ ସଂରକ୍ଷଣ କରିବାରେ ସହଯୋଗ କରିବା।",
-      community_title:"ସାମୁଦାୟିକ ଅଂଶଗ୍ରହଣ", community_text:"ଭକ୍ତ, କମିଟି ସଦସ୍ୟ ଓ ସ୍ଥାନୀୟ ସମୁଦାୟକୁ ଆୟୋଜିତ କାର୍ଯ୍ୟକଳାପରେ ଅଂଶଗ୍ରହଣ ପାଇଁ ଉତ୍ସାହିତ କରିବା।",
-      digital_title:"ସରକାରୀ ଡିଜିଟାଲ୍ ମଞ୍ଚ", digital_subtitle:"ମା' ବାସୁଳୀ କମିଟି ସମ୍ବନ୍ଧୀୟ ସୂଚନାର ଏକ ସ୍ଥାନ",
-      digital_p1:"ଏହି ସରକାରୀ ୱେବସାଇଟ୍‌ରେ ଯାତ୍ରା ସୂଚନା, ସରକାରୀ ବିଜ୍ଞପ୍ତି, କାର୍ଯ୍ୟକ୍ରମ, ଫଟୋ, ଅନୁମୋଦିତ ସଦସ୍ୟ ସୂଚନା, ସଦସ୍ୟ ସେବା, ଫଣ୍ଡ ସୂଚନା, ଅଭିଯୋଗ ଏବଂ କମିଟିର ଅନ୍ୟାନ୍ୟ ଅଦ୍ୟତନ ଉପଲବ୍ଧ ହେବ।",
-      digital_p2:"ୱେବସାଇଟ୍‌ର ବିକାଶ ସହିତ, ଅଧିକୃତ କମିଟି ପ୍ରଶାସକମାନେ ସୁରକ୍ଷିତ ପରିଚାଳନା ବ୍ୟବସ୍ଥା ମାଧ୍ୟମରେ ସମ୍ପର୍କିତ ସୂଚନା ପରିଚାଳନା କରିବେ।",
-      back_home:"← ମୁଖ୍ୟ ପୃଷ୍ଠାକୁ ଫେରନ୍ତୁ", footer_about:"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶାର ସରକାରୀ ୱେବସାଇଟ୍।",
-      quick_links:"ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଲିଙ୍କ୍", services:"ସେବା", fund_donation:"ଫଣ୍ଡ ଓ ଦାନ", member_fee:"ସଦସ୍ୟ ଫି", complaint_box:"ଅଭିଯୋଗ ବକ୍ସ"
+      "🙏 जय माँ बसुली":"🙏 ଜୟ ମା' ବାସୁଳୀ",
+      "Thakurmunda, Mayurbhanj, Odisha":"ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା",
+      "Home":"ମୁଖ୍ୟ ପୃଷ୍ଠା","About":"ଆମ ବିଷୟରେ","Uda Jatra":"ଉଡ଼ା ଯାତ୍ରା",
+      "Notices":"ବିଜ୍ଞପ୍ତି","Events":"କାର୍ଯ୍ୟକ୍ରମ","Gallery":"ଫଟୋ ଗ୍ୟାଲେରୀ",
+      "Our Members":"ଆମ ସଦସ୍ୟ","Fund":"ଫଣ୍ଡ","Complaint":"ଅଭିଯୋଗ",
+      "Contact":"ଯୋଗାଯୋଗ","Login":"ଲଗଇନ୍",
+      "About Us":"ଆମ ବିଷୟରେ",
+      "Maa Basuli Uda Jatra Committee, Thakurmunda":"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା",
+      "About Maa Basuli Uda Jatra Committee":"ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ବିଷୟରେ",
+      "Our Purpose":"ଆମର ଉଦ୍ଦେଶ୍ୟ",
+      "Tradition, devotion and community service":"ପରମ୍ପରା, ଭକ୍ତି ଓ ସାମୁଦାୟିକ ସେବା",
+      "Religious Tradition":"ଧାର୍ମିକ ପରମ୍ପରା",
+      "Cultural Heritage":"ସାଂସ୍କୃତିକ ଐତିହ୍ୟ",
+      "Community Participation":"ସାମୁଦାୟିକ ଅଂଶଗ୍ରହଣ",
+      "Official Digital Platform":"ସରକାରୀ ଡିଜିଟାଲ୍ ମଞ୍ଚ",
+      "One place for Maa Basuli Committee information":"ମା' ବାସୁଳୀ କମିଟି ସୂଚନାର ଏକ ସ୍ଥାନ",
+      "← Back to Home":"← ମୁଖ୍ୟ ପୃଷ୍ଠାକୁ ଫେରନ୍ତୁ",
+      "Quick Links":"ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଲିଙ୍କ୍","Services":"ସେବା",
+      "Fund & Donation":"ଫଣ୍ଡ ଓ ଦାନ","Member Fee":"ସଦସ୍ୟ ଫି",
+      "Complaint Box":"ଅଭିଯୋଗ ବକ୍ସ"
     },
     hi: {
-      top_jai:"🙏 जय माँ बासुली", location:"ठाकुरमुंडा, मयूरभंज, ओडिशा",
-      site_name:"माँ बासुली उदय यात्रा समिति", home:"मुख्य पृष्ठ", about:"हमारे बारे में", jatra:"उदय यात्रा",
-      notices:"सूचनाएँ", events:"कार्यक्रम", gallery:"फोटो गैलरी", members:"हमारे सदस्य", fund:"फंड",
-      complaint:"शिकायत", contact:"संपर्क", login:"लॉगिन", hero_title:"हमारे बारे में",
-      hero_subtitle:"माँ बासुली उदय यात्रा समिति, ठाकुरमुंडा",
-      about_title:"माँ बासुली उदय यात्रा समिति के बारे में",
-      about_p1:"माँ बासुली उदय यात्रा समिति ओडिशा के मयूरभंज जिले के ठाकुरमुंडा में माँ बासुली से जुड़ी पारंपरिक धार्मिक और सांस्कृतिक गतिविधियों से संबंधित है।",
-      about_p2:"समिति धार्मिक उत्सवों, सांस्कृतिक कार्यक्रमों, सामुदायिक गतिविधियों और प्रतिवर्ष आयोजित माँ बासुली उदय यात्रा के आयोजन तथा समन्वय में सहयोग करती है।",
-      about_p3:"यह आधिकारिक वेबसाइट एक केंद्रीय सूचना मंच के रूप में विकसित की जा रही है, जहाँ भक्त, सदस्य और आम जनता समिति की जानकारी, सूचनाएँ, कार्यक्रम, फोटो गैलरी, सदस्य सेवाएँ और यात्रा से संबंधित अपडेट प्राप्त कर सकेंगे।",
-      purpose_title:"हमारा उद्देश्य", purpose_subtitle:"परंपरा, भक्ति और सामुदायिक सेवा",
-      religious_title:"धार्मिक परंपरा", religious_text:"माँ बासुली से जुड़ी पारंपरिक धार्मिक प्रथाओं और उत्सवों के संरक्षण तथा निरंतरता में सहयोग करना।",
-      culture_title:"सांस्कृतिक विरासत", culture_text:"स्थानीय सांस्कृतिक कार्यक्रमों को बढ़ावा देना और उदय यात्रा से जुड़ी विरासत तथा परंपराओं के संरक्षण में सहयोग करना।",
-      community_title:"सामुदायिक भागीदारी", community_text:"भक्तों, समिति सदस्यों और स्थानीय समुदाय को आयोजित गतिविधियों में भाग लेने के लिए प्रोत्साहित करना।",
-      digital_title:"आधिकारिक डिजिटल मंच", digital_subtitle:"माँ बासुली समिति की जानकारी के लिए एक स्थान",
-      digital_p1:"आधिकारिक वेबसाइट पर यात्रा की जानकारी, आधिकारिक सूचनाएँ, कार्यक्रम, तस्वीरें, अनुमोदित सदस्य जानकारी, सदस्य सेवाएँ, फंड की जानकारी, शिकायतें और समिति के अन्य अपडेट उपलब्ध होंगे।",
-      digital_p2:"वेबसाइट के विकास के साथ, अधिकृत समिति प्रशासक सुरक्षित प्रबंधन प्रणाली के माध्यम से संबंधित जानकारी का प्रबंधन करेंगे।",
-      back_home:"← मुख्य पृष्ठ पर वापस जाएँ", footer_about:"माँ बासुली उदय यात्रा समिति, ठाकुरमुंडा, मयूरभंज, ओडिशा की आधिकारिक वेबसाइट।",
-      quick_links:"त्वरित लिंक", services:"सेवाएँ", fund_donation:"फंड और दान", member_fee:"सदस्य शुल्क", complaint_box:"शिकायत बॉक्स"
+      "🙏 जय माँ बसुली":"🙏 जय माँ बासुली",
+      "Thakurmunda, Mayurbhanj, Odisha":"ठाकुरमुंडा, मयूरभंज, ओडिशा",
+      "Home":"मुख्य पृष्ठ","About":"हमारे बारे में","Uda Jatra":"उदय यात्रा",
+      "Notices":"सूचनाएँ","Events":"कार्यक्रम","Gallery":"फोटो गैलरी",
+      "Our Members":"हमारे सदस्य","Fund":"फंड","Complaint":"शिकायत",
+      "Contact":"संपर्क","Login":"लॉगिन",
+      "About Us":"हमारे बारे में",
+      "Maa Basuli Uda Jatra Committee, Thakurmunda":"माँ बासुली उदय यात्रा समिति, ठाकुरमुंडा",
+      "About Maa Basuli Uda Jatra Committee":"माँ बासुली उदय यात्रा समिति के बारे में",
+      "Our Purpose":"हमारा उद्देश्य",
+      "Tradition, devotion and community service":"परंपरा, भक्ति और सामुदायिक सेवा",
+      "Religious Tradition":"धार्मिक परंपरा",
+      "Cultural Heritage":"सांस्कृतिक विरासत",
+      "Community Participation":"सामुदायिक भागीदारी",
+      "Official Digital Platform":"आधिकारिक डिजिटल मंच",
+      "One place for Maa Basuli Committee information":"माँ बासुली समिति की जानकारी के लिए एक स्थान",
+      "← Back to Home":"← मुख्य पृष्ठ पर वापस जाएँ",
+      "Quick Links":"त्वरित लिंक","Services":"सेवाएँ",
+      "Fund & Donation":"फंड और दान","Member Fee":"सदस्य शुल्क",
+      "Complaint Box":"शिकायत बॉक्स"
     }
   };
 
-  function apply(lang){
-    if(!translations[lang]) lang='en';
-    localStorage.setItem(KEY,lang);
-    document.documentElement.lang=lang;
-    document.querySelectorAll('[data-site-lang]').forEach(function(b){
-      const active=b.getAttribute('data-site-lang')===lang;
-      b.classList.toggle('active',active);
-      b.setAttribute('aria-pressed',active?'true':'false');
-    });
-    document.querySelectorAll('[data-i18n]').forEach(function(el){
-      const key=el.getAttribute('data-i18n');
-      if(translations[lang][key] !== undefined) el.textContent=translations[lang][key];
-    });
-    const titleName = translations[lang].site_name || 'Maa Basuli Uda Jatra Committee';
-    document.title = (lang==='en' ? 'About Us' : lang==='or' ? 'ଆମ ବିଷୟରେ' : 'हमारे बारे में') + ' | ' + titleName;
+  function translateElement(el, lang){
+    const original = el.getAttribute("data-original-text") || el.textContent.trim();
+    if(!el.getAttribute("data-original-text")){
+      el.setAttribute("data-original-text", original);
+    }
+    const key = el.getAttribute("data-original-text");
+    if(T[lang] && T[lang][key] !== undefined){
+      el.textContent = T[lang][key];
+    }
   }
 
-  window.setSiteLanguage=apply;
-  window.addEventListener('DOMContentLoaded',function(){ apply(localStorage.getItem(KEY)||'en'); });
+  function applyLanguage(lang){
+    if(!T[lang]) lang = "en";
+    localStorage.setItem(KEY, lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll("#maa-language-switcher button").forEach(function(btn){
+      const active = btn.getAttribute("data-site-lang") === lang;
+      btn.classList.toggle("active", active);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+
+    const selectors = [
+      ".topbar-inner span",
+      "nav a",
+      ".page-hero h2",
+      ".page-hero p",
+      ".content-card h2",
+      ".content-card p",
+      ".section-title h2",
+      ".section-title p",
+      ".card h3",
+      ".card p",
+      ".highlight-box p",
+      ".btn",
+      "footer h3",
+      "footer p",
+      "footer a"
+    ];
+
+    selectors.forEach(function(selector){
+      document.querySelectorAll(selector).forEach(function(el){
+        translateElement(el, lang);
+      });
+    });
+  }
+
+  window.setSiteLanguage = applyLanguage;
+
+  document.addEventListener("DOMContentLoaded", function(){
+    applyLanguage(localStorage.getItem(KEY) || "en");
+    loadAboutWebsiteSettings();
+  });
 })();
 </script>
 
