@@ -261,104 +261,83 @@ nav a.active{
   display:block;
 }
 
-/* MEMBER GRID */
+/* MEMBER TABLE */
 
-.member-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
-}
-
-.member-card{
+.member-table-wrap{
   background:#fff;
-  border-radius:15px;
-  overflow:hidden;
+  border-radius:12px;
   box-shadow:0 4px 18px rgba(0,0,0,.07);
-  transition:.2s;
+  overflow-x:auto;
 }
 
-.member-card:hover{
-  transform:translateY(-3px);
-  box-shadow:0 8px 24px rgba(0,0,0,.11);
-}
-
-.member-top{
-  height:105px;
-  background:linear-gradient(135deg,#7b1e1e,#a84a2d);
-}
-
-.member-content{
-  padding:0 20px 20px;
-  text-align:center;
-}
-
-.photo{
-  width:92px;
-  height:92px;
-  margin:-48px auto 10px;
-  border-radius:50%;
-  border:5px solid #fff;
-  background:#eee;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#777;
-  font-size:32px;
-}
-
-.photo img{
+.member-table{
   width:100%;
-  height:100%;
-  object-fit:cover;
+  border-collapse:collapse;
+  min-width:760px;
+  font-size:13px;
 }
 
-.member-name{
-  color:#7b1e1e;
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:2px;
-}
-
-.designation{
-  color:#a06a00;
-  font-size:12px;
-  font-weight:bold;
-  margin-bottom:10px;
-}
-
-.member-info{
+.member-table th{
+  background:#7b1e1e;
+  color:#fff;
+  padding:12px 10px;
   text-align:left;
-  border-top:1px solid #eee;
-  padding-top:12px;
-}
-
-.info-row{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  padding:5px 0;
   font-size:12px;
+  white-space:nowrap;
 }
 
-.info-row span:first-child{
-  color:#888;
+.member-table td{
+  padding:11px 10px;
+  border-bottom:1px solid #e8e8e8;
+  vertical-align:middle;
 }
 
-.info-row span:last-child{
-  color:#333;
+.member-table tbody tr:nth-child(even){
+  background:#fafafa;
+}
+
+.member-table tbody tr:hover{
+  background:#fff7e5;
+}
+
+.member-table .sl{
+  width:65px;
+  text-align:center;
   font-weight:bold;
-  text-align:right;
+  color:#7b1e1e;
 }
 
-.status{
-  display:inline-block;
-  padding:4px 9px;
-  border-radius:20px;
-  background:#eaf8ef;
-  color:#18733a;
-  font-size:10px;
+.member-table .name{
+  min-width:220px;
   font-weight:bold;
+  color:#7b1e1e;
+}
+
+.member-table .designation{
+  color:#a06a00;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.member-table .since{
+  white-space:nowrap;
+}
+
+.member-table .mobile{
+  white-space:nowrap;
+  font-weight:bold;
+}
+
+@media(max-width:650px){
+  .member-table{
+    min-width:680px;
+  }
+
+  .member-table th,
+  .member-table td{
+    padding:9px 8px;
+    font-size:12px;
+  }
 }
 
 /* EMPTY */
@@ -644,22 +623,9 @@ footer a{
         <input
           type="search"
           id="searchInput"
-          placeholder="Search member name, village or Member ID..."
+          placeholder="Search member name, designation or mobile..."
           autocomplete="off"
         >
-
-      </div>
-
-
-      <div class="filter">
-
-        <select id="designationFilter">
-
-          <option value="all">
-            All Designations
-          </option>
-
-        </select>
 
       </div>
 
@@ -703,7 +669,7 @@ footer a{
         </strong>
 
         <span>
-          Approved Directory
+          Approved & Active
         </span>
 
       </div>
@@ -727,12 +693,27 @@ footer a{
     </div>
 
 
-    <!-- MEMBER GRID -->
+    <!-- MEMBER TABLE -->
 
-    <div
-      id="memberGrid"
-      class="member-grid"
-    ></div>
+    <div class="member-table-wrap">
+
+      <table class="member-table">
+
+        <thead>
+          <tr>
+            <th class="sl">Sl. No.</th>
+            <th>Member Name</th>
+            <th>Designation</th>
+            <th>Member Since</th>
+            <th>Mobile Number</th>
+          </tr>
+        </thead>
+
+        <tbody id="memberTableBody"></tbody>
+
+      </table>
+
+    </div>
 
 
     <!-- EMPTY -->
@@ -752,7 +733,7 @@ footer a{
 
       <p>
         No approved and active member matches
-        your search or selected designation.
+        your search.
       </p>
 
     </div>
@@ -968,73 +949,16 @@ async function loadMembers(){
 
 
 /* =====================================================
-   DESIGNATION FILTER
-   ===================================================== */
-
-function populateDesignationFilter(){
-
-  const select =
-    document.getElementById(
-      "designationFilter"
-    );
-
-
-  const designations =
-    [
-      ...new Set(
-        allMembers
-          .map(member => member.designation)
-          .filter(Boolean)
-      )
-    ]
-    .sort(
-      (a,b) =>
-        a.localeCompare(b)
-    );
-
-
-  select.innerHTML = `
-    <option value="all">
-      All Designations
-    </option>
-  `;
-
-
-  designations.forEach(
-    designation => {
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        designation;
-
-      option.textContent =
-        designation;
-
-      select.appendChild(option);
-
-    }
-  );
-
-}
-
-
-/* =====================================================
    RENDER MEMBERS
    ===================================================== */
 
 function renderMembers(){
 
-  const grid =
-    document.getElementById(
-      "memberGrid"
-    );
+  const tbody =
+    document.getElementById("memberTableBody");
 
   const empty =
-    document.getElementById(
-      "emptyState"
-    );
+    document.getElementById("emptyState");
 
   const search =
     document
@@ -1043,48 +967,24 @@ function renderMembers(){
       .trim()
       .toLowerCase();
 
-  const designation =
-    document
-      .getElementById("designationFilter")
-      .value;
-
-
   const filtered =
     allMembers.filter(member => {
 
       const searchable =
         [
           member.full_name,
-          member.member_id,
-          member.village,
           member.designation,
-          member.blood_group
+          member.mobile,
+          member.member_since
         ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
 
-
-      const searchMatch =
-        !search ||
-        searchable.includes(search);
-
-
-      const designationMatch =
-        designation === "all" ||
-        member.designation === designation;
-
-
-      return (
-        searchMatch &&
-        designationMatch
-      );
-
+      return !search || searchable.includes(search);
     });
 
-
-  grid.innerHTML = "";
-
+  tbody.innerHTML = "";
 
   if(filtered.length === 0){
 
@@ -1096,151 +996,51 @@ function renderMembers(){
 
   }
 
+  filtered.forEach((member,index) => {
 
-  filtered.forEach(
-    member => {
+    const tr =
+      document.createElement("tr");
 
-      grid.appendChild(
-        createMemberCard(member)
-      );
+    const memberSince =
+      member.member_since
+        ? new Date(
+            member.member_since + "T00:00:00"
+          ).toLocaleDateString("en-IN")
+        : "—";
 
-    }
-  );
+    tr.innerHTML = `
+      <td class="sl">${index + 1}</td>
 
+      <td class="name">
+        ${escapeHtml(member.full_name || "Member")}
+      </td>
+
+      <td class="designation">
+        ${escapeHtml(member.designation || "—")}
+      </td>
+
+      <td class="since">
+        ${escapeHtml(memberSince)}
+      </td>
+
+      <td class="mobile">
+        ${escapeHtml(member.mobile || "—")}
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+
+  });
 
   document.getElementById(
     "totalMembers"
   ).textContent =
     allMembers.length;
 
-
   document.getElementById(
     "visibleMembers"
   ).textContent =
     filtered.length;
-
-}
-
-
-/* =====================================================
-   MEMBER CARD
-   ===================================================== */
-
-function createMemberCard(member){
-
-  const card =
-    document.createElement("article");
-
-  card.className =
-    "member-card";
-
-
-  const photoHTML =
-    member.profile_photo_url
-      ? `
-        <img
-          src="${escapeHtml(member.profile_photo_url)}"
-          alt="${escapeHtml(member.full_name || "Member")}"
-          loading="lazy"
-        >
-      `
-      : `
-        <span>
-          👤
-        </span>
-      `;
-
-
-  card.innerHTML = `
-
-    <div class="member-top"></div>
-
-    <div class="member-content">
-
-      <div class="photo">
-        ${photoHTML}
-      </div>
-
-      <div class="member-name">
-        ${escapeHtml(
-          member.full_name || "Member"
-        )}
-      </div>
-
-      <div class="designation">
-        ${escapeHtml(
-          member.designation || "Member"
-        )}
-      </div>
-
-      <div class="member-info">
-
-        <div class="info-row">
-
-          <span>
-            Member ID
-          </span>
-
-          <span>
-            ${escapeHtml(
-              member.member_id || "—"
-            )}
-          </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span>
-            Village
-          </span>
-
-          <span>
-            ${escapeHtml(
-              member.village || "—"
-            )}
-          </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span>
-            Blood Group
-          </span>
-
-          <span>
-            ${escapeHtml(
-              member.blood_group || "—"
-            )}
-          </span>
-
-        </div>
-
-
-        <div class="info-row">
-
-          <span>
-            Status
-          </span>
-
-          <span>
-            <span class="status">
-              Active
-            </span>
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-  `;
-
-
-  return card;
 
 }
 
@@ -1273,16 +1073,6 @@ document
   );
 
 
-/* =====================================================
-   DESIGNATION FILTER
-   ===================================================== */
-
-document
-  .getElementById("designationFilter")
-  .addEventListener(
-    "change",
-    renderMembers
-  );
 
 
 /* =====================================================
