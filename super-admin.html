@@ -2417,9 +2417,9 @@ async function downloadMemberIdCard(id){
       location.origin +
       location.pathname.replace(
         /super-admin\.html$/i,
-        "index.html"
+        "member.html"
       ) +
-      "#verify=" +
+      "?id=" +
       encodeURIComponent(memberId);
 
     const qrUrl =
