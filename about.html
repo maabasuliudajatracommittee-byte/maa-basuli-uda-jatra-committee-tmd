@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>About Us | Maa Basuli Uda Jatra Committee</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -127,6 +126,55 @@ nav a.active{
   border-radius:7px;
   font-size:20px;
   cursor:pointer;
+}
+
+/* LANGUAGE */
+#maa-language-switcher{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  margin-left:8px;
+  padding:3px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  background:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+  white-space:nowrap;
+}
+
+#maa-language-switcher button{
+  border:0;
+  background:transparent;
+  color:#333;
+  cursor:pointer;
+  font-weight:700;
+  font-size:12px;
+  padding:7px 9px;
+  border-radius:6px;
+}
+
+#maa-language-switcher button.active{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+#maa-language-switcher button:hover{
+  background:#f5e8e8;
+}
+
+#maa-language-switcher button.active:hover{
+  background:#7b1e1e;
+}
+
+@media(max-width:900px){
+  #maa-language-switcher{
+    margin-left:auto;
+  }
+
+  #maa-language-switcher button{
+    padding:6px 7px;
+    font-size:11px;
+  }
 }
 
 /* PAGE HERO */
@@ -382,6 +430,11 @@ footer a{
   .image-card img{
     height:280px;
   }
+
+  #maa-language-switcher button{
+    padding:6px 6px;
+    font-size:10px;
+  }
 }
 </style>
 </head>
@@ -389,7 +442,6 @@ footer a{
 <body>
 
 <!-- TOP BAR -->
-
 <div class="topbar">
   <div class="container topbar-inner">
     <span>🙏 जय माँ बसुली</span>
@@ -397,15 +449,11 @@ footer a{
   </div>
 </div>
 
-
 <!-- HEADER -->
-
 <header>
-
   <div class="container header-inner">
 
     <a href="index.html" class="logo">
-
       <img
         id="siteLogo"
         class="logo-icon"
@@ -417,69 +465,47 @@ footer a{
         <h1 id="siteName">Maa Basuli Uda Jatra Committee</h1>
         <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
-
     </a>
 
     <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
     <nav id="mainNav">
-
       <a href="index.html">Home</a>
-
       <a href="about.html" class="active">About</a>
-
       <a href="jatra.html">Uda Jatra</a>
-
       <a href="notices.html">Notices</a>
-
       <a href="events.html">Events</a>
-
       <a href="gallery.html">Gallery</a>
-
       <a href="members.html">Our Members</a>
-
       <a href="fund.html">Fund</a>
-
       <a href="complaint.html">Complaint</a>
-
       <a href="contact.html">Contact</a>
-
       <a href="auth.html">Login</a>
-
     </nav>
 
-  </div>
+    <div id="maa-language-switcher" aria-label="Website Language">
+      <button type="button" data-site-lang="en" onclick="setSiteLanguage('en')">🇬🇧 English</button>
+      <button type="button" data-site-lang="or" onclick="setSiteLanguage('or')">ଓଡ଼ିଆ</button>
+      <button type="button" data-site-lang="hi" onclick="setSiteLanguage('hi')">हिन्दी</button>
+    </div>
 
+  </div>
 </header>
 
-
 <!-- PAGE HERO -->
-
 <section class="page-hero">
-
   <div class="container">
-
     <h2>About Us</h2>
-
-    <p>
-      Maa Basuli Uda Jatra Committee, Thakurmunda
-    </p>
-
+    <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
   </div>
-
 </section>
 
-
 <!-- ABOUT -->
-
 <section>
-
   <div class="container">
-
     <div class="about-grid">
 
       <div class="content-card">
-
         <h2>About Maa Basuli Uda Jatra Committee</h2>
 
         <p>
@@ -500,115 +526,71 @@ footer a{
           can access committee information, notices, events, gallery,
           member services and Jatra updates.
         </p>
-
       </div>
 
-
       <div class="image-card">
-
-        <img
-          id="aboutTempleImage"
-          src=""
-          alt="Maa Basuli Temple"
-        >
-
+        <img id="aboutTempleImage" src="" alt="Maa Basuli Temple">
       </div>
 
     </div>
-
   </div>
-
 </section>
 
-
 <!-- OUR PURPOSE -->
-
 <section class="values">
-
   <div class="container">
 
     <div class="section-title">
-
       <h2>Our Purpose</h2>
-
-      <p>
-        Tradition, devotion and community service
-      </p>
-
+      <p>Tradition, devotion and community service</p>
     </div>
-
 
     <div class="grid">
 
       <div class="card">
-
         <div class="card-icon">🙏</div>
-
         <h3>Religious Tradition</h3>
-
         <p>
           Supporting the preservation and continuation of
           traditional religious practices and celebrations
           associated with Maa Basuli.
         </p>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">🎭</div>
-
         <h3>Cultural Heritage</h3>
-
         <p>
           Promoting local cultural programmes and helping
           preserve the heritage and traditions connected
           with Uda Jatra.
         </p>
-
       </div>
 
-
       <div class="card">
-
         <div class="card-icon">🤝</div>
-
         <h3>Community Participation</h3>
-
         <p>
           Encouraging devotees, committee members and the
           local community to participate in organised
           activities.
         </p>
-
       </div>
 
     </div>
-
   </div>
-
 </section>
 
-
 <!-- WEBSITE PURPOSE -->
-
 <section class="highlight">
-
   <div class="container">
 
     <div class="section-title">
-
       <h2>Official Digital Platform</h2>
-
-      <p>
-        One place for Maa Basuli Committee information
-      </p>
-
+      <p>One place for Maa Basuli Committee information</p>
     </div>
 
     <div class="highlight-box">
-
       <p>
         The official website will provide access to Jatra
         information, official notices, events, photographs,
@@ -623,38 +605,24 @@ footer a{
         administrators will manage the relevant information
         through the secure management system.
       </p>
-
     </div>
 
   </div>
-
 </section>
 
-
 <!-- LINKS -->
-
 <div class="back">
-
-  <a href="index.html" class="btn">
-    ← Back to Home
-  </a>
-
+  <a href="index.html" class="btn">← Back to Home</a>
 </div>
 
-
 <!-- FOOTER -->
-
 <footer>
-
   <div class="container">
 
     <div class="footer-grid">
 
       <div>
-
-        <h3 id="footerSiteName">
-          Maa Basuli Uda Jatra Committee
-        </h3>
+        <h3 id="footerSiteName">Maa Basuli Uda Jatra Committee</h3>
 
         <p>
           Official website of Maa Basuli Uda Jatra Committee,
@@ -664,14 +632,10 @@ footer a{
         <p style="margin-top:10px;">
           ଜୟ ମା' ବାସୁଳୀ 🙏
         </p>
-
       </div>
 
-
       <div>
-
         <h3>Quick Links</h3>
-
         <a href="index.html">Home</a>
         <a href="about.html">About</a>
         <a href="jatra.html">Uda Jatra</a>
@@ -679,41 +643,29 @@ footer a{
         <a href="events.html">Events</a>
         <a href="gallery.html">Gallery</a>
         <a href="members.html">Our Members</a>
-
       </div>
 
-
       <div>
-
         <h3>Services</h3>
-
         <a href="fund.html">Fund & Donation</a>
         <a href="member-fee.html">Member Fee</a>
         <a href="complaint.html">Complaint Box</a>
         <a href="contact.html">Contact</a>
         <a href="auth.html">Login</a>
-
       </div>
 
     </div>
 
-
     <div class="copyright">
-
       © 2026 Maa Basuli Uda Jatra Committee.
       All Rights Reserved.
-
     </div>
 
   </div>
-
 </footer>
 
-
 <script>
-
 /* SUPABASE */
-
 const SUPABASE_URL =
   "https://ynymqntcawobcfccoekb.supabase.co";
 
@@ -726,21 +678,15 @@ const supabaseClient =
     SUPABASE_KEY
   );
 
-
 /* MOBILE MENU */
-
 function toggleMenu(){
-
   document
     .getElementById("mainNav")
     .classList
     .toggle("show");
-
 }
 
-
 /* LOAD WEBSITE SETTINGS */
-
 async function loadWebsiteSettings(){
 
   try{
@@ -759,21 +705,16 @@ async function loadWebsiteSettings(){
         .maybeSingle();
 
     if(error){
-
       console.error(
         "Website settings error:",
         error
       );
-
       return;
     }
 
-
     if(!data) return;
 
-
     /* SITE NAME */
-
     if(data.site_name){
 
       document.getElementById("siteName").textContent =
@@ -786,31 +727,24 @@ async function loadWebsiteSettings(){
         "About Us | " + data.site_name;
     }
 
-
     /* LOGO */
-
     if(data.logo_url){
 
       const logo =
         document.getElementById("siteLogo");
 
       logo.src = data.logo_url;
-
       logo.classList.remove("fallback");
     }
 
-
     /* TEMPLE IMAGE */
-
     if(data.temple_url){
 
       document.getElementById("aboutTempleImage").src =
         data.temple_url;
     }
 
-
     /* ADDRESS */
-
     if(data.address){
 
       document.getElementById("topLocation").textContent =
@@ -828,12 +762,12 @@ async function loadWebsiteSettings(){
 
 }
 
-
 /* START */
-
 loadWebsiteSettings();
-
 </script>
+
+<!-- COMMON WEBSITE LANGUAGE SYSTEM -->
+<script src="language.js"></script>
 
 </body>
 </html>
