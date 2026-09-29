@@ -2639,6 +2639,13 @@ async function updateVolunteerStatus(id, newStatus){
     " this volunteer registration?"
   )) return;
 
+  const item = volunteerRegistrations.find(x => x.id === id);
+
+  if(!item){
+    alert("Volunteer registration not found.");
+    return;
+  }
+
   const { error } = await supabaseClient
     .from("member_volunteer_registrations")
     .update({
@@ -2657,8 +2664,65 @@ async function updateVolunteerStatus(id, newStatus){
     return;
   }
 
+  /*
+     When a volunteer registration is APPROVED, automatically create
+     a private duty assignment for that same member. This makes the
+     approved volunteer service visible in Member Dashboard -> My Duty.
+  */
+  if(newStatus === "approved"){
+
+    const dutyTitle = "Volunteer Service - " +
+      (item.service_area || "Committee Volunteer");
+
+    const { data: existingDuty, error: dutyCheckError } =
+      await supabaseClient
+        .from("member_duty_assignments")
+        .select("id")
+        .eq("member_id", item.member_id)
+        .eq("duty_title", dutyTitle)
+        .eq("duty_date", item.preferred_date || null)
+        .limit(1);
+
+    if(dutyCheckError){
+      alert(
+        "Volunteer approved, but My Duty check failed: " +
+        (dutyCheckError.message || "Unknown error")
+      );
+      await loadVolunteerRegistrations();
+      return;
+    }
+
+    if(!existingDuty || existingDuty.length === 0){
+
+      const { error: dutyInsertError } =
+        await supabaseClient
+          .from("member_duty_assignments")
+          .insert({
+            member_id: item.member_id,
+            duty_title: dutyTitle,
+            duty_date: item.preferred_date || null,
+            duty_time: item.availability || null,
+            location: "To be assigned",
+            responsibility: item.service_area || "Volunteer Service",
+            status: "assigned",
+            admin_note: item.admin_note || "Approved volunteer service"
+          });
+
+      if(dutyInsertError){
+        alert(
+          "Volunteer approved, but My Duty assignment could not be created: " +
+          (dutyInsertError.message || "Unknown error")
+        );
+        await loadVolunteerRegistrations();
+        return;
+      }
+    }
+  }
+
   showVolunteerMessage(
-    "Volunteer status updated successfully.",
+    newStatus === "approved"
+      ? "Volunteer approved successfully and duty assigned to the member."
+      : "Volunteer status updated successfully.",
     "success"
   );
 
