@@ -1604,10 +1604,12 @@
           <th>Time</th>
           <th>Location</th>
           <th>Status</th>
+          <th>Member Response</th>
+          <th>Denial Reason</th>
         </tr>
       </thead>
       <tbody id="dutyAssignmentsTableBody">
-        <tr><td colspan="6" class="loading">Loading Duties...</td></tr>
+        <tr><td colspan="8" class="loading">Loading Duties...</td></tr>
       </tbody>
     </table>
   </div>
@@ -5272,13 +5274,13 @@ async function loadDutyAssignments(){
     .limit(100);
 
   if(error){
-    tbody.innerHTML = '<tr><td colspan="6" class="empty">' + escapeHtml(error.message) + '</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">' + escapeHtml(error.message) + '</td></tr>';
     return;
   }
 
   const rows = data || [];
   if(!rows.length){
-    tbody.innerHTML = '<tr><td colspan="6" class="empty">No duty assigned yet.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" class="empty">No duty assigned yet.</td></tr>';
     return;
   }
 
@@ -5291,6 +5293,8 @@ async function loadDutyAssignments(){
       '<td>' + escapeHtml(d.duty_time || "") + '</td>' +
       '<td>' + escapeHtml(d.location || "") + '</td>' +
       '<td>' + escapeHtml(d.status || "assigned") + '</td>' +
+      '<td>' + escapeHtml((d.member_response || "pending").toUpperCase()) + '</td>' +
+      '<td>' + escapeHtml(d.denial_reason || "—") + '</td>' +
       '</tr>';
   }).join("");
 }
