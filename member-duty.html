@@ -131,6 +131,49 @@ async function loadLogo(){
   }catch(e){}
 }
 
+async function respondToDuty(dutyId, response){
+  try{
+    const {data:{session},error:sessionError}=await supabaseClient.auth.getSession();
+    if(sessionError || !session){
+      window.location.href="auth.html";
+      return;
+    }
+
+    let denialReason = null;
+
+    if(response === "denied"){
+      denialReason = prompt("Please enter the reason for denying this duty:");
+      if(denialReason === null) return;
+      denialReason = denialReason.trim();
+
+      if(!denialReason){
+        alert("Denial reason is mandatory.");
+        return;
+      }
+    }
+
+    const {error}=await supabaseClient
+      .from("member_duty_assignments")
+      .update({
+        member_response: response,
+        denial_reason: response === "denied" ? denialReason : null
+      })
+      .eq("id",dutyId)
+      .eq("member_id",session.user.id);
+
+    if(error) throw error;
+
+    alert(response === "accepted"
+      ? "Duty accepted successfully."
+      : "Duty denied successfully.");
+
+    await loadDutySchedule();
+  }catch(error){
+    console.error("Duty response error:",error);
+    alert("Unable to update your duty response. Please try again.");
+  }
+}
+
 async function loadDutySchedule(){
   const loading=document.getElementById("loading");
   const content=document.getElementById("content");
@@ -159,7 +202,7 @@ async function loadDutySchedule(){
 
     const {data,error}=await supabaseClient
       .from("member_duty_assignments")
-      .select("id,duty_title,duty_date,duty_time,location,responsibility,status,admin_note,created_at")
+      .select("id,duty_title,duty_date,duty_time,location,responsibility,status,admin_note,member_response,denial_reason,created_at")
       .eq("member_id",session.user.id)
       .order("duty_date",{ascending:true})
       .order("created_at",{ascending:false});
@@ -171,7 +214,31 @@ async function loadDutySchedule(){
     if(!data || data.length===0){
       box.innerHTML='<div class="empty">No duty has been assigned to you yet.</div>';
     }else{
-      box.innerHTML=data.map(d=>`
+      box.innerHTML=data.map(d=>{
+        const response=(d.member_response||"pending").toLowerCase();
+        const canRespond=(d.status||"assigned").toLowerCase()==="assigned" && response==="pending";
+
+        let responseHtml="";
+        if(response==="accepted"){
+          responseHtml='<span class="status" style="background:#e7f7ec;color:#146c2e">ACCEPTED</span>';
+        }else if(response==="denied"){
+          responseHtml='<span class="status" style="background:#fdeaea;color:#9b1c1c">DENIED</span>';
+        }else{
+          responseHtml='<span class="status" style="background:#fff4d6;color:#8a5a00">RESPONSE PENDING</span>';
+        }
+
+        const actionHtml=canRespond ? `
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+            <button type="button" onclick="respondToDuty('${esc(d.id)}','accepted')" style="border:0;border-radius:8px;padding:9px 14px;background:#1f7a3f;color:#fff;font-weight:bold;cursor:pointer">✓ Accept Duty</button>
+            <button type="button" onclick="respondToDuty('${esc(d.id)}','denied')" style="border:0;border-radius:8px;padding:9px 14px;background:#a32626;color:#fff;font-weight:bold;cursor:pointer">✕ Deny Duty</button>
+          </div>
+        ` : "";
+
+        const denialHtml=response==="denied" && d.denial_reason
+          ? `<div style="margin-top:12px;font-size:12px;color:#9b1c1c"><strong>Denial Reason:</strong> ${esc(d.denial_reason)}</div>`
+          : "";
+
+        return `
         <div class="duty">
           <h3>📌 ${esc(d.duty_title||"Committee Duty")}</h3>
           <div class="grid">
@@ -183,9 +250,15 @@ async function loadDutySchedule(){
           <div style="margin-top:12px">
             <span class="status">${esc((d.status||"assigned").toUpperCase())}</span>
           </div>
+          <div style="margin-top:10px">
+            <strong style="font-size:12px">Your Response:</strong> ${responseHtml}
+          </div>
+          ${actionHtml}
+          ${denialHtml}
           ${d.admin_note ? `<div style="margin-top:12px;font-size:12px;color:#555"><strong>Committee Note:</strong> ${esc(d.admin_note)}</div>` : ""}
         </div>
-      `).join("");
+        `;
+      }).join("");
     }
 
     loading.style.display="none";
