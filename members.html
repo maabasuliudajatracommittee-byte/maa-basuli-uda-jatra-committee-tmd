@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Members | Maa Basuli Uda Jatra Committee</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Our Members | Maa Basuli Uda Jatra Committee</title>
 
 <style>
 *{
@@ -17,1025 +15,778 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#fffaf5;
-  color:#333;
-  line-height:1.6;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
 }
 
-/* ================= HEADER ================= */
-
-.header{
-  background:linear-gradient(135deg,#7c2d12,#b45309);
-  color:#fff;
-  padding:12px 18px 10px;
-  box-shadow:0 2px 10px rgba(0,0,0,.15);
+a{
+  text-decoration:none;
+  color:inherit;
 }
 
-.brand-row{
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+.topbar{
+  background:#7b1e1e;
+  color:white;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:15px;
-}
-
-.brand-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  min-width:0;
-}
-
-.site-logo{
-  width:58px;
-  height:58px;
-  object-fit:cover;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.9);
-  background:#fff;
-  display:none;
-}
-
-.brand-photo{
-  width:52px;
-  height:52px;
-  object-fit:cover;
-  border-radius:9px;
-  border:2px solid rgba(255,255,255,.9);
-  background:#fff;
-  display:none;
-}
-
-.brand-title{
-  min-width:0;
-}
-
-.brand-title h1{
-  font-size:20px;
-  line-height:1.2;
-  margin-bottom:3px;
-}
-
-.brand-title p{
-  font-size:12px;
-  opacity:.9;
-}
-
-#language-switcher{
-  display:flex;
-  align-items:center;
-  flex-shrink:0;
-}
-
-#maa-language-switcher{
-  position:static !important;
-  display:inline-flex !important;
-  align-items:center;
-  gap:4px;
-  padding:4px;
-  border-radius:9px;
-  background:#fff;
-  border:1px solid #ddd;
-  box-shadow:0 2px 8px rgba(0,0,0,.12);
-  z-index:999999;
-}
-
-#maa-language-switcher button{
-  border:0;
-  background:transparent;
-  color:#333;
-  cursor:pointer;
-  font-weight:800;
-  font-size:13px;
-  line-height:1;
-  padding:9px 10px;
-  border-radius:7px;
-  transition:.2s;
-}
-
-#maa-language-switcher button.active{
-  background:#8b0000;
-  color:#fff;
-}
-
-#maa-language-switcher button:hover{
-  background:#f1e5e5;
-}
-
-#maa-language-switcher button.active:hover{
-  background:#a41414;
-}
-
-/* ================= NAV ================= */
-
-.nav{
-  display:flex;
-  gap:7px;
   flex-wrap:wrap;
-  margin-top:12px;
+  gap:8px 18px;
 }
 
-.nav a{
-  color:#fff;
-  text-decoration:none;
-  padding:6px 10px;
-  border-radius:6px;
-  font-size:13px;
-  font-weight:700;
-  background:rgba(255,255,255,.10);
+.topbar-inner span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
 }
 
-.nav a:hover,
-.nav a.active{
-  background:rgba(255,255,255,.22);
-}
-
-/* ================= HERO ================= */
-
-.hero{
-  background:linear-gradient(135deg,#fff7ed,#ffedd5);
-  padding:28px 18px;
-  text-align:center;
-  border-bottom:1px solid #f3d4b0;
-}
-
-.hero h2{
-  color:#7c2d12;
-  font-size:30px;
-  margin-bottom:7px;
-}
-
-.hero p{
-  color:#6b4f3a;
-  font-size:15px;
-}
-
-/* ================= CONTAINER ================= */
-
-.container{
-  width:min(1100px,94%);
-  margin:25px auto;
-}
-
-/* ================= INFO ================= */
-
-.intro{
+header{
   background:#fff;
-  border:1px solid #ead8c8;
-  border-radius:12px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
+  box-shadow:0 3px 14px rgba(0,0,0,.10);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
 
-.intro h3{
-  color:#8b0000;
-  margin-bottom:6px;
-  font-size:20px;
+.header-inner{
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
 }
 
-/* ================= SEARCH ================= */
-
-.search-box{
-  background:#fff;
-  padding:16px;
-  border:1px solid #ead8c8;
-  border-radius:12px;
-  margin-bottom:18px;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
-}
-
-.search-box input{
-  width:100%;
-  padding:12px 14px;
-  border:1px solid #d9c3b0;
-  border-radius:8px;
-  font-size:15px;
-  outline:none;
-}
-
-.search-box input:focus{
-  border-color:#b45309;
-  box-shadow:0 0 0 3px rgba(180,83,9,.10);
-}
-
-/* ================= STATS ================= */
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
+.logo{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
   gap:14px;
-  margin-bottom:20px;
+  min-height:78px;
+  padding:10px 0 8px;
 }
 
-.stat{
-  background:#fff;
-  border:1px solid #ead8c8;
-  border-radius:12px;
-  padding:18px;
-  text-align:center;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
+.logo-icon{
+  width:64px;
+  height:64px;
+  min-width:64px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
 }
 
-.stat-number{
-  font-size:28px;
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:25px;
+  line-height:1.2;
   font-weight:800;
-  color:#8b0000;
 }
 
-.stat-label{
-  font-size:13px;
-  color:#6b5b50;
+.logo-text p{
+  color:#777;
+  font-size:14px;
   margin-top:3px;
 }
 
-/* ================= TABLE ================= */
+#siteLogo{display:none;}
 
-.table-wrap{
-  background:#fff;
-  border:1px solid #ead8c8;
-  border-radius:12px;
-  overflow-x:auto;
-  box-shadow:0 3px 12px rgba(0,0,0,.05);
-}
+#logoFallback{display:flex;}
 
-table{
+.main-nav-wrap{
   width:100%;
-  border-collapse:collapse;
-  min-width:700px;
+  border-top:1px solid #f0e1dc;
+  background:#fff;
 }
 
-thead{
-  background:#7c2d12;
+/* MASTER NAVIGATION - ALWAYS VISIBLE */
+.main-nav-wrap,
+nav,
+nav a{
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:8px 0 10px;
+  width:100%;
+}
+
+nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  color:#222;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+
+nav a:hover,
+nav a.active{
+  background:#7b1e1e;
   color:#fff;
 }
 
-th,
-td{
-  padding:12px 14px;
-  text-align:left;
-  border-bottom:1px solid #eee;
-  font-size:14px;
-}
+nav a:hover{transform:translateY(-1px);}
 
-tbody tr:hover{
-  background:#fffaf5;
-}
+.menu-btn{display:none;}
 
-.designation{
-  display:inline-block;
-  padding:4px 9px;
-  border-radius:20px;
-  background:#fff0df;
-  color:#8b0000;
-  font-size:12px;
-  font-weight:700;
-}
-
-.status{
-  display:inline-block;
-  padding:4px 9px;
-  border-radius:20px;
-  background:#e9f8ed;
-  color:#187a32;
-  font-size:12px;
-  font-weight:700;
-}
-
-/* ================= LOADING ================= */
-
-.loading{
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
+    url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:white;
+  padding:85px 0;
   text-align:center;
-  padding:35px 15px;
-  color:#777;
 }
 
-.spinner{
-  width:35px;
-  height:35px;
-  border:4px solid #ead8c8;
-  border-top-color:#8b0000;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
-  margin:0 auto 10px;
-}
-
-@keyframes spin{
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-/* ================= EMPTY ================= */
-
-.empty{
-  display:none;
-  text-align:center;
-  padding:35px 15px;
-  color:#777;
-}
-
-/* ================= PUBLIC INFO ================= */
-
-.info-box{
-  margin-top:20px;
-  background:#fff7ed;
-  border:1px solid #f1d2ad;
-  border-radius:12px;
-  padding:18px;
-}
-
-.info-box h3{
-  color:#8b0000;
-  margin-bottom:6px;
-}
-
-/* ================= FOOTER ================= */
-
-.footer{
-  margin-top:35px;
-  background:#3f1d0f;
-  color:#fff;
-  padding:28px 18px;
-}
-
-.footer-grid{
-  width:min(1100px,94%);
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:25px;
-}
-
-.footer h3{
-  font-size:16px;
+.page-hero h2{
+  font-size:42px;
   margin-bottom:8px;
 }
 
-.footer p,
-.footer a{
-  font-size:13px;
-  color:#eaded5;
+.page-hero p{
+  font-size:17px;
+  opacity:.95;
 }
 
-.footer a{
-  text-decoration:none;
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+  align-items:center;
+}
+
+.content-card{
+  background:white;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.content-card h2{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
+
+.content-card p{
+  color:#555;
+  margin-bottom:14px;
+}
+
+.image-card{
+  background:white;
+  padding:12px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.image-card img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.values{
+  background:#fff8ed;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.card-icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.card h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#666;
+  font-size:14px;
+}
+
+.highlight{
+  background:#7b1e1e;
+  color:white;
+}
+
+.highlight .section-title h2,
+.highlight .section-title p{
+  color:white;
+}
+
+.highlight-box{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.highlight-box p{
+  color:#eee;
+  font-size:16px;
+}
+
+.back{
+  text-align:center;
+  padding:35px 0;
+}
+
+.btn{
+  display:inline-block;
+  background:#7b1e1e;
+  color:white;
+  padding:11px 18px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+footer{
+  background:#241313;
+  color:white;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
   display:block;
-  margin:3px 0;
-}
-
-.footer a:hover{
-  color:#fff;
+  margin:5px 0;
 }
 
 .copyright{
-  width:min(1100px,94%);
-  margin:22px auto 0;
-  padding-top:15px;
   border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
   text-align:center;
-  font-size:12px;
-  color:#d8c8bd;
+  color:#aaa;
+  font-size:13px;
 }
 
-/* ================= MOBILE ================= */
+@media(max-width:900px){
 
-@media(max-width:750px){
-
-  .brand-row{
-    align-items:flex-start;
+  /* Keep every master navigation button visible on every page */
+  nav{
+    display:flex !important;
+    position:static;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    background:white;
+    padding:8px 0 10px;
+    box-shadow:none;
   }
 
-  .brand-title h1{
+  nav.show{
+    display:flex !important;
+  }
+
+  .menu-btn{
+    display:none !important;
+  }
+
+  .header-inner{
+    position:relative;
+  }
+
+  .about-grid{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  .logo-text h1{
     font-size:16px;
   }
 
-  .brand-title p{
-    font-size:11px;
+  .page-hero{
+    padding:65px 0;
   }
 
-  .site-logo{
-    width:48px;
-    height:48px;
+  .page-hero h2{
+    font-size:32px;
   }
 
-  .brand-photo{
-    width:44px;
-    height:44px;
-  }
-
-  #maa-language-switcher{
-    gap:2px;
-    padding:3px;
-  }
-
-  #maa-language-switcher button{
-    font-size:11px;
-    padding:8px 7px;
-  }
-
-  .nav{
-    margin-top:10px;
-  }
-
-  .nav a{
-    font-size:12px;
-    padding:5px 8px;
-  }
-
-  .hero{
-    padding:22px 14px;
-  }
-
-  .hero h2{
-    font-size:25px;
-  }
-
-  .stats{
+  .grid{
     grid-template-columns:1fr;
   }
 
   .footer-grid{
     grid-template-columns:1fr;
   }
-}
 
-@media(max-width:480px){
-
-  .brand-row{
-    flex-direction:column;
-  }
-
-  #language-switcher{
-    width:100%;
-  }
-
-  #maa-language-switcher{
-    width:100%;
-    justify-content:center;
-  }
-
-  #maa-language-switcher button{
-    flex:1;
-  }
-
-  .brand-left{
-    width:100%;
+  .image-card img{
+    height:280px;
   }
 }
+
+
+@media(max-width:900px){
+  .header-inner{min-height:auto;}
+  .logo{min-height:72px;}
+  .logo-icon{width:58px;height:58px;min-width:58px;}
+  .logo-text h1{font-size:21px;}
+  .logo-text p{font-size:13px;}
+  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
+  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
+}
+
+@media(max-width:600px){
+  .topbar{font-size:11px;}
+  .topbar-inner{justify-content:center;text-align:center;}
+  .logo{gap:10px;padding:9px 0;}
+  .logo-icon{width:52px;height:52px;min-width:52px;}
+  .logo-text h1{font-size:18px;}
+  .logo-text p{font-size:11px;}
+  nav{gap:5px;}
+  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
+}
+
+
+
+/* ================= MEMBERS PAGE ================= */
+.members-main{
+  padding:55px 0 65px;
+}
+.members-intro,
+.members-search,
+.members-stats,
+.members-table-wrap,
+.members-info{
+  background:#fff;
+  border:1px solid #e4d6d0;
+  border-radius:12px;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+.members-intro{
+  padding:22px;
+  margin-bottom:20px;
+}
+.members-intro h3{
+  color:#7b1e1e;
+  font-size:22px;
+  margin-bottom:7px;
+}
+.members-search{
+  padding:18px;
+  margin-bottom:20px;
+}
+.members-search input{
+  width:100%;
+  padding:13px 15px;
+  border:1px solid #d8c8c1;
+  border-radius:8px;
+  font-size:15px;
+  outline:none;
+}
+.members-search input:focus{
+  border-color:#7b1e1e;
+  box-shadow:0 0 0 3px rgba(123,30,30,.10);
+}
+.members-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+  margin-bottom:20px;
+}
+.member-stat{
+  background:#fff;
+  border:1px solid #e4d6d0;
+  border-radius:12px;
+  padding:20px;
+  text-align:center;
+  box-shadow:0 3px 14px rgba(0,0,0,.06);
+}
+.member-stat-number{
+  display:block;
+  font-size:30px;
+  font-weight:800;
+  color:#7b1e1e;
+  line-height:1.1;
+}
+.member-stat-label{
+  display:block;
+  margin-top:6px;
+  color:#777;
+  font-size:13px;
+}
+.members-table-wrap{
+  overflow-x:auto;
+  margin-bottom:20px;
+}
+.members-table{
+  width:100%;
+  min-width:760px;
+  border-collapse:collapse;
+}
+.members-table thead{
+  background:#7b1e1e;
+  color:#fff;
+}
+.members-table th,
+.members-table td{
+  padding:13px 15px;
+  text-align:left;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+.members-table tbody tr:hover{
+  background:#faf5f3;
+}
+.designation{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  background:#f5e8e8;
+  color:#7b1e1e;
+  font-size:12px;
+  font-weight:700;
+}
+.status{
+  display:inline-block;
+  padding:4px 10px;
+  border-radius:20px;
+  background:#e9f7ed;
+  color:#187a32;
+  font-size:12px;
+  font-weight:700;
+}
+.members-loading{
+  text-align:center;
+  padding:35px 15px;
+  color:#777;
+}
+.members-spinner{
+  width:35px;
+  height:35px;
+  border:4px solid #eadfd9;
+  border-top-color:#7b1e1e;
+  border-radius:50%;
+  animation:membersSpin 1s linear infinite;
+  margin:0 auto 10px;
+}
+@keyframes membersSpin{to{transform:rotate(360deg)}}
+.members-empty{
+  display:none;
+  text-align:center;
+  padding:35px 15px;
+  color:#777;
+  background:#fff;
+  border:1px solid #e4d6d0;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.members-info{
+  padding:20px;
+  background:#fffaf7;
+}
+.members-info h3{
+  color:#7b1e1e;
+  margin-bottom:6px;
+}
+@media(max-width:750px){
+  .members-stats{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- TOP BAR -->
 
-<header class="header">
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 Jai Maa Basuli</span>
+    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>✉️ maabasuliudajatracommittee@gmail.com</span>
+    <span>📞 7978583565</span>
+  </div>
+</div>
 
-  <div class="brand-row">
 
-    <div class="brand-left">
+<!-- HEADER -->
+<header>
 
-      <img
-        id="siteLogo"
-        class="site-logo"
-        src=""
-        alt="Maa Basuli Uda Jatra Committee"
-      >
+  <div class="container header-inner">
 
-      <img
-        id="maaBasuliPhoto"
-        class="brand-photo"
-        src=""
-        alt="Maa Basuli"
-      >
+    <a href="index.html" class="logo">
 
-      <div class="brand-title">
+      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
+      <div id="logoFallback" class="logo-icon">🙏</div>
 
-        <h1
-          data-lang-en="Maa Basuli Uda Jatra Committee"
-          data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-          data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
-        >
-          Maa Basuli Uda Jatra Committee
-        </h1>
-
-        <p
-          id="siteAddress"
-          data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
-          data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
-          data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
-        >
-          Thakurmunda, Mayurbhanj, Odisha
-        </p>
-
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
 
-    </div>
+    </a>
 
-    <!-- STATIC LANGUAGE SWITCHER -->
-    <div id="language-switcher">
+    <div class="main-nav-wrap">
+      <nav id="mainNav" aria-label="Main Navigation">
 
-      <div id="maa-language-switcher">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html" class="active">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html">Contact</a>
+        <a href="search.html">Search</a>
+        <a href="auth.html">Login</a>
 
-        <button
-          type="button"
-          data-site-lang="en"
-          onclick="setSiteLanguage('en')"
-        >
-          🇬🇧 English
-        </button>
-
-        <button
-          type="button"
-          data-site-lang="or"
-          onclick="setSiteLanguage('or')"
-        >
-          ଓଡ଼ିଆ
-        </button>
-
-        <button
-          type="button"
-          data-site-lang="hi"
-          onclick="setSiteLanguage('hi')"
-        >
-          हिन्दी
-        </button>
-
-      </div>
-
+      </nav>
     </div>
 
   </div>
-
-  <nav class="nav">
-
-    <a
-      href="index.html"
-      data-lang-en="Home"
-      data-lang-or="ହୋମ୍"
-      data-lang-hi="होम"
-    >
-      Home
-    </a>
-
-    <a
-      href="about.html"
-      data-lang-en="About"
-      data-lang-or="ଆମ ବିଷୟରେ"
-      data-lang-hi="हमारे बारे में"
-    >
-      About
-    </a>
-
-    <a
-      href="jatra.html"
-      data-lang-en="Jatra"
-      data-lang-or="ଯାତ୍ରା"
-      data-lang-hi="यात्रा"
-    >
-      Jatra
-    </a>
-
-    <a
-      href="events.html"
-      data-lang-en="Events"
-      data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-      data-lang-hi="कार्यक्रम"
-    >
-      Events
-    </a>
-
-    <a
-      href="gallery.html"
-      data-lang-en="Gallery"
-      data-lang-or="ଗ୍ୟାଲେରୀ"
-      data-lang-hi="गैलरी"
-    >
-      Gallery
-    </a>
-
-    <a
-      href="members.html"
-      class="active"
-      data-lang-en="Members"
-      data-lang-or="ସଦସ୍ୟ"
-      data-lang-hi="सदस्य"
-    >
-      Members
-    </a>
-
-    <a
-      href="notices.html"
-      data-lang-en="Notices"
-      data-lang-or="ନୋଟିସ୍"
-      data-lang-hi="सूचना"
-    >
-      Notices
-    </a>
-
-  </nav>
 
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- PAGE HERO -->
 
-<section class="hero">
+<section class="page-hero" id="membersHero">
 
-  <h2
-    data-lang-en="Our Members"
-    data-lang-or="ଆମ ସଦସ୍ୟମାନେ"
-    data-lang-hi="हमारे सदस्य"
-  >
-    Our Members
-  </h2>
+  <div class="container">
 
-  <p
-    data-lang-en="Official members of Maa Basuli Uda Jatra Committee"
-    data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ଅଧିକୃତ ସଦସ୍ୟମାନେ"
-    data-lang-hi="माँ बासुली उड़ा यात्रा समिति के आधिकारिक सदस्य"
-  >
-    Official members of Maa Basuli Uda Jatra Committee
-  </p>
+    <h2>Our Members</h2>
+
+    <p>
+      Official members of Maa Basuli Uda Jatra Committee
+    </p>
+
+  </div>
 
 </section>
 
 
-<!-- ================= MAIN ================= -->
+<!-- MAIN -->
 
-<main class="container">
+<main class="members-main">
 
-  <section class="intro">
+  <div class="container">
 
-    <h3
-      data-lang-en="Committee Members"
-      data-lang-or="କମିଟି ସଦସ୍ୟ"
-      data-lang-hi="समिति सदस्य"
-    >
-      Committee Members
-    </h3>
+    <section class="members-intro">
 
-    <p
-      data-lang-en="View the publicly available member information of Maa Basuli Uda Jatra Committee."
-      data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟିର ସାର୍ବଜନୀନ ଭାବେ ଉପଲବ୍ଧ ସଦସ୍ୟ ସୂଚନା ଦେଖନ୍ତୁ।"
-      data-lang-hi="माँ बासुली उड़ा यात्रा समिति की सार्वजनिक रूप से उपलब्ध सदस्य जानकारी देखें।"
-    >
-      View the publicly available member information of Maa Basuli Uda Jatra Committee.
-    </p>
+      <h3>Committee Members</h3>
 
-  </section>
+      <p>
+        View the publicly available member information of Maa Basuli Uda Jatra Committee.
+      </p>
+
+    </section>
 
 
-  <!-- SEARCH -->
+    <section class="members-search">
 
-  <section class="search-box">
-
-    <input
-      type="search"
-      id="searchInput"
-      data-placeholder-en="Search member by name, designation or mobile..."
-      data-placeholder-or="ନାମ, ପଦବୀ କିମ୍ବା ମୋବାଇଲ୍ ଦ୍ୱାରା ସଦସ୍ୟ ଖୋଜନ୍ତୁ..."
-      data-placeholder-hi="नाम, पद या मोबाइल से सदस्य खोजें..."
-      placeholder="Search member by name, designation or mobile..."
-    >
-
-  </section>
-
-
-  <!-- STATS -->
-
-  <section class="stats">
-
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="totalMembers"
+      <input
+        type="search"
+        id="searchInput"
+        placeholder="Search member by name, designation or mobile..."
+        autocomplete="off"
       >
-        0
+
+    </section>
+
+
+    <section class="members-stats">
+
+      <div class="member-stat">
+        <span class="member-stat-number" id="totalMembers">0</span>
+        <span class="member-stat-label">Total Members</span>
       </div>
 
-      <div
-        class="stat-label"
-        data-lang-en="Total Members"
-        data-lang-or="ମୋଟ ସଦସ୍ୟ"
-        data-lang-hi="कुल सदस्य"
-      >
-        Total Members
+      <div class="member-stat">
+        <span class="member-stat-number" id="visibleMembers">0</span>
+        <span class="member-stat-label">Visible Members</span>
       </div>
+
+      <div class="member-stat">
+        <span class="member-stat-number" id="approvedMembers">0</span>
+        <span class="member-stat-label">Active Members</span>
+      </div>
+
+    </section>
+
+
+    <div class="members-loading" id="loading">
+      <div class="members-spinner"></div>
+      <p>Loading members...</p>
+    </div>
+
+
+    <div class="members-table-wrap" id="tableWrap" style="display:none;">
+
+      <table class="members-table">
+
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Mobile</th>
+            <th>Member Since</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="membersBody"></tbody>
+
+      </table>
 
     </div>
 
 
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="visibleMembers"
-      >
-        0
-      </div>
-
-      <div
-        class="stat-label"
-        data-lang-en="Visible Members"
-        data-lang-or="ଦୃଶ୍ୟମାନ ସଦସ୍ୟ"
-        data-lang-hi="दिखाई देने वाले सदस्य"
-      >
-        Visible Members
-      </div>
-
+    <div class="members-empty" id="emptyState">
+      <h3>No Members Found</h3>
+      <p>No member information is currently available.</p>
     </div>
 
 
-    <div class="stat">
-
-      <div
-        class="stat-number"
-        id="approvedMembers"
-      >
-        0
-      </div>
-
-      <div
-        class="stat-label"
-        data-lang-en="Active Members"
-        data-lang-or="ସକ୍ରିୟ ସଦସ୍ୟ"
-        data-lang-hi="सक्रिय सदस्य"
-      >
-        Active Members
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <!-- LOADING -->
-
-  <div
-    class="loading"
-    id="loading"
-  >
-
-    <div class="spinner"></div>
-
-    <p
-      data-lang-en="Loading members..."
-      data-lang-or="ସଦସ୍ୟମାନଙ୍କୁ ଲୋଡ୍ କରାଯାଉଛି..."
-      data-lang-hi="सदस्यों को लोड किया जा रहा है..."
-    >
-      Loading members...
-    </p>
+    <section class="members-info">
+      <h3>Public Information</h3>
+      <p>
+        Only information approved for public display by the committee is shown here.
+      </p>
+    </section>
 
   </div>
-
-
-  <!-- TABLE -->
-
-  <div
-    class="table-wrap"
-    id="tableWrap"
-    style="display:none;"
-  >
-
-    <table>
-
-      <thead>
-
-        <tr>
-
-          <th
-            data-lang-en="Name"
-            data-lang-or="ନାମ"
-            data-lang-hi="नाम"
-          >
-            Name
-          </th>
-
-          <th
-            data-lang-en="Designation"
-            data-lang-or="ପଦବୀ"
-            data-lang-hi="पद"
-          >
-            Designation
-          </th>
-
-          <th
-            data-lang-en="Mobile"
-            data-lang-or="ମୋବାଇଲ୍"
-            data-lang-hi="मोबाइल"
-          >
-            Mobile
-          </th>
-
-          <th
-            data-lang-en="Member Since"
-            data-lang-or="ସଦସ୍ୟ ହେବା ତାରିଖ"
-            data-lang-hi="सदस्य बने"
-          >
-            Member Since
-          </th>
-
-          <th
-            data-lang-en="Status"
-            data-lang-or="ସ୍ଥିତି"
-            data-lang-hi="स्थिति"
-          >
-            Status
-          </th>
-
-        </tr>
-
-      </thead>
-
-      <tbody id="membersBody"></tbody>
-
-    </table>
-
-  </div>
-
-
-  <!-- EMPTY -->
-
-  <div
-    class="empty"
-    id="emptyState"
-  >
-
-    <h3
-      data-lang-en="No Members Found"
-      data-lang-or="କୌଣସି ସଦସ୍ୟ ମିଳିଲେ ନାହିଁ"
-      data-lang-hi="कोई सदस्य नहीं मिला"
-    >
-      No Members Found
-    </h3>
-
-    <p
-      data-lang-en="No member information is currently available."
-      data-lang-or="ବର୍ତ୍ତମାନ କୌଣସି ସଦସ୍ୟ ସୂଚନା ଉପଲବ୍ଧ ନାହିଁ।"
-      data-lang-hi="वर्तमान में कोई सदस्य जानकारी उपलब्ध नहीं है।"
-    >
-      No member information is currently available.
-    </p>
-
-  </div>
-
-
-  <!-- PUBLIC INFORMATION -->
-
-  <section class="info-box">
-
-    <h3
-      data-lang-en="Public Information"
-      data-lang-or="ସାର୍ବଜନୀନ ସୂଚନା"
-      data-lang-hi="सार्वजनिक जानकारी"
-    >
-      Public Information
-    </h3>
-
-    <p
-      data-lang-en="Only information approved for public display by the committee is shown here."
-      data-lang-or="କମିଟି ଦ୍ୱାରା ସାର୍ବଜନୀନ ପ୍ରଦର୍ଶନ ପାଇଁ ଅନୁମୋଦିତ ସୂଚନା ଏଠାରେ ପ୍ରଦର୍ଶିତ ହେଉଛି।"
-      data-lang-hi="समिति द्वारा सार्वजनिक प्रदर्शन के लिए स्वीकृत जानकारी ही यहाँ दिखाई जाती है।"
-    >
-      Only information approved for public display by the committee is shown here.
-    </p>
-
-  </section>
 
 </main>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- FOOTER -->
 
-<footer class="footer">
+<footer>
 
-  <div class="footer-grid">
+  <div class="container">
 
-    <div>
+    <div class="footer-grid">
 
-      <h3
-        data-lang-en="Maa Basuli Uda Jatra Committee"
-        data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-        data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
-      >
-        Maa Basuli Uda Jatra Committee
-      </h3>
+      <div>
+        <h3 id="footerSiteName">Maa Basuli Uda Jatra Committee</h3>
+        <p>Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.</p>
+        <p style="margin-top:9px;">ଜୟ ମା' ବାସୁଳୀ 🙏</p>
+      </div>
 
-      <p
-        data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
-        data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
-        data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
-      >
-        Thakurmunda, Mayurbhanj, Odisha
-      </p>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+      </div>
 
-    </div>
-
-
-    <div>
-
-      <h3
-        data-lang-en="Quick Links"
-        data-lang-or="ତୁରନ୍ତ ଲିଙ୍କ୍"
-        data-lang-hi="त्वरित लिंक"
-      >
-        Quick Links
-      </h3>
-
-      <a
-        href="index.html"
-        data-lang-en="Home"
-        data-lang-or="ହୋମ୍"
-        data-lang-hi="होम"
-      >
-        Home
-      </a>
-
-      <a
-        href="about.html"
-        data-lang-en="About"
-        data-lang-or="ଆମ ବିଷୟରେ"
-        data-lang-hi="हमारे बारे में"
-      >
-        About
-      </a>
-
-      <a
-        href="events.html"
-        data-lang-en="Events"
-        data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-        data-lang-hi="कार्यक्रम"
-      >
-        Events
-      </a>
-
-      <a
-        href="gallery.html"
-        data-lang-en="Gallery"
-        data-lang-or="ଗ୍ୟାଲେରୀ"
-        data-lang-hi="गैलरी"
-      >
-        Gallery
-      </a>
+      <div>
+        <h3>Services</h3>
+        <a href="members.html">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html">Contact</a>
+      </div>
 
     </div>
 
-
-    <div>
-
-      <h3
-        data-lang-en="Services"
-        data-lang-or="ସେବା"
-        data-lang-hi="सेवाएँ"
-      >
-        Services
-      </h3>
-
-      <a
-        href="members.html"
-        data-lang-en="Members"
-        data-lang-or="ସଦସ୍ୟ"
-        data-lang-hi="सदस्य"
-      >
-        Members
-      </a>
-
-      <a
-        href="notices.html"
-        data-lang-en="Notices"
-        data-lang-or="ନୋଟିସ୍"
-        data-lang-hi="सूचना"
-      >
-        Notices
-      </a>
-
-      <a
-        href="jatra.html"
-        data-lang-en="Uda Jatra"
-        data-lang-or="ଉଡ଼ା ଯାତ୍ରା"
-        data-lang-hi="उड़ा यात्रा"
-      >
-        Uda Jatra
-      </a>
-
+    <div class="copyright">
+      © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
     </div>
-
-  </div>
-
-
-  <div class="copyright">
-
-    © 2026 Maa Basuli Uda Jatra Committee, Thakurmunda
 
   </div>
 
 </footer>
 
 
-<!-- ================= SUPABASE + PAGE SCRIPT ================= -->
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 
 const SUPABASE_URL =
@@ -1050,7 +801,6 @@ const supabaseClient =
     SUPABASE_PUBLISHABLE_KEY
   );
 
-
 let allMembers = [];
 
 
@@ -1063,95 +813,85 @@ async function loadWebsiteBranding(){
     const result =
       await supabaseClient
         .from("website_settings")
-        .select("site_name,logo_url,address")
+        .select("*")
+        .order("created_at", {ascending:false})
         .limit(1)
         .maybeSingle();
 
     if(result.error){
-      console.warn(
-        "Branding error:",
-        result.error.message
-      );
+      console.warn("Branding error:", result.error.message);
+      return;
     }
 
     const data = result.data;
+    if(!data) return;
 
-    if(data){
-
-      if(data.site_name){
-
-        document.title =
-          data.site_name + " | Members";
-
+    function firstValue(obj, keys){
+      for(const key of keys){
+        const value = obj ? obj[key] : null;
+        if(value !== null && value !== undefined && String(value).trim() !== ""){
+          return String(value).trim();
+        }
       }
+      return "";
+    }
 
-      if(data.address){
+    const siteName = firstValue(data,[
+      "site_name","site_title","website_title","title","name"
+    ]);
 
-        document.getElementById(
-          "siteAddress"
-        ).textContent = data.address;
+    const address = firstValue(data,["address"]);
 
+    const logoUrl = firstValue(data,[
+      "logo_url","logo","site_logo_url"
+    ]);
+
+    const groupPhotoUrl = firstValue(data,[
+      "group_photo_url","group_photo","committee_group_photo_url"
+    ]);
+
+    if(siteName){
+      document.title = siteName + " | Our Members";
+      const logoText = document.querySelector(".logo-text h1");
+      const footerTitle = document.getElementById("footerSiteName");
+      if(logoText) logoText.textContent = siteName;
+      if(footerTitle) footerTitle.textContent = siteName;
+    }
+
+    if(address){
+      const logoLocation = document.querySelector(".logo-text p");
+      const topLocation = document.querySelector(".topbar-inner span:nth-child(2)");
+      if(logoLocation) logoLocation.textContent = address;
+      if(topLocation) topLocation.textContent = "📍 " + address;
+    }
+
+    if(logoUrl){
+      const logo = document.getElementById("siteLogo");
+      const fallback = document.getElementById("logoFallback");
+      if(logo){
+        logo.src = logoUrl;
+        logo.style.display = "flex";
+        logo.onerror = function(){
+          logo.style.display = "none";
+          if(fallback) fallback.style.display = "flex";
+        };
       }
+      if(fallback) fallback.style.display = "none";
+    }
 
-      if(data.logo_url){
-
-        const logo =
-          document.getElementById("siteLogo");
-
-        logo.src = data.logo_url;
-        logo.style.display = "block";
-
+    if(groupPhotoUrl){
+      const hero = document.getElementById("membersHero");
+      if(hero){
+        const safeUrl = groupPhotoUrl.replace(/"/g, '\\"');
+        hero.style.backgroundImage =
+          'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' +
+          safeUrl +
+          '")';
       }
-
     }
 
   }catch(error){
-
-    console.warn(
-      "Branding load failed:",
-      error
-    );
-
-  }
-
-
-  /* OPTIONAL PHOTOS */
-
-  try{
-
-    const photoResult =
-      await supabaseClient
-        .from("website_settings")
-        .select(
-          "maa_basuli_url,temple_url,group_photo_url"
-        )
-        .limit(1)
-        .maybeSingle();
-
-    if(
-      photoResult.data &&
-      photoResult.data.maa_basuli_url
-    ){
-
-      const photo =
-        document.getElementById(
-          "maaBasuliPhoto"
-        );
-
-      photo.src =
-        photoResult.data.maa_basuli_url;
-
-      photo.style.display = "block";
-
-    }
-
-  }catch(error){
-
-    console.warn(
-      "Optional photo fields unavailable:",
-      error
-    );
-
+    console.warn("Branding load failed:", error);
   }
 
 }
@@ -1183,33 +923,17 @@ function formatDate(value){
     return "-";
   }
 
-  const date =
-    new Date(value);
+  const date = new Date(value);
 
   if(isNaN(date.getTime())){
     return escapeHtml(value);
   }
 
-  const currentLang =
-    localStorage.getItem(
-      "maaBasuliLanguage"
-    ) || "en";
-
-  const locale =
-    currentLang === "or"
-      ? "or-IN"
-      : currentLang === "hi"
-        ? "hi-IN"
-        : "en-IN";
-
-  return date.toLocaleDateString(
-    locale,
-    {
-      day:"2-digit",
-      month:"short",
-      year:"numeric"
-    }
-  );
+  return date.toLocaleDateString("en-IN",{
+    day:"2-digit",
+    month:"short",
+    year:"numeric"
+  });
 
 }
 
@@ -1218,20 +942,9 @@ function formatDate(value){
 
 async function loadMembers(){
 
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-  const tableWrap =
-    document.getElementById(
-      "tableWrap"
-    );
-
-  const emptyState =
-    document.getElementById(
-      "emptyState"
-    );
+  const loading = document.getElementById("loading");
+  const tableWrap = document.getElementById("tableWrap");
+  const emptyState = document.getElementById("emptyState");
 
   try{
 
@@ -1240,14 +953,10 @@ async function loadMembers(){
     emptyState.style.display = "none";
 
     const result =
-      await supabaseClient.rpc(
-        "get_public_members"
-      );
+      await supabaseClient.rpc("get_public_members");
 
     if(result.error){
-
       throw result.error;
-
     }
 
     allMembers =
@@ -1259,40 +968,15 @@ async function loadMembers(){
 
   }catch(error){
 
-    console.error(
-      "Member loading error:",
-      error
-    );
+    console.error("Member loading error:", error);
 
     allMembers = [];
+    document.getElementById("membersBody").innerHTML = "";
 
-    document.getElementById(
-      "membersBody"
-    ).innerHTML = "";
+    loading.innerHTML = "<p>Unable to load members.</p>";
 
-    loading.innerHTML = `
-      <p
-        data-lang-en="Unable to load members."
-        data-lang-or="ସଦସ୍ୟ ସୂଚନା ଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ।"
-        data-lang-hi="सदस्यों को लोड नहीं किया जा सका।"
-      >
-        Unable to load members.
-      </p>
-    `;
-
-    if(
-      typeof setSiteLanguage ===
-      "function"
-    ){
-
-      const lang =
-        localStorage.getItem(
-          "maaBasuliLanguage"
-        ) || "en";
-
-      setSiteLanguage(lang);
-
-    }
+    tableWrap.style.display = "none";
+    emptyState.style.display = "block";
 
   }
 
@@ -1303,38 +987,16 @@ async function loadMembers(){
 
 function renderMembers(){
 
-  const search =
-    (
-      document.getElementById(
-        "searchInput"
-      ).value || ""
-    )
-    .trim()
-    .toLowerCase();
-
+  const input = document.getElementById("searchInput");
+  const search = (input.value || "").trim().toLowerCase();
 
   const filtered =
     allMembers.filter(function(member){
 
-      const name =
-        String(
-          member.full_name || ""
-        ).toLowerCase();
-
-      const designation =
-        String(
-          member.designation || ""
-        ).toLowerCase();
-
-      const mobile =
-        String(
-          member.mobile || ""
-        ).toLowerCase();
-
-      const memberSince =
-        String(
-          member.member_since || ""
-        ).toLowerCase();
+      const name = String(member.full_name || "").toLowerCase();
+      const designation = String(member.designation || "").toLowerCase();
+      const mobile = String(member.mobile || "").toLowerCase();
+      const memberSince = String(member.member_since || "").toLowerCase();
 
       return (
         name.includes(search) ||
@@ -1345,22 +1007,11 @@ function renderMembers(){
 
     });
 
-
-  document.getElementById(
-    "totalMembers"
-  ).textContent =
-    allMembers.length;
-
-
-  document.getElementById(
-    "visibleMembers"
-  ).textContent =
-    filtered.length;
-
+  document.getElementById("totalMembers").textContent = allMembers.length;
+  document.getElementById("visibleMembers").textContent = filtered.length;
 
   const activeCount =
     allMembers.filter(function(member){
-
       return (
         member.status === "active" ||
         member.status === "Active" ||
@@ -1368,165 +1019,57 @@ function renderMembers(){
         member.is_active === true ||
         member.approved === true
       );
-
     }).length;
 
+  document.getElementById("approvedMembers").textContent = activeCount;
 
-  document.getElementById(
-    "approvedMembers"
-  ).textContent =
-    activeCount;
-
-
-  const body =
-    document.getElementById(
-      "membersBody"
-    );
-
-
+  const body = document.getElementById("membersBody");
   body.innerHTML = "";
 
-
   if(filtered.length === 0){
-
-    document.getElementById(
-      "tableWrap"
-    ).style.display = "none";
-
-    document.getElementById(
-      "loading"
-    ).style.display = "none";
-
-    document.getElementById(
-      "emptyState"
-    ).style.display = "block";
-
+    document.getElementById("tableWrap").style.display = "none";
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("emptyState").style.display = "block";
     return;
-
   }
-
 
   filtered.forEach(function(member){
 
-    const row =
-      document.createElement("tr");
+    const row = document.createElement("tr");
 
-
-    const name =
-      escapeHtml(
-        member.full_name || "-"
-      );
-
-    const designation =
-      escapeHtml(
-        member.designation || "-"
-      );
-
-    const mobile =
-      escapeHtml(
-        member.mobile || "-"
-      );
-
-    const memberSince =
-      formatDate(
-        member.member_since
-      );
-
+    const name = escapeHtml(member.full_name || "-");
+    const designation = escapeHtml(member.designation || "-");
+    const mobile = escapeHtml(member.mobile || "-");
+    const memberSince = formatDate(member.member_since);
 
     row.innerHTML = `
-
-      <td>
-        <strong>${name}</strong>
-      </td>
-
-      <td>
-        <span class="designation">
-          ${designation}
-        </span>
-      </td>
-
-      <td>
-        ${mobile}
-      </td>
-
-      <td>
-        ${memberSince}
-      </td>
-
-      <td>
-        <span class="status">
-          Active
-        </span>
-      </td>
-
+      <td><strong>${name}</strong></td>
+      <td><span class="designation">${designation}</span></td>
+      <td>${mobile}</td>
+      <td>${memberSince}</td>
+      <td><span class="status">Active</span></td>
     `;
-
 
     body.appendChild(row);
 
   });
 
-
-  document.getElementById(
-    "loading"
-  ).style.display = "none";
-
-
-  document.getElementById(
-    "emptyState"
-  ).style.display = "none";
-
-
-  document.getElementById(
-    "tableWrap"
-  ).style.display = "block";
+  document.getElementById("loading").style.display = "none";
+  document.getElementById("emptyState").style.display = "none";
+  document.getElementById("tableWrap").style.display = "block";
 
 }
 
 
-/* ================= SEARCH ================= */
-
 document
   .getElementById("searchInput")
-  .addEventListener(
-    "input",
-    renderMembers
-  );
+  .addEventListener("input", renderMembers);
 
-
-/* ================= LANGUAGE CHANGE ================= */
-
-document
-  .getElementById("language-switcher")
-  .addEventListener(
-    "click",
-    function(){
-
-      setTimeout(
-        function(){
-
-          renderMembers();
-
-        },
-        30
-      );
-
-    }
-  );
-
-
-/* ================= INIT ================= */
 
 loadWebsiteBranding();
-
 loadMembers();
 
 </script>
-
-
-<!-- ================= COMMON LANGUAGE ================= -->
-
-<script src="language.js"></script>
 
 </body>
 </html>
