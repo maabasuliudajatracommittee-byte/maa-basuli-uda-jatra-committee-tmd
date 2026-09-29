@@ -5,200 +5,1170 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact Us | Maa Basuli Uda Jatra Committee</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#222;line-height:1.7}
-a{text-decoration:none;color:inherit}.container{width:min(1150px,92%);margin:auto}
-.topbar{background:#7b1e1e;color:#fff;padding:7px 0;font-size:13px}.topbar-inner{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
-header{background:linear-gradient(135deg,#7c2d12,#b45309);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.12);position:sticky;top:0;z-index:50}
-.header-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand-row{display:flex;align-items:center;gap:10px;min-width:0}
-.site-logo{width:56px;height:56px;object-fit:cover;border-radius:50%;border:3px solid rgba(255,255,255,.9);background:#fff;display:none}.brand-photo{width:50px;height:50px;object-fit:cover;border-radius:9px;border:2px solid rgba(255,255,255,.9);background:#fff;display:none}
-.logo-text h1{font-size:18px;line-height:1.2}.logo-text p{font-size:12px;opacity:.9}
-nav{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}nav a{padding:7px 9px;border-radius:7px;font-size:12px;font-weight:bold;color:#fff}nav a:hover,nav a.active{background:rgba(255,255,255,.18)}
-#language-switcher{display:flex;align-items:center}#maa-language-switcher{position:static!important;display:inline-flex!important}
-.menu-btn{display:none;border:0;background:#fff;color:#7b1e1e;padding:8px 11px;border-radius:7px;font-size:20px}
-.page-hero{background:linear-gradient(rgba(70,15,5,.82),rgba(70,15,5,.82)),linear-gradient(135deg,#7b1e1e,#b45309);color:#fff;text-align:center;padding:62px 0}
-.page-hero h2{font-size:40px;margin-bottom:7px}.page-hero p{font-size:16px}
-section{padding:52px 0}.section-title{text-align:center;margin-bottom:28px}.section-title h2{color:#7b1e1e;font-size:29px}.section-title p{color:#777}
-.contact-wrap{margin-top:-32px;position:relative;z-index:5}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.card{background:#fff;padding:28px;border-radius:16px;box-shadow:0 5px 22px rgba(0,0,0,.1)}.card h3{color:#7b1e1e;margin-bottom:7px}.card-intro{color:#777;font-size:13px;margin-bottom:20px}
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f7f7f7;
+  color:#222;
+  line-height:1.7;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:min(1150px,92%);
+  margin:auto;
+}
+
+.topbar{
+  background:#7b1e1e;
+  color:white;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 18px;
+}
+
+.topbar-inner span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+
+header{
+  background:#fff;
+  box-shadow:0 3px 14px rgba(0,0,0,.10);
+  position:sticky;
+  top:0;
+  z-index:50;
+}
+
+.header-inner{
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:14px;
+  min-height:78px;
+  padding:10px 0 8px;
+}
+
+.logo-icon{
+  width:64px;
+  height:64px;
+  min-width:64px;
+  border-radius:50%;
+  background:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:30px;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
+}
+
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:25px;
+  line-height:1.2;
+  font-weight:800;
+}
+
+.logo-text p{
+  color:#777;
+  font-size:14px;
+  margin-top:3px;
+}
+
+#siteLogo{display:none;}
+
+#logoFallback{display:flex;}
+
+.main-nav-wrap{
+  width:100%;
+  border-top:1px solid #f0e1dc;
+  background:#fff;
+}
+
+/* MASTER NAVIGATION - ALWAYS VISIBLE */
+.main-nav-wrap,
+nav,
+nav a{
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+nav{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:7px;
+  padding:8px 0 10px;
+  width:100%;
+}
+
+nav a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  color:#222;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+
+nav a:hover,
+nav a.active{
+  background:#7b1e1e;
+  color:#fff;
+}
+
+nav a:hover{transform:translateY(-1px);}
+
+.menu-btn{display:none;}
+
+.page-hero{
+  background:
+    linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
+    url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:white;
+  padding:85px 0;
+  text-align:center;
+}
+
+.page-hero h2{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+.page-hero p{
+  font-size:17px;
+  opacity:.95;
+}
+
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+  align-items:center;
+}
+
+.content-card{
+  background:white;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.content-card h2{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
+
+.content-card p{
+  color:#555;
+  margin-bottom:14px;
+}
+
+.image-card{
+  background:white;
+  padding:12px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.image-card img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.values{
+  background:#fff8ed;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.card-icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.card h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#666;
+  font-size:14px;
+}
+
+.highlight{
+  background:#7b1e1e;
+  color:white;
+}
+
+.highlight .section-title h2,
+.highlight .section-title p{
+  color:white;
+}
+
+.highlight-box{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.highlight-box p{
+  color:#eee;
+  font-size:16px;
+}
+
+.back{
+  text-align:center;
+  padding:35px 0;
+}
+
+.btn{
+  display:inline-block;
+  background:#7b1e1e;
+  color:white;
+  padding:11px 18px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+footer{
+  background:#241313;
+  color:white;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+
+  /* Keep every master navigation button visible on every page */
+  nav{
+    display:flex !important;
+    position:static;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    background:white;
+    padding:8px 0 10px;
+    box-shadow:none;
+  }
+
+  nav.show{
+    display:flex !important;
+  }
+
+  .menu-btn{
+    display:none !important;
+  }
+
+  .header-inner{
+    position:relative;
+  }
+
+  .about-grid{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  .logo-text h1{
+    font-size:16px;
+  }
+
+  .page-hero{
+    padding:65px 0;
+  }
+
+  .page-hero h2{
+    font-size:32px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .image-card img{
+    height:280px;
+  }
+}
+
+
+@media(max-width:900px){
+  .header-inner{min-height:auto;}
+  .logo{min-height:72px;}
+  .logo-icon{width:58px;height:58px;min-width:58px;}
+  .logo-text h1{font-size:21px;}
+  .logo-text p{font-size:13px;}
+  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
+  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
+}
+
+@media(max-width:600px){
+  .topbar{font-size:11px;}
+  .topbar-inner{justify-content:center;text-align:center;}
+  .logo{gap:10px;padding:9px 0;}
+  .logo-icon{width:52px;height:52px;min-width:52px;}
+  .logo-text h1{font-size:18px;}
+  .logo-text p{font-size:11px;}
+  nav{gap:5px;}
+  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
+}
+
+
+/* CONTACT PAGE STYLES */
+.contact-wrap{margin-top:-32px;position:relative;z-index:5}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.contact-card{background:#fff;padding:28px;border-radius:16px;box-shadow:0 5px 22px rgba(0,0,0,.1)}.contact-card h3{color:#7b1e1e;margin-bottom:7px}.card-intro{color:#777;font-size:13px;margin-bottom:20px}
 .contact-item{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid #eee}.contact-item:last-child{border-bottom:0}.contact-icon{min-width:44px;height:44px;border-radius:10px;background:#fff3dc;display:flex;align-items:center;justify-content:center;font-size:21px}.contact-item h4{color:#7b1e1e;margin-bottom:2px}.contact-item p,.contact-item a{color:#666;font-size:13px}.contact-item a:hover{color:#7b1e1e}
 .social-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.social-card{padding:15px;border:1px solid #eee;border-radius:10px;background:#fff;transition:.2s}.social-card:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.08)}.social-card strong{display:block;color:#7b1e1e}.social-card span{color:#777;font-size:12px}
 .form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:6px;font-size:13px;font-weight:bold;color:#444}.form-group input,.form-group textarea{width:100%;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;outline:none}.form-group input:focus,.form-group textarea:focus{border-color:#7b1e1e}.form-group textarea{min-height:125px;resize:vertical}.submit-btn{width:100%;padding:13px;border:0;border-radius:9px;background:#7b1e1e;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}.submit-btn:hover{background:#5e1515}.success-box{display:none;margin-top:15px;padding:14px;border-radius:8px;background:#eaf8ef;color:#18733a;font-size:13px}.success-box.show{display:block}
 .office-bearers{padding:52px 0;background:#fffaf4}.office-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.office-card{background:#fff;border:1px solid #ead7c4;border-radius:16px;padding:20px;text-align:center;box-shadow:0 5px 16px rgba(90,35,15,.08)}.office-photo{width:105px;height:105px;border-radius:50%;object-fit:cover;border:4px solid #f0c36a;background:#f5eee6;margin:0 auto 12px;display:block}.office-card h3{margin:6px 0 5px;color:#6b1f1f;font-size:18px}.office-designation{display:inline-block;font-weight:700;color:#a34b17;margin-bottom:10px}.office-mobile{margin:0;color:#333;font-weight:600}.office-mobile a{color:#333}.office-empty{text-align:center;color:#777;padding:20px}
 .map-section{background:#fff8ed}.map-box{min-height:300px;background:#eee;border-radius:15px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}.map-content{max-width:550px}.map-icon{font-size:48px;margin-bottom:8px}.map-content h3{color:#7b1e1e}.map-content p{color:#777;font-size:14px}.map-btn{display:inline-block;margin-top:15px;padding:10px 17px;border-radius:8px;background:#7b1e1e;color:#fff;font-size:13px;font-weight:bold}
 .info-box{background:#fff;border-left:5px solid #7b1e1e;padding:22px;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.info-box h3{color:#7b1e1e;margin-bottom:7px}.info-box p,.info-box li{color:#666;font-size:14px}.info-box ul{padding-left:20px}
-footer{background:#241313;color:#fff;padding:40px 0 20px}.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:30px}footer h3{color:#ffd36b;margin-bottom:10px}footer p,footer a{color:#ddd;font-size:14px}footer a{display:block;margin:5px 0}.copyright{border-top:1px solid rgba(255,255,255,.15);margin-top:30px;padding-top:15px;text-align:center;color:#aaa;font-size:13px}
-@media(max-width:950px){nav{display:none;position:absolute;top:76px;left:0;right:0;background:#fff;padding:12px;flex-direction:column;box-shadow:0 5px 15px rgba(0,0,0,.12)}nav.show{display:flex}nav a{color:#7b1e1e}.menu-btn{display:block}.contact-grid{grid-template-columns:1fr}.office-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:650px){.logo-text h1{font-size:15px}.brand-photo{display:none}.site-logo{width:50px;height:50px}.page-hero{padding:52px 0}.page-hero h2{font-size:32px}.social-grid,.office-grid,.footer-grid{grid-template-columns:1fr}.card{padding:22px}.header-inner{gap:8px}.logo-text p{display:none}}
+@media(max-width:900px){.contact-grid{grid-template-columns:1fr}.office-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.social-grid,.office-grid{grid-template-columns:1fr}.contact-card{padding:22px}}
 </style>
 </head>
 <body>
 
-<div class="topbar"><div class="container topbar-inner">
-<span data-lang-en="🙏 Jai Maa Basuli" data-lang-or="🙏 ଜୟ ମା' ବାସୁଳୀ" data-lang-hi="🙏 जय माँ बसुली">🙏 Jai Maa Basuli</span>
-<span data-lang-en="Thakurmunda, Mayurbhanj, Odisha" data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା" data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा">Thakurmunda, Mayurbhanj, Odisha</span>
-</div></div>
-
-<header><div class="container header-inner">
-<a href="index.html" class="brand-row">
-<img id="siteLogo" class="site-logo" alt="Maa Basuli Logo">
-<img id="brandPhoto" class="brand-photo" alt="Maa Basuli">
-<div class="logo-text"><h1 id="siteName">Maa Basuli Uda Jatra Committee</h1><p id="siteAddress">Thakurmunda, Mayurbhanj, Odisha</p></div>
-</a>
-<div style="display:flex;align-items:center;gap:8px">
-<div id="language-switcher"><div id="maa-language-switcher">
-<button type="button" data-site-lang="en" onclick="setSiteLanguage('en')">🇬🇧 English</button>
-<button type="button" data-site-lang="or" onclick="setSiteLanguage('or')">ଓଡ଼ିଆ</button>
-<button type="button" data-site-lang="hi" onclick="setSiteLanguage('hi')">हिन्दी</button>
-</div></div>
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
-</div>
-<nav id="mainNav">
-<a href="index.html" data-lang-en="Home" data-lang-or="ହୋମ୍" data-lang-hi="होम">Home</a>
-<a href="about.html" data-lang-en="About" data-lang-or="ଆମ ବିଷୟରେ" data-lang-hi="हमारे बारे में">About</a>
-<a href="jatra.html" data-lang-en="Uda Jatra" data-lang-or="ଉଡ଼ା ଯାତ୍ରା" data-lang-hi="उड़ा जात्रा">Uda Jatra</a>
-<a href="notices.html" data-lang-en="Notices" data-lang-or="ନୋଟିସ୍" data-lang-hi="सूचनाएँ">Notices</a>
-<a href="events.html" data-lang-en="Events" data-lang-or="କାର୍ଯ୍ୟକ୍ରମ" data-lang-hi="कार्यक्रम">Events</a>
-<a href="gallery.html" data-lang-en="Gallery" data-lang-or="ଗ୍ୟାଲେରୀ" data-lang-hi="गैलरी">Gallery</a>
-<a href="members.html" data-lang-en="Our Members" data-lang-or="ଆମ ସଦସ୍ୟ" data-lang-hi="हमारे सदस्य">Our Members</a>
-<a href="fund.html" data-lang-en="Fund" data-lang-or="ଫଣ୍ଡ" data-lang-hi="फंड">Fund</a>
-<a href="member-fee.html" data-lang-en="Member Fee" data-lang-or="ସଦସ୍ୟ ଫି" data-lang-hi="सदस्य शुल्क">Member Fee</a>
-<a href="complaint.html" data-lang-en="Complaint" data-lang-or="ଅଭିଯୋଗ" data-lang-hi="शिकायत">Complaint</a>
-<a href="contact.html" class="active" data-lang-en="Contact" data-lang-or="ଯୋଗାଯୋଗ" data-lang-hi="संपर्क">Contact</a>
-<a href="auth.html" data-lang-en="Login" data-lang-or="ଲଗଇନ୍" data-lang-hi="लॉगिन">Login</a>
-</nav>
-</div></header>
-
-<section class="page-hero"><div class="container">
-<h2 data-lang-en="Contact Us" data-lang-or="ଆମ ସହିତ ଯୋଗାଯୋଗ" data-lang-hi="हमसे संपर्क करें">Contact Us</h2>
-<p data-lang-en="Get in touch with Maa Basuli Uda Jatra Committee" data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ" data-lang-hi="माँ बसुली उड़ा जात्रा समिति से संपर्क करें">Get in touch with Maa Basuli Uda Jatra Committee</p>
-</div></section>
-
-<section class="contact-wrap"><div class="container"><div class="contact-grid">
-<div class="card">
-<h3 data-lang-en="📍 Official Contact" data-lang-or="📍 ଅଫିସିଆଲ୍ ଯୋଗାଯୋଗ" data-lang-hi="📍 आधिकारिक संपर्क">📍 Official Contact</h3>
-<p class="card-intro" data-lang-en="For official committee-related information, programmes and general enquiries." data-lang-or="କମିଟି ସମ୍ବନ୍ଧୀୟ ଅଧିକାରିକ ସୂଚନା, କାର୍ଯ୍ୟକ୍ରମ ଓ ସାଧାରଣ ପଚରାଉଚରା ପାଇଁ।" data-lang-hi="समिति से संबंधित आधिकारिक जानकारी, कार्यक्रम और सामान्य पूछताछ के लिए।">For official committee-related information, programmes and general enquiries.</p>
-<div class="contact-item"><div class="contact-icon">📍</div><div><h4 data-lang-en="Address" data-lang-or="ଠିକଣା" data-lang-hi="पता">Address</h4><p>Maa Basuli Uda Jatra Committee<br>Thakurmunda, Mayurbhanj<br>Odisha, India</p></div></div>
-<div class="contact-item"><div class="contact-icon">✉️</div><div><h4 data-lang-en="Official Email" data-lang-or="ଅଫିସିଆଲ୍ ଇମେଲ୍" data-lang-hi="आधिकारिक ईमेल">Official Email</h4><a id="officialEmail" href="mailto:maabasuliudajatracommittee@gmail.com">maabasuliudajatracommittee@gmail.com</a></div></div>
-<div class="contact-item"><div class="contact-icon">📱</div><div><h4 data-lang-en="Official Phone" data-lang-or="ଅଫିସିଆଲ୍ ଫୋନ୍" data-lang-hi="आधिकारिक फोन">Official Phone</h4><p id="officialPhone" data-lang-en="Official contact number will be published by the Super Admin." data-lang-or="ଅଫିସିଆଲ୍ ଯୋଗାଯୋଗ ନମ୍ବର ସୁପର ଆଡମିନ୍ ପ୍ରକାଶ କରିବେ।" data-lang-hi="आधिकारिक संपर्क नंबर सुपर एडमिन द्वारा प्रकाशित किया जाएगा।">Official contact number will be published by the Super Admin.</p></div></div>
-<div class="contact-item"><div class="contact-icon">🕐</div><div><h4 data-lang-en="Office / Enquiry" data-lang-or="ଅଫିସ୍ / ପଚରାଉଚରା" data-lang-hi="कार्यालय / पूछताछ">Office / Enquiry</h4><p data-lang-en="Timing and availability will be updated through the official website." data-lang-or="ସମୟ ଓ ଉପଲବ୍ଧତା ଅଫିସିଆଲ୍ ୱେବସାଇଟ୍ ମାଧ୍ୟମରେ ଅପଡେଟ୍ କରାଯିବ।" data-lang-hi="समय और उपलब्धता आधिकारिक वेबसाइट पर अपडेट की जाएगी।">Timing and availability will be updated through the official website.</p></div></div>
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 Jai Maa Basuli</span>
+    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+    <span id="topbarEmail">✉️ maabasuliudajatracommittee@gmail.com</span>
+    <span id="topbarPhone">📞 7978583565</span>
+  </div>
 </div>
 
-<div class="card">
-<h3 data-lang-en="✉️ Send an Enquiry" data-lang-or="✉️ ପଚରାଉଚରା ପଠାନ୍ତୁ" data-lang-hi="✉️ पूछताछ भेजें">✉️ Send an Enquiry</h3>
-<p class="card-intro" data-lang-en="Send a general message to the committee." data-lang-or="କମିଟିକୁ ସାଧାରଣ ବାର୍ତ୍ତା ପଠାନ୍ତୁ।" data-lang-hi="समिति को सामान्य संदेश भेजें।">Send a general message to the committee.</p>
-<form id="contactForm" onsubmit="submitEnquiry(event)">
-<div class="form-group"><label data-lang-en="Your Name" data-lang-or="ଆପଣଙ୍କ ନାମ" data-lang-hi="आपका नाम">Your Name</label><input type="text" id="contactName" data-placeholder-en="Enter your name" data-placeholder-or="ଆପଣଙ୍କ ନାମ ଲେଖନ୍ତୁ" data-placeholder-hi="अपना नाम दर्ज करें" placeholder="Enter your name" required maxlength="100"></div>
-<div class="form-group"><label data-lang-en="Mobile Number" data-lang-or="ମୋବାଇଲ୍ ନମ୍ବର" data-lang-hi="मोबाइल नंबर">Mobile Number</label><input type="tel" id="contactMobile" data-placeholder-en="Enter your 10-digit mobile number" data-placeholder-or="୧୦ ଅଙ୍କର ମୋବାଇଲ୍ ନମ୍ବର ଲେଖନ୍ତୁ" data-placeholder-hi="10 अंकों का मोबाइल नंबर दर्ज करें" placeholder="Enter your 10-digit mobile number" required maxlength="10" pattern="[0-9]{10}"></div>
-<div class="form-group"><label data-lang-en="Email" data-lang-or="ଇମେଲ୍" data-lang-hi="ईमेल">Email</label><input type="email" id="contactEmail" data-placeholder-en="Enter your email address" data-placeholder-or="ଆପଣଙ୍କ ଇମେଲ୍ ଠିକଣା ଲେଖନ୍ତୁ" data-placeholder-hi="अपना ईमेल पता दर्ज करें" placeholder="Enter your email address" required></div>
-<div class="form-group"><label data-lang-en="Message" data-lang-or="ବାର୍ତ୍ତା" data-lang-hi="संदेश">Message</label><textarea id="contactMessage" data-placeholder-en="Write your message..." data-placeholder-or="ଆପଣଙ୍କ ବାର୍ତ୍ତା ଲେଖନ୍ତୁ..." data-placeholder-hi="अपना संदेश लिखें..." placeholder="Write your message..." required maxlength="2000"></textarea></div>
-<button type="submit" class="submit-btn" data-lang-en="Send Enquiry" data-lang-or="ପଚରାଉଚରା ପଠାନ୍ତୁ" data-lang-hi="पूछताछ भेजें">Send Enquiry</button>
-</form>
-<div id="successBox" class="success-box" data-lang-en="✅ Your enquiry has been recorded in demo mode. The official enquiry system will be connected to Supabase during the CMS stage." data-lang-or="✅ ଆପଣଙ୍କ ପଚରାଉଚରା demo mode ରେ ରେକର୍ଡ ହୋଇଛି। CMS stage ରେ official enquiry system Supabase ସହିତ ଯୋଡ଼ାଯିବ।" data-lang-hi="✅ आपकी पूछताछ demo mode में रिकॉर्ड हो गई है। CMS stage में आधिकारिक enquiry system Supabase से जोड़ा जाएगा।">✅ Your enquiry has been recorded in demo mode. The official enquiry system will be connected to Supabase during the CMS stage.</div>
-</div>
-</div></div></section>
 
-<section class="office-bearers"><div class="container"><div class="section-title">
-<h2 data-lang-en="Committee Office Bearers" data-lang-or="କମିଟିର ଅଫିସ୍ ବିଅରର୍" data-lang-hi="समिति के पदाधिकारी">Committee Office Bearers</h2>
-<p data-lang-en="Approved and active committee office bearers" data-lang-or="ଅନୁମୋଦିତ ଓ ସକ୍ରିୟ କମିଟି ପଦାଧିକାରୀ" data-lang-hi="अनुमोदित और सक्रिय समिति पदाधिकारी">Approved and active committee office bearers</p>
-</div><div id="officeBearersGrid" class="office-grid"><div class="office-empty" data-lang-en="Loading office bearers..." data-lang-or="କମିଟି ପଦାଧିକାରୀ ଲୋଡ୍ ହେଉଛି..." data-lang-hi="समिति पदाधिकारी लोड हो रहे हैं...">Loading office bearers...</div></div></div></section>
+<!-- HEADER -->
+<header>
 
-<section><div class="container"><div class="section-title">
-<h2 data-lang-en="Official Social Media" data-lang-or="ଅଫିସିଆଲ୍ ସୋସିଆଲ୍ ମିଡିଆ" data-lang-hi="आधिकारिक सोशल मीडिया">Official Social Media</h2>
-<p data-lang-en="Follow the committee for official updates" data-lang-or="ଅଫିସିଆଲ୍ ଅପଡେଟ୍ ପାଇଁ କମିଟିକୁ ଫଲୋ କରନ୍ତୁ" data-lang-hi="आधिकारिक अपडेट के लिए समिति को फॉलो करें">Follow the committee for official updates</p>
-</div><div class="social-grid">
-<a class="social-card" href="https://www.instagram.com/jaymaabasuli" target="_blank" rel="noopener noreferrer"><strong>📸 Instagram</strong><span>@jaymaabasuli</span></a>
-<a class="social-card" href="https://www.youtube.com/@jaymaabasuli" target="_blank" rel="noopener noreferrer"><strong>▶️ YouTube</strong><span>Jay Maa Basuli</span></a>
-<a class="social-card" href="https://x.com/JayMaaBasuli" target="_blank" rel="noopener noreferrer"><strong>𝕏 X / Twitter</strong><span>@JayMaaBasuli</span></a>
-<div class="social-card"><strong>👍 Facebook</strong><span data-lang-en="Official Facebook page will be linked here." data-lang-or="ଅଫିସିଆଲ୍ Facebook ପେଜ୍ ଏଠାରେ ଲିଙ୍କ୍ ହେବ।" data-lang-hi="आधिकारिक Facebook पेज यहां लिंक किया जाएगा।">Official Facebook page will be linked here.</span></div>
-</div></div></section>
+  <div class="container header-inner">
 
-<section class="map-section"><div class="container"><div class="section-title">
-<h2 data-lang-en="Our Location" data-lang-or="ଆମ ସ୍ଥାନ" data-lang-hi="हमारा स्थान">Our Location</h2><p>Thakurmunda, Mayurbhanj, Odisha</p>
-</div><div class="map-box"><div class="map-content"><div class="map-icon">📍</div><h3>Maa Basuli Uda Jatra Committee</h3><p>Thakurmunda, Mayurbhanj, Odisha, India</p><a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=Thakurmunda%2C%20Mayurbhanj%2C%20Odisha" target="_blank" rel="noopener noreferrer" data-lang-en="Open Location in Google Maps" data-lang-or="Google Maps ରେ ସ୍ଥାନ ଖୋଲନ୍ତୁ" data-lang-hi="Google Maps में स्थान खोलें">Open Location in Google Maps</a></div></div></div></section>
+    <a href="index.html" class="logo">
 
-<section><div class="container"><div class="info-box">
-<h3 data-lang-en="📌 Important Information" data-lang-or="📌 ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ସୂଚନା" data-lang-hi="📌 महत्वपूर्ण जानकारी">📌 Important Information</h3>
-<ul>
-<li data-lang-en="For complaints, please use the dedicated Complaint Box." data-lang-or="ଅଭିଯୋଗ ପାଇଁ ନିର୍ଦ୍ଦିଷ୍ଟ Complaint Box ବ୍ୟବହାର କରନ୍ତୁ।" data-lang-hi="शिकायत के लिए समर्पित Complaint Box का उपयोग करें।">For complaints, please use the dedicated <strong>Complaint Box</strong>.</li>
-<li data-lang-en="For membership-related matters, please use the official Member Login system." data-lang-or="ସଦସ୍ୟତା ସମ୍ବନ୍ଧୀୟ ବିଷୟ ପାଇଁ official Member Login system ବ୍ୟବହାର କରନ୍ତୁ।" data-lang-hi="सदस्यता संबंधी मामलों के लिए आधिकारिक Member Login system का उपयोग करें।">For membership-related matters, please use the official Member Login system.</li>
-<li data-lang-en="Do not share passwords, OTPs, PINs or banking credentials through the enquiry form." data-lang-or="Enquiry form ମାଧ୍ୟମରେ password, OTP, PIN କିମ୍ବା banking credentials ସେୟାର କରନ୍ତୁ ନାହିଁ।" data-lang-hi="Enquiry form के माध्यम से password, OTP, PIN या banking credentials साझा न करें।">Do not share passwords, OTPs, PINs or banking credentials through the enquiry form.</li>
-<li data-lang-en="Official announcements and committee information will be published through this website." data-lang-or="ଅଫିସିଆଲ୍ ଘୋଷଣା ଓ କମିଟି ସୂଚନା ଏହି ୱେବସାଇଟ୍ ମାଧ୍ୟମରେ ପ୍ରକାଶିତ ହେବ।" data-lang-hi="आधिकारिक घोषणाएँ और समिति की जानकारी इस वेबसाइट के माध्यम से प्रकाशित की जाएगी।">Official announcements and committee information will be published through this website.</li>
-</ul></div></div></section>
+      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
+      <div id="logoFallback" class="logo-icon">🙏</div>
 
-<footer><div class="container"><div class="footer-grid">
-<div><h3 id="footerSiteName">Maa Basuli Uda Jatra Committee</h3><p data-lang-en="Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha." data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶାର ଅଫିସିଆଲ୍ ୱେବସାଇଟ୍।" data-lang-hi="माँ बसुली उड़ा जात्रा समिति, ठाकुरमुंडा, मयूरभंज, ओडिशा की आधिकारिक वेबसाइट।">Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.</p><p style="margin-top:10px;">ଜୟ ମା' ବାସୁଳୀ 🙏</p></div>
-<div><h3 data-lang-en="Quick Links" data-lang-or="ତ୍ୱରିତ ଲିଙ୍କ୍" data-lang-hi="त्वरित लिंक">Quick Links</h3><a href="index.html">Home</a><a href="about.html">About</a><a href="jatra.html">Uda Jatra</a><a href="notices.html">Notices</a><a href="events.html">Events</a><a href="gallery.html">Gallery</a></div>
-<div><h3 data-lang-en="Services" data-lang-or="ସେବା" data-lang-hi="सेवाएँ">Services</h3><a href="members.html">Our Members</a><a href="fund.html">Fund & Donation</a><a href="member-fee.html">Member Fee</a><a href="complaint.html">Complaint Box</a><a href="contact.html">Contact</a><a href="auth.html">Login</a></div>
-</div><div class="copyright">© 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.</div></div></footer>
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+      </div>
+
+    </a>
+
+    <div class="main-nav-wrap">
+      <nav id="mainNav" aria-label="Main Navigation">
+
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html" class="active">Contact</a>
+        <a href="search.html">Search</a>
+        <a href="auth.html">Login</a>
+
+      </nav>
+    </div>
+
+  </div>
+
+</header>
+
+
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p>Get in touch with Maa Basuli Uda Jatra Committee</p>
+  </div>
+</section>
+
+<section class="contact-wrap">
+
+  <div class="container">
+
+    <div class="contact-grid">
+
+
+      <!-- OFFICIAL CONTACT -->
+
+      <div class="contact-card">
+
+        <h3>
+          📍 Official Contact
+        </h3>
+
+        <p class="card-intro">
+          For official committee-related information,
+          programmes and general enquiries.
+        </p>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            📍
+          </div>
+
+          <div>
+
+            <h4>
+              Address
+            </h4>
+
+            <p>
+              Maa Basuli Uda Jatra Committee<br>
+              Thakurmunda, Mayurbhanj<br>
+              Odisha, India
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            ✉️
+          </div>
+
+          <div>
+
+            <h4>
+              Official Email
+            </h4>
+
+            <a
+              href="mailto:maabasuliudajatracommittee@gmail.com"
+            >
+              maabasuliudajatracommittee@gmail.com
+            </a>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            📱
+          </div>
+
+          <div>
+
+            <h4>
+              Official Phone
+            </h4>
+
+            <p>
+              Official contact number will be published
+              by the Super Admin.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="contact-item">
+
+          <div class="contact-icon">
+            🕐
+          </div>
+
+          <div>
+
+            <h4>
+              Office / Enquiry
+            </h4>
+
+            <p>
+              Timing and availability will be updated
+              through the official website.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- CONTACT FORM -->
+
+      <div class="contact-card">
+
+        <h3>
+          ✉️ Send an Enquiry
+        </h3>
+
+        <p class="card-intro">
+          Send a general message to the committee.
+        </p>
+
+
+        <form
+          id="contactForm"
+          onsubmit="submitEnquiry(event)"
+        >
+
+
+          <div class="form-group">
+
+            <label>
+              Your Name
+            </label>
+
+            <input
+              type="text"
+              id="contactName"
+              placeholder="Enter your name"
+              required
+              maxlength="100"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Mobile Number
+            </label>
+
+            <input
+              type="tel"
+              id="contactMobile"
+              placeholder="Enter your 10-digit mobile number"
+              required
+              maxlength="10"
+              pattern="[0-9]{10}"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Email
+            </label>
+
+            <input
+              type="email"
+              id="contactEmail"
+              placeholder="Enter your email address"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Message
+            </label>
+
+            <textarea
+              id="contactMessage"
+              placeholder="Write your message..."
+              required
+              maxlength="2000"
+            ></textarea>
+
+          </div>
+
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            Send Enquiry
+          </button>
+
+
+        </form>
+
+
+        <div
+          id="successBox"
+          class="success-box"
+        >
+          ✅ Your enquiry has been recorded in demo mode.
+          The official enquiry system will be connected
+          to Supabase during the CMS stage.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SOCIAL MEDIA -->
+
+<section>
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>
+        Official Social Media
+      </h2>
+
+      <p>
+        Follow the committee for official updates
+      </p>
+
+    </div>
+
+
+    <div class="social-grid">
+
+
+      <a
+        class="social-card"
+        href="https://www.instagram.com/jaymaabasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          📸 Instagram
+        </strong>
+
+        <span>
+          @jaymaabasuli
+        </span>
+
+      </a>
+
+
+      <a
+        class="social-card"
+        href="https://www.youtube.com/@jaymaabasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          ▶️ YouTube
+        </strong>
+
+        <span>
+          Jay Maa Basuli
+        </span>
+
+      </a>
+
+
+      <a
+        class="social-card"
+        href="https://x.com/JayMaaBasuli"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+
+        <strong>
+          𝕏 X / Twitter
+        </strong>
+
+        <span>
+          @JayMaaBasuli
+        </span>
+
+      </a>
+
+
+      <div class="social-card">
+
+        <strong>
+          👍 Facebook
+        </strong>
+
+        <span>
+          Official Facebook page will be linked here.
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- LOCATION -->
+
+<section class="map-section">
+
+  <div class="container">
+
+    <div class="section-title">
+
+      <h2>
+        Our Location
+      </h2>
+
+      <p>
+        Thakurmunda, Mayurbhanj, Odisha
+      </p>
+
+    </div>
+
+
+    <div class="map-box">
+
+      <div class="map-content">
+
+        <div class="map-icon">
+          📍
+        </div>
+
+        <h3>
+          Maa Basuli Uda Jatra Committee
+        </h3>
+
+        <p>
+          Thakurmunda, Mayurbhanj, Odisha, India
+        </p>
+
+
+        <a
+          class="map-btn"
+          href="https://www.google.com/maps/search/?api=1&query=Thakurmunda%2C%20Mayurbhanj%2C%20Odisha"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Open Location in Google Maps
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- IMPORTANT -->
+
+<section>
+
+  <div class="container">
+
+    <div class="info-box">
+
+      <h3>
+        📌 Important Information
+      </h3>
+
+      <ul>
+
+        <li>
+          For complaints, please use the dedicated
+          <strong>Complaint Box</strong>.
+        </li>
+
+        <li>
+          For membership-related matters, please use
+          the official Member Login system.
+        </li>
+
+        <li>
+          Do not share passwords, OTPs, PINs or banking
+          credentials through the enquiry form.
+        </li>
+
+        <li>
+          Official announcements and committee information
+          will be published through this website.
+        </li>
+
+      </ul>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+
+<footer>
+
+  <div class="container">
+
+    <div class="footer-grid">
+
+      <div>
+
+        <h3>Maa Basuli Uda Jatra Committee</h3>
+
+        <p>
+          Official website of Maa Basuli Uda Jatra Committee,
+          Thakurmunda, Mayurbhanj, Odisha.
+        </p>
+
+        <p style="margin-top:10px;">
+          Jai Maa Basuli 🙏
+        </p>
+
+      </div>
+
+
+      <div>
+
+        <h3>Quick Links</h3>
+
+        <a href="index.html">Home</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Our Members</a>
+
+      </div>
+
+
+      <div>
+
+        <h3>Services</h3>
+
+        <a href="fund.html">Fund & Donation</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="complaint.html">Complaint Box</a>
+        <a href="contact.html">Contact</a>
+        <a href="auth.html">Login</a>
+
+      </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
+    </div>
+
+  </div>
+
+</footer>
+
+
+
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="language.js"></script>
 <script>
-const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+/* =====================================================
+   Maa Basuli Uda Jatra Committee
+   CONTACT PAGE - MASTER HEADER + WEBSITE SETTINGS
+   Existing contact functionality preserved.
+   ===================================================== */
 
-function toggleMenu(){document.getElementById("mainNav").classList.toggle("show")}
-function escapeHtml(value){return String(value??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")}
-function firstValue(data,keys){for(const key of keys){if(data&&data[key]!=null&&String(data[key]).trim()!=="")return String(data[key]).trim()}return""}
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const contactSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-async function loadBranding(){
-  try{
-    const {data}=await supabaseClient.from("website_settings").select("site_name,logo_url,address").limit(1).maybeSingle();
-    if(data){
-      if(data.site_name){document.getElementById("siteName").textContent=data.site_name;document.getElementById("footerSiteName").textContent=data.site_name}
-      if(data.address)document.getElementById("siteAddress").textContent=data.address;
-      if(data.logo_url){const img=document.getElementById("siteLogo");img.src=data.logo_url;img.style.display="block"}
+function firstValue(obj, keys){
+  for(const key of keys){
+    const value = obj ? obj[key] : null;
+    if(value !== null && value !== undefined && String(value).trim() !== ""){
+      return String(value).trim();
     }
-  }catch(e){console.warn("Branding load failed",e)}
-  try{
-    const {data}=await supabaseClient.from("website_settings").select("maa_basuli_url,temple_url,group_photo_url").limit(1).maybeSingle();
-    if(data&&data.maa_basuli_url){const img=document.getElementById("brandPhoto");img.src=data.maa_basuli_url;img.style.display="block"}
-  }catch(e){}
+  }
+  return "";
 }
 
-async function loadOfficialContact(){
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function setPhoneLink(el, phone){
+  if(!el || !phone) return;
+  const safe = escapeHtml(phone);
+  el.innerHTML = `<a href="tel:${safe}">📞 +91 ${safe}</a>`;
+}
+
+async function loadContactWebsiteSettings(){
   try{
-    const {data,error}=await supabaseClient.from("website_settings").select("*").limit(1).maybeSingle();
-    if(error||!data)return;
-    const phone=firstValue(data,["phone","mobile","contact_phone"]);
-    const email=firstValue(data,["email","contact_email","official_email"]);
-    const phoneEl=document.getElementById("officialPhone");
-    if(phoneEl&&phone)phoneEl.innerHTML=`<a href="tel:${escapeHtml(phone)}">📞 +91 ${escapeHtml(phone)}</a>`;
-    const emailEl=document.getElementById("officialEmail");
-    if(emailEl&&email){emailEl.textContent=email;emailEl.href="mailto:"+email}
-  }catch(e){console.warn("Official contact load failed",e)}
+    const {data,error} = await contactSupabase
+      .from("website_settings")
+      .select("*")
+      .order("created_at", {ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(error){
+      console.error("Contact page settings error:", error);
+      return;
+    }
+    if(!data) return;
+
+    const siteName = firstValue(data,["site_name","site_title","website_title","title","name"]);
+    const address = firstValue(data,["address"]);
+    const phone = firstValue(data,["phone","mobile","contact_phone"]);
+    const email = firstValue(data,["email","contact_email","official_email"]);
+    const officeTiming = firstValue(data,["office_timing","office_hours","enquiry_timing","office_enquiry_timing"]);
+    const logoUrl = firstValue(data,["logo_url","logo","site_logo_url"]);
+    const groupPhotoUrl = firstValue(data,["group_photo_url","group_photo","committee_group_photo_url"]);
+
+    if(siteName){
+      const logoText = document.querySelector(".logo-text h1");
+      const footerTitle = document.querySelector("footer h3");
+      const officialTitle = document.querySelector(".contact-card h3");
+      if(logoText) logoText.textContent = siteName;
+      if(footerTitle) footerTitle.textContent = siteName;
+      if(officialTitle) officialTitle.textContent = "📍 Official Contact";
+      document.title = "Contact Us | " + siteName;
+    }
+
+    if(address){
+      const topbarLocation = document.querySelector(".topbar-inner span:nth-child(2)");
+      const logoLocation = document.querySelector(".logo-text p");
+      if(topbarLocation) topbarLocation.textContent = "📍 " + address;
+      if(logoLocation) logoLocation.textContent = address;
+      const addressEl = document.getElementById("officialAddress");
+      if(addressEl) addressEl.innerHTML = escapeHtml(siteName || "Maa Basuli Uda Jatra Committee") + "<br>" + escapeHtml(address);
+    }
+
+    if(phone){
+      const phoneEl = document.getElementById("officialPhone");
+      setPhoneLink(phoneEl,phone);
+      const topbarPhone = document.getElementById("topbarPhone");
+      if(topbarPhone) topbarPhone.textContent = "📞 " + phone;
+    }
+
+    if(email){
+      const emailEl = document.getElementById("officialEmail");
+      if(emailEl){
+        emailEl.textContent = email;
+        emailEl.href = "mailto:" + email;
+      }
+      const topbarEmail = document.getElementById("topbarEmail");
+      if(topbarEmail) topbarEmail.textContent = "✉️ " + email;
+    }
+
+    if(officeTiming){
+      const timingEl = document.getElementById("officeTiming");
+      if(timingEl) timingEl.textContent = officeTiming;
+    }
+
+    if(logoUrl){
+      const logo = document.getElementById("siteLogo");
+      const fallback = document.getElementById("logoFallback");
+      if(logo){
+        logo.src = logoUrl;
+        logo.style.display = "flex";
+        logo.onerror = function(){
+          logo.style.display = "none";
+          if(fallback) fallback.style.display = "flex";
+        };
+      }
+      if(fallback) fallback.style.display = "none";
+    }
+
+    if(groupPhotoUrl){
+      const hero = document.querySelector(".page-hero");
+      if(hero){
+        const safeUrl = groupPhotoUrl.replace(/"/g,'\\"');
+        hero.style.backgroundImage =
+          'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' + safeUrl + '")';
+      }
+    }
+  }catch(error){
+    console.error("Contact settings loading failed:", error);
+  }
 }
 
 async function loadOfficeBearers(){
-  const grid=document.getElementById("officeBearersGrid");if(!grid)return;
+  const grid = document.getElementById("officeBearersGrid");
+  if(!grid) return;
   try{
-    const {data,error}=await supabaseClient.rpc("get_public_members");
-    if(error){console.warn("Office bearer load failed",error);grid.innerHTML="";return}
-    const members=Array.isArray(data)?data:[];
-    const roles=["President","Secretary","Vice Secretary","Treasurer"];
-    const officeBearers=roles.map(role=>members.find(m=>String(m.designation||"").trim().toLowerCase()===role.toLowerCase())).filter(Boolean);
-    if(!officeBearers.length){grid.innerHTML="";return}
-    grid.innerHTML=officeBearers.map(member=>{
-      const photo=firstValue(member,["profile_photo_url","photo_url","profile_photo"]);
-      const name=escapeHtml(member.full_name||member.name||"");
-      const designation=escapeHtml(member.designation||"");
-      const mobile=escapeHtml(member.mobile||member.phone||"");
-      return `<div class="office-card">${photo?`<img class="office-photo" src="${escapeHtml(photo)}" alt="${name}">`:""}<h3>${name}</h3><div class="office-designation">${designation}</div>${mobile?`<p class="office-mobile">📱 <a href="tel:${mobile}">${mobile}</a></p>`:""}</div>`
+    const {data,error} = await contactSupabase.rpc("get_public_members");
+    if(error){
+      console.warn("Office bearer load failed",error);
+      grid.innerHTML = "";
+      return;
+    }
+
+    const members = Array.isArray(data) ? data : [];
+    const roles = ["President","Secretary","Vice Secretary","Treasurer"];
+    const officeBearers = roles
+      .map(role => members.find(m => String(m.designation || "").trim().toLowerCase() === role.toLowerCase()))
+      .filter(Boolean);
+
+    if(!officeBearers.length){
+      grid.innerHTML = "";
+      return;
+    }
+
+    grid.innerHTML = officeBearers.map(member => {
+      const photo = firstValue(member,["profile_photo_url","photo_url","profile_photo"]);
+      const name = escapeHtml(member.full_name || member.name || "");
+      const designation = escapeHtml(member.designation || "");
+      const mobile = escapeHtml(member.mobile || member.phone || "");
+      return `<div class="office-card">
+        ${photo ? `<img class="office-photo" src="${escapeHtml(photo)}" alt="${name}">` : ""}
+        <h3>${name}</h3>
+        <div class="office-designation">${designation}</div>
+        ${mobile ? `<p class="office-mobile">📱 <a href="tel:${mobile}">${mobile}</a></p>` : ""}
+      </div>`;
     }).join("");
-  }catch(e){console.warn("Office bearer load failed",e);grid.innerHTML=""}
+  }catch(error){
+    console.warn("Office bearer load failed",error);
+    grid.innerHTML = "";
+  }
 }
 
 function submitEnquiry(event){
   event.preventDefault();
-  const mobile=document.getElementById("contactMobile").value.trim();
-  if(!/^[0-9]{10}$/.test(mobile)){alert("Please enter a valid 10-digit mobile number.");return}
+  const mobile = document.getElementById("contactMobile").value.trim();
+  if(!/^[0-9]{10}$/.test(mobile)){
+    alert("Please enter a valid 10-digit mobile number.");
+    return;
+  }
   document.getElementById("successBox").classList.add("show");
   document.getElementById("contactForm").reset();
   document.getElementById("successBox").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
-loadBranding();loadOfficialContact();loadOfficeBearers();
+loadContactWebsiteSettings();
+loadOfficeBearers();
 </script>
+
 </body>
 </html>
