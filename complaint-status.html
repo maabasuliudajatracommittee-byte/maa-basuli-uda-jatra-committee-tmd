@@ -549,181 +549,223 @@
         padding:8px 7px;
       }
     }
+
+
+    /* =========================
+       MASTER PUBLIC HEADER - SAME AS ABOUT
+    ========================= */
+
+    .master-container{
+      width:min(1150px,92%);
+      margin:auto;
+    }
+
+    .master-topbar{
+      background:#7b1e1e;
+      color:white;
+      padding:8px 0;
+      font-size:13px;
+    }
+
+    .master-topbar-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:8px 18px;
+    }
+
+    .master-topbar-inner span{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      white-space:nowrap;
+    }
+
+    body > header.master-header{
+      background:#fff;
+      box-shadow:0 3px 14px rgba(0,0,0,.10);
+      position:sticky;
+      top:0;
+      z-index:50;
+      padding:0;
+    }
+
+    .master-header-inner{
+      min-height:110px;
+      display:flex;
+      flex-direction:column;
+      align-items:stretch;
+      gap:0;
+    }
+
+    .master-logo{
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      gap:14px;
+      min-height:78px;
+      padding:10px 0 8px;
+      text-decoration:none;
+    }
+
+    .master-logo-icon{
+      width:64px;
+      height:64px;
+      min-width:64px;
+      border-radius:50%;
+      background:#fff8ed;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:30px;
+      object-fit:cover;
+      border:2px solid #f4c542;
+    }
+
+    #masterSiteLogo{display:none;}
+    #masterLogoFallback{display:flex;}
+
+    .master-logo-text h1{
+      color:#7b1e1e;
+      font-size:25px;
+      line-height:1.2;
+      font-weight:800;
+      margin:0;
+    }
+
+    .master-logo-text p{
+      color:#777;
+      font-size:14px;
+      margin-top:3px;
+    }
+
+    .master-nav-wrap{
+      width:100%;
+      border-top:1px solid #f0e1dc;
+      background:#fff;
+    }
+
+    .master-nav-wrap nav.master-nav{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:7px;
+      padding:8px 0 10px;
+      width:100%;
+      visibility:visible !important;
+      opacity:1 !important;
+    }
+
+    .master-nav a{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:40px;
+      padding:9px 13px;
+      border-radius:8px;
+      font-size:13px;
+      font-weight:700;
+      white-space:nowrap;
+      color:#222;
+      text-decoration:none;
+      transition:background .2s ease,color .2s ease,transform .2s ease;
+    }
+
+    .master-nav a:hover,
+    .master-nav a.active{
+      background:#7b1e1e;
+      color:#fff;
+    }
+
+    .master-nav a:hover{transform:translateY(-1px);}
+
+    @media(max-width:900px){
+      .master-header-inner{min-height:auto;}
+      .master-logo{min-height:72px;}
+      .master-logo-icon{width:58px;height:58px;min-width:58px;}
+      .master-logo-text h1{font-size:21px;}
+      .master-logo-text p{font-size:13px;}
+      .master-nav-wrap nav.master-nav{
+        justify-content:flex-start;
+        overflow-x:auto;
+        flex-wrap:nowrap;
+        padding:8px 4px 10px;
+        scrollbar-width:thin;
+      }
+      .master-nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
+    }
+
+    @media(max-width:600px){
+      .master-topbar{font-size:11px;}
+      .master-topbar-inner{justify-content:center;text-align:center;}
+      .master-logo{gap:10px;padding:9px 0;}
+      .master-logo-icon{width:52px;height:52px;min-width:52px;}
+      .master-logo-text h1{font-size:18px;}
+      .master-logo-text p{font-size:11px;}
+      .master-nav-wrap nav.master-nav{gap:5px;}
+      .master-nav a{min-height:36px;padding:7px 10px;font-size:11px;}
+    }
+
   </style>
 </head>
 
 <body>
 
   <!-- =========================
-       HEADER
+       MASTER PUBLIC HEADER
   ========================= -->
 
-  <header>
+  <div class="master-topbar">
+    <div class="master-container master-topbar-inner">
+      <span>🙏 Jai Maa Basuli</span>
+      <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+      <span>✉️ maabasuliudajatracommittee@gmail.com</span>
+      <span>📞 7978583565</span>
+    </div>
+  </div>
 
-    <div class="header-inner">
+  <header class="master-header">
+    <div class="master-container master-header-inner">
 
-      <div class="brand-row">
+      <a href="index.html" class="master-logo">
+        <img
+          id="masterSiteLogo"
+          class="master-logo-icon"
+          src=""
+          alt="Maa Basuli Uda Jatra Committee Logo"
+        >
+        <div id="masterLogoFallback" class="master-logo-icon">🙏</div>
 
-        <div class="brand-left">
-
-          <img
-            id="siteLogo"
-            class="site-logo"
-            alt="Maa Basuli Uda Jatra Committee"
-          >
-
-          <img
-            id="maaBasuliPhoto"
-            class="brand-photo"
-            alt="Maa Basuli"
-          >
-
-          <div class="brand">
-
-            <h1 id="siteName">
-              🌺 Maa Basuli Uda Jatra Committee
-            </h1>
-
-            <p id="siteAddress">
-              Public Complaint Status Service
-            </p>
-
-          </div>
-
+        <div class="master-logo-text">
+          <h1 id="siteName">Maa Basuli Uda Jatra Committee</h1>
+          <p id="siteAddress">Thakurmunda, Mayurbhanj, Odisha</p>
         </div>
+      </a>
 
-
-        <div class="header-right">
-
-          <div id="language-switcher">
-
-            <div id="maa-language-switcher">
-
-              <button
-                type="button"
-                data-site-lang="en"
-                onclick="setSiteLanguage('en')"
-              >
-                🇬🇧 English
-              </button>
-
-              <button
-                type="button"
-                data-site-lang="or"
-                onclick="setSiteLanguage('or')"
-              >
-                ଓଡ଼ିଆ
-              </button>
-
-              <button
-                type="button"
-                data-site-lang="hi"
-                onclick="setSiteLanguage('hi')"
-              >
-                हिन्दी
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <a
-            href="index.html"
-            class="home-btn"
-          >
-            <span
-              data-lang-en="← Back to Website"
-              data-lang-or="← ୱେବସାଇଟ୍‌କୁ ଫେରନ୍ତୁ"
-              data-lang-hi="← वेबसाइट पर वापस जाएँ"
-            >
-              ← Back to Website
-            </span>
-          </a>
-
-        </div>
-
+      <div class="master-nav-wrap">
+        <nav id="mainNav" class="master-nav" aria-label="Main Navigation">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="jatra.html">Uda Jatra</a>
+          <a href="notices.html">Notices</a>
+          <a href="events.html">Events</a>
+          <a href="gallery.html">Gallery</a>
+          <a href="members.html">Members</a>
+          <a href="fund.html">Fund</a>
+          <a href="member-fee.html">Member Fee</a>
+          <a href="bhakta-list.html">Bhakta List</a>
+          <a href="complaint.html">Complaint</a>
+          <a href="complaint-status.html" class="active">Complaint Status</a>
+          <a href="contact.html">Contact</a>
+          <a href="search.html">Search</a>
+          <a href="auth.html">Login</a>
+        </nav>
       </div>
 
-
-      <nav class="nav-row">
-
-        <a href="index.html"
-           data-lang-en="Home"
-           data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା"
-           data-lang-hi="होम">
-          Home
-        </a>
-
-        <a href="about.html"
-           data-lang-en="About"
-           data-lang-or="ଆମ ବିଷୟରେ"
-           data-lang-hi="हमारे बारे में">
-          About
-        </a>
-
-        <a href="jatra.html"
-           data-lang-en="Uda Jatra"
-           data-lang-or="ଉଡା ଯାତ୍ରା"
-           data-lang-hi="उड़ा जात्रा">
-          Uda Jatra
-        </a>
-
-        <a href="notices.html"
-           data-lang-en="Notices"
-           data-lang-or="ନୋଟିସ୍"
-           data-lang-hi="सूचनाएँ">
-          Notices
-        </a>
-
-        <a href="events.html"
-           data-lang-en="Events"
-           data-lang-or="କାର୍ଯ୍ୟକ୍ରମ"
-           data-lang-hi="कार्यक्रम">
-          Events
-        </a>
-
-        <a href="gallery.html"
-           data-lang-en="Gallery"
-           data-lang-or="ଗ୍ୟାଲେରୀ"
-           data-lang-hi="गैलरी">
-          Gallery
-        </a>
-
-        <a href="members.html"
-           data-lang-en="Members"
-           data-lang-or="ସଦସ୍ୟ"
-           data-lang-hi="सदस्य">
-          Members
-        </a>
-
-        <a href="complaint.html"
-           data-lang-en="Complaint"
-           data-lang-or="ଅଭିଯୋଗ"
-           data-lang-hi="शिकायत">
-          Complaint
-        </a>
-
-        <a href="complaint-status.html"
-           data-lang-en="Complaint Status"
-           data-lang-or="ଅଭିଯୋଗ ସ୍ଥିତି"
-           data-lang-hi="शिकायत स्थिति">
-          Complaint Status
-        </a>
-
-        <a href="contact.html"
-           data-lang-en="Contact"
-           data-lang-or="ଯୋଗାଯୋଗ"
-           data-lang-hi="संपर्क">
-          Contact
-        </a>
-
-      </nav>
-
     </div>
-
   </header>
-
 
   <!-- =========================
        MAIN
@@ -1059,13 +1101,18 @@
           if(data.logo_url){
 
             const logo =
-              document.getElementById("siteLogo");
+              document.getElementById("masterSiteLogo");
 
             logo.src =
               data.logo_url;
 
             logo.style.display =
               "block";
+
+            const fallback = document.getElementById("masterLogoFallback");
+            if(fallback){
+              fallback.style.display = "none";
+            }
 
           }
 
@@ -1100,6 +1147,10 @@
             document.getElementById(
               "maaBasuliPhoto"
             );
+
+          if(!photo){
+            return;
+          }
 
           if(data.maa_basuli_url){
 
