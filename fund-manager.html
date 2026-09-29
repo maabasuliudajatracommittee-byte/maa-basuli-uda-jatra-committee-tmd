@@ -324,10 +324,12 @@ th{background:#f7f7f7}
         <b>Official Donation QR</b>
         <div id="qrEmpty" class="qr-empty">QR Code Preview</div>
         <img id="qrPreview" class="qr-preview" alt="Official Donation QR Preview">
-        <input type="file" id="qrFile" accept="image/png,image/jpeg,image/webp">
+        <label style="margin-top:12px">QR Image URL</label>
+        <input type="url" id="qrImageUrl" placeholder="Paste Supabase Storage public QR image URL">
         <div style="color:#777;font-size:12px;margin-top:7px">
-          Upload PNG/JPG/WebP QR image. Maximum 2 MB.
+          QR image is already uploaded to Supabase Storage. Paste its public URL here.
         </div>
+        <button type="button" class="secondary" style="margin-top:10px" onclick="previewQrFromUrl()">Preview QR</button>
       </div>
 
       <div>
@@ -643,6 +645,7 @@ async function loadDonationSettings(){
     document.getElementById("bankIfsc").value = data?.ifsc || "";
     document.getElementById("bankBranch").value = data?.branch || "";
     document.getElementById("donationPublished").checked = !!data?.is_published;
+    document.getElementById("qrImageUrl").value = data?.qr_code_url || "";
 
     if(data?.qr_code_url){
       showQrPreview(data.qr_code_url);
@@ -663,6 +666,10 @@ function showQrPreview(url){
   const img = document.getElementById("qrPreview");
   const empty = document.getElementById("qrEmpty");
   if(!img || !empty) return;
+  if(!url){
+    clearQrPreview();
+    return;
+  }
   img.src = url;
   img.style.display = "block";
   empty.style.display = "none";
@@ -677,24 +684,14 @@ function clearQrPreview(){
   empty.style.display = "flex";
 }
 
-document.addEventListener("change", function(event){
-  if(event.target && event.target.id === "qrFile"){
-    const file = event.target.files && event.target.files[0];
-    if(!file) return;
-
-    if(file.size > 2 * 1024 * 1024){
-      alert("QR image must be 2 MB or smaller.");
-      event.target.value = "";
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = function(){
-      showQrPreview(reader.result);
-    };
-    reader.readAsDataURL(file);
+function previewQrFromUrl(){
+  const url = document.getElementById("qrImageUrl").value.trim();
+  if(!url){
+    alert("Please paste the QR image URL first.");
+    return;
   }
-});
+  showQrPreview(url);
+}
 
 async function saveDonationSettings(){
   if(currentRole !== "super_admin"){
@@ -704,14 +701,10 @@ async function saveDonationSettings(){
 
   const status = document.getElementById("donationSettingsStatus");
   const button = document.querySelector('#donationSettingsCard button.primary');
-  const fileInput = document.getElementById("qrFile");
-  const file = fileInput.files && fileInput.files[0];
 
   try{
     button.disabled = true;
     status.textContent = "Saving donation settings...";
-
-    let qrCodeUrl = null;
 
     const {data:existing,error:existingError} = await supabaseClient
       .from("fund_donation_settings")
@@ -722,20 +715,7 @@ async function saveDonationSettings(){
 
     if(existingError) throw existingError;
 
-    if(file){
-      if(file.size > 2 * 1024 * 1024){
-        throw new Error("QR image must be 2 MB or smaller.");
-      }
-
-      qrCodeUrl = await new Promise((resolve,reject)=>{
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = () => reject(new Error("Unable to read QR image."));
-        reader.readAsDataURL(file);
-      });
-    }else{
-      qrCodeUrl = existing?.qr_code_url || null;
-    }
+    const qrCodeUrl = document.getElementById("qrImageUrl").value.trim() || existing?.qr_code_url || null;
 
     const payload = {
       qr_code_url: qrCodeUrl,
@@ -763,7 +743,6 @@ async function saveDonationSettings(){
 
     if(error) throw error;
 
-    fileInput.value = "";
     await loadDonationSettings();
     status.textContent = "Donation QR and bank details saved successfully.";
   }catch(error){
