@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Notifications - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f7f7;color:#222;font-family:Arial,Helvetica,sans-serif}
+.topbar{background:#6f1021;color:#fff;text-align:center;padding:9px 12px;font-size:14px}
+.header{background:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.navwrap{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+.logo{width:58px;height:58px;border-radius:50%;object-fit:cover;border:3px solid #8d6b2f;flex:none}
+.brand{min-width:210px;margin-right:8px}
+.brand h1{font-size:19px;color:#6f1021;margin:0 0 3px}
+.brand p{font-size:12px;margin:0;color:#666}
+.nav{display:flex;gap:6px;align-items:center}
+.nav a{color:#4d1020;text-decoration:none;padding:9px 10px;border-radius:6px;font-size:13px}
+.nav a:hover{background:#f3e7e7}
+.hero{background:linear-gradient(rgba(72,0,12,.82),rgba(72,0,12,.82)),url('') center/cover;min-height:170px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 15px;color:#fff}
+.hero h2{font-size:30px;margin:0 0 8px}
+.hero p{margin:0;opacity:.9}
+.container{max-width:1000px;margin:28px auto;padding:0 16px}
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 16px rgba(0,0,0,.08);margin-bottom:18px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{background:#faf4f4;border-left:4px solid #6f1021;border-radius:10px;padding:15px}
+.stat b{display:block;font-size:25px;color:#6f1021;margin-top:4px}
+.notification{border:1px solid #ead9dc;border-radius:12px;padding:17px;margin:12px 0;background:#fff}
+.notification.unread{border-left:5px solid #6f1021;background:#fffaf9}
+.nhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.nhead h3{margin:0;color:#6f1021;font-size:18px}
+.badge{font-size:11px;padding:5px 9px;border-radius:20px;background:#6f1021;color:#fff}
+.badge.read{background:#777}
+.message{margin:10px 0;color:#444;line-height:1.55;white-space:pre-wrap}
+.meta{font-size:12px;color:#777}
+.actions{margin-top:12px}
+button{border:0;border-radius:7px;padding:9px 13px;background:#6f1021;color:#fff;cursor:pointer}
+button:hover{opacity:.9}
+.empty{text-align:center;color:#777;padding:35px 10px}
+.loading{text-align:center;padding:30px;color:#6f1021}
+.error{background:#fff0f0;color:#a40000;padding:14px;border-radius:8px}
+footer{background:#4d0b17;color:#fff;text-align:center;padding:24px 15px;margin-top:40px;font-size:13px}
+@media(max-width:700px){
+ .brand{min-width:180px}.brand h1{font-size:16px}.nav a{font-size:12px;padding:8px}
+ .hero h2{font-size:24px}.summary{grid-template-columns:1fr}
+ .nhead{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">Maa Basuli Uda Jatra Committee • Thakurmunda, Mayurbhanj, Odisha</div>
+
+<header class="header">
+  <div class="navwrap">
+    <img id="siteLogo" class="logo" alt="Maa Basuli">
+    <div class="brand">
+      <h1>Maa Basuli Uda Jatra Committee</h1>
+      <p>Thakurmunda, Mayurbhanj, Odisha</p>
+    </div>
+    <nav class="nav">
+      <a href="member-dashboard.html">Dashboard</a>
+      <a href="profile.html">My Profile</a>
+      <a href="member-id-card.html">Digital ID</a>
+      <a href="member-fee-account.html">My Fee</a>
+      <a href="my-contributions.html">My Contributions</a>
+      <a href="member-duty.html">My Duty</a>
+      <a href="member-notifications.html">Notifications</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <h2>My Notifications</h2>
+    <p>Private member notifications and internal updates</p>
+  </div>
+</section>
+
+<main class="container">
+  <div id="accessError" class="card error" style="display:none"></div>
+
+  <div class="card">
+    <div class="summary">
+      <div class="stat">Total Notifications<b id="totalCount">0</b></div>
+      <div class="stat">Unread<b id="unreadCount">0</b></div>
+      <div class="stat">Read<b id="readCount">0</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="loading" class="loading">Loading notifications...</div>
+    <div id="list" style="display:none"></div>
+  </div>
+</main>
+
+<footer>
+  <div>© 2026 Maa Basuli Uda Jatra Committee, Thakurmunda</div>
+  <div style="margin-top:7px">Technical Support: 7978583565 (Sanat Barik)</div>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadBranding(){
+  try{
+    const {data}=await supabaseClient
+      .from("website_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
+
+    if(!data) return;
+    const logo=data.logo_url || data.logo || data.site_logo_url;
+    if(logo) document.getElementById("siteLogo").src=logo;
+  }catch(e){ console.warn("Branding load:",e); }
+}
+
+function showError(msg){
+  document.getElementById("loading").style.display="none";
+  const box=document.getElementById("accessError");
+  box.textContent=msg;
+  box.style.display="block";
+}
+
+function formatDate(value){
+  if(!value) return "—";
+  return new Date(value).toLocaleString("en-IN",{
+    day:"2-digit",month:"short",year:"numeric",
+    hour:"2-digit",minute:"2-digit"
+  });
+}
+
+async function markAsRead(id){
+  const {error}=await supabaseClient
+    .from("member_notifications")
+    .update({is_read:true})
+    .eq("id",id);
+
+  if(error){
+    alert("Unable to update notification.");
+    console.error(error);
+    return;
+  }
+  await loadNotifications();
+}
+
+async function loadNotifications(){
+  document.getElementById("loading").style.display="block";
+  document.getElementById("list").style.display="none";
+
+  const {data:{session},error:sessionError}=await supabaseClient.auth.getSession();
+
+  if(sessionError || !session){
+    showError("Please login first to view your private notifications.");
+    return;
+  }
+
+  const {data:roleData}=await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id",session.user.id)
+    .maybeSingle();
+
+  if(!roleData || !["member","admin","super_admin"].includes(roleData.role)){
+    showError("Access denied.");
+    return;
+  }
+
+  const {data,error}=await supabaseClient
+    .from("member_notifications")
+    .select("id,title,message,notification_type,is_read,created_at")
+    .eq("member_user_id",session.user.id)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    console.error(error);
+    showError("Unable to load notifications. Please try again.");
+    return;
+  }
+
+  const rows=data || [];
+  const unread=rows.filter(x=>!x.is_read).length;
+
+  document.getElementById("totalCount").textContent=rows.length;
+  document.getElementById("unreadCount").textContent=unread;
+  document.getElementById("readCount").textContent=rows.length-unread;
+
+  const list=document.getElementById("list");
+
+  if(!rows.length){
+    list.innerHTML='<div class="empty">No private notifications have been sent to you yet.</div>';
+  }else{
+    list.innerHTML=rows.map(n=>{
+      const type=(n.notification_type||"general").toUpperCase();
+      return `
+        <div class="notification ${n.is_read ? "" : "unread"}">
+          <div class="nhead">
+            <div>
+              <h3>${escapeHtml(n.title)}</h3>
+              <div class="meta">${type} • ${formatDate(n.created_at)}</div>
+            </div>
+            <span class="badge ${n.is_read ? "read" : ""}">
+              ${n.is_read ? "READ" : "UNREAD"}
+            </span>
+          </div>
+          <div class="message">${escapeHtml(n.message)}</div>
+          ${!n.is_read ? `<div class="actions"><button onclick="markAsRead('${n.id}')">Mark as Read</button></div>` : ""}
+        </div>`;
+    }).join("");
+  }
+
+  document.getElementById("loading").style.display="none";
+  list.style.display="block";
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+loadBranding();
+loadNotifications();
+
+supabaseClient.auth.onAuthStateChange((event)=>{
+  if(event==="SIGNED_OUT") window.location.href="auth.html";
+});
+</script>
+</body>
+</html>
