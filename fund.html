@@ -459,7 +459,7 @@ footer a{
       <nav id="mainNav" aria-label="Main Navigation">
 
         <a href="index.html">Home</a>
-        <a href="fund.html" class="active">About</a>
+        <a href="about.html">About</a>
         <a href="jatra.html">Uda Jatra</a>
         <a href="notices.html">Notices</a>
         <a href="events.html">Events</a>
@@ -521,20 +521,25 @@ footer a{
 <p>Support the festival and committee activities</p>
 </div>
 <div class="donation-grid">
-<div class="donation-card"><h3>📱 Scan & Donate</h3>
-<p>Official donation QR code will be displayed here after it is configured by the Super Admin.</p>
-<div class="qr-placeholder"><span>Official Donation QR<br>Will Be Added Here</span></div>
+<div class="donation-card">
+<h3>📱 Scan & Donate</h3>
+<p id="donationQrMessage">Official donation QR code will be displayed here after it is configured by the Super Admin.</p>
+<div class="qr-placeholder" id="publicQrPlaceholder"><span>Official Donation QR<br>Will Be Added Here</span></div>
+<img id="publicDonationQr" alt="Official Donation QR Code" style="display:none;max-width:260px;width:100%;height:auto;margin:15px auto;border-radius:10px;border:1px solid #ddd;padding:8px;background:#fff">
 <p style="text-align:center;color:#777;font-size:12px">Please verify the official recipient name before making any payment.</p>
 </div>
-<div class="donation-card"><h3>🏦 Bank Account Details</h3>
-<p style="color:#666;font-size:13px;margin-bottom:15px">Official bank details will be published here after verification by the committee.</p>
+
+<div class="donation-card">
+<h3>🏦 Bank Account Details</h3>
+<p id="donationBankMessage" style="color:#666;font-size:13px;margin-bottom:15px">Official bank details will be published here after verification by the committee.</p>
 <div class="bank-details">
-<div><strong>Account Name:</strong> <span>To Be Updated</span></div>
-<div><strong>Bank Name:</strong> <span>To Be Updated</span></div>
-<div><strong>Account Number:</strong> <span>To Be Updated</span></div>
-<div><strong>IFSC:</strong> <span>To Be Updated</span></div>
-<div><strong>Branch:</strong> <span>To Be Updated</span></div>
-</div></div>
+<div><strong>Account Name:</strong> <span id="publicAccountName">To Be Updated</span></div>
+<div><strong>Bank Name:</strong> <span id="publicBankName">To Be Updated</span></div>
+<div><strong>Account Number:</strong> <span id="publicAccountNumber">To Be Updated</span></div>
+<div><strong>IFSC:</strong> <span id="publicIfsc">To Be Updated</span></div>
+<div><strong>Branch:</strong> <span id="publicBranch">To Be Updated</span></div>
+</div>
+</div>
 </div></div></section>
 
 <section><div class="container"><div class="notice-box">
@@ -689,6 +694,49 @@ async function loadFundData(){
   
 }
 
+async function loadDonationSettings(){
+  const qr = document.getElementById("publicDonationQr");
+  const placeholder = document.getElementById("publicQrPlaceholder");
+  const qrMessage = document.getElementById("donationQrMessage");
+
+  try{
+    const {data, error} = await supabaseClient
+      .from("fund_donation_settings")
+      .select("qr_code_url,account_name,bank_name,account_number,ifsc,branch,is_published")
+      .eq("is_published", true)
+      .order("created_at", {ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(error) throw error;
+
+    if(!data) return;
+
+    if(data.qr_code_url){
+      qr.src = data.qr_code_url;
+      qr.onload = function(){
+        qr.style.display = "block";
+        if(placeholder) placeholder.style.display = "none";
+        if(qrMessage) qrMessage.textContent = "Scan the official QR code below to support Maa Basuli Uda Jatra Committee.";
+      };
+      qr.onerror = function(){
+        qr.style.display = "none";
+        if(placeholder) placeholder.style.display = "flex";
+        if(qrMessage) qrMessage.textContent = "Official donation QR code could not be loaded.";
+      };
+    }
+
+    document.getElementById("publicAccountName").textContent = data.account_name || "To Be Updated";
+    document.getElementById("publicBankName").textContent = data.bank_name || "To Be Updated";
+    document.getElementById("publicAccountNumber").textContent = data.account_number || "To Be Updated";
+    document.getElementById("publicIfsc").textContent = data.ifsc || "To Be Updated";
+    document.getElementById("publicBranch").textContent = data.branch || "To Be Updated";
+    document.getElementById("donationBankMessage").textContent = "Official bank details published by the committee.";
+  }catch(error){
+    console.error("Donation settings loading failed:", error);
+  }
+}
+
 function resetSummary(){
   ["totalIncome","totalExpense","totalSavings","totalDonation","currentBalance"].forEach(id=>document.getElementById(id).textContent="₹0.00");
   document.getElementById("balanceNote").textContent="No published fund data available.";
@@ -732,7 +780,7 @@ function renderTransactions(transactions){
   }).join("");
 }
 
-document.addEventListener("DOMContentLoaded",async()=>{populateFinancialYears();await loadFundData()});
+document.addEventListener("DOMContentLoaded",async()=>{populateFinancialYears();await loadFundData();await loadDonationSettings()});
 </script>
 
 </body>
