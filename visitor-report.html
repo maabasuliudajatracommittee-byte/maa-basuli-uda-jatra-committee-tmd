@@ -25,6 +25,13 @@ button,.back-btn{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cu
 .card strong{display:block;font-size:28px;margin-top:7px;color:#111827}
 .panel{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
 .panel h3{margin:0 0 14px;color:#7b1121}
+.filters{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;padding:14px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:9px}
+.filter-group label{display:block;font-size:12px;font-weight:700;color:#475569;margin-bottom:5px}
+.filter-group input,.filter-group select{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:7px;background:#fff;color:#1f2937}
+.filter-actions{display:flex;align-items:end;gap:8px}
+.clear-btn{background:#64748b;color:#fff}
+@media(max-width:900px){.filters{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.filters{grid-template-columns:1fr}}
 .table-wrap{overflow:auto}
 table{width:100%;border-collapse:collapse;min-width:900px}
 th,td{padding:11px 9px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px;vertical-align:top}
@@ -66,6 +73,41 @@ th{background:#f8fafc;color:#475569;position:sticky;top:0}
 
   <div class="panel">
     <h3>Visitor Details</h3>
+
+    <div class="filters">
+      <div class="filter-group">
+        <label for="fromDate">From Date</label>
+        <input type="date" id="fromDate" onchange="renderTable()">
+      </div>
+
+      <div class="filter-group">
+        <label for="toDate">To Date</label>
+        <input type="date" id="toDate" onchange="renderTable()">
+      </div>
+
+      <div class="filter-group">
+        <label for="searchVisitor">Search</label>
+        <input
+          type="search"
+          id="searchVisitor"
+          placeholder="Visitor, page, browser..."
+          oninput="renderTable()">
+      </div>
+
+      <div class="filter-group">
+        <label for="visitorType">Visitor Type</label>
+        <select id="visitorType" onchange="renderTable()">
+          <option value="">All Visitors</option>
+          <option value="authenticated">Authenticated</option>
+          <option value="anonymous">Anonymous</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
+      </div>
+    </div>
+
     <div id="tableArea" class="loading">Loading visitor report...</div>
   </div>
 </div>
@@ -143,15 +185,50 @@ async function loadReport(){
   renderTable();
 }
 
+function getFilteredRows(){
+  const fromDate = document.getElementById("fromDate").value;
+  const toDate = document.getElementById("toDate").value;
+  const search = document.getElementById("searchVisitor").value.trim().toLowerCase();
+  const visitorType = document.getElementById("visitorType").value;
+
+  return visitorRows.filter(row => {
+    const visitedDate = row.visited_at
+      ? new Date(row.visited_at).toLocaleDateString("en-CA")
+      : "";
+
+    if(fromDate && (!visitedDate || visitedDate < fromDate)) return false;
+    if(toDate && (!visitedDate || visitedDate > toDate)) return false;
+
+    if(visitorType && row.visitor_type !== visitorType) return false;
+
+    if(search){
+      const haystack = [
+        row.visitor_name,
+        row.page_path,
+        row.page_title,
+        row.visitor_type,
+        row.device_type,
+        row.browser,
+        row.operating_system
+      ].map(value => String(value || "")).join(" ").toLowerCase();
+
+      if(!haystack.includes(search)) return false;
+    }
+
+    return true;
+  });
+}
+
 function renderTable(){
   const area = document.getElementById("tableArea");
+  const rowsData = getFilteredRows();
 
-  if(!visitorRows.length){
-    area.innerHTML = '<div class="empty">No visitor records found.</div>';
+  if(!rowsData.length){
+    area.innerHTML = '<div class="empty">No visitor records match the selected filters.</div>';
     return;
   }
 
-  let rows = visitorRows.map(row => {
+  let rows = rowsData.map(row => {
     const visited = row.visited_at
       ? new Date(row.visited_at).toLocaleString("en-IN")
       : "-";
@@ -171,6 +248,9 @@ function renderTable(){
   }).join("");
 
   area.innerHTML = `
+    <div style="margin-bottom:10px;color:#64748b;font-size:13px;font-weight:700;">
+      Showing ${rowsData.length} of ${visitorRows.length} visit records
+    </div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -189,6 +269,14 @@ function renderTable(){
       </table>
     </div>
   `;
+}
+
+function clearFilters(){
+  document.getElementById("fromDate").value = "";
+  document.getElementById("toDate").value = "";
+  document.getElementById("searchVisitor").value = "";
+  document.getElementById("visitorType").value = "";
+  renderTable();
 }
 
 function escapeHtml(value){
