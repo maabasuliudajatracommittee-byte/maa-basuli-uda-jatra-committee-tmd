@@ -94,20 +94,49 @@ nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}.grid{grid-templ
 
 <h2 class="section-title">Member Services</h2>
 <div class="grid">
-<div class="card"><h3>👤 My Profile</h3><p>Update your permitted personal profile information and profile photo.</p><a href="profile.html">Open Profile</a></div>
-<div class="card"><h3>🪪 Digital ID Card</h3><p>View, download and print your official digital member identity card.</p><a href="profile.html#digitalIdSection">Open ID Card</a></div>
-<div class="card"><h3>📢 Notices</h3><p>Read the latest official committee notices and announcements.</p><a href="notices.html">View Notices</a></div>
-<div class="card"><h3>📅 Events</h3><p>See upcoming committee events, programmes and Uda Jatra activities.</p><a href="events.html">View Events</a></div>
-<div class="card"><h3>💰 My Member Fee</h3><p>Open the official Member Fee area to check the fee information published by the committee.</p><a href="member-fee.html">Open Member Fee</a></div>
-<div class="card"><h3>📨 My Complaints</h3><p>Submit a complaint and use the official complaint-status facility to follow it.</p><a href="complaint-status.html">Complaint Status</a></div>
-<div class="card"><h3>🖼️ Gallery</h3><p>View Maa Basuli Uda Jatra Committee photos and published activities.</p><a href="gallery.html">Open Gallery</a></div>
-<div class="card"><h3>🙏 Bhakta List</h3><p>View the published Bhakta/committee information available to members and visitors.</p><a href="bhakta-list.html">View Bhakta List</a></div>
-<div class="card"><h3>🔎 Search</h3><p>Quickly find public committee information, notices and member-related pages.</p><a href="search.html">Open Search</a></div>
+<div class="card"><h3>👤 My Account</h3><p>View your private membership details, profile information and account status.</p><a href="profile.html">Open My Account</a></div>
+<div class="card"><h3>🪪 My Digital ID</h3><p>View, download and print your official digital member ID card with QR code.</p><a href="profile.html#digitalIdSection">Open Digital ID</a></div>
+<div class="card"><h3>💰 My Fee Account</h3><p>View your personal member fee details, payment history and receipts.</p><a href="member-fee.html">Open My Fee Account</a></div>
+<div class="card"><h3>💵 My Contributions</h3><p>View contributions recorded under your member account, including date, amount and reference.</p><a href="member-contributions.html">Open My Contributions</a></div>
+<div class="card"><h3>🙋 My Volunteer Service</h3><p>Register for committee volunteer service and track your registration status.</p><a href="#volunteerSection" onclick="document.getElementById('volunteerSection').scrollIntoView({behavior:'smooth'});return false;">Volunteer Registration</a></div>
+<div class="card"><h3>📅 My Duty Schedule</h3><p>View duty assignments, dates, locations and responsibilities given to you.</p><a href="member-duty.html">Open Duty Schedule</a></div>
+<div class="card"><h3>🔔 My Notifications</h3><p>Read private committee notifications, reminders and member-specific updates.</p><a href="member-notifications.html">Open Notifications</a></div>
+<div class="card"><h3>📨 My Complaints</h3><p>View your submitted complaints, replies and current resolution status.</p><a href="complaint-status.html">Open My Complaints</a></div>
+<div class="card"><h3>📄 My Documents</h3><p>Access official documents and files specifically issued to your member account.</p><a href="member-documents.html">Open My Documents</a></div>
+<div class="card"><h3>📢 Member-only Updates</h3><p>Read internal committee updates intended only for registered members.</p><a href="member-updates.html">Open Member Updates</a></div>
 </div>
 
-<div class="card">
-<h2 class="section-title">Coming Member Services</h2>
-<p style="color:#666;line-height:1.6">Volunteer registration, member duty schedule, member notifications and personalized fee/receipt history will be connected here in the next stages. These will be restricted to the logged-in member and will not expose other members' private information.</p>
+<div class="card" id="volunteerSection" style="margin-top:22px">
+<h2 class="section-title">🙋 Volunteer Registration</h2>
+<p style="color:#666;line-height:1.6;margin-bottom:14px">Register for committee volunteer service. Your submission is private to your account and authorized committee management.</p>
+<div style="display:grid;gap:12px">
+<label>Service Area</label>
+<select id="volunteerServiceArea" style="width:100%;padding:13px;border:1px solid #d6d3d1;border-radius:10px;font-size:15px">
+<option value="">Select service area</option>
+<option value="Uda Jatra Management">Uda Jatra Management</option>
+<option value="Crowd Management">Crowd Management</option>
+<option value="Temple Service">Temple Service</option>
+<option value="Cultural Programme">Cultural Programme</option>
+<option value="Meena Bazar">Meena Bazar</option>
+<option value="Cleanliness & Maintenance">Cleanliness & Maintenance</option>
+<option value="Other">Other</option>
+</select>
+<label>Availability</label>
+<select id="volunteerAvailability" style="width:100%;padding:13px;border:1px solid #d6d3d1;border-radius:10px;font-size:15px">
+<option value="">Select availability</option>
+<option value="Morning">Morning</option>
+<option value="Afternoon">Afternoon</option>
+<option value="Evening">Evening</option>
+<option value="Full Day">Full Day</option>
+</select>
+<label>Preferred Date</label>
+<input type="date" id="volunteerDate" style="width:100%;padding:13px;border:1px solid #d6d3d1;border-radius:10px;font-size:15px">
+<label>Additional Note</label>
+<textarea id="volunteerNotes" rows="4" placeholder="Write any additional information" style="width:100%;padding:13px;border:1px solid #d6d3d1;border-radius:10px;font-size:15px;resize:vertical"></textarea>
+<button class="logout" type="button" onclick="submitVolunteer()" style="width:max-content">Submit Volunteer Registration</button>
+<div id="volunteerMessage" class="message" style="display:none"></div>
+<div id="volunteerStatus" style="margin-top:8px;color:#555"></div>
+</div>
 </div>
 </section>
 </main>
@@ -149,6 +178,32 @@ async function loadDashboard(){
 
   document.getElementById("loading").style.display="none";
   document.getElementById("dashboard").style.display="block";
+  loadVolunteerStatus();
+}
+
+async function loadVolunteerStatus(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session)return;
+  const {data,error}=await supabaseClient.from("member_volunteer_registrations").select("service_area,availability,preferred_date,status,admin_note,created_at").eq("member_id",session.user.id).order("created_at",{ascending:false}).limit(1).maybeSingle();
+  if(error){console.error(error);return;}
+  if(data){
+    document.getElementById("volunteerStatus").innerHTML=`<strong>Latest Status:</strong> ${data.status.toUpperCase()}${data.admin_note?`<br><strong>Committee Note:</strong> ${data.admin_note}`:""}`;
+  }
+}
+
+async function submitVolunteer(){
+  const {data:{session}}=await supabaseClient.auth.getSession();
+  if(!session)return;
+  const service_area=document.getElementById("volunteerServiceArea").value;
+  const availability=document.getElementById("volunteerAvailability").value;
+  const preferred_date=document.getElementById("volunteerDate").value||null;
+  const notes=document.getElementById("volunteerNotes").value.trim()||null;
+  const msg=document.getElementById("volunteerMessage");
+  if(!service_area){msg.textContent="Please select a service area.";msg.className="message";msg.style.display="block";return;}
+  const {error}=await supabaseClient.from("member_volunteer_registrations").insert({member_id:session.user.id,service_area,availability:availability||null,preferred_date,notes});
+  if(error){console.error(error);msg.textContent="Registration submit failed: "+error.message;msg.className="message";msg.style.display="block";return;}
+  msg.textContent="Volunteer registration submitted successfully.";msg.className="message success";msg.style.display="block";
+  document.getElementById("volunteerNotes").value="";loadVolunteerStatus();
 }
 
 async function logout(){
