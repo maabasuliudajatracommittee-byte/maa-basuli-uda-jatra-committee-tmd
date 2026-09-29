@@ -9,169 +9,141 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    *{
-      box-sizing:border-box;
-      margin:0;
-      padding:0;
-    }
-
+    *{box-sizing:border-box;margin:0;padding:0}
     body{
       font-family:Arial,Helvetica,sans-serif;
-      background:linear-gradient(135deg,#fff7ed,#fef3c7,#ffffff);
       min-height:100vh;
-      color:#1f2937;
+      color:#2b211b;
+      background:
+        radial-gradient(circle at 15% 20%,rgba(255,255,255,.9),transparent 30%),
+        radial-gradient(circle at 85% 25%,rgba(255,214,102,.22),transparent 28%),
+        linear-gradient(135deg,#fff7ed 0%,#fff1c7 48%,#fffaf0 100%);
+      overflow-x:hidden;
     }
 
     .top{
-      background:#7c2d12;
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg,#5f1708,#8f2f12 55%,#5f1708);
       color:white;
-      padding:16px 20px;
+      padding:15px 18px 17px;
       text-align:center;
+      box-shadow:0 5px 22px rgba(95,23,8,.25);
+      border-bottom:3px solid #f4c542;
     }
-
-    .top h1{
-      font-size:24px;
-      margin-bottom:5px;
+    .top:before,.top:after{
+      content:"✦  ❈  ✦";
+      position:absolute;
+      top:18px;
+      color:#f7d56b;
+      font-size:18px;
+      opacity:.8;
     }
-
-    .top p{
-      font-size:14px;
-      opacity:.9;
+    .top:before{left:5%}.top:after{right:5%}
+    .brand-row{display:flex;align-items:center;justify-content:center;gap:12px;position:relative;z-index:1}
+    .brand-logo{
+      width:58px;height:58px;border-radius:50%;object-fit:cover;
+      border:3px solid #f7d56b;background:#fff8e1;
+      box-shadow:0 0 0 4px rgba(255,215,100,.16),0 6px 18px rgba(0,0,0,.2);
     }
+    .top h1{font-size:23px;margin-bottom:4px;letter-spacing:.2px}
+    .top p{font-size:13px;opacity:.95}
 
-    .container{
-      width:min(460px,92%);
-      margin:40px auto;
+    .page-wrap{width:min(980px,94%);margin:24px auto 38px}
+    .photo-strip{
+      display:grid;grid-template-columns:1fr 1fr;gap:14px;
+      margin-bottom:-74px;position:relative;z-index:1;
+    }
+    .photo-card{
+      height:180px;border-radius:20px;overflow:hidden;position:relative;
+      border:4px solid rgba(255,255,255,.92);
+      box-shadow:0 12px 30px rgba(95,23,8,.2);
+      background:linear-gradient(135deg,#8f2f12,#f4c542);
+    }
+    .photo-card img{width:100%;height:100%;object-fit:cover;display:block}
+    .photo-card:after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(to top,rgba(60,15,5,.55),transparent 55%);
+    }
+    .photo-label{
+      position:absolute;left:13px;bottom:10px;z-index:2;
+      color:white;font-weight:bold;font-size:14px;text-shadow:0 2px 5px #000;
     }
 
     .card{
-      background:white;
-      border-radius:18px;
-      padding:28px;
-      box-shadow:0 10px 35px rgba(0,0,0,.12);
+      position:relative;z-index:2;
+      background:rgba(255,255,255,.97);
+      border:1px solid rgba(145,52,18,.12);
+      border-radius:24px;
+      padding:25px;
+      box-shadow:0 18px 45px rgba(95,23,8,.18);
+      backdrop-filter:blur(5px);
+      max-width:520px;margin:0 auto;
     }
-
-    .tabs{
-      display:flex;
-      gap:8px;
-      margin-bottom:24px;
+    .card:before{
+      content:"🙏";display:flex;align-items:center;justify-content:center;
+      width:54px;height:54px;margin:-48px auto 12px;border-radius:50%;
+      background:linear-gradient(135deg,#fff7d6,#ffe8a3);
+      border:3px solid white;box-shadow:0 5px 16px rgba(124,45,18,.16);
+      font-size:25px;
     }
-
+    .tabs{display:flex;gap:8px;margin-bottom:20px}
     .tab{
-      flex:1;
-      padding:12px;
-      border:0;
-      border-radius:10px;
-      cursor:pointer;
-      background:#f3f4f6;
-      font-weight:bold;
+      flex:1;padding:12px;border:0;border-radius:11px;cursor:pointer;
+      background:#f3f4f6;font-weight:bold;color:#30343b;
     }
-
-    .tab.active{
-      background:#9a3412;
-      color:white;
-    }
-
-    h2{
-      text-align:center;
-      margin-bottom:20px;
-      color:#7c2d12;
-    }
-
-    label{
-      display:block;
-      margin:14px 0 6px;
-      font-weight:bold;
-      font-size:14px;
-    }
-
+    .tab.active{background:linear-gradient(135deg,#9a3412,#c2410c);color:white;box-shadow:0 5px 12px rgba(154,52,18,.22)}
+    h2{text-align:center;margin-bottom:18px;color:#7c2d12;font-size:23px}
+    label{display:block;margin:14px 0 6px;font-weight:bold;font-size:14px;color:#3f3029}
     input{
-      width:100%;
-      padding:13px;
-      border:1px solid #d1d5db;
-      border-radius:9px;
-      font-size:15px;
-      outline:none;
+      width:100%;padding:13px;border:1px solid #d6d3d1;border-radius:10px;
+      font-size:15px;outline:none;background:#fff;
     }
-
-    input:focus{
-      border-color:#9a3412;
-      box-shadow:0 0 0 3px rgba(154,52,18,.1);
-    }
-
+    input:focus{border-color:#c2410c;box-shadow:0 0 0 3px rgba(194,65,12,.1)}
     .main-btn{
-      width:100%;
-      margin-top:20px;
-      padding:14px;
-      border:0;
-      border-radius:10px;
-      background:#9a3412;
-      color:white;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
+      width:100%;margin-top:20px;padding:14px;border:0;border-radius:11px;
+      background:linear-gradient(135deg,#9a3412,#c2410c);color:white;
+      font-size:16px;font-weight:bold;cursor:pointer;box-shadow:0 7px 15px rgba(154,52,18,.2);
     }
+    .main-btn:hover{background:#7c2d12}
+    .forgot{display:block;text-align:right;margin-top:10px;color:#9a3412;cursor:pointer;font-size:14px}
+    .message{margin-top:16px;padding:12px;border-radius:8px;display:none;font-size:14px;line-height:1.5}
+    .success{background:#dcfce7;color:#166534}.error{background:#fee2e2;color:#991b1b}.info{background:#dbeafe;color:#1e40af}
+    .hidden{display:none}
+    .back{text-align:center;margin-top:17px}
+    .back a{color:#9a3412;text-decoration:none;font-weight:bold}
 
-    .main-btn:hover{
-      background:#7c2d12;
+    .login-support{
+      margin:20px auto 0;max-width:720px;padding:16px 14px;
+      border-radius:16px;background:linear-gradient(135deg,#fff3a8,#fff8dc);
+      border:3px solid #eab308;box-shadow:0 8px 22px rgba(124,45,18,.15);
+      text-align:center;color:#6b210a;line-height:1.65;font-size:13px;
     }
-
-    .forgot{
-      display:block;
-      text-align:right;
-      margin-top:10px;
-      color:#9a3412;
-      cursor:pointer;
-      font-size:14px;
-    }
-
-    .message{
-      margin-top:16px;
-      padding:12px;
-      border-radius:8px;
-      display:none;
-      font-size:14px;
-      line-height:1.5;
-    }
-
-    .success{
-      background:#dcfce7;
-      color:#166534;
-    }
-
-    .error{
-      background:#fee2e2;
-      color:#991b1b;
-    }
-
-    .info{
-      background:#dbeafe;
-      color:#1e40af;
-    }
-
-    .hidden{
-      display:none;
-    }
-
-    .back{
-      text-align:center;
-      margin-top:20px;
-    }
-
-    .back a{
-      color:#9a3412;
-      text-decoration:none;
-      font-weight:bold;
-    }
+    .login-support .support-title{display:block;font-size:14px;font-weight:800}
+    .login-support .support-odia{display:block;font-size:14px;font-weight:700;margin-top:3px}
 
     .note{
-      margin-top:18px;
-      padding:12px;
-      background:#fff7ed;
-      border-left:4px solid #ea580c;
-      font-size:13px;
-      line-height:1.5;
-      border-radius:6px;
+      margin-top:18px;padding:12px;background:#fff7ed;border-left:4px solid #ea580c;
+      font-size:13px;line-height:1.5;border-radius:6px;
+    }
+
+    .footer{
+      text-align:center;color:white;background:linear-gradient(135deg,#5f1708,#8f2f12,#5f1708);
+      padding:22px 15px;border-top:3px solid #f4c542;margin-top:15px;
+    }
+    .footer strong{display:block;font-size:16px}.footer span{font-size:12px;opacity:.9}
+
+    @media(max-width:650px){
+      .top h1{font-size:18px}.top p{font-size:11px}
+      .brand-logo{width:50px;height:50px}
+      .page-wrap{width:94%;margin-top:18px}
+      .photo-strip{gap:9px;margin-bottom:-45px}
+      .photo-card{height:125px;border-width:3px;border-radius:15px}
+      .photo-label{font-size:11px;left:8px;bottom:7px}
+      .card{padding:20px;border-radius:20px}
+      .card:before{margin-top:-40px;width:48px;height:48px;font-size:22px}
+      h2{font-size:21px}
+      .login-support .support-title,.login-support .support-odia{font-size:12px}
     }
   </style>
 </head>
@@ -179,11 +151,26 @@
 <body>
 
 <div class="top">
-  <h1>ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</h1>
-  <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+  <div class="brand-row">
+    <img id="authLogo" class="brand-logo" src="" alt="Maa Basuli Logo">
+    <div>
+      <h1>ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</h1>
+      <p>Maa Basuli Uda Jatra Committee, Thakurmunda</p>
+    </div>
+  </div>
 </div>
 
-<div class="container">
+<div class="page-wrap">
+  <div class="photo-strip">
+    <div class="photo-card">
+      <img id="authMaaPhoto" src="" alt="Maa Basuli">
+      <div class="photo-label">🙏 Maa Basuli</div>
+    </div>
+    <div class="photo-card">
+      <img id="authTemplePhoto" src="" alt="Maa Basuli Temple">
+      <div class="photo-label">🛕 Maa Basuli Temple</div>
+    </div>
+  </div>
 
   <div class="card">
 
@@ -287,8 +274,16 @@
 
   </div>
 
+  <div class="login-support">
+    <span class="support-title">Any Technical Issue On Login Contact -7978583565 (Sanat Barik)</span>
+    <span class="support-odia">ଯଦି କୌଣସି ଯାନ୍ତ୍ରିକ ସମସ୍ୟା ଆସେ ଲୋଗିନ ରେ ତେବେ ଯୋଗାଯୋଗ - ୭୯୭୮୫୮୩୫୬୫ (ସନତ୍ ବାରିକ୍)</span>
+  </div>
 </div>
 
+<div class="footer">
+  <strong>Maa Basuli Uda Jatra Committee</strong>
+  <span>Thakurmunda, Mayurbhanj, Odisha • © 2026 All Rights Reserved.</span>
+</div>
 
 <script>
 
@@ -304,6 +299,45 @@
       SUPABASE_PUBLISHABLE_KEY
     );
 
+
+  async function loadAuthBranding(){
+    try{
+      const { data, error } = await supabaseClient
+        .from("website_settings")
+        .select("*")
+        .limit(1)
+        .maybeSingle();
+
+      if(error || !data){
+        console.warn("Auth branding settings unavailable:", error);
+        return;
+      }
+
+      const logo =
+        data.logo_url ||
+        data.logo ||
+        data.site_logo_url ||
+        "";
+
+      const maa =
+        data.maa_basuli_url ||
+        data.maa_basuli_photo_url ||
+        data.maa_basuli_photo ||
+        "";
+
+      const temple =
+        data.temple_url ||
+        data.temple_photo_url ||
+        data.temple_photo ||
+        "";
+
+      if(logo) document.getElementById("authLogo").src = logo;
+      if(maa) document.getElementById("authMaaPhoto").src = maa;
+      if(temple) document.getElementById("authTemplePhoto").src = temple;
+    }catch(error){
+      console.warn("Auth branding load error:", error);
+    }
+  }
 
   /* =========================
      MESSAGE
@@ -761,6 +795,7 @@
   }
 
 
+  loadAuthBranding();
   checkExistingSession();
 
 </script>
