@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Contributions - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#333}
+.topbar{background:#7b1717;color:#fff;font-size:11px;padding:6px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:10px 18px;display:flex;align-items:center;gap:12px}
+.logo{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #d7b45a}
+.brand h1{margin:0;color:#7b1717;font-size:20px}
+.brand p{margin:3px 0 0;color:#777;font-size:11px}
+.nav{background:#fff;display:flex;gap:18px;padding:10px 18px;justify-content:center;flex-wrap:wrap;border-bottom:1px solid #eee}
+.nav a{font-size:11px;font-weight:bold;color:#333;text-decoration:none}
+.nav a:hover{color:#7b1717}
+.container{max-width:1050px;margin:25px auto;padding:0 16px}
+.hero{background:linear-gradient(135deg,#8e261c,#b23b27);color:#fff;border-radius:12px;padding:24px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.hero h2{margin:0 0 7px;font-size:23px}
+.hero p{margin:0;font-size:13px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.title{color:#7b1717;margin:0 0 15px;font-size:21px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.box{background:#f8f8f8;border-radius:9px;padding:14px}
+.box small{display:block;color:#777;font-size:10px;margin-bottom:5px}
+.box strong{font-size:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:720px}
+th,td{padding:11px 9px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
+th{background:#7b1717;color:#fff}
+.empty{text-align:center;padding:30px;color:#777}
+.loading{text-align:center;padding:35px;color:#777}
+.back{display:inline-block;background:#7b1717;color:#fff;text-decoration:none;padding:10px 16px;border-radius:7px;font-weight:bold;font-size:12px}
+.note{font-size:11px;color:#777;line-height:1.5}
+.error{color:#9b1c1c;font-size:12px}
+footer{margin-top:35px;background:#210c0c;color:#fff;padding:18px;font-size:10px}
+@media(max-width:700px){
+ .summary{grid-template-columns:1fr}
+ .brand h1{font-size:17px}
+ .nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;white-space:nowrap}
+ .hero h2{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🔺 Jai Maa Basuli</span>
+  <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+  <span>✉ maabasuliudajatracommittee@gmail.com</span>
+  <span>📞 7978583565</span>
+</div>
+
+<header class="header">
+  <img id="logo" class="logo" alt="Maa Basuli Logo">
+  <div class="brand">
+    <h1>Maa Basuli Uda Jatra Committee</h1>
+    <p>Thakurmunda, Mayurbhanj, Odisha</p>
+  </div>
+</header>
+
+<nav class="nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="jatra.html">Uda Jatra</a>
+  <a href="notices.html">Notices</a>
+  <a href="events.html">Events</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="members.html">Members</a>
+  <a href="fund.html">Fund</a>
+  <a href="member-fee.html">Member Fee</a>
+  <a href="bhakta-list.html">Bhakta List</a>
+  <a href="complaint.html">Complaint</a>
+  <a href="contact.html">Contact</a>
+  <a href="search.html">Search</a>
+  <a href="profile.html">Profile</a>
+</nav>
+
+<main class="container">
+  <div id="loading" class="card loading">Loading your contributions...</div>
+
+  <section id="content" style="display:none">
+    <div class="hero">
+      <h2>💵 My Contributions</h2>
+      <p>Your private contribution records linked to your committee member account.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="title">Contribution Summary</h2>
+      <div class="summary">
+        <div class="box">
+          <small>Total Contributions</small>
+          <strong id="totalAmount">₹0.00</strong>
+        </div>
+        <div class="box">
+          <small>Number of Records</small>
+          <strong id="recordCount">0</strong>
+        </div>
+        <div class="box">
+          <small>Latest Contribution</small>
+          <strong id="latestDate">—</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="title">My Contribution History</h2>
+      <div id="history" class="table-wrap"></div>
+    </div>
+
+    <p class="note">Only contribution records linked to your own member account are shown here.</p>
+    <a class="back" href="member-dashboard.html">← Back to Member Dashboard</a>
+  </section>
+</main>
+
+<footer>
+  <strong>Maa Basuli Uda Jatra Committee</strong><br>
+  Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.
+</footer>
+
+<script>
+const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+function esc(value){
+  return String(value ?? "").replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+function money(value){
+  const n=Number(value);
+  return Number.isFinite(n)
+    ? "₹"+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2})
+    : "₹0.00";
+}
+
+function dateText(value){
+  if(!value) return "—";
+  const d=new Date(value+"T00:00:00");
+  if(Number.isNaN(d.getTime())) return value;
+  return d.toLocaleDateString("en-IN",{day:"2-digit",month:"2-digit",year:"numeric"});
+}
+
+async function loadLogo(){
+  try{
+    const {data}=await supabaseClient.from("website_settings").select("*").limit(1).maybeSingle();
+    const url=data?.logo_url||data?.logo||data?.site_logo_url||"";
+    if(url) document.getElementById("logo").src=url;
+  }catch(e){}
+}
+
+async function loadContributions(){
+  try{
+    const {data:{session},error:sessionError}=await supabaseClient.auth.getSession();
+    if(sessionError||!session){window.location.href="auth.html";return;}
+
+    const {data:roleData}=await supabaseClient
+      .from("user_roles").select("role").eq("user_id",session.user.id).maybeSingle();
+
+    const role=roleData?.role||"member";
+    if(role==="super_admin"){window.location.href="super-admin.html";return;}
+    if(role==="admin"){window.location.href="admin.html";return;}
+
+    const {data:rows,error}=await supabaseClient
+      .from("fund_transactions")
+      .select("financial_year,transaction_date,amount,category,description,reference_no,title,payment_mode")
+      .eq("member_user_id",session.user.id)
+      .order("transaction_date",{ascending:false});
+
+    if(error) throw error;
+
+    const records=rows||[];
+    const total=records.reduce((sum,row)=>sum+(Number(row.amount)||0),0);
+
+    document.getElementById("totalAmount").textContent=money(total);
+    document.getElementById("recordCount").textContent=records.length;
+    document.getElementById("latestDate").textContent=records.length
+      ? dateText(records[0].transaction_date)
+      : "—";
+
+    const history=document.getElementById("history");
+
+    if(records.length===0){
+      history.innerHTML='<div class="empty">No contribution record is linked to your member account yet.</div>';
+    }else{
+      history.innerHTML=`
+        <table>
+          <thead>
+            <tr>
+              <th>Financial Year</th>
+              <th>Date</th>
+              <th>Amount</th>
+              <th>Title / Purpose</th>
+              <th>Category</th>
+              <th>Payment Mode</th>
+              <th>Reference No.</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${records.map(r=>`
+              <tr>
+                <td>${esc(r.financial_year||"—")}</td>
+                <td>${dateText(r.transaction_date)}</td>
+                <td><strong>${money(r.amount)}</strong></td>
+                <td>${esc(r.title||"—")}</td>
+                <td>${esc(r.category||"—")}</td>
+                <td>${esc(r.payment_mode||"—")}</td>
+                <td>${esc(r.reference_no||"—")}</td>
+                <td>${esc(r.description||"—")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>`;
+    }
+
+    document.getElementById("loading").style.display="none";
+    document.getElementById("content").style.display="block";
+  }catch(error){
+    console.error("My Contributions error:",error);
+    document.getElementById("loading").innerHTML=
+      '<div class="error"><strong>Unable to load your contribution account.</strong><br>Please try again later.</div>';
+  }
+}
+
+loadLogo();
+loadContributions();
+</script>
+</body>
+</html>
