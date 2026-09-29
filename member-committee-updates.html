@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Committee Updates - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f7f7;color:#222;font-family:Arial,Helvetica,sans-serif}
+.topbar{background:#6f1021;color:#fff;text-align:center;padding:9px 12px;font-size:14px}
+.header{background:#fff;position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.navwrap{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;padding:10px 16px;overflow-x:auto;white-space:nowrap}
+.logo{width:58px;height:58px;border-radius:50%;object-fit:cover;border:3px solid #8d6b2f;flex:none}
+.brand{min-width:210px;margin-right:8px}
+.brand h1{font-size:19px;color:#6f1021;margin:0 0 3px}
+.brand p{font-size:12px;margin:0;color:#666}
+.nav{display:flex;gap:6px}
+.nav a{color:#4d1020;text-decoration:none;padding:9px 10px;border-radius:6px;font-size:13px}
+.nav a:hover{background:#f3e7e7}
+.hero{background:linear-gradient(rgba(72,0,12,.84),rgba(72,0,12,.84));min-height:175px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px 15px;color:#fff}
+.hero h2{font-size:30px;margin:0 0 8px}
+.hero p{margin:0;opacity:.9}
+.container{max-width:1000px;margin:28px auto;padding:0 16px}
+.card{background:#fff;border-radius:14px;padding:22px;box-shadow:0 3px 16px rgba(0,0,0,.08);margin-bottom:18px}
+.summary{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{background:#faf4f4;border-left:4px solid #6f1021;border-radius:10px;padding:15px}
+.stat b{display:block;font-size:25px;color:#6f1021;margin-top:4px}
+.update{border:1px solid #ead9dc;border-radius:12px;padding:18px;margin:12px 0;background:#fff}
+.update h3{margin:0;color:#6f1021;font-size:19px}
+.meta{font-size:12px;color:#777;margin-top:7px}
+.type{display:inline-block;font-size:11px;padding:5px 9px;border-radius:20px;background:#6f1021;color:#fff;margin-bottom:10px}
+.content{margin-top:12px;color:#444;line-height:1.65;white-space:pre-wrap}
+.empty{text-align:center;color:#777;padding:35px 10px}
+.loading{text-align:center;padding:30px;color:#6f1021}
+.error{background:#fff0f0;color:#a40000;padding:14px;border-radius:8px}
+footer{background:#4d0b17;color:#fff;text-align:center;padding:24px 15px;margin-top:40px;font-size:13px}
+@media(max-width:700px){
+ .brand{min-width:180px}.brand h1{font-size:16px}.nav a{font-size:12px;padding:8px}
+ .hero h2{font-size:24px}.summary{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">Maa Basuli Uda Jatra Committee • Thakurmunda, Mayurbhanj, Odisha</div>
+
+<header class="header">
+  <div class="navwrap">
+    <img id="siteLogo" class="logo" alt="Maa Basuli">
+    <div class="brand">
+      <h1>Maa Basuli Uda Jatra Committee</h1>
+      <p>Thakurmunda, Mayurbhanj, Odisha</p>
+    </div>
+    <nav class="nav">
+      <a href="member-dashboard.html">Dashboard</a>
+      <a href="profile.html">My Profile</a>
+      <a href="member-id-card.html">Digital ID</a>
+      <a href="member-fee-account.html">My Fee</a>
+      <a href="my-contributions.html">My Contributions</a>
+      <a href="member-duty.html">My Duty</a>
+      <a href="member-notifications.html">Notifications</a>
+      <a href="member-documents.html">My Documents</a>
+      <a href="member-committee-updates.html">Committee Updates</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <h2>Committee Updates</h2>
+    <p>Private internal updates for committee members</p>
+  </div>
+</section>
+
+<main class="container">
+  <div id="accessError" class="card error" style="display:none"></div>
+
+  <div class="card">
+    <div class="summary">
+      <div class="stat">Published Updates<b id="totalCount">0</b></div>
+      <div class="stat">Latest Update<b id="latestDate">—</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div id="loading" class="loading">Loading committee updates...</div>
+    <div id="list" style="display:none"></div>
+  </div>
+</main>
+
+<footer>
+  <div>© 2026 Maa Basuli Uda Jatra Committee, Thakurmunda</div>
+  <div style="margin-top:7px">Technical Support: 7978583565 (Sanat Barik)</div>
+</footer>
+
+<script>
+const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+function esc(v){
+  return String(v??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function fmt(v){
+  if(!v)return "—";
+  return new Date(v).toLocaleString("en-IN",{
+    day:"2-digit",month:"short",year:"numeric",
+    hour:"2-digit",minute:"2-digit"
+  });
+}
+
+function showError(msg){
+  document.getElementById("loading").style.display="none";
+  const box=document.getElementById("accessError");
+  box.textContent=msg;
+  box.style.display="block";
+}
+
+async function loadBranding(){
+  try{
+    const {data}=await supabaseClient
+      .from("website_settings")
+      .select("*")
+      .limit(1)
+      .maybeSingle();
+
+    if(data){
+      const logo=data.logo_url||data.logo||data.site_logo_url;
+      if(logo) document.getElementById("siteLogo").src=logo;
+    }
+  }catch(e){
+    console.warn("Branding load:",e);
+  }
+}
+
+async function loadUpdates(){
+  const {data:{session},error:sessionError}=await supabaseClient.auth.getSession();
+
+  if(sessionError||!session){
+    showError("Please login first to view private committee updates.");
+    return;
+  }
+
+  const {data:roleData}=await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id",session.user.id)
+    .maybeSingle();
+
+  if(!roleData || !["member","admin","super_admin"].includes(roleData.role)){
+    showError("Access denied.");
+    return;
+  }
+
+  const {data,error}=await supabaseClient
+    .from("member_committee_updates")
+    .select("id,title,content,update_type,created_at")
+    .eq("is_published",true)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    console.error("Committee updates error:",error);
+    showError("Unable to load committee updates. Please try again.");
+    return;
+  }
+
+  const rows=data||[];
+  document.getElementById("totalCount").textContent=rows.length;
+  document.getElementById("latestDate").textContent=rows.length?fmt(rows[0].created_at):"—";
+
+  const list=document.getElementById("list");
+
+  if(!rows.length){
+    list.innerHTML='<div class="empty">No committee updates have been published yet.</div>';
+  }else{
+    list.innerHTML=rows.map(item=>`
+      <article class="update">
+        <span class="type">${esc((item.update_type||"general").toUpperCase())}</span>
+        <h3>${esc(item.title)}</h3>
+        <div class="meta">Published: ${fmt(item.created_at)}</div>
+        <div class="content">${esc(item.content)}</div>
+      </article>
+    `).join("");
+  }
+
+  document.getElementById("loading").style.display="none";
+  list.style.display="block";
+}
+
+loadBranding();
+loadUpdates();
+
+supabaseClient.auth.onAuthStateChange((event)=>{
+  if(event==="SIGNED_OUT") window.location.href="auth.html";
+});
+</script>
+</body>
+</html>
