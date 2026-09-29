@@ -7,6 +7,7 @@
 <title>Bhakta List | Maa Basuli Uda Jatra Committee</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   margin:0;
@@ -15,9 +16,9 @@
 
 body{
   font-family:Arial,Helvetica,sans-serif;
-  background:#f6f7f9;
+  background:#f7f7f7;
   color:#222;
-  line-height:1.6;
+  line-height:1.7;
 }
 
 a{
@@ -30,145 +31,399 @@ a{
   margin:auto;
 }
 
-/* HEADER */
+.topbar{
+  background:#7b1e1e;
+  color:white;
+  padding:8px 0;
+  font-size:13px;
+}
+
+.topbar-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:8px 18px;
+}
+
+.topbar-inner span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  white-space:nowrap;
+}
+
 header{
-  background:linear-gradient(135deg,#7c2d12,#b45309);
-  color:#fff;
-  box-shadow:0 2px 12px rgba(0,0,0,.15);
+  background:#fff;
+  box-shadow:0 3px 14px rgba(0,0,0,.10);
   position:sticky;
   top:0;
   z-index:50;
 }
 
 .header-inner{
-  min-height:76px;
+  min-height:110px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  gap:0;
+}
+
+.logo{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:flex-start;
   gap:14px;
+  min-height:78px;
+  padding:10px 0 8px;
 }
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:0;
-}
-
-.site-logo{
-  width:54px;
-  height:54px;
-  object-fit:cover;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.9);
-  background:#fff;
-  display:none;
-  flex-shrink:0;
-}
-
-.brand-photo{
-  width:48px;
-  height:48px;
-  object-fit:cover;
-  border-radius:9px;
-  border:2px solid rgba(255,255,255,.9);
-  background:#fff;
-  display:none;
-  flex-shrink:0;
-}
-
-.logo-fallback{
-  width:50px;
-  height:50px;
+.logo-icon{
+  width:64px;
+  height:64px;
+  min-width:64px;
   border-radius:50%;
   background:#f4c542;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:24px;
-  flex-shrink:0;
+  font-size:30px;
+  object-fit:cover;
+  border:2px solid #f4c542;
+  background:#fff8ed;
 }
 
-.brand-text h1{
-  font-size:17px;
+.logo-text h1{
+  color:#7b1e1e;
+  font-size:25px;
   line-height:1.2;
-  color:#fff;
+  font-weight:800;
 }
 
-.brand-text p{
-  font-size:11px;
-  color:#ffe9cf;
-  margin-top:2px;
+.logo-text p{
+  color:#777;
+  font-size:14px;
+  margin-top:3px;
 }
 
-.header-right{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:10px;
+#siteLogo{display:none;}
+
+#logoFallback{display:flex;}
+
+.main-nav-wrap{
+  width:100%;
+  border-top:1px solid #f0e1dc;
+  background:#fff;
 }
 
-#language-switcher{
-  display:flex;
-  align-items:center;
-}
-
-#maa-language-switcher{
-  position:static !important;
-  display:inline-flex !important;
+/* MASTER NAVIGATION - ALWAYS VISIBLE */
+.main-nav-wrap,
+nav,
+nav a{
+  visibility:visible !important;
+  opacity:1 !important;
 }
 
 nav{
   display:flex;
-  gap:3px;
+  align-items:center;
+  justify-content:center;
   flex-wrap:wrap;
-  justify-content:flex-end;
+  gap:7px;
+  padding:8px 0 10px;
+  width:100%;
 }
 
 nav a{
-  padding:7px 8px;
-  border-radius:7px;
-  font-size:11px;
-  font-weight:bold;
-  color:#fff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:40px;
+  padding:9px 13px;
+  border-radius:8px;
+  font-size:13px;
+  font-weight:700;
+  white-space:nowrap;
+  color:#222;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
 }
 
 nav a:hover,
 nav a.active{
-  background:rgba(255,255,255,.18);
-}
-
-.menu-btn{
-  display:none;
-  border:0;
-  background:rgba(255,255,255,.15);
+  background:#7b1e1e;
   color:#fff;
-  padding:8px 11px;
-  border-radius:7px;
-  font-size:19px;
-  cursor:pointer;
 }
 
-/* HERO */
-.hero{
+nav a:hover{transform:translateY(-1px);}
+
+.menu-btn{display:none;}
+
+.page-hero{
   background:
-    linear-gradient(rgba(75,18,10,.84),rgba(75,18,10,.84)),
-    linear-gradient(135deg,#7b1e1e,#b45309);
-  color:#fff;
+    linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
+    url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
+    center/cover;
+  color:white;
+  padding:85px 0;
   text-align:center;
-  padding:58px 0;
 }
 
-.hero h2{
-  font-size:36px;
-  margin-bottom:6px;
+.page-hero h2{
+  font-size:42px;
+  margin-bottom:8px;
 }
 
-.hero p{
-  font-size:15px;
+.page-hero p{
+  font-size:17px;
+  opacity:.95;
 }
 
-/* MAIN */
+section{
+  padding:55px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.section-title h2{
+  color:#7b1e1e;
+  font-size:30px;
+}
+
+.section-title p{
+  color:#777;
+}
+
+.about-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+  align-items:center;
+}
+
+.content-card{
+  background:white;
+  padding:28px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.content-card h2{
+  color:#7b1e1e;
+  margin-bottom:12px;
+}
+
+.content-card p{
+  color:#555;
+  margin-bottom:14px;
+}
+
+.image-card{
+  background:white;
+  padding:12px;
+  border-radius:15px;
+  box-shadow:0 4px 15px rgba(0,0,0,.07);
+}
+
+.image-card img{
+  width:100%;
+  height:360px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.values{
+  background:#fff8ed;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:white;
+  padding:24px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.06);
+}
+
+.card-icon{
+  font-size:34px;
+  margin-bottom:8px;
+}
+
+.card h3{
+  color:#7b1e1e;
+  margin-bottom:8px;
+}
+
+.card p{
+  color:#666;
+  font-size:14px;
+}
+
+.highlight{
+  background:#7b1e1e;
+  color:white;
+}
+
+.highlight .section-title h2,
+.highlight .section-title p{
+  color:white;
+}
+
+.highlight-box{
+  max-width:900px;
+  margin:auto;
+  text-align:center;
+}
+
+.highlight-box p{
+  color:#eee;
+  font-size:16px;
+}
+
+.back{
+  text-align:center;
+  padding:35px 0;
+}
+
+.btn{
+  display:inline-block;
+  background:#7b1e1e;
+  color:white;
+  padding:11px 18px;
+  border-radius:8px;
+  font-weight:bold;
+}
+
+footer{
+  background:#241313;
+  color:white;
+  padding:40px 0 20px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
+
+footer h3{
+  color:#ffd36b;
+  margin-bottom:10px;
+}
+
+footer p,
+footer a{
+  color:#ddd;
+  font-size:14px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.15);
+  margin-top:30px;
+  padding-top:15px;
+  text-align:center;
+  color:#aaa;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+
+  /* Keep every master navigation button visible on every page */
+  nav{
+    display:flex !important;
+    position:static;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    background:white;
+    padding:8px 0 10px;
+    box-shadow:none;
+  }
+
+  nav.show{
+    display:flex !important;
+  }
+
+  .menu-btn{
+    display:none !important;
+  }
+
+  .header-inner{
+    position:relative;
+  }
+
+  .about-grid{
+    grid-template-columns:1fr;
+  }
+
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(max-width:600px){
+
+  .logo-text h1{
+    font-size:16px;
+  }
+
+  .page-hero{
+    padding:65px 0;
+  }
+
+  .page-hero h2{
+    font-size:32px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+  .image-card img{
+    height:280px;
+  }
+}
+
+
+@media(max-width:900px){
+  .header-inner{min-height:auto;}
+  .logo{min-height:72px;}
+  .logo-icon{width:58px;height:58px;min-width:58px;}
+  .logo-text h1{font-size:21px;}
+  .logo-text p{font-size:13px;}
+  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
+  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
+}
+
+@media(max-width:600px){
+  .topbar{font-size:11px;}
+  .topbar-inner{justify-content:center;text-align:center;}
+  .logo{gap:10px;padding:9px 0;}
+  .logo-icon{width:52px;height:52px;min-width:52px;}
+  .logo-text h1{font-size:18px;}
+  .logo-text p{font-size:11px;}
+  nav{gap:5px;}
+  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
+}
+
+/* BHAKTA PAGE CONTENT */
+
 .main-section{
   padding:42px 0 60px;
 }
@@ -380,307 +635,106 @@ tbody tr:hover{
   font-size:12px;
 }
 
-/* FOOTER */
-footer{
-  background:#241313;
-  color:#fff;
-  padding:38px 0 18px;
+/* BHAKTA RESPONSIVE OVERRIDES */
+@media(max-width:900px){
+  .summary{grid-template-columns:1fr 1fr;}
 }
 
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
+@media(max-width:600px){
+  .summary{grid-template-columns:1fr;}
+  .controls{display:block;}
+  .search-box,.year-select{width:100%;margin-bottom:10px;}
+  table{min-width:720px;}
 }
 
-footer h3{
-  color:#ffd36b;
-  margin-bottom:9px;
-}
-
-footer p,
-footer a{
-  color:#ddd;
-  font-size:13px;
-}
-
-footer a{
-  display:block;
-  margin:4px 0;
-}
-
-.copyright{
-  border-top:1px solid rgba(255,255,255,.15);
-  margin-top:25px;
-  padding-top:14px;
-  text-align:center;
-  color:#aaa;
-  font-size:12px;
-}
-
-/* MOBILE */
-@media(max-width:1100px){
-
-  nav{
-    display:none;
-    position:absolute;
-    top:76px;
-    left:0;
-    right:0;
-    background:#fff;
-    padding:12px;
-    flex-direction:column;
-    box-shadow:0 5px 15px rgba(0,0,0,.12);
-  }
-
-  nav.show{
-    display:flex;
-  }
-
-  nav a{
-    color:#7b1e1e;
-    padding:10px 12px;
-  }
-
-  nav a:hover,
-  nav a.active{
-    background:#f5e8e8;
-  }
-
-  .menu-btn{
-    display:block;
-  }
-
-  .header-right{
-    margin-left:auto;
-  }
-
-  .summary{
-    grid-template-columns:1fr 1fr;
-  }
-}
-
-@media(max-width:650px){
-
-  .header-inner{
-    min-height:70px;
-  }
-
-  .site-logo{
-    width:48px;
-    height:48px;
-  }
-
-  .brand-photo{
-    width:42px;
-    height:42px;
-  }
-
-  .logo-fallback{
-    width:44px;
-    height:44px;
-    font-size:21px;
-  }
-
-  .brand-text h1{
-    font-size:14px;
-  }
-
-  .brand-text p{
-    font-size:9px;
-  }
-
-  .hero{
-    padding:45px 0;
-  }
-
-  .hero h2{
-    font-size:30px;
-  }
-
-  .summary{
-    grid-template-columns:1fr;
-  }
-
-  .controls{
-    display:block;
-  }
-
-  .search-box,
-  .year-select{
-    width:100%;
-    margin-bottom:10px;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-}
 </style>
 </head>
 
 <body>
 
+<!-- TOP BAR -->
+
+<div class="topbar">
+  <div class="container topbar-inner">
+    <span>🙏 Jai Maa Basuli</span>
+    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+    <span>✉️ maabasuliudajatracommittee@gmail.com</span>
+    <span>📞 7978583565</span>
+  </div>
+</div>
+
+
 <!-- HEADER -->
 <header>
+
   <div class="container header-inner">
 
-    <a href="index.html" class="brand">
+    <a href="index.html" class="logo">
 
-      <img
-        id="siteLogo"
-        class="site-logo"
-        src=""
-        alt="Maa Basuli Uda Jatra Committee"
-      >
+      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
+      <div id="logoFallback" class="logo-icon">🙏</div>
 
-      <img
-        id="maaBasuliPhoto"
-        class="brand-photo"
-        src=""
-        alt="Maa Basuli"
-      >
-
-      <div id="logoFallback" class="logo-fallback">🙏</div>
-
-      <div class="brand-text">
-        <h1
-          data-lang-en="Maa Basuli Uda Jatra Committee"
-          data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-          data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
-        >
-          Maa Basuli Uda Jatra Committee
-        </h1>
-
-        <p
-          data-lang-en="Thakurmunda, Mayurbhanj, Odisha"
-          data-lang-or="ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶା"
-          data-lang-hi="ठाकुरमुंडा, मयूरभंज, ओडिशा"
-        >
-          Thakurmunda, Mayurbhanj, Odisha
-        </p>
+      <div class="logo-text">
+        <h1>Maa Basuli Uda Jatra Committee</h1>
+        <p>Thakurmunda, Mayurbhanj, Odisha</p>
       </div>
 
     </a>
 
-    <div class="header-right">
+    <div class="main-nav-wrap">
+      <nav id="mainNav" aria-label="Main Navigation">
 
-      <div id="language-switcher">
-        <div id="maa-language-switcher">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Members</a>
+        <a href="fund.html">Fund</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="bhakta-list.html" class="active">Bhakta List</a>
+        <a href="complaint.html">Complaint</a>
+        <a href="contact.html">Contact</a>
+        <a href="search.html">Search</a>
+        <a href="auth.html">Login</a>
 
-          <button
-            type="button"
-            data-site-lang="en"
-            onclick="setSiteLanguage('en')"
-          >
-            🇬🇧 English
-          </button>
-
-          <button
-            type="button"
-            data-site-lang="or"
-            onclick="setSiteLanguage('or')"
-          >
-            ଓଡ଼ିଆ
-          </button>
-
-          <button
-            type="button"
-            data-site-lang="hi"
-            onclick="setSiteLanguage('hi')"
-          >
-            हिन्दी
-          </button>
-
-        </div>
-      </div>
-
-      <button
-        class="menu-btn"
-        onclick="toggleMenu()"
-        aria-label="Menu"
-      >
-        ☰
-      </button>
-
+      </nav>
     </div>
 
-    <nav id="mainNav">
-
-      <a href="index.html" data-lang-en="Home" data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା" data-lang-hi="होम">Home</a>
-
-      <a href="about.html" data-lang-en="About" data-lang-or="ଆମ ବିଷୟରେ" data-lang-hi="हमारे बारे में">About</a>
-
-      <a href="jatra.html" data-lang-en="Uda Jatra" data-lang-or="ଉଡ଼ା ଯାତ୍ରା" data-lang-hi="उड़ा यात्रा">Uda Jatra</a>
-
-      <a href="notices.html" data-lang-en="Notices" data-lang-or="ବିଜ୍ଞପ୍ତି" data-lang-hi="सूचनाएँ">Notices</a>
-
-      <a href="events.html" data-lang-en="Events" data-lang-or="କାର୍ଯ୍ୟକ୍ରମ" data-lang-hi="कार्यक्रम">Events</a>
-
-      <a href="gallery.html" data-lang-en="Gallery" data-lang-or="ଗ୍ୟାଲେରୀ" data-lang-hi="गैलरी">Gallery</a>
-
-      <a href="members.html" data-lang-en="Our Members" data-lang-or="ଆମ ସଦସ୍ୟ" data-lang-hi="हमारे सदस्य">Our Members</a>
-
-      <a href="fund.html" data-lang-en="Fund" data-lang-or="ଫଣ୍ଡ" data-lang-hi="फंड">Fund</a>
-
-      <a href="member-fee.html" data-lang-en="Member Fee" data-lang-or="ସଦସ୍ୟ ଫି" data-lang-hi="सदस्य शुल्क">Member Fee</a>
-
-      <a href="bhakta-list.html" class="active" data-lang-en="Bhakta List" data-lang-or="ଭକ୍ତ ତାଲିକା" data-lang-hi="भक्त सूची">Bhakta List</a>
-
-      <a href="complaint.html" data-lang-en="Complaint" data-lang-or="ଅଭିଯୋଗ" data-lang-hi="शिकायत">Complaint</a>
-
-      <a href="contact.html" data-lang-en="Contact" data-lang-or="ଯୋଗାଯୋଗ" data-lang-hi="संपर्क">Contact</a>
-
-      <a href="search.html" data-lang-en="Search" data-lang-or="ସନ୍ଧାନ" data-lang-hi="खोजें">Search</a>
-
-      <a href="auth.html" data-lang-en="Login" data-lang-or="ଲଗଇନ୍" data-lang-hi="लॉगिन">Login</a>
-
-    </nav>
-
   </div>
+
 </header>
 
-<!-- HERO -->
-<section class="hero">
+
+<!-- PAGE HERO -->
+
+<section class="page-hero">
+
   <div class="container">
 
-    <h2
-      data-lang-en="Bhakta List"
-      data-lang-or="ଭକ୍ତ ତାଲିକା"
-      data-lang-hi="भक्त सूची"
-    >
-      Bhakta List
-    </h2>
+    <h2>Bhakta List</h2>
 
-    <p
-      data-lang-en="Year-wise Maa Basuli Uda Jatra Bhakta List"
-      data-lang-or="ବର୍ଷ ଅନୁସାରେ ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା ଭକ୍ତ ତାଲିକା"
-      data-lang-hi="वर्षवार माँ बासुली उड़ा यात्रा भक्त सूची"
-    >
+    <p>
       Year-wise Maa Basuli Uda Jatra Bhakta List
     </p>
 
   </div>
+
 </section>
 
-<!-- MAIN -->
+
 <section class="main-section">
   <div class="container">
 
     <div class="intro">
 
       <h3
-        data-lang-en="🙏 Maa Basuli Uda Jatra Bhakta List"
-        data-lang-or="🙏 ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା ଭକ୍ତ ତାଲିକା"
-        data-lang-hi="🙏 माँ बासुली उड़ा यात्रा भक्त सूची"
       >
         🙏 Maa Basuli Uda Jatra Bhakta List
       </h3>
 
       <p
-        data-lang-en="This section is designed for the official year-wise Bhakta List maintained by the Maa Basuli Uda Jatra Committee. The list will be updated through the official management system."
-        data-lang-or="ଏହି ବିଭାଗରେ ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି ଦ୍ୱାରା ପରିଚାଳିତ ବର୍ଷ ଅନୁସାରେ ଅଧିକୃତ ଭକ୍ତ ତାଲିକା ପ୍ରଦର୍ଶିତ ହେବ। ତାଲିକା ଅଧିକୃତ ପରିଚାଳନା ବ୍ୟବସ୍ଥା ମାଧ୍ୟମରେ ଅଦ୍ୟତନ ହେବ।"
-        data-lang-hi="इस अनुभाग में माँ बासुली उड़ा यात्रा समिति द्वारा रखी गई वर्षवार आधिकारिक भक्त सूची प्रदर्शित की जाएगी। सूची आधिकारिक प्रबंधन प्रणाली के माध्यम से अपडेट की जाएगी।"
       >
         This section is designed for the official year-wise Bhakta List maintained by the Maa Basuli Uda Jatra Committee. The list will be updated through the official management system.
       </p>
@@ -694,11 +748,9 @@ footer a{
         <input
           type="search"
           id="bhaktaSearch"
-          data-placeholder-en="Search by Bhakta Name or Village..."
-          data-placeholder-or="ଭକ୍ତଙ୍କ ନାମ କିମ୍ବା ଗ୍ରାମ ଦ୍ୱାରା ଖୋଜନ୍ତୁ..."
-          data-placeholder-hi="भक्त का नाम या गाँव खोजें..."
           placeholder="Search by Bhakta Name or Village..."
           autocomplete="off"
+          oninput="filterBhaktaList()"
         >
 
       </div>
@@ -712,27 +764,18 @@ footer a{
         >
           <option
             value="all"
-            data-lang-en="All Years"
-            data-lang-or="ସମସ୍ତ ବର୍ଷ"
-            data-lang-hi="सभी वर्ष"
           >
             All Years
           </option>
 
           <option
             value="2027"
-            data-lang-en="2027"
-            data-lang-or="୨୦୨୭"
-            data-lang-hi="2027"
           >
             2027
           </option>
 
           <option
             value="2026"
-            data-lang-en="2026"
-            data-lang-or="୨୦୨୬"
-            data-lang-hi="2026"
           >
             2026
           </option>
@@ -748,9 +791,6 @@ footer a{
         <strong id="totalCount">0</strong>
 
         <span
-          data-lang-en="Total Bhakta"
-          data-lang-or="ମୋଟ ଭକ୍ତ"
-          data-lang-hi="कुल भक्त"
         >
           Total Bhakta
         </span>
@@ -760,9 +800,6 @@ footer a{
         <strong id="yearCount">0</strong>
 
         <span
-          data-lang-en="Selected Year"
-          data-lang-or="ଚୟନିତ ବର୍ଷ"
-          data-lang-hi="चयनित वर्ष"
         >
           Selected Year
         </span>
@@ -772,9 +809,6 @@ footer a{
         <strong id="verifiedCount">0</strong>
 
         <span
-          data-lang-en="Verified Records"
-          data-lang-or="ଯାଞ୍ଚିତ ରେକର୍ଡ"
-          data-lang-hi="सत्यापित रिकॉर्ड"
         >
           Verified Records
         </span>
@@ -787,17 +821,11 @@ footer a{
       <div class="table-title">
 
         <h3
-          data-lang-en="Official Bhakta Records"
-          data-lang-or="ଅଧିକୃତ ଭକ୍ତ ରେକର୍ଡ"
-          data-lang-hi="आधिकारिक भक्त रिकॉर्ड"
         >
           Official Bhakta Records
         </h3>
 
         <p
-          data-lang-en="Public information will be displayed according to committee-approved settings."
-          data-lang-or="କମିଟି ଅନୁମୋଦିତ ସେଟିଂ ଅନୁସାରେ ସାର୍ବଜନୀନ ତଥ୍ୟ ପ୍ରଦର୍ଶିତ ହେବ।"
-          data-lang-hi="समिति द्वारा अनुमोदित सेटिंग के अनुसार सार्वजनिक जानकारी प्रदर्शित की जाएगी।"
         >
           Public information will be displayed according to committee-approved settings.
         </p>
@@ -812,27 +840,27 @@ footer a{
 
             <tr>
 
-              <th data-lang-en="Sl. No." data-lang-or="କ୍ରମିକ ନଂ" data-lang-hi="क्रमांक">
+              <th>
                 Sl. No.
               </th>
 
-              <th data-lang-en="Year" data-lang-or="ବର୍ଷ" data-lang-hi="वर्ष">
+              <th>
                 Year
               </th>
 
-              <th data-lang-en="Bhakta Name" data-lang-or="ଭକ୍ତଙ୍କ ନାମ" data-lang-hi="भक्त का नाम">
+              <th>
                 Bhakta Name
               </th>
 
-              <th data-lang-en="Village / Area" data-lang-or="ଗ୍ରାମ / ଅଞ୍ଚଳ" data-lang-hi="गाँव / क्षेत्र">
+              <th>
                 Village / Area
               </th>
 
-              <th data-lang-en="Status" data-lang-or="ସ୍ଥିତି" data-lang-hi="स्थिति">
+              <th>
                 Status
               </th>
 
-              <th data-lang-en="Details" data-lang-or="ବିବରଣୀ" data-lang-hi="विवरण">
+              <th>
                 Details
               </th>
 
@@ -851,17 +879,11 @@ footer a{
         <div class="empty-icon">🙏</div>
 
         <h3
-          data-lang-en="No Bhakta Records Available"
-          data-lang-or="କୌଣସି ଭକ୍ତ ରେକର୍ଡ ଉପଲବ୍ଧ ନାହିଁ"
-          data-lang-hi="कोई भक्त रिकॉर्ड उपलब्ध नहीं है"
         >
           No Bhakta Records Available
         </h3>
 
         <p
-          data-lang-en="Official Bhakta records will appear here after they are added through the committee management system."
-          data-lang-or="କମିଟି ପରିଚାଳନା ବ୍ୟବସ୍ଥାରେ ରେକର୍ଡ ଯୋଡ଼ାଯିବା ପରେ ଅଧିକୃତ ଭକ୍ତ ରେକର୍ଡ ଏଠାରେ ଦେଖାଯିବ।"
-          data-lang-hi="समिति प्रबंधन प्रणाली में रिकॉर्ड जोड़े जाने के बाद आधिकारिक भक्त रिकॉर्ड यहाँ दिखाई देंगे।"
         >
           Official Bhakta records will appear here after they are added through the committee management system.
         </p>
@@ -873,17 +895,11 @@ footer a{
     <div class="privacy">
 
       <h3
-        data-lang-en="🔐 Privacy & Public Information"
-        data-lang-or="🔐 ଗୋପନୀୟତା ଏବଂ ସାର୍ବଜନୀନ ତଥ୍ୟ"
-        data-lang-hi="🔐 गोपनीयता और सार्वजनिक जानकारी"
       >
         🔐 Privacy & Public Information
       </h3>
 
       <p
-        data-lang-en="Only information approved for public display by the committee will be shown here. Sensitive personal information such as passwords, login credentials and other private information will never be displayed publicly."
-        data-lang-or="କମିଟି ଦ୍ୱାରା ସାର୍ବଜନୀନ ପ୍ରଦର୍ଶନ ପାଇଁ ଅନୁମୋଦିତ ତଥ୍ୟ ମାତ୍ର ଏଠାରେ ଦେଖାଯିବ। ପାସୱାର୍ଡ, ଲଗଇନ୍ ତଥ୍ୟ ଏବଂ ଅନ୍ୟାନ୍ୟ ବ୍ୟକ୍ତିଗତ ତଥ୍ୟ କେବେବି ସାର୍ବଜନୀନ ଭାବେ ପ୍ରଦର୍ଶିତ ହେବ ନାହିଁ।"
-        data-lang-hi="यहाँ केवल समिति द्वारा सार्वजनिक प्रदर्शन के लिए अनुमोदित जानकारी दिखाई जाएगी। पासवर्ड, लॉगिन जानकारी और अन्य निजी जानकारी कभी भी सार्वजनिक रूप से प्रदर्शित नहीं की जाएगी।"
       >
         Only information approved for public display by the committee will be shown here. Sensitive personal information such as passwords, login credentials and other private information will never be displayed publicly.
       </p>
@@ -894,6 +910,7 @@ footer a{
 </section>
 
 <!-- FOOTER -->
+
 <footer>
 
   <div class="container">
@@ -902,85 +919,65 @@ footer a{
 
       <div>
 
-        <h3
-          data-lang-en="Maa Basuli Uda Jatra Committee"
-          data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି"
-          data-lang-hi="माँ बासुली उड़ा यात्रा समिति"
-        >
-          Maa Basuli Uda Jatra Committee
-        </h3>
+        <h3>Maa Basuli Uda Jatra Committee</h3>
 
-        <p
-          data-lang-en="Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha."
-          data-lang-or="ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି, ଠାକୁରମୁଣ୍ଡା, ମୟୂରଭଞ୍ଜ, ଓଡ଼ିଶାର ଅଧିକୃତ ୱେବସାଇଟ୍।"
-          data-lang-hi="माँ बासुली उड़ा यात्रा समिति, ठाकुरमुंडा, मयूरभंज, ओडिशा की आधिकारिक वेबसाइट।"
-        >
+        <p>
           Official website of Maa Basuli Uda Jatra Committee,
           Thakurmunda, Mayurbhanj, Odisha.
         </p>
 
-        <p style="margin-top:9px;">
-          ଜୟ ମା' ବାସୁଳୀ 🙏
+        <p style="margin-top:10px;">
+          Jai Maa Basuli 🙏
         </p>
 
       </div>
 
+
       <div>
 
-        <h3
-          data-lang-en="Quick Links"
-          data-lang-or="ଦ୍ରୁତ ଲିଙ୍କ୍"
-          data-lang-hi="त्वरित लिंक"
-        >
-          Quick Links
-        </h3>
+        <h3>Quick Links</h3>
 
-        <a href="index.html" data-lang-en="Home" data-lang-or="ମୁଖ୍ୟ ପୃଷ୍ଠା" data-lang-hi="होम">Home</a>
-
-        <a href="jatra.html" data-lang-en="Uda Jatra" data-lang-or="ଉଡ଼ା ଯାତ୍ରା" data-lang-hi="उड़ा यात्रा">Uda Jatra</a>
-
-        <a href="notices.html" data-lang-en="Notices" data-lang-or="ବିଜ୍ଞପ୍ତି" data-lang-hi="सूचनाएँ">Notices</a>
-
-        <a href="events.html" data-lang-en="Events" data-lang-or="କାର୍ଯ୍ୟକ୍ରମ" data-lang-hi="कार्यक्रम">Events</a>
-
-        <a href="gallery.html" data-lang-en="Gallery" data-lang-or="ଗ୍ୟାଲେରୀ" data-lang-hi="गैलरी">Gallery</a>
+        <a href="index.html">Home</a>
+        <a href="jatra.html">Uda Jatra</a>
+        <a href="notices.html">Notices</a>
+        <a href="events.html">Events</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="members.html">Our Members</a>
 
       </div>
 
+
       <div>
 
-        <h3
-          data-lang-en="Services"
-          data-lang-or="ସେବା"
-          data-lang-hi="सेवाएँ"
-        >
-          Services
-        </h3>
+        <h3>Services</h3>
 
-        <a href="members.html" data-lang-en="Our Members" data-lang-or="ଆମ ସଦସ୍ୟ" data-lang-hi="हमारे सदस्य">Our Members</a>
-
-        <a href="member-fee.html" data-lang-en="Member Fee" data-lang-or="ସଦସ୍ୟ ଫି" data-lang-hi="सदस्य शुल्क">Member Fee</a>
-
-        <a href="fund.html" data-lang-en="Fund & Donation" data-lang-or="ଫଣ୍ଡ ଏବଂ ଦାନ" data-lang-hi="फंड और दान">Fund & Donation</a>
-
-        <a href="complaint.html" data-lang-en="Complaint Box" data-lang-or="ଅଭିଯୋଗ ବକ୍ସ" data-lang-hi="शिकायत बॉक्स">Complaint Box</a>
-
-        <a href="contact.html" data-lang-en="Contact" data-lang-or="ଯୋଗାଯୋଗ" data-lang-hi="संपର୍କ">Contact</a>
-
-        <a href="search.html" data-lang-en="Search" data-lang-or="ସନ୍ଧାନ" data-lang-hi="खोजें">Search</a>
+        <a href="fund.html">Fund & Donation</a>
+        <a href="member-fee.html">Member Fee</a>
+        <a href="complaint.html">Complaint Box</a>
+        <a href="contact.html">Contact</a>
+        <a href="auth.html">Login</a>
 
       </div>
 
     </div>
 
+
     <div class="copyright">
-      © 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.
+
+      © 2026 Maa Basuli Uda Jatra Committee.
+      All Rights Reserved.
+
     </div>
 
   </div>
 
 </footer>
 
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* =====================================================
    SUPABASE
@@ -993,26 +990,13 @@ const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 
 const supabaseClient =
-  supabase.createClient(
+  window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
   );
 
 /* =====================================================
-   MOBILE MENU
-   ===================================================== */
-
-function toggleMenu(){
-
-  document
-    .getElementById("mainNav")
-    .classList
-    .toggle("show");
-
-}
-
-/* =====================================================
-   WEBSITE BRANDING
+   WEBSITE BRANDING — SAME AS ABOUT MASTER HEADER
    ===================================================== */
 
 async function loadWebsiteBranding(){
@@ -1022,92 +1006,102 @@ async function loadWebsiteBranding(){
     const { data, error } =
       await supabaseClient
         .from("website_settings")
-        .select("site_name,logo_url,address")
+        .select("*")
+        .order("created_at", { ascending:false })
         .limit(1)
         .maybeSingle();
 
     if(error) throw error;
+    if(!data) return;
 
-    if(data){
-
-      const siteLogo =
-        document.getElementById("siteLogo");
-
-      const fallback =
-        document.getElementById("logoFallback");
-
-      const brandTitle =
-        document.querySelector(".brand-text h1");
-
-      const brandAddress =
-        document.querySelector(".brand-text p");
-
-      if(data.logo_url){
-
-        siteLogo.src = data.logo_url;
-        siteLogo.style.display = "block";
-
-        if(fallback){
-          fallback.style.display = "none";
+    function firstValue(obj, keys){
+      for(const key of keys){
+        const value = obj ? obj[key] : null;
+        if(value !== null && value !== undefined && String(value).trim() !== ""){
+          return String(value).trim();
         }
-
       }
+      return "";
+    }
 
-      if(brandTitle && data.site_name){
-        brandTitle.textContent = data.site_name;
+    const siteName = firstValue(data, [
+      "site_name", "site_title", "website_title", "title", "name"
+    ]);
+
+    const address = firstValue(data, ["address"]);
+
+    const logoUrl = firstValue(data, [
+      "logo_url", "logo", "site_logo_url"
+    ]);
+
+    const groupPhotoUrl = firstValue(data, [
+      "group_photo_url", "group_photo", "committee_group_photo_url"
+    ]);
+
+    const phone = firstValue(data, [
+      "phone", "mobile", "contact_phone"
+    ]);
+
+    const email = firstValue(data, [
+      "email", "contact_email", "official_email"
+    ]);
+
+    if(siteName){
+      const logoText = document.querySelector(".logo-text h1");
+      const footerTitle = document.querySelector("footer h3");
+      if(logoText) logoText.textContent = siteName;
+      if(footerTitle) footerTitle.textContent = siteName;
+      document.title = "Bhakta List | " + siteName;
+    }
+
+    if(address){
+      const location = document.querySelector(".topbar-inner span:nth-child(2)");
+      const logoLocation = document.querySelector(".logo-text p");
+      if(location) location.textContent = "📍 " + address;
+      if(logoLocation) logoLocation.textContent = address;
+    }
+
+    if(email){
+      const emailEl = document.querySelector(".topbar-inner span:nth-child(3)");
+      if(emailEl) emailEl.textContent = "✉️ " + email;
+    }
+
+    if(phone){
+      const phoneEl = document.querySelector(".topbar-inner span:nth-child(4)");
+      if(phoneEl) phoneEl.textContent = "📞 " + phone;
+    }
+
+    const logo = document.getElementById("siteLogo");
+    const fallback = document.getElementById("logoFallback");
+
+    if(logoUrl && logo){
+      logo.src = logoUrl;
+      logo.style.display = "flex";
+      logo.onerror = function(){
+        logo.style.display = "none";
+        if(fallback) fallback.style.display = "flex";
+      };
+      if(fallback) fallback.style.display = "none";
+    }
+
+    if(groupPhotoUrl){
+      const hero = document.querySelector(".page-hero");
+      if(hero){
+        const safeUrl = groupPhotoUrl.replace(/"/g, '\\"');
+        hero.style.backgroundImage =
+          'linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)), url("' +
+          safeUrl +
+          '")';
       }
-
-      if(brandAddress && data.address){
-        brandAddress.textContent = data.address;
-      }
-
     }
 
   }catch(error){
-
-    console.error(
-      "Website branding error:",
-      error
-    );
-
+    console.error("Website branding error:", error);
   }
-
-  try{
-
-    const { data } =
-      await supabaseClient
-        .from("website_settings")
-        .select("maa_basuli_url")
-        .limit(1)
-        .maybeSingle();
-
-    if(data && data.maa_basuli_url){
-
-      const maaPhoto =
-        document.getElementById("maaBasuliPhoto");
-
-      if(maaPhoto){
-
-        maaPhoto.src = data.maa_basuli_url;
-        maaPhoto.style.display = "block";
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.log(
-      "Maa Basuli photo not available."
-    );
-
-  }
-
 }
 
 /* =====================================================
    BHAKTA DATA
-
    No real Bhakta data is invented.
    Official records will come from CMS later.
    ===================================================== */
@@ -1140,11 +1134,7 @@ function filterBhaktaList(){
         String(item.year) === year;
 
       const text =
-        (
-          item.name +
-          " " +
-          item.village
-        ).toLowerCase();
+        (item.name + " " + item.village).toLowerCase();
 
       const searchMatch =
         !search ||
@@ -1155,7 +1145,6 @@ function filterBhaktaList(){
     });
 
   renderBhaktaList(filtered);
-
 }
 
 /* =====================================================
@@ -1164,15 +1153,8 @@ function filterBhaktaList(){
 
 function renderBhaktaList(list){
 
-  const tbody =
-    document.getElementById(
-      "bhaktaTableBody"
-    );
-
-  const empty =
-    document.getElementById(
-      "emptyState"
-    );
+  const tbody = document.getElementById("bhaktaTableBody");
+  const empty = document.getElementById("emptyState");
 
   tbody.innerHTML = "";
 
@@ -1184,57 +1166,24 @@ function renderBhaktaList(list){
 
   list.forEach(function(item,index){
 
-    const row =
-      document.createElement("tr");
+    const row = document.createElement("tr");
 
-    const statusClass =
-      item.verified
-        ? "verified"
-        : "pending";
-
-    const statusText =
-      item.verified
-        ? "✓ Verified"
-        : "Pending";
+    const statusClass = item.verified ? "verified" : "pending";
+    const statusText = item.verified ? "✓ Verified" : "Pending";
 
     row.innerHTML = `
-
-      <td class="serial">
-        ${index + 1}
-      </td>
-
-      <td>
-        ${escapeHtml(item.year)}
-      </td>
-
-      <td>
-        ${escapeHtml(item.name)}
-      </td>
-
-      <td>
-        ${escapeHtml(item.village)}
-      </td>
-
-      <td>
-        <span class="${statusClass}">
-          ${statusText}
-        </span>
-      </td>
-
-      <td>
-        <span style="color:#777;font-size:12px;">
-          Official record
-        </span>
-      </td>
-
+      <td class="serial">${index + 1}</td>
+      <td>${escapeHtml(item.year)}</td>
+      <td>${escapeHtml(item.name)}</td>
+      <td>${escapeHtml(item.village)}</td>
+      <td><span class="${statusClass}">${statusText}</span></td>
+      <td><span style="color:#777;font-size:12px;">Official record</span></td>
     `;
 
     tbody.appendChild(row);
-
   });
 
   updateSummary(list);
-
 }
 
 /* =====================================================
@@ -1242,24 +1191,10 @@ function renderBhaktaList(list){
    ===================================================== */
 
 function updateSummary(list){
-
-  document.getElementById(
-    "totalCount"
-  ).textContent =
-    bhaktaData.length;
-
-  document.getElementById(
-    "yearCount"
-  ).textContent =
-    list.length;
-
-  document.getElementById(
-    "verifiedCount"
-  ).textContent =
-    list.filter(
-      item => item.verified
-    ).length;
-
+  document.getElementById("totalCount").textContent = bhaktaData.length;
+  document.getElementById("yearCount").textContent = list.length;
+  document.getElementById("verifiedCount").textContent =
+    list.filter(item => item.verified).length;
 }
 
 /* =====================================================
@@ -1267,72 +1202,23 @@ function updateSummary(list){
    ===================================================== */
 
 function escapeHtml(value){
-
   return String(value)
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;")
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
-
-}
-
-/* =====================================================
-   LANGUAGE
-   ===================================================== */
-
-function refreshBhaktaLanguage(){
-
-  const lang =
-    localStorage.getItem(
-      "maaBasuliLanguage"
-    ) || "en";
-
-  if(typeof window.setSiteLanguage === "function"){
-    window.setSiteLanguage(lang);
-  }
-
-  renderBhaktaList(
-    bhaktaData.filter(function(item){
-
-      const selectedYear =
-        document
-          .getElementById("yearSelect")
-          .value;
-
-      return (
-        selectedYear === "all" ||
-        String(item.year) === selectedYear
-      );
-
-    })
-  );
-
 }
 
 /* =====================================================
    INITIAL LOAD
    ===================================================== */
 
-window.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    loadWebsiteBranding();
-
-    filterBhaktaList();
-
-    setTimeout(
-      refreshBhaktaLanguage,
-      100
-    );
-
-  }
-);
+window.addEventListener("DOMContentLoaded", function(){
+  loadWebsiteBranding();
+  filterBhaktaList();
+});
 </script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="language.js"></script>
 
 </body>
 </html>
