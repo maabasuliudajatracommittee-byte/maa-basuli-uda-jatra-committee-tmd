@@ -747,7 +747,10 @@ footer a{display:block;margin:7px 0}.footer-social{display:flex;gap:9px;margin-t
       <div><h3>Information</h3><a href="notices.html">Notices</a><a href="fund.html">Fund & Donation</a><a href="member-fee.html">Member Fee</a><a href="documents.html">Documents</a><a href="contact.html">Contact</a></div>
       <div><h3>Committee</h3><a href="complaint.html">Complaint Box</a><a href="auth.html">Member Login</a><a href="auth.html">Admin Login</a><a href="auth.html">Super Admin</a></div>
     </div>
-    <div class="copyright">© 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.</div>
+    <div class="copyright">
+      © 2026 Maa Basuli Uda Jatra Committee. All Rights Reserved.
+      <span id="publicVisitorCount" style="display:inline-block;margin-left:12px;color:#ffd34d;font-weight:700;">👁 Total Visitors: —</span>
+    </div>
   </div>
 </footer>
 
@@ -999,6 +1002,128 @@ loadHomepageNotices();
 setInterval(loadHomepageNotices, 60000);
 loadWebsiteSettings();
 </script>
+
+<script>
+/* ===== PUBLIC VISITOR TRACKING =====
+   One visitor is counted once per browser session on this page.
+   Detailed records are stored privately in public.visitor_logs.
+*/
+(function(){
+  const VISITOR_SESSION_KEY = "maa_basuli_visitor_session_id";
+  const VISITOR_COUNT_ID = "publicVisitorCount";
+
+  function createSessionId(){
+    if(window.crypto && crypto.randomUUID){
+      return crypto.randomUUID();
+    }
+    return "sess-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+  }
+
+  function getVisitorSessionId(){
+    try{
+      let id = sessionStorage.getItem(VISITOR_SESSION_KEY);
+      if(!id){
+        id = createSessionId();
+        sessionStorage.setItem(VISITOR_SESSION_KEY, id);
+      }
+      return id;
+    }catch(error){
+      return createSessionId();
+    }
+  }
+
+  function getPagePath(){
+    return window.location.pathname || "/index.html";
+  }
+
+  async function getCurrentUser(){
+    try{
+      const {data} = await supabaseClient.auth.getSession();
+      return data && data.session ? data.session.user : null;
+    }catch(error){
+      console.warn("Visitor session lookup failed:", error);
+      return null;
+    }
+  }
+
+  async function recordVisitor(){
+    try{
+      const sessionId = getVisitorSessionId();
+      const user = await getCurrentUser();
+
+      const payload = {
+        session_id: sessionId,
+        user_id: user ? user.id : null,
+        visitor_name: user ? (user.email || null) : null,
+        visitor_type: user ? "authenticated" : "anonymous",
+        page_path: getPagePath(),
+        page_title: document.title || "Maa Basuli Uda Jatra Committee",
+        visited_at: new Date().toISOString(),
+        device_type: /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop",
+        browser: getVisitorBrowser(),
+        operating_system: getVisitorOS()
+      };
+
+      const {error} = await supabaseClient
+        .from("visitor_logs")
+        .insert(payload);
+
+      if(error){
+        console.error("Visitor log error:", error);
+      }
+    }catch(error){
+      console.error("Visitor tracking failed:", error);
+    }
+  }
+
+  function getVisitorBrowser(){
+    const ua = navigator.userAgent;
+    if(/Edg\//i.test(ua)) return "Edge";
+    if(/OPR\//i.test(ua)) return "Opera";
+    if(/Chrome\//i.test(ua)) return "Chrome";
+    if(/Firefox\//i.test(ua)) return "Firefox";
+    if(/Safari\//i.test(ua)) return "Safari";
+    return "Other";
+  }
+
+  function getVisitorOS(){
+    const ua = navigator.userAgent;
+    if(/Android/i.test(ua)) return "Android";
+    if(/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    if(/Windows/i.test(ua)) return "Windows";
+    if(/Mac OS X/i.test(ua)) return "macOS";
+    if(/Linux/i.test(ua)) return "Linux";
+    return "Other";
+  }
+
+  async function loadPublicVisitorCount(){
+    const countElement = document.getElementById(VISITOR_COUNT_ID);
+    if(!countElement) return;
+
+    try{
+      const {data, error} = await supabaseClient
+        .rpc("get_public_visitor_count");
+
+      if(error){
+        console.error("Visitor count error:", error);
+        return;
+      }
+
+      const count = Number(data || 0).toLocaleString("en-IN");
+      countElement.textContent = "👁 Total Visitors: " + count;
+    }catch(error){
+      console.error("Public visitor count failed:", error);
+    }
+  }
+
+  recordVisitor();
+  loadPublicVisitorCount();
+
+  // Refresh the displayed total without exposing visitor details.
+  setInterval(loadPublicVisitorCount, 30000);
+})();
+</script>
+
 <script src="language.js"></script>
 </body>
 </html>
