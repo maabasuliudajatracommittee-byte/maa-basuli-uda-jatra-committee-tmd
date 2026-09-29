@@ -812,6 +812,25 @@
 
 
 
+
+      <div class="control-card">
+
+        <div class="control-icon">📋</div>
+
+        <h4>Duty Assignment</h4>
+
+        <p>
+          Any active member ku duty assign kari date, time, location au responsibility set karantu.
+        </p>
+
+        <button
+          class="blue"
+          onclick="scrollToSection('dutyAssignmentManagement')">
+          Assign Duty
+        </button>
+
+      </div>
+
       <div class="control-card">
 
         <div class="control-icon">📧</div>
@@ -1098,24 +1117,6 @@
           class="secondary"
           onclick="openPage('audit-logs.html')">
           Open Audit Logs
-        </button>
-
-      </div>
-
-      <div class="control-card">
-
-        <div class="control-icon">🙋</div>
-
-        <h4>Volunteer Management</h4>
-
-        <p>
-          Member volunteer registration review, approve, reject and complete manage karantu.
-        </p>
-
-        <button
-          class="green"
-          onclick="scrollToSection('volunteerManagement')">
-          Open Volunteer Manager
         </button>
 
       </div>
@@ -1536,64 +1537,83 @@
 
 
 
-<!-- VOLUNTEER MANAGEMENT -->
+<!-- DUTY ASSIGNMENT MANAGEMENT -->
+<div class="card" id="dutyAssignmentManagement" style="margin-top:20px;">
 
-<div class="card" id="volunteerManagement" style="margin-top:20px;">
-
-  <h3>🙋 Volunteer Management</h3>
+  <h3>📋 Duty Assignment Management</h3>
 
   <p class="card-subtitle">
-    Member volunteer registrations dekhi status manage karantu. Super Admin approval, rejection, completion ebam committee note update kariparibe.
+    Super Admin jeunasi active member ku duty assign kari paribe. Same member same date re kebala gote duty assign heba.
   </p>
 
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
-    <select id="volunteerStatusFilter" onchange="renderVolunteerRegistrations()" style="min-width:180px;">
-      <option value="all">All Status</option>
-      <option value="pending">Pending</option>
-      <option value="approved">Approved</option>
-      <option value="rejected">Rejected</option>
-      <option value="completed">Completed</option>
-    </select>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
 
-    <input
-      type="search"
-      id="volunteerSearch"
-      placeholder="Search member / service area..."
-      oninput="renderVolunteerRegistrations()"
-      style="flex:1;min-width:250px;"
-    >
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Member</label>
+      <select id="dutyMemberSelect" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;">
+        <option value="">Select Member</option>
+      </select>
+    </div>
 
-    <button class="refresh" onclick="loadVolunteerRegistrations()">
-      🔄 Refresh Volunteers
-    </button>
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Duty Title</label>
+      <input id="dutyTitleInput" type="text" placeholder="e.g. Uda Jatra Volunteer Duty" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Duty Date</label>
+      <input id="dutyDateInput" type="date" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Duty Time</label>
+      <input id="dutyTimeInput" type="text" placeholder="e.g. 10:00 AM - 2:00 PM" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Location</label>
+      <input id="dutyLocationInput" type="text" placeholder="Duty location" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
+    <div>
+      <label style="display:block;font-weight:700;margin-bottom:6px;">Responsibility</label>
+      <input id="dutyResponsibilityInput" type="text" placeholder="Member responsibility" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;">
+    </div>
+
   </div>
 
-  <div id="volunteerMessage" class="message"></div>
+  <div style="margin-top:14px;">
+    <label style="display:block;font-weight:700;margin-bottom:6px;">Admin Note (optional)</label>
+    <textarea id="dutyAdminNoteInput" rows="3" placeholder="Additional instruction" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;resize:vertical;"></textarea>
+  </div>
 
-  <div class="table-wrap">
+  <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
+    <button class="blue" onclick="assignManualDuty()">Assign Duty</button>
+    <button class="ready" onclick="loadDutyAssignments()">Refresh Duties</button>
+  </div>
+
+  <div id="dutyAssignmentMessage" class="message" style="margin-top:12px;"></div>
+
+  <div class="table-wrap" style="margin-top:18px;">
     <table>
       <thead>
         <tr>
           <th>Member</th>
-          <th>Service Area</th>
-          <th>Availability</th>
-          <th>Preferred Date</th>
+          <th>Duty</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Location</th>
           <th>Status</th>
-          <th>Notes</th>
-          <th>Committee Note</th>
-          <th>Submitted</th>
-          <th>Action</th>
         </tr>
       </thead>
-      <tbody id="volunteerTableBody">
-        <tr>
-          <td colspan="9" class="loading">Loading Volunteer Registrations...</td>
-        </tr>
+      <tbody id="dutyAssignmentsTableBody">
+        <tr><td colspan="6" class="loading">Loading Duties...</td></tr>
       </tbody>
     </table>
   </div>
 
 </div>
+
 
 <!-- MEMBER EMAIL MESSAGING -->
 
@@ -1703,7 +1723,6 @@ const supabaseClient =
 let members = [];
 let dashboardSummary = null;
 let donations = [];
-let volunteerRegistrations = [];
 
 /* =========================
    START
@@ -1802,7 +1821,6 @@ async function checkSuperAdmin(){
   await refreshDashboard();
 
   await loadDonations();
-  await loadVolunteerRegistrations();
 
 }
 
@@ -1819,7 +1837,6 @@ async function refreshDashboard(){
   ]);
 
   await loadDonations();
-  await loadVolunteerRegistrations();
 
 }
 
@@ -2066,6 +2083,8 @@ async function loadMembers(){
 
   renderMembers();
   populateBroadcastMemberSelectors();
+  populateDutyMemberSelector();
+  loadDutyAssignments();
 
 }
 
@@ -2430,370 +2449,6 @@ function renderMembers(){
 
       }
     ).join("");
-
-}
-
-/* =========================
-   VOLUNTEER MANAGEMENT
-========================= */
-
-async function loadVolunteerRegistrations(){
-
-  const tbody = document.getElementById("volunteerTableBody");
-
-  if(tbody){
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="9" class="loading">
-          Loading Volunteer Registrations...
-        </td>
-      </tr>
-    `;
-  }
-
-  const { data, error } = await supabaseClient
-    .from("member_volunteer_registrations")
-    .select(`
-      id,
-      member_id,
-      service_area,
-      availability,
-      preferred_date,
-      notes,
-      status,
-      admin_note,
-      created_at,
-      updated_at
-    `)
-    .order("created_at", { ascending:false });
-
-  if(error){
-
-    console.error("Volunteer load error:", error);
-
-    if(tbody){
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="9" class="empty">
-            Error loading volunteer registrations:
-            ${escapeHtml(error.message)}
-          </td>
-        </tr>
-      `;
-    }
-
-    return;
-  }
-
-  volunteerRegistrations = data || [];
-  renderVolunteerRegistrations();
-
-}
-
-function renderVolunteerRegistrations(){
-
-  const tbody = document.getElementById("volunteerTableBody");
-  if(!tbody) return;
-
-  const search =
-    (document.getElementById("volunteerSearch")?.value || "")
-      .trim()
-      .toLowerCase();
-
-  const filter =
-    document.getElementById("volunteerStatusFilter")?.value || "all";
-
-  const memberMap = {};
-  members.forEach(member => {
-    memberMap[member.id] = member;
-  });
-
-  const list = volunteerRegistrations.filter(item => {
-
-    const member = memberMap[item.member_id] || {};
-
-    const searchable = [
-      member.full_name,
-      member.member_id,
-      member.mobile,
-      member.email,
-      item.service_area,
-      item.availability,
-      item.notes,
-      item.admin_note
-    ].filter(Boolean).join(" ").toLowerCase();
-
-    const matchesSearch =
-      !search || searchable.includes(search);
-
-    const matchesFilter =
-      filter === "all" || item.status === filter;
-
-    return matchesSearch && matchesFilter;
-  });
-
-  if(list.length === 0){
-
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="9" class="empty">
-          No volunteer registrations found.
-        </td>
-      </tr>
-    `;
-
-    return;
-  }
-
-  tbody.innerHTML = list.map(item => {
-
-    const member = memberMap[item.member_id] || {};
-
-    let badgeClass = "badge-pending";
-
-    if(item.status === "approved"){
-      badgeClass = "badge-approved";
-    }else if(item.status === "rejected"){
-      badgeClass = "badge-rejected";
-    }else if(item.status === "completed"){
-      badgeClass = "badge-published";
-    }
-
-    const actionButtons = `
-      <div class="actions">
-        ${
-          item.status === "pending"
-          ? `
-            <button class="success"
-              onclick="updateVolunteerStatus('${item.id}','approved')">
-              Approve
-            </button>
-            <button class="danger"
-              onclick="updateVolunteerStatus('${item.id}','rejected')">
-              Reject
-            </button>
-          `
-          : ""
-        }
-
-        ${
-          item.status === "approved"
-          ? `
-            <button class="success"
-              onclick="updateVolunteerStatus('${item.id}','completed')">
-              Complete
-            </button>
-          `
-          : ""
-        }
-
-        <button class="secondary"
-          onclick="editVolunteerNote('${item.id}')">
-          Note
-        </button>
-      </div>
-    `;
-
-    return `
-      <tr>
-        <td>
-          <strong>${escapeHtml(member.full_name || "Unknown Member")}</strong><br>
-          <small>${escapeHtml(member.member_id || "—")}</small>
-        </td>
-
-        <td>${escapeHtml(item.service_area || "—")}</td>
-        <td>${escapeHtml(item.availability || "—")}</td>
-        <td>${escapeHtml(item.preferred_date || "—")}</td>
-
-        <td>
-          <span class="badge ${badgeClass}">
-            ${escapeHtml((item.status || "").toUpperCase())}
-          </span>
-        </td>
-
-        <td>${escapeHtml(item.notes || "—")}</td>
-        <td>${escapeHtml(item.admin_note || "—")}</td>
-
-        <td>
-          ${escapeHtml(formatDateTime(item.created_at))}
-        </td>
-
-        <td>${actionButtons}</td>
-      </tr>
-    `;
-
-  }).join("");
-
-}
-
-async function updateVolunteerStatus(id, newStatus){
-
-  const labels = {
-    approved: "Approve",
-    rejected: "Reject",
-    completed: "Complete"
-  };
-
-  if(!confirm(
-    (labels[newStatus] || "Update") +
-    " this volunteer registration?"
-  )) return;
-
-  const item = volunteerRegistrations.find(x => x.id === id);
-
-  if(!item){
-    alert("Volunteer registration not found.");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from("member_volunteer_registrations")
-    .update({
-      status: newStatus,
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", id);
-
-  if(error){
-
-    alert(
-      "Volunteer status update failed: " +
-      (error.message || "Unknown error")
-    );
-
-    return;
-  }
-
-  /*
-     When a volunteer registration is APPROVED, automatically create
-     a private duty assignment for that same member. This makes the
-     approved volunteer service visible in Member Dashboard -> My Duty.
-  */
-  if(newStatus === "approved"){
-
-    const dutyTitle = "Volunteer Service - " +
-      (item.service_area || "Committee Volunteer");
-
-    const { data: existingDuty, error: dutyCheckError } =
-      await supabaseClient
-        .from("member_duty_assignments")
-        .select("id")
-        .eq("member_id", item.member_id)
-        .eq("duty_title", dutyTitle)
-        .eq("duty_date", item.preferred_date || null)
-        .limit(1);
-
-    if(dutyCheckError){
-      alert(
-        "Volunteer approved, but My Duty check failed: " +
-        (dutyCheckError.message || "Unknown error")
-      );
-      await loadVolunteerRegistrations();
-      return;
-    }
-
-    if(!existingDuty || existingDuty.length === 0){
-
-      const { error: dutyInsertError } =
-        await supabaseClient
-          .from("member_duty_assignments")
-          .insert({
-            member_id: item.member_id,
-            duty_title: dutyTitle,
-            duty_date: item.preferred_date || null,
-            duty_time: item.availability || null,
-            location: "To be assigned",
-            responsibility: item.service_area || "Volunteer Service",
-            status: "assigned",
-            admin_note: item.admin_note || "Approved volunteer service"
-          });
-
-      if(dutyInsertError){
-        alert(
-          "Volunteer approved, but My Duty assignment could not be created: " +
-          (dutyInsertError.message || "Unknown error")
-        );
-        await loadVolunteerRegistrations();
-        return;
-      }
-    }
-  }
-
-  showVolunteerMessage(
-    newStatus === "approved"
-      ? "Volunteer approved successfully and duty assigned to the member."
-      : "Volunteer status updated successfully.",
-    "success"
-  );
-
-  await loadVolunteerRegistrations();
-
-}
-
-async function editVolunteerNote(id){
-
-  const item =
-    volunteerRegistrations.find(x => x.id === id);
-
-  if(!item) return;
-
-  const note = prompt(
-    "Committee note:",
-    item.admin_note || ""
-  );
-
-  if(note === null) return;
-
-  const { error } = await supabaseClient
-    .from("member_volunteer_registrations")
-    .update({
-      admin_note: note.trim() || null,
-      updated_at: new Date().toISOString()
-    })
-    .eq("id", id);
-
-  if(error){
-
-    alert(
-      "Committee note update failed: " +
-      (error.message || "Unknown error")
-    );
-
-    return;
-  }
-
-  showVolunteerMessage(
-    "Committee note updated successfully.",
-    "success"
-  );
-
-  await loadVolunteerRegistrations();
-
-}
-
-function showVolunteerMessage(text, type){
-
-  const box =
-    document.getElementById("volunteerMessage");
-
-  if(!box) return;
-
-  box.textContent = text;
-  box.className =
-    "message " +
-    (type === "success" ? "success-msg" : "error-msg");
-
-}
-
-function formatDateTime(value){
-
-  if(!value) return "—";
-
-  try{
-    return new Date(value).toLocaleString("en-IN");
-  }catch{
-    return value;
-  }
 
 }
 
@@ -5515,6 +5170,131 @@ function formatAmount(value){
   );
 
 }
+
+/* =========================
+   DUTY ASSIGNMENT MANAGEMENT
+========================= */
+
+function populateDutyMemberSelector(){
+
+  const select = document.getElementById("dutyMemberSelect");
+  if(!select) return;
+
+  const activeMembers = (members || []).filter(m =>
+    String(m.member_status || "").toLowerCase() === "active"
+  );
+
+  select.innerHTML = '<option value="">Select Member</option>' +
+    activeMembers.map(m =>
+      '<option value="' + escapeAttr(m.id || m.user_id || "") + '">' +
+      escapeHtml((m.full_name || "Member") + " — " + (m.member_id || "No ID")) +
+      '</option>'
+    ).join("");
+}
+
+async function assignManualDuty(){
+
+  const memberId = document.getElementById("dutyMemberSelect")?.value;
+  const dutyTitle = document.getElementById("dutyTitleInput")?.value.trim();
+  const dutyDate = document.getElementById("dutyDateInput")?.value;
+  const dutyTime = document.getElementById("dutyTimeInput")?.value.trim();
+  const location = document.getElementById("dutyLocationInput")?.value.trim();
+  const responsibility = document.getElementById("dutyResponsibilityInput")?.value.trim();
+  const adminNote = document.getElementById("dutyAdminNoteInput")?.value.trim();
+  const message = document.getElementById("dutyAssignmentMessage");
+
+  if(!memberId || !dutyTitle || !dutyDate || !location){
+    if(message) message.textContent = "Member, Duty Title, Duty Date and Location are required.";
+    return;
+  }
+
+  if(message) message.textContent = "Assigning duty...";
+
+  const { data: existing, error: checkError } = await supabaseClient
+    .from("member_duty_assignments")
+    .select("id")
+    .eq("member_id", memberId)
+    .eq("duty_date", dutyDate)
+    .limit(1);
+
+  if(checkError){
+    if(message) message.textContent = checkError.message;
+    return;
+  }
+
+  if(existing && existing.length){
+    if(message) message.textContent = "This member already has a duty on this date.";
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from("member_duty_assignments")
+    .insert({
+      member_id: memberId,
+      duty_title: dutyTitle,
+      duty_date: dutyDate,
+      duty_time: dutyTime || null,
+      location: location,
+      responsibility: responsibility || null,
+      status: "assigned",
+      admin_note: adminNote || null
+    });
+
+  if(error){
+    if(message) message.textContent = error.message.includes("member_duty_one_per_date_idx")
+      ? "This member already has a duty on this date."
+      : error.message;
+    return;
+  }
+
+  if(message) message.textContent = "Duty assigned successfully.";
+
+  document.getElementById("dutyTitleInput").value = "";
+  document.getElementById("dutyDateInput").value = "";
+  document.getElementById("dutyTimeInput").value = "";
+  document.getElementById("dutyLocationInput").value = "";
+  document.getElementById("dutyResponsibilityInput").value = "";
+  document.getElementById("dutyAdminNoteInput").value = "";
+
+  await loadDutyAssignments();
+}
+
+async function loadDutyAssignments(){
+
+  const tbody = document.getElementById("dutyAssignmentsTableBody");
+  if(!tbody) return;
+
+  const { data, error } = await supabaseClient
+    .from("member_duty_assignments")
+    .select("*")
+    .order("duty_date", {ascending:false})
+    .order("created_at", {ascending:false})
+    .limit(100);
+
+  if(error){
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">' + escapeHtml(error.message) + '</td></tr>';
+    return;
+  }
+
+  const rows = data || [];
+  if(!rows.length){
+    tbody.innerHTML = '<tr><td colspan="6" class="empty">No duty assigned yet.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = rows.map(d => {
+    const m = (members || []).find(x => String(x.id || x.user_id || "") === String(d.member_id));
+    return '<tr>' +
+      '<td>' + escapeHtml(m?.full_name || d.member_id || "Member") + '<br><small>' + escapeHtml(m?.member_id || "") + '</small></td>' +
+      '<td>' + escapeHtml(d.duty_title || "") + '</td>' +
+      '<td>' + escapeHtml(d.duty_date || "") + '</td>' +
+      '<td>' + escapeHtml(d.duty_time || "") + '</td>' +
+      '<td>' + escapeHtml(d.location || "") + '</td>' +
+      '<td>' + escapeHtml(d.status || "assigned") + '</td>' +
+      '</tr>';
+  }).join("");
+}
+
 
 function escapeHtml(value){
 
