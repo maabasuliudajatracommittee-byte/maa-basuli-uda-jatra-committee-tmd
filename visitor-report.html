@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visitor Report - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f6f8;color:#1f2937}
+header{background:#7b1121;color:#fff;padding:22px 18px;text-align:center}
+header h1{margin:0;font-size:24px}
+header p{margin:7px 0 0;font-size:14px;opacity:.9}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:18px;flex-wrap:wrap}
+.topbar h2{margin:0;color:#7b1121}
+.account{margin:5px 0 0;color:#64748b;font-size:13px}
+.buttons{display:flex;gap:8px;flex-wrap:wrap}
+button,.back-btn{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
+.back-btn{background:#fff;border:1px solid #cbd5e1;color:#334155}
+.refresh{background:#7b1121;color:#fff}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #7b1121}
+.card small{color:#64748b;font-weight:700}
+.card strong{display:block;font-size:28px;margin-top:7px;color:#111827}
+.panel{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.panel h3{margin:0 0 14px;color:#7b1121}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th,td{padding:11px 9px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:13px;vertical-align:top}
+th{background:#f8fafc;color:#475569;position:sticky;top:0}
+.status{padding:7px 10px;background:#fee2e2;color:#991b1b;border-radius:7px;font-weight:700;display:none;margin-bottom:12px}
+.loading{text-align:center;padding:25px;color:#64748b}
+.empty{text-align:center;padding:30px;color:#64748b}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:550px){.cards{grid-template-columns:1fr}.container{padding:12px}header h1{font-size:20px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Maa Basuli Uda Jatra Committee</h1>
+  <p>Super Admin Visitor Report</p>
+</header>
+
+<div class="container">
+  <div class="topbar">
+    <div>
+      <h2>👁 Visitor Report</h2>
+      <p id="adminEmail" class="account">Checking account...</p>
+    </div>
+    <div class="buttons">
+      <button class="back-btn" onclick="goBack()">← Back to Dashboard</button>
+      <button class="refresh" onclick="loadReport()">🔄 Refresh</button>
+    </div>
+  </div>
+
+  <div id="errorBox" class="status"></div>
+
+  <div class="cards">
+    <div class="card"><small>Total Visits</small><strong id="totalVisits">0</strong></div>
+    <div class="card"><small>Today</small><strong id="todayVisits">0</strong></div>
+    <div class="card"><small>Authenticated</small><strong id="authVisits">0</strong></div>
+    <div class="card"><small>Anonymous</small><strong id="anonymousVisits">0</strong></div>
+  </div>
+
+  <div class="panel">
+    <h3>Visitor Details</h3>
+    <div id="tableArea" class="loading">Loading visitor report...</div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY = "sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let visitorRows = [];
+
+async function checkSuperAdmin(){
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href = "auth.html";
+    return false;
+  }
+
+  document.getElementById("adminEmail").textContent =
+    session.user.email || "Super Admin";
+
+  const { data: roleData, error } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+
+  if(error || !roleData || roleData.role !== "super_admin"){
+    window.location.href = "profile.html";
+    return false;
+  }
+
+  return true;
+}
+
+async function loadReport(){
+  const errorBox = document.getElementById("errorBox");
+  const tableArea = document.getElementById("tableArea");
+
+  errorBox.style.display = "none";
+  tableArea.innerHTML = '<div class="loading">Loading visitor report...</div>';
+
+  const allowed = await checkSuperAdmin();
+  if(!allowed) return;
+
+  const { data, error } = await supabaseClient
+    .rpc("get_super_admin_visitor_logs");
+
+  if(error){
+    console.error(error);
+    errorBox.textContent = "Visitor report could not be loaded.";
+    errorBox.style.display = "block";
+    tableArea.innerHTML = '<div class="empty">Unable to load visitor data.</div>';
+    return;
+  }
+
+  visitorRows = data || [];
+
+  const today = new Date().toLocaleDateString("en-CA");
+
+  document.getElementById("totalVisits").textContent = visitorRows.length;
+  document.getElementById("todayVisits").textContent =
+    visitorRows.filter(row => {
+      if(!row.visited_at) return false;
+      return new Date(row.visited_at).toLocaleDateString("en-CA") === today;
+    }).length;
+
+  document.getElementById("authVisits").textContent =
+    visitorRows.filter(row => row.visitor_type === "authenticated").length;
+
+  document.getElementById("anonymousVisits").textContent =
+    visitorRows.filter(row => row.visitor_type === "anonymous").length;
+
+  renderTable();
+}
+
+function renderTable(){
+  const area = document.getElementById("tableArea");
+
+  if(!visitorRows.length){
+    area.innerHTML = '<div class="empty">No visitor records found.</div>';
+    return;
+  }
+
+  let rows = visitorRows.map(row => {
+    const visited = row.visited_at
+      ? new Date(row.visited_at).toLocaleString("en-IN")
+      : "-";
+
+    return `
+      <tr>
+        <td>${escapeHtml(visited)}</td>
+        <td>${escapeHtml(row.page_path || "-")}</td>
+        <td>${escapeHtml(row.visitor_type || "-")}</td>
+        <td>${escapeHtml(row.visitor_name || "-")}</td>
+        <td>${escapeHtml(row.device_type || "-")}</td>
+        <td>${escapeHtml(row.browser || "-")}</td>
+        <td>${escapeHtml(row.operating_system || "-")}</td>
+        <td>${row.duration_seconds == null ? "-" : escapeHtml(String(row.duration_seconds))}</td>
+      </tr>
+    `;
+  }).join("");
+
+  area.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Visited At</th>
+            <th>Page</th>
+            <th>Type</th>
+            <th>Visitor</th>
+            <th>Device</th>
+            <th>Browser</th>
+            <th>OS</th>
+            <th>Duration (sec)</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+async function goBack(){
+  const { data:{session} } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    window.location.href = "auth.html";
+    return;
+  }
+
+  const { data: roleData } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", session.user.id)
+    .maybeSingle();
+
+  if(roleData && roleData.role === "super_admin"){
+    window.location.href = "super-admin.html";
+    return;
+  }
+
+  if(roleData && roleData.role === "admin"){
+    window.location.href = "admin.html";
+    return;
+  }
+
+  window.location.href = "profile.html";
+}
+
+supabaseClient.auth.onAuthStateChange(() => {
+  loadReport();
+});
+
+loadReport();
+</script>
+
+</body>
+</html>
