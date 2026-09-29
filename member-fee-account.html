@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Fee Account - Maa Basuli Uda Jatra Committee</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f7f7;color:#333}
+.topbar{background:#7b1717;color:#fff;font-size:11px;padding:6px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header{background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);padding:10px 18px;display:flex;align-items:center;gap:12px}
+.logo{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid #d7b45a}
+.brand h1{margin:0;color:#7b1717;font-size:20px}
+.brand p{margin:3px 0 0;color:#777;font-size:11px}
+.nav{background:#fff;display:flex;gap:18px;padding:10px 18px;justify-content:center;flex-wrap:wrap;border-bottom:1px solid #eee}
+.nav a{font-size:11px;font-weight:bold;color:#333;text-decoration:none}
+.nav a:hover{color:#7b1717}
+.container{max-width:1050px;margin:25px auto;padding:0 16px}
+.hero{background:linear-gradient(135deg,#8e261c,#b23b27);color:#fff;border-radius:12px;padding:24px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.hero h2{margin:0 0 7px;font-size:23px}
+.hero p{margin:0;font-size:13px}
+.card{background:#fff;border-radius:12px;padding:20px;margin-bottom:18px;box-shadow:0 3px 12px rgba(0,0,0,.08)}
+.title{color:#7b1717;margin:0 0 15px;font-size:21px}
+.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.box{background:#f8f8f8;border-radius:9px;padding:14px}
+.box small{display:block;color:#777;font-size:10px;margin-bottom:5px}
+.box strong{font-size:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:700px}
+th,td{padding:11px 9px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
+th{background:#7b1717;color:#fff}
+.status{display:inline-block;padding:5px 9px;border-radius:18px;font-size:10px;font-weight:bold}
+.paid{background:#dff5e5;color:#176b2c}
+.pending{background:#fff3cd;color:#856404}
+.unpaid{background:#fde2e2;color:#9b1c1c}
+.empty{text-align:center;padding:30px;color:#777}
+.loading{text-align:center;padding:35px;color:#777}
+.back{display:inline-block;background:#7b1717;color:#fff;text-decoration:none;padding:10px 16px;border-radius:7px;font-weight:bold;font-size:12px}
+.note{font-size:11px;color:#777;line-height:1.5}
+.error{color:#9b1c1c;font-size:12px}
+footer{margin-top:35px;background:#210c0c;color:#fff;padding:18px;font-size:10px}
+@media(max-width:700px){
+ .summary{grid-template-columns:1fr}
+ .brand h1{font-size:17px}
+ .nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;white-space:nowrap}
+ .hero h2{font-size:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span>🔺 Jai Maa Basuli</span>
+  <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
+  <span>✉ maabasuliudajatracommittee@gmail.com</span>
+  <span>📞 7978583565</span>
+</div>
+
+<header class="header">
+  <img id="logo" class="logo" alt="Maa Basuli Logo">
+  <div class="brand">
+    <h1>Maa Basuli Uda Jatra Committee</h1>
+    <p>Thakurmunda, Mayurbhanj, Odisha</p>
+  </div>
+</header>
+
+<nav class="nav">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="jatra.html">Uda Jatra</a>
+  <a href="notices.html">Notices</a>
+  <a href="events.html">Events</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="members.html">Members</a>
+  <a href="fund.html">Fund</a>
+  <a href="member-fee.html">Member Fee</a>
+  <a href="bhakta-list.html">Bhakta List</a>
+  <a href="complaint.html">Complaint</a>
+  <a href="contact.html">Contact</a>
+  <a href="search.html">Search</a>
+  <a href="profile.html">Profile</a>
+</nav>
+
+<main class="container">
+  <div id="loading" class="card loading">Loading your fee account...</div>
+
+  <section id="content" style="display:none">
+    <div class="hero">
+      <h2>💰 My Fee Account</h2>
+      <p>Your private member fee information and payment history.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="title">Current Fee Information</h2>
+      <div id="feeSummary" class="summary"></div>
+      <p class="note" style="margin-top:14px">This section shows fee information published by the committee. Payment records below are limited to your own member account.</p>
+    </div>
+
+    <div class="card">
+      <h2 class="title">My Payment History</h2>
+      <div id="history" class="table-wrap"></div>
+    </div>
+
+    <a class="back" href="member-dashboard.html">← Back to Member Dashboard</a>
+  </section>
+</main>
+
+<footer>
+  <strong>Maa Basuli Uda Jatra Committee</strong><br>
+  Official website of Maa Basuli Uda Jatra Committee, Thakurmunda, Mayurbhanj, Odisha.
+</footer>
+
+<script>
+const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
+const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+function esc(value){
+  return String(value ?? "").replace(/[&<>"']/g,m=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+  }[m]));
+}
+
+function money(value){
+  const n=Number(value);
+  return Number.isFinite(n) ? "₹"+n.toLocaleString("en-IN",{minimumFractionDigits:2,maximumFractionDigits:2}) : "—";
+}
+
+function dateText(value){
+  if(!value) return "—";
+  const d=new Date(value+"T00:00:00");
+  if(Number.isNaN(d.getTime())) return value;
+  return d.toLocaleDateString("en-IN",{day:"2-digit",month:"2-digit",year:"numeric"});
+}
+
+function statusClass(status){
+  const s=String(status||"").toLowerCase();
+  if(s==="paid") return "paid";
+  if(s==="pending") return "pending";
+  return "unpaid";
+}
+
+async function loadLogo(){
+  try{
+    const {data}=await supabaseClient.from("website_settings").select("*").limit(1).maybeSingle();
+    const url=data?.logo_url||data?.logo||data?.site_logo_url||"";
+    if(url) document.getElementById("logo").src=url;
+  }catch(e){}
+}
+
+async function loadFeeAccount(){
+  try{
+    const {data:{session},error:sessionError}=await supabaseClient.auth.getSession();
+    if(sessionError||!session){window.location.href="auth.html";return;}
+
+    const {data:roleData}=await supabaseClient
+      .from("user_roles").select("role").eq("user_id",session.user.id).maybeSingle();
+
+    const role=roleData?.role||"member";
+    if(role==="super_admin"){window.location.href="super-admin.html";return;}
+    if(role==="admin"){window.location.href="admin.html";return;}
+
+    const {data:settings,error:settingsError}=await supabaseClient
+      .from("member_fee_settings")
+      .select("financial_year,fee_amount,description,is_active")
+      .eq("is_active",true)
+      .order("financial_year",{ascending:false});
+
+    if(settingsError) throw settingsError;
+
+    const summary=document.getElementById("feeSummary");
+    if(!settings || settings.length===0){
+      summary.innerHTML='<div class="empty" style="grid-column:1/-1">No active fee information is currently published.</div>';
+    }else{
+      summary.innerHTML=settings.map(s=>`
+        <div class="box">
+          <small>Financial Year</small>
+          <strong>${esc(s.financial_year)}</strong>
+        </div>
+        <div class="box">
+          <small>Fee Amount</small>
+          <strong>${money(s.fee_amount)}</strong>
+        </div>
+        <div class="box">
+          <small>Description</small>
+          <strong>${esc(s.description||"Member Fee")}</strong>
+        </div>
+      `).join("");
+    }
+
+    const {data:payments,error:paymentsError}=await supabaseClient
+      .from("member_fee_payments")
+      .select("financial_year,fee_amount,payment_status,paid_amount,payment_date,payment_mode,receipt_no,remarks")
+      .eq("member_user_id",session.user.id)
+      .order("financial_year",{ascending:false})
+      .order("payment_date",{ascending:false,nullsFirst:false});
+
+    if(paymentsError) throw paymentsError;
+
+    const history=document.getElementById("history");
+    if(!payments || payments.length===0){
+      history.innerHTML='<div class="empty">No fee payment record is available for your account yet.</div>';
+    }else{
+      history.innerHTML=`
+        <table>
+          <thead>
+            <tr>
+              <th>Financial Year</th>
+              <th>Fee</th>
+              <th>Status</th>
+              <th>Paid</th>
+              <th>Payment Date</th>
+              <th>Mode</th>
+              <th>Receipt No.</th>
+              <th>Remarks</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${payments.map(p=>`
+              <tr>
+                <td>${esc(p.financial_year)}</td>
+                <td>${money(p.fee_amount)}</td>
+                <td><span class="status ${statusClass(p.payment_status)}">${esc((p.payment_status||"UNPAID").toUpperCase())}</span></td>
+                <td>${money(p.paid_amount)}</td>
+                <td>${dateText(p.payment_date)}</td>
+                <td>${esc(p.payment_mode||"—")}</td>
+                <td>${esc(p.receipt_no||"—")}</td>
+                <td>${esc(p.remarks||"—")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>`;
+    }
+
+    document.getElementById("loading").style.display="none";
+    document.getElementById("content").style.display="block";
+  }catch(error){
+    console.error("My Fee Account error:",error);
+    document.getElementById("loading").innerHTML=
+      '<div class="error"><strong>Unable to load your fee account.</strong><br>Please try again later.</div>';
+  }
+}
+
+loadLogo();
+loadFeeAccount();
+</script>
+</body>
+</html>
