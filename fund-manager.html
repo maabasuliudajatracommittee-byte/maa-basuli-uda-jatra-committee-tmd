@@ -121,7 +121,79 @@ th{background:#f7f7f7}
   margin-bottom:15px;
 }
 .loading{opacity:.6;pointer-events:none}
+
+/* Donation / Bank Settings */
+.donation-settings{
+  border:1px solid #eadcf2;
+  background:linear-gradient(180deg,#fff,#fcf9ff);
+}
+.donation-settings h2{margin:0 0 6px;color:#4a148c}
+.donation-settings .subnote{color:#666;font-size:13px;margin-bottom:15px}
+.donation-grid{
+  display:grid;
+  grid-template-columns:1fr 1.5fr;
+  gap:18px;
+  align-items:start;
+}
+.qr-panel{
+  border:1px dashed #c8b2d5;
+  border-radius:10px;
+  padding:15px;
+  text-align:center;
+  background:#fff;
+}
+.qr-preview{
+  width:220px;
+  height:220px;
+  max-width:100%;
+  object-fit:contain;
+  display:none;
+  margin:10px auto;
+  border:1px solid #eee;
+  border-radius:8px;
+  background:#fff;
+}
+.qr-empty{
+  width:220px;
+  height:220px;
+  max-width:100%;
+  margin:10px auto;
+  border:2px dashed #bbb;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#888;
+  font-size:13px;
+  padding:15px;
+}
+.bank-form{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.bank-form .full{grid-column:1/-1}
+.publish-row{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:14px;
+  font-size:13px;
+}
+.publish-row input{width:auto}
+.settings-status{
+  margin-top:10px;
+  font-size:13px;
+  min-height:20px;
+  color:#18733a;
+}
 @media(max-width:800px){
+  .grid,.form-grid{grid-template-columns:1fr}
+  .header{align-items:flex-start;flex-direction:column}
+  .donation-grid,.bank-form{grid-template-columns:1fr}
+  .bank-form .full{grid-column:auto}
+}
+
   .grid,.form-grid{grid-template-columns:1fr}
   .header{align-items:flex-start;flex-direction:column}
 }
@@ -236,6 +308,68 @@ th{background:#f7f7f7}
     <div class="actions">
       <button class="primary" onclick="saveTransaction()">Save Transaction</button>
       <button class="secondary" onclick="resetForm()">Clear</button>
+    </div>
+  </section>
+
+  <!-- Super Admin only: Donation QR + Bank Details -->
+  <section class="card donation-settings" id="donationSettingsCard" style="display:none">
+    <h2>📱 Donation QR & Bank Details</h2>
+    <div class="subnote">
+      Super Admin can configure the official donation QR code and verified bank account details.
+      Published details will be shown on the public Fund page.
+    </div>
+
+    <div class="donation-grid">
+      <div class="qr-panel">
+        <b>Official Donation QR</b>
+        <div id="qrEmpty" class="qr-empty">QR Code Preview</div>
+        <img id="qrPreview" class="qr-preview" alt="Official Donation QR Preview">
+        <input type="file" id="qrFile" accept="image/png,image/jpeg,image/webp">
+        <div style="color:#777;font-size:12px;margin-top:7px">
+          Upload PNG/JPG/WebP QR image. Maximum 2 MB.
+        </div>
+      </div>
+
+      <div>
+        <div class="bank-form">
+          <div>
+            <label>Account Name</label>
+            <input type="text" id="bankAccountName" placeholder="Committee / Account holder name">
+          </div>
+
+          <div>
+            <label>Bank Name</label>
+            <input type="text" id="bankName" placeholder="Bank name">
+          </div>
+
+          <div>
+            <label>Account Number</label>
+            <input type="text" id="bankAccountNumber" inputmode="numeric" placeholder="Bank account number">
+          </div>
+
+          <div>
+            <label>IFSC</label>
+            <input type="text" id="bankIfsc" placeholder="e.g. SBIN0000000">
+          </div>
+
+          <div class="full">
+            <label>Branch</label>
+            <input type="text" id="bankBranch" placeholder="Branch name">
+          </div>
+        </div>
+
+        <label class="publish-row">
+          <input type="checkbox" id="donationPublished">
+          <span>Publish these donation details on the public Fund page</span>
+        </label>
+
+        <div class="actions">
+          <button class="primary" onclick="saveDonationSettings()">Save / Update Donation Details</button>
+          <button class="secondary" onclick="loadDonationSettings()">Reload</button>
+        </div>
+
+        <div id="donationSettingsStatus" class="settings-status"></div>
+      </div>
     </div>
   </section>
 
@@ -358,6 +492,11 @@ async function checkAdminAccess(){
     }
 
     await loadFundData();
+
+    if(currentRole === "super_admin"){
+      document.getElementById("donationSettingsCard").style.display = "block";
+      await loadDonationSettings();
+    }
 
   }catch(error){
     console.error(error);
@@ -482,6 +621,158 @@ function renderTable(){
       </tr>
     `;
   }).join("");
+}
+
+async function loadDonationSettings(){
+  const status = document.getElementById("donationSettingsStatus");
+  try{
+    status.textContent = "Loading donation settings...";
+
+    const {data,error} = await supabaseClient
+      .from("fund_donation_settings")
+      .select("*")
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(error) throw error;
+
+    document.getElementById("bankAccountName").value = data?.account_name || "";
+    document.getElementById("bankName").value = data?.bank_name || "";
+    document.getElementById("bankAccountNumber").value = data?.account_number || "";
+    document.getElementById("bankIfsc").value = data?.ifsc || "";
+    document.getElementById("bankBranch").value = data?.branch || "";
+    document.getElementById("donationPublished").checked = !!data?.is_published;
+
+    if(data?.qr_code_url){
+      showQrPreview(data.qr_code_url);
+    }else{
+      clearQrPreview();
+    }
+
+    status.textContent = data
+      ? "Saved donation settings loaded."
+      : "No donation settings saved yet.";
+  }catch(error){
+    console.error(error);
+    status.textContent = "Unable to load donation settings: " + error.message;
+  }
+}
+
+function showQrPreview(url){
+  const img = document.getElementById("qrPreview");
+  const empty = document.getElementById("qrEmpty");
+  if(!img || !empty) return;
+  img.src = url;
+  img.style.display = "block";
+  empty.style.display = "none";
+}
+
+function clearQrPreview(){
+  const img = document.getElementById("qrPreview");
+  const empty = document.getElementById("qrEmpty");
+  if(!img || !empty) return;
+  img.removeAttribute("src");
+  img.style.display = "none";
+  empty.style.display = "flex";
+}
+
+document.addEventListener("change", function(event){
+  if(event.target && event.target.id === "qrFile"){
+    const file = event.target.files && event.target.files[0];
+    if(!file) return;
+
+    if(file.size > 2 * 1024 * 1024){
+      alert("QR image must be 2 MB or smaller.");
+      event.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(){
+      showQrPreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+async function saveDonationSettings(){
+  if(currentRole !== "super_admin"){
+    alert("Only Super Admin can update donation settings.");
+    return;
+  }
+
+  const status = document.getElementById("donationSettingsStatus");
+  const button = document.querySelector('#donationSettingsCard button.primary');
+  const fileInput = document.getElementById("qrFile");
+  const file = fileInput.files && fileInput.files[0];
+
+  try{
+    button.disabled = true;
+    status.textContent = "Saving donation settings...";
+
+    let qrCodeUrl = null;
+
+    const {data:existing,error:existingError} = await supabaseClient
+      .from("fund_donation_settings")
+      .select("id,qr_code_url")
+      .order("created_at",{ascending:false})
+      .limit(1)
+      .maybeSingle();
+
+    if(existingError) throw existingError;
+
+    if(file){
+      if(file.size > 2 * 1024 * 1024){
+        throw new Error("QR image must be 2 MB or smaller.");
+      }
+
+      qrCodeUrl = await new Promise((resolve,reject)=>{
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(new Error("Unable to read QR image."));
+        reader.readAsDataURL(file);
+      });
+    }else{
+      qrCodeUrl = existing?.qr_code_url || null;
+    }
+
+    const payload = {
+      qr_code_url: qrCodeUrl,
+      account_name: document.getElementById("bankAccountName").value.trim() || null,
+      bank_name: document.getElementById("bankName").value.trim() || null,
+      account_number: document.getElementById("bankAccountNumber").value.trim() || null,
+      ifsc: document.getElementById("bankIfsc").value.trim().toUpperCase() || null,
+      branch: document.getElementById("bankBranch").value.trim() || null,
+      is_published: document.getElementById("donationPublished").checked,
+      updated_at: new Date().toISOString()
+    };
+
+    let error;
+
+    if(existing?.id){
+      ({error} = await supabaseClient
+        .from("fund_donation_settings")
+        .update(payload)
+        .eq("id",existing.id));
+    }else{
+      ({error} = await supabaseClient
+        .from("fund_donation_settings")
+        .insert(payload));
+    }
+
+    if(error) throw error;
+
+    fileInput.value = "";
+    await loadDonationSettings();
+    status.textContent = "Donation QR and bank details saved successfully.";
+  }catch(error){
+    console.error(error);
+    status.textContent = "Save failed: " + error.message;
+    alert("Save failed: " + error.message);
+  }finally{
+    button.disabled = false;
+  }
 }
 
 function newTransaction(){
