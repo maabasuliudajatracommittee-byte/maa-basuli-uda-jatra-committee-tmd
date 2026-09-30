@@ -8,431 +8,30 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+  <script src="language.js"></script>
 
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f7f7f7;
-  color:#222;
-  line-height:1.7;
-}
-
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-.container{
-  width:min(1150px,92%);
-  margin:auto;
-}
-
-.topbar{
-  background:#7b1e1e;
-  color:white;
-  padding:8px 0;
-  font-size:13px;
-}
-
-.topbar-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  gap:8px 18px;
-}
-
-.topbar-inner span{
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  white-space:nowrap;
-}
-
-header{
-  background:#fff;
-  box-shadow:0 3px 14px rgba(0,0,0,.10);
-  position:sticky;
-  top:0;
-  z-index:50;
-}
-
-.header-inner{
-  min-height:110px;
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  gap:0;
-}
-
-.logo{
-  display:flex;
-  align-items:center;
-  justify-content:flex-start;
-  gap:14px;
-  min-height:78px;
-  padding:10px 0 8px;
-}
-
-.logo-icon{
-  width:64px;
-  height:64px;
-  min-width:64px;
-  border-radius:50%;
-  background:#f4c542;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:30px;
-  object-fit:cover;
-  border:2px solid #f4c542;
-  background:#fff8ed;
-}
-
-.logo-text h1{
-  color:#7b1e1e;
-  font-size:25px;
-  line-height:1.2;
-  font-weight:800;
-}
-
-.logo-text p{
-  color:#777;
-  font-size:14px;
-  margin-top:3px;
-}
-
-#siteLogo{display:none;}
-
-#logoFallback{display:flex;}
-
-.main-nav-wrap{
-  width:100%;
-  border-top:1px solid #f0e1dc;
-  background:#fff;
-}
-
-/* MASTER NAVIGATION - ALWAYS VISIBLE */
-.main-nav-wrap,
-nav,
-nav a{
-  visibility:visible !important;
-  opacity:1 !important;
-}
-
-nav{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:7px;
-  padding:8px 0 10px;
-  width:100%;
-}
-
-nav a{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  min-height:40px;
-  padding:9px 13px;
-  border-radius:8px;
-  font-size:13px;
-  font-weight:700;
-  white-space:nowrap;
-  color:#222;
-  transition:background .2s ease,color .2s ease,transform .2s ease;
-}
-
-nav a:hover,
-nav a.active{
-  background:#7b1e1e;
-  color:#fff;
-}
-
-nav a:hover{transform:translateY(-1px);}
-
-.menu-btn{display:none;}
-
-.page-hero{
-  background:
-    linear-gradient(rgba(70,15,5,.72),rgba(70,15,5,.72)),
-    url("https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?auto=format&fit=crop&w=1800&q=85")
-    center/cover;
-  color:white;
-  padding:85px 0;
-  text-align:center;
-}
-
-.page-hero h2{
-  font-size:42px;
-  margin-bottom:8px;
-}
-
-.page-hero p{
-  font-size:17px;
-  opacity:.95;
-}
-
-section{
-  padding:55px 0;
-}
-
-.section-title{
-  text-align:center;
-  margin-bottom:30px;
-}
-
-.section-title h2{
-  color:#7b1e1e;
-  font-size:30px;
-}
-
-.section-title p{
-  color:#777;
-}
-
-.about-grid{
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:30px;
-  align-items:center;
-}
-
-.content-card{
-  background:white;
-  padding:28px;
-  border-radius:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
-}
-
-.content-card h2{
-  color:#7b1e1e;
-  margin-bottom:12px;
-}
-
-.content-card p{
-  color:#555;
-  margin-bottom:14px;
-}
-
-.image-card{
-  background:white;
-  padding:12px;
-  border-radius:15px;
-  box-shadow:0 4px 15px rgba(0,0,0,.07);
-}
-
-.image-card img{
-  width:100%;
-  height:360px;
-  object-fit:cover;
-  border-radius:10px;
-}
-
-.values{
-  background:#fff8ed;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:20px;
-}
-
-.card{
-  background:white;
-  padding:24px;
-  border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
-}
-
-.card-icon{
-  font-size:34px;
-  margin-bottom:8px;
-}
-
-.card h3{
-  color:#7b1e1e;
-  margin-bottom:8px;
-}
-
-.card p{
-  color:#666;
-  font-size:14px;
-}
-
-.highlight{
-  background:#7b1e1e;
-  color:white;
-}
-
-.highlight .section-title h2,
-.highlight .section-title p{
-  color:white;
-}
-
-.highlight-box{
-  max-width:900px;
-  margin:auto;
-  text-align:center;
-}
-
-.highlight-box p{
-  color:#eee;
-  font-size:16px;
-}
-
-.back{
-  text-align:center;
-  padding:35px 0;
-}
-
-.btn{
-  display:inline-block;
-  background:#7b1e1e;
-  color:white;
-  padding:11px 18px;
-  border-radius:8px;
-  font-weight:bold;
-}
-
-footer{
-  background:#241313;
-  color:white;
-  padding:40px 0 20px;
-}
-
-.footer-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  gap:30px;
-}
-
-footer h3{
-  color:#ffd36b;
-  margin-bottom:10px;
-}
-
-footer p,
-footer a{
-  color:#ddd;
-  font-size:14px;
-}
-
-footer a{
-  display:block;
-  margin:5px 0;
-}
-
-.copyright{
-  border-top:1px solid rgba(255,255,255,.15);
-  margin-top:30px;
-  padding-top:15px;
-  text-align:center;
-  color:#aaa;
-  font-size:13px;
-}
-
-@media(max-width:900px){
-
-  /* Keep every master navigation button visible on every page */
-  nav{
-    display:flex !important;
-    position:static;
-    flex-direction:row;
-    flex-wrap:wrap;
-    justify-content:center;
-    background:white;
-    padding:8px 0 10px;
-    box-shadow:none;
-  }
-
-  nav.show{
-    display:flex !important;
-  }
-
-  .menu-btn{
-    display:none !important;
-  }
-
-  .header-inner{
-    position:relative;
-  }
-
-  .about-grid{
-    grid-template-columns:1fr;
-  }
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:600px){
-
-  .logo-text h1{
-    font-size:16px;
-  }
-
-  .page-hero{
-    padding:65px 0;
-  }
-
-  .page-hero h2{
-    font-size:32px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .footer-grid{
-    grid-template-columns:1fr;
-  }
-
-  .image-card img{
-    height:280px;
-  }
-}
-
-
-@media(max-width:900px){
-  .header-inner{min-height:auto;}
-  .logo{min-height:72px;}
-  .logo-icon{width:58px;height:58px;min-width:58px;}
-  .logo-text h1{font-size:21px;}
-  .logo-text p{font-size:13px;}
-  nav{justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding:8px 4px 10px;scrollbar-width:thin;}
-  nav a{flex:0 0 auto;min-height:38px;padding:8px 11px;font-size:12px;}
-}
-
-@media(max-width:600px){
-  .topbar{font-size:11px;}
-  .topbar-inner{justify-content:center;text-align:center;}
-  .logo{gap:10px;padding:9px 0;}
-  .logo-icon{width:52px;height:52px;min-width:52px;}
-  .logo-text h1{font-size:18px;}
-  .logo-text p{font-size:11px;}
-  nav{gap:5px;}
-  nav a{min-height:36px;padding:7px 10px;font-size:11px;}
-}
-
-
-
-/* PROFILE PAGE EXISTING STYLES */
-
+  <style>
     *{box-sizing:border-box}
     body{margin:0;font-family:Arial,"Noto Sans Odia",sans-serif;background:#f5f6f8;color:#172033}
-.site-logo,.brand-photo{object-fit:cover;background:#fff;display:none}
-.topbar h1{margin:0;font-size:22px}
+
+    .topbar{
+      background:linear-gradient(135deg,#7c2d12,#b45309);
+      color:white;padding:12px 18px 10px;
+    }
+    .brand-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
+    .brand-left{display:flex;align-items:center;gap:12px;min-width:0}
+    .site-logo,.brand-photo{object-fit:cover;background:#fff;display:none}
+    .site-logo{width:58px;height:58px;border-radius:50%;border:3px solid rgba(255,255,255,.85)}
+    .brand-photo{width:52px;height:52px;border-radius:9px;border:2px solid rgba(255,255,255,.85)}
+    .brand-text{min-width:0}
+    .topbar h1{margin:0;font-size:22px}
     .topbar p{margin:4px 0 0;opacity:.92;font-size:13px}
-.container{max-width:1050px;margin:30px auto;padding:0 18px}
+    #language-switcher{display:flex;align-items:center}
+    #maa-language-switcher{position:static!important;display:inline-flex!important}
+
+    .logout{float:none;background:#d92323;color:white;border:0;border-radius:9px;padding:10px 15px;font-size:14px;font-weight:bold;cursor:pointer}
+
+    .container{max-width:1050px;margin:30px auto;padding:0 18px}
     .card{background:white;border-radius:16px;padding:24px;margin-bottom:22px;box-shadow:0 5px 22px rgba(0,0,0,.08)}
     .card h2{margin-top:0;color:#8f2f10}
     .profile-grid{display:grid;grid-template-columns:280px 1fr;gap:30px}
@@ -490,7 +89,10 @@ footer a{
       .member-photo{width:105px;height:125px;flex:0 0 105px}
       .member-name{font-size:18px;overflow-wrap:anywhere;word-break:break-word}
       .designation{overflow-wrap:anywhere;word-break:break-word}
-}
+      .brand-photo{display:none}
+      .brand-left{flex:1}
+      .topbar h1{font-size:18px}
+    }
 
     @media print{
       body *{visibility:hidden!important}
@@ -500,78 +102,65 @@ footer a{
       body{background:white}
     }
   
-@media(max-width:600px){
-  .topbar{font-size:11px;}
-  .topbar-inner{justify-content:center;text-align:center;}
-  .logo{gap:10px;padding:9px 0;}
-  .logo-icon{width:52px;height:52px;min-width:52px;}
-  .logo-text h1{font-size:18px;}
-  .logo-text p{font-size:11px;}
-  nav{gap:5px;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;}
-  nav a{min-height:36px;padding:7px 10px;font-size:11px;flex:0 0 auto;}
-}
 
-</style>
+/* Re-registration request — added only for rejected members */
+.re_registration_box{
+  display:none;
+  margin-top:12px;
+  padding:14px;
+  border:1px solid #d6a43a;
+  border-radius:10px;
+  background:#fff8e8;
+  text-align:center;
+}
+.re_registration_box p{
+  margin:0 0 10px;
+  color:#6b4b00;
+  font-size:14px;
+  line-height:1.5;
+}
+.re_registration_btn{
+  border:0;
+  border-radius:8px;
+  padding:11px 18px;
+  background:#7b1e2b;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+.re_registration_btn:disabled{opacity:.65;cursor:not-allowed;}
+
+  </style>
 </head>
 
 <body>
-<!-- TOP BAR -->
 
-<div class="topbar">
-  <div class="container topbar-inner">
-    <span>🙏 Jai Maa Basuli</span>
-    <span>📍 Thakurmunda, Mayurbhanj, Odisha</span>
-    <span>✉️ maabasuliudajatracommittee@gmail.com</span>
-    <span>📞 7978583565</span>
-  </div>
-</div>
-
-
-<!-- HEADER -->
-<header>
-
-  <div class="container header-inner">
-
-    <a href="index.html" class="logo">
-
-      <img id="siteLogo" class="logo-icon" src="" alt="Maa Basuli Uda Jatra Committee Logo">
-      <div id="logoFallback" class="logo-icon">🙏</div>
-
-      <div class="logo-text">
-        <h1>Maa Basuli Uda Jatra Committee</h1>
-        <p>Thakurmunda, Mayurbhanj, Odisha</p>
+  <div class="topbar">
+    <div class="brand-row">
+      <div class="brand-left">
+        <img id="siteLogo" class="site-logo" alt="Committee Logo">
+        <img id="brandPhoto" class="brand-photo" alt="Maa Basuli">
+        <div class="brand-text">
+          <h1 id="siteName" data-lang-en="Maa Basuli Uda Jatra Committee" data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି" data-lang-hi="माँ बासुली उड़ा यात्रा समिति">Maa Basuli Uda Jatra Committee</h1>
+          <p id="siteAddress" data-lang-en="Member Profile & Digital ID" data-lang-or="ସଦସ୍ୟ ପ୍ରୋଫାଇଲ୍ ଏବଂ ଡିଜିଟାଲ୍ ID" data-lang-hi="सदस्य प्रोफ़ाइल और डिजिटल ID">Member Profile & Digital ID</p>
+        </div>
       </div>
 
-    </a>
-
-    <div class="main-nav-wrap">
-      <nav id="mainNav" aria-label="Main Navigation">
-
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="jatra.html">Uda Jatra</a>
-        <a href="notices.html">Notices</a>
-        <a href="events.html">Events</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="members.html">Members</a>
-        <a href="fund.html">Fund</a>
-        <a href="member-fee.html">Member Fee</a>
-        <a href="bhakta-list.html">Bhakta List</a>
-        <a href="complaint.html">Complaint</a>
-        <a href="contact.html">Contact</a>
-        <a href="search.html">Search</a>
-        <a href="auth.html">Login</a>
-
-      </nav>
+      <div id="language-switcher">
+        <div id="maa-language-switcher">
+          <button type="button" data-site-lang="en" onclick="setSiteLanguage('en')">🇬🇧 English</button>
+          <button type="button" data-site-lang="or" onclick="setSiteLanguage('or')">ଓଡ଼ିଆ</button>
+          <button type="button" data-site-lang="hi" onclick="setSiteLanguage('hi')">हिन्दी</button>
+        </div>
+      </div>
     </div>
 
+    <div style="margin-top:10px;">
+      <button class="logout" onclick="logout()" data-lang-en="Logout" data-lang-or="ଲଗ୍ ଆଉଟ୍" data-lang-hi="लॉग आउट">Logout</button>
+    </div>
   </div>
 
-</header>
-<div class="container">
-  <div style="display:flex;justify-content:flex-end;margin:14px 0 0;">
-    <button class="logout" onclick="logout()">Logout</button>
-  </div>
+  <div class="container">
 
     <div id="loading" class="card loading" data-lang-en="Loading profile..." data-lang-or="ପ୍ରୋଫାଇଲ୍ ଲୋଡ୍ ହେଉଛି..." data-lang-hi="प्रोफ़ाइल लोड हो रही है...">Loading profile...</div>
 
@@ -1025,6 +614,91 @@ loadSession();
       photo.style.display="block";
     }
   }catch(error){}
+})();
+</script>
+
+
+
+<!-- Re-registration request: added only; existing profile content is untouched -->
+<div id="reRegistrationBox" class="re_registration_box">
+  <p><strong>Membership application rejected.</strong><br>
+  You can send a new registration request to Admin/Super Admin for approval.</p>
+  <button type="button" id="reRegistrationBtn" class="re_registration_btn" onclick="requestReRegistration()">
+    🔄 Request Re-Registration
+  </button>
+</div>
+
+
+
+<script>
+/* Re-registration request — additive code only */
+async function requestReRegistration(){
+  if(!window.currentUser){
+    alert("Please login first.");
+    return;
+  }
+
+  if(!confirm("Do you want to send a new membership registration request?")) return;
+
+  const btn=document.getElementById("reRegistrationBtn");
+  btn.disabled=true;
+  btn.textContent="Sending Request...";
+
+  const {data,error}=await supabaseClient
+    .from("member_profiles")
+    .update({approval_status:"pending"})
+    .eq("id",window.currentUser.id)
+    .select("approval_status")
+    .maybeSingle();
+
+  if(error){
+    console.error(error);
+    alert("Re-registration request failed: "+error.message);
+    btn.disabled=false;
+    btn.textContent="🔄 Request Re-Registration";
+    return;
+  }
+
+  document.getElementById("reRegistrationBox").style.display="none";
+  alert("✅ Re-registration request sent to Admin/Super Admin. Your application is now Pending.");
+
+  if(typeof loadProfile === "function"){
+    await loadProfile();
+  }
+}
+
+/* Show the new button only when the existing profile record is rejected. */
+(function setupReRegistrationButton(){
+  const check=async()=>{
+    try{
+      if(!window.currentUser) return false;
+
+      const {data,error}=await supabaseClient
+        .from("member_profiles")
+        .select("approval_status")
+        .eq("id",window.currentUser.id)
+        .maybeSingle();
+
+      if(error || !data) return false;
+
+      const box=document.getElementById("reRegistrationBox");
+      if(box){
+        box.style.display=
+          String(data.approval_status||"").toLowerCase()==="rejected"
+          ? "block" : "none";
+      }
+      return true;
+    }catch(e){
+      console.warn("Re-registration status check failed:",e);
+      return false;
+    }
+  };
+
+  const timer=setInterval(async()=>{
+    if(await check()) clearInterval(timer);
+  },500);
+
+  setTimeout(()=>clearInterval(timer),10000);
 })();
 </script>
 
