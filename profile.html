@@ -633,7 +633,9 @@ loadSession();
 <script>
 /* Re-registration request — additive code only */
 async function requestReRegistration(){
-  if(!window.currentUser){
+  const {data:{user},error:userError}=await supabaseClient.auth.getUser();
+
+  if(userError || !user){
     alert("Please login first.");
     return;
   }
@@ -647,7 +649,7 @@ async function requestReRegistration(){
   const {data,error}=await supabaseClient
     .from("member_profiles")
     .update({approval_status:"pending"})
-    .eq("id",window.currentUser.id)
+    .eq("id",user.id)
     .select("approval_status")
     .maybeSingle();
 
@@ -671,12 +673,13 @@ async function requestReRegistration(){
 (function setupReRegistrationButton(){
   const check=async()=>{
     try{
-      if(!window.currentUser) return false;
+      const {data:{user},error:userError}=await supabaseClient.auth.getUser();
+      if(userError || !user) return false;
 
       const {data,error}=await supabaseClient
         .from("member_profiles")
         .select("approval_status")
-        .eq("id",window.currentUser.id)
+        .eq("id",user.id)
         .maybeSingle();
 
       if(error || !data) return false;
