@@ -3767,19 +3767,41 @@ async function rejectMember(id){
       "reject"
     );
 
-  // Keep the rejected member account/profile so the member can request registration again.
-  // The existing reject_member RPC already sets approval_status = "rejected".
-  // Do NOT permanently delete the Auth account or member profile here.
+  // Permanently delete the rejected member profile + Auth account.
+  // This allows the same email/mobile to be used for a fresh signup later.
+  const {
+    data: deleteData,
+    error: deleteError
+  } =
+    await supabaseClient.functions.invoke(
+      "delete-rejected-member",
+      {
+        body: {
+          target_user_id:id
+        }
+      }
+    );
+
+  if(deleteError || (deleteData && deleteData.error)){
+
+    alert(
+      "Member rejected, but permanent deletion hela nahi.\n\n" +
+      (deleteError?.message || deleteData?.error || "Unknown error")
+    );
+
+    await refreshDashboard();
+    return;
+  }
 
   if(emailResult.ok){
     alert(
-      "Member rejected successfully.\n\n📧 Rejection Email sent successfully.\n\nMember account/profile has been kept so the member can request registration again."
+      "Member rejected successfully.\n\n📧 Rejection Email sent successfully.\n\nRejected member account/profile has been permanently deleted. The member can now Signup again with the same Email/Mobile."
     );
   }else{
     alert(
       "Member rejected successfully.\n\n⚠️ Rejection Email send hela nahi.\n" +
       emailResult.message +
-      "\n\nMember account/profile has been kept so the member can request registration again."
+      "\n\nRejected member account/profile has been permanently deleted. The member can now Signup again with the same Email/Mobile."
     );
   }
 
