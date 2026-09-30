@@ -15,21 +15,21 @@
     body{margin:0;font-family:Arial,"Noto Sans Odia",sans-serif;background:#f5f6f8;color:#172033}
 
     .topbar{
-      background:linear-gradient(135deg,#7c2d12,#b45309);
-      color:white;padding:12px 18px 10px;
+      background:linear-gradient(135deg,#6f1d1b,#8f2f10,#b45309);
+      color:white;padding:14px 18px;
+      box-shadow:0 4px 16px rgba(0,0,0,.14);
+      position:sticky;top:0;z-index:100;
     }
-    .brand-row{display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .brand-left{display:flex;align-items:center;gap:12px;min-width:0}
-    .site-logo,.brand-photo{object-fit:cover;background:#fff;display:none}
-    .site-logo{width:58px;height:58px;border-radius:50%;border:3px solid rgba(255,255,255,.85)}
-    .brand-photo{width:52px;height:52px;border-radius:9px;border:2px solid rgba(255,255,255,.85)}
+    .brand-row{display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand-left{display:flex;align-items:center;gap:13px;min-width:0}
+    .site-logo,.brand-photo{object-fit:cover;background:#fff;display:block;flex-shrink:0}
+    .site-logo{width:64px;height:64px;border-radius:50%;border:3px solid #f8d477;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+    .brand-photo{width:58px;height:58px;border-radius:10px;border:2px solid #f8d477;box-shadow:0 2px 8px rgba(0,0,0,.2)}
     .brand-text{min-width:0}
-    .topbar h1{margin:0;font-size:22px}
-    .topbar p{margin:4px 0 0;opacity:.92;font-size:13px}
-    #language-switcher{display:flex;align-items:center}
-    #maa-language-switcher{position:static!important;display:inline-flex!important}
-
-    .logout{float:none;background:#d92323;color:white;border:0;border-radius:9px;padding:10px 15px;font-size:14px;font-weight:bold;cursor:pointer}
+    .topbar h1{margin:0;font-size:22px;font-weight:800}
+    .topbar p{margin:4px 0 0;opacity:.95;font-size:13px}
+    .brand-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+    .logout{float:none;background:#d92323;color:white;border:1px solid rgba(255,255,255,.35);border-radius:9px;padding:10px 15px;font-size:14px;font-weight:bold;cursor:pointer}
 
     .container{max-width:1050px;margin:30px auto;padding:0 18px}
     .card{background:white;border-radius:16px;padding:24px;margin-bottom:22px;box-shadow:0 5px 22px rgba(0,0,0,.08)}
@@ -89,9 +89,13 @@
       .member-photo{width:105px;height:125px;flex:0 0 105px}
       .member-name{font-size:18px;overflow-wrap:anywhere;word-break:break-word}
       .designation{overflow-wrap:anywhere;word-break:break-word}
-      .brand-photo{display:none}
-      .brand-left{flex:1}
-      .topbar h1{font-size:18px}
+      .site-logo{width:52px;height:52px}
+      .brand-photo{width:48px;height:48px}
+      .brand-left{flex:1;gap:8px}
+      .topbar h1{font-size:17px}
+      .topbar p{font-size:11px}
+      .brand-actions{width:100%;justify-content:flex-end}
+      .brand-row{align-items:flex-start;flex-wrap:wrap}
     }
 
     @media print{
@@ -103,33 +107,6 @@
     }
   
 
-/* Re-registration request — added only for rejected members */
-.re_registration_box{
-  display:none;
-  margin-top:12px;
-  padding:14px;
-  border:1px solid #d6a43a;
-  border-radius:10px;
-  background:#fff8e8;
-  text-align:center;
-}
-.re_registration_box p{
-  margin:0 0 10px;
-  color:#6b4b00;
-  font-size:14px;
-  line-height:1.5;
-}
-.re_registration_btn{
-  border:0;
-  border-radius:8px;
-  padding:11px 18px;
-  background:#7b1e2b;
-  color:#fff;
-  font-weight:700;
-  cursor:pointer;
-}
-.re_registration_btn:disabled{opacity:.65;cursor:not-allowed;}
-
   </style>
 </head>
 
@@ -138,25 +115,16 @@
   <div class="topbar">
     <div class="brand-row">
       <div class="brand-left">
-        <img id="siteLogo" class="site-logo" alt="Committee Logo">
+        <img id="siteLogo" class="site-logo" alt="Maa Basuli Logo">
         <img id="brandPhoto" class="brand-photo" alt="Maa Basuli">
         <div class="brand-text">
-          <h1 id="siteName" data-lang-en="Maa Basuli Uda Jatra Committee" data-lang-or="ମାଆ ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି" data-lang-hi="माँ बासुली उड़ा यात्रा समिति">Maa Basuli Uda Jatra Committee</h1>
-          <p id="siteAddress" data-lang-en="Member Profile & Digital ID" data-lang-or="ସଦସ୍ୟ ପ୍ରୋଫାଇଲ୍ ଏବଂ ଡିଜିଟାଲ୍ ID" data-lang-hi="सदस्य प्रोफ़ाइल और डिजिटल ID">Member Profile & Digital ID</p>
+          <h1 id="siteName">Maa Basuli Uda Jatra Committee</h1>
+          <p id="siteAddress">Thakurmunda, Mayurbhanj, Odisha · Member Profile & Digital ID</p>
         </div>
       </div>
-
-      <div id="language-switcher">
-        <div id="maa-language-switcher">
-          <button type="button" data-site-lang="en" onclick="setSiteLanguage('en')">🇬🇧 English</button>
-          <button type="button" data-site-lang="or" onclick="setSiteLanguage('or')">ଓଡ଼ିଆ</button>
-          <button type="button" data-site-lang="hi" onclick="setSiteLanguage('hi')">हिन्दी</button>
-        </div>
+      <div class="brand-actions">
+        <button class="logout" onclick="logout()">Logout</button>
       </div>
-    </div>
-
-    <div style="margin-top:10px;">
-      <button class="logout" onclick="logout()" data-lang-en="Logout" data-lang-or="ଲଗ୍ ଆଉଟ୍" data-lang-hi="लॉग आउट">Logout</button>
     </div>
   </div>
 
@@ -582,51 +550,39 @@ loadSession();
   try{
     const {data,error}=await supabaseClient
       .from("website_settings")
-      .select("site_name,logo_url,address")
+      .select("site_name,site_title,address,logo_url,logo,site_logo_url,maa_basuli_url,maa_basuli_photo_url,maa_basuli_photo,temple_url,temple_photo_url,temple_photo")
       .limit(1)
       .maybeSingle();
 
-    if(error)throw error;
+    if(error) throw error;
 
     if(data){
-      if(data.site_name)document.getElementById("siteName").textContent=data.site_name;
-      if(data.address)document.getElementById("siteAddress").textContent="Member Profile & Digital ID";
-      if(data.logo_url){
-        document.getElementById("siteLogo").src=data.logo_url;
-        document.getElementById("siteLogo").style.display="block";
-        document.getElementById("cardLogo").src=data.logo_url;
+      if(data.site_name){
+        document.getElementById("siteName").textContent=data.site_name;
+      }
+
+      const logoUrl=data.logo_url||data.logo||data.site_logo_url||"";
+      const maaUrl=data.maa_basuli_url||data.maa_basuli_photo_url||data.maa_basuli_photo||"";
+
+      if(logoUrl){
+        document.getElementById("siteLogo").src=logoUrl;
+        document.getElementById("cardLogo").src=logoUrl;
+      }else{
+        document.getElementById("siteLogo").style.display="none";
+      }
+
+      if(maaUrl){
+        document.getElementById("brandPhoto").src=maaUrl;
+      }else{
+        document.getElementById("brandPhoto").style.display="none";
       }
     }
   }catch(error){
     console.warn("Branding settings unavailable:",error);
   }
-
-  try{
-    const {data}=await supabaseClient
-      .from("website_settings")
-      .select("maa_basuli_url,temple_url,group_photo_url")
-      .limit(1)
-      .maybeSingle();
-
-    if(data&&data.maa_basuli_url){
-      const photo=document.getElementById("brandPhoto");
-      photo.src=data.maa_basuli_url;
-      photo.style.display="block";
-    }
-  }catch(error){}
 })();
 </script>
 
-
-
-<!-- Re-registration request: added only; existing profile content is untouched -->
-<div id="reRegistrationBox" class="re_registration_box">
-  <p><strong>Membership application rejected.</strong><br>
-  You can send a new registration request to Admin/Super Admin for approval.</p>
-  <button type="button" id="reRegistrationBtn" class="re_registration_btn" onclick="requestReRegistration()">
-    🔄 Request Re-Registration
-  </button>
-</div>
 
 
 
