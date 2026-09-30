@@ -450,7 +450,7 @@
 
     /* MEMBER */
 
-    window.location.replace("member-dashboard.html");
+    window.location.replace("profile.html");
   }
 
 
@@ -708,14 +708,14 @@
 
   async function forgotPassword(){
 
-    const email =
+    const identifier =
       document.getElementById("loginEmail").value.trim();
 
 
-    if(!email){
+    if(!identifier){
 
       showMessage(
-        "Password reset pain first email address enter karantu.",
+        "Password reset pain first Email ba Mobile Number enter karantu.",
         "error"
       );
 
@@ -729,6 +729,53 @@
     );
 
 
+    let resetEmail = identifier;
+
+
+    /* Mobile number hele registered email lookup kariba */
+    if(!identifier.includes("@")){
+
+      const mobile =
+        identifier.replace(/\D/g, "");
+
+
+      if(!/^\d{10}$/.test(mobile)){
+
+        showMessage(
+          "Valid 10-digit mobile number ba registered email enter karantu.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      const {
+        data: lookupEmail,
+        error: lookupError
+      } = await supabaseClient.rpc(
+        "get_login_email_by_mobile",
+        { p_mobile: mobile }
+      );
+
+
+      if(lookupError || !lookupEmail){
+
+        console.error(lookupError);
+
+        showMessage(
+          "Ehi mobile number ra registered account milila nahi.",
+          "error"
+        );
+
+        return;
+      }
+
+
+      resetEmail = lookupEmail;
+    }
+
+
     const redirectUrl =
       window.location.origin +
       window.location.pathname.replace(
@@ -740,7 +787,7 @@
     const {
       error
     } = await supabaseClient.auth.resetPasswordForEmail(
-      email,
+      resetEmail,
       {
         redirectTo: redirectUrl
       }
@@ -761,7 +808,7 @@
 
 
     showMessage(
-      "✅ Password reset link apanka email ku patha jaichi.",
+      "✅ Password reset link registered email ku patha jaichi.",
       "success"
     );
 
