@@ -54,7 +54,7 @@ nav{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto}.grid{grid-templ
 
 <header><div class="container header-inner">
 <div class="brand">
-<img id="siteLogo" class="logo" alt="Maa Basuli Logo">
+<img id="siteLogo" class="logo" alt="Maa Basuli Logo" style="display:none"><div id="logoFallback" class="logo" style="display:flex;align-items:center;justify-content:center;font-size:28px;background:#fff8ed">🙏</div>
 <div><h1>Maa Basuli Uda Jatra Committee</h1><p>Thakurmunda, Mayurbhanj, Odisha</p></div>
 </div>
 <nav>
@@ -151,6 +151,63 @@ const SUPABASE_URL="https://ynymqntcawobcfccoekb.supabase.co";
 const SUPABASE_KEY="sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
+async function loadWebsiteBranding(){
+  try{
+    const {data,error}=await supabaseClient.from("website_settings").select("*").order("created_at",{ascending:false}).limit(1).maybeSingle();
+    if(error || !data) return;
+
+    function firstValue(keys){
+      for(const key of keys){
+        const value=data[key];
+        if(value!==null && value!==undefined && String(value).trim()!=="") return String(value).trim();
+      }
+      return "";
+    }
+
+    const logoUrl=firstValue(["logo_url","logo","site_logo_url"]);
+    if(logoUrl){
+      const logo=document.getElementById("siteLogo");
+      const fallback=document.getElementById("logoFallback");
+      logo.src=logoUrl;
+      logo.style.display="block";
+      if(fallback) fallback.style.display="none";
+      logo.onerror=function(){
+        logo.style.display="none";
+        if(fallback) fallback.style.display="flex";
+      };
+    }
+
+    const siteName=firstValue(["site_name","site_title","website_title","title","name"]);
+    const address=firstValue(["address"]);
+    const phone=firstValue(["phone"]);
+    const email=firstValue(["email"]);
+
+    if(siteName){
+      const title=document.querySelector(".brand h1");
+      if(title) title.textContent=siteName;
+      document.title="Member Dashboard | "+siteName;
+      const footerTitle=document.querySelector("footer strong");
+      if(footerTitle) footerTitle.textContent=siteName;
+    }
+    if(address){
+      const brandAddress=document.querySelector(".brand p");
+      if(brandAddress) brandAddress.textContent=address;
+      const location=document.querySelector(".topbar-inner span:nth-child(2)");
+      if(location) location.textContent="📍 "+address;
+    }
+    if(phone){
+      const phoneEl=document.querySelector(".topbar-inner span:nth-child(4)");
+      if(phoneEl) phoneEl.textContent="📞 "+phone;
+    }
+    if(email){
+      const emailEl=document.querySelector(".topbar-inner span:nth-child(3)");
+      if(emailEl) emailEl.textContent="✉️ "+email;
+    }
+  }catch(error){
+    console.error("Website branding load failed:",error);
+  }
+}
+
 async function loadDashboard(){
   const {data:{session},error}=await supabaseClient.auth.getSession();
   if(error||!session){window.location.href="auth.html";return;}
@@ -211,6 +268,7 @@ async function logout(){
   window.location.href="auth.html";
 }
 
+loadWebsiteBranding();
 loadDashboard();
 </script>
 </body>
