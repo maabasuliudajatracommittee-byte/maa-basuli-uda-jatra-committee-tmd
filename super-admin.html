@@ -576,6 +576,7 @@
   
 /* Management sections stay hidden on the main dashboard and open only when their card is clicked. */
 .internal-management-section{display:none;}
+.dashboard-content-hidden{display:none !important;}
 .internal-management-section.section-open{display:block;}
 #dashboardCards.hidden-dashboard-cards{display:none;}
 #internalSectionBack{display:none;margin:0 0 16px 0;}
@@ -1468,8 +1469,7 @@
   <!-- MEMBER MANAGEMENT -->
 
   <div
-    class="card"
-    class="internal-management-section"
+    class="card internal-management-section"
     id="memberManagement">
 
     <h3>Member Management</h3>
@@ -2064,6 +2064,12 @@ function openInternalSection(id){
   const target=document.getElementById(id);
   if(!target){ return; }
 
+  /* Keep the Super Admin header visible, but hide the main dashboard content.
+     The selected management module is shown by itself. */
+  document.querySelectorAll('.stats, .alerts, .control-section, .system-status, .last-updated').forEach(function(el){
+    el.classList.add('dashboard-content-hidden');
+  });
+
   const back=document.getElementById('internalSectionBack');
   if(back){ back.classList.add('show'); }
 
@@ -2074,6 +2080,10 @@ function openInternalSection(id){
 function closeInternalSection(){
   document.querySelectorAll('.internal-management-section').forEach(function(section){
     section.classList.remove('section-open');
+  });
+
+  document.querySelectorAll('.dashboard-content-hidden').forEach(function(el){
+    el.classList.remove('dashboard-content-hidden');
   });
 
   const back=document.getElementById('internalSectionBack');
