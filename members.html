@@ -1039,7 +1039,7 @@ function renderMembers(){
 
     const name = escapeHtml(member.full_name || "-");
     const designation = escapeHtml(member.designation || "-");
-    const mobile = escapeHtml(member.mobile || "-");
+    const mobile = member.mobile ? escapeHtml(String(member.mobile).replace(/\d(?=\d{4})/g,"*")) : "-";
     const memberSince = formatDate(member.member_since);
 
     row.innerHTML = `
