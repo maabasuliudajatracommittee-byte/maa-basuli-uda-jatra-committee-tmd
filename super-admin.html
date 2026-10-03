@@ -1460,7 +1460,8 @@
 
   <div
     class="card"
-    id="memberManagement">
+    id="memberManagement"
+    style="display:none;">
 
     <h3>Member Management</h3>
     <!-- Re-registration requests must return with approval_status = pending.
@@ -2051,6 +2052,10 @@ function scrollToSection(id){
     document.getElementById(id);
 
   if(!element) return;
+
+  if(id === "memberManagement"){
+    element.style.display = "block";
+  }
 
   element.scrollIntoView({
     behavior:"smooth",
