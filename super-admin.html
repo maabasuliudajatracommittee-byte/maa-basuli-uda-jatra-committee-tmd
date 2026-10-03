@@ -573,6 +573,19 @@
         width:100%;
       }
     }
+
+
+    /* MEMBER MANAGEMENT DEDICATED VIEW */
+    body.member-management-mode .stats,
+    body.member-management-mode .alerts,
+    body.member-management-mode .control-section,
+    body.member-management-mode .container > .card:not(#memberManagement){
+      display:none !important;
+    }
+
+    body.member-management-mode #memberManagement{
+      display:block !important;
+    }
   </style>
 </head>
 
@@ -1463,7 +1476,12 @@
     id="memberManagement"
     style="display:none;">
 
-    <h3>Member Management</h3>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:15px;">
+      <h3 style="margin:0;">Member Management</h3>
+      <button class="secondary" onclick="showSuperAdminDashboard()">
+        ← Back to Super Admin Dashboard
+      </button>
+    </div>
     <!-- Re-registration requests must return with approval_status = pending.
          Pending members use the normal Approve / Reject actions below. -->
 
@@ -2054,13 +2072,31 @@ function scrollToSection(id){
   if(!element) return;
 
   if(id === "memberManagement"){
+    document.body.classList.add("member-management-mode");
     element.style.display = "block";
+    window.scrollTo({top:0, behavior:"smooth"});
+    return;
   }
 
   element.scrollIntoView({
     behavior:"smooth",
     block:"start"
   });
+
+}
+
+function showSuperAdminDashboard(){
+
+  document.body.classList.remove("member-management-mode");
+
+  const element =
+    document.getElementById("memberManagement");
+
+  if(element){
+    element.style.display = "none";
+  }
+
+  window.scrollTo({top:0, behavior:"smooth"});
 
 }
 
