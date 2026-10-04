@@ -162,7 +162,7 @@ async function loadReport(){
 
   if(error){
     console.error(error);
-    errorBox.textContent = "Visitor report could not be loaded.";
+    errorBox.textContent = "Visitor report could not be loaded: " + (error.message || "Unknown error");
     errorBox.style.display = "block";
     tableArea.innerHTML = '<div class="empty">Unable to load visitor data.</div>';
     return;
