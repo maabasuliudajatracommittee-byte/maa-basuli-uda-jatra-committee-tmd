@@ -856,6 +856,31 @@ async function saveProfile(){
   showMessage("Profile saved successfully.");
 }
 
+async function compressProfilePhoto(file){
+  const maxSize=800;
+  const quality=.82;
+  const image=new Image();
+  const objectUrl=URL.createObjectURL(file);
+  try{
+    await new Promise((resolve,reject)=>{
+      image.onload=resolve;
+      image.onerror=()=>reject(new Error("Invalid image"));
+      image.src=objectUrl;
+    });
+    let width=image.naturalWidth, height=image.naturalHeight;
+    if(width>height && width>maxSize){ height=Math.round(height*maxSize/width); width=maxSize; }
+    else if(height>=width && height>maxSize){ width=Math.round(width*maxSize/height); height=maxSize; }
+    const canvas=document.createElement("canvas");
+    canvas.width=width; canvas.height=height;
+    const ctx=canvas.getContext("2d");
+    ctx.fillStyle="#ffffff"; ctx.fillRect(0,0,width,height);
+    ctx.drawImage(image,0,0,width,height);
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",quality));
+    if(!blob) throw new Error("Photo compression failed");
+    return new File([blob],"profile-photo.jpg",{type:"image/jpeg",lastModified:Date.now()});
+  }finally{ URL.revokeObjectURL(objectUrl); }
+}
+
 document.getElementById("photoInput").addEventListener("change",async function(){
   const file=this.files[0];
   if(!file)return;
@@ -872,14 +897,23 @@ document.getElementById("photoInput").addEventListener("change",async function()
     return;
   }
 
+  showMessage("Compressing photo...");
+
+  const compressedFile = await compressProfilePhoto(file);
+
+  if(compressedFile.size > 500 * 1024){
+    showMessage("Compressed photo is still too large. Please choose another photo.","error");
+    this.value="";
+    return;
+  }
+
   showMessage("Uploading photo...");
 
-  const extension=file.name.split(".").pop().toLowerCase();
-  const filePath=currentUser.id+"/"+Date.now()+"."+extension;
+  const filePath=currentUser.id+"/"+Date.now()+".jpg";
 
   const {error:uploadError}=await supabaseClient.storage
     .from("member-photos")
-    .upload(filePath,file,{upsert:true,contentType:file.type});
+    .upload(filePath,compressedFile,{upsert:true,contentType:"image/jpeg"});
 
   if(uploadError){
     showMessage("Photo upload failed: "+uploadError.message,"error");
