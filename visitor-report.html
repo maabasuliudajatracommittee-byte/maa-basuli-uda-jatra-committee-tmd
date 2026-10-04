@@ -19,7 +19,7 @@ header p{margin:7px 0 0;font-size:14px;opacity:.9}
 button,.back-btn{border:0;border-radius:7px;padding:10px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block}
 .back-btn{background:#fff;border:1px solid #cbd5e1;color:#334155}
 .refresh{background:#7b1121;color:#fff}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.cards{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:18px}
 .card{background:#fff;border-radius:10px;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:4px solid #7b1121}
 .card small{color:#64748b;font-weight:700}
 .card strong{display:block;font-size:28px;margin-top:7px;color:#111827}
@@ -39,6 +39,7 @@ th{background:#f8fafc;color:#475569;position:sticky;top:0}
 .status{padding:7px 10px;background:#fee2e2;color:#991b1b;border-radius:7px;font-weight:700;display:none;margin-bottom:12px}
 .loading{text-align:center;padding:25px;color:#64748b}
 .empty{text-align:center;padding:30px;color:#64748b}
+@media(max-width:1100px){.cards{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:550px){.cards{grid-template-columns:1fr}.container{padding:12px}header h1{font-size:20px}}
 </style>
@@ -69,6 +70,8 @@ th{background:#f8fafc;color:#475569;position:sticky;top:0}
     <div class="card"><small>Today</small><strong id="todayVisits">0</strong></div>
     <div class="card"><small>Authenticated</small><strong id="authVisits">0</strong></div>
     <div class="card"><small>Anonymous</small><strong id="anonymousVisits">0</strong></div>
+    <div class="card"><small>Unique Visitors</small><strong id="uniqueVisitors">0</strong></div>
+    <div class="card"><small>Returning Visits</small><strong id="returningVisits">0</strong></div>
   </div>
 
   <div class="panel">
@@ -181,6 +184,22 @@ async function loadReport(){
 
   document.getElementById("anonymousVisits").textContent =
     visitorRows.filter(row => row.visitor_type === "anonymous").length;
+
+  const uniqueKeys = new Set();
+  visitorRows.forEach(row => {
+    const type = row.visitor_type || "anonymous";
+    const key = row.user_id || row.visitor_id || row.session_id ||
+      (type === "authenticated" && row.visitor_name
+        ? "auth:" + String(row.visitor_name).trim().toLowerCase()
+        : null);
+    if(key) uniqueKeys.add(type + ":" + key);
+  });
+
+  const uniqueCount = uniqueKeys.size;
+  document.getElementById("uniqueVisitors").textContent =
+    uniqueCount || visitorRows.length;
+  document.getElementById("returningVisits").textContent =
+    Math.max(0, visitorRows.length - (uniqueCount || visitorRows.length));
 
   renderTable();
 }
