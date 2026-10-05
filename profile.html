@@ -472,10 +472,10 @@ footer a{
     .qr-area img{width:105px;height:105px;object-fit:contain;border:1px solid #ddd;padding:4px;background:white}
     .qr-text{font-size:10px;color:#555;margin-top:4px}
     .id-card{position:relative}
-    .secretary-signature-area{position:absolute;right:10px;bottom:29px;width:82px;text-align:center;z-index:5}
-    .secretary-signature-box{width:82px;text-align:center;display:flex;flex-direction:column;align-items:center}
-    .secretary-signature{display:block !important;width:70px !important;height:22px !important;max-width:70px !important;max-height:22px !important;object-fit:contain !important;object-position:center bottom !important;margin:0 auto 1px !important}
-    .secretary-issued{font-size:6.5px;line-height:1.05;font-weight:600;color:#7b2a16;white-space:nowrap}
+    .secretary-signature-area{position:absolute;right:9px;bottom:28px;width:98px;text-align:center;z-index:5}
+    .secretary-signature-box{width:98px;text-align:center;display:flex;flex-direction:column;align-items:center}
+    .secretary-signature{display:block !important;width:86px !important;height:27px !important;max-width:86px !important;max-height:27px !important;object-fit:contain !important;object-position:center bottom !important;margin:0 auto 1px !important}
+    .secretary-issued{font-size:7px;line-height:1.05;font-weight:600;color:#7b2a16;white-space:nowrap}
     .id-footer{border-top:1px solid #ddd;text-align:center;padding:8px;font-size:10px;color:#555}
     .id-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
     .download-btn{background:#16833b;color:white}
@@ -969,17 +969,18 @@ async function downloadIdCard(){
     holder.style.position="fixed";
     holder.style.left="-10000px";
     holder.style.top="0";
-    holder.style.width="500px";
+    holder.style.width="508px";
     holder.style.zIndex="-1";
     holder.style.background="#ffffff";
     holder.style.overflow="visible";
 
     clone=card.cloneNode(true);
     clone.style.width="500px";
+    clone.style.margin="4px";
     clone.style.maxWidth="500px";
     clone.style.boxSizing="border-box";
     clone.style.overflow="hidden";
-    clone.style.margin="0";
+    clone.style.margin="4px";
     clone.style.boxShadow="none";
 
     holder.appendChild(clone);
@@ -987,8 +988,9 @@ async function downloadIdCard(){
 
     await new Promise(resolve=>requestAnimationFrame(resolve));
 
-    const canvas=await html2canvas(clone,{
-      scale:3,width:500,windowWidth:520,useCORS:true,
+    const canvas=await html2canvas(holder,{
+      scale:3,width:508,windowWidth:520,useCORS:true,
+      x:0,y:0,
       backgroundColor:"#ffffff",logging:false,scrollX:0,scrollY:0
     });
 
