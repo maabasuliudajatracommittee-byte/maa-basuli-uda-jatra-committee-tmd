@@ -424,7 +424,7 @@ footer a{
 .contact-wrap{margin-top:-32px;position:relative;z-index:5}.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.contact-card{background:#fff;padding:28px;border-radius:16px;box-shadow:0 5px 22px rgba(0,0,0,.1)}.contact-card h3{color:#7b1e1e;margin-bottom:7px}.card-intro{color:#777;font-size:13px;margin-bottom:20px}
 .contact-item{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid #eee}.contact-item:last-child{border-bottom:0}.contact-icon{min-width:44px;height:44px;border-radius:10px;background:#fff3dc;display:flex;align-items:center;justify-content:center;font-size:21px}.contact-item h4{color:#7b1e1e;margin-bottom:2px}.contact-item p,.contact-item a{color:#666;font-size:13px}.contact-item a:hover{color:#7b1e1e}
 .social-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.social-card{padding:15px;border:1px solid #eee;border-radius:10px;background:#fff;transition:.2s}.social-card:hover{transform:translateY(-2px);box-shadow:0 5px 15px rgba(0,0,0,.08)}.social-card strong{display:block;color:#7b1e1e}.social-card span{color:#777;font-size:12px}
-.form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:6px;font-size:13px;font-weight:bold;color:#444}.form-group input,.form-group textarea{width:100%;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;outline:none}.form-group input:focus,.form-group textarea:focus{border-color:#7b1e1e}.form-group textarea{min-height:125px;resize:vertical}.submit-btn{width:100%;padding:13px;border:0;border-radius:9px;background:#7b1e1e;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}.submit-btn:hover{background:#5e1515}.success-box{display:none;margin-top:15px;padding:14px;border-radius:8px;background:#eaf8ef;color:#18733a;font-size:13px}.success-box.show{display:block}
+.form-group{margin-bottom:15px}.form-group label{display:block;margin-bottom:6px;font-size:13px;font-weight:bold;color:#444}.form-group input,.form-group textarea{width:100%;padding:11px 13px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px;outline:none}.form-group input:focus,.form-group textarea:focus{border-color:#7b1e1e}.form-group textarea{min-height:125px;resize:vertical}.submit-btn{width:100%;padding:13px;border:0;border-radius:9px;background:#7b1e1e;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}.submit-btn:hover{background:#5e1515}.submit-btn:disabled{opacity:.65;cursor:not-allowed}.success-box{display:none;margin-top:15px;padding:14px;border-radius:8px;background:#eaf8ef;color:#18733a;font-size:13px}.success-box.show{display:block}
 .office-bearers{padding:52px 0;background:#fffaf4}.office-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}.office-card{background:#fff;border:1px solid #ead7c4;border-radius:16px;padding:20px;text-align:center;box-shadow:0 5px 16px rgba(90,35,15,.08)}.office-photo{width:105px;height:105px;border-radius:50%;object-fit:cover;border:4px solid #f0c36a;background:#f5eee6;margin:0 auto 12px;display:block}.office-card h3{margin:6px 0 5px;color:#6b1f1f;font-size:18px}.office-designation{display:inline-block;font-weight:700;color:#a34b17;margin-bottom:10px}.office-mobile{margin:0;color:#333;font-weight:600}.office-mobile a{color:#333}.office-empty{text-align:center;color:#777;padding:20px}
 .map-section{background:#fff8ed}.map-box{min-height:300px;background:#eee;border-radius:15px;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}.map-content{max-width:550px}.map-icon{font-size:48px;margin-bottom:8px}.map-content h3{color:#7b1e1e}.map-content p{color:#777;font-size:14px}.map-btn{display:inline-block;margin-top:15px;padding:10px 17px;border-radius:8px;background:#7b1e1e;color:#fff;font-size:13px;font-weight:bold}
 .info-box{background:#fff;border-left:5px solid #7b1e1e;padding:22px;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.05)}.info-box h3{color:#7b1e1e;margin-bottom:7px}.info-box p,.info-box li{color:#666;font-size:14px}.info-box ul{padding-left:20px}
@@ -529,7 +529,7 @@ footer a{
               Address
             </h4>
 
-            <p>
+            <p id="officialAddress">
               Maa Basuli Uda Jatra Committee<br>
               Thakurmunda, Mayurbhanj<br>
               Odisha, India
@@ -553,6 +553,7 @@ footer a{
             </h4>
 
             <a
+              id="officialEmail"
               href="mailto:maabasuliudajatracommittee@gmail.com"
             >
               maabasuliudajatracommittee@gmail.com
@@ -575,7 +576,7 @@ footer a{
               Official Phone
             </h4>
 
-            <p>
+            <p id="officialPhone">
               Official contact number will be published
               by the Super Admin.
             </p>
@@ -597,7 +598,7 @@ footer a{
               Office / Enquiry
             </h4>
 
-            <p>
+            <p id="officeTiming">
               Timing and availability will be updated
               through the official website.
             </p>
@@ -682,6 +683,23 @@ footer a{
           <div class="form-group">
 
             <label>
+              Subject
+            </label>
+
+            <input
+              type="text"
+              id="contactSubject"
+              placeholder="Enter enquiry subject"
+              required
+              maxlength="150"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
               Message
             </label>
 
@@ -709,11 +727,7 @@ footer a{
         <div
           id="successBox"
           class="success-box"
-        >
-          ✅ Your enquiry has been recorded in demo mode.
-          The official enquiry system will be connected
-          to Supabase during the CMS stage.
-        </div>
+        ></div>
 
       </div>
 
@@ -1154,16 +1168,75 @@ async function loadOfficeBearers(){
   }
 }
 
-function submitEnquiry(event){
+async function submitEnquiry(event){
   event.preventDefault();
+
+  const form = document.getElementById("contactForm");
+  const button = form.querySelector(".submit-btn");
+  const successBox = document.getElementById("successBox");
+
+  const name = document.getElementById("contactName").value.trim();
   const mobile = document.getElementById("contactMobile").value.trim();
+  const email = document.getElementById("contactEmail").value.trim();
+  const subject = document.getElementById("contactSubject").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
   if(!/^[0-9]{10}$/.test(mobile)){
     alert("Please enter a valid 10-digit mobile number.");
     return;
   }
-  document.getElementById("successBox").classList.add("show");
-  document.getElementById("contactForm").reset();
-  document.getElementById("successBox").scrollIntoView({behavior:"smooth",block:"center"});
+
+  if(!name || !email || !subject || !message){
+    alert("Please fill all required fields.");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "Sending...";
+  successBox.classList.remove("show");
+  successBox.textContent = "";
+
+  try{
+    const {data, error} = await contactSupabase
+      .from("contact_messages")
+      .insert([{
+        name: name,
+        mobile: mobile,
+        email: email,
+        subject: subject,
+        message: message,
+        status: "New",
+        is_published: false
+      }])
+      .select("id")
+      .single();
+
+    if(error){
+      console.error("Enquiry submission error:", error);
+      throw new Error(error.message || "Unable to submit enquiry.");
+    }
+
+    const rawId = String(data?.id || "").replace(/-/g,"").toUpperCase();
+    const referenceNo = "MB-ENQ-" + (rawId.slice(-8) || Date.now().toString().slice(-8));
+
+    successBox.innerHTML =
+      "✅ Your enquiry has been submitted successfully.<br>" +
+      "<strong>Reference No: " + escapeHtml(referenceNo) + "</strong><br>" +
+      "Please keep this reference number for future communication.";
+
+    successBox.classList.add("show");
+    form.reset();
+    successBox.scrollIntoView({behavior:"smooth",block:"center"});
+
+  }catch(error){
+    alert(
+      "Enquiry could not be submitted. Please try again.\n\n" +
+      (error?.message || "")
+    );
+  }finally{
+    button.disabled = false;
+    button.textContent = "Send Enquiry";
+  }
 }
 
 loadContactWebsiteSettings();
