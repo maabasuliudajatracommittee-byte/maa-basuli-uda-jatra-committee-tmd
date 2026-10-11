@@ -5557,8 +5557,11 @@ async function generateLatest20MemberCollage(){
     script.onload=async()=>{
       try{
         await Promise.all([...win.document.images].map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;})));
-        const target=win.document.querySelector(".collage-grid").parentElement;
-        const canvas=await win.html2canvas(target,{scale:1,backgroundColor:"#f3f4f6",useCORS:true,allowTaint:false,logging:false,windowWidth:1280,windowHeight:target.scrollHeight,height:target.scrollHeight,scrollY:0});
+        const target=win.document.body;
+        const titleEl=win.document.querySelector(".collage-title");
+        const gridEl=win.document.querySelector(".collage-grid");
+        const cropHeight=Math.ceil(gridEl.offsetTop + gridEl.offsetHeight + 18);
+        const canvas=await win.html2canvas(target,{scale:2,backgroundColor:"#f3f4f6",useCORS:true,allowTaint:false,logging:false,windowWidth:1240,windowHeight:cropHeight,height:cropHeight,scrollY:0});
         const a=win.document.createElement("a");a.download="Maa-Basuli-Latest-20-Member-ID-Collage.png";a.href=canvas.toDataURL("image/png");a.click();
       }catch(e){console.error(e);win.alert("PNG generate hela nahi. Print/Save as PDF option use karantu, kimba image hosting CORS issue thile screenshot nebaku padipare.");}
     };
