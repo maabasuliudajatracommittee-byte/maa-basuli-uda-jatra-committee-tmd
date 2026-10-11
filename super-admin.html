@@ -802,6 +802,18 @@
 
       <div class="control-card">
 
+        <div class="control-icon">🪪</div>
+
+        <h4>Member ID Collage</h4>
+
+        <p>Latest 20 approved members ra photo collage download karantu, kimba samasta approved member nka ID-card PDF prastuta karantu.</p>
+
+        <button class="purple" type="button" onclick="openMemberCollageOptions()">Generate Member ID Collage</button>
+
+      </div>
+
+      <div class="control-card">
+
         <div class="control-icon">👥</div>
 
         <h4>Member Management</h4>
@@ -5467,6 +5479,106 @@ document.getElementById(
 
   }
 );
+
+/* =========================
+   MEMBER ID COLLAGE
+========================= */
+function openMemberCollageOptions(){
+  const old = document.getElementById("memberCollageOptions");
+  if(old) old.remove();
+  const modal = document.createElement("div");
+  modal.id = "memberCollageOptions";
+  modal.style.cssText = "position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.62);display:flex;align-items:center;justify-content:center;padding:18px;";
+  modal.innerHTML = `
+    <div style="background:#fff;border-radius:18px;padding:22px;max-width:460px;width:100%;box-shadow:0 18px 55px #0004;font-family:Arial,sans-serif;">
+      <h2 style="color:#8b0000;margin:0 0 8px;">🪪 Member ID Collage</h2>
+      <p style="color:#4b5563;margin:0 0 18px;line-height:1.5;">କେଉଁ କଲାଜ୍ ତିଆରି କରିବେ ବାଛନ୍ତୁ।</p>
+      <button type="button" onclick="generateLatest20MemberCollage()" style="width:100%;padding:14px;margin:0 0 10px;background:#8b0000;color:#fff;border:0;border-radius:10px;font-weight:bold;font-size:16px;">📸 Latest 20 Members — PNG Collage</button>
+      <button type="button" onclick="generateAllMembersCollagePDF()" style="width:100%;padding:14px;background:#1d4ed8;color:#fff;border:0;border-radius:10px;font-weight:bold;font-size:16px;">📄 All Members — PDF (24 cards/page)</button>
+      <button type="button" onclick="document.getElementById('memberCollageOptions').remove()" style="width:100%;padding:10px;margin-top:10px;background:#f3f4f6;color:#374151;border:0;border-radius:10px;">Cancel</button>
+      <p style="font-size:12px;color:#6b7280;margin:14px 0 0;">Only approved members with available profile data are included. Latest 20 is ordered by joining/creation date.</p>
+    </div>`;
+  modal.addEventListener("click",e=>{if(e.target===modal)modal.remove();});
+  document.body.appendChild(modal);
+}
+
+function getCollageMembers(){
+  const approved = (members || []).filter(m => String(m.approval_status || "").toLowerCase()==="approved" && String(m.member_status || "").toLowerCase()==="active" && m.member_id);
+  const dateValue = m => new Date(m.created_at || m.joined_at || m.member_since || m.approved_at || 0).getTime() || 0;
+  return approved.sort((a,b)=>dateValue(b)-dateValue(a));
+}
+
+function collageEscape(value){
+  return String(value ?? "—").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+
+async function getCollageBranding(){
+  let settings = {};
+  try {
+    const result = await supabaseClient.from("website_settings").select("*").limit(1).maybeSingle();
+    if(!result.error && result.data) settings=result.data;
+  } catch(e) { console.warn("Collage branding unavailable",e); }
+  return { logo: settings.logo_url || settings.logo || settings.site_logo_url || "", name: settings.site_name || settings.site_title || "Maa Basuli Uda Jatra Committee" };
+}
+
+function collageCardHTML(m, branding){
+  const id = m.member_id || "N/A";
+  const profileUrl = location.origin + location.pathname.replace(/super-admin\.html$/i,"member.html") + "?id=" + encodeURIComponent(id);
+  const qr = "https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=" + encodeURIComponent(profileUrl);
+  const active = String(m.member_status || "").toLowerCase()==="active";
+  return `<article class="member-collage-card">
+    <div class="mcc-head">${branding.logo ? `<img src="${collageEscape(branding.logo)}" crossorigin="anonymous">` : `<div class="mcc-logo">🙏</div>`}<div><b>ମା ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</b><strong>${collageEscape(branding.name)}</strong><small>Thakurmunda, Mayurbhanj, Odisha</small></div></div>
+    <div class="mcc-main">${m.profile_photo_url ? `<img class="mcc-photo" src="${collageEscape(m.profile_photo_url)}" crossorigin="anonymous">` : `<div class="mcc-photo mcc-no-photo">PHOTO</div>`}<div class="mcc-details"><h3>${collageEscape(m.full_name || "Member")}</h3><b>${collageEscape(m.designation || "Member")}</b><p><strong>Member ID:</strong> ${collageEscape(id)}</p><p><strong>Mobile:</strong> ${collageEscape(m.mobile || "—")}</p><p><strong>Village:</strong> ${collageEscape(m.village || "—")}</p><p><strong>Blood:</strong> ${collageEscape(m.blood_group || "—")}</p><span class="mcc-status ${active?"":"inactive"}">${active?"ACTIVE":"INACTIVE"}</span></div></div>
+    <div class="mcc-qr"><img src="${qr}" crossorigin="anonymous"><small>Scan to verify member profile</small></div>
+  </article>`;
+}
+
+function collageDocumentHTML(list, branding, title, forPrint){
+  const cards = list.map(m=>collageCardHTML(m,branding)).join("");
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${collageEscape(title)}</title><style>
+  *{box-sizing:border-box}body{margin:0;padding:18px;background:#f3f4f6;font-family:Arial,Helvetica,sans-serif;color:#222}.collage-title{text-align:center;color:#8b0000;margin:0 0 14px}.collage-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.member-collage-card{background:#fff;border:1px solid #a64b2a;border-radius:9px;overflow:hidden;min-width:0;break-inside:avoid;box-shadow:0 2px 5px #0001}.mcc-head{background:#a83b16;color:#fff;display:flex;align-items:center;gap:7px;padding:8px;min-height:60px}.mcc-head>img,.mcc-logo{width:42px;height:42px;flex:0 0 42px;object-fit:contain;border-radius:50%;background:#fff}.mcc-logo{display:grid;place-items:center;color:#8b0000}.mcc-head b,.mcc-head strong,.mcc-head small{display:block;text-align:center}.mcc-head b{font-size:9px}.mcc-head strong{font-size:10px;margin-top:3px}.mcc-head small{font-size:7px;margin-top:3px}.mcc-main{display:flex;gap:8px;padding:10px 8px 4px;min-height:115px}.mcc-photo{width:78px;height:88px;object-fit:cover;border:1px solid #b45335;border-radius:6px;flex:0 0 78px}.mcc-no-photo{display:grid;place-items:center;background:#f3f4f6;color:#777;font-size:10px}.mcc-details{min-width:0;flex:1}.mcc-details h3{font-size:12px;line-height:1.15;margin:0 0 5px;color:#963b1c;overflow-wrap:anywhere}.mcc-details>b{display:block;font-size:8px;margin-bottom:6px}.mcc-details p{font-size:8px;line-height:1.35;margin:2px 0;overflow-wrap:anywhere}.mcc-status{display:inline-block;background:#d9fbe5;color:#14733c;border-radius:9px;padding:3px 7px;font-size:7px;font-weight:bold;margin-top:4px}.mcc-status.inactive{background:#fee2e2;color:#991b1b}.mcc-qr{text-align:center;padding:2px 0 7px}.mcc-qr img{width:43px;height:43px;display:block;margin:0 auto}.mcc-qr small{display:block;font-size:6px;color:#555;margin-top:2px}.page-break{display:none}
+  @media print{@page{size:A4 landscape;margin:7mm}body{padding:0;background:#fff}.collage-title{font-size:13px;margin:0 0 5mm}.collage-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:3mm}.member-collage-card{box-shadow:none;border-radius:4px}.mcc-head{min-height:15mm;padding:2mm}.mcc-head>img,.mcc-logo{width:10mm;height:10mm;flex-basis:10mm}.mcc-main{min-height:28mm;padding:2mm;gap:2mm}.mcc-photo{width:20mm;height:24mm;flex-basis:20mm}.mcc-head b{font-size:6pt}.mcc-head strong{font-size:6pt}.mcc-head small{font-size:5pt}.mcc-details h3{font-size:7pt}.mcc-details>b,.mcc-details p{font-size:5pt}.mcc-status{font-size:5pt;padding:1mm}.mcc-qr img{width:10mm;height:10mm}.mcc-qr small{font-size:4pt}.member-collage-card:nth-child(24n+1){break-before:page}.member-collage-card:first-child{break-before:auto}.collage-title{break-after:avoid}}
+  </style></head><body><h2 class="collage-title">${collageEscape(title)} — ${list.length} Members</h2><main class="collage-grid">${cards}</main>${forPrint?`<script>window.addEventListener('load',()=>{const imgs=[...document.images];Promise.all(imgs.map(i=>i.complete?Promise.resolve():new Promise(r=>{i.onload=r;i.onerror=r}))).then(()=>setTimeout(()=>window.print(),700));});<\/script>`:""}</body></html>`;
+}
+
+async function generateLatest20MemberCollage(){
+  document.getElementById("memberCollageOptions")?.remove();
+  try{
+    const list=getCollageMembers().slice(0,20);
+    if(!list.length) throw new Error("No approved active members with Member ID were found.");
+    const branding=await getCollageBranding();
+    const win=window.open("","_blank");
+    if(!win) throw new Error("Allow pop-ups for this website, then try again.");
+    win.document.open();
+    win.document.write(collageDocumentHTML(list,branding,"Maa Basuli — Latest 20 Member ID Collage",false));
+    win.document.close();
+    const script=win.document.createElement("script");
+    script.src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js";
+    script.onload=async()=>{
+      try{
+        await Promise.all([...win.document.images].map(img=>img.complete?Promise.resolve():new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;})));
+        const canvas=await win.html2canvas(win.document.body,{scale:2,backgroundColor:"#f3f4f6",useCORS:true,allowTaint:false,logging:false});
+        const a=win.document.createElement("a");a.download="Maa-Basuli-Latest-20-Member-ID-Collage.png";a.href=canvas.toDataURL("image/png");a.click();
+      }catch(e){console.error(e);win.alert("PNG generate hela nahi. Print/Save as PDF option use karantu, kimba image hosting CORS issue thile screenshot nebaku padipare.");}
+    };
+    script.onerror=()=>win.alert("Collage PNG library load hela nahi. Internet connection check kari puni try karantu.");
+    win.document.head.appendChild(script);
+  }catch(e){alert("Collage failed: "+(e.message||e));}
+}
+
+async function generateAllMembersCollagePDF(){
+  document.getElementById("memberCollageOptions")?.remove();
+  try{
+    const list=getCollageMembers();
+    if(!list.length) throw new Error("No approved active members with Member ID were found.");
+    const branding=await getCollageBranding();
+    const win=window.open("","_blank");
+    if(!win) throw new Error("Allow pop-ups for this website, then try again.");
+    win.document.open();
+    win.document.write(collageDocumentHTML(list,branding,"Maa Basuli — All Member ID Cards",true));
+    win.document.close();
+  }catch(e){alert("PDF collage failed: "+(e.message||e));}
+}
 
 </script>
 
