@@ -312,6 +312,7 @@
   <div class="card">
 
     <h2 id="formTitle">➕ Add Bhakta</h2>
+    <p style="color:#555;margin-top:-5px">ସମସ୍ତ ରେକର୍ଡ Super Admin ହିଁ ଯୋଡ଼ିବେ। Public view ରେ କେବଳ ଫଟୋ ଓ ନାମ ଦେଖାଇବାକୁ ହେବ।</p>
 
     <form id="bhaktaForm">
 
@@ -341,14 +342,10 @@
 
         <div>
           <label>Bhakta Type</label>
-          <select id="bhaktaType">
+          <select id="bhaktaType" required>
             <option value="">Select Type</option>
-            <option value="General Bhakta">General Bhakta</option>
-            <option value="Sevak">Sevak</option>
-            <option value="Volunteer">Volunteer</option>
-            <option value="Donor">Donor</option>
-            <option value="Committee Bhakta">Committee Bhakta</option>
-            <option value="Special Bhakta">Special Bhakta</option>
+            <option value="Government/Committee Bhakta">ସରକାରୀ / କମିଟି ଭକ୍ତା</option>
+            <option value="Manasikadhari Bhakta">ମାନସିକଧାରୀ ଭକ୍ତା</option>
           </select>
         </div>
 
@@ -363,8 +360,34 @@
         </div>
 
         <div class="full">
-          <label>Photo URL</label>
-          <input type="url" id="photoUrl" placeholder="https://...">
+          <label>Bhakta Photo URL *</label>
+          <input type="url" id="photoUrl" placeholder="https://..." required>
+        </div>
+
+        <div class="full" id="ownerSection" style="display:none;border-top:1px solid #ddd;padding-top:15px">
+          <h3 style="margin:0 0 12px;color:#7b1e1e">ମାନସିକଧାରୀ ଭକ୍ତାଙ୍କ ମାଲିକଙ୍କ ବିବରଣୀ</h3>
+          <div class="form-grid">
+            <div>
+              <label>Owner Name *</label>
+              <input type="text" id="ownerName">
+            </div>
+            <div>
+              <label>Owner Mobile Number *</label>
+              <input type="tel" id="ownerMobile" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10 digit mobile">
+            </div>
+            <div>
+              <label>Owner Village *</label>
+              <input type="text" id="ownerVillage">
+            </div>
+            <div>
+              <label>Owner Photo URL *</label>
+              <input type="url" id="ownerPhotoUrl" placeholder="https://...">
+            </div>
+            <div class="full">
+              <label>Owner Full Address *</label>
+              <textarea id="ownerAddress"></textarea>
+            </div>
+          </div>
         </div>
 
         <div>
@@ -416,6 +439,7 @@
             <th>Mobile</th>
             <th>Village</th>
             <th>Type</th>
+            <th>Owner</th>
             <th>Seva</th>
             <th>FY</th>
             <th>Status</th>
@@ -426,7 +450,7 @@
 
         <tbody id="bhaktaTable">
           <tr>
-            <td colspan="10">Loading...</td>
+            <td colspan="11">Loading...</td>
           </tr>
         </tbody>
 
@@ -453,6 +477,17 @@ const supabaseClient =
   );
 
 let bhaktas = [];
+
+document.getElementById("bhaktaType").addEventListener("change", updateOwnerFields);
+
+function updateOwnerFields(){
+  const isManasikadhari = document.getElementById("bhaktaType").value === "Manasikadhari Bhakta";
+  const section = document.getElementById("ownerSection");
+  section.style.display = isManasikadhari ? "block" : "none";
+  ["ownerName","ownerMobile","ownerVillage","ownerPhotoUrl","ownerAddress"].forEach(id => {
+    document.getElementById(id).required = isManasikadhari;
+  });
+}
 
 
 /* ---------------------------
@@ -496,8 +531,26 @@ async function checkAuth(){
     return false;
   }
 
+  // This page is intended for Super Admin only.
+  const { data: roleRows, error: roleError } = await supabaseClient
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", session.user.id);
+
+  if(roleError){
+    console.error("Role check failed:", roleError);
+    document.body.innerHTML = "<div style='font-family:Arial;padding:24px'><h2>Access could not be verified</h2><p>Please check the user_roles table permissions before using Bhakta Management.</p></div>";
+    return false;
+  }
+
+  const isSuperAdmin = (roleRows || []).some(row => row.role === "super_admin");
+  if(!isSuperAdmin){
+    document.body.innerHTML = "<div style='font-family:Arial;padding:24px'><h2>Access denied</h2><p>Only the Super Admin can manage Bhakta records.</p><button onclick=\"location.href='index.html'\">Back to Login</button></div>";
+    return false;
+  }
+
   document.getElementById("userEmail").textContent =
-    session.user.email || "Logged in";
+    (session.user.email || "Logged in") + " · Super Admin";
 
   return true;
 }
@@ -530,7 +583,10 @@ async function loadBhaktas(){
     return;
   }
 
-  bhaktas = data || [];
+  bhaktas = (data || []).sort((a,b) => {
+    const priority = item => item.bhakta_type === "Government/Committee Bhakta" ? 0 : 1;
+    return priority(a) - priority(b) || String(a.name || "").localeCompare(String(b.name || ""));
+  });
 
   updateStats();
 
@@ -593,6 +649,7 @@ function renderTable(){
         item.mobile,
         item.village,
         item.bhakta_type,
+        item.owner_name,
         item.seva,
         item.financial_year
 
@@ -657,6 +714,8 @@ function renderTable(){
           <td>${escapeHtml(item.village || "—")}</td>
 
           <td>${escapeHtml(item.bhakta_type || "—")}</td>
+
+          <td>${escapeHtml(item.owner_name || "—")}</td>
 
           <td>${escapeHtml(item.seva || "—")}</td>
 
@@ -742,6 +801,21 @@ document.getElementById("bhaktaForm")
 
     bhakta_type:
       document.getElementById("bhaktaType").value || null,
+
+    owner_name:
+      document.getElementById("ownerName").value.trim() || null,
+
+    owner_mobile:
+      document.getElementById("ownerMobile").value.trim() || null,
+
+    owner_village:
+      document.getElementById("ownerVillage").value.trim() || null,
+
+    owner_address:
+      document.getElementById("ownerAddress").value.trim() || null,
+
+    owner_photo_url:
+      document.getElementById("ownerPhotoUrl").value.trim() || null,
 
     seva:
       document.getElementById("seva").value.trim() || null,
@@ -849,6 +923,13 @@ function editBhakta(id){
 
   document.getElementById("bhaktaType").value =
     item.bhakta_type || "";
+
+  document.getElementById("ownerName").value = item.owner_name || "";
+  document.getElementById("ownerMobile").value = item.owner_mobile || "";
+  document.getElementById("ownerVillage").value = item.owner_village || "";
+  document.getElementById("ownerAddress").value = item.owner_address || "";
+  document.getElementById("ownerPhotoUrl").value = item.owner_photo_url || "";
+  updateOwnerFields();
 
   document.getElementById("seva").value =
     item.seva || "";
@@ -1035,6 +1116,7 @@ function resetForm(){
 
   document.getElementById("isActive").value =
     "true";
+  updateOwnerFields();
 }
 
 
