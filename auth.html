@@ -145,6 +145,106 @@
       h2{font-size:21px}
       .login-support .support-title,.login-support .support-odia{font-size:12px}
     }
+  
+    /* Responsive full-screen layout enhancement — preserves existing auth logic */
+    html { min-height: 100%; }
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      isolation: isolate;
+      background:
+        radial-gradient(ellipse at 8% 30%, rgba(255,255,255,.92), transparent 35%),
+        radial-gradient(ellipse at 92% 44%, rgba(255,211,91,.34), transparent 32%),
+        linear-gradient(135deg,#fff7ed 0%,#ffefbd 48%,#fffaf0 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        radial-gradient(circle at 12% 15%, #d97706 0 1px, transparent 2px),
+        radial-gradient(circle at 82% 24%, #9a3412 0 1px, transparent 2px),
+        radial-gradient(circle at 70% 78%, #d97706 0 1px, transparent 2px);
+      background-size: 46px 46px, 62px 62px, 54px 54px;
+    }
+    .top { flex: 0 0 auto; }
+    .page-wrap {
+      flex: 1 0 auto;
+      width: min(1120px, 94%);
+      margin: 0 auto;
+      padding: clamp(24px, 4vh, 48px) 0 clamp(24px, 4vh, 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .photo-strip {
+      gap: clamp(12px, 2vw, 22px);
+      margin-bottom: clamp(-58px, -5vh, -38px);
+    }
+    .photo-card {
+      height: clamp(190px, 27vh, 320px);
+      border-radius: clamp(16px, 2vw, 26px);
+      border-width: 4px;
+    }
+    .card {
+      width: min(560px, 100%);
+      padding: clamp(24px, 3vw, 34px);
+      border-radius: 26px;
+      box-shadow: 0 24px 60px rgba(95,23,8,.22), 0 3px 10px rgba(95,23,8,.06);
+    }
+    .footer {
+      flex: 0 0 auto;
+      margin-top: auto;
+      padding: 20px 15px;
+    }
+    @media (min-width: 900px) {
+      .top { padding: 18px 24px 20px; }
+      .brand-logo { width: 64px; height: 64px; }
+      .top h1 { font-size: clamp(22px, 2vw, 30px); }
+      .top p { font-size: 14px; }
+      .page-wrap { width: min(1180px, 92%); }
+      .photo-strip { grid-template-columns: 1fr 1fr; }
+      .photo-card { height: clamp(230px, 30vh, 360px); }
+      .card { max-width: 560px; }
+    }
+    @media (max-width: 650px) {
+      .page-wrap {
+        width: 92%;
+        padding-top: 24px;
+        padding-bottom: 28px;
+      }
+      .photo-strip {
+        gap: 9px;
+        margin-bottom: -36px;
+      }
+      .photo-card {
+        height: clamp(120px, 18vh, 180px);
+        border-width: 3px;
+        border-radius: 15px;
+      }
+      .card {
+        padding: 22px 19px;
+        border-radius: 21px;
+      }
+      .footer { padding: 18px 12px; }
+    }
+    @media (max-height: 760px) and (max-width: 650px) {
+      .page-wrap { padding-top: 16px; padding-bottom: 18px; }
+      .photo-card { height: 112px; }
+      .card { padding: 18px; }
+      .card:before { margin-bottom: 8px; }
+      .tabs { margin-bottom: 14px; }
+      label { margin-top: 10px; }
+      .main-btn { margin-top: 15px; padding: 12px; }
+      .login-support { margin-top: 14px; padding: 12px; }
+    }
+
   </style>
 </head>
 
