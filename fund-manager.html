@@ -448,14 +448,16 @@ function buildFinancialYears(){
 
   const currentFYStart = currentMonth >= 4 ? currentYear : currentYear - 1;
 
-  for(let i=0;i<8;i++){
-    const start = currentFYStart - i;
+  // Show future financial years as well as historical years.
+  // Keep the current financial year selected by default, with future years first.
+  for(let start = currentFYStart + 10; start >= currentFYStart - 7; start--){
     const end = start + 1;
     const option = document.createElement("option");
     option.value = `${start}-${end}`;
     option.textContent = `${start}-${end}`;
     select.appendChild(option);
   }
+  select.value = `${currentFYStart}-${currentFYStart + 1}`;
 }
 
 async function checkAdminAccess(){
