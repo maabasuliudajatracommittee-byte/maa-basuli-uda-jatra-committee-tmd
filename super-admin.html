@@ -593,6 +593,9 @@
 #memberContributionManagement .contribution-row-actions{display:flex;gap:6px;flex-wrap:wrap;}
 #memberContributionManagement .table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 #memberContributionManagement table{min-width:850px;}
+#memberContributionManagement .message{overflow-wrap:anywhere;}
+#memberContributionManagement .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+#memberContributionManagement .form-group.full{grid-column:1/-1;}
 @media(max-width:600px){#memberContributionManagement{padding:14px;}#memberContributionManagement .form-grid{grid-template-columns:minmax(0,1fr);gap:13px;}#memberContributionManagement .form-group.full{grid-column:1;}#memberContributionManagement .contribution-row-actions{min-width:150px;}#memberContributionManagement .contribution-row-actions button{flex:1 1 auto;}#memberContributionManagement > div[style*="display:flex"]{display:grid!important;grid-template-columns:1fr;gap:8px!important;}#memberContributionManagement > div[style*="display:flex"] button{width:100%;}}
 </style>
 
@@ -3682,7 +3685,7 @@ function clearBroadcastEmailForm(){
 ===================================================== */
 let memberContributions=[];
 let memberContributionEditId="";
-function contributionMemberId(m){ return m && (m.user_id || m.auth_user_id || m.auth_uid || m.user_uuid) || ""; }
+function contributionMemberId(m){ return m && (m.user_id || m.auth_user_id || m.auth_uid || m.user_uuid || m.id) || ""; }
 function contributionMemberLabel(m){ return `${m.member_id || "—"} - ${m.full_name || m.name || m.email || "Member"}`; }
 function populateMemberContributionSelector(){
   const el=document.getElementById("memberContributionMember"); if(!el)return;
