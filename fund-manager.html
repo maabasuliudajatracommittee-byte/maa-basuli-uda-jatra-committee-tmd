@@ -442,22 +442,22 @@ function setDefaultDate(){
 
 function buildFinancialYears(){
   const select = document.getElementById("financialYear");
-  const now = new Date();
-  const currentYear = now.getFullYear();
-  const currentMonth = now.getMonth() + 1;
+  select.innerHTML = "";
 
-  const currentFYStart = currentMonth >= 4 ? currentYear : currentYear - 1;
+  // Start the financial-year list at 2027-2028 and show only future years.
+  const firstYear = 2027;
+  const numberOfYears = 15;
 
-  // Show future financial years as well as historical years.
-  // Keep the current financial year selected by default, with future years first.
-  for(let start = currentFYStart + 10; start >= currentFYStart - 7; start--){
+  for(let i=0;i<numberOfYears;i++){
+    const start = firstYear + i;
     const end = start + 1;
     const option = document.createElement("option");
     option.value = `${start}-${end}`;
     option.textContent = `${start}-${end}`;
     select.appendChild(option);
   }
-  select.value = `${currentFYStart}-${currentFYStart + 1}`;
+
+  select.value = "2027-2028";
 }
 
 async function checkAdminAccess(){
