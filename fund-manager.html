@@ -252,13 +252,20 @@ th{background:#f7f7f7}
     <div class="form-grid">
       <div>
         <label>Transaction Type *</label>
-        <select id="transactionType">
+        <select id="transactionType" onchange="handleTransactionTypeChange()">
           <option value="Collection">Collection</option>
           <option value="Donation">Donation</option>
           <option value="Member Fee">Member Fee</option>
           <option value="Other Income">Other Income</option>
           <option value="Expense">Expense</option>
           <option value="Savings">Savings</option>
+        </select>
+      </div>
+
+      <div id="memberSelectWrap" style="display:none">
+        <label>Member Name *</label>
+        <select id="memberUserId">
+          <option value="">Loading members...</option>
         </select>
       </div>
 
@@ -433,6 +440,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   setDefaultDate();
   buildFinancialYears();
   await checkAdminAccess();
+  await loadMembersForFee();
+  handleTransactionTypeChange();
 });
 
 function setDefaultDate(){
@@ -443,12 +452,8 @@ function setDefaultDate(){
 function buildFinancialYears(){
   const select = document.getElementById("financialYear");
   select.innerHTML = "";
-
-  // Start the financial-year list at 2027-2028 and show only future years.
   const firstYear = 2027;
-  const numberOfYears = 15;
-
-  for(let i=0;i<numberOfYears;i++){
+  for(let i=0;i<15;i++){
     const start = firstYear + i;
     const end = start + 1;
     const option = document.createElement("option");
@@ -456,8 +461,35 @@ function buildFinancialYears(){
     option.textContent = `${start}-${end}`;
     select.appendChild(option);
   }
-
   select.value = "2027-2028";
+}
+
+async function loadMembersForFee(){
+  const select = document.getElementById("memberUserId");
+  select.innerHTML = '<option value="">Select member</option>';
+  try{
+    const {data, error} = await supabaseClient.rpc("get_all_members_for_super_admin");
+    if(error) throw error;
+    (data || []).filter(m => m.id && m.full_name).forEach(m => {
+      const option = document.createElement("option");
+      option.value = m.id;
+      const memberCode = m.member_id ? ` (${m.member_id})` : "";
+      option.textContent = `${m.full_name}${memberCode}${m.mobile ? " - " + m.mobile : ""}`;
+      select.appendChild(option);
+    });
+    if(select.options.length === 1){
+      select.innerHTML = '<option value="">No members available</option>';
+    }
+  }catch(error){
+    console.error("Could not load members", error);
+    select.innerHTML = '<option value="">Could not load members</option>';
+  }
+}
+
+function handleTransactionTypeChange(){
+  const isMemberFee = document.getElementById("transactionType").value === "Member Fee";
+  document.getElementById("memberSelectWrap").style.display = isMemberFee ? "block" : "none";
+  document.getElementById("memberUserId").required = isMemberFee;
 }
 
 async function checkAdminAccess(){
@@ -766,6 +798,8 @@ function newTransaction(){
 function resetForm(){
   editingId = null;
   document.getElementById("transactionType").value = "Collection";
+  document.getElementById("memberUserId").value = "";
+  handleTransactionTypeChange();
   setDefaultDate();
   document.getElementById("amount").value = "";
   document.getElementById("title").value = "";
@@ -784,6 +818,8 @@ function editTransaction(id){
 
   document.getElementById("formTitle").textContent = "Edit Fund Transaction";
   document.getElementById("transactionType").value = t.transaction_type || "Collection";
+  handleTransactionTypeChange();
+  document.getElementById("memberUserId").value = t.member_user_id || "";
   document.getElementById("transactionDate").value = t.transaction_date || "";
   document.getElementById("amount").value = t.amount ?? "";
   document.getElementById("title").value = t.title || "";
@@ -798,6 +834,7 @@ function editTransaction(id){
 async function saveTransaction(){
   const year = document.getElementById("financialYear").value;
   const transactionType = document.getElementById("transactionType").value;
+  const memberUserId = document.getElementById("memberUserId").value;
   const transactionDate = document.getElementById("transactionDate").value;
   const amount = Number(document.getElementById("amount").value);
   const title = document.getElementById("title").value.trim();
@@ -805,6 +842,11 @@ async function saveTransaction(){
   const paymentMode = document.getElementById("paymentMode").value;
   const referenceNo = document.getElementById("referenceNo").value.trim();
   const description = document.getElementById("description").value.trim();
+
+  if(transactionType === "Member Fee" && !memberUserId){
+    alert("Please select a member for Member Fee.");
+    return;
+  }
 
   if(!transactionDate){
     alert("Please select transaction date.");
@@ -824,6 +866,7 @@ async function saveTransaction(){
   const payload = {
     financial_year: year,
     transaction_type: transactionType,
+    member_user_id: transactionType === "Member Fee" ? memberUserId : null,
     transaction_date: transactionDate,
     amount: amount,
     title: title,
