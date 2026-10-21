@@ -582,6 +582,20 @@
 #internalSectionBack{display:none;margin:0 0 16px 0;}
 #internalSectionBack.show{display:inline-block;}
 </style>
+
+<style>
+/* Member Contribution: mobile-friendly layout */
+#memberContributionManagement{min-width:0;overflow:hidden;}
+#memberContributionManagement input,#memberContributionManagement select,#memberContributionManagement textarea{box-sizing:border-box;width:100%;max-width:100%;min-width:0;padding:11px 12px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font:inherit;}
+#memberContributionManagement .form-group{min-width:0;}
+#memberContributionManagement button{min-height:40px;border-radius:8px;padding:9px 12px;white-space:normal;}
+#memberContributionManagement button:disabled{opacity:.65;cursor:wait;}
+#memberContributionManagement .contribution-row-actions{display:flex;gap:6px;flex-wrap:wrap;}
+#memberContributionManagement .table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+#memberContributionManagement table{min-width:850px;}
+@media(max-width:600px){#memberContributionManagement{padding:14px;}#memberContributionManagement .form-grid{grid-template-columns:minmax(0,1fr);gap:13px;}#memberContributionManagement .form-group.full{grid-column:1;}#memberContributionManagement .contribution-row-actions{min-width:150px;}#memberContributionManagement .contribution-row-actions button{flex:1 1 auto;}#memberContributionManagement > div[style*="display:flex"]{display:grid!important;grid-template-columns:1fr;gap:8px!important;}#memberContributionManagement > div[style*="display:flex"] button{width:100%;}}
+</style>
+
 </head>
 
 <body>
@@ -3666,16 +3680,71 @@ function clearBroadcastEmailForm(){
 /* =====================================================
    MEMBER CONTRIBUTION MANAGEMENT
 ===================================================== */
-let memberContributions=[]; let memberContributionEditId="";
-function populateMemberContributionSelector(){const el=document.getElementById("memberContributionMember");if(!el)return;el.innerHTML='<option value="">Select Member</option>'+members.filter(m=>m.user_id).map(m=>`<option value="${m.user_id}">${escapeHtml(m.member_id||"—")} - ${escapeHtml(m.full_name||"—")}</option>`).join("");}
+let memberContributions=[];
+let memberContributionEditId="";
+function contributionMemberId(m){ return m && (m.user_id || m.auth_user_id || m.auth_uid || m.user_uuid) || ""; }
+function contributionMemberLabel(m){ return `${m.member_id || "—"} - ${m.full_name || m.name || m.email || "Member"}`; }
+function populateMemberContributionSelector(){
+  const el=document.getElementById("memberContributionMember"); if(!el)return;
+  const old=el.value;
+  const valid=members.filter(m=>contributionMemberId(m));
+  el.innerHTML='<option value="">Select Member</option>'+valid.map(m=>`<option value="${escapeHtml(contributionMemberId(m))}">${escapeHtml(contributionMemberLabel(m))}</option>`).join("");
+  if(old && valid.some(m=>contributionMemberId(m)===old)) el.value=old;
+  if(!valid.length) showMemberContributionMessage("Member list re auth user ID miluni. get_all_members_for_super_admin function ra field check karibaku padiba.",false);
+}
 function showMemberContributionMessage(m,ok){const b=document.getElementById("memberContributionMessage");if(!b)return;b.textContent=m;b.className=ok?"message success-msg":"message error-msg";}
-function clearMemberContributionForm(){memberContributionEditId="";["memberContributionMember","memberContributionDate","memberContributionAmount","memberContributionCategory","memberContributionReference","memberContributionDescription"].forEach(id=>document.getElementById(id).value="");document.getElementById("memberContributionPaymentMode").value="Cash";}
-async function saveMemberContribution(){const memberId=document.getElementById("memberContributionMember").value,date=document.getElementById("memberContributionDate").value,amount=Number(document.getElementById("memberContributionAmount").value),category=document.getElementById("memberContributionCategory").value.trim(),paymentMode=document.getElementById("memberContributionPaymentMode").value,referenceNo=document.getElementById("memberContributionReference").value.trim(),description=document.getElementById("memberContributionDescription").value.trim();if(!memberId)return showMemberContributionMessage("Please select a member.",false);if(!date)return showMemberContributionMessage("Please select contribution date.",false);if(!amount||amount<=0)return showMemberContributionMessage("Please enter a valid contribution amount.",false);const {data:{user}}=await supabaseClient.auth.getUser();if(!user)return showMemberContributionMessage("Session expired. Please login again.",false);let result;if(memberContributionEditId){result=await supabaseClient.from("fund_transactions").update({member_user_id:memberId,transaction_date:date,amount,category:category||null,description:description||null,reference_no:referenceNo||null,payment_mode:paymentMode}).eq("id",memberContributionEditId);}else{result=await supabaseClient.from("fund_transactions").insert({member_user_id:memberId,financial_year:getFinancialYear(date),transaction_type:"Contribution",transaction_date:date,amount,category:category||null,description:description||null,reference_no:referenceNo||null,title:"Member Contribution",payment_mode:paymentMode,created_by:user.id,is_published:false});}if(result.error)return showMemberContributionMessage(result.error.message,false);showMemberContributionMessage(memberContributionEditId?"Contribution updated successfully.":"Contribution saved successfully.",true);clearMemberContributionForm();await loadMemberContributions();}
-async function loadMemberContributions(){const tbody=document.getElementById("memberContributionTableBody");if(!tbody)return;const {data,error}=await supabaseClient.from("fund_transactions").select("id,member_user_id,transaction_date,amount,category,description,reference_no,is_published,payment_mode,created_at").eq("transaction_type","Contribution").order("transaction_date",{ascending:false}).order("created_at",{ascending:false});if(error){tbody.innerHTML=`<tr><td colspan="8" class="empty">${escapeHtml(error.message)}</td></tr>`;return;}memberContributions=data||[];renderMemberContributions();}
-function renderMemberContributions(){const tbody=document.getElementById("memberContributionTableBody");if(!tbody)return;if(!memberContributions.length){tbody.innerHTML='<tr><td colspan="8" class="empty">No member contributions found.</td></tr>';return;}tbody.innerHTML=memberContributions.map(x=>{const m=members.find(y=>y.user_id===x.member_user_id);return `<tr><td>${escapeHtml(m?`${m.member_id||"—"} - ${m.full_name||"—"}`:x.member_user_id)}</td><td>${escapeHtml(x.transaction_date||"—")}</td><td>₹${formatAmount(x.amount||0)}</td><td>${escapeHtml(x.category||"—")}</td><td>${escapeHtml(x.payment_mode||"—")}</td><td>${escapeHtml(x.reference_no||"—")}</td><td>${x.is_published?"Published":"Hidden"}</td><td><button class="blue" onclick="editMemberContribution('${x.id}')">Edit</button> <button class="ready" onclick="toggleMemberContributionPublish('${x.id}',${!x.is_published})">${x.is_published?"Unpublish":"Publish"}</button> <button class="danger" onclick="deleteMemberContribution('${x.id}')">Delete</button></td></tr>`}).join("");}
-function editMemberContribution(id){const x=memberContributions.find(y=>y.id===id);if(!x)return;memberContributionEditId=id;document.getElementById("memberContributionMember").value=x.member_user_id||"";document.getElementById("memberContributionDate").value=x.transaction_date||"";document.getElementById("memberContributionAmount").value=x.amount||"";document.getElementById("memberContributionCategory").value=x.category||"";document.getElementById("memberContributionPaymentMode").value=x.payment_mode||"Cash";document.getElementById("memberContributionReference").value=x.reference_no||"";document.getElementById("memberContributionDescription").value=x.description||"";scrollToSection("memberContributionManagement");}
-async function toggleMemberContributionPublish(id,v){const {error}=await supabaseClient.from("fund_transactions").update({is_published:v}).eq("id",id);if(error)return showMemberContributionMessage(error.message,false);showMemberContributionMessage(v?"Contribution published.":"Contribution unpublished.",true);await loadMemberContributions();}
-async function deleteMemberContribution(id){if(!confirm("Ehi member contribution delete karibe?"))return;const {error}=await supabaseClient.from("fund_transactions").delete().eq("id",id);if(error)return showMemberContributionMessage(error.message,false);showMemberContributionMessage("Contribution deleted successfully.",true);await loadMemberContributions();}
+function clearMemberContributionForm(){
+  memberContributionEditId="";
+  ["memberContributionMember","memberContributionDate","memberContributionAmount","memberContributionCategory","memberContributionReference","memberContributionDescription"].forEach(id=>{const e=document.getElementById(id);if(e)e.value="";});
+  const mode=document.getElementById("memberContributionPaymentMode");if(mode)mode.value="Cash";
+  const save=document.querySelector('#memberContributionManagement button[onclick="saveMemberContribution()"]');if(save)save.textContent="Save Contribution";
+}
+async function saveMemberContribution(){
+  const btn=document.querySelector('#memberContributionManagement button[onclick="saveMemberContribution()"]');
+  const memberId=document.getElementById("memberContributionMember")?.value;
+  const date=document.getElementById("memberContributionDate")?.value;
+  const amount=Number(document.getElementById("memberContributionAmount")?.value);
+  const category=document.getElementById("memberContributionCategory")?.value.trim();
+  const paymentMode=document.getElementById("memberContributionPaymentMode")?.value||"Cash";
+  const referenceNo=document.getElementById("memberContributionReference")?.value.trim();
+  const description=document.getElementById("memberContributionDescription")?.value.trim();
+  if(!memberId)return showMemberContributionMessage("Please select a member.",false);
+  if(!date)return showMemberContributionMessage("Please select contribution date.",false);
+  if(!Number.isFinite(amount)||amount<=0)return showMemberContributionMessage("Please enter a valid contribution amount greater than zero.",false);
+  try{
+    if(btn){btn.disabled=true;btn.textContent=memberContributionEditId?"Updating…":"Saving…";}
+    const {data:authData,error:authError}=await supabaseClient.auth.getUser();
+    if(authError)throw authError;
+    const user=authData?.user;if(!user)throw new Error("Session expired. Please login again.");
+    let result;
+    if(memberContributionEditId){
+      result=await supabaseClient.from("fund_transactions").update({member_user_id:memberId,transaction_date:date,financial_year:getFinancialYear(date),amount,category:category||null,description:description||null,reference_no:referenceNo||null,payment_mode:paymentMode}).eq("id",memberContributionEditId);
+    }else{
+      result=await supabaseClient.from("fund_transactions").insert({member_user_id:memberId,financial_year:getFinancialYear(date),transaction_type:"Contribution",transaction_date:date,amount,category:category||null,description:description||null,reference_no:referenceNo||null,title:"Member Contribution",payment_mode:paymentMode,created_by:user.id,is_published:false});
+    }
+    if(result.error)throw result.error;
+    showMemberContributionMessage(memberContributionEditId?"Contribution updated successfully.":"Contribution saved successfully. It is hidden until published.",true);
+    clearMemberContributionForm();await loadMemberContributions();
+  }catch(e){showMemberContributionMessage(e?.message||"Could not save contribution. Please try again.",false);}
+  finally{if(btn){btn.disabled=false;btn.textContent=memberContributionEditId?"Update Contribution":"Save Contribution";}}
+}
+async function loadMemberContributions(){
+  const tbody=document.getElementById("memberContributionTableBody");if(!tbody)return;
+  tbody.innerHTML='<tr><td colspan="8" class="loading">Loading contributions…</td></tr>';
+  try{
+    const {data,error}=await supabaseClient.from("fund_transactions").select("id,member_user_id,transaction_date,financial_year,amount,category,description,reference_no,is_published,payment_mode,created_at").eq("transaction_type","Contribution").order("transaction_date",{ascending:false}).order("created_at",{ascending:false});
+    if(error)throw error;
+    memberContributions=data||[];renderMemberContributions();
+  }catch(e){tbody.innerHTML=`<tr><td colspan="8" class="empty">${escapeHtml(e?.message||"Could not load contributions.")}</td></tr>`;showMemberContributionMessage(e?.message||"Could not load contributions.",false);}
+}
+function renderMemberContributions(){
+  const tbody=document.getElementById("memberContributionTableBody");if(!tbody)return;
+  if(!memberContributions.length){tbody.innerHTML='<tr><td colspan="8" class="empty">No member contributions found.</td></tr>';return;}
+  tbody.innerHTML=memberContributions.map(x=>{const m=members.find(y=>contributionMemberId(y)===x.member_user_id);const label=m?contributionMemberLabel(m):"Member record";return `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(x.transaction_date||"—")}</td><td>₹${formatAmount(x.amount||0)}</td><td>${escapeHtml(x.category||"—")}</td><td>${escapeHtml(x.payment_mode||"—")}</td><td>${escapeHtml(x.reference_no||"—")}</td><td>${x.is_published?"Published":"Hidden"}</td><td><div class="contribution-row-actions"><button type="button" class="blue" onclick="editMemberContribution('${x.id}')">Edit</button><button type="button" class="ready" onclick="toggleMemberContributionPublish('${x.id}',${!x.is_published})">${x.is_published?"Unpublish":"Publish"}</button><button type="button" class="danger" onclick="deleteMemberContribution('${x.id}')">Delete</button></div></td></tr>`}).join("");
+}
+function editMemberContribution(id){const x=memberContributions.find(y=>y.id===id);if(!x)return;memberContributionEditId=id;populateMemberContributionSelector();document.getElementById("memberContributionMember").value=x.member_user_id||"";document.getElementById("memberContributionDate").value=x.transaction_date||"";document.getElementById("memberContributionAmount").value=x.amount??"";document.getElementById("memberContributionCategory").value=x.category||"";document.getElementById("memberContributionPaymentMode").value=x.payment_mode||"Cash";document.getElementById("memberContributionReference").value=x.reference_no||"";document.getElementById("memberContributionDescription").value=x.description||"";const save=document.querySelector('#memberContributionManagement button[onclick="saveMemberContribution()"]');if(save)save.textContent="Update Contribution";showMemberContributionMessage("Editing contribution. Make changes and tap Update Contribution.",true);document.getElementById("memberContributionManagement")?.scrollIntoView({behavior:"smooth",block:"start"});}
+async function toggleMemberContributionPublish(id,v){try{const {error}=await supabaseClient.from("fund_transactions").update({is_published:v}).eq("id",id);if(error)throw error;showMemberContributionMessage(v?"Contribution published.":"Contribution unpublished.",true);await loadMemberContributions();}catch(e){showMemberContributionMessage(e?.message||"Could not update publish status.",false);}}
+async function deleteMemberContribution(id){if(!confirm("Ehi member contribution delete karibe?"))return;try{const {error}=await supabaseClient.from("fund_transactions").delete().eq("id",id);if(error)throw error;showMemberContributionMessage("Contribution deleted successfully.",true);await loadMemberContributions();}catch(e){showMemberContributionMessage(e?.message||"Could not delete contribution.",false);}}
 
 /* =========================
    MEMBER EMAIL NOTIFICATION
