@@ -828,6 +828,31 @@
 
       <div class="control-card">
 
+        <div class="control-icon">🤝</div>
+
+        <h4>Sponsorship Management</h4>
+
+        <p>
+          Sponsorship application date, package price, slot, advertisement duration and rules manage karantu.
+        </p>
+
+        <button
+          class="ready"
+          onclick="openInternalSection('sponsorshipManagement')">
+          Manage Sponsorship
+        </button>
+
+      </div>
+
+      <div class="control-card">
+        <div class="control-icon">🤝</div>
+        <h4>Sponsorship Management</h4>
+        <p>Sponsorship application date, package price, slot, advertisement duration and rules manage karantu.</p>
+        <button class="ready" onclick="openInternalSection('sponsorshipManagement')">Manage Sponsorship</button>
+      </div>
+
+      <div class="control-card">
+
         <div class="control-icon">👥</div>
 
         <h4>Member Management</h4>
@@ -1778,6 +1803,35 @@
 
 </div>
 
+  <!-- SPONSORSHIP MANAGEMENT -->
+  <div class="card internal-management-section" id="sponsorshipManagement">
+    <h3>🤝 Sponsorship Management</h3>
+    <p class="card-subtitle">Sponsorship rules and package settings Supabase re save heba. Public sponsorship page ku connect kariba next step re.</p>
+    <div class="form-grid">
+      <div class="form-group"><label>Application Start Date</label><input type="date" id="spStartDate"></div>
+      <div class="form-group"><label>Application End Date</label><input type="date" id="spEndDate"></div>
+      <div class="form-group"><label>Applications Enabled</label><select id="spEnabled"><option value="true">ON</option><option value="false">OFF</option></select></div>
+      <div class="form-group"><label>Main Sponsor Price (₹)</label><input type="number" min="0" id="spMainPrice"></div>
+      <div class="form-group"><label>Main Sponsor Slots</label><input type="number" min="1" id="spMainSlots"></div>
+      <div class="form-group"><label>Main Sponsor Ad Duration (seconds)</label><input type="number" min="0" id="spMainAd"></div>
+      <div class="form-group"><label>Main Sponsor Tender</label><select id="spMainTender"><option value="true">ON</option><option value="false">OFF</option></select></div>
+      <div class="form-group"><label>Premium Price (₹)</label><input type="number" min="0" id="spPremiumPrice"></div>
+      <div class="form-group"><label>Premium Slots</label><input type="number" min="1" id="spPremiumSlots"></div>
+      <div class="form-group"><label>Premium Ad Duration (seconds)</label><input type="number" min="0" id="spPremiumAd"></div>
+      <div class="form-group"><label>Basic Price (₹)</label><input type="number" min="0" id="spBasicPrice"></div>
+      <div class="form-group"><label>Basic Slots</label><input type="number" min="1" id="spBasicSlots"></div>
+      <div class="form-group"><label>Basic Ad Duration (seconds)</label><input type="number" min="0" id="spBasicAd"></div>
+      <div class="form-group"><label>Uniform Sponsor Price (₹)</label><input type="number" min="0" id="spUniformPrice"></div>
+      <div class="form-group"><label>Uniform Sponsor Slots</label><input type="number" min="1" id="spUniformSlots"></div>
+      <div class="form-group"><label>Uniform Sponsor Lottery</label><select id="spUniformLottery"><option value="true">ON</option><option value="false">OFF</option></select></div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+      <button class="blue" type="button" id="spSaveButton" onclick="saveSponsorshipSettings()">Save Sponsorship Settings</button>
+      <button class="secondary" type="button" onclick="loadSponsorshipSettings()">Reload Settings</button>
+    </div>
+    <p id="spSettingsStatus" role="status" style="margin-top:12px;"></p>
+  </div>
+
 <script>
 
 const SUPABASE_URL =
@@ -2101,6 +2155,7 @@ function openInternalSection(id){
 
   target.classList.add('section-open');
   target.scrollIntoView({behavior:'smooth', block:'start'});
+  if(id === 'sponsorshipManagement'){ loadSponsorshipSettings(); }
 }
 
 function closeInternalSection(){
@@ -5641,6 +5696,37 @@ async function generateAllMembersCollagePDF(){
   }catch(e){alert("PDF collage failed: "+(e.message||e));}
 }
 
+
+/* SPONSORSHIP SETTINGS MANAGEMENT */
+function setSponsorshipStatus(message, isError=false){
+  const el=document.getElementById("spSettingsStatus");
+  if(el){el.textContent=message;el.style.color=isError?"#b91c1c":"#166534";}
+}
+async function loadSponsorshipSettings(){
+  setSponsorshipStatus("Loading sponsorship settings...");
+  const {data,error}=await supabaseClient.from("sponsorship_settings").select("*").eq("id",1).maybeSingle();
+  if(error){console.error(error);setSponsorshipStatus("Load hela nahi: "+error.message,true);return;}
+  if(!data){setSponsorshipStatus("Settings row milila nahi. Supabase SQL success au id=1 row check karantu.",true);return;}
+  const fields={spStartDate:"application_start_date",spEndDate:"application_end_date",spEnabled:"applications_enabled",spMainPrice:"main_price",spMainSlots:"main_slots",spMainAd:"main_ad_seconds",spMainTender:"main_tender_enabled",spPremiumPrice:"premium_price",spPremiumSlots:"premium_slots",spPremiumAd:"premium_ad_seconds",spBasicPrice:"basic_price",spBasicSlots:"basic_slots",spBasicAd:"basic_ad_seconds",spUniformPrice:"uniform_price",spUniformSlots:"uniform_slots",spUniformLottery:"uniform_lottery_enabled"};
+  Object.entries(fields).forEach(([id,key])=>{const el=document.getElementById(id);if(el)el.value=String(data[key]??"");});
+  setSponsorshipStatus("Settings Supabase ru load hela.");
+}
+async function saveSponsorshipSettings(){
+  const button=document.getElementById("spSaveButton");
+  const val=id=>document.getElementById(id).value;
+  const num=id=>val(id)===""?NaN:Number(val(id));
+  const start=val("spStartDate"),end=val("spEndDate");
+  if(!start||!end||end<start){setSponsorshipStatus("Valid start date ebam end date diantu.",true);return;}
+  const payload={id:1,application_start_date:start,application_end_date:end,applications_enabled:val("spEnabled")==="true",main_price:num("spMainPrice"),main_slots:num("spMainSlots"),main_ad_seconds:num("spMainAd"),main_tender_enabled:val("spMainTender")==="true",premium_price:num("spPremiumPrice"),premium_slots:num("spPremiumSlots"),premium_ad_seconds:num("spPremiumAd"),basic_price:num("spBasicPrice"),basic_slots:num("spBasicSlots"),basic_ad_seconds:num("spBasicAd"),uniform_price:num("spUniformPrice"),uniform_slots:num("spUniformSlots"),uniform_lottery_enabled:val("spUniformLottery")==="true",updated_at:new Date().toISOString()};
+  const nums=["main_price","main_slots","main_ad_seconds","premium_price","premium_slots","premium_ad_seconds","basic_price","basic_slots","basic_ad_seconds","uniform_price","uniform_slots"];
+  if(nums.some(k=>!Number.isFinite(payload[k])||payload[k]<0)||["main_slots","premium_slots","basic_slots","uniform_slots"].some(k=>payload[k]<1)){setSponsorshipStatus("Samasta amount/duration valid number heba; slots minimum 1.",true);return;}
+  if(button)button.disabled=true;
+  setSponsorshipStatus("Saving...");
+  const {error}=await supabaseClient.from("sponsorship_settings").upsert(payload,{onConflict:"id"});
+  if(button)button.disabled=false;
+  if(error){console.error(error);setSponsorshipStatus("Save hela nahi: "+error.message,true);return;}
+  setSponsorshipStatus("Success! Sponsorship settings Supabase re save hela.");
+}
 </script>
 
 </body>
