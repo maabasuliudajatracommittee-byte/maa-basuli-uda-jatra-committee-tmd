@@ -454,6 +454,7 @@ footer a{
     .id-header{display:flex;align-items:center;gap:12px;padding:17px 15px 22px;background:linear-gradient(135deg,#b52b08,#e65a0b 70%,#a52b08);color:#fff;position:relative}
     .id-header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:24px;background:linear-gradient(175deg,transparent 48%,#fff 50%);opacity:.96}
     .logo{width:82px;height:82px;object-fit:contain;border-radius:50%;background:white;padding:3px;flex-shrink:0;border:3px solid #f4cf65}
+    .logo.logo-fallback{display:flex;align-items:center;justify-content:center;color:#a52c08;font-size:38px;font-weight:900;line-height:1}
     .committee-title{flex:1;text-align:center;min-width:0}
     .committee-title .odia{font-family:"Noto Sans Odia","Nirmala UI",Arial,sans-serif;font-size:19px;font-weight:800;line-height:1.35}
     .committee-title .english{font-size:16px;font-weight:bold;margin-top:4px;line-height:1.25}
@@ -529,51 +530,56 @@ footer a{
 .profile-setup-modal p{color:#555;margin-bottom:18px}
 .profile-setup-modal button{border:0;background:#7b1e1e;color:#fff;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer}
 
+/* ID CARD VISUAL FIXES: visible faded fair/temple illustration and readable role badge */
+.id-card:after{display:none!important}
+.id-body{isolation:isolate;}
+.id-body:before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:24px;height:190px;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgOTAwIDI2MCI+PGcgZmlsbD0iI2Q5OWI0YiI+PHBhdGggZD0iTTAgMjMwaDkwMHYzMEgweiIvPjxwYXRoIGQ9Ik0zNSAyMzB2LTQ4bDIyLTI0IDIyIDI0djQ4em0xMi03MnYtMjVoMjB2MjV6bS01IDAgMTUtMjQgMTUgMjR6TTEyNSAyMzB2LTcybDMwLTM1IDMwIDM1djcyem0xNy0xMDV2LTM1aDI2djM1em0tNyAwIDIwLTM0IDIwIDM0ek0yNDAgMjMwdi01NWwyNC0yOCAyNCAyOHY1NXptMTAtODN2LTI0aDI4djI0em0tNSAwIDE5LTI5IDE5IDI5ek0zNTUgMjMwdi04NmgxMnY4NnptLTE1LTg2IDIxLTM0IDIxIDM0ek01NjAgMjMwdi02MGwyNS0zMCAyNSAzMHY2MHptMTAtOTB2LTI4aDMwdjI4em0tNyAwIDIyLTMzIDIyIDMzek03MTAgMjMwdi00OGwyNC0yOCAyNCAyOHY0OHptOC03NnYtMjVoMzJ2MjV6bS01IDAgMjEtMzEgMjEgMzF6Ii8+PGNpcmNsZSBjeD0iNDY1IiBjeT0iMTc3IiByPSI2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDk5YjRiIiBzdHJva2Utd2lkdGg9IjciLz48Y2lyY2xlIGN4PSI0NjUiIGN5PSIxNzciIHI9IjciLz48cGF0aCBkPSJNNDY1IDExNnYxMjJtLTYxLTYxaDEyMm0tMTA0LTQzIDg2IDg2bTAtODYtODYgODYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q5OWI0YiIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPjwvc3ZnPg==");background-repeat:no-repeat;background-position:center bottom;background-size:100% 100%;opacity:.22;pointer-events:none}
+
 /* ROLE-BASED ID CARD THEMES — General Member keeps the original design */
 .id-card.theme-president{background:#fffaf0;border:3px solid #b8860b}
 .id-card.theme-president .id-header{background:linear-gradient(135deg,#740d20,#b51f35);color:#ffe7a0}
-.id-card.theme-president .member-name,
-.id-card.theme-president .designation{color:#8b1428}
+.id-card.theme-president .member-name{color:#8b1428}
+.id-card.theme-president .designation{background:linear-gradient(135deg,#740d20,#b51f35);color:#fff!important;border:2px solid #d8b65c}
 .id-card.theme-president .member-photo{border-color:#b8860b}
 .id-card.theme-president .id-footer{border-color:#d8b65c;color:#80551a}
 .id-card.theme-president .secretary-issued{color:#8b1428}
 
 .id-card.theme-vice-president{background:#f4f8ff;border:3px solid #c6a64b}
 .id-card.theme-vice-president .id-header{background:linear-gradient(135deg,#102d62,#2459a6);color:#ffe7a0}
-.id-card.theme-vice-president .member-name,
-.id-card.theme-vice-president .designation{color:#173d7a}
+.id-card.theme-vice-president .member-name{color:#173d7a}
+.id-card.theme-vice-president .designation{background:linear-gradient(135deg,#102d62,#2459a6);color:#fff!important;border:2px solid #c6a64b}
 .id-card.theme-vice-president .member-photo{border-color:#c6a64b}
 .id-card.theme-vice-president .id-footer{border-color:#c6a64b;color:#173d7a}
 .id-card.theme-vice-president .secretary-issued{color:#173d7a}
 
 .id-card.theme-secretary{background:#f3fff7;border:3px solid #c5a044}
 .id-card.theme-secretary .id-header{background:linear-gradient(135deg,#075b3b,#168653);color:#ffe7a0}
-.id-card.theme-secretary .member-name,
-.id-card.theme-secretary .designation{color:#08613d}
+.id-card.theme-secretary .member-name{color:#08613d}
+.id-card.theme-secretary .designation{background:linear-gradient(135deg,#075b3b,#168653);color:#fff!important;border:2px solid #c5a044}
 .id-card.theme-secretary .member-photo{border-color:#c5a044}
 .id-card.theme-secretary .id-footer{border-color:#c5a044;color:#08613d}
 .id-card.theme-secretary .secretary-issued{color:#08613d}
 
 .id-card.theme-vice-secretary{background:#fbf6ff;border:3px solid #c9a7e8}
 .id-card.theme-vice-secretary .id-header{background:linear-gradient(135deg,#482078,#7542a8);color:#f3dcff}
-.id-card.theme-vice-secretary .member-name,
-.id-card.theme-vice-secretary .designation{color:#542783}
+.id-card.theme-vice-secretary .member-name{color:#542783}
+.id-card.theme-vice-secretary .designation{background:linear-gradient(135deg,#482078,#7542a8);color:#fff!important;border:2px solid #c9a7e8}
 .id-card.theme-vice-secretary .member-photo{border-color:#c9a7e8}
 .id-card.theme-vice-secretary .id-footer{border-color:#c9a7e8;color:#542783}
 .id-card.theme-vice-secretary .secretary-issued{color:#542783}
 
 .id-card.theme-treasurer{background:#fff9f2;border:3px solid #c49a5a}
 .id-card.theme-treasurer .id-header{background:linear-gradient(135deg,#58351f,#95602f);color:#ffe7b5}
-.id-card.theme-treasurer .member-name,
-.id-card.theme-treasurer .designation{color:#684020}
+.id-card.theme-treasurer .member-name{color:#684020}
+.id-card.theme-treasurer .designation{background:linear-gradient(135deg,#58351f,#95602f);color:#fff!important;border:2px solid #c49a5a}
 .id-card.theme-treasurer .member-photo{border-color:#c49a5a}
 .id-card.theme-treasurer .id-footer{border-color:#c49a5a;color:#684020}
 .id-card.theme-treasurer .secretary-issued{color:#684020}
 
 .id-card.theme-core-committee{background:#f1fbfa;border:3px solid #c9a64b}
 .id-card.theme-core-committee .id-header{background:linear-gradient(135deg,#064b50,#087d78);color:#ffe8a5}
-.id-card.theme-core-committee .member-name,
-.id-card.theme-core-committee .designation{color:#075b60}
+.id-card.theme-core-committee .member-name{color:#075b60}
+.id-card.theme-core-committee .designation{background:linear-gradient(135deg,#064b50,#087d78);color:#fff!important;border:2px solid #c9a64b}
 .id-card.theme-core-committee .member-photo{border-color:#c9a64b}
 .id-card.theme-core-committee .id-footer{border-color:#c9a64b;color:#075b60}
 .id-card.theme-core-committee .secretary-issued{color:#075b60}
@@ -715,7 +721,8 @@ footer a{
         <div class="id-card-wrapper">
           <div class="id-card" id="digitalIdCard">
             <div class="id-header">
-              <img id="cardLogo" class="logo" src="" alt="Maa Basuli Logo">
+              <div id="cardLogoFallback" class="logo logo-fallback" aria-label="Maa Basuli logo fallback">🙏</div>
+              <img id="cardLogo" class="logo" src="" alt="Maa Basuli Logo" style="display:none">
               <div class="committee-title">
                 <div class="odia">ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</div>
                 <div class="english">Maa Basuli Uda Jatra Committee</div>
@@ -1184,10 +1191,14 @@ loadSession();
         document.getElementById("siteLogo").src=data.logo_url;
         document.getElementById("siteLogo").style.display="block";
         document.getElementById("cardLogo").src=data.logo_url;
+        document.getElementById("cardLogo").style.display="block";
+        document.getElementById("cardLogoFallback").style.display="none";
       }
     }
   }catch(error){
     console.warn("Branding settings unavailable:",error);
+    const logo=document.getElementById("cardLogo");
+    if(logo)logo.style.display="none";
   }
 
   try{
