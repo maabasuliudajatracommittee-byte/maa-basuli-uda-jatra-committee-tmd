@@ -1133,51 +1133,54 @@ async function downloadIdCard(){
   const card=document.getElementById("digitalIdCard");
   let holder=null;
   try{
-    // Capture the card itself at its rendered width; do not force a smaller
-    // fixed-width holder, which can crop the QR code and right border.
+    // Add a real white safety margin around all four sides of the card.
+    // Capture the holder (not only the card) so html2canvas cannot clip
+    // the left border at the canvas edge on mobile browsers.
     const rect=card.getBoundingClientRect();
-    const captureWidth=Math.ceil(Math.max(rect.width, card.scrollWidth));
+    const cardWidth=Math.ceil(rect.width);
+    const safeMargin=14;
 
     holder=document.createElement("div");
     holder.style.position="fixed";
     holder.style.left="-100000px";
     holder.style.top="0";
-    holder.style.width=captureWidth+"px";
-    holder.style.padding="8px";
+    holder.style.width=cardWidth+"px";
+    holder.style.padding=safeMargin+"px";
     holder.style.boxSizing="content-box";
     holder.style.background="#ffffff";
     holder.style.overflow="visible";
     holder.style.zIndex="-1";
 
     const clone=card.cloneNode(true);
-    clone.style.width=captureWidth+"px";
-    clone.style.minWidth=captureWidth+"px";
+    clone.style.width=cardWidth+"px";
+    clone.style.minWidth=cardWidth+"px";
     clone.style.maxWidth="none";
     clone.style.margin="0";
     clone.style.boxSizing="border-box";
-    clone.style.overflow="visible";
+    clone.style.overflow="hidden";
     clone.style.transform="none";
     clone.style.boxShadow="none";
 
-    // Keep all embedded images (including the round committee logo) loaded
-    // in the off-screen copy before rendering the PNG.
+    // Wait for the logo, member photo, QR code and signature before capture.
     clone.querySelectorAll("img").forEach(img=>{
-      img.style.maxWidth="100%";
       img.style.objectFit="contain";
     });
 
     holder.appendChild(clone);
     document.body.appendChild(holder);
     await Promise.all(Array.from(clone.querySelectorAll("img")).map(img=>{
-      if(img.complete) return Promise.resolve();
-      return new Promise(resolve=>{img.onload=resolve;img.onerror=resolve;});
+      if(img.complete && img.naturalWidth>0) return Promise.resolve();
+      return new Promise(resolve=>{
+        img.onload=resolve;
+        img.onerror=resolve;
+      });
     }));
     await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 
-    const canvas=await html2canvas(clone,{
+    const canvas=await html2canvas(holder,{
       scale:2,
-      width:captureWidth,
-      windowWidth:Math.max(document.documentElement.clientWidth,captureWidth),
+      width:cardWidth+(safeMargin*2),
+      windowWidth:Math.max(document.documentElement.clientWidth,cardWidth+(safeMargin*2)),
       useCORS:true,
       backgroundColor:"#ffffff",
       logging:false,
