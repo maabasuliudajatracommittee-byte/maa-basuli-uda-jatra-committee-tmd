@@ -516,10 +516,24 @@ footer a{
   nav a{min-height:36px;padding:7px 10px;font-size:11px;flex:0 0 auto;}
 }
 
+
+/* Mandatory profile setup popup */
+.profile-setup-overlay{position:fixed;inset:0;background:rgba(20,10,10,.72);z-index:9999;display:none;align-items:center;justify-content:center;padding:18px}
+.profile-setup-modal{width:min(520px,100%);background:#fff;border-radius:16px;padding:26px;box-shadow:0 15px 50px rgba(0,0,0,.3);text-align:center}
+.profile-setup-modal h2{color:#7b1e1e;margin-bottom:10px}
+.profile-setup-modal p{color:#555;margin-bottom:18px}
+.profile-setup-modal button{border:0;background:#7b1e1e;color:#fff;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer}
 </style>
 </head>
 
 <body>
+<div id="profileSetupPopup" class="profile-setup-overlay" role="dialog" aria-modal="true" aria-labelledby="profileSetupTitle">
+  <div class="profile-setup-modal">
+    <h2 id="profileSetupTitle">Complete Your Member Profile</h2>
+    <p>Your profile photo, full name, mobile number, blood group and village name are required. Please complete and save your profile to send it for Super Admin approval.</p>
+    <button type="button" onclick="openProfileSetup()">Set Profile Now</button>
+  </div>
+</div>
 <!-- TOP BAR -->
 
 <div class="topbar">
@@ -601,7 +615,7 @@ footer a{
             <input id="email" type="email" readonly>
 
             <label data-lang-en="Mobile Number" data-lang-or="ମୋବାଇଲ୍ ନମ୍ବର" data-lang-hi="मोबाइल नंबर">Mobile Number</label>
-            <input id="mobile" type="text" readonly>
+            <input id="mobile" type="tel" inputmode="numeric" maxlength="10" autocomplete="tel">
 
             <label data-lang-en="Date of Birth" data-lang-or="ଜନ୍ମ ତାରିଖ" data-lang-hi="जन्म तिथि">Date of Birth</label>
             <input id="dateOfBirth" type="date">
@@ -744,7 +758,7 @@ async function loadProfile(){
         id:currentUser.id,
         full_name:"",
         email:currentUser.email,
-        approval_status:"pending",
+        approval_status:"profile_incomplete",
         member_id:null,
         member_status:"inactive"
       });
@@ -804,6 +818,27 @@ function populateProfile(p){
   }
 
   updateIdCard(p,photo);
+
+  if(!isProfileComplete(p)){
+    document.getElementById("profileSetupPopup").style.display="flex";
+  }else{
+    document.getElementById("profileSetupPopup").style.display="none";
+  }
+}
+
+function isProfileComplete(p){
+  return Boolean(
+    String(p.full_name||"").trim() &&
+    String(p.mobile||"").trim() &&
+    String(p.village||"").trim() &&
+    String(p.blood_group||"").trim() &&
+    String(p.profile_photo_url||"").trim()
+  );
+}
+
+function openProfileSetup(){
+  document.getElementById("profileSetupPopup").style.display="none";
+  document.getElementById("fullName").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
 function updateIdCard(p,photo){
@@ -840,23 +875,37 @@ function updateIdCard(p,photo){
 
 async function saveProfile(){
   const fullName=document.getElementById("fullName").value.trim();
+  const mobile=document.getElementById("mobile").value.trim();
   const dateOfBirth=document.getElementById("dateOfBirth").value;
   const village=document.getElementById("village").value.trim();
   const bloodGroup=document.getElementById("bloodGroup").value;
+  const photoUrl=currentProfile?.profile_photo_url||"";
 
-  if(!fullName){
-    showMessage("Full Name is required.","error");
+  if(!fullName||!mobile||!village||!bloodGroup||!photoUrl){
+    showMessage("Profile save kariba pain Photo, Full Name, Mobile Number, Village Name ebam Blood Group sabu fill karantu.","error");
+    document.getElementById("profileSetupPopup").style.display="flex";
     return;
+  }
+  if(!/^[0-9]{10}$/.test(mobile)){
+    showMessage("Please enter a valid 10-digit mobile number.","error");
+    return;
+  }
+
+  const updateData={
+    full_name:fullName,
+    mobile:mobile,
+    date_of_birth:dateOfBirth||null,
+    village:village,
+    blood_group:bloodGroup
+  };
+  if(String(currentProfile?.approval_status||"").toLowerCase()!=="approved"){
+    updateData.approval_status="pending";
+    updateData.member_status="inactive";
   }
 
   const {error}=await supabaseClient
     .from("member_profiles")
-    .update({
-      full_name:fullName,
-      date_of_birth:dateOfBirth||null,
-      village:village||null,
-      blood_group:bloodGroup||null
-    })
+    .update(updateData)
     .eq("id",currentUser.id);
 
   if(error){
@@ -865,7 +914,8 @@ async function saveProfile(){
   }
 
   await loadProfile();
-  showMessage("Profile saved successfully.");
+  document.getElementById("profileSetupPopup").style.display="none";
+  showMessage("Profile saved successfully. Your application is now pending Super Admin approval.");
 }
 
 async function compressProfilePhoto(file){
@@ -951,7 +1001,16 @@ document.getElementById("photoInput").addEventListener("change",async function()
   document.getElementById("profilePhoto").src=photoUrl;
   document.getElementById("cardPhoto").src=photoUrl;
   currentProfile.profile_photo_url=photoUrl;
-  showMessage("Profile photo updated successfully.");
+  if(isProfileComplete({
+    ...currentProfile,
+    full_name:document.getElementById("fullName").value.trim(),
+    mobile:document.getElementById("mobile").value.trim(),
+    village:document.getElementById("village").value.trim(),
+    blood_group:document.getElementById("bloodGroup").value
+  })){
+    document.getElementById("profileSetupPopup").style.display="none";
+  }
+  showMessage("Profile photo updated successfully. Please save all profile details.");
 });
 
 async function downloadIdCard(){
