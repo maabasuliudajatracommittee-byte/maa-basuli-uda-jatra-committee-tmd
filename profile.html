@@ -617,6 +617,32 @@ footer a{
   .qr-area img{width:70px!important;height:70px!important;}
 }
 
+
+
+/* PRINT ONLY THE DIGITAL ID CARD — preserve colors and full border */
+@page{size:A4 portrait;margin:8mm}
+@media print{
+  html,body{width:100%!important;min-width:0!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important}
+  body{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  body *{visibility:hidden!important}
+  #digitalIdCard,#digitalIdCard *{visibility:visible!important}
+  #digitalIdCard{
+    display:block!important;position:relative!important;left:auto!important;right:auto!important;top:auto!important;
+    transform:none!important;float:none!important;margin:0 auto!important;
+    width:460px!important;max-width:100%!important;min-width:0!important;
+    height:auto!important;box-sizing:border-box!important;overflow:hidden!important;
+    border-style:solid!important;border-width:3px!important;
+    box-shadow:none!important;break-inside:avoid!important;page-break-inside:avoid!important;
+    -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;
+  }
+  #digitalIdCard .id-header,#digitalIdCard .designation,#digitalIdCard .status.active,
+  #digitalIdCard .id-footer,#digitalIdCard .member-photo,#digitalIdCard .logo,
+  #digitalIdCard:before,#digitalIdCard:after,#digitalIdCard .id-body:before{
+    -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;
+  }
+  .topbar,header,nav,.main-nav-wrap,.profile-grid,.id-actions,
+  #profileSetupPopup,.message,.save-btn{display:none!important}
+}
 </style>
 </head>
 
