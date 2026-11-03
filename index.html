@@ -1262,7 +1262,20 @@ h1{font-size:clamp(27px,4.5vw,52px);line-height:1.35;text-align:center;color:#ff
 <script>
 function openSponsorPopup(){const p=document.getElementById('sponsorPopup');if(p){p.classList.add('open');document.body.style.overflow='hidden';}}
 function closeSponsorPopup(){const p=document.getElementById('sponsorPopup');if(p){p.classList.remove('open');document.body.style.overflow='';}}
+function sponsorshipCampaignActive(){
+  const now = new Date();
+  const closeDate = new Date(2027, 2, 10, 0, 0, 0, 0); // 10 March 2027, local time
+  return now < closeDate;
+}
 document.addEventListener('DOMContentLoaded',function(){
+  if(!sponsorshipCampaignActive()){
+    const popup = document.getElementById('sponsorPopup');
+    if(popup) popup.remove();
+    document.querySelectorAll('a[href="sponsorship.html"]').forEach(function(link){
+      if(link.classList.contains('sponsor-apply-btn')) link.remove();
+    });
+    return;
+  }
   try{
     if(!sessionStorage.getItem('maaBasuliSponsorPopupSeen')){
       sessionStorage.setItem('maaBasuliSponsorPopupSeen','1');
