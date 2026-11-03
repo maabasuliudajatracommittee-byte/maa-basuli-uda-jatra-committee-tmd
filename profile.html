@@ -503,14 +503,8 @@ footer a{
       .qr-text{font-size:8px}
 }
 
-    @media print{
-      body *{visibility:hidden!important}
-      #digitalIdCard,#digitalIdCard *{visibility:visible!important}
-      #digitalIdCard{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:500px;max-width:none;box-sizing:border-box;box-shadow:none}
-      .id-actions,.topbar,.profile-grid{display:none!important}
-      body{background:white}
-    }
-  
+
+
 @media(max-width:600px){
   .topbar{font-size:11px;}
   .topbar-inner{justify-content:center;text-align:center;}
@@ -640,6 +634,12 @@ footer a{
   #digitalIdCard:before,#digitalIdCard:after,#digitalIdCard .id-body:before{
     -webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important;
   }
+  /* Remove the profile editor card completely so it cannot create a blank first page. */
+  .container > .card:not(#digitalIdSection){display:none!important}
+  .container > #digitalIdSection{display:block!important;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:transparent!important}
+  #digitalIdSection > h2{display:none!important}
+  #digitalIdSection > .id-card-wrapper{display:flex!important;width:100%!important;margin:0!important;padding:0!important;justify-content:center!important;align-items:flex-start!important}
+  #digitalIdCard{position:relative!important;top:auto!important;left:auto!important;right:auto!important;transform:none!important;margin:0 auto!important}
   .topbar,header,nav,.main-nav-wrap,.profile-grid,.id-actions,
   #profileSetupPopup,.message,.save-btn{display:none!important}
 }
