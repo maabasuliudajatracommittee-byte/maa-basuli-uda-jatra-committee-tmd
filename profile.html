@@ -449,30 +449,31 @@ footer a{
 
     .id-section{text-align:center}
     .id-card-wrapper{display:flex;justify-content:center;margin:20px 0}
-    .id-card{width:500px;max-width:100%;background:white;border:2px solid #8f2f10;border-radius:18px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.16);text-align:left}
-    .id-header{display:flex;align-items:center;gap:13px;padding:13px 15px;background:#9f3511;color:white}
-    .logo{width:68px;height:68px;object-fit:contain;border-radius:50%;background:white;padding:3px;flex-shrink:0}
-    .committee-title{flex:1;text-align:center}
+    .id-card{width:500px;max-width:100%;position:relative;isolation:isolate;background:#fff;border:3px solid #a84a1a;border-radius:30px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.18);text-align:left}
+    .id-card:after{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:24px;height:190px;background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgOTAwIDI2MCI+PGcgZmlsbD0iI2Q5OWI0YiI+PHBhdGggZD0iTTAgMjMwaDkwMHYzMEgweiIvPjxwYXRoIGQ9Ik0zNSAyMzB2LTQ4bDIyLTI0IDIyIDI0djQ4em0xMi03MnYtMjVoMjB2MjV6bS01IDAgMTUtMjQgMTUgMjR6TTEyNSAyMzB2LTcybDMwLTM1IDMwIDM1djcyem0xNy0xMDV2LTM1aDI2djM1em0tNyAwIDIwLTM0IDIwIDM0ek0yNDAgMjMwdi01NWwyNC0yOCAyNCAyOHY1NXptMTAtODN2LTI0aDI4djI0em0tNSAwIDE5LTI5IDE5IDI5ek0zNTUgMjMwdi04NmgxMnY4NnptLTE1LTg2IDIxLTM0IDIxIDM0ek01NjAgMjMwdi02MGwyNS0zMCAyNSAzMHY2MHptMTAtOTB2LTI4aDMwdjI4em0tNyAwIDIyLTMzIDIyIDMzek03MTAgMjMwdi00OGwyNC0yOCAyNCAyOHY0OHptOC03NnYtMjVoMzJ2MjV6bS01IDAgMjEtMzEgMjEgMzF6Ii8+PGNpcmNsZSBjeD0iNDY1IiBjeT0iMTc3IiByPSI2MSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZDk5YjRiIiBzdHJva2Utd2lkdGg9IjciLz48Y2lyY2xlIGN4PSI0NjUiIGN5PSIxNzciIHI9IjciLz48cGF0aCBkPSJNNDY1IDExNnYxMjJtLTYxLTYxaDEyMm0tMTA0LTQzIDg2IDg2bTAtODYtODYgODYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Q5OWI0YiIgc3Ryb2tlLXdpZHRoPSIzIi8+PC9nPjwvc3ZnPg==");background-repeat:no-repeat;background-position:center bottom;background-size:100% 100%;opacity:.23;pointer-events:none}
+    .id-header{display:flex;align-items:center;gap:12px;padding:17px 15px 22px;background:linear-gradient(135deg,#b52b08,#e65a0b 70%,#a52b08);color:#fff;position:relative}
+    .id-header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:24px;background:linear-gradient(175deg,transparent 48%,#fff 50%);opacity:.96}
+    .logo{width:82px;height:82px;object-fit:contain;border-radius:50%;background:white;padding:3px;flex-shrink:0;border:3px solid #f4cf65}
+    .committee-title{flex:1;text-align:center;min-width:0}
     .committee-title .odia{font-family:"Noto Sans Odia","Nirmala UI",Arial,sans-serif;font-size:19px;font-weight:800;line-height:1.35}
-    .committee-title .english{font-size:14px;font-weight:bold;margin-top:3px}
-    .committee-title .location{font-size:11px;margin-top:3px}
-    .id-body{padding:18px}
-    .member-top{display:flex;gap:16px;align-items:flex-start;min-width:0}
-    .member-photo{width:125px;height:145px;flex:0 0 125px;object-fit:cover;border:2px solid #9f3511;border-radius:10px;background:#f2f2f2}
-    .member-info{flex:1 1 auto;min-width:0;max-width:100%}
-    .member-name{font-size:22px;font-weight:800;color:#8f2f10;margin-bottom:4px}
-    .designation{font-size:14px;font-weight:bold;margin-bottom:12px}
-    .info-row{display:grid;grid-template-columns:92px minmax(0,1fr);column-gap:7px;margin:6px 0;font-size:14px;min-width:0}
-    .info-label{width:auto;min-width:0;font-weight:bold}
-    .info-row>div:last-child{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word;white-space:normal}
-    .status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:bold;text-transform:uppercase}
-    .active{background:#d9f7df;color:#14752b}
+    .committee-title .english{font-size:16px;font-weight:bold;margin-top:4px;line-height:1.25}
+    .committee-title .location{font-size:12px;margin-top:4px}
+    .id-body{position:relative;padding:17px 18px 28px;z-index:0}
+    .member-top{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;text-align:center}
+    .member-photo{width:190px;height:205px;object-fit:cover;border:4px solid #d8ad42;border-radius:24px;background:#f2f2f2;box-shadow:0 3px 10px rgba(0,0,0,.12)}
+    .member-info{width:100%;min-width:0;max-width:100%;display:contents}
+    .member-name{order:2;width:100%;font-size:27px;line-height:1.18;font-weight:800;color:#8f1717;margin:2px 0 4px;overflow-wrap:anywhere;text-align:center}
+    .designation{order:3;display:inline-block;min-width:190px;max-width:90%;padding:7px 22px;border-radius:30px;background:linear-gradient(135deg,#a52c08,#d34b0a);color:#fff;font-size:20px;font-weight:800;margin:0 auto 13px;text-align:center}
+    .info-row{display:grid;grid-template-columns:100px minmax(0,1fr);column-gap:7px;margin:8px 0;font-size:14px;min-width:0;text-align:left}
+    .info-label{width:auto;min-width:0;font-weight:800;color:#17233a}
+    .info-row>div:last-child{min-width:0;max-width:100%;overflow-wrap:anywhere;word-break:break-word;white-space:normal;color:#17233a;font-weight:600}
+    .status{display:inline-block;padding:5px 15px;border-radius:22px;font-size:14px;font-weight:bold;text-transform:uppercase}
+    .active{background:#138329;color:white}
     .inactive{background:#ffe0e0;color:#a30000}
-    .qr-area{text-align:center;margin-top:15px}
-    .qr-area img{width:105px;height:105px;object-fit:contain;border:1px solid #ddd;padding:4px;background:white}
-    .qr-text{font-size:10px;color:#555;margin-top:4px}
-    .id-card{position:relative}
-    .secretary-signature-area{position:absolute;right:9px;bottom:28px;width:98px;text-align:center;z-index:5}
+    .qr-area{position:absolute;right:18px;bottom:70px;width:112px;text-align:center;z-index:2}
+    .qr-area img{width:104px;height:104px;object-fit:contain;border:1px solid #ddd;padding:3px;background:white}
+    .qr-text{font-size:9px;color:#555;margin-top:3px}
+    .secretary-signature-area{position:absolute;right:12px;bottom:22px;width:98px;text-align:center;z-index:5}
     .secretary-signature-box{width:98px;text-align:center;display:flex;flex-direction:column;align-items:center}
     .secretary-signature{display:block !important;width:86px !important;height:27px !important;max-width:86px !important;max-height:27px !important;object-fit:contain !important;object-position:center bottom !important;margin:0 auto 1px !important}
     .secretary-issued{font-size:7px;line-height:1.05;font-weight:600;color:#7b2a16;white-space:nowrap}
@@ -486,15 +487,19 @@ footer a{
     @media(max-width:700px){
       .profile-grid{grid-template-columns:1fr}
       .id-card{width:calc(100vw - 20px);max-width:500px}
-      .id-body{padding:14px}
-      .member-top{gap:12px}
-      .id-header{gap:8px}
-      .logo{width:55px;height:55px}
-      .committee-title .odia{font-size:15px}
+      .id-body{padding:14px 13px 28px}
+      .id-header{gap:7px;padding:13px 9px 20px}
+      .logo{width:62px;height:62px}
+      .committee-title .odia{font-size:14px}
       .committee-title .english{font-size:11px}
-      .member-photo{width:105px;height:125px;flex:0 0 105px}
-      .member-name{font-size:18px;overflow-wrap:anywhere;word-break:break-word}
-      .designation{overflow-wrap:anywhere;word-break:break-word}
+      .committee-title .location{font-size:9px}
+      .member-photo{width:160px;height:175px}
+      .member-name{font-size:22px;overflow-wrap:anywhere;word-break:break-word}
+      .designation{font-size:17px;min-width:160px}
+      .info-row{grid-template-columns:88px minmax(0,1fr);font-size:12px;margin:7px 0}
+      .qr-area{right:12px;bottom:65px;width:88px}
+      .qr-area img{width:82px;height:82px}
+      .qr-text{font-size:8px}
 }
 
     @media print{
@@ -523,6 +528,56 @@ footer a{
 .profile-setup-modal h2{color:#7b1e1e;margin-bottom:10px}
 .profile-setup-modal p{color:#555;margin-bottom:18px}
 .profile-setup-modal button{border:0;background:#7b1e1e;color:#fff;border-radius:9px;padding:12px 20px;font-weight:700;cursor:pointer}
+
+/* ROLE-BASED ID CARD THEMES — General Member keeps the original design */
+.id-card.theme-president{background:#fffaf0;border:3px solid #b8860b}
+.id-card.theme-president .id-header{background:linear-gradient(135deg,#740d20,#b51f35);color:#ffe7a0}
+.id-card.theme-president .member-name,
+.id-card.theme-president .designation{color:#8b1428}
+.id-card.theme-president .member-photo{border-color:#b8860b}
+.id-card.theme-president .id-footer{border-color:#d8b65c;color:#80551a}
+.id-card.theme-president .secretary-issued{color:#8b1428}
+
+.id-card.theme-vice-president{background:#f4f8ff;border:3px solid #c6a64b}
+.id-card.theme-vice-president .id-header{background:linear-gradient(135deg,#102d62,#2459a6);color:#ffe7a0}
+.id-card.theme-vice-president .member-name,
+.id-card.theme-vice-president .designation{color:#173d7a}
+.id-card.theme-vice-president .member-photo{border-color:#c6a64b}
+.id-card.theme-vice-president .id-footer{border-color:#c6a64b;color:#173d7a}
+.id-card.theme-vice-president .secretary-issued{color:#173d7a}
+
+.id-card.theme-secretary{background:#f3fff7;border:3px solid #c5a044}
+.id-card.theme-secretary .id-header{background:linear-gradient(135deg,#075b3b,#168653);color:#ffe7a0}
+.id-card.theme-secretary .member-name,
+.id-card.theme-secretary .designation{color:#08613d}
+.id-card.theme-secretary .member-photo{border-color:#c5a044}
+.id-card.theme-secretary .id-footer{border-color:#c5a044;color:#08613d}
+.id-card.theme-secretary .secretary-issued{color:#08613d}
+
+.id-card.theme-vice-secretary{background:#fbf6ff;border:3px solid #c9a7e8}
+.id-card.theme-vice-secretary .id-header{background:linear-gradient(135deg,#482078,#7542a8);color:#f3dcff}
+.id-card.theme-vice-secretary .member-name,
+.id-card.theme-vice-secretary .designation{color:#542783}
+.id-card.theme-vice-secretary .member-photo{border-color:#c9a7e8}
+.id-card.theme-vice-secretary .id-footer{border-color:#c9a7e8;color:#542783}
+.id-card.theme-vice-secretary .secretary-issued{color:#542783}
+
+.id-card.theme-treasurer{background:#fff9f2;border:3px solid #c49a5a}
+.id-card.theme-treasurer .id-header{background:linear-gradient(135deg,#58351f,#95602f);color:#ffe7b5}
+.id-card.theme-treasurer .member-name,
+.id-card.theme-treasurer .designation{color:#684020}
+.id-card.theme-treasurer .member-photo{border-color:#c49a5a}
+.id-card.theme-treasurer .id-footer{border-color:#c49a5a;color:#684020}
+.id-card.theme-treasurer .secretary-issued{color:#684020}
+
+.id-card.theme-core-committee{background:#f1fbfa;border:3px solid #c9a64b}
+.id-card.theme-core-committee .id-header{background:linear-gradient(135deg,#064b50,#087d78);color:#ffe8a5}
+.id-card.theme-core-committee .member-name,
+.id-card.theme-core-committee .designation{color:#075b60}
+.id-card.theme-core-committee .member-photo{border-color:#c9a64b}
+.id-card.theme-core-committee .id-footer{border-color:#c9a64b;color:#075b60}
+.id-card.theme-core-committee .secretary-issued{color:#075b60}
+
 </style>
 </head>
 
@@ -674,17 +729,16 @@ footer a{
                 <div class="member-info">
                   <div id="cardName" class="member-name">Member Name</div>
                   <div id="cardDesignation" class="designation">Member</div>
-
-                  <div class="info-row"><div class="info-label">Member ID:</div><div id="cardMemberId"></div></div>
-                  <div class="info-row"><div class="info-label">Mobile:</div><div id="cardMobile"></div></div>
-                  <div class="info-row"><div class="info-label">Date of Birth:</div><div id="cardDateOfBirth"></div></div>
-                  <div class="info-row"><div class="info-label">Member Since:</div><div id="cardMemberSince"></div></div>
-                  <div class="info-row"><div class="info-label">Village:</div><div id="cardVillage"></div></div>
-                  <div class="info-row"><div class="info-label">Blood:</div><div id="cardBlood"></div></div>
-
-                  <div style="margin-top:8px;"><span id="cardStatus" class="status active">ACTIVE</span></div>
                 </div>
               </div>
+
+              <div class="info-row"><div class="info-label">Member ID:</div><div id="cardMemberId"></div></div>
+              <div class="info-row"><div class="info-label">Mobile:</div><div id="cardMobile"></div></div>
+              <div class="info-row"><div class="info-label">Date of Birth:</div><div id="cardDateOfBirth"></div></div>
+              <div class="info-row"><div class="info-label">Member Since:</div><div id="cardMemberSince"></div></div>
+              <div class="info-row"><div class="info-label">Village:</div><div id="cardVillage"></div></div>
+              <div class="info-row"><div class="info-label">Blood:</div><div id="cardBlood"></div></div>
+              <div style="margin-top:9px;"><span id="cardStatus" class="status active">ACTIVE</span></div>
 
               <div class="qr-area">
                 <img id="cardQr" src="" alt="Member QR Code">
@@ -842,6 +896,23 @@ function openProfileSetup(){
 }
 
 function updateIdCard(p,photo){
+  // Apply a theme only to office-bearer designations. General Member remains unchanged.
+  const idCard=document.getElementById("digitalIdCard");
+  idCard.classList.remove("theme-president","theme-vice-president","theme-secretary","theme-vice-secretary","theme-treasurer","theme-core-committee");
+  const role=String(p.designation||"").toLowerCase().replace(/[._-]+/g," ").replace(/\\s+/g," ").trim();
+  if(role.includes("vice president") || role.includes("vice-president") || role.includes("ଉପ ସଭାପତି") || role.includes("ଉପସଭାପତି")){
+    idCard.classList.add("theme-vice-president");
+  }else if(role.includes("president") || role.includes("ସଭାପତି")){
+    idCard.classList.add("theme-president");
+  }else if(role.includes("vice secretary") || role.includes("vice-secretary") || role.includes("ଉପ ସମ୍ପାଦକ") || role.includes("ଉପସମ୍ପାଦକ")){
+    idCard.classList.add("theme-vice-secretary");
+  }else if(role.includes("secretary") || role.includes("ସମ୍ପାଦକ")){
+    idCard.classList.add("theme-secretary");
+  }else if(role.includes("treasurer") || role.includes("କୋଷାଧ୍ୟକ୍ଷ")){
+    idCard.classList.add("theme-treasurer");
+  }else if(role.includes("core committee") || role.includes("core member") || role.includes("କୋର କମିଟି")){
+    idCard.classList.add("theme-core-committee");
+  }
   document.getElementById("cardName").textContent=p.full_name||"Member Name";
   document.getElementById("cardDesignation").textContent=p.designation||"Member";
   document.getElementById("cardMemberId").textContent=p.member_id||"Pending";
