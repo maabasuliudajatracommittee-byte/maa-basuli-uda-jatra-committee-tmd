@@ -223,6 +223,22 @@ async function loadDashboard(){
     return;
   }
 
+  const profileComplete=Boolean(
+    String(p.full_name||"").trim() &&
+    String(p.mobile||"").trim() &&
+    String(p.village||"").trim() &&
+    String(p.blood_group||"").trim() &&
+    String(p.profile_photo_url||"").trim()
+  );
+  if(!profileComplete){
+    window.location.replace("profile.html");
+    return;
+  }
+  if(String(p.approval_status||"").toLowerCase()!=="approved"){
+    document.getElementById("loading").textContent="Pending At Super Admin Level";
+    return;
+  }
+
   document.getElementById("memberName").textContent=p.full_name||"Member";
   document.getElementById("memberId").textContent=p.member_id||"Pending";
   document.getElementById("designation").textContent=p.designation||"Member";
