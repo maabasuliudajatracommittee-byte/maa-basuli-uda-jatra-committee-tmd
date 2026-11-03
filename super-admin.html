@@ -827,28 +827,17 @@
       </div>
 
       <div class="control-card">
-
-        <div class="control-icon">🤝</div>
-
-        <h4>Sponsorship Management</h4>
-
-        <p>
-          Sponsorship application date, package price, slot, advertisement duration and rules manage karantu.
-        </p>
-
-        <button
-          class="ready"
-          onclick="openInternalSection('sponsorshipManagement')">
-          Manage Sponsorship
-        </button>
-
+        <div class="control-icon">⚙️</div>
+        <h4>Sponsorship Settings</h4>
+        <p>Application date, package price, slot limit, advertisement duration, tender and lottery settings manage karantu.</p>
+        <button class="ready" type="button" onclick="openInternalSection('sponsorshipSettings')">Open Sponsorship Settings</button>
       </div>
 
       <div class="control-card">
-        <div class="control-icon">🤝</div>
-        <h4>Sponsorship Management</h4>
-        <p>Sponsorship application date, package price, slot, advertisement duration and rules manage karantu.</p>
-        <button class="ready" onclick="openInternalSection('sponsorshipManagement')">Manage Sponsorship</button>
+        <div class="control-icon">📋</div>
+        <h4>Sponsorship Applications</h4>
+        <p>Applicant details, category, bid amount, payment status ebam application approve/reject karantu.</p>
+        <button class="ready" type="button" onclick="openInternalSection('sponsorshipApplications')">View Applications</button>
       </div>
 
       <div class="control-card">
@@ -1804,8 +1793,8 @@
 </div>
 
   <!-- SPONSORSHIP MANAGEMENT -->
-  <div class="card internal-management-section" id="sponsorshipManagement">
-    <h3>🤝 Sponsorship Management</h3>
+  <div class="card internal-management-section" id="sponsorshipSettings">
+    <h3>⚙️ Sponsorship Settings</h3>
     <p class="card-subtitle">Sponsorship rules and package settings Supabase re save heba. Public sponsorship page ku connect kariba next step re.</p>
     <div class="form-grid">
       <div class="form-group"><label>Application Start Date</label><input type="date" id="spStartDate"></div>
@@ -1830,6 +1819,26 @@
       <button class="secondary" type="button" onclick="loadSponsorshipSettings()">Reload Settings</button>
     </div>
     <p id="spSettingsStatus" role="status" style="margin-top:12px;"></p>
+  </div>
+
+  <!-- SPONSORSHIP APPLICATIONS -->
+  <div class="card internal-management-section" id="sponsorshipApplications">
+    <h3>📋 Sponsorship Applications</h3>
+    <p class="card-subtitle">Applicant details, category, bid amount, payment status ebam approval manage karantu.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:14px 0;">
+      <select id="spApplicationFilter" aria-label="Filter applications" style="max-width:220px;padding:10px;border:1px solid #ddd;border-radius:8px;">
+        <option value="all">All Applications</option><option value="pending">Pending</option><option value="approved">Approved</option><option value="rejected">Rejected</option>
+      </select>
+      <button class="blue" type="button" onclick="loadSponsorshipApplications()">Refresh Applications</button>
+    </div>
+    <div id="spApplicationSummary" class="card-subtitle" style="margin-bottom:12px;"></div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;border-collapse:collapse;min-width:850px;">
+        <thead><tr><th>Applicant / Business</th><th>Contact</th><th>Category</th><th>Bid / Package Amount</th><th>Applied On</th><th>Application Status</th><th>Payment</th><th>Action</th></tr></thead>
+        <tbody id="spApplicationsBody"><tr><td colspan="8" style="padding:16px;text-align:center;">Open this section to load applications.</td></tr></tbody>
+      </table>
+    </div>
+    <p id="spApplicationsStatus" role="status" style="margin-top:12px;"></p>
   </div>
 
 <script>
@@ -2155,7 +2164,8 @@ function openInternalSection(id){
 
   target.classList.add('section-open');
   target.scrollIntoView({behavior:'smooth', block:'start'});
-  if(id === 'sponsorshipManagement'){ loadSponsorshipSettings(); }
+  if(id === 'sponsorshipSettings'){ loadSponsorshipSettings(); }
+  if(id === 'sponsorshipApplications'){ loadSponsorshipApplications(); }
 }
 
 function closeInternalSection(){
@@ -5696,6 +5706,84 @@ async function generateAllMembersCollagePDF(){
   }catch(e){alert("PDF collage failed: "+(e.message||e));}
 }
 
+
+/* SPONSORSHIP APPLICATIONS MANAGER */
+function spAppEscape(value){
+  return String(value ?? "").replace(/[&<>\"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function spAppMoney(value){
+  if(value===null || value===undefined || value==="") return "—";
+  return "₹" + Number(value).toLocaleString("en-IN");
+}
+function setSpApplicationsStatus(message, isError=false){
+  const el=document.getElementById("spApplicationsStatus");
+  if(el){el.textContent=message;el.style.color=isError?"#b91c1c":"#166534";}
+}
+async function loadSponsorshipApplications(){
+  const body=document.getElementById("spApplicationsBody");
+  const filter=document.getElementById("spApplicationFilter")?.value || "all";
+  if(body) body.innerHTML='<tr><td colspan="8" style="padding:16px;text-align:center;">Loading applications...</td></tr>';
+  setSpApplicationsStatus("Loading applications...");
+  let query=supabaseClient.from("sponsorship_applications").select("id,edition,applicant_name,business_name,mobile,email,business_address,sponsorship_type,bid_amount,package_name,terms_accepted,status,admin_remarks,created_at,updated_at,payment_status").order("created_at",{ascending:false});
+  if(filter!=="all") query=query.eq("status",filter);
+  const {data,error}=await query;
+  if(error){
+    console.error("Sponsorship applications load error:",error);
+    if(body) body.innerHTML='<tr><td colspan="8" style="padding:16px;color:#b91c1c;">Could not load applications: '+spAppEscape(error.message)+'</td></tr>';
+    setSpApplicationsStatus("Applications load hela nahi. Super Admin SELECT policy / table permission check karantu.",true);
+    return;
+  }
+  const rows=data||[];
+  const allCount=rows.length;
+  const pending=rows.filter(x=>String(x.status).toLowerCase()==="pending").length;
+  const approved=rows.filter(x=>String(x.status).toLowerCase()==="approved").length;
+  const rejected=rows.filter(x=>String(x.status).toLowerCase()==="rejected").length;
+  const summary=document.getElementById("spApplicationSummary");
+  if(summary) summary.textContent=`Showing ${allCount} application(s)${filter==="all"?` · Pending ${pending} · Approved ${approved} · Rejected ${rejected}`:""}`;
+  if(!rows.length){if(body)body.innerHTML='<tr><td colspan="8" style="padding:16px;text-align:center;">No applications found.</td></tr>';setSpApplicationsStatus("No application records found.");return;}
+  if(body) body.innerHTML=rows.map(a=>{
+    const id=spAppEscape(a.id);
+    const date=a.created_at?new Date(a.created_at).toLocaleString("en-IN"):"—";
+    const category=spAppEscape(a.package_name||a.sponsorship_type||"—");
+    const amount=a.bid_amount!==null&&a.bid_amount!==undefined?spAppMoney(a.bid_amount):"Package price to be confirmed";
+    const status=String(a.status||"pending").toLowerCase();
+    const payment=String(a.payment_status||"PENDING").toUpperCase();
+    return `<tr style="border-top:1px solid #e5e7eb;vertical-align:top;">
+      <td style="padding:10px;"><strong>${spAppEscape(a.applicant_name)}</strong><br>${spAppEscape(a.business_name)}<br><small>ID: ${id}</small><br><small>Edition: ${spAppEscape(a.edition||"—")}</small></td>
+      <td style="padding:10px;">${spAppEscape(a.mobile)}<br>${spAppEscape(a.email||"—")}<br><small>${spAppEscape(a.business_address)}</small></td>
+      <td style="padding:10px;">${category}<br><small>Type: ${spAppEscape(a.sponsorship_type)}</small></td>
+      <td style="padding:10px;"><strong>${amount}</strong></td>
+      <td style="padding:10px;">${spAppEscape(date)}</td>
+      <td style="padding:10px;">${spAppEscape(status.toUpperCase())}</td>
+      <td style="padding:10px;">${spAppEscape(payment)}</td>
+      <td style="padding:10px;min-width:160px;">
+        <select id="spStatus_${id}" style="width:100%;padding:7px;margin-bottom:6px;"><option value="pending" ${status==="pending"?"selected":""}>Pending</option><option value="approved" ${status==="approved"?"selected":""}>Approved</option><option value="rejected" ${status==="rejected"?"selected":""}>Rejected</option></select>
+        <select id="spPayment_${id}" style="width:100%;padding:7px;margin-bottom:6px;"><option value="PENDING" ${payment==="PENDING"?"selected":""}>Payment Pending</option><option value="PAID" ${payment==="PAID"?"selected":""}>Paid</option><option value="FAILED" ${payment==="FAILED"?"selected":""}>Failed</option></select>
+        <button class="blue" type="button" onclick="updateSponsorshipApplication('${id}')">Save Status</button>
+        <button class="secondary" type="button" style="margin-top:5px;" onclick="showSponsorshipApplicantDetails('${id}')">Full Details</button>
+      </td></tr>`;
+  }).join("");
+  window.__spApplicationCache=rows;
+  setSpApplicationsStatus("Applications loaded successfully.");
+}
+function showSponsorshipApplicantDetails(id){
+  const a=(window.__spApplicationCache||[]).find(x=>String(x.id)===String(id));
+  if(!a)return;
+  const lines=["Application ID: "+a.id,"Applicant: "+a.applicant_name,"Business: "+a.business_name,"Mobile: "+a.mobile,"Email: "+(a.email||"—"),"Address: "+a.business_address,"Category: "+(a.package_name||a.sponsorship_type),"Bid Amount: "+(a.bid_amount==null?"—":spAppMoney(a.bid_amount)),"Terms Accepted: "+a.terms_accepted,"Application Status: "+a.status,"Payment Status: "+a.payment_status,"Admin Remarks: "+(a.admin_remarks||"—")];
+  alert(lines.join("\n"));
+}
+async function updateSponsorshipApplication(id){
+  const status=document.getElementById("spStatus_"+id)?.value;
+  const payment=document.getElementById("spPayment_"+id)?.value;
+  if(!status||!payment)return;
+  const remarks=prompt("Admin remarks (optional):","");
+  if(remarks===null)return;
+  const payload={status,payment_status:payment,admin_remarks:remarks.trim()||null,updated_at:new Date().toISOString()};
+  const {error}=await supabaseClient.from("sponsorship_applications").update(payload).eq("id",id);
+  if(error){console.error(error);setSpApplicationsStatus("Update hela nahi: "+error.message,true);return;}
+  setSpApplicationsStatus("Application status updated successfully.");
+  await loadSponsorshipApplications();
+}
 
 /* SPONSORSHIP SETTINGS MANAGEMENT */
 function setSponsorshipStatus(message, isError=false){
