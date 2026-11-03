@@ -2486,7 +2486,7 @@ function renderMembers(){
           <button
             class="success"
             onclick="downloadMemberIdCard('${member.id}')">
-            🪪 ID Card
+            🪪 Show ID Card
           </button>
           `;
 
@@ -2723,6 +2723,29 @@ async function resetUserPassword(
    ID CARD
 ========================= */
 
+/* =========================
+   ID CARD THEME (shared by preview / print)
+========================= */
+
+function getMemberIdCardThemeClass(designation){
+  const value = String(designation || "")
+    .toLowerCase()
+    .replace(/[._-]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // Check deputy roles before their parent roles.
+  if (value.includes("vice president") || value.includes("ଉପ ସଭାପତି") || value.includes("ଉପସଭାପତି")) return "theme-vice-president";
+  if (value.includes("president") || value.includes("ସଭାପତି")) return "theme-president";
+  if (value.includes("vice secretary") || value.includes("ଉପ ସମ୍ପାଦକ") || value.includes("ଉପସମ୍ପାଦକ")) return "theme-vice-secretary";
+  if (value.includes("secretary") || value.includes("ସମ୍ପାଦକ")) return "theme-secretary";
+  if (value.includes("treasurer") || value.includes("କୋଷାଧ୍ୟକ୍ଷ")) return "theme-treasurer";
+  if (value.includes("core committee") || value.includes("core member") || value.includes("କୋର କମିଟି")) return "theme-core-committee";
+
+  // General Member / Member retains the original card design.
+  return "";
+}
+
 async function downloadMemberIdCard(id){
 
   try{
@@ -2817,6 +2840,10 @@ async function downloadMemberIdCard(id){
 
       return;
     }
+
+    // The preview and its print/download view are generated from this same
+    // selected member record, so the designation theme always stays in sync.
+    const roleTheme = getMemberIdCardThemeClass(member.designation);
 
     win.document.write(`<!DOCTYPE html>
 <html>
@@ -3017,6 +3044,40 @@ body{
 .secretary-signature-box{width:105px;text-align:center;display:flex;flex-direction:column;align-items:center;}
 .secretary-signature{display:block !important;width:90px !important;height:28px !important;max-width:90px !important;max-height:28px !important;object-fit:contain !important;object-position:center bottom !important;margin:0 auto 2px !important;}
 .secretary-issued{font-size:8px;line-height:1.05;font-weight:600;color:#7b2a16;white-space:nowrap;}
+
+/* Match the designation-based colour themes used on the member profile ID card. */
+.id-card.theme-president{border-color:#b8860b;background:#fffaf0}
+.id-card.theme-president .header{background:linear-gradient(135deg,#740d20,#b51f35)}
+.id-card.theme-president .member-name{color:#8b1428}
+.id-card.theme-president .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#740d20,#b51f35);color:#fff;border:2px solid #d8b65c}
+.id-card.theme-president .member-photo{border-color:#b8860b}
+.id-card.theme-vice-president{border-color:#c6a64b;background:#f4f8ff}
+.id-card.theme-vice-president .header{background:linear-gradient(135deg,#102d62,#2459a6)}
+.id-card.theme-vice-president .member-name{color:#173d7a}
+.id-card.theme-vice-president .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#102d62,#2459a6);color:#fff;border:2px solid #c6a64b}
+.id-card.theme-vice-president .member-photo{border-color:#c6a64b}
+.id-card.theme-secretary{border-color:#c5a044;background:#f3fff7}
+.id-card.theme-secretary .header{background:linear-gradient(135deg,#075b3b,#168653)}
+.id-card.theme-secretary .member-name{color:#08613d}
+.id-card.theme-secretary .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#075b3b,#168653);color:#fff;border:2px solid #c5a044}
+.id-card.theme-secretary .member-photo{border-color:#c5a044}
+.id-card.theme-vice-secretary{border-color:#c9a7e8;background:#fbf6ff}
+.id-card.theme-vice-secretary .header{background:linear-gradient(135deg,#482078,#7542a8)}
+.id-card.theme-vice-secretary .member-name{color:#542783}
+.id-card.theme-vice-secretary .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#482078,#7542a8);color:#fff;border:2px solid #c9a7e8}
+.id-card.theme-vice-secretary .member-photo{border-color:#c9a7e8}
+.id-card.theme-treasurer{border-color:#c49a5a;background:#fff9f2}
+.id-card.theme-treasurer .header{background:linear-gradient(135deg,#58351f,#95602f)}
+.id-card.theme-treasurer .member-name{color:#684020}
+.id-card.theme-treasurer .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#58351f,#95602f);color:#fff;border:2px solid #c49a5a}
+.id-card.theme-treasurer .member-photo{border-color:#c49a5a}
+.id-card.theme-core-committee{border-color:#c5a044;background:#f0fbf9}
+.id-card.theme-core-committee .header{background:linear-gradient(135deg,#064e50,#0f8279)}
+.id-card.theme-core-committee .member-name{color:#075b60}
+.id-card.theme-core-committee .designation{display:inline-block;padding:9px 18px;border-radius:28px;background:linear-gradient(135deg,#064e50,#0f8279);color:#fff;border:2px solid #c5a044}
+.id-card.theme-core-committee .member-photo{border-color:#c5a044}
+.id-card .header,.id-card .designation{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+
 
 @media (max-width:700px){
 
@@ -3316,7 +3377,7 @@ body{
 
 </div>
 
-<div class="id-card">
+<div class="id-card ${roleTheme}">
 
   <div class="header">
 
