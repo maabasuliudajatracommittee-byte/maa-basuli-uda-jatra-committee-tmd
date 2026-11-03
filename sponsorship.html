@@ -96,7 +96,7 @@ h1{font-size:clamp(27px,4.5vw,52px);line-height:1.35;text-align:center;color:#ff
 </main>
 </body>
 </html>
-"></iframe><div class="actions"><button class="btn" onclick="show('typeStep')">Apply for Sponsorship</button><a class="btn alt" href="index.html" style="text-decoration:none">← Back to Homepage</a></div><p class="muted">Application opens from 1 December 2026.</p></section>
+"></iframe><div class="actions"><button class="btn" id="applyStartBtn" type="button" onclick="startSponsorshipApplication()" disabled>Applications Open From 1 December 2026</button><a class="btn alt" href="index.html" style="text-decoration:none">← Back to Homepage</a></div><p class="muted">Application opens from 1 December 2026.</p></section>
 <section class="card hidden" id="typeStep"><button class="btn alt" onclick="show('posterStep')">← Back</button><h2>Choose Sponsorship Type</h2><button class="choice" onclick="choose('main')">🏆 Main Sponsor — Tender / Highest Bid<small>Base Price ₹15,000 · One Main Sponsor · Highest valid bid wins</small></button><button class="choice" onclick="choose('premium')">⭐ Premium Sponsor<small>₹10,000 · 30-second advertisement · Limited slots</small></button><button class="choice" onclick="choose('basic')">📢 Basic Sponsor<small>₹5,000 · 20-second advertisement · Limited slots</small></button><button class="choice" onclick="choose('uniform')">👕 Uniform Sponsor<small>Fixed ₹20,000 · One selection; lottery if multiple valid applicants</small></button></section>
 <section class="card hidden" id="termsStep"><button class="btn alt" onclick="show('typeStep')">← Back</button><h2 id="termsTitle">Terms & Conditions</h2><div class="terms" id="termsText"></div><label class="accept"><input id="agree" type="checkbox" onchange="document.getElementById('continueBtn').disabled=!this.checked"><span>I have read, understood and agree to these Terms & Conditions.</span></label><button class="btn" id="continueBtn" disabled onclick="show('formStep')">I Agree & Continue</button></section>
 <section class="card hidden" id="formStep"><button class="btn alt" onclick="show('termsStep')">← Back to Terms</button><h2 id="formTitle">Application Form</h2><form id="application" class="grid" onsubmit="submitApplication(event)"><div class="field"><label>Applicant / Contact Person Name *</label><input name="applicant_name" required maxlength="100"></div><div class="field"><label>Business / Shop Name *</label><input name="business_name" required maxlength="120"></div><div class="field"><label>Mobile Number *</label><input name="mobile" type="tel" pattern="[0-9+ -]{10,16}" required></div><div class="field"><label>Email Address</label><input name="email" type="email"></div><div class="field full"><label>Business Address *</label><textarea name="business_address" rows="2" required></textarea></div>
@@ -106,14 +106,59 @@ h1{font-size:clamp(27px,4.5vw,52px);line-height:1.35;text-align:center;color:#ff
 <section class="card"><h3>Important Information</h3><p>Submitting this page does not itself confirm sponsorship or payment. The committee must verify applications and announce final selection. Advertisement content will be broadcast only after committee approval.</p><p>Contact: <a href="https://wa.me/918917437067" target="_blank">WhatsApp 8917437067</a> · maabasuliudajatracommittee@gmail.com</p></section>
 </main>
 <script>
+
+const SPONSORSHIP_OPEN_DATE = new Date(2026, 11, 1, 0, 0, 0, 0);
+const SPONSORSHIP_CLOSE_DATE = new Date(2027, 2, 10, 0, 0, 0, 0);
+function sponsorshipIsOpen(){
+  const now = new Date();
+  return now >= SPONSORSHIP_OPEN_DATE && now < SPONSORSHIP_CLOSE_DATE;
+}
+function sponsorshipHasClosed(){
+  return new Date() >= SPONSORSHIP_CLOSE_DATE;
+}
+function startSponsorshipApplication(){
+  if(!sponsorshipIsOpen()){
+    alert('Sponsorship applications will open from 1 December 2026. Applications cannot be started before that date.');
+    return;
+  }
+  show('typeStep');
+}
+function enforceSponsorshipOpeningDate(){
+  const btn=document.getElementById('applyStartBtn');
+  if(!btn) return;
+  if(sponsorshipHasClosed()){
+    btn.disabled=true;
+    btn.textContent='Sponsorship Apply Closed';
+    btn.setAttribute('aria-label','Sponsorship applications closed after 9 March 2027');
+    let notice=document.getElementById('sponsorshipClosedNotice');
+    if(!notice){
+      notice=document.createElement('div');
+      notice.id='sponsorshipClosedNotice';
+      notice.setAttribute('role','status');
+      notice.style.cssText='margin:16px 0;padding:18px;border:2px solid #c94b4b;border-radius:12px;background:#fff0f0;color:#8b1717;text-align:center;font-weight:800;font-size:18px';
+      notice.textContent='Sponsorship Apply Closed — Applications closed after 9 March 2027.';
+      btn.insertAdjacentElement('afterend',notice);
+    }
+  }else if(sponsorshipIsOpen()){
+    btn.disabled=false;
+    btn.textContent='Apply for Sponsorship';
+    btn.setAttribute('aria-label','Apply for Sponsorship');
+  }else{
+    btn.disabled=true;
+    btn.textContent='Applications Open From 1 December 2026';
+    btn.setAttribute('aria-label','Applications open from 1 December 2026');
+  }
+}
+
 let selected='';const packages={main:'Main Sponsor — Highest Bid — 60 seconds',premium:'Premium Sponsor — ₹10,000 — 30 seconds',basic:'Basic Sponsor — ₹5,000 — 20 seconds',uniform:'Uniform Sponsor — Fixed ₹20,000'};
-function show(id){document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
+function show(id){if(id==='typeStep'&&!sponsorshipIsOpen()){alert(sponsorshipHasClosed()?'Sponsorship applications are closed.':'Applications open from 1 December 2026.');return;}document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'});}
 function choose(type){selected=type;document.getElementById('agree').checked=false;document.getElementById('continueBtn').disabled=true;let title='',items=[];
 if(type==='main'){title='MAIN SPONSOR TENDER — Terms & Conditions';items=['The base price (reserve price) for the single Main Sponsor slot is ₹15,000.','Applicants must quote a bid of at least ₹15,000. Bids below the base price will not be considered.','The highest valid bid will be recommended for the Main Sponsor slot, subject to document/detail verification and final committee approval.','Only one Main Sponsor will be selected. If two or more valid bids are equal at the highest amount, the committee will decide a transparent tie-break process and inform the applicants.','The Main Sponsor advertisement duration is 1 minute (60 seconds).','Advertisement will be included in the YouTube Live telecast and the same live feed will be shown on the Market LED screen.','Submitting a bid is not confirmation of selection. The committee will communicate payment instructions, payment deadline and final award in writing.','The approved sponsor must submit the advertisement video after approval. The committee must approve the video before broadcast.','Approved video may be sent to WhatsApp 8917437067 or maabasuliudajatracommittee@gmail.com.','The committee may reject unlawful, misleading, offensive or unsuitable advertisements.'];}
 else if(type==='premium'){title='PREMIUM SPONSOR — Terms & Conditions';items=['The Premium Sponsor fee is fixed at ₹10,000 for a 30-second advertisement.','Applications are subject to available slots (maximum 20) and committee approval.','The advertisement will be included in YouTube Live; the same live feed will appear on the Market LED screen.','Application does not guarantee selection. Payment and broadcast instructions will be communicated after approval.','The advertisement video must be submitted after approval and will be broadcast only after committee review.'];}
 else if(type==='basic'){title='BASIC SPONSOR — Terms & Conditions';items=['The Basic Sponsor fee is fixed at ₹5,000 for a 20-second advertisement.','Applications are subject to available slots (maximum 20) and committee approval.','The advertisement will be included in YouTube Live; the same live feed will appear on the Market LED screen.','Application does not guarantee selection. Payment and broadcast instructions will be communicated after approval.','The advertisement video must be submitted after approval and will be broadcast only after committee review.'];}
 else{title='UNIFORM SPONSOR — Terms & Conditions';items=['The Uniform Sponsor fee is fixed at ₹20,000. Only one sponsor will be selected.','If more than one valid application is received, selection will be by lottery under committee supervision.','The approved sponsor name/logo will be printed on designated event T-shirts. Design, placement and artwork deadline will be confirmed by the committee.','Application does not guarantee selection. Payment instructions will be communicated after selection.','The committee may reject unsuitable or unauthorised logos/designs.'];}
 document.getElementById('termsTitle').textContent=title;document.getElementById('termsText').innerHTML='<p><b>Maa Basuli Uda Jatra 2027–28 · Thakurmunda, Mayurbhanj</b></p><ol>'+items.map(x=>'<li>'+x+'</li>').join('')+'</ol>';document.getElementById('formTitle').textContent=title.replace('— Terms & Conditions',' Application');document.getElementById('bidField').classList.toggle('hidden',type!=='main');document.getElementById('fixedField').classList.toggle('hidden',type==='main');document.getElementById('bidAmount').required=type==='main';document.getElementById('packageName').value=packages[type];show('termsStep');}
-function submitApplication(e){e.preventDefault();if(selected==='main'&&Number(document.getElementById('bidAmount').value)<15000){alert('Minimum Main Sponsor bid is ₹15,000.');return;}const data=Object.fromEntries(new FormData(e.target).entries());data.sponsorship_type=selected;data.terms_accepted=true;data.edition='2027-28';data.status='NOT_SUBMITTED_DATABASE_PENDING';document.getElementById('submitStatus').classList.remove('hidden');document.getElementById('submitStatus').innerHTML='<b>Application preview created.</b><br>This page is currently a front-end form only. It is NOT saved or submitted to the committee database yet. Supabase table, secure bid storage, closing date, admin bid comparison and final award workflow must be connected and tested before real applications are accepted.<pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+JSON.stringify(data,null,2)+'</pre>';}
+function submitApplication(e){e.preventDefault();if(!sponsorshipIsOpen()){alert(sponsorshipHasClosed()?'Sponsorship applications are closed.':'Applications open from 1 December 2026.');return;}if(selected==='main'&&Number(document.getElementById('bidAmount').value)<15000){alert('Minimum Main Sponsor bid is ₹15,000.');return;}const data=Object.fromEntries(new FormData(e.target).entries());data.sponsorship_type=selected;data.terms_accepted=true;data.edition='2027-28';data.status='NOT_SUBMITTED_DATABASE_PENDING';document.getElementById('submitStatus').classList.remove('hidden');document.getElementById('submitStatus').innerHTML='<b>Application preview created.</b><br>This page is currently a front-end form only. It is NOT saved or submitted to the committee database yet. Supabase table, secure bid storage, closing date, admin bid comparison and final award workflow must be connected and tested before real applications are accepted.<pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+JSON.stringify(data,null,2)+'</pre>';}
+document.addEventListener('DOMContentLoaded',enforceSponsorshipOpeningDate);enforceSponsorshipOpeningDate();
 </script>
 </body></html>
