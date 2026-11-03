@@ -6,6 +6,7 @@
 <style>
 :root{--red:#741400;--gold:#f5b82e;--cream:#fff8e9;--ink:#2d211b}*{box-sizing:border-box}body{margin:0;background:#fff8ef;color:var(--ink);font-family:Arial,'Noto Sans Oriya',sans-serif;line-height:1.55}.top{background:linear-gradient(120deg,#650b09,#a52a0c);color:white;text-align:center;padding:22px 14px}.top h1{margin:0;font-size:clamp(22px,4vw,34px)}.top p{margin:6px 0 0}.wrap{max-width:900px;margin:24px auto;padding:0 14px}.card{background:#fff;border:1px solid #ead9bb;border-radius:18px;padding:20px;margin:16px 0;box-shadow:0 6px 24px #5b280d12}.poster{width:100%;display:block;border-radius:12px;max-height:430px;object-fit:contain;background:#260d20}.btn{border:0;border-radius:10px;padding:12px 18px;font-weight:800;cursor:pointer;background:var(--gold);color:#421300;font-size:15px}.btn:disabled{opacity:.45;cursor:not-allowed}.btn.alt{background:#eee;color:#333}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.hidden{display:none!important}.choice{display:block;width:100%;text-align:left;background:var(--cream);border:2px solid #efd8a8;padding:16px;border-radius:12px;margin:10px 0;cursor:pointer;color:var(--red);font-weight:800;font-size:16px}.choice small{display:block;color:#66564b;font-weight:400;margin-top:4px}.terms{background:var(--cream);padding:16px;border-radius:12px;max-height:350px;overflow:auto}.terms li{margin:0 0 9px}.accept{display:flex;gap:10px;margin:16px 0;font-weight:700}.accept input{width:20px;height:20px;flex:none}.grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field label{display:block;font-weight:700;font-size:14px}.field input,.field textarea,.field select{width:100%;margin-top:6px;padding:12px;border:1px solid #cdbfae;border-radius:9px;font:inherit;background:white}.full{grid-column:1/-1}.note{background:#fff5d9;border-left:4px solid var(--gold);padding:12px;border-radius:8px}.status{padding:12px;background:#fff2d1;border-radius:9px;margin-top:14px}.muted{color:#6e625a;font-size:14px}a{color:#7b1b08}@media(max-width:600px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:15px}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <header class="top"><h1>ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</h1><p>Maa Basuli Uda Jatra Committee · Thakurmunda, Mayurbhanj</p><p><b>2027–28 Sponsorship Application</b> | 14 April 2027</p></header>
@@ -158,7 +159,51 @@ else if(type==='premium'){title='PREMIUM SPONSOR — Terms & Conditions';items=[
 else if(type==='basic'){title='BASIC SPONSOR — Terms & Conditions';items=['The Basic Sponsor fee is fixed at ₹5,000 for a 20-second advertisement.','Applications are subject to available slots (maximum 20) and committee approval.','The advertisement will be included in YouTube Live; the same live feed will appear on the Market LED screen.','Application does not guarantee selection. Payment and broadcast instructions will be communicated after approval.','The advertisement video must be submitted after approval and will be broadcast only after committee review.'];}
 else{title='UNIFORM SPONSOR — Terms & Conditions';items=['The Uniform Sponsor fee is fixed at ₹20,000. Only one sponsor will be selected.','If more than one valid application is received, selection will be by lottery under committee supervision.','The approved sponsor name/logo will be printed on designated event T-shirts. Design, placement and artwork deadline will be confirmed by the committee.','Application does not guarantee selection. Payment instructions will be communicated after selection.','The committee may reject unsuitable or unauthorised logos/designs.'];}
 document.getElementById('termsTitle').textContent=title;document.getElementById('termsText').innerHTML='<p><b>Maa Basuli Uda Jatra 2027–28 · Thakurmunda, Mayurbhanj</b></p><ol>'+items.map(x=>'<li>'+x+'</li>').join('')+'</ol>';document.getElementById('formTitle').textContent=title.replace('— Terms & Conditions',' Application');document.getElementById('bidField').classList.toggle('hidden',type!=='main');document.getElementById('fixedField').classList.toggle('hidden',type==='main');document.getElementById('bidAmount').required=type==='main';document.getElementById('packageName').value=packages[type];show('termsStep');}
-function submitApplication(e){e.preventDefault();if(!sponsorshipIsOpen()){alert(sponsorshipHasClosed()?'Sponsorship applications are closed.':'Applications open from 1 December 2026.');return;}if(selected==='main'&&Number(document.getElementById('bidAmount').value)<15000){alert('Minimum Main Sponsor bid is ₹15,000.');return;}const data=Object.fromEntries(new FormData(e.target).entries());data.sponsorship_type=selected;data.terms_accepted=true;data.edition='2027-28';data.status='NOT_SUBMITTED_DATABASE_PENDING';document.getElementById('submitStatus').classList.remove('hidden');document.getElementById('submitStatus').innerHTML='<b>Application preview created.</b><br>This page is currently a front-end form only. It is NOT saved or submitted to the committee database yet. Supabase table, secure bid storage, closing date, admin bid comparison and final award workflow must be connected and tested before real applications are accepted.<pre style="white-space:pre-wrap;overflow-wrap:anywhere">'+JSON.stringify(data,null,2)+'</pre>';}
+const SPONSORSHIP_SUPABASE_URL='https://ynymqntcawobcfccoekb.supabase.co';
+const SPONSORSHIP_SUPABASE_KEY='sb_publishable_VyaVcI_yPlsg0aTfd5ZpUQ_t--2_Nov';
+let sponsorshipDb=null;
+try { if(window.supabase && window.supabase.createClient) sponsorshipDb=window.supabase.createClient(SPONSORSHIP_SUPABASE_URL,SPONSORSHIP_SUPABASE_KEY); } catch(err) { console.error('Supabase initialization failed',err); }
+async function submitApplication(e){
+  e.preventDefault();
+  const statusBox=document.getElementById('submitStatus');
+  const submitBtn=e.target.querySelector('button[type="submit"]');
+  if(!sponsorshipIsOpen()){alert(sponsorshipHasClosed()?'Sponsorship applications are closed.':'Applications open from 1 December 2026.');return;}
+  if(!sponsorshipDb){alert('Database connection is not available. Please try again later.');return;}
+  if(!selected){alert('Please select a sponsorship package first.');return;}
+  const bid=selected==='main'?Number(document.getElementById('bidAmount').value):null;
+  if(selected==='main'&&(!Number.isFinite(bid)||bid<15000)){alert('Minimum Main Sponsor bid is ₹15,000.');return;}
+  const fd=new FormData(e.target);
+  const payload={
+    applicant_name:String(fd.get('applicant_name')||'').trim(),
+    business_name:String(fd.get('business_name')||'').trim(),
+    mobile:String(fd.get('mobile')||'').trim(),
+    email:String(fd.get('email')||'').trim()||null,
+    business_address:String(fd.get('business_address')||'').trim(),
+    sponsorship_type:selected,
+    package_name:packages[selected],
+    bid_amount:bid,
+    terms_accepted:true,
+    edition:'2027-28',
+    status:'pending',
+    payment_status:'PENDING'
+  };
+  if(!payload.applicant_name||!payload.business_name||!payload.mobile||!payload.business_address){alert('Please complete all required fields.');return;}
+  if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Submitting...';}
+  statusBox.classList.remove('hidden');statusBox.textContent='ଆପଣଙ୍କ Application Database ରେ Save ହେଉଛି...';
+  try{
+    const {data,error}=await sponsorshipDb.from('sponsorship_applications').insert([payload]).select('id').single();
+    if(error) throw error;
+    statusBox.textContent='Application ସଫଳତାର ସହିତ Submit ହୋଇଛି। Application ID: '+data.id+'. Committee ଯାଞ୍ଚ ପରେ ଆପଣଙ୍କୁ ଯୋଗାଯୋଗ କରିବ। Payment Status: Pending.';
+    e.target.reset();
+    document.getElementById('agree').checked=false;
+    document.getElementById('continueBtn').disabled=true;
+  }catch(err){
+    console.error('Sponsorship submission failed',err);
+    statusBox.textContent='Application Save ହୋଇପାରିଲା ନାହିଁ। '+(err&&err.message?err.message:'ଦୟାକରି ପୁଣି ଚେଷ୍ଟା କରନ୍ତୁ।');
+  }finally{
+    if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='Review Application';}
+  }
+}
 document.addEventListener('DOMContentLoaded',enforceSponsorshipOpeningDate);enforceSponsorshipOpeningDate();
 </script>
 </body></html>
