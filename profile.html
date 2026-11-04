@@ -516,12 +516,64 @@ footer a{
       .qr-text{font-size:8px}
 }
 
-    @media print{
-      body *{visibility:hidden!important}
-      #digitalIdCard,#digitalIdCard *{visibility:visible!important}
-      #digitalIdCard{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:500px;max-width:none;box-sizing:border-box;box-shadow:none}
-      .id-actions,.topbar,.profile-grid{display:none!important}
-      body{background:white}
+    @page {
+      size: A4 portrait;
+      margin: 8mm;
+    }
+
+    @media print {
+      html, body {
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* Hide the complete profile page and keep only the real ID card. */
+      body * {
+        visibility: hidden !important;
+      }
+
+      #digitalIdCard,
+      #digitalIdCard * {
+        visibility: visible !important;
+      }
+
+      header, nav, .topbar, .site-header, .main-nav,
+      .id-actions, .profile-grid, #digitalIdSection > h2 {
+        display: none !important;
+      }
+
+      #digitalIdSection,
+      .id-card-wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+      }
+
+      #digitalIdCard {
+        position: fixed !important;
+        left: 50% !important;
+        top: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 185mm !important;
+        max-width: 185mm !important;
+        margin: 0 !important;
+        box-sizing: border-box !important;
+        box-shadow: none !important;
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
     }
   
 @media(max-width:600px){
