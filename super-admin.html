@@ -3598,6 +3598,18 @@ function viewMember(id){
         )}
       </span>
 
+      <strong>Date of Birth</strong>
+      <span>
+        ${escapeHtml(
+          (() => {
+            const dob = member.date_of_birth || member.dob || "";
+            if (!dob) return "—";
+            const match = String(dob).match(/^(\\d{4})-(\\d{2})-(\\d{2})/);
+            return match ? `${match[3]}/${match[2]}/${match[1]}` : dob;
+          })()
+        )}
+      </span>
+
       <strong>Village</strong>
       <span>
         ${escapeHtml(
