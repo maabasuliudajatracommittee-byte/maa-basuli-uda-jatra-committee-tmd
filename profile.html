@@ -474,14 +474,17 @@ footer a{
   z-index:2;
   pointer-events:none;
 }
-    .id-header{display:flex;align-items:center;gap:12px;padding:17px 15px 22px;background:linear-gradient(135deg,#b52b08,#e65a0b 70%,#a52b08);color:#fff;position:relative}
+    .id-header{display:flex;align-items:center;gap:12px;min-height:126px;padding:14px 15px;background:linear-gradient(135deg,#b52b08,#e65a0b 70%,#a52b08);color:#fff;position:relative;overflow:hidden}
+    .id-header:after{content:none!important}
+    .committee-title{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;min-width:0;padding:0 105px;z-index:1;pointer-events:none}
+    .committee-title .odia{font-family:"Noto Sans Odia","Nirmala UI",Arial,sans-serif;font-size:25px;font-weight:800;line-height:1.25}
+    .committee-title .english{font-size:20px;font-weight:bold;margin-top:5px;line-height:1.2}
+    .committee-title .location{font-size:14px;margin-top:5px;line-height:1.2}
+    .id-header:before{right:18px;top:50%;transform:translateY(-50%);width:54px;height:54px}
     .id-header:after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:24px;background:linear-gradient(175deg,transparent 48%,#fff 50%);opacity:.96}
     .logo{width:82px;height:82px;object-fit:contain;border-radius:50%;background:white;padding:3px;flex-shrink:0;border:3px solid #f4cf65}
     .logo.logo-fallback{display:flex;align-items:center;justify-content:center;color:#a52c08;font-size:38px;font-weight:900;line-height:1}
-    .committee-title{position:absolute;left:0;right:0;flex:none;text-align:center;min-width:0;padding:0 94px;z-index:1;pointer-events:none}
-    .committee-title .odia{font-family:"Noto Sans Odia","Nirmala UI",Arial,sans-serif;font-size:23px;font-weight:800;line-height:1.3}
-    .committee-title .english{font-size:19px;font-weight:bold;margin-top:5px;line-height:1.25}
-    .committee-title .location{font-size:14px;margin-top:5px}
+    /* Header text is centered as one block; location stays inside the coloured header. */
     .id-body{position:relative;padding:17px 18px 28px;z-index:0}
     .member-top{display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;text-align:center}
     .member-photo{width:190px;height:205px;object-fit:contain;object-position:center;border:4px solid #d8ad42;border-radius:16px;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.12)}
@@ -512,9 +515,10 @@ footer a{
       .profile-grid{grid-template-columns:1fr}
       .id-card{width:calc(100vw - 20px);max-width:500px}
       .id-body{padding:14px 13px 28px}
-      .id-header{gap:7px;padding:13px 9px 20px}
+      .id-header{gap:7px;min-height:104px;padding:10px 9px}
       .logo{width:62px;height:62px}
-      .committee-title{padding:0 72px}
+      .id-header:before{right:8px;width:40px;height:40px;background-size:28px 28px}
+      .committee-title{padding:0 75px}
       .committee-title .odia{font-size:17px}
       .committee-title .english{font-size:13px}
       .committee-title .location{font-size:10px}
