@@ -682,6 +682,29 @@ footer a{
   .qr-area img{width:70px!important;height:70px!important;}
 }
 
+
+
+/* FINAL PRINT FIX: show only the original ID card, centered with safe margins */
+@page { size: A4 portrait; margin: 12mm; }
+@media print {
+  html, body { width: auto !important; height: auto !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff !important; overflow: visible !important; }
+  body * { visibility: hidden !important; }
+  #digitalIdCard, #digitalIdCard * { visibility: visible !important; }
+  #digitalIdSection, #digitalIdSection .id-card-wrapper { display: block !important; position: static !important; width: auto !important; max-width: none !important; height: auto !important; margin: 0 !important; padding: 0 !important; overflow: visible !important; background: transparent !important; }
+  #digitalIdCard {
+    display: block !important; position: fixed !important;
+    left: 50% !important; top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 185mm !important; max-width: 185mm !important; height: auto !important;
+    margin: 0 !important; box-sizing: border-box !important;
+    overflow: visible !important; border: 3px solid #c9a64b !important;
+    border-radius: 22px !important; box-shadow: none !important;
+    break-inside: avoid !important; page-break-inside: avoid !important;
+  }
+  #digitalIdSection > h2, .id-actions, header, nav, .topbar, .site-header, .main-nav,
+  .profile-grid, .profile-setup-overlay, button, .save-btn { display: none !important; }
+  *, *::before, *::after { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
 </style>
 </head>
 
