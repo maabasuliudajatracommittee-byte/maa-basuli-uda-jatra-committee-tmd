@@ -2776,7 +2776,7 @@ async function downloadMemberIdCard(id){
 .id-body{position:relative;padding:18px 18px 28px;isolation:isolate;z-index:0}
 .id-body:before{content:"";position:absolute;z-index:-1;left:0;right:0;bottom:24px;height:160px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 260'%3E%3Cg fill='%23d99b4b'%3E%3Cpath d='M0 230h900v30H0zM35 230v-48l22-24 22 24v48zM125 230v-72l30-35 30 35v72zM240 230v-55l24-28 24 28v55zM355 230v-86h12v86zM560 230v-60l25-30 25 30v60zM710 230v-48l24-28 24 28v48z'/%3E%3Ccircle cx='465' cy='177' r='61' fill='none' stroke='%23d99b4b' stroke-width='7'/%3E%3C/g%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center bottom;background-size:100% 100%;opacity:.19;pointer-events:none}
 .member-top{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;margin:2px 0 20px}
-.member-photo{display:block;width:170px;height:190px;object-fit:contain;object-position:center;border:4px solid #c5a044;border-radius:16px;background:#fff;padding:3px}
+.member-photo{display:block;width:170px;height:190px;object-fit:cover;object-position:center;border:4px solid #c5a044;border-radius:16px;background:#fff;padding:0}
 .photo-empty{display:flex;align-items:center;justify-content:center;color:#777;font-size:14px}
 .member-name{font-size:30px;line-height:1.15;font-weight:800;color:#7b1e1e;overflow-wrap:anywhere}
 .designation{display:inline-block;margin-top:3px;padding:8px 20px;border-radius:28px;background:linear-gradient(135deg,#b52b08,#e65a0b);border:2px solid #c5a044;color:#fff;font-size:18px;font-weight:800;line-height:1.2;max-width:100%;overflow-wrap:anywhere}
@@ -5568,7 +5568,7 @@ footer a{
       .committee-title .odia{font-size:13px;line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:clip;margin:0 0 2px}
       .committee-title .english{font-size:11.5px;line-height:1.12;white-space:nowrap;overflow:hidden;text-overflow:clip}
       .committee-title .location{font-size:8.5px;line-height:1.1;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:clip}
-      .member-photo{width:160px;height:175px;object-fit:contain;object-position:center;border-radius:14px}
+      .member-photo{width:160px;height:175px;object-fit:cover;object-position:center;border-radius:14px}
       .member-name{font-size:22px;overflow-wrap:anywhere;word-break:break-word}
       .designation{font-size:17px;min-width:160px}
       .info-row{grid-template-columns:88px minmax(0,1fr);font-size:12px;margin:7px 0}
