@@ -716,6 +716,7 @@ footer a{
         <div>
           <h4 id="memberName">-</h4>
           <p>Member ID: <strong id="resultMemberId">-</strong></p>
+          <p>Designation: <strong id="resultDesignation">-</strong></p>
           <p>Financial Year: <strong id="resultYear">-</strong></p>
         </div>
 
@@ -1042,6 +1043,9 @@ async function checkMemberFee(){
 
     document.getElementById("resultMemberId").textContent =
       record.member_id || "-";
+
+    document.getElementById("resultDesignation").textContent =
+      record.designation || "-";
 
     document.getElementById("resultYear").textContent =
       record.financial_year || financialYear;
