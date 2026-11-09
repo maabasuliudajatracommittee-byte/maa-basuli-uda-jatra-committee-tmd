@@ -452,86 +452,44 @@ footer{
     <form id="feeForm">
 
       <div class="grid">
-
         <div class="field">
           <label>Financial Year</label>
-
-          <input
-            type="text"
-            id="financialYear"
-            placeholder="Example: 2026-27"
-            required
-          >
+          <input type="text" id="financialYear" placeholder="Example: 2027-28" required>
         </div>
 
+        <div class="field">
+          <label>Member Designation</label>
+          <select id="feeDesignation" required>
+            <option value="">Select Designation</option>
+            <option value="Member">General Member</option>
+            <option value="Core Committee Member">Core Committee Member</option>
+            <option value="Secretary">Secretary</option>
+            <option value="Vice Secretary">Vice Secretary</option>
+            <option value="Vice President">Vice President</option>
+            <option value="President">President</option>
+          </select>
+        </div>
 
         <div class="field">
           <label>Fee Amount (₹)</label>
-
-          <input
-            type="number"
-            id="feeAmount"
-            min="0"
-            step="0.01"
-            placeholder="Example: 100"
-            required
-          >
+          <input type="number" id="feeAmount" min="0" step="0.01" placeholder="Enter fee" required>
         </div>
-
-
-        <div class="field full">
-
-          <label>Description</label>
-
-          <textarea
-            id="feeDescription"
-            placeholder="Example: Annual Member Fee for Financial Year 2026-27"
-          ></textarea>
-
-        </div>
-
 
         <div class="field">
-
           <label>Status</label>
-
-          <select id="feeActive">
-
-            <option value="true">
-              Active
-            </option>
-
-            <option value="false">
-              Inactive
-            </option>
-
-          </select>
-
+          <select id="feeActive"><option value="true">Active</option><option value="false">Inactive</option></select>
         </div>
 
+        <div class="field full">
+          <label>Description</label>
+          <textarea id="feeDescription" placeholder="Annual designation-wise member fee"></textarea>
+        </div>
       </div>
-
 
       <div class="actions">
-
-        <button
-          type="submit"
-          class="primary"
-          id="saveFeeBtn"
-        >
-          Save Fee Setting
-        </button>
-
-        <button
-          type="button"
-          class="secondary"
-          onclick="resetFeeForm()"
-        >
-          Clear
-        </button>
-
+        <button type="submit" class="primary" id="saveFeeBtn">Save Fee Setting</button>
+        <button type="button" class="secondary" onclick="resetFeeForm()">Clear</button>
       </div>
-
     </form>
 
 
@@ -543,6 +501,7 @@ footer{
 
           <tr>
             <th>Financial Year</th>
+            <th>Designation</th>
             <th>Fee Amount</th>
             <th>Description</th>
             <th>Status</th>
@@ -554,7 +513,7 @@ footer{
         <tbody id="feeTableBody">
 
           <tr>
-            <td colspan="5" class="loading">
+            <td colspan="6" class="loading">
               Loading...
             </td>
           </tr>
@@ -961,6 +920,7 @@ let members = [];
 
 let editingFeeId = null;
 let editingPaymentId = null;
+let currentUserRole = "";
 
 
 /* =====================================================
@@ -1035,9 +995,11 @@ async function checkAccess(){
     return false;
   }
 
-  const isAdmin = (roles || []).some(r =>
-    r.role === "admin" || r.role === "super_admin"
-  );
+  currentUserRole = (roles || []).some(r => r.role === "super_admin")
+    ? "super_admin"
+    : ((roles || []).some(r => r.role === "admin") ? "admin" : "");
+
+  const isAdmin = !!currentUserRole;
 
   if(!isAdmin){
     showMessage("Access denied. Admin / Super Admin only.","error");
@@ -1045,6 +1007,11 @@ async function checkAccess(){
       window.location.replace("auth.html");
     },1500);
     return false;
+  }
+
+  if(currentUserRole !== "super_admin"){
+    const feeForm = document.getElementById("feeForm");
+    if(feeForm) feeForm.style.display = "none";
   }
 
   const back = document.getElementById("backDashboard");
@@ -1132,34 +1099,19 @@ async function loadMembers(){
 
 async function loadFeeSettings(){
 
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.rpc(
-      "get_member_fee_settings_for_super_admin"
-    );
-
+  const { data, error } = await supabaseClient
+    .from("member_designation_fee_settings")
+    .select("id, financial_year, designation, fee_amount, description, is_active, updated_at")
+    .order("financial_year", { ascending:false })
+    .order("designation", { ascending:true });
 
   if(error){
-
     console.error(error);
-
-    showMessage(
-      "Fee settings load hela nahi: " +
-      error.message,
-      "error"
-    );
-
+    showMessage("Designation fee settings load hela nahi: " + error.message,"error");
     return;
   }
 
-
-  feeSettings =
-    Array.isArray(data)
-      ? data
-      : [];
-
+  feeSettings = Array.isArray(data) ? data : [];
 }
 
 
@@ -1288,100 +1240,49 @@ function populateFilters(){
 }
 
 
+function normalizeFeeDesignation(value){
+  const v = String(value || "").trim().toLowerCase();
+  if(v === "general member" || v === "member") return "Member";
+  if(v === "core committee member") return "Core Committee Member";
+  if(v === "vice secretary") return "Vice Secretary";
+  if(v === "vice president") return "Vice President";
+  if(v === "secretary") return "Secretary";
+  if(v === "president") return "President";
+  return String(value || "").trim();
+}
+
+function displayFeeDesignation(value){
+  return normalizeFeeDesignation(value) === "Member" ? "General Member" : String(value || "-");
+}
+
+
 /* =====================================================
    RENDER FEE SETTINGS
 ===================================================== */
 
 function renderFees(){
-
-  const tbody =
-    document.getElementById(
-      "feeTableBody"
-    );
-
-
+  const tbody = document.getElementById("feeTableBody");
   if(!feeSettings.length){
-
-    tbody.innerHTML =
-      `<tr>
-        <td colspan="5" class="empty">
-          No fee setting found.
-        </td>
-      </tr>`;
-
+    tbody.innerHTML = `<tr><td colspan="6" class="empty">No designation fee setting found.</td></tr>`;
     return;
   }
 
-
-  tbody.innerHTML =
-    feeSettings
-      .map(fee => {
-
-        const status =
-          fee.is_active
-            ? `<span class="badge badge-published">
-                Active
-               </span>`
-            : `<span class="badge badge-hidden">
-                Inactive
-               </span>`;
-
-
-        return `
-          <tr>
-
-            <td>
-              <strong>
-                ${escapeHtml(
-                  fee.financial_year
-                )}
-              </strong>
-            </td>
-
-            <td>
-              ₹${formatMoney(
-                fee.fee_amount
-              )}
-            </td>
-
-            <td>
-              ${escapeHtml(
-                fee.description || "-"
-              )}
-            </td>
-
-            <td>
-              ${status}
-            </td>
-
-            <td>
-
-              <div class="actions">
-
-                <button
-                  class="blue"
-                  onclick="editFee('${fee.id}')"
-                >
-                  Edit
-                </button>
-
-                <button
-                  class="danger"
-                  onclick="deleteFee('${fee.id}')"
-                >
-                  Delete
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
-        `;
-
-      })
-      .join("");
-
+  tbody.innerHTML = feeSettings.map(fee => {
+    const status = fee.is_active
+      ? `<span class="badge badge-published">Active</span>`
+      : `<span class="badge badge-hidden">Inactive</span>`;
+    const actions = currentUserRole === "super_admin"
+      ? `<div class="actions"><button class="blue" onclick="editFee('${fee.id}')">Edit</button><button class="danger" onclick="deleteFee('${fee.id}')">Delete</button></div>`
+      : `<span class="small">View only</span>`;
+    return `<tr>
+      <td><strong>${escapeHtml(fee.financial_year)}</strong></td>
+      <td>${escapeHtml(displayFeeDesignation(fee.designation))}</td>
+      <td>₹${formatMoney(fee.fee_amount)}</td>
+      <td>${escapeHtml(fee.description || "-")}</td>
+      <td>${status}</td>
+      <td>${actions}</td>
+    </tr>`;
+  }).join("");
 }
 
 
@@ -1389,190 +1290,60 @@ function renderFees(){
    SAVE FEE SETTING
 ===================================================== */
 
-document
-  .getElementById("feeForm")
-  .addEventListener(
-    "submit",
-    async function(e){
+document.getElementById("feeForm").addEventListener("submit", async function(e){
+  e.preventDefault();
+  hideMessage();
+  if(currentUserRole !== "super_admin"){
+    showMessage("Fee rate kebala Super Admin change kariparibe.","error");
+    return;
+  }
 
-      e.preventDefault();
+  const financialYear = document.getElementById("financialYear").value.trim();
+  const designation = document.getElementById("feeDesignation").value;
+  const feeAmount = Number(document.getElementById("feeAmount").value);
+  const description = document.getElementById("feeDescription").value.trim();
+  const isActive = document.getElementById("feeActive").value === "true";
 
-      hideMessage();
+  if(!financialYear || !designation || !Number.isFinite(feeAmount) || feeAmount < 0){
+    showMessage("Financial Year, Designation ebam valid Fee Amount enter karantu.","error");
+    return;
+  }
 
+  const button = document.getElementById("saveFeeBtn");
+  button.disabled = true;
+  button.textContent = "Saving...";
 
-      const financialYear =
-        document
-          .getElementById(
-            "financialYear"
-          )
-          .value
-          .trim();
+  const payload = {
+    financial_year: financialYear,
+    designation,
+    fee_amount: feeAmount,
+    description: description || null,
+    is_active: isActive,
+    updated_at: new Date().toISOString()
+  };
 
+  let result;
+  if(editingFeeId){
+    result = await supabaseClient.from("member_designation_fee_settings").update(payload).eq("id",editingFeeId);
+  }else{
+    result = await supabaseClient.from("member_designation_fee_settings").upsert(payload,{onConflict:"financial_year,designation"});
+  }
 
-      const feeAmount =
-        Number(
-          document
-            .getElementById(
-              "feeAmount"
-            )
-            .value
-        );
+  button.disabled = false;
+  button.textContent = editingFeeId ? "Update Fee Setting" : "Save Fee Setting";
+  if(result.error){
+    console.error(result.error);
+    showMessage("Fee save hela nahi: " + result.error.message,"error");
+    return;
+  }
 
-
-      const description =
-        document
-          .getElementById(
-            "feeDescription"
-          )
-          .value
-          .trim();
-
-
-      const isActive =
-        document
-          .getElementById(
-            "feeActive"
-          )
-          .value === "true";
-
-
-      if(!financialYear){
-
-        showMessage(
-          "Financial Year enter karantu.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      if(
-        !Number.isFinite(feeAmount) ||
-        feeAmount < 0
-      ){
-
-        showMessage(
-          "Valid fee amount enter karantu.",
-          "error"
-        );
-
-        return;
-      }
-
-
-      const button =
-        document.getElementById(
-          "saveFeeBtn"
-        );
-
-      button.disabled = true;
-
-      button.textContent =
-        "Saving...";
-
-
-      let result;
-
-
-      if(editingFeeId){
-
-        result =
-          await supabaseClient
-            .from(
-              "member_fee_settings"
-            )
-            .update({
-
-              financial_year:
-                financialYear,
-
-              fee_amount:
-                feeAmount,
-
-              description:
-                description || null,
-
-              is_active:
-                isActive,
-
-              updated_at:
-                new Date().toISOString()
-
-            })
-            .eq(
-              "id",
-              editingFeeId
-            );
-
-      }else{
-
-        result =
-          await supabaseClient
-            .from(
-              "member_fee_settings"
-            )
-            .insert({
-
-              financial_year:
-                financialYear,
-
-              fee_amount:
-                feeAmount,
-
-              description:
-                description || null,
-
-              is_active:
-                isActive
-
-            });
-
-      }
-
-
-      button.disabled = false;
-
-      button.textContent =
-        editingFeeId
-          ? "Update Fee Setting"
-          : "Save Fee Setting";
-
-
-      if(result.error){
-
-        console.error(result.error);
-
-        showMessage(
-          "Fee save hela nahi: " +
-          result.error.message,
-          "error"
-        );
-
-        return;
-      }
-
-
-      showMessage(
-        editingFeeId
-          ? "✅ Fee setting updated successfully."
-          : "✅ Fee setting created successfully.",
-        "success"
-      );
-
-
-      resetFeeForm();
-
-      await loadFeeSettings();
-
-      populateFilters();
-
-      renderFees();
-
-      updateStats();
-
-    }
-  );
+  showMessage("✅ Designation fee setting save hela.","success");
+  resetFeeForm();
+  await loadFeeSettings();
+  populateFilters();
+  renderFees();
+  updateStats();
+});
 
 
 /* =====================================================
@@ -1580,6 +1351,8 @@ document
 ===================================================== */
 
 function editFee(id){
+
+  if(currentUserRole !== "super_admin") return;
 
   const fee =
     feeSettings.find(
@@ -1603,6 +1376,8 @@ function editFee(id){
     .value =
       fee.financial_year || "";
 
+
+  document.getElementById("feeDesignation").value = fee.designation || "";
 
   document
     .getElementById(
@@ -1686,6 +1461,8 @@ function resetFeeForm(){
 
 async function deleteFee(id){
 
+  if(currentUserRole !== "super_admin") return;
+
   const fee =
     feeSettings.find(
       x => String(x.id) === String(id)
@@ -1699,7 +1476,7 @@ async function deleteFee(id){
 
   const yes =
     confirm(
-      `Delete fee setting for ${fee.financial_year}?`
+      `Delete ${displayFeeDesignation(fee.designation)} fee setting for ${fee.financial_year}?`
     );
 
 
@@ -1713,7 +1490,7 @@ async function deleteFee(id){
   } =
     await supabaseClient
       .from(
-        "member_fee_settings"
+        "member_designation_fee_settings"
       )
       .delete()
       .eq(
@@ -1928,60 +1705,35 @@ function closePaymentModal(){
 ===================================================== */
 
 function loadSelectedMemberFee(){
+  const year = document.getElementById("paymentYear").value;
+  const memberUserId = document.getElementById("paymentMember").value;
+  const selectedMember = members.find(m => String(m.id) === String(memberUserId));
 
-  const year =
-    document
-      .getElementById(
-        "paymentYear"
-      )
-      .value;
-
-
-  if(!year){
-
-    document
-      .getElementById(
-        "paymentFeeAmount"
-      )
-      .value =
-        "";
-
+  if(!year || !selectedMember){
+    if(!editingPaymentId) document.getElementById("paymentFeeAmount").value = "";
     return;
   }
 
-
-  const fee =
-    feeSettings.find(
-      x =>
-        String(x.financial_year) ===
-        String(year)
-    );
-
-
-  document
-    .getElementById(
-      "paymentFeeAmount"
-    )
-    .value =
-      fee
-        ? fee.fee_amount
-        : "";
-
-
-  if(
-    fee &&
-    !editingPaymentId
-  ){
-
-    document
-      .getElementById(
-        "paidAmount"
-      )
-      .value =
-        "0";
-
+  // Existing payment edits retain their historical recorded fee amount.
+  if(editingPaymentId){
+    const oldPayment = paymentRecords.find(p => String(p.id) === String(editingPaymentId));
+    if(oldPayment){
+      document.getElementById("paymentFeeAmount").value = oldPayment.fee_amount;
+      return;
+    }
   }
 
+  const fee = feeSettings.find(x =>
+    String(x.financial_year) === String(year) &&
+    normalizeFeeDesignation(x.designation) === normalizeFeeDesignation(selectedMember.designation) &&
+    x.is_active === true
+  );
+
+  document.getElementById("paymentFeeAmount").value = fee ? fee.fee_amount : "";
+  if(!fee){
+    showMessage(`Ei financial year re ${selectedMember.designation || "selected designation"} pain active fee setting milila nahi.`,"error");
+  }
+  document.getElementById("paidAmount").value = "0";
 }
 
 
@@ -2113,6 +1865,19 @@ document
         return;
       }
 
+
+      const selectedMemberForFee = members.find(m => String(m.id) === String(memberUserId));
+      if(!editingPaymentId){
+        const configuredFee = feeSettings.find(x =>
+          String(x.financial_year) === String(financialYear) &&
+          normalizeFeeDesignation(x.designation) === normalizeFeeDesignation(selectedMemberForFee?.designation) &&
+          x.is_active === true
+        );
+        if(!configuredFee || Number(configuredFee.fee_amount) !== feeAmount){
+          showMessage("Selected member designation pain active fee setting milila. Fee setting check karantu.","error");
+          return;
+        }
+      }
 
       if(
         !Number.isFinite(feeAmount) ||
