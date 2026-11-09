@@ -862,6 +862,13 @@
 
 
       <div class="control-card">
+        <div class="control-icon">🧑‍🤝‍🧑</div>
+        <h4>Multiple Member Duty Assignment</h4>
+        <p>Select multiple active members, assign a work category, create a member-list PDF and prepare WhatsApp messages.</p>
+        <button class="blue" onclick="window.location.href='member-duty-assignment.html'">Open Duty Assignment</button>
+      </div>
+
+      <div class="control-card">
 
         <div class="control-icon">📋</div>
 
@@ -5762,7 +5769,7 @@ async function generateAllMembersCollagePDF(){
         <header class="id-header"><img class="logo" src="${esc(branding.logo||"")}" onerror="this.style.display='none'"><div class="head-text"><div class="odia">ମା' ବାସୁଳୀ ଉଡ଼ା ଯାତ୍ରା କମିଟି</div><div class="english">${esc(branding.name||"Maa Basuli Uda Jatra Committee")}</div><div class="place">Thakurmunda, Mayurbhanj, Odisha</div></div></header>
         <main class="id-body"><div class="photo-frame">${m.profile_photo_url?`<img class="photo" src="${esc(m.profile_photo_url)}" crossorigin="anonymous">`:`<div class="photo no-photo">PHOTO</div>`}</div>
           <h1 class="member-name">${esc(m.full_name||"Member")}</h1><div class="designation">${esc(m.designation||"Member")}</div>
-          <div class="details"><div class="row member-id-row"><b>Member ID:</b><span>${esc(id)}</span></div><div class="row"><b>Mobile:</b><span>${esc(m.mobile||"—")}</span></div><div class="row"><b>Date of Birth:</b><span>${esc(dob?dateText(dob):"—")}</span></div><div class="row"><b>Member Since:</b><span>${esc(since?dateText(since):"—")}</span></div><div class="row"><b>Village:</b><span>${esc(m.village||"—")}</span></div><div class="row blood-row"><b>Blood:</b><span>${esc(m.blood_group||"—")}</span></div></div>
+          <div class="details"><div class="row"><b>Member ID:</b><span>${esc(id)}</span></div><div class="row"><b>Mobile:</b><span>${esc(m.mobile||"—")}</span></div><div class="row"><b>Date of Birth:</b><span>${esc(dob?dateText(dob):"—")}</span></div><div class="row"><b>Member Since:</b><span>${esc(since?dateText(since):"—")}</span></div><div class="row"><b>Village:</b><span>${esc(m.village||"—")}</span></div><div class="row"><b>Blood:</b><span>${esc(m.blood_group||"—")}</span></div></div>
           <span class="status ${active?"active":"inactive"}">${active?"ACTIVE":"INACTIVE"}</span>
           <div class="qr-area"><img class="qr" src="${qr}" crossorigin="anonymous"><p>Scan QR to verify live member profile</p></div>
           <div class="signature"><img src="__SIGNATURE__"><small>Issued by Secretary</small></div>
@@ -5782,9 +5789,6 @@ async function generateAllMembersCollagePDF(){
       .photo-frame{width:72mm;height:82mm;margin:0 auto 6mm;padding:2mm;border:2mm solid #c9a64b;border-radius:13mm;background:#fff}.photo{width:100%;height:100%;object-fit:contain;object-position:center;border-radius:5mm;border:1px solid #ddd;background:#fff}.no-photo{display:grid;place-items:center;color:#777}
       .member-name{font-size:27pt;line-height:1.1;margin:0 0 5mm;color:#8f1717;font-weight:800;overflow-wrap:anywhere}.designation{display:inline-block;max-width:90%;padding:4mm 9mm;border-radius:20mm;background:linear-gradient(135deg,#a52c08,#d34b0a);color:#fff;font-size:20pt;font-weight:800;border:1.5mm solid #c9a64b;margin-bottom:7mm;overflow-wrap:anywhere}
       .details{text-align:left;margin:0 5mm}.row{display:grid;grid-template-columns:48mm 1fr;gap:4mm;font-size:15pt;line-height:1.35;margin:3mm 0}.row b{font-weight:800}.row span{overflow-wrap:anywhere}
-      .details .row.member-id-row span{display:inline-block;width:fit-content;max-width:100%;padding:1.2mm 3mm;border-radius:2mm;background:#fff0bd;border:0.45mm solid #c49a28;color:#075b60!important;font-weight:900!important;letter-spacing:.25px}
-      .details .row.blood-row span{color:#c40018!important;font-weight:900!important;font-size:1.08em}
-
       .status{display:inline-block;margin-top:5mm;padding:3mm 8mm;border-radius:20mm;font-size:15pt;font-weight:800}.active{background:#d6f5df;color:#16833c}.inactive{background:#f8dddd;color:#a32020}
       .qr-area{position:absolute;right:8mm;bottom:13mm;width:45mm;text-align:center}.qr{width:42mm;height:42mm;object-fit:contain;background:#fff;border:1px solid #ddd;padding:1mm}.qr-area p{font-size:8pt;color:#666;margin:1mm 0}
       .signature{position:absolute;right:8mm;bottom:3mm;width:45mm;text-align:center}.signature img{width:40mm;height:12mm;object-fit:contain;display:block;margin:auto}.signature small{font-size:7pt;color:#075b60;font-weight:700}
