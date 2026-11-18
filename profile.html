@@ -1048,7 +1048,7 @@ function updateIdCard(p,photo){
   // Apply a theme only to office-bearer designations. General Member remains unchanged.
   const idCard=document.getElementById("digitalIdCard");
   idCard.classList.remove("theme-president","theme-vice-president","theme-secretary","theme-vice-secretary","theme-treasurer","theme-core-committee");
-  const role=String(p.designation||"").toLowerCase().replace(/[._-]+/g," ").replace(/\\s+/g," ").trim();
+  const role=String(p.designation||"").normalize("NFKC").toLowerCase().replace(/[._-]+/g," ").replace(/\s+/g," ").trim();
   if(role.includes("vice president") || role.includes("vice-president") || role.includes("ଉପ ସଭାପତି") || role.includes("ଉପସଭାପତି")){
     idCard.classList.add("theme-vice-president");
   }else if(role.includes("president") || role.includes("ସଭାପତି")){
@@ -1242,55 +1242,54 @@ async function downloadIdCard(){
   const card=document.getElementById("digitalIdCard");
   let holder=null;
   try{
-    // Add a real white safety margin around all four sides of the card.
-    // Capture the holder (not only the card) so html2canvas cannot clip
-    // the left border at the canvas edge on mobile browsers.
-    const rect=card.getBoundingClientRect();
-    const cardWidth=Math.ceil(rect.width);
-    const safeMargin=14;
-
+    // Export at the card's designed desktop width on every device. The on-screen
+    // card can remain responsive; the export clone must not inherit mobile width.
+    const exportWidth=460;
+    const safeMargin=16;
     holder=document.createElement("div");
-    holder.style.position="fixed";
-    holder.style.left="-100000px";
-    holder.style.top="0";
-    holder.style.width=cardWidth+"px";
-    holder.style.padding=safeMargin+"px";
-    holder.style.boxSizing="content-box";
-    holder.style.background="#ffffff";
-    holder.style.overflow="visible";
-    holder.style.zIndex="-1";
+    holder.style.cssText=[
+      "position:fixed","left:-100000px","top:0",
+      `width:${exportWidth+safeMargin*2}px`,"padding:0",
+      "box-sizing:border-box","background:#ffffff","overflow:visible",
+      "z-index:-1","display:block"
+    ].join(";");
 
     const clone=card.cloneNode(true);
-    clone.style.width=cardWidth+"px";
-    clone.style.minWidth=cardWidth+"px";
-    clone.style.maxWidth="none";
-    clone.style.margin="0";
-    clone.style.boxSizing="border-box";
-    clone.style.overflow="hidden";
-    clone.style.transform="none";
-    clone.style.boxShadow="none";
-
-    // Wait for the logo, member photo, QR code and signature before capture.
+    clone.style.setProperty("width",exportWidth+"px","important");
+    clone.style.setProperty("min-width",exportWidth+"px","important");
+    clone.style.setProperty("max-width",exportWidth+"px","important");
+    clone.style.setProperty("margin",safeMargin+"px","important");
+    clone.style.setProperty("box-sizing","border-box","important");
+    clone.style.setProperty("overflow","hidden","important");
+    clone.style.setProperty("transform","none","important");
+    clone.style.setProperty("box-shadow","none","important");
     clone.querySelectorAll("img").forEach(img=>{
       img.style.objectFit="contain";
+      img.style.maxWidth=img.style.maxWidth||"100%";
     });
 
     holder.appendChild(clone);
     document.body.appendChild(holder);
     await Promise.all(Array.from(clone.querySelectorAll("img")).map(img=>{
-      if(img.complete && img.naturalWidth>0) return Promise.resolve();
+      if(img.complete&&img.naturalWidth>0)return Promise.resolve();
       return new Promise(resolve=>{
-        img.onload=resolve;
-        img.onerror=resolve;
+        img.onload=resolve; img.onerror=resolve;
+        setTimeout(resolve,5000);
       });
     }));
+    if(document.fonts&&document.fonts.ready) await document.fonts.ready;
     await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
 
+    const captureWidth=exportWidth+safeMargin*2;
+    const captureHeight=Math.ceil(holder.scrollHeight);
     const canvas=await html2canvas(holder,{
       scale:2,
-      width:cardWidth+(safeMargin*2),
-      windowWidth:Math.max(document.documentElement.clientWidth,cardWidth+(safeMargin*2)),
+      width:captureWidth,
+      height:captureHeight,
+      windowWidth:Math.max(600,captureWidth),
+      windowHeight:Math.max(window.innerHeight,captureHeight),
       useCORS:true,
+      allowTaint:false,
       backgroundColor:"#ffffff",
       logging:false,
       scrollX:0,
